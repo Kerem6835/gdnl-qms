@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Company Asset Documents</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:#fff;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e2e8f0;box-shadow:0 0 40px rgba(15,23,42,.04)}
+.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#0f172a;display:block}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#475569;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850}.menu a:hover,.menu a.active{background:#e0f2fe;color:#0369a1}
+.sidebar-footer{font-size:12px;color:#64748b;line-height:1.6;border-top:1px solid #e2e8f0;padding-top:18px}
+.main{padding:24px;max-width:1760px;margin:auto;width:100%}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:1120px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{width:100%;min-width:0;height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}.field textarea{height:96px;padding:12px;resize:none}.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.purple{background:#ede9fe;color:#6d28d9}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}.status.purple{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.down{background:#dcfce7;color:#15803d}.small-btn.warn{background:#ffedd5;color:#c2410c}.small-btn.fail{background:#fee2e2;color:#991b1b}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}.subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1160px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}.drawer.active{display:block}
+.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px}.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;display:none;z-index:99}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}.field.double{grid-column:1/-1}}
+</style>
+</head>
+
+<body>
+<div class="app">
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>QDMS</span></a>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a href="audit.html">🧾 İç Denetim</a>
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+<a href="management-review.html">📊 YGG Yönetimi</a>
+<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+<a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+<a href="action-center.html">✅ Action Center</a>
+<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+<a class="active" href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
+<a href="kpi-reports.html">📈 KPI & Raporlar</a>
+<a href="notification-center.html">🔔 Bildirim Merkezi</a>
+<a href="users.html">👥 Kullanıcılar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Company Asset Documents<br>Certificate / Patent / License</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="Belge, sertifika, marka, patent, kurum, sorumlu, numara veya durum ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Güdenli</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar" onclick="window.location.href='dashboard.html'">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Company Asset Documents Center</h1>
+<p>Firmanın sahip olduğu sertifika, belge, patent, marka, ruhsat, lisans, izin, sigorta, akreditasyon, sözleşme ve kurumsal varlık dokümanlarını geçerlilik, sorumlu, dosya, yenileme ve bildirim takibiyle yönetin.</p>
+</div>
+<div class="hero-badge">Asset Document Engine: <span>Live</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Kayıt</small><h2 id="totalAssets">0</h2><p>Tüm firma belge varlıkları</p></div>
+<div class="card"><small>Aktif</small><h2 id="activeAssets">0</h2><p>Kullanımda olan kayıtlar</p></div>
+<div class="card"><small>Süresi Yaklaşan</small><h2 id="expiringAssets">0</h2><p>60 gün altında</p></div>
+<div class="card"><small>Süresi Dolan</small><h2 id="expiredAssets">0</h2><p>Aksiyon gerektirir</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Yenileme Gereken</small><h2 id="renewalAssets">0</h2><p>Takip ve bildirim ihtiyacı</p></div>
+<div class="card"><small>Kritik Belge</small><h2 id="criticalAssets">0</h2><p>İş sürekliliği etkili</p></div>
+<div class="card"><small>Dosya Yüklenen</small><h2 id="fileAssets">0</h2><p>Ek dosyası olan kayıtlar</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mail/SMS kayıtları</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yeni Firma Belge / Varlık Kaydı</h3><span class="status blue">MASTER RECORD</span></div>
+<div class="form-grid">
+<div class="field"><label>Kayıt No</label><input id="assetNo" readonly></div>
+<div class="field"><label>Belge / Varlık Tipi</label><select id="assetType"><option>Sertifika</option><option>Marka Tescil</option><option>Patent</option><option>Faydalı Model</option><option>Tasarım Tescil</option><option>Ruhsat</option><option>Lisans</option><option>İzin / Yetki Belgesi</option><option>Akreditasyon</option><option>Sigorta Poliçesi</option><option>Sözleşme</option><option>KVKK / BGYS Belgesi</option><option>CE / UL / EMC Belgesi</option><option>CoP / Homologasyon</option><option>Enerji / Çevre / İSG Yasal Belgesi</option><option>Vergi / Ticaret Sicil Belgesi</option><option>Diğer</option></select></div>
+<div class="field"><label>Kategori</label><select id="category"><option>Kalite</option><option>Yasal Uyum</option><option>Fikri Mülkiyet</option><option>Finans / Sigorta</option><option>İSG</option><option>Çevre</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Ürün Uygunluğu</option><option>Kurumsal</option><option>Ticari</option></select></div>
+<div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+
+<div class="field full"><label>Belge / Varlık Adı</label><input id="assetName" placeholder="ISO 9001 Sertifikası / Marka Tescil Belgesi / Patent Dosyası"></div>
+
+<div class="field"><label>Belge No / Tescil No</label><input id="documentNumber"></div>
+<div class="field"><label>Revizyon / Versiyon</label><input id="revision" value="V1"></div>
+<div class="field"><label>Alınan Kurum</label><input id="issuingAuthority" placeholder="TSE / TÜRKAK / EUIPO / Türk Patent / Sigorta şirketi"></div>
+<div class="field"><label>Ülke / Bölge</label><input id="region" placeholder="TR / EU / Global"></div>
+
+<div class="field"><label>Alınan Tarih</label><input id="issueDate" type="date"></div>
+<div class="field"><label>Geçerlilik Tarihi</label><input id="expiryDate" type="date" onchange="updateCalculatedStatus()"></div>
+<div class="field"><label>Yenileme Hatırlatma</label><select id="reminderDays"><option value="30">30 Gün</option><option value="60" selected>60 Gün</option><option value="90">90 Gün</option><option value="180">180 Gün</option></select></div>
+<div class="field"><label>Kalan Gün</label><input id="remainingDays" readonly></div>
+
+<div class="field"><label>Sorumlu</label><select id="owner"></select></div>
+<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Yönetim</option><option>İK</option><option>Satınalma</option><option>Finans</option><option>Hukuk</option><option>İSG</option><option>Çevre</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Ar-Ge</option><option>Satış</option></select></div>
+<div class="field"><label>Durum</label><select id="assetStatus"><option>Aktif</option><option>Pasif</option><option>Yenileme Bekliyor</option><option>Süresi Yaklaşıyor</option><option>Süresi Doldu</option><option>Kullanım Dışı</option><option>Askıda</option><option>İptal</option><option>Arşiv</option></select></div>
+<div class="field"><label>Gizlilik</label><select id="confidentiality"><option>Genel</option><option>İç Kullanım</option><option>Gizli</option><option>Çok Gizli</option></select></div>
+
+<div class="field"><label>Bağlı Standart</label><select id="standardRef"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>ISO 17025</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option><option>CE / UL / EMC</option><option>Yasal Uyum</option><option>Fikri Mülkiyet</option><option>Diğer</option></select></div>
+<div class="field"><label>Bağlı Lokasyon</label><input id="location" placeholder="Merkez / Fabrika / Laboratuvar / Ürün ailesi"></div>
+<div class="field"><label>Yenileme Gerekli mi?</label><select id="renewalRequired"><option>Evet</option><option>Hayır</option></select></div>
+<div class="field"><label>Orijinal Belge Nerede?</label><input id="originalLocation" placeholder="Arşiv dolabı / kasa / dijital klasör"></div>
+
+<div class="field double"><label>Bağlı Risk No</label><input id="riskRef" placeholder="RSK-2026-0001"></div>
+<div class="field double"><label>Bağlı Aksiyon / CAPA No</label><input id="actionRef" placeholder="ACT/CAPA/MOC no"></div>
+
+<div class="field full"><label>Dosya Yükle</label><input id="assetFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip"></div>
+<div class="field full"><label>Açıklama / Kapsam / Kullanım Amacı</label><textarea id="description" class="big"></textarea></div>
+<div class="field full"><label>Yenileme Notu / Aksiyon Planı</label><textarea id="renewalNote"></textarea></div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveAsset()">Kaydet</button>
+<button class="btn orange" onclick="saveAsset(true)">Kaydet + Bildirim</button>
+<button class="btn green" onclick="markActiveFromForm()">Aktif İşaretle</button>
+<button class="btn red" onclick="markPassiveFromForm()">Kullanım Dışı İşaretle</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Firma Belge & Varlık Master Listesi</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderAssets()"><option value="">Tüm Durumlar</option><option>Aktif</option><option>Pasif</option><option>Yenileme Bekliyor</option><option>Süresi Yaklaşıyor</option><option>Süresi Doldu</option><option>Kullanım Dışı</option><option>Askıda</option><option>İptal</option><option>Arşiv</option></select>
+<select id="typeFilter" onchange="renderAssets()"><option value="">Tüm Tipler</option><option>Sertifika</option><option>Marka Tescil</option><option>Patent</option><option>Lisans</option><option>Ruhsat</option><option>Sigorta Poliçesi</option><option>Sözleşme</option><option>Akreditasyon</option></select>
+<select id="criticalityFilter" onchange="renderAssets()"><option value="">Tüm Kritiklikler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
+</div>
+</div>
+<div class="actions">
+<button class="btn orange" onclick="createRenewalNotifications()">Süresi Yaklaşanlara Bildirim Oluştur</button>
+<button class="btn green" onclick="exportCSV()">CSV İndir</button>
+<button class="btn dark" onclick="renderAssets()">Yenile</button>
+</div>
+<div id="assetTable"></div>
+</section>
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div><h3 id="drawerTitle">Belge Detayı</h3><span class="status blue" id="drawerStatus">Aktif</span></div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="activateCurrent()">Aktif Yap</button>
+<button class="btn orange" onclick="renewCurrent()">Yenileme Bekliyor Yap</button>
+<button class="btn red" onclick="passiveCurrent()">Kullanım Dışı Yap</button>
+<button class="btn purple" onclick="notifyCurrent()">Bildirim Oluştur</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator"};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+userName.textContent=session.name||"User";userRole.textContent=session.role||"User";userAvatar.textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let uploadedFile=null,selectedId=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
+function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function getAssets(){return getLS("gdnl_company_assets_documents")}
+function setAssets(v){setLS("gdnl_company_assets_documents",v)}
+function getNotifications(){return getLS("gdnl_notifications")}
+function setNotifications(v){setLS("gdnl_notifications",v)}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(todayISO()))/(1000*60*60*24))}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
+function statusClass(s){if(["Aktif","Onaylandı"].includes(s))return"green";if(["Yenileme Bekliyor","Süresi Yaklaşıyor","Askıda","Yüksek"].includes(s))return"orange";if(["Süresi Doldu","Kullanım Dışı","İptal","Kritik"].includes(s))return"red";if(["Pasif","Arşiv","Düşük"].includes(s))return"gray";return"blue"}
+function generateAssetNo(){assetNo.value="CAD-"+new Date().getFullYear()+"-"+String(getAssets().length+1).padStart(4,"0")}
+function initUsers(){
+const users=getLS("gdnl_users").filter(u=>u.status!=="Pasif");
+owner.innerHTML='<option value="">Seçiniz</option>';
+users.forEach(u=>owner.innerHTML+=`<option value="${u.fullName}">${u.fullName} / ${u.department||"-"}</option>`);
+if(!users.length)owner.innerHTML+='<option>Kerem Güdenli</option>';
+}
+
+assetFile.addEventListener("change",e=>handleFile(e.target.files[0]));
+function handleFile(file){
+if(!file)return;
+if(file.size>6*1024*1024){showToast("Dosya maksimum 6 MB olmalı");assetFile.value="";return}
+const r=new FileReader();
+r.onload=ev=>{uploadedFile={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Dosya hazırlandı")};
+r.readAsDataURL(file);
+}
+
+function updateCalculatedStatus(){
+const left=daysLeft(expiryDate.value);
+remainingDays.value=left===9999?"Süresiz":left;
+if(expiryDate.value){
+if(left<0)assetStatus.value="Süresi Doldu";
+else if(left<=Number(reminderDays.value))assetStatus.value="Süresi Yaklaşıyor";
+else if(!["Pasif","Kullanım Dışı","Askıda","İptal","Arşiv"].includes(assetStatus.value))assetStatus.value="Aktif";
+}
+}
+reminderDays.addEventListener("change",updateCalculatedStatus);
+
+function saveAsset(notify=false){
+updateCalculatedStatus();
+if(!assetName.value.trim())return showToast("Belge / varlık adı zorunlu");
+if(!owner.value)return showToast("Sorumlu zorunlu");
+const a={
+id:"CADID-"+Date.now(),
+assetNo:assetNo.value,
+assetType:assetType.value,
+category:category.value,
+criticality:criticality.value,
+assetName:assetName.value.trim(),
+documentNumber:documentNumber.value.trim(),
+revision:revision.value.trim(),
+issuingAuthority:issuingAuthority.value.trim(),
+region:region.value.trim(),
+issueDate:issueDate.value,
+expiryDate:expiryDate.value,
+reminderDays:Number(reminderDays.value),
+remainingDays:remainingDays.value,
+owner:owner.value,
+department:department.value,
+assetStatus:assetStatus.value,
+confidentiality:confidentiality.value,
+standardRef:standardRef.value,
+location:location.value.trim(),
+renewalRequired:renewalRequired.value,
+originalLocation:originalLocation.value.trim(),
+riskRef:riskRef.value.trim(),
+actionRef:actionRef.value.trim(),
+description:description.value.trim(),
+renewalNote:renewalNote.value.trim(),
+file:uploadedFile,
+createdBy:session.name,
+createdAt:new Date().toISOString(),
+updatedAt:"",
+timeline:[{date:new Date().toISOString(),user:session.name,action:"Firma belge/varlık kaydı oluşturuldu"}]
+};
+const items=getAssets();items.unshift(a);setAssets(items);
+if(notify)createNotification(a,"Firma belge/varlık kaydı oluşturuldu: "+a.assetName);
+resetForm();renderAssets();showToast("Kayıt oluşturuldu");
+}
+function markActiveFromForm(){assetStatus.value="Aktif";showToast("Durum aktif seçildi")}
+function markPassiveFromForm(){assetStatus.value="Kullanım Dışı";showToast("Durum kullanım dışı seçildi")}
+
+function normalize(a){
+a.timeline=a.timeline||[];
+if(a.expiryDate&&!["Pasif","Kullanım Dışı","Askıda","İptal","Arşiv"].includes(a.assetStatus)){
+const left=daysLeft(a.expiryDate);
+a.remainingDays=left;
+if(left<0)a.assetStatus="Süresi Doldu";
+else if(left<=Number(a.reminderDays||60))a.assetStatus="Süresi Yaklaşıyor";
+}
+return a;
+}
+function autoUpdate(){const items=getAssets().map(normalize);setAssets(items)}
+function renderAssets(){
+autoUpdate();
+const items=getAssets().map(normalize);
+updateCards(items);
+const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,cf=criticalityFilter.value;
+const filtered=items.filter(a=>`${a.assetNo} ${a.assetType} ${a.category} ${a.assetName} ${a.documentNumber} ${a.issuingAuthority} ${a.owner} ${a.department} ${a.assetStatus} ${a.standardRef} ${a.description}`.toLowerCase().includes(q)&&(!sf||a.assetStatus===sf)&&(!tf||a.assetType===tf)&&(!cf||a.criticality===cf));
+if(!filtered.length){assetTable.innerHTML='<div class="empty">Firma belge/varlık kaydı bulunamadı.</div>';return}
+let h='<table><thead><tr><th>No</th><th>Belge / Varlık</th><th>Tip</th><th>Kurum</th><th>Sorumlu</th><th>Geçerlilik</th><th>Kalan</th><th>Kritiklik</th><th>Durum</th><th>Dosya</th><th>Aksiyon</th></tr></thead><tbody>';
+filtered.forEach(a=>h+=`<tr>
+<td>${a.assetNo}</td>
+<td>${a.assetName}<br><small>${a.documentNumber||"-"} / ${a.revision||"-"}</small></td>
+<td>${a.assetType}<br><small>${a.category}</small></td>
+<td>${a.issuingAuthority||"-"}<br><small>${a.region||"-"}</small></td>
+<td>${a.owner}<br><small>${a.department}</small></td>
+<td>${formatDateTR(a.expiryDate)}</td>
+<td>${a.expiryDate?daysLeft(a.expiryDate):"Süresiz"}</td>
+<td><span class="status ${statusClass(a.criticality)}">${a.criticality}</span></td>
+<td><span class="status ${statusClass(a.assetStatus)}">${a.assetStatus}</span></td>
+<td>${a.file?'<span class="status green">Var</span>':'<span class="status gray">Yok</span>'}</td>
+<td><div class="row-actions">
+<button class="small-btn view" onclick="openDrawer('${a.id}')">İncele</button>
+${a.file?`<button class="small-btn down" onclick="downloadFile('${a.id}')">İndir</button>`:""}
+<button class="small-btn warn" onclick="notifyAsset('${a.id}')">Bildir</button>
+</div></td>
+</tr>`);
+assetTable.innerHTML=h+"</tbody></table>";
+}
+function updateCards(items){
+totalAssets.textContent=items.length;
+activeAssets.textContent=items.filter(a=>a.assetStatus==="Aktif").length;
+expiringAssets.textContent=items.filter(a=>a.assetStatus==="Süresi Yaklaşıyor").length;
+expiredAssets.textContent=items.filter(a=>a.assetStatus==="Süresi Doldu").length;
+renewalAssets.textContent=items.filter(a=>a.renewalRequired==="Evet"&&["Süresi Yaklaşıyor","Süresi Doldu","Yenileme Bekliyor"].includes(a.assetStatus)).length;
+criticalAssets.textContent=items.filter(a=>a.criticality==="Kritik").length;
+fileAssets.textContent=items.filter(a=>a.file).length;
+notificationCount.textContent=getNotifications().filter(n=>n.module==="Company Assets").length;
+}
+
+function openDrawer(id){
+selectedId=id;
+const a=getAssets().map(normalize).find(x=>x.id===id);if(!a)return;
+drawerTitle.textContent=a.assetNo+" / "+a.assetName;
+drawerStatus.textContent=a.assetStatus;
+drawerStatus.className="status "+statusClass(a.assetStatus);
+drawerContent.innerHTML=`
+<div class="info-box"><b>Kayıt No:</b> ${a.assetNo}
+<b>Tip:</b> ${a.assetType}
+<b>Kategori:</b> ${a.category}
+<b>Belge Adı:</b> ${a.assetName}
+<b>Belge No:</b> ${a.documentNumber||"-"}
+<b>Revizyon:</b> ${a.revision||"-"}
+<b>Kurum:</b> ${a.issuingAuthority||"-"}
+<b>Bölge:</b> ${a.region||"-"}
+<b>Alınan Tarih:</b> ${formatDateTR(a.issueDate)}
+<b>Geçerlilik:</b> ${formatDateTR(a.expiryDate)}
+<b>Kalan Gün:</b> ${a.expiryDate?daysLeft(a.expiryDate):"Süresiz"}
+<b>Sorumlu:</b> ${a.owner}
+<b>Departman:</b> ${a.department}
+<b>Kritiklik:</b> ${a.criticality}
+<b>Gizlilik:</b> ${a.confidentiality}
+<b>Standart:</b> ${a.standardRef}
+<b>Lokasyon:</b> ${a.location||"-"}
+<b>Orijinal Konum:</b> ${a.originalLocation||"-"}</div>
+<div class="info-box"><b>Açıklama:</b>
+${a.description||"-"}
+
+<b>Yenileme Notu:</b>
+${a.renewalNote||"-"}
+
+<b>Risk:</b> ${a.riskRef||"-"}
+<b>Aksiyon/CAPA/MOC:</b> ${a.actionRef||"-"}</div>
+<div class="info-box"><b>Dosya:</b>
+${a.file?a.file.fileName+" / "+a.file.fileSizeText:"Dosya yok"}</div>
+<div class="info-box"><b>Timeline</b>
+${(a.timeline||[]).map(t=>`${formatDateTR(t.date)} - ${t.user} - ${t.action}`).join("\\n")||"-"}</div>`;
+drawer.classList.add("active");
+}
+function closeDrawer(){selectedId=null;drawer.classList.remove("active")}
+function updateAsset(id,changes,action){
+const items=getAssets().map(normalize);const i=items.findIndex(a=>a.id===id);if(i<0)return;
+items[i]={...items[i],...changes,updatedAt:new Date().toISOString()};
+items[i].timeline.unshift({date:new Date().toISOString(),user:session.name,action});
+setAssets(items);renderAssets();if(selectedId)openDrawer(selectedId);
+}
+function activateCurrent(){if(!selectedId)return;updateAsset(selectedId,{assetStatus:"Aktif"},"Belge aktif yapıldı");showToast("Aktif yapıldı")}
+function renewCurrent(){if(!selectedId)return;updateAsset(selectedId,{assetStatus:"Yenileme Bekliyor"},"Belge yenileme bekliyor yapıldı");showToast("Yenileme bekliyor")}
+function passiveCurrent(){if(!selectedId)return;updateAsset(selectedId,{assetStatus:"Kullanım Dışı"},"Belge kullanım dışı yapıldı");showToast("Kullanım dışı yapıldı")}
+function notifyCurrent(){if(selectedId)notifyAsset(selectedId)}
+function notifyAsset(id){const a=getAssets().find(x=>x.id===id);if(!a)return;createNotification(a,"Firma belge/varlık bildirimi: "+a.assetName+" / Durum: "+a.assetStatus);showToast("Bildirim kuyruğu oluşturuldu")}
+function createRenewalNotifications(){getAssets().map(normalize).filter(a=>["Süresi Yaklaşıyor","Süresi Doldu","Yenileme Bekliyor"].includes(a.assetStatus)).forEach(a=>createNotification(a,"Yenileme takibi gerekli: "+a.assetName));showToast("Yenileme bildirimleri oluşturuldu")}
+function createNotification(a,msg){
+const n=getNotifications();
+n.unshift({notificationId:"NTF-"+Date.now()+Math.random(),type:"Mail + SMS",module:"Company Assets",documentCode:a.assetNo,documentName:a.assetName,mailGroups:a.owner+"; "+a.department+"; Kalite; Yönetim",smsGroups:a.owner,distributionPoints:a.assetType+" / "+a.category,message:msg,status:"Kuyrukta",priority:a.criticality==="Kritik"?"Critical":"High",createdAt:new Date().toISOString(),createdBy:session.name,auditTrail:[{action:"Firma belge bildirimi oluşturuldu",user:session.name,date:new Date().toISOString()}]});
+setNotifications(n);renderAssets();
+}
+function downloadFile(id){const a=getAssets().find(x=>x.id===id);if(!a||!a.file)return;const link=document.createElement("a");link.href=a.file.fileData;link.download=a.file.fileName;link.click()}
+function exportCSV(){
+const rows=getAssets().map(normalize);
+let csv="AssetNo,Type,Category,Name,DocumentNo,Revision,Authority,Region,IssueDate,ExpiryDate,RemainingDays,Owner,Department,Status,Criticality,Standard,Location\n";
+rows.forEach(a=>csv+=`"${a.assetNo}","${a.assetType}","${a.category}","${a.assetName}","${a.documentNumber}","${a.revision}","${a.issuingAuthority}","${a.region}","${a.issueDate}","${a.expiryDate}","${a.expiryDate?daysLeft(a.expiryDate):'Süresiz'}","${a.owner}","${a.department}","${a.assetStatus}","${a.criticality}","${a.standardRef}","${a.location}"\n`);
+const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a");
+link.href=url;link.download="company_assets_documents.csv";link.click();URL.revokeObjectURL(url);
+}
+function resetForm(){
+generateAssetNo();assetType.value="Sertifika";category.value="Kalite";criticality.value="Orta";assetName.value="";documentNumber.value="";revision.value="V1";issuingAuthority.value="";region.value="TR";issueDate.value=todayISO();expiryDate.value="";reminderDays.value="60";remainingDays.value="Süresiz";owner.value="";department.value="Kalite";assetStatus.value="Aktif";confidentiality.value="İç Kullanım";standardRef.value="ISO 9001";location.value="";renewalRequired.value="Evet";originalLocation.value="";riskRef.value="";actionRef.value="";description.value="";renewalNote.value="";assetFile.value="";uploadedFile=null;
+}
+function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
+globalSearch.addEventListener("input",renderAssets);
+initUsers();resetForm();renderAssets();setInterval(renderAssets,8000);
+console.log("GDNL QDMS Company Asset Documents Loaded");
+</script>
+</body>
+</html>
