@@ -258,6 +258,20 @@ function renderDashboard(data){
 }
 
 renderDashboard(dashboardData);
+
+document.getElementById("userName").textContent =
+session.name || "User";
+
+document.getElementById("userRole").textContent =
+session.role || "User";
+
+document.getElementById("userAvatar").textContent =
+(session.name || "U").charAt(0).toUpperCase();
+
+function logout(){
+    localStorage.removeItem("gdnl_qdms_session");
+    window.location.href="index.html";
+}
 </script>
 
 </body>
