@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | 8D & CAPA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:920px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 4}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}.field input[readonly]{background:#eef2f7}.field textarea{height:90px;padding:12px;resize:none}.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.close{background:#dcfce7;color:#15803d}.small-btn.alert{background:#ffedd5;color:#c2410c}.small-btn.reject{background:#fee2e2;color:#991b1b}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(760px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}.drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px}.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="new-document.html">➕ Yeni Doküman</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
+<a class="active" href="capa.html">🛠️ 8D / CAPA</a>
+<a href="#">📈 KPI & Raporlar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>8D & CAPA V1<br>Problem Solving Core</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="8D no, CAPA no, problem, sorumlu, kaynak veya durum ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>8D & CAPA Management Center</h1>
+<p>D0’dan D8’e kadar problem çözme, kök neden, containment, kalıcı aksiyon, etkinlik kontrolü, mail/SMS bildirimleri ve audit trail kayıtlarını tek merkezden yönet.</p>
+</div>
+<div class="hero-badge">Module: <span>8D Active</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam 8D</small><h2 id="totalCapa">0</h2><p>Kayıtlı 8D/CAPA</p></div>
+<div class="card"><small>Açık</small><h2 id="openCapa">0</h2><p>Devam eden kayıt</p></div>
+<div class="card"><small>Geciken</small><h2 id="lateCapa">0</h2><p>Termin aşımı</p></div>
+<div class="card"><small>Kapalı</small><h2 id="closedCapa">0</h2><p>Kapatılan kayıt</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Yeni 8D / CAPA Kaydı</h3>
+<span class="status blue">CREATE MODE</span>
+</div>
+
+<div class="form-grid">
+<div class="field"><label>8D No</label><input id="eightDNo" readonly></div>
+<div class="field"><label>CAPA No</label><input id="capaNo" readonly></div>
+<div class="field"><label>Açılış Tarihi</label><input id="openDate" type="date"></div>
+<div class="field"><label>Termin Tarihi</label><input id="dueDate" type="date"></div>
+
+<div class="field"><label>Kaynak</label><select id="source"><option>Müşteri Şikayeti</option><option>İç Denetim</option><option>Üretim Uygunsuzluğu</option><option>Tedarikçi</option><option>Proses</option><option>Kalibrasyon</option><option>Risk</option><option>Yönetim Gözden Geçirme</option><option>Diğer</option></select></div>
+<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>Yönetim</option></select></div>
+<div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Durum</label><select id="status"><option>Açık</option><option>İncelemede</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Reddedildi</option></select></div>
+
+<div class="field double"><label>Problem Başlığı</label><input id="problemTitle" placeholder="Problem başlığını yaz"></div>
+<div class="field"><label>Açan Kişi</label><input id="openedBy"></div>
+<div class="field"><label>8D Lideri</label><input id="leader"></div>
+
+<div class="field full"><label>D1 - Takım Üyeleri</label><textarea id="teamMembers" placeholder="Ad Soyad / Departman / Rol / Mail / Telefon"></textarea></div>
+<div class="field full"><label>Bilgi Gidecek Mail Grupları</label><input id="mailGroups" placeholder="kalite@firma.com; uretim@firma.com"></div>
+<div class="field full"><label>Bilgi Gidecek SMS Grupları</label><input id="smsGroups" placeholder="Kalite Grup; Üretim Grup"></div>
+
+<div class="field full"><label>D2 - Problem Tanımı / 5W2H</label><textarea class="big" id="problemDescription" placeholder="Ne, nerede, ne zaman, kim, nasıl, kaç adet, etkisi..."></textarea></div>
+<div class="field full"><label>D3 - Geçici Önlem / Containment</label><textarea id="containment"></textarea></div>
+<div class="field full"><label>D4 - Kök Neden / 5 Why</label><textarea class="big" id="rootCause"></textarea></div>
+<div class="field full"><label>D4 - Balık Kılçığı / 6M Analizi</label><textarea id="fishbone" placeholder="İnsan, Makine, Metot, Malzeme, Ölçüm, Çevre"></textarea></div>
+<div class="field full"><label>D5 - Kalıcı Düzeltici Faaliyet</label><textarea id="correctiveAction"></textarea></div>
+<div class="field full"><label>D6 - Uygulama / Kanıt</label><textarea id="implementation"></textarea></div>
+<div class="field full"><label>D7 - Tekrarını Önleme</label><textarea id="prevention" placeholder="FMEA, kontrol planı, prosedür, talimat, eğitim, SPC, MSA, PPAP bağlantıları"></textarea></div>
+<div class="field full"><label>D8 - Kapanış / Öğrenilen Dersler</label><textarea id="closureNote"></textarea></div>
+
+<div class="field"><label>Doküman Revizyonu Gerekli mi?</label><select id="docRevisionRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Etkinlik Kontrol Tarihi</label><input id="effectivenessDate" type="date"></div>
+<div class="field"><label>Etkinlik Sonucu</label><select id="effectivenessResult"><option>Bekliyor</option><option>Etkili</option><option>Etkisiz</option></select></div>
+<div class="field"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveCapa()">8D / CAPA Aç</button>
+<button class="btn orange" onclick="saveCapa(true)">Aç ve Bildir</button>
+<button class="btn green" onclick="closeSelectedFromForm()">Kapalı Kaydet</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>8D / CAPA Master Listesi</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderCapa()"><option value="">Tüm Durumlar</option><option>Açık</option><option>İncelemede</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Gecikti</option><option>Reddedildi</option></select>
+<select id="criticalityFilter" onchange="renderCapa()"><option value="">Tüm Kritiklikler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
+<select id="sourceFilter" onchange="renderCapa()"><option value="">Tüm Kaynaklar</option><option>Müşteri Şikayeti</option><option>İç Denetim</option><option>Üretim Uygunsuzluğu</option><option>Tedarikçi</option><option>Proses</option><option>Risk</option></select>
+</div>
+</div>
+<div id="capaTable"></div>
+</section>
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div>
+<h3 id="drawerTitle">8D Detayı</h3>
+<span class="status blue" id="drawerStatus">Açık</span>
+</div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="closeCurrent()">Kapat</button>
+<button class="btn orange" onclick="notifyCurrent()">Mail/SMS Bildir</button>
+<button class="btn primary" onclick="startRevisionCurrent()">Doküman Revizyonu Başlat</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+document.getElementById("userName").textContent=session.name||"User";
+document.getElementById("userRole").textContent=session.role||"User";
+document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let selectedIndex=null;
+let uploadedEvidence=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getCapa(){return JSON.parse(localStorage.getItem("gdnl_capa"))||[]}
+function setCapa(x){localStorage.setItem("gdnl_capa",JSON.stringify(x))}
+function getNotifications(){return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}
+function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
+
+function statusClass(s){
+if(s==="Kapalı"||s==="Etkili")return"green";
+if(s==="Gecikti"||s==="Reddedildi"||s==="Kritik"||s==="Etkisiz")return"red";
+if(s==="Aksiyon Bekliyor"||s==="Etkinlik Kontrolü"||s==="İncelemede")return"orange";
+return"blue";
+}
+
+function generateNumbers(){
+const year=new Date().getFullYear();
+const count=getCapa().length+1;
+document.getElementById("eightDNo").value="8D-"+year+"-"+String(count).padStart(4,"0");
+document.getElementById("capaNo").value="CAPA-"+year+"-"+String(count).padStart(4,"0");
+}
+
+function collectPayload(notify){
+return{
+id:"CAPA-"+Date.now(),
+eightDNo:document.getElementById("eightDNo").value,
+capaNo:document.getElementById("capaNo").value,
+openDate:document.getElementById("openDate").value,
+dueDate:document.getElementById("dueDate").value,
+source:document.getElementById("source").value,
+department:document.getElementById("department").value,
+criticality:document.getElementById("criticality").value,
+status:document.getElementById("status").value,
+problemTitle:document.getElementById("problemTitle").value.trim(),
+openedBy:document.getElementById("openedBy").value.trim(),
+leader:document.getElementById("leader").value.trim(),
+teamMembers:document.getElementById("teamMembers").value.trim(),
+mailGroups:document.getElementById("mailGroups").value.trim(),
+smsGroups:document.getElementById("smsGroups").value.trim(),
+problemDescription:document.getElementById("problemDescription").value.trim(),
+containment:document.getElementById("containment").value.trim(),
+rootCause:document.getElementById("rootCause").value.trim(),
+fishbone:document.getElementById("fishbone").value.trim(),
+correctiveAction:document.getElementById("correctiveAction").value.trim(),
+implementation:document.getElementById("implementation").value.trim(),
+prevention:document.getElementById("prevention").value.trim(),
+closureNote:document.getElementById("closureNote").value.trim(),
+docRevisionRequired:document.getElementById("docRevisionRequired").value,
+effectivenessDate:document.getElementById("effectivenessDate").value,
+effectivenessResult:document.getElementById("effectivenessResult").value,
+evidence:uploadedEvidence,
+notificationSent:notify?"Evet":"Hayır",
+createdBy:session.name||"System",
+createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString(),
+auditTrail:[{action:"8D/CAPA oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]
+};
+}
+
+function validate(p){
+if(!p.problemTitle||p.problemTitle.length<5){showToast("Problem başlığı zorunlu");return false}
+if(!p.leader){showToast("8D lideri zorunlu");return false}
+if(!p.problemDescription||p.problemDescription.length<10){showToast("Problem tanımı en az 10 karakter olmalı");return false}
+if(!p.dueDate){showToast("Termin tarihi zorunlu");return false}
+return true;
+}
+
+function saveCapa(notify=false){
+const p=collectPayload(notify);
+if(!validate(p))return;
+const items=getCapa();
+items.unshift(p);
+setCapa(items);
+if(notify)createNotification(p,"8D/CAPA açıldı ve takım bilgilendirildi");
+showToast(notify?"8D açıldı ve bildirim kuyruğu oluşturuldu":"8D/CAPA kaydı açıldı");
+resetForm();
+renderCapa();
+}
+
+function createNotification(p,msg){
+const n=getNotifications();
+n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"8D/CAPA",documentCode:p.eightDNo,documentName:p.problemTitle,mailGroups:p.mailGroups,smsGroups:p.smsGroups,distributionPoints:p.teamMembers,message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});
+setNotifications(n);
+}
+
+function autoDelay(items){
+const today=todayISO();
+items.forEach(x=>{if(x.status!=="Kapalı"&&x.dueDate&&x.dueDate<today)x.status="Gecikti"});
+setCapa(items);
+}
+
+function renderCapa(){
+let items=getCapa();
+autoDelay(items);
+items=getCapa();
+
+const q=document.getElementById("globalSearch").value.toLowerCase();
+const sf=document.getElementById("statusFilter").value;
+const cf=document.getElementById("criticalityFilter").value;
+const sourceF=document.getElementById("sourceFilter").value;
+
+const filtered=items.filter(x=>{
+const text=`${x.eightDNo} ${x.capaNo} ${x.problemTitle} ${x.leader} ${x.source} ${x.department} ${x.status}`.toLowerCase();
+return text.includes(q)&&(!sf||x.status===sf)&&(!cf||x.criticality===cf)&&(!sourceF||x.source===sourceF);
+});
+
+updateCards(items);
+const area=document.getElementById("capaTable");
+if(filtered.length===0){area.innerHTML='<div class="empty">8D / CAPA kaydı bulunamadı.</div>';return}
+
+let html='<table><thead><tr><th>8D No</th><th>CAPA No</th><th>Problem</th><th>Kaynak</th><th>Lider</th><th>Kritiklik</th><th>Durum</th><th>Termin</th><th>Aksiyon</th></tr></thead><tbody>';
+filtered.forEach(x=>{
+const index=items.findIndex(i=>i.id===x.id);
+html+=`<tr>
+<td>${x.eightDNo}</td><td>${x.capaNo}</td>
+<td>${x.problemTitle}<br><small>${x.department}</small></td>
+<td>${x.source}</td><td>${x.leader}</td>
+<td><span class="status ${statusClass(x.criticality)}">${x.criticality}</span></td>
+<td><span class="status ${statusClass(x.status)}">${x.status}</span></td>
+<td>${formatDateTR(x.dueDate)}</td>
+<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button><button class="small-btn close" onclick="closeCapa(${index})">Kapat</button><button class="small-btn alert" onclick="notifyCapa(${index})">Bildir</button></div></td>
+</tr>`;
+});
+html+='</tbody></table>';
+area.innerHTML=html;
+}
+
+function updateCards(items){
+document.getElementById("totalCapa").textContent=items.length;
+document.getElementById("openCapa").textContent=items.filter(x=>x.status!=="Kapalı"&&x.status!=="Reddedildi").length;
+document.getElementById("lateCapa").textContent=items.filter(x=>x.status==="Gecikti").length;
+document.getElementById("closedCapa").textContent=items.filter(x=>x.status==="Kapalı").length;
+}
+
+function openDrawer(index){
+selectedIndex=index;
+const x=getCapa()[index];
+document.getElementById("drawerTitle").textContent=x.eightDNo+" / "+x.problemTitle;
+document.getElementById("drawerStatus").textContent=x.status;
+document.getElementById("drawerStatus").className="status "+statusClass(x.status);
+document.getElementById("drawerContent").innerHTML=`
+<div class="info-box"><b>CAPA No:</b> ${x.capaNo}<br><b>Kaynak:</b> ${x.source}<br><b>Departman:</b> ${x.department}<br><b>Lider:</b> ${x.leader}<br><b>Takım:</b><br>${x.teamMembers||"-"}</div>
+<div class="info-box"><b>D2 Problem:</b><br>${x.problemDescription||"-"}</div>
+<div class="info-box"><b>D3 Containment:</b><br>${x.containment||"-"}</div>
+<div class="info-box"><b>D4 Kök Neden:</b><br>${x.rootCause||"-"}<br><br><b>6M:</b><br>${x.fishbone||"-"}</div>
+<div class="info-box"><b>D5/D6 Aksiyon:</b><br>${x.correctiveAction||"-"}<br><br>${x.implementation||""}</div>
+<div class="info-box"><b>D7 Önleme:</b><br>${x.prevention||"-"}<br><br><b>D8 Kapanış:</b><br>${x.closureNote||"-"}</div>
+<div class="info-box"><b>Etkinlik:</b> ${x.effectivenessResult} / ${formatDateTR(x.effectivenessDate)}<br><b>Kanıt:</b> ${x.evidence?x.evidence.fileName+" - "+x.evidence.fileSizeText:"Yok"}</div>`;
+document.getElementById("drawer").classList.add("active");
+}
+
+function closeDrawer(){selectedIndex=null;document.getElementById("drawer").classList.remove("active")}
+
+function closeCapa(index){
+const items=getCapa();
+items[index].status="Kapalı";
+items[index].closedAt=new Date().toISOString();
+items[index].closedBy=session.name||"System";
+items[index].auditTrail.push({action:"8D/CAPA kapatıldı",user:session.name||"System",date:new Date().toISOString()});
+setCapa(items);
+renderCapa();
+showToast("8D/CAPA kapatıldı");
+}
+
+function closeCurrent(){if(selectedIndex!==null){closeCapa(selectedIndex);openDrawer(selectedIndex)}}
+function notifyCapa(index){const x=getCapa()[index];createNotification(x,"8D/CAPA bilgilendirmesi gönderildi");showToast("Mail/SMS bildirim kuyruğu oluşturuldu")}
+function notifyCurrent(){if(selectedIndex!==null)notifyCapa(selectedIndex)}
+
+function startRevisionCurrent(){
+if(selectedIndex===null)return;
+const x=getCapa()[selectedIndex];
+localStorage.setItem("gdnl_capa_revision_reason",x.eightDNo+" - "+x.problemTitle);
+window.location.href="revision.html";
+}
+
+function closeSelectedFromForm(){
+document.getElementById("status").value="Kapalı";
+saveCapa(false);
+}
+
+function resetForm(){
+generateNumbers();
+document.getElementById("openDate").value=todayISO();
+document.getElementById("dueDate").value=addDays(todayISO(),14);
+document.getElementById("source").value="Müşteri Şikayeti";
+document.getElementById("department").value="Kalite";
+document.getElementById("criticality").value="Orta";
+document.getElementById("status").value="Açık";
+document.getElementById("problemTitle").value="";
+document.getElementById("openedBy").value=session.name||"";
+document.getElementById("leader").value="";
+document.getElementById("teamMembers").value="";
+document.getElementById("mailGroups").value="";
+document.getElementById("smsGroups").value="";
+document.getElementById("problemDescription").value="";
+document.getElementById("containment").value="";
+document.getElementById("rootCause").value="";
+document.getElementById("fishbone").value="";
+document.getElementById("correctiveAction").value="";
+document.getElementById("implementation").value="";
+document.getElementById("prevention").value="";
+document.getElementById("closureNote").value="";
+document.getElementById("docRevisionRequired").value="Hayır";
+document.getElementById("effectivenessDate").value=addDays(todayISO(),30);
+document.getElementById("effectivenessResult").value="Bekliyor";
+document.getElementById("evidenceFile").value="";
+uploadedEvidence=null;
+}
+
+document.getElementById("evidenceFile").addEventListener("change",function(e){
+const file=e.target.files[0];
+if(!file){uploadedEvidence=null;return}
+if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");e.target.value="";return}
+const reader=new FileReader();
+reader.onload=function(ev){uploadedEvidence={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Kanıt dosyası yüklendi")};
+reader.readAsDataURL(file);
+});
+
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2500)}
+document.getElementById("globalSearch").addEventListener("input",renderCapa);
+
+resetForm();
+renderCapa();
+console.log("GDNL QDMS 8D CAPA V1 Loaded");
+</script>
+</body>
+</html>
