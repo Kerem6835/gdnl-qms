@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Change Management</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:#fff;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e2e8f0;box-shadow:0 0 40px rgba(15,23,42,.04)}
+.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#0f172a;display:block}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#475569;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850}.menu a:hover,.menu a.active{background:#e0f2fe;color:#0369a1}
+.sidebar-footer{font-size:12px;color:#64748b;line-height:1.6;border-top:1px solid #e2e8f0;padding-top:18px}
+.main{padding:24px;max-width:1760px;margin:auto;width:100%}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:1120px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{width:100%;min-width:0;height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}.field textarea{height:96px;padding:12px;resize:none}.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.purple{background:#ede9fe;color:#6d28d9}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}.status.purple{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.close{background:#dcfce7;color:#15803d}.small-btn.alert{background:#ffedd5;color:#c2410c}.small-btn.delete{background:#fee2e2;color:#991b1b}.small-btn.down{background:#dcfce7;color:#15803d}
+.empty{padding:28px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}.subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1160px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}.drawer.active{display:block}
+.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px}.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;display:none;z-index:99}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}.field.double{grid-column:1/-1}}
+</style>
+</head>
+
+<body>
+<div class="app">
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>QDMS</span></a>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a href="audit.html">🧾 İç Denetim</a>
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+<a href="management-review.html">📊 YGG Yönetimi</a>
+<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+<a href="kpi-reports.html">📈 KPI & Raporlar</a>
+<a class="active" href="change-management.html">🔁 Değişiklik Yönetimi</a>
+<a href="users.html">👥 Kullanıcılar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>MOC / Change Control<br>ISO / IATF / CoP / EV Ready</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="MOC no, değişiklik, ürün, proses, müşteri, tedarikçi, doküman veya durum ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Güdenli</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar" onclick="window.location.href='dashboard.html'">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Change Management / MOC</h1>
+<p>Ürün, proses, doküman, tedarikçi, müşteri, yazılım, CoP, EV, PPAP, FMEA, MSA ve kontrol planı etkilerini tek akışta yöneten kurumsal değişiklik kapısı.</p>
+</div>
+<div class="hero-badge">MOC Engine: <span>Impact + Approval Active</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam MOC</small><h2 id="totalMoc">0</h2><p>Kayıtlı değişiklik</p></div>
+<div class="card"><small>Açık MOC</small><h2 id="openMoc">0</h2><p>Devam eden talepler</p></div>
+<div class="card"><small>Kritik MOC</small><h2 id="criticalMoc">0</h2><p>Yüksek riskli değişiklik</p></div>
+<div class="card"><small>Geciken Aksiyon</small><h2 id="lateActions">0</h2><p>Termin aşımı</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Onay Bekleyen</small><h2 id="pendingApproval">0</h2><p>Kalite/yönetim onayı</p></div>
+<div class="card"><small>PPAP Etkili</small><h2 id="ppapImpact">0</h2><p>PPAP ihtiyacı olan</p></div>
+<div class="card"><small>Eğitim Gereken</small><h2 id="trainingImpact">0</h2><p>Eğitim aksiyonu gerektiren</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mail/SMS kayıtları</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yeni Değişiklik Talebi</h3><span class="status blue" id="formMode">CREATE MODE</span></div>
+
+<div class="form-grid">
+<div class="field"><label>MOC No</label><input id="mocNo" readonly></div>
+<div class="field"><label>Durum</label><select id="mocStatus"><option>Taslak</option><option>Değerlendirme</option><option>Etki Analizi</option><option>Onay Bekliyor</option><option>Uygulama</option><option>Etkinlik Kontrolü</option><option>Kapanış Onayı</option><option>Kapalı</option><option>Reddedildi</option><option>Gecikti</option></select></div>
+<div class="field"><label>Değişiklik Tipi</label><select id="changeType"><option>Ürün Değişikliği</option><option>Proses Değişikliği</option><option>Doküman Değişikliği</option><option>Tedarikçi Değişikliği</option><option>Müşteri Şartı Değişikliği</option><option>Malzeme Değişikliği</option><option>Yazılım / Sistem Değişikliği</option><option>Makine / Ekipman Değişikliği</option><option>Lokasyon Değişikliği</option><option>Laboratuvar / Test Metodu Değişikliği</option><option>CoP / Regülasyon Değişikliği</option><option>EV Güvenlik Değişikliği</option></select></div>
+<div class="field"><label>Aciliyet</label><select id="urgency"><option>Düşük</option><option>Normal</option><option>Yüksek</option><option>Acil</option></select></div>
+
+<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Laboratuvar</option><option>Bilgi Güvenliği</option><option>Enerji Yönetimi</option><option>Yönetim</option></select></div>
+<div class="field"><label>Talep Eden</label><select id="requester"></select></div>
+<div class="field"><label>MOC Sahibi</label><select id="mocOwner"></select></div>
+<div class="field"><label>Planlanan Kapanış</label><input id="targetCloseDate" type="date"></div>
+
+<div class="field double"><label>Ürün / Proje</label><input id="productProject"></div>
+<div class="field double"><label>Müşteri / Tedarikçi Etkisi</label><input id="externalImpactName" placeholder="Müşteri veya tedarikçi adı"></div>
+
+<div class="field full"><label>Standart / Sistem Etkisi</label><select id="standards" multiple style="height:150px">
+<option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 10002</option><option>ISO 17025</option><option>ISO 27001</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option><option>APQP</option><option>PPAP</option><option>FMEA</option><option>MSA</option><option>SPC</option><option>Control Plan</option><option>CE / UL / EMC</option>
+</select></div>
+
+<div class="field full"><label>Değişiklik Başlığı</label><input id="changeTitle" placeholder="Kısa ve net değişiklik başlığı"></div>
+<div class="field full"><label>Mevcut Durum</label><textarea id="currentState" class="big"></textarea></div>
+<div class="field full"><label>Önerilen Değişiklik</label><textarea id="proposedChange" class="big"></textarea></div>
+<div class="field full"><label>Değişiklik Gerekçesi</label><textarea id="changeReason"></textarea></div>
+</div>
+
+<div class="box">
+<h4>Risk Değerlendirme — 10×10×10</h4>
+<div class="subgrid">
+<div class="field"><label>İlk Olasılık</label><select id="initialO" onchange="updateScores()"></select></div>
+<div class="field"><label>İlk Şiddet</label><select id="initialS" onchange="updateScores()"></select></div>
+<div class="field"><label>İlk Tespit</label><select id="initialD" onchange="updateScores()"></select></div>
+<div class="field"><label>İlk Skor</label><input id="initialScore" readonly></div>
+<div class="field"><label>İlk Seviye</label><input id="initialLevel" readonly></div>
+<div class="field"><label>Kritiklik</label><input id="criticalityText" readonly></div>
+
+<div class="field"><label>Artık Olasılık</label><select id="residualO" onchange="updateScores()"></select></div>
+<div class="field"><label>Artık Şiddet</label><select id="residualS" onchange="updateScores()"></select></div>
+<div class="field"><label>Artık Tespit</label><select id="residualD" onchange="updateScores()"></select></div>
+<div class="field"><label>Artık Skor</label><input id="residualScore" readonly></div>
+<div class="field"><label>Artık Seviye</label><input id="residualLevel" readonly></div>
+<div class="field"><label>Azalma %</label><input id="reductionRate" readonly></div>
+</div>
+</div>
+
+<div class="box">
+<h4>Zorunlu Etki Kontrolleri</h4>
+<div class="subgrid">
+<div class="field"><label>Doküman Revizyonu</label><select id="docImpact"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Eğitim Gerekli</label><select id="trainingRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Risk Güncelleme</label><select id="riskRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>CAPA Gerekli</label><select id="capaRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>FMEA Güncelleme</label><select id="fmeaImpact"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Kontrol Planı</label><select id="controlPlanImpact"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>MSA Etkisi</label><select id="msaImpact"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>SPC Etkisi</label><select id="spcImpact"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>PPAP Gerekli</label><select id="ppapRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Müşteri Onayı</label><select id="customerApprovalRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Tedarikçi Bildirimi</label><select id="supplierNotificationRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>CoP / Regülasyon</label><select id="copImpact"><option>Hayır</option><option>Evet</option></select></div>
+</div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveMoc()">MOC Kaydet</button>
+<button class="btn orange" onclick="saveMoc(true)">Kaydet + Bildirim</button>
+<button class="btn green" onclick="generateRequiredActions()">Zorunlu Aksiyonları Üret</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Aksiyon Planı</h3><span class="status orange">ACTION PLAN</span></div>
+<div class="box">
+<div class="subgrid">
+<div class="field"><label>Aksiyon Kaynağı</label><select id="actionSource"><option>MOC</option><option>Doküman Revizyonu</option><option>Eğitim</option><option>Risk</option><option>CAPA</option><option>FMEA</option><option>Kontrol Planı</option><option>PPAP</option><option>MSA</option><option>SPC</option><option>Müşteri Onayı</option><option>Tedarikçi Bildirimi</option><option>CoP / EV</option></select></div>
+<div class="field"><label>Sorumlu</label><select id="actionOwner"></select></div>
+<div class="field"><label>Planlanan Tarih</label><input id="actionDueDate" type="date"></div>
+<div class="field"><label>Gerçekleşen Tarih</label><input id="actionActualDate" type="date"></div>
+<div class="field"><label>Durum</label><select id="actionStatus"><option>Açık</option><option>Devam Ediyor</option><option>Kanıt Bekliyor</option><option>Onay Bekliyor</option><option>Tamamlandı</option><option>Gecikti</option><option>İptal</option></select></div>
+<div class="field"><label>Tamamlanma %</label><input id="completionRate" type="number" min="0" max="100" value="0"></div>
+<div class="field full"><label>Aksiyon Açıklaması</label><textarea id="actionDescription" class="big"></textarea></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addAction()">Aksiyon Ekle</button>
+<button class="btn dark" onclick="clearActionInputs()">Temizle</button>
+</div>
+<div id="actionPreview"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Kanıt / Doküman Yükleme</h3><span class="status purple">EVIDENCE CENTER</span></div>
+<div class="box">
+<div class="subgrid">
+<div class="field"><label>MOC Seç</label><select id="docMocSelect"></select></div>
+<div class="field"><label>Doküman Tipi</label><select id="docType"><option>MOC Formu</option><option>Etki Analizi</option><option>Risk Analizi</option><option>FMEA</option><option>Kontrol Planı</option><option>PPAP</option><option>MSA</option><option>SPC</option><option>Test Raporu</option><option>CoP Raporu</option><option>EV Safety Report</option><option>Müşteri Onayı</option><option>Tedarikçi Bildirimi</option><option>Eğitim Kanıtı</option><option>Fotoğraf</option><option>Diğer</option></select></div>
+<div class="field"><label>Doküman Adı</label><input id="docName"></div>
+<div class="field"><label>Revizyon</label><input id="docRevision" value="V1"></div>
+<div class="field"><label>Durum</label><select id="docStatus"><option>Aktif</option><option>İncelemede</option><option>Onaylandı</option><option>Reddedildi</option><option>Arşiv</option></select></div>
+<div class="field"><label>Yükleyen</label><input id="docOwner"></div>
+<div class="field full"><label>Dosya</label><input id="docFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip"></div>
+<div class="field full"><label>Açıklama</label><textarea id="docDescription"></textarea></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addDocument()">Doküman Yükle ve MOC’ye Bağla</button>
+<button class="btn dark" onclick="clearDocumentInputs()">Temizle</button>
+</div>
+<div id="documentPreview"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>MOC Master Listesi</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderMocs()"><option value="">Tüm Durumlar</option><option>Taslak</option><option>Değerlendirme</option><option>Etki Analizi</option><option>Onay Bekliyor</option><option>Uygulama</option><option>Etkinlik Kontrolü</option><option>Kapanış Onayı</option><option>Kapalı</option><option>Reddedildi</option><option>Gecikti</option></select>
+<select id="typeFilter" onchange="renderMocs()"><option value="">Tüm Tipler</option><option>Ürün Değişikliği</option><option>Proses Değişikliği</option><option>Doküman Değişikliği</option><option>Tedarikçi Değişikliği</option><option>CoP / Regülasyon Değişikliği</option><option>EV Güvenlik Değişikliği</option></select>
+<select id="criticalityFilter" onchange="renderMocs()"><option value="">Tüm Kritiklikler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
+</div>
+</div>
+<div id="mocTable"></div>
+</section>
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div><h3 id="drawerTitle">MOC Detayı</h3><span class="status blue" id="drawerStatus">Taslak</span></div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="closeMocCurrent()">MOC Kapat</button>
+<button class="btn orange" onclick="notifyCurrent()">Mail/SMS Bildirim</button>
+<button class="btn purple" onclick="createOutputsCurrent()">Risk/CAPA/Eğitim Çıktıları Oluştur</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator"};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+userName.textContent=session.name||"User";userRole.textContent=session.role||"User";userAvatar.textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let actions=[],uploadedDoc=null,selectedIndex=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
+function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function getMocs(){return getLS("gdnl_moc")}
+function setMocs(v){setLS("gdnl_moc",v)}
+function getUsers(){return getLS("gdnl_users")}
+function getNotifications(){return getLS("gdnl_notifications")}
+function setNotifications(v){setLS("gdnl_notifications",v)}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
+function statusClass(s){if(["Kapalı","Tamamlandı","Onaylandı","Düşük"].includes(s))return"green";if(["Onay Bekliyor","Uygulama","Etkinlik Kontrolü","Kapanış Onayı","Devam Ediyor","Kanıt Bekliyor","Orta","Yüksek"].includes(s))return"orange";if(["Gecikti","Reddedildi","Kritik","Acil"].includes(s))return"red";return"blue"}
+function selectedStandards(){return Array.from(standards.selectedOptions).map(o=>o.value)}
+function generateMocNo(){mocNo.value="MOC-"+new Date().getFullYear()+"-"+String(getMocs().length+1).padStart(4,"0")}
+function riskScore(o,s,d){return Number(o)*Number(s)*Number(d)}
+function riskLevel(score){if(score<50)return"Düşük";if(score<150)return"İzlenmeli";if(score<300)return"Orta";if(score<500)return"Yüksek";if(score<750)return"Kritik";return"Acil"}
+function populateScale(id,value=5){const el=document.getElementById(id);el.innerHTML="";for(let i=1;i<=10;i++)el.innerHTML+=`<option value="${i}" ${i===value?"selected":""}>${i}</option>`}
+function initScales(){["initialO","initialS","initialD","residualO","residualS","residualD"].forEach(id=>populateScale(id,id.startsWith("initial")?7:4))}
+function updateScores(){const is=riskScore(initialO.value,initialS.value,initialD.value),rs=riskScore(residualO.value,residualS.value,residualD.value);initialScore.value=is;residualScore.value=rs;initialLevel.value=riskLevel(is);residualLevel.value=riskLevel(rs);reductionRate.value=is?Math.max(0,Math.round(((is-rs)/is)*100))+"%":"0%";criticalityText.value=is>=750?"Acil":is>=500?"Kritik":is>=300?"Yüksek":is>=150?"Orta":"Düşük"}
+
+function initUsers(){
+const users=getUsers().filter(u=>u.status!=="Pasif");
+["requester","mocOwner","actionOwner"].forEach(id=>{
+const el=document.getElementById(id);el.innerHTML='<option value="">Seçiniz</option>';
+users.forEach(u=>el.innerHTML+=`<option value="${u.fullName}">${u.fullName} / ${u.department||"-"}</option>`);
+if(!users.length)el.innerHTML+='<option>Kerem Güdenli</option>';
+});
+}
+
+function addAction(){
+if(!actionOwner.value)return showToast("Aksiyon sorumlusu zorunlu");
+if(!actionDueDate.value)return showToast("Planlanan tarih zorunlu");
+if(!actionDescription.value.trim())return showToast("Aksiyon açıklaması zorunlu");
+actions.push({id:"ACT-"+Date.now(),source:actionSource.value,owner:actionOwner.value,dueDate:actionDueDate.value,actualDate:actionActualDate.value,status:actionStatus.value,completion:Number(completionRate.value||0),description:actionDescription.value.trim(),createdAt:new Date().toISOString()});
+clearActionInputs();renderActionPreview();showToast("Aksiyon eklendi");
+}
+function clearActionInputs(){actionSource.value="MOC";actionOwner.value="";actionDueDate.value=addDays(todayISO(),30);actionActualDate.value="";actionStatus.value="Açık";completionRate.value=0;actionDescription.value=""}
+function renderActionPreview(){if(!actions.length){actionPreview.innerHTML='<div class="empty" style="margin-top:14px">Aksiyon yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Kaynak</th><th>Sorumlu</th><th>Termin</th><th>Gerçek</th><th>Durum</th><th>%</th><th>Aksiyon</th></tr></thead><tbody>';actions.forEach((a,i)=>h+=`<tr><td>${a.source}</td><td>${a.owner}</td><td>${formatDateTR(a.dueDate)}</td><td>${formatDateTR(a.actualDate)}</td><td><span class="status ${statusClass(a.status)}">${a.status}</span></td><td>${a.completion}%</td><td><button class="small-btn delete" onclick="actions.splice(${i},1);renderActionPreview()">Sil</button></td></tr>`);actionPreview.innerHTML=h+"</tbody></table>"}
+
+function generateRequiredActions(){
+const rules=[
+["Doküman Revizyonu",docImpact.value],
+["Eğitim",trainingRequired.value],
+["Risk",riskRequired.value],
+["CAPA",capaRequired.value],
+["FMEA",fmeaImpact.value],
+["Kontrol Planı",controlPlanImpact.value],
+["MSA",msaImpact.value],
+["SPC",spcImpact.value],
+["PPAP",ppapRequired.value],
+["Müşteri Onayı",customerApprovalRequired.value],
+["Tedarikçi Bildirimi",supplierNotificationRequired.value],
+["CoP / EV",copImpact.value]
+];
+rules.forEach(r=>{
+if(r[1]==="Evet"&&!actions.some(a=>a.source===r[0])){
+actions.push({id:"ACT-"+Date.now()+Math.random(),source:r[0],owner:mocOwner.value||requester.value,dueDate:addDays(todayISO(),30),actualDate:"",status:"Açık",completion:0,description:r[0]+" etkisi için değerlendirme, uygulama ve kanıt kapatma aksiyonu.",createdAt:new Date().toISOString()});
+}
+});
+renderActionPreview();showToast("Zorunlu aksiyonlar üretildi");
+}
+
+function saveMoc(notify=false){
+updateScores();
+const m={id:"MOCID-"+Date.now(),mocNo:mocNo.value,mocStatus:mocStatus.value,changeType:changeType.value,urgency:urgency.value,department:department.value,requester:requester.value,mocOwner:mocOwner.value,targetCloseDate:targetCloseDate.value,productProject:productProject.value.trim(),externalImpactName:externalImpactName.value.trim(),standards:selectedStandards(),changeTitle:changeTitle.value.trim(),currentState:currentState.value.trim(),proposedChange:proposedChange.value.trim(),changeReason:changeReason.value.trim(),initialO:Number(initialO.value),initialS:Number(initialS.value),initialD:Number(initialD.value),initialScore:Number(initialScore.value),initialLevel:initialLevel.value,residualO:Number(residualO.value),residualS:Number(residualS.value),residualD:Number(residualD.value),residualScore:Number(residualScore.value),residualLevel:residualLevel.value,reductionRate:reductionRate.value,criticality:criticalityText.value,impacts:{docImpact:docImpact.value,trainingRequired:trainingRequired.value,riskRequired:riskRequired.value,capaRequired:capaRequired.value,fmeaImpact:fmeaImpact.value,controlPlanImpact:controlPlanImpact.value,msaImpact:msaImpact.value,spcImpact:spcImpact.value,ppapRequired:ppapRequired.value,customerApprovalRequired:customerApprovalRequired.value,supplierNotificationRequired:supplierNotificationRequired.value,copImpact:copImpact.value},actions:actions,documents:[],createdBy:session.name,createdAt:new Date().toISOString(),closedAt:"",timeline:[{date:new Date().toISOString(),user:session.name,action:"MOC kaydı oluşturuldu"}]};
+if(!m.changeTitle)return showToast("Değişiklik başlığı zorunlu");
+if(!m.requester)return showToast("Talep eden zorunlu");
+if(!m.mocOwner)return showToast("MOC sahibi zorunlu");
+if(!m.standards.length)return showToast("En az 1 standart/sistem etkisi seç");
+const items=getMocs();items.unshift(m);setMocs(items);if(notify)createNotification(m,"MOC kaydı oluşturuldu: "+m.mocNo);resetForm();renderMocs();showToast("MOC kaydedildi");
+}
+
+docFile.addEventListener("change",e=>handleFile(e.target.files[0]));
+function handleFile(file){if(!file)return;if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");docFile.value="";return}const r=new FileReader();r.onload=ev=>{uploadedDoc={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Dosya hazırlandı")};r.readAsDataURL(file)}
+function addDocument(){
+if(!docMocSelect.value)return showToast("MOC seç");
+if(!docName.value.trim())return showToast("Doküman adı zorunlu");
+if(!uploadedDoc)return showToast("Dosya seç");
+const items=getMocs(),idx=items.findIndex(x=>x.mocNo===docMocSelect.value);if(idx<0)return;
+const d={id:"MOCDOC-"+Date.now(),docNo:"MOC-DOC-"+new Date().getFullYear()+"-"+String((items[idx].documents||[]).length+1).padStart(4,"0"),docType:docType.value,docName:docName.value.trim(),revision:docRevision.value.trim(),status:docStatus.value,owner:docOwner.value.trim(),description:docDescription.value.trim(),file:uploadedDoc,createdAt:new Date().toISOString()};
+items[idx].documents=items[idx].documents||[];items[idx].documents.unshift(d);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"MOC dokümanı yüklendi: "+d.docNo});
+setMocs(items);clearDocumentInputs();renderMocs();showToast("Doküman MOC’ye bağlandı");
+}
+function clearDocumentInputs(){docMocSelect.value="";docType.value="MOC Formu";docName.value="";docRevision.value="V1";docStatus.value="Aktif";docOwner.value=session.name||"";docDescription.value="";docFile.value="";uploadedDoc=null}
+
+function createNotification(m,msg){const n=getNotifications();n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"MOC",documentCode:m.mocNo,documentName:m.changeTitle,mailGroups:m.requester+"; "+m.mocOwner+"; Kalite; Yönetim",smsGroups:m.mocOwner,distributionPoints:m.changeType+" / "+m.department,message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
+function initMocSelect(){docMocSelect.innerHTML='<option value="">MOC Seçiniz</option>';getMocs().forEach(m=>docMocSelect.innerHTML+=`<option value="${m.mocNo}">${m.mocNo} / ${m.changeTitle}</option>`)}
+function normalize(m){m.actions=m.actions||[];m.documents=m.documents||[];m.timeline=m.timeline||[];return m}
+function autoDelay(items){const t=todayISO();items.forEach(m=>{m.actions.forEach(a=>{if(!["Tamamlandı","İptal"].includes(a.status)&&a.dueDate&&a.dueDate<t)a.status="Gecikti"});if(!["Kapalı","Reddedildi"].includes(m.mocStatus)&&m.targetCloseDate&&m.targetCloseDate<t)m.mocStatus="Gecikti"});setMocs(items)}
+function closeReady(m){const actionsOk=m.actions.length>0&&m.actions.every(a=>a.status==="Tamamlandı");const docsOk=m.documents.length>0;const riskOk=m.residualScore>0;return actionsOk&&docsOk&&riskOk&&["Etkinlik Kontrolü","Kapanış Onayı","Uygulama"].includes(m.mocStatus)}
+function renderMocs(){
+let items=getMocs().map(normalize);autoDelay(items);items=getMocs().map(normalize);initMocSelect();renderDocumentPreview(items);updateCards(items);
+const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,cf=criticalityFilter.value;
+const filtered=items.filter(m=>`${m.mocNo} ${m.changeTitle} ${m.changeType} ${m.department} ${m.requester} ${m.mocOwner} ${m.productProject} ${m.externalImpactName} ${m.standards.join(" ")} ${m.mocStatus}`.toLowerCase().includes(q)&&(!sf||m.mocStatus===sf)&&(!tf||m.changeType===tf)&&(!cf||m.criticality===cf));
+if(!filtered.length){mocTable.innerHTML='<div class="empty">MOC kaydı bulunamadı.</div>';return}
+let h='<table><thead><tr><th>MOC No</th><th>Değişiklik</th><th>Tip</th><th>Sahip</th><th>Risk</th><th>Etki</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';
+filtered.forEach(m=>{const i=items.findIndex(x=>x.id===m.id);const impacts=Object.values(m.impacts||{}).filter(x=>x==="Evet").length;h+=`<tr><td>${m.mocNo}</td><td>${m.changeTitle}<br><small>${m.productProject||"-"}</small></td><td>${m.changeType}</td><td>${m.mocOwner}<br><small>${m.department}</small></td><td><span class="status ${statusClass(m.criticality)}">${m.initialScore} / ${m.criticality}</span></td><td>${impacts} alan</td><td><span class="status ${statusClass(m.mocStatus)}">${m.mocStatus}</span></td><td><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyMoc(${i})">Bildir</button><button class="small-btn close" onclick="closeMoc(${i})">Kapat</button></td></tr>`});
+mocTable.innerHTML=h+"</tbody></table>";
+}
+function updateCards(items){let allA=[];items.forEach(m=>allA=allA.concat(m.actions||[]));totalMoc.textContent=items.length;openMoc.textContent=items.filter(m=>!["Kapalı","Reddedildi"].includes(m.mocStatus)).length;criticalMoc.textContent=items.filter(m=>["Kritik","Acil"].includes(m.criticality)).length;lateActions.textContent=allA.filter(a=>a.status==="Gecikti").length;pendingApproval.textContent=items.filter(m=>["Onay Bekliyor","Kapanış Onayı"].includes(m.mocStatus)).length;ppapImpact.textContent=items.filter(m=>m.impacts?.ppapRequired==="Evet").length;trainingImpact.textContent=items.filter(m=>m.impacts?.trainingRequired==="Evet").length;notificationCount.textContent=getNotifications().filter(n=>n.module==="MOC").length}
+function renderDocumentPreview(items){let docs=[];items.forEach(m=>(m.documents||[]).forEach(d=>docs.push({...d,mocNo:m.mocNo,title:m.changeTitle})));if(!docs.length){documentPreview.innerHTML='<div class="empty" style="margin-top:14px">MOC dokümanı yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>MOC</th><th>Tip</th><th>Doküman</th><th>Rev</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';docs.slice(0,30).forEach(d=>h+=`<tr><td>${d.docNo}</td><td>${d.mocNo}</td><td>${d.docType}</td><td>${d.docName}<br><small>${d.file.fileName}</small></td><td>${d.revision}</td><td><span class="status ${statusClass(d.status)}">${d.status}</span></td><td><button class="small-btn down" onclick="downloadDoc('${d.mocNo}','${d.id}')">İndir</button></td></tr>`);documentPreview.innerHTML=h+"</tbody></table>"}
+function downloadDoc(mocNo,id){const m=getMocs().find(x=>x.mocNo===mocNo);const d=m?.documents?.find(x=>x.id===id);if(!d)return;const a=document.createElement("a");a.href=d.file.fileData;a.download=d.file.fileName;a.click()}
+
+function openDrawer(i){selectedIndex=i;const m=normalize(getMocs()[i]);drawerTitle.textContent=m.mocNo+" / "+m.changeTitle;drawerStatus.textContent=m.mocStatus;drawerStatus.className="status "+statusClass(m.mocStatus);drawerContent.innerHTML=`<div class="info-box"><b>MOC:</b> ${m.mocNo}
+<b>Tip:</b> ${m.changeType}
+<b>Departman:</b> ${m.department}
+<b>Talep Eden:</b> ${m.requester}
+<b>MOC Sahibi:</b> ${m.mocOwner}
+<b>Hedef Kapanış:</b> ${formatDateTR(m.targetCloseDate)}
+<b>Standartlar:</b> ${m.standards.join(", ")}
+<b>Risk:</b> ${m.initialScore} / ${m.criticality}
+<b>Artık Risk:</b> ${m.residualScore} / ${m.residualLevel}
+<b>Kapanışa Hazır:</b> ${closeReady(m)?"EVET":"HAYIR"}</div>
+<div class="info-box"><b>Mevcut Durum:</b>
+${m.currentState||"-"}
+
+<b>Önerilen Değişiklik:</b>
+${m.proposedChange||"-"}
+
+<b>Gerekçe:</b>
+${m.changeReason||"-"}</div>
+<div class="info-box"><b>Etki Kontrolleri</b>
+${Object.entries(m.impacts||{}).map(x=>x[0]+": "+x[1]).join("\\n")}</div>
+<div class="info-box"><b>Aksiyonlar</b><br>${renderActionTable(m.actions)}</div>
+<div class="info-box"><b>Dokümanlar</b><br>${renderDocTable(m.documents)}</div>
+<div class="info-box"><b>Timeline</b>
+${m.timeline.map(t=>`${formatDateTR(t.date)} - ${t.user} - ${t.action}`).join("\\n")||"-"}</div>`;drawer.classList.add("active")}
+function renderActionTable(a){if(!a.length)return"Aksiyon yok.";let h='<table><thead><tr><th>Kaynak</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>%</th></tr></thead><tbody>';a.forEach(x=>h+=`<tr><td>${x.source}</td><td>${x.owner}</td><td>${formatDateTR(x.dueDate)}</td><td><span class="status ${statusClass(x.status)}">${x.status}</span></td><td>${x.completion}%</td></tr>`);return h+"</tbody></table>"}
+function renderDocTable(d){if(!d.length)return"Doküman yok.";let h='<table><thead><tr><th>No</th><th>Tip</th><th>Ad</th><th>Durum</th></tr></thead><tbody>';d.forEach(x=>h+=`<tr><td>${x.docNo}</td><td>${x.docType}</td><td>${x.docName}</td><td><span class="status ${statusClass(x.status)}">${x.status}</span></td></tr>`);return h+"</tbody></table>"}
+function notifyMoc(i){createNotification(getMocs()[i],"MOC bildirimi oluşturuldu.");showToast("Bildirim kuyruğu oluşturuldu")}
+function notifyCurrent(){if(selectedIndex!==null)notifyMoc(selectedIndex)}
+function closeMoc(i){const items=getMocs().map(normalize),m=items[i];if(!closeReady(m))return showToast("Tüm aksiyonlar tamamlanmadan, kanıt yüklenmeden ve artık risk hesaplanmadan MOC kapatılamaz");m.mocStatus="Kapalı";m.closedAt=new Date().toISOString();m.timeline.unshift({date:new Date().toISOString(),user:session.name,action:"MOC kapatıldı"});setMocs(items);renderMocs();showToast("MOC kapatıldı")}
+function closeMocCurrent(){if(selectedIndex!==null){closeMoc(selectedIndex);openDrawer(selectedIndex)}}
+function createOutputsCurrent(){if(selectedIndex===null)return;const items=getMocs(),m=items[selectedIndex];m.mocStatus="Uygulama";m.timeline.unshift({date:new Date().toISOString(),user:session.name,action:"MOC çıktıları oluşturuldu: Risk/CAPA/Eğitim/Doküman/PPAP değerlendirmesi"});setMocs(items);renderMocs();openDrawer(selectedIndex);showToast("MOC çıktıları oluşturuldu")}
+function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
+
+function resetForm(){generateMocNo();mocStatus.value="Taslak";changeType.value="Ürün Değişikliği";urgency.value="Normal";department.value="Kalite";requester.value="";mocOwner.value="";targetCloseDate.value=addDays(todayISO(),30);productProject.value="";externalImpactName.value="";Array.from(standards.options).forEach(o=>o.selected=false);changeTitle.value="";currentState.value="";proposedChange.value="";changeReason.value="";initScales();updateScores();docImpact.value="Hayır";trainingRequired.value="Hayır";riskRequired.value="Hayır";capaRequired.value="Hayır";fmeaImpact.value="Hayır";controlPlanImpact.value="Hayır";msaImpact.value="Hayır";spcImpact.value="Hayır";ppapRequired.value="Hayır";customerApprovalRequired.value="Hayır";supplierNotificationRequired.value="Hayır";copImpact.value="Hayır";actions=[];renderActionPreview();clearActionInputs();formMode.textContent="CREATE MODE"}
+function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
+globalSearch.addEventListener("input",renderMocs);
+
+initUsers();resetForm();clearDocumentInputs();renderMocs();
+console.log("GDNL QDMS Change Management Loaded");
+</script>
+</body>
+</html>
