@@ -65,7 +65,7 @@ table{width:100%;border-collapse:collapse}th{text-align:left;background:#f8fafc;
 <a href="#">⚙️ Ayarlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>Quality & Compliance Platform<br>Version 0.3</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Quality & Compliance Platform<br>Version 0.4</div>
 </aside>
 
 <main class="main">
@@ -84,14 +84,14 @@ table{width:100%;border-collapse:collapse}th{text-align:left;background:#f8fafc;
 <h1>Enterprise Quality Control Center</h1>
 <p>ISO, IATF, CAPA, audit, risk, document control, training, calibration and supplier quality processes managed from one premium control platform.</p>
 </div>
-<div class="hero-badge">System Health: 98%</div>
+<div class="hero-badge">System Health: <span id="systemHealthHero">0%</span></div>
 </section>
 
 <section class="cards">
-<div class="card"><small>Document Control</small><h2>109</h2><p>Aktif doküman</p></div>
-<div class="card"><small>Open CAPA / DÖF</small><h2>7</h2><p>Açık faaliyet</p></div>
-<div class="card"><small>Risk Management</small><h2>11</h2><p>Aktif risk kaydı</p></div>
-<div class="card"><small>Compliance Score</small><h2>98%</h2><p>Sistem uygunluğu</p></div>
+<div class="card"><small>Document Control</small><h2 id="totalDocuments">0</h2><p>Aktif doküman</p></div>
+<div class="card"><small>Open CAPA / DÖF</small><h2 id="openCapa">0</h2><p>Açık faaliyet</p></div>
+<div class="card"><small>Risk Management</small><h2 id="openRisks">0</h2><p>Aktif risk kaydı</p></div>
+<div class="card"><small>Compliance Score</small><h2 id="complianceScore">0%</h2><p>Sistem uygunluğu</p></div>
 </section>
 
 <section class="grid">
@@ -100,24 +100,16 @@ table{width:100%;border-collapse:collapse}th{text-align:left;background:#f8fafc;
 <div class="panel">
 <div class="panel-head"><h3>Son Revizyonlar</h3><span class="link">Tümünü Gör</span></div>
 <table>
+<thead>
 <tr><th>Kod</th><th>Doküman</th><th>Rev.</th><th>Sahip</th><th>Durum</th><th>Tarih</th></tr>
-<tr><td>PR.001</td><td>Doküman Kontrol Prosedürü</td><td>R03</td><td>Kalite</td><td><span class="status blue">Onayda</span></td><td>29.05.2026</td></tr>
-<tr><td>FR.015</td><td>Risk Analizi Formu</td><td>R02</td><td>Sistem</td><td><span class="status green">Yayında</span></td><td>28.05.2026</td></tr>
-<tr><td>KEK.001</td><td>Entegre Yönetim El Kitabı</td><td>R05</td><td>YGG</td><td><span class="status orange">Revizyon</span></td><td>27.05.2026</td></tr>
-<tr><td>PR.008</td><td>İç Denetim Prosedürü</td><td>R01</td><td>Denetim</td><td><span class="status green">Yayında</span></td><td>26.05.2026</td></tr>
+</thead>
+<tbody id="revisionTable"></tbody>
 </table>
 </div>
 
 <div class="panel">
 <div class="panel-head"><h3>Modül Merkezi</h3><span class="link">Yönet</span></div>
-<div class="modules">
-<div class="module"><h4>Doküman Yönetimi</h4><p>Kodlama, revizyon, onay, yayın ve arşiv süreçleri.</p></div>
-<div class="module"><h4>DÖF / CAPA</h4><p>Uygunsuzluk, kök neden, aksiyon ve etkinlik takibi.</p></div>
-<div class="module"><h4>Risk Yönetimi</h4><p>Süreç bazlı risk skoru, aksiyon ve takip sistemi.</p></div>
-<div class="module"><h4>İç Denetim</h4><p>Plan, soru listesi, bulgu, aksiyon ve kapanış.</p></div>
-<div class="module"><h4>Eğitim Yönetimi</h4><p>Yetkinlik matrisi, eğitim planı ve katılım kayıtları.</p></div>
-<div class="module"><h4>Tedarikçi Kalitesi</h4><p>Performans, uygunsuzluk, denetim ve değerlendirme.</p></div>
-</div>
+<div class="modules" id="moduleCenter"></div>
 </div>
 </div>
 
@@ -125,31 +117,119 @@ table{width:100%;border-collapse:collapse}th{text-align:left;background:#f8fafc;
 <div class="panel">
 <div class="panel-head"><h3>Executive Alerts</h3><span class="link">Canlı</span></div>
 <div class="quick">
-<div><b>14</b><span>Bekleyen Onay</span></div>
-<div><b>5</b><span>Kalibrasyon</span></div>
-<div><b>4</b><span>Bu Ay Denetim</span></div>
-<div><b>86%</b><span>Eğitim Durumu</span></div>
+<div><b id="pendingApprovals">0</b><span>Bekleyen Onay</span></div>
+<div><b id="calibrationDue">0</b><span>Kalibrasyon</span></div>
+<div><b id="monthlyAudits">0</b><span>Bu Ay Denetim</span></div>
+<div><b id="trainingRate">0%</b><span>Eğitim Durumu</span></div>
 </div>
 </div>
 
 <div class="panel">
 <h3>Sistem Uygunluğu</h3><br>
-<div class="activity-item"><strong>ISO 9001</strong><span>Doküman ve süreç uygunluğu</span><div class="progress"><div class="bar" style="width:96%"></div></div></div><br>
-<div class="activity-item"><strong>IATF 16949</strong><span>APQP / PPAP / FMEA takibi</span><div class="progress"><div class="bar" style="width:74%"></div></div></div><br>
-<div class="activity-item"><strong>ISO 27001</strong><span>BGYS kontrol ve kanıt durumu</span><div class="progress"><div class="bar" style="width:81%"></div></div></div>
+<div id="complianceBlocks"></div>
 </div>
 
 <div class="panel">
-<div class="panel-head"><h3>Kritik Bildirimler</h3><span class="link">2 Yeni</span></div>
-<div class="activity">
-<div class="activity-item"><strong><span class="status red">Kritik</span> Geciken DÖF</strong><span>DÖF-2026-007 termin aşımı.</span></div>
-<div class="activity-item"><strong><span class="status orange">Uyarı</span> Revizyon Bekliyor</strong><span>14 doküman onay sürecinde.</span></div>
-</div>
+<div class="panel-head"><h3>Kritik Bildirimler</h3><span class="link" id="alertCount">0 Yeni</span></div>
+<div class="activity" id="criticalAlerts"></div>
 </div>
 </div>
 
 </section>
 </main>
 </div>
+
+<script>
+const dashboardData = {
+  totalDocuments: 109,
+  openCapa: 7,
+  openRisks: 11,
+  complianceScore: 98,
+  pendingApprovals: 14,
+  calibrationDue: 5,
+  monthlyAudits: 4,
+  trainingRate: 86,
+
+  revisions: [
+    {code:"PR.001", name:"Doküman Kontrol Prosedürü", rev:"R03", owner:"Kalite", status:"Onayda", statusClass:"blue", date:"29.05.2026"},
+    {code:"FR.015", name:"Risk Analizi Formu", rev:"R02", owner:"Sistem", status:"Yayında", statusClass:"green", date:"28.05.2026"},
+    {code:"KEK.001", name:"Entegre Yönetim El Kitabı", rev:"R05", owner:"YGG", status:"Revizyon", statusClass:"orange", date:"27.05.2026"},
+    {code:"PR.008", name:"İç Denetim Prosedürü", rev:"R01", owner:"Denetim", status:"Yayında", statusClass:"green", date:"26.05.2026"}
+  ],
+
+  modules: [
+    {title:"Doküman Yönetimi", desc:"Kodlama, revizyon, onay, yayın ve arşiv süreçleri."},
+    {title:"DÖF / CAPA", desc:"Uygunsuzluk, kök neden, aksiyon ve etkinlik takibi."},
+    {title:"Risk Yönetimi", desc:"Süreç bazlı risk skoru, aksiyon ve takip sistemi."},
+    {title:"İç Denetim", desc:"Plan, soru listesi, bulgu, aksiyon ve kapanış."},
+    {title:"Eğitim Yönetimi", desc:"Yetkinlik matrisi, eğitim planı ve katılım kayıtları."},
+    {title:"Tedarikçi Kalitesi", desc:"Performans, uygunsuzluk, denetim ve değerlendirme."}
+  ],
+
+  compliance: [
+    {standard:"ISO 9001", desc:"Doküman ve süreç uygunluğu", rate:96},
+    {standard:"IATF 16949", desc:"APQP / PPAP / FMEA takibi", rate:74},
+    {standard:"ISO 27001", desc:"BGYS kontrol ve kanıt durumu", rate:81}
+  ],
+
+  alerts: [
+    {level:"Kritik", levelClass:"red", title:"Geciken DÖF", desc:"DÖF-2026-007 termin aşımı."},
+    {level:"Uyarı", levelClass:"orange", title:"Revizyon Bekliyor", desc:"14 doküman onay sürecinde."}
+  ]
+};
+
+function setText(id, value){
+  document.getElementById(id).textContent = value;
+}
+
+function renderDashboard(data){
+  setText("totalDocuments", data.totalDocuments);
+  setText("openCapa", data.openCapa);
+  setText("openRisks", data.openRisks);
+  setText("complianceScore", data.complianceScore + "%");
+  setText("systemHealthHero", data.complianceScore + "%");
+  setText("pendingApprovals", data.pendingApprovals);
+  setText("calibrationDue", data.calibrationDue);
+  setText("monthlyAudits", data.monthlyAudits);
+  setText("trainingRate", data.trainingRate + "%");
+  setText("alertCount", data.alerts.length + " Yeni");
+
+  document.getElementById("revisionTable").innerHTML = data.revisions.map(item => `
+    <tr>
+      <td>${item.code}</td>
+      <td>${item.name}</td>
+      <td>${item.rev}</td>
+      <td>${item.owner}</td>
+      <td><span class="status ${item.statusClass}">${item.status}</span></td>
+      <td>${item.date}</td>
+    </tr>
+  `).join("");
+
+  document.getElementById("moduleCenter").innerHTML = data.modules.map(item => `
+    <div class="module">
+      <h4>${item.title}</h4>
+      <p>${item.desc}</p>
+    </div>
+  `).join("");
+
+  document.getElementById("complianceBlocks").innerHTML = data.compliance.map(item => `
+    <div class="activity-item">
+      <strong>${item.standard}</strong>
+      <span>${item.desc}</span>
+      <div class="progress"><div class="bar" style="width:${item.rate}%"></div></div>
+    </div><br>
+  `).join("");
+
+  document.getElementById("criticalAlerts").innerHTML = data.alerts.map(item => `
+    <div class="activity-item">
+      <strong><span class="status ${item.levelClass}">${item.level}</span> ${item.title}</strong>
+      <span>${item.desc}</span>
+    </div>
+  `).join("");
+}
+
+renderDashboard(dashboardData);
+</script>
+
 </body>
 </html>
