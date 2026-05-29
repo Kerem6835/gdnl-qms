@@ -3,11 +3,569 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS Dashboard</title>
+<title>GDNL QDMS | Dashboard</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
+}
+
+body{
+background:#f3f6fb;
+color:#0f172a;
+}
+
+.app{
+display:grid;
+grid-template-columns:280px 1fr;
+min-height:100vh;
+}
+
+.sidebar{
+background:#071327;
+color:white;
+padding:28px 22px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.logo{
+font-size:28px;
+font-weight:900;
+margin-bottom:34px;
+}
+
+.logo span{
+color:#1597ff;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.menu a{
+text-decoration:none;
+color:#cbd5e1;
+padding:13px 15px;
+border-radius:12px;
+font-size:15px;
+font-weight:700;
+display:flex;
+justify-content:space-between;
+}
+
+.menu a.active,
+.menu a:hover{
+background:#0f2a4d;
+color:white;
+}
+
+.sidebar-footer{
+font-size:13px;
+color:#94a3b8;
+line-height:1.6;
+}
+
+.main{
+padding:26px 34px;
+}
+
+.topbar{
+height:72px;
+background:white;
+border-radius:22px;
+box-shadow:0 12px 35px rgba(15,23,42,.06);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 24px;
+margin-bottom:28px;
+}
+
+.search{
+width:420px;
+height:44px;
+border:1px solid #dbe3ef;
+border-radius:12px;
+padding:0 16px;
+font-size:14px;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:14px;
+font-weight:800;
+}
+
+.avatar{
+width:42px;
+height:42px;
+border-radius:50%;
+background:linear-gradient(135deg,#0757e8,#0ea5ff);
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.hero{
+background:linear-gradient(135deg,#071327,#0b2b55);
+color:white;
+border-radius:28px;
+padding:34px;
+margin-bottom:28px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 20px 50px rgba(15,23,42,.14);
+}
+
+.hero h1{
+font-size:34px;
+margin-bottom:10px;
+}
+
+.hero p{
+color:#cbd5e1;
+font-size:16px;
+line-height:1.6;
+max-width:720px;
+}
+
+.hero-badge{
+background:rgba(255,255,255,.1);
+border:1px solid rgba(255,255,255,.18);
+padding:16px 20px;
+border-radius:18px;
+font-weight:900;
+color:#93c5fd;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-bottom:28px;
+}
+
+.card{
+background:white;
+border-radius:22px;
+padding:24px;
+box-shadow:0 12px 35px rgba(15,23,42,.06);
+border:1px solid #edf2f7;
+}
+
+.card small{
+color:#64748b;
+font-weight:800;
+}
+
+.card h2{
+font-size:36px;
+color:#0757e8;
+margin:12px 0 6px;
+}
+
+.card p{
+font-size:14px;
+color:#64748b;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1.35fr .65fr;
+gap:22px;
+}
+
+.panel{
+background:white;
+border-radius:24px;
+padding:26px;
+box-shadow:0 12px 35px rgba(15,23,42,.06);
+border:1px solid #edf2f7;
+margin-bottom:22px;
+}
+
+.panel h3{
+font-size:22px;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+text-align:left;
+background:#f8fafc;
+color:#334155;
+font-size:13px;
+padding:14px;
+}
+
+td{
+padding:15px 14px;
+border-bottom:1px solid #edf2f7;
+font-size:14px;
+}
+
+.status{
+padding:7px 12px;
+border-radius:999px;
+font-size:12px;
+font-weight:900;
+display:inline-block;
+}
+
+.green{background:#dcfce7;color:#166534}
+.orange{background:#ffedd5;color:#9a3412}
+.blue{background:#dbeafe;color:#1d4ed8}
+.red{background:#fee2e2;color:#991b1b}
+
+.activity{
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.activity-item{
+background:#f8fafc;
+border:1px solid #edf2f7;
+border-radius:16px;
+padding:16px;
+}
+
+.activity-item strong{
+display:block;
+margin-bottom:6px;
+}
+
+.activity-item span{
+color:#64748b;
+font-size:13px;
+}
+
+.progress{
+height:10px;
+background:#e2e8f0;
+border-radius:999px;
+overflow:hidden;
+margin-top:12px;
+}
+
+.bar{
+height:100%;
+background:linear-gradient(90deg,#0757e8,#0ea5ff);
+border-radius:999px;
+}
+
+.modules{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+}
+
+.module{
+background:#f8fafc;
+border:1px solid #edf2f7;
+border-radius:18px;
+padding:18px;
+}
+
+.module h4{
+margin-bottom:8px;
+}
+
+.module p{
+font-size:13px;
+color:#64748b;
+line-height:1.5;
+}
+
+@media(max-width:1100px){
+.app{grid-template-columns:1fr}
+.sidebar{display:none}
+.cards{grid-template-columns:repeat(2,1fr)}
+.grid{grid-template-columns:1fr}
+.search{width:260px}
+}
+
+@media(max-width:700px){
+.main{padding:18px}
+.cards{grid-template-columns:1fr}
+.modules{grid-template-columns:1fr}
+.hero{display:block}
+.hero-badge{margin-top:18px}
+}
+</style>
 </head>
+
 <body>
 
-<h1>GDNL QDMS Dashboard V2</h1>
+<div class="app">
+
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+
+<nav class="menu">
+<a class="active" href="#">Dashboard <span>●</span></a>
+<a href="#">Doküman Yönetimi</a>
+<a href="#">Revizyon Yönetimi</a>
+<a href="#">DÖF / CAPA</a>
+<a href="#">Risk Yönetimi</a>
+<a href="#">İç Denetimler</a>
+<a href="#">Eğitim Yönetimi</a>
+<a href="#">Kalibrasyon</a>
+<a href="#">Tedarikçi Yönetimi</a>
+<a href="#">KPI & Raporlar</a>
+<a href="#">Müşteri Şikayetleri</a>
+<a href="#">Kullanıcı Yönetimi</a>
+<a href="#">Ayarlar</a>
+</nav>
+</div>
+
+<div class="sidebar-footer">
+GDNL QDMS Enterprise<br>
+Quality & Compliance Platform<br>
+Version 0.2
+</div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<input class="search" placeholder="Doküman, DÖF, risk, denetim veya kullanıcı ara...">
+<div class="profile">
+<span>🔔</span>
+<span>Kerem Admin</span>
+<div class="avatar">K</div>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Quality & Compliance Control Center</h1>
+<p>ISO, IATF, CAPA, denetim, risk, doküman, eğitim ve tedarikçi kalite süreçlerini tek merkezden yönetin.</p>
+</div>
+<div class="hero-badge">System Health: 98%</div>
+</section>
+
+<section class="cards">
+<div class="card">
+<small>Document Control</small>
+<h2>109</h2>
+<p>Aktif doküman</p>
+</div>
+
+<div class="card">
+<small>Revision Flow</small>
+<h2>14</h2>
+<p>Bekleyen revizyon</p>
+</div>
+
+<div class="card">
+<small>CAPA / DÖF</small>
+<h2>7</h2>
+<p>Açık faaliyet</p>
+</div>
+
+<div class="card">
+<small>Risk Management</small>
+<h2>11</h2>
+<p>Aktif risk kaydı</p>
+</div>
+
+<div class="card">
+<small>Internal Audit</small>
+<h2>4</h2>
+<p>Planlı denetim</p>
+</div>
+
+<div class="card">
+<small>Training</small>
+<h2>86%</h2>
+<p>Eğitim tamamlama</p>
+</div>
+
+<div class="card">
+<small>Calibration</small>
+<h2>5</h2>
+<p>Yaklaşan kalibrasyon</p>
+</div>
+
+<div class="card">
+<small>Supplier Quality</small>
+<h2>92%</h2>
+<p>Tedarikçi performansı</p>
+</div>
+</section>
+
+<section class="grid">
+
+<div>
+
+<div class="panel">
+<h3>Son Revizyonlar</h3>
+<table>
+<tr>
+<th>Doküman Kodu</th>
+<th>Doküman Adı</th>
+<th>Rev.</th>
+<th>Durum</th>
+<th>Tarih</th>
+</tr>
+<tr>
+<td>PR.001</td>
+<td>Doküman Kontrol Prosedürü</td>
+<td>R03</td>
+<td><span class="status blue">Onayda</span></td>
+<td>29.05.2026</td>
+</tr>
+<tr>
+<td>FR.015</td>
+<td>Risk Analizi Formu</td>
+<td>R02</td>
+<td><span class="status green">Yayında</span></td>
+<td>28.05.2026</td>
+</tr>
+<tr>
+<td>KEK.001</td>
+<td>Entegre Yönetim El Kitabı</td>
+<td>R05</td>
+<td><span class="status orange">Revizyon</span></td>
+<td>27.05.2026</td>
+</tr>
+<tr>
+<td>PR.008</td>
+<td>İç Denetim Prosedürü</td>
+<td>R01</td>
+<td><span class="status green">Yayında</span></td>
+<td>26.05.2026</td>
+</tr>
+</table>
+</div>
+
+<div class="panel">
+<h3>Modül Merkezi</h3>
+<div class="modules">
+<div class="module">
+<h4>Doküman Yönetimi</h4>
+<p>Kodlama, revizyon, onay, yayın ve arşiv süreçleri.</p>
+</div>
+<div class="module">
+<h4>DÖF / CAPA</h4>
+<p>Uygunsuzluk, kök neden, aksiyon ve etkinlik takibi.</p>
+</div>
+<div class="module">
+<h4>Risk Yönetimi</h4>
+<p>Süreç bazlı risk skoru, aksiyon ve takip sistemi.</p>
+</div>
+<div class="module">
+<h4>İç Denetim</h4>
+<p>Plan, soru listesi, bulgu, aksiyon ve kapanış.</p>
+</div>
+<div class="module">
+<h4>Eğitim Yönetimi</h4>
+<p>Yetkinlik matrisi, eğitim planı ve katılım kayıtları.</p>
+</div>
+<div class="module">
+<h4>Tedarikçi Kalitesi</h4>
+<p>Performans, uygunsuzluk, denetim ve değerlendirme.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<div>
+
+<div class="panel">
+<h3>Sistem Uygunluğu</h3>
+
+<div class="activity-item">
+<strong>ISO 9001</strong>
+<span>Doküman ve süreç uygunluğu</span>
+<div class="progress"><div class="bar" style="width:96%"></div></div>
+</div>
+
+<br>
+
+<div class="activity-item">
+<strong>IATF 16949</strong>
+<span>APQP / PPAP / FMEA takibi</span>
+<div class="progress"><div class="bar" style="width:74%"></div></div>
+</div>
+
+<br>
+
+<div class="activity-item">
+<strong>ISO 27001</strong>
+<span>BGYS kontrol ve kanıt durumu</span>
+<div class="progress"><div class="bar" style="width:81%"></div></div>
+</div>
+</div>
+
+<div class="panel">
+<h3>Yaklaşan Faaliyetler</h3>
+<div class="activity">
+
+<div class="activity-item">
+<strong>Kalibrasyon Termin Yaklaşıyor</strong>
+<span>3 ekipman için son 7 gün.</span>
+</div>
+
+<div class="activity-item">
+<strong>İç Denetim Planı</strong>
+<span>Üretim süreci denetimi bekliyor.</span>
+</div>
+
+<div class="activity-item">
+<strong>DÖF Etkinlik Kontrolü</strong>
+<span>2 faaliyet kapanış doğrulaması bekliyor.</span>
+</div>
+
+<div class="activity-item">
+<strong>Eğitim Ataması</strong>
+<span>ISO 9001 farkındalık eğitimi 6 kullanıcıda açık.</span>
+</div>
+
+</div>
+</div>
+
+<div class="panel">
+<h3>Kritik Bildirimler</h3>
+<div class="activity">
+
+<div class="activity-item">
+<strong><span class="status red">Kritik</span> Geciken DÖF</strong>
+<span>DÖF-2026-007 termin aşımı.</span>
+</div>
+
+<div class="activity-item">
+<strong><span class="status orange">Uyarı</span> Revizyon Bekliyor</strong>
+<span>14 doküman onay sürecinde.</span>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
 
 </body>
 </html>
