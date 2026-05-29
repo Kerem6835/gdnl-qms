@@ -1,9 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-<title>gDNL QMS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QDMS - Quality Document Management System</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+}
+
+.header{
+height:70px;
+background:#0f172a;
+color:white;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 30px;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+}
+
+.user{
+background:#2563eb;
+padding:10px 18px;
+border-radius:8px;
+}
+
+.container{
+display:flex;
+height:calc(100vh - 70px);
+}
+
+.sidebar{
+width:260px;
+background:white;
+border-right:1px solid #e5e7eb;
+padding:20px;
+}
+
+.sidebar h3{
+margin-bottom:20px;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.menu a{
+text-decoration:none;
+color:#334155;
+padding:12px;
+border-radius:8px;
+background:#f8fafc;
+}
+
+.content{
+flex:1;
+padding:30px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.card h2{
+font-size:32px;
+color:#2563eb;
+margin-bottom:10px;
+}
+
+.table-box{
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:15px;
+border-bottom:1px solid #e5e7eb;
+text-align:left;
+}
+
+th{
+background:#f8fafc;
+}
+</style>
 </head>
+
 <body>
-<h1>gDNL QMS Çalışıyor</h1>
+
+<div class="header">
+<div class="logo">QDMS</div>
+<div class="user">Kerem Admin</div>
+</div>
+
+<div class="container">
+
+<div class="sidebar">
+<h3>Menü</h3>
+
+<div class="menu">
+<a href="#">Dashboard</a>
+<a href="#">Dokümanlar</a>
+<a href="#">Revizyonlar</a>
+<a href="#">Risk Yönetimi</a>
+<a href="#">İç Denetimler</a>
+<a href="#">DÖF</a>
+<a href="#">Eğitimler</a>
+<a href="#">Ayarlar</a>
+</div>
+
+</div>
+
+<div class="content">
+
+<div class="cards">
+
+<div class="card">
+<h2>109</h2>
+<p>Aktif Doküman</p>
+</div>
+
+<div class="card">
+<h2>14</h2>
+<p>Bekleyen Revizyon</p>
+</div>
+
+<div class="card">
+<h2>7</h2>
+<p>Açık DÖF</p>
+</div>
+
+<div class="card">
+<h2>98%</h2>
+<p>Sistem Uygunluğu</p>
+</div>
+
+</div>
+
+<div class="table-box">
+
+<h3 style="margin-bottom:20px;">Son Revizyonlar</h3>
+
+<table>
+
+<tr>
+<th>Doküman</th>
+<th>Revizyon</th>
+<th>Tarih</th>
+</tr>
+
+<tr>
+<td>PR.001 Doküman Kontrol Prosedürü</td>
+<td>R03</td>
+<td>29.05.2026</td>
+</tr>
+
+<tr>
+<td>FR.015 Risk Analizi</td>
+<td>R02</td>
+<td>28.05.2026</td>
+</tr>
+
+<tr>
+<td>KEK.001 Entegre Yönetim El Kitabı</td>
+<td>R05</td>
+<td>27.05.2026</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
 </body>
 </html>
