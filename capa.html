@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | 8D & CAPA Management V2</title>
+<title>GDNL QDMS | 8D & CAPA Workflow V3</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -17,72 +17,52 @@ body{background:#eef3f9;color:#0f172a}
 .sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
 .main{padding:24px}
 .topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
-.search{width:540px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
-.profile{display:flex;align-items:center;gap:14px}
-.profile-info{text-align:right}
-.profile-info strong{display:block;font-size:14px}
-.profile-info span{font-size:12px;color:#64748b}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
 .avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
 .logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
 .hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.hero h1{font-size:38px;margin-bottom:10px}
-.hero p{max-width:980px;color:#dbeafe;line-height:1.7}
-.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:1000px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
 .card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
-.card small{color:#64748b;font-weight:900}
-.card h2{font-size:34px;color:#0757e8;margin-top:10px}
-.card p{margin-top:6px;font-size:13px;color:#64748b}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
 .panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
 .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
 .panel h3{font-size:19px;font-weight:900}
 .form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.field{display:flex;flex-direction:column;gap:7px}
-.field.full{grid-column:span 4}
-.field.double{grid-column:span 2}
-.field.triple{grid-column:span 3}
+.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 4}.field.double{grid-column:span 2}.field.triple{grid-column:span 3}
 .field label{font-size:12px;font-weight:900;color:#64748b}
 .field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
 .field input[readonly]{background:#eef2f7;color:#475569}
-.field textarea{height:92px;padding:12px;resize:none}
-.field textarea.big{height:155px}
-.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.toolbar{margin-top:0}
+.field textarea{height:92px;padding:12px;resize:none}.field textarea.big{height:155px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}
 .toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
 .btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
-.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
-.btn.dark{background:#0f172a;color:white}
-.btn.green{background:#dcfce7;color:#15803d}
-.btn.orange{background:#ffedd5;color:#c2410c}
-.btn.red{background:#fee2e2;color:#991b1b}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
 .status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
-.status.blue{background:#dbeafe;color:#1d4ed8}
-.status.green{background:#dcfce7;color:#15803d}
-.status.orange{background:#ffedd5;color:#c2410c}
-.status.red{background:#fee2e2;color:#b91c1c}
-.status.gray{background:#e2e8f0;color:#334155}
+.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
 table{width:100%;border-collapse:collapse}
 th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
 td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
 .row-actions{display:flex;gap:8px;flex-wrap:wrap}
 .small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
-.small-btn.view{background:#dbeafe;color:#1d4ed8}
-.small-btn.close{background:#dcfce7;color:#15803d}
-.small-btn.alert{background:#ffedd5;color:#c2410c}
-.small-btn.delete{background:#fee2e2;color:#991b1b}
+.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.close{background:#dcfce7;color:#15803d}.small-btn.alert{background:#ffedd5;color:#c2410c}.small-btn.delete{background:#fee2e2;color:#991b1b}.small-btn.next{background:#0f172a;color:white}
 .empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.workflow{display:grid;grid-template-columns:repeat(9,1fr);gap:10px;margin-top:14px}
+.wstep{border:1px solid #e2e8f0;background:#f8fafc;border-radius:16px;padding:12px;text-align:center;font-weight:900;font-size:12px;color:#475569}
+.wstep.active{border-color:#60a5fa;background:#eff6ff;color:#1d4ed8}
+.wstep.done{border-color:#86efac;background:#f0fdf4;color:#15803d}
+.wstep.late{border-color:#fecaca;background:#fef2f2;color:#991b1b}
 .subgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
 .action-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}
 .action-box h4{font-size:15px;font-weight:900;margin-bottom:12px}
-.drawer{display:none;position:fixed;right:24px;top:24px;width:min(880px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}
-.drawer.active{display:block}
-.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
-.drawer h3{font-size:22px;margin-bottom:8px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(960px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}
+.drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px}
 .close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}
 .info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
 .toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
-@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double,.field.triple{grid-column:span 2}.subgrid{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid,.subgrid{grid-template-columns:1fr}.field.full,.field.double,.field.triple{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double,.field.triple{grid-column:span 2}.subgrid{grid-template-columns:repeat(2,1fr)}.workflow{grid-template-columns:repeat(3,1fr)}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid,.subgrid,.workflow{grid-template-columns:1fr}.field.full,.field.double,.field.triple{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
 </style>
 </head>
 
@@ -105,13 +85,13 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <a href="#">📈 KPI & Raporlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>8D & CAPA V2<br>Action-Based Core</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>8D & CAPA V3<br>Workflow Engine</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" id="globalSearch" placeholder="8D no, CAPA no, problem, aksiyon, sorumlu, kaynak veya durum ara">
+<input class="search" id="globalSearch" placeholder="8D no, CAPA no, problem, aktif adım, görev, sorumlu veya durum ara">
 <div class="profile">
 <div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
 <div class="avatar" id="userAvatar">K</div>
@@ -121,10 +101,10 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 
 <section class="hero">
 <div>
-<h1>8D & CAPA Management Center</h1>
-<p>D0–D8 problem çözme akışı; majör/minör CAPA sınıflandırması, aksiyon bazlı sorumlu/termin takibi, gerçekleşen tarih, gecikme, kapanış süresi, mail/SMS bildirimi, doküman revizyon tetikleme ve audit trail ile yönetilir.</p>
+<h1>8D & CAPA Workflow Engine</h1>
+<p>D0–D8 adım bazlı ilerleyen, her adım için sorumlu/planlanan tarih/gerçekleşen tarih/görev/kapanış süresi/eskalasyon/audit trail ve mail-SMS bildirim kuyruğu üreten profesyonel CAPA yönetim merkezi.</p>
 </div>
-<div class="hero-badge">Module: <span>8D V2 Active</span></div>
+<div class="hero-badge">Engine: <span>4/4 Active</span></div>
 </section>
 
 <section class="cards">
@@ -135,23 +115,23 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 </section>
 
 <section class="cards">
-<div class="card"><small>Toplam Aksiyon</small><h2 id="totalActions">0</h2><p>D0-D8 aksiyonları</p></div>
-<div class="card"><small>Açık Aksiyon</small><h2 id="openActions">0</h2><p>Devam eden görevler</p></div>
-<div class="card"><small>Geciken Aksiyon</small><h2 id="lateActions">0</h2><p>Planlanan tarihi geçen</p></div>
+<div class="card"><small>Toplam Görev</small><h2 id="totalTasks">0</h2><p>D0-D8 görevleri</p></div>
+<div class="card"><small>Açık Görev</small><h2 id="openTasks">0</h2><p>Devam eden işler</p></div>
+<div class="card"><small>Geciken Görev</small><h2 id="lateTasks">0</h2><p>Planlanan tarihi geçen</p></div>
 <div class="card"><small>Ort. Kapanış</small><h2 id="avgCloseDays">0</h2><p>Gün bazlı ortalama</p></div>
 </section>
 
 <section class="panel">
 <div class="panel-head">
-<h3>Yeni 8D / CAPA Kaydı</h3>
-<span class="status blue">CREATE MODE</span>
+<h3>Yeni 8D / CAPA Açılışı</h3>
+<span class="status blue">WORKFLOW CREATE MODE</span>
 </div>
 
 <div class="form-grid">
 <div class="field"><label>8D No</label><input id="eightDNo" readonly></div>
 <div class="field"><label>CAPA No</label><input id="capaNo" readonly></div>
 <div class="field"><label>Açılış Tarihi</label><input id="openDate" type="date"></div>
-<div class="field"><label>Termin Tarihi</label><input id="dueDate" type="date"></div>
+<div class="field"><label>Beklenen Kapanış</label><input id="dueDate" type="date"></div>
 
 <div class="field"><label>CAPA Sınıfı</label><select id="capaClass" onchange="applySlaByClass()"><option>Minor CAPA</option><option>Major CAPA</option><option>Critical 8D</option><option>Supplier 8D</option><option>Customer 8D</option><option>SCAR</option></select></div>
 <div class="field"><label>Kaynak</label><select id="source"><option>Müşteri Şikayeti</option><option>İç Denetim</option><option>Üretim Uygunsuzluğu</option><option>Tedarikçi</option><option>Proses</option><option>Kalibrasyon</option><option>Risk</option><option>Yönetim Gözden Geçirme</option><option>Diğer</option></select></div>
@@ -159,17 +139,24 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 
 <div class="field"><label>Durum</label><select id="status"><option>Açık</option><option>İncelemede</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Reddedildi</option></select></div>
-<div class="field"><label>Beklenen Kapanış Süresi</label><input id="slaDays" readonly></div>
-<div class="field"><label>Müşteri Etkisi</label><select id="customerImpact"><option>Yok</option><option>Var</option><option>Kritik</option></select></div>
-<div class="field"><label>Üretim Etkisi</label><select id="productionImpact"><option>Yok</option><option>Hat Durdu</option><option>Sevkiyat Riski</option><option>Kalite Riski</option></select></div>
+<div class="field"><label>Beklenen SLA</label><input id="slaDays" readonly></div>
+<div class="field"><label>Aktif D Adımı</label><input id="currentStep" readonly></div>
+<div class="field"><label>İlerleme %</label><input id="progressRate" readonly></div>
 
 <div class="field double"><label>Problem Başlığı</label><input id="problemTitle" placeholder="Problem başlığını yaz"></div>
 <div class="field"><label>Açan Kişi</label><input id="openedBy"></div>
 <div class="field"><label>8D Lideri</label><input id="leader"></div>
 
+<div class="field"><label>Müşteri Etkisi</label><select id="customerImpact"><option>Yok</option><option>Var</option><option>Kritik</option></select></div>
+<div class="field"><label>Üretim Etkisi</label><select id="productionImpact"><option>Yok</option><option>Hat Durdu</option><option>Sevkiyat Riski</option><option>Kalite Riski</option></select></div>
+<div class="field"><label>RPN Severity</label><select id="severity" onchange="updateRpn()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>RPN Occurrence</label><select id="occurrence" onchange="updateRpn()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>RPN Detection</label><select id="detection" onchange="updateRpn()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>RPN</label><input id="rpn" readonly></div>
+
 <div class="field full"><label>D1 - Takım Üyeleri</label><textarea id="teamMembers" placeholder="Ad Soyad / Departman / Rol / Mail / Telefon"></textarea></div>
-<div class="field full"><label>Bilgi Gidecek Mail Grupları</label><input id="mailGroups" placeholder="kalite@firma.com; uretim@firma.com"></div>
-<div class="field full"><label>Bilgi Gidecek SMS Grupları</label><input id="smsGroups" placeholder="Kalite Grup; Üretim Grup"></div>
+<div class="field full"><label>Mail Grupları</label><input id="mailGroups" placeholder="kalite@firma.com; uretim@firma.com"></div>
+<div class="field full"><label>SMS Grupları</label><input id="smsGroups" placeholder="Kalite Grup; Üretim Grup"></div>
 
 <div class="field full"><label>D0 - Planlama / Acil Durum Değerlendirmesi</label><textarea id="d0Planning" placeholder="Acil durum, containment ihtiyacı, müşteri/üretim riski, ilk karar..."></textarea></div>
 <div class="field full"><label>D2 - Problem Tanımı / 5W2H</label><textarea class="big" id="problemDescription" placeholder="Ne, nerede, ne zaman, kim, nasıl, kaç adet, etkisi..."></textarea></div>
@@ -191,22 +178,26 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <div class="field double"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
 </div>
 
+<div class="workflow" id="workflowPreview"></div>
+
 <div class="action-box">
-<h4>D Adımı Bazlı Aksiyon Ekle</h4>
+<h4>Aktif D Adımı İçin Görev / Aksiyon Ekle</h4>
 <div class="subgrid">
-<div class="field"><label>D Adımı</label><select id="actionStep"><option>D0 Planlama</option><option>D1 Takım</option><option>D2 Problem Tanımı</option><option>D3 Geçici Önlem</option><option>D4 Kök Neden</option><option>D5 Kalıcı Aksiyon</option><option>D6 Uygulama</option><option>D7 Önleme</option><option>D8 Kapanış</option></select></div>
-<div class="field"><label>Aksiyon Tipi</label><select id="actionType"><option>Düzeltme</option><option>Düzeltici Faaliyet</option><option>Önleyici Faaliyet</option><option>Containment</option><option>Analiz</option><option>Doğrulama</option><option>Eğitim</option><option>Doküman Revizyonu</option></select></div>
-<div class="field"><label>CAPA Tipi</label><select id="actionClass"><option>Minor</option><option>Major</option><option>Critical</option></select></div>
-<div class="field"><label>Sorumlu</label><input id="actionOwner" placeholder="Sorumlu kişi"></div>
-<div class="field"><label>Planlanan Tarih</label><input id="actionPlanDate" type="date"></div>
-<div class="field"><label>Gerçekleşen Tarih</label><input id="actionActualDate" type="date"></div>
-<div class="field full"><label>Aksiyon Açıklaması</label><textarea id="actionDescription" placeholder="Aksiyon maddesini net yaz"></textarea></div>
+<div class="field"><label>D Adımı</label><select id="taskStep"></select></div>
+<div class="field"><label>Görev Tipi</label><select id="taskType"><option>Düzeltme</option><option>Düzeltici Faaliyet</option><option>Önleyici Faaliyet</option><option>Containment</option><option>Analiz</option><option>Doğrulama</option><option>Eğitim</option><option>Doküman Revizyonu</option><option>Etkinlik Kontrolü</option></select></div>
+<div class="field"><label>CAPA Tipi</label><select id="taskClass"><option>Minor</option><option>Major</option><option>Critical</option></select></div>
+<div class="field"><label>Öncelik</label><select id="taskPriority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+<div class="field"><label>Sorumlu</label><input id="taskOwner" placeholder="Sorumlu kişi"></div>
+<div class="field"><label>Planlanan Tarih</label><input id="taskPlanDate" type="date"></div>
+<div class="field"><label>Gerçekleşen Tarih</label><input id="taskActualDate" type="date"></div>
+<div class="field"><label>Eskalasyon</label><select id="taskEscalation"><option>Normal</option><option>Lider</option><option>Müdür</option><option>Kalite Admin</option></select></div>
+<div class="field full"><label>Görev / Aksiyon Açıklaması</label><textarea id="taskDescription" placeholder="Görev maddesini net yaz"></textarea></div>
 </div>
 <div class="actions">
-<button class="btn primary" onclick="addAction()">Aksiyon Ekle</button>
-<button class="btn dark" onclick="clearActionInputs()">Aksiyon Alanını Temizle</button>
+<button class="btn primary" onclick="addTask()">Görev Ekle</button>
+<button class="btn dark" onclick="clearTaskInputs()">Görev Alanını Temizle</button>
 </div>
-<div id="actionPreview"></div>
+<div id="taskPreview"></div>
 </div>
 
 <div class="actions">
@@ -222,9 +213,9 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <h3>8D / CAPA Master Listesi</h3>
 <div class="toolbar">
 <select id="statusFilter" onchange="renderCapa()"><option value="">Tüm Durumlar</option><option>Açık</option><option>İncelemede</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Gecikti</option><option>Reddedildi</option></select>
+<select id="stepFilter" onchange="renderCapa()"><option value="">Tüm D Adımları</option></select>
 <select id="criticalityFilter" onchange="renderCapa()"><option value="">Tüm Kritiklikler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
 <select id="classFilter" onchange="renderCapa()"><option value="">Tüm CAPA Sınıfları</option><option>Minor CAPA</option><option>Major CAPA</option><option>Critical 8D</option><option>Supplier 8D</option><option>Customer 8D</option><option>SCAR</option></select>
-<select id="sourceFilter" onchange="renderCapa()"><option value="">Tüm Kaynaklar</option><option>Müşteri Şikayeti</option><option>İç Denetim</option><option>Üretim Uygunsuzluğu</option><option>Tedarikçi</option><option>Proses</option><option>Risk</option></select>
 </div>
 </div>
 <div id="capaTable"></div>
@@ -243,9 +234,10 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 </div>
 <div id="drawerContent"></div>
 <div class="actions">
-<button class="btn green" onclick="closeCurrent()">Kapat</button>
+<button class="btn green" onclick="advanceCurrentStep()">Aktif D Adımını Tamamla / Sonraki Adıma Geç</button>
 <button class="btn orange" onclick="notifyCurrent()">Mail/SMS Bildir</button>
 <button class="btn primary" onclick="startRevisionCurrent()">Doküman Revizyonu Başlat</button>
+<button class="btn red" onclick="closeCurrent()">8D Kapat</button>
 <button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
 </div>
 </div>
@@ -255,14 +247,25 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <script>
 const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-
 document.getElementById("userName").textContent=session.name||"User";
 document.getElementById("userRole").textContent=session.role||"User";
 document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
 
+const D_STEPS=[
+"D0 Planlama",
+"D1 Takım",
+"D2 Problem Tanımı",
+"D3 Geçici Önlem",
+"D4 Kök Neden",
+"D5 Kalıcı Aksiyon",
+"D6 Uygulama",
+"D7 Önleme",
+"D8 Kapanış"
+];
+
 let selectedIndex=null;
 let uploadedEvidence=null;
-let actionRows=[];
+let taskRows=[];
 
 function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
 function getCapa(){try{return JSON.parse(localStorage.getItem("gdnl_capa"))||[]}catch(e){return[]}}
@@ -278,7 +281,7 @@ function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<10485
 function statusClass(s){
 if(s==="Kapalı"||s==="Etkili"||s==="Tamamlandı")return"green";
 if(s==="Gecikti"||s==="Reddedildi"||s==="Kritik"||s==="Critical"||s==="Etkisiz")return"red";
-if(s==="Aksiyon Bekliyor"||s==="Etkinlik Kontrolü"||s==="İncelemede"||s==="Devam Ediyor"||s==="Major")return"orange";
+if(s==="Aksiyon Bekliyor"||s==="Etkinlik Kontrolü"||s==="İncelemede"||s==="Devam Ediyor"||s==="Major"||s==="High")return"orange";
 return"blue";
 }
 
@@ -297,12 +300,8 @@ const cls=document.getElementById("capaClass").value;
 const days=getSlaDays(cls);
 document.getElementById("slaDays").value=days+" gün";
 document.getElementById("dueDate").value=addDays(document.getElementById("openDate").value||todayISO(),days);
-if(cls==="Critical 8D"){
-document.getElementById("criticality").value="Kritik";
-}
-if(cls==="Major CAPA"||cls==="Supplier 8D"||cls==="Customer 8D"||cls==="SCAR"){
-document.getElementById("criticality").value="Yüksek";
-}
+if(cls==="Critical 8D")document.getElementById("criticality").value="Kritik";
+if(cls==="Major CAPA"||cls==="Supplier 8D"||cls==="Customer 8D"||cls==="SCAR")document.getElementById("criticality").value="Yüksek";
 }
 
 function generateNumbers(){
@@ -312,74 +311,122 @@ document.getElementById("eightDNo").value="8D-"+year+"-"+String(count).padStart(
 document.getElementById("capaNo").value="CAPA-"+year+"-"+String(count).padStart(4,"0");
 }
 
-function addAction(){
-const step=document.getElementById("actionStep").value;
-const type=document.getElementById("actionType").value;
-const cls=document.getElementById("actionClass").value;
-const owner=document.getElementById("actionOwner").value.trim();
-const planDate=document.getElementById("actionPlanDate").value;
-const actualDate=document.getElementById("actionActualDate").value;
-const description=document.getElementById("actionDescription").value.trim();
+function initStepSelects(){
+const taskStep=document.getElementById("taskStep");
+const stepFilter=document.getElementById("stepFilter");
+taskStep.innerHTML="";
+D_STEPS.forEach(s=>taskStep.innerHTML+=`<option>${s}</option>`);
+D_STEPS.forEach(s=>stepFilter.innerHTML+=`<option>${s}</option>`);
+}
 
-if(!owner){showToast("Aksiyon sorumlusu zorunlu");return}
+function createStepMeta(){
+const meta={};
+D_STEPS.forEach((s,i)=>{
+meta[s]={
+step:s,
+index:i,
+status:i===0?"Aktif":"Kilitli",
+owner:"",
+plannedDate:"",
+actualDate:"",
+completedBy:"",
+completedAt:"",
+method:"",
+note:""
+};
+});
+return meta;
+}
+
+function updateRpn(){
+const s=Number(document.getElementById("severity").value||1);
+const o=Number(document.getElementById("occurrence").value||1);
+const d=Number(document.getElementById("detection").value||1);
+document.getElementById("rpn").value=s*o*d;
+}
+
+function getProgress(stepMeta){
+const done=Object.values(stepMeta).filter(x=>x.status==="Tamamlandı").length;
+return Math.round((done/D_STEPS.length)*100);
+}
+
+function renderWorkflowPreview(stepMeta=createStepMeta(),active="D0 Planlama"){
+document.getElementById("currentStep").value=active;
+document.getElementById("progressRate").value=getProgress(stepMeta)+"%";
+const area=document.getElementById("workflowPreview");
+let html="";
+D_STEPS.forEach(s=>{
+const st=stepMeta[s]||{status:"Kilitli"};
+let cls="wstep";
+if(st.status==="Tamamlandı")cls+=" done";
+else if(st.status==="Aktif")cls+=" active";
+else if(st.status==="Gecikti")cls+=" late";
+html+=`<div class="${cls}">${s}<br><small>${st.status}</small></div>`;
+});
+area.innerHTML=html;
+}
+
+function addTask(){
+const step=document.getElementById("taskStep").value;
+const type=document.getElementById("taskType").value;
+const cls=document.getElementById("taskClass").value;
+const priority=document.getElementById("taskPriority").value;
+const owner=document.getElementById("taskOwner").value.trim();
+const planDate=document.getElementById("taskPlanDate").value;
+const actualDate=document.getElementById("taskActualDate").value;
+const escalation=document.getElementById("taskEscalation").value;
+const description=document.getElementById("taskDescription").value.trim();
+
+if(!owner){showToast("Görev sorumlusu zorunlu");return}
 if(!planDate){showToast("Planlanan tarih zorunlu");return}
-if(!description||description.length<5){showToast("Aksiyon açıklaması zorunlu");return}
+if(!description||description.length<5){showToast("Görev açıklaması zorunlu");return}
 
 const status=actualDate?"Tamamlandı":(planDate<todayISO()?"Gecikti":"Açık");
-const waitDays=daysBetween(todayISO(),planDate);
-const closeDays=actualDate?daysBetween(planDate,actualDate):null;
-
-actionRows.push({
-id:"ACT-"+Date.now()+"-"+Math.random().toString(16).slice(2),
-step:step,
-type:type,
-class:cls,
-owner:owner,
-planDate:planDate,
-actualDate:actualDate,
-description:description,
-status:status,
-waitDays:waitDays,
-closeDays:closeDays,
+taskRows.push({
+id:"TASK-"+Date.now()+"-"+Math.random().toString(16).slice(2),
+step,type,class:cls,priority,owner,planDate,actualDate,escalation,description,status,
+waitDays:daysBetween(todayISO(),planDate),
+closeDays:actualDate?daysBetween(planDate,actualDate):null,
 createdAt:new Date().toISOString()
 });
 
-clearActionInputs();
-renderActionPreview();
-showToast("Aksiyon eklendi");
+clearTaskInputs();
+renderTaskPreview();
+showToast("Görev eklendi");
 }
 
-function clearActionInputs(){
-document.getElementById("actionOwner").value="";
-document.getElementById("actionPlanDate").value=addDays(todayISO(),7);
-document.getElementById("actionActualDate").value="";
-document.getElementById("actionDescription").value="";
+function clearTaskInputs(){
+document.getElementById("taskOwner").value="";
+document.getElementById("taskPlanDate").value=addDays(todayISO(),7);
+document.getElementById("taskActualDate").value="";
+document.getElementById("taskDescription").value="";
+document.getElementById("taskEscalation").value="Normal";
 }
 
-function deleteAction(index){
-actionRows.splice(index,1);
-renderActionPreview();
+function deleteTask(index){
+taskRows.splice(index,1);
+renderTaskPreview();
 }
 
-function renderActionPreview(){
-const area=document.getElementById("actionPreview");
-if(actionRows.length===0){
-area.innerHTML='<div class="empty" style="margin-top:14px">Henüz aksiyon eklenmedi. Her D adımı için sorumlu ve termin bazlı aksiyon ekleyebilirsin.</div>';
+function renderTaskPreview(){
+const area=document.getElementById("taskPreview");
+if(taskRows.length===0){
+area.innerHTML='<div class="empty" style="margin-top:14px">Henüz görev eklenmedi. Aktif D adımı için görev ekleyebilirsin.</div>';
 return;
 }
 
-let html='<table style="margin-top:14px"><thead><tr><th>D Adımı</th><th>Tip</th><th>Sınıf</th><th>Aksiyon</th><th>Sorumlu</th><th>Plan</th><th>Gerçekleşen</th><th>Durum</th><th>Sil</th></tr></thead><tbody>';
-actionRows.forEach((a,i)=>{
+let html='<table style="margin-top:14px"><thead><tr><th>D Adımı</th><th>Tip</th><th>Öncelik</th><th>Görev</th><th>Sorumlu</th><th>Plan</th><th>Gerçek</th><th>Durum</th><th>Sil</th></tr></thead><tbody>';
+taskRows.forEach((a,i)=>{
 html+=`<tr>
 <td>${a.step}</td>
 <td>${a.type}</td>
-<td><span class="status ${statusClass(a.class)}">${a.class}</span></td>
+<td><span class="status ${statusClass(a.priority)}">${a.priority}</span></td>
 <td>${a.description}</td>
 <td>${a.owner}</td>
 <td>${formatDateTR(a.planDate)}</td>
 <td>${formatDateTR(a.actualDate)}</td>
 <td><span class="status ${statusClass(a.status)}">${a.status}</span></td>
-<td><button class="small-btn delete" onclick="deleteAction(${i})">Sil</button></td>
+<td><button class="small-btn delete" onclick="deleteTask(${i})">Sil</button></td>
 </tr>`;
 });
 html+='</tbody></table>';
@@ -389,23 +436,34 @@ area.innerHTML=html;
 function collectPayload(notify){
 const openDate=document.getElementById("openDate").value;
 const status=document.getElementById("status").value;
+const stepMeta=createStepMeta();
+taskRows.forEach(t=>{
+if(stepMeta[t.step]&&!stepMeta[t.step].owner)stepMeta[t.step].owner=t.owner;
+if(stepMeta[t.step]&&!stepMeta[t.step].plannedDate)stepMeta[t.step].plannedDate=t.planDate;
+});
 const closedAt=status==="Kapalı"?new Date().toISOString():"";
-const closureDays=closedAt?daysBetween(openDate,closedAt):null;
 
 return{
 id:"CAPA-"+Date.now(),
 eightDNo:document.getElementById("eightDNo").value,
 capaNo:document.getElementById("capaNo").value,
-openDate:openDate,
+openDate,
 dueDate:document.getElementById("dueDate").value,
 capaClass:document.getElementById("capaClass").value,
 slaDays:getSlaDays(document.getElementById("capaClass").value),
 source:document.getElementById("source").value,
 department:document.getElementById("department").value,
 criticality:document.getElementById("criticality").value,
-status:status,
+status,
+currentStep:"D0 Planlama",
+stepMeta,
+progressRate:getProgress(stepMeta),
 customerImpact:document.getElementById("customerImpact").value,
 productionImpact:document.getElementById("productionImpact").value,
+severity:Number(document.getElementById("severity").value),
+occurrence:Number(document.getElementById("occurrence").value),
+detection:Number(document.getElementById("detection").value),
+rpn:Number(document.getElementById("rpn").value),
 problemTitle:document.getElementById("problemTitle").value.trim(),
 openedBy:document.getElementById("openedBy").value.trim(),
 leader:document.getElementById("leader").value.trim(),
@@ -427,15 +485,16 @@ controlPlanRequired:document.getElementById("controlPlanRequired").value,
 trainingRequired:document.getElementById("trainingRequired").value,
 effectivenessDate:document.getElementById("effectivenessDate").value,
 effectivenessResult:document.getElementById("effectivenessResult").value,
-actions:actionRows,
+tasks:taskRows,
+actions:taskRows,
 evidence:uploadedEvidence,
 notificationSent:notify?"Evet":"Hayır",
 createdBy:session.name||"System",
 createdAt:new Date().toISOString(),
 updatedAt:new Date().toISOString(),
-closedAt:closedAt,
+closedAt,
 closedBy:closedAt?(session.name||"System"):"",
-closureDays:closureDays,
+closureDays:closedAt?daysBetween(openDate,closedAt):null,
 auditTrail:[{action:"8D/CAPA oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]
 };
 }
@@ -445,9 +504,7 @@ if(!p.problemTitle||p.problemTitle.length<5){showToast("Problem başlığı zoru
 if(!p.leader){showToast("8D lideri zorunlu");return false}
 if(!p.problemDescription||p.problemDescription.length<10){showToast("Problem tanımı en az 10 karakter olmalı");return false}
 if(!p.dueDate){showToast("Termin tarihi zorunlu");return false}
-if(p.actions.length===0){showToast("En az 1 aksiyon eklemelisin");return false}
-const missingOwner=p.actions.some(a=>!a.owner);
-if(missingOwner){showToast("Tüm aksiyonlarda sorumlu olmalı");return false}
+if(p.tasks.length===0){showToast("En az 1 görev eklemelisin");return false}
 return true;
 }
 
@@ -487,9 +544,13 @@ setNotifications(n);
 }
 
 function normalizeCapa(x){
-if(!Array.isArray(x.actions))x.actions=[];
+if(!Array.isArray(x.tasks))x.tasks=Array.isArray(x.actions)?x.actions:[];
+if(!Array.isArray(x.actions))x.actions=x.tasks;
 if(!x.capaClass)x.capaClass="Minor CAPA";
 if(!x.slaDays)x.slaDays=getSlaDays(x.capaClass);
+if(!x.stepMeta)x.stepMeta=createStepMeta();
+if(!x.currentStep)x.currentStep="D0 Planlama";
+if(x.progressRate===undefined)x.progressRate=getProgress(x.stepMeta);
 return x;
 }
 
@@ -498,9 +559,12 @@ const today=todayISO();
 items.forEach(x=>{
 x=normalizeCapa(x);
 if(x.status!=="Kapalı"&&x.status!=="Reddedildi"&&x.dueDate&&x.dueDate<today)x.status="Gecikti";
-x.actions.forEach(a=>{
+x.tasks.forEach(a=>{
 if(a.status!=="Tamamlandı"&&a.planDate&&a.planDate<today)a.status="Gecikti";
 });
+if(x.stepMeta&&x.currentStep&&x.stepMeta[x.currentStep]&&x.stepMeta[x.currentStep].plannedDate&&x.stepMeta[x.currentStep].plannedDate<today&&x.stepMeta[x.currentStep].status!=="Tamamlandı"){
+x.stepMeta[x.currentStep].status="Gecikti";
+}
 });
 setCapa(items);
 }
@@ -512,14 +576,14 @@ items=getCapa().map(normalizeCapa);
 
 const q=document.getElementById("globalSearch").value.toLowerCase();
 const sf=document.getElementById("statusFilter").value;
+const stepF=document.getElementById("stepFilter").value;
 const cf=document.getElementById("criticalityFilter").value;
 const classF=document.getElementById("classFilter").value;
-const sourceF=document.getElementById("sourceFilter").value;
 
 const filtered=items.filter(x=>{
-const actionText=(x.actions||[]).map(a=>`${a.step} ${a.type} ${a.description} ${a.owner} ${a.status}`).join(" ");
-const text=`${x.eightDNo} ${x.capaNo} ${x.problemTitle} ${x.leader} ${x.source} ${x.department} ${x.status} ${x.capaClass} ${actionText}`.toLowerCase();
-return text.includes(q)&&(!sf||x.status===sf)&&(!cf||x.criticality===cf)&&(!classF||x.capaClass===classF)&&(!sourceF||x.source===sourceF);
+const taskText=(x.tasks||[]).map(a=>`${a.step} ${a.type} ${a.description} ${a.owner} ${a.status}`).join(" ");
+const text=`${x.eightDNo} ${x.capaNo} ${x.problemTitle} ${x.leader} ${x.source} ${x.department} ${x.status} ${x.capaClass} ${x.currentStep} ${taskText}`.toLowerCase();
+return text.includes(q)&&(!sf||x.status===sf)&&(!stepF||x.currentStep===stepF)&&(!cf||x.criticality===cf)&&(!classF||x.capaClass===classF);
 });
 
 updateCards(items);
@@ -530,27 +594,26 @@ area.innerHTML='<div class="empty">8D / CAPA kaydı bulunamadı.</div>';
 return;
 }
 
-let html='<table><thead><tr><th>8D No</th><th>CAPA No</th><th>Problem</th><th>Sınıf</th><th>Lider</th><th>Aksiyon</th><th>Kritiklik</th><th>Durum</th><th>Termin</th><th>Süre</th><th>Aksiyon</th></tr></thead><tbody>';
+let html='<table><thead><tr><th>8D No</th><th>Problem</th><th>Sınıf</th><th>Aktif Adım</th><th>İlerleme</th><th>Görev</th><th>Durum</th><th>Termin</th><th>Süre</th><th>Aksiyon</th></tr></thead><tbody>';
 
 filtered.forEach(x=>{
 const index=items.findIndex(i=>i.id===x.id);
-const total=(x.actions||[]).length;
-const completed=(x.actions||[]).filter(a=>a.status==="Tamamlandı").length;
-const late=(x.actions||[]).filter(a=>a.status==="Gecikti").length;
+const total=(x.tasks||[]).length;
+const completed=(x.tasks||[]).filter(a=>a.status==="Tamamlandı").length;
+const late=(x.tasks||[]).filter(a=>a.status==="Gecikti").length;
 const daysOpen=x.status==="Kapalı"&&x.closedAt?daysBetween(x.openDate,x.closedAt):daysBetween(x.openDate,todayISO());
 
 html+=`<tr>
-<td>${x.eightDNo}</td>
-<td>${x.capaNo}</td>
+<td>${x.eightDNo}<br><small>${x.capaNo}</small></td>
 <td>${x.problemTitle}<br><small>${x.source} / ${x.department}</small></td>
 <td><span class="status ${statusClass(x.capaClass.includes("Major")?"Major":x.capaClass.includes("Critical")?"Critical":"Minor")}">${x.capaClass}</span></td>
-<td>${x.leader}</td>
+<td><span class="status ${statusClass(x.stepMeta[x.currentStep]?.status||"Aktif")}">${x.currentStep}</span></td>
+<td>${x.progressRate||0}%</td>
 <td>${completed}/${total}<br><small>${late} geciken</small></td>
-<td><span class="status ${statusClass(x.criticality)}">${x.criticality}</span></td>
 <td><span class="status ${statusClass(x.status)}">${x.status}</span></td>
 <td>${formatDateTR(x.dueDate)}</td>
 <td>${daysOpen===null?"-":daysOpen+" gün"}</td>
-<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button><button class="small-btn close" onclick="closeCapa(${index})">Kapat</button><button class="small-btn alert" onclick="notifyCapa(${index})">Bildir</button></div></td>
+<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button><button class="small-btn next" onclick="selectedIndex=${index};advanceCurrentStep()">D Sonraki</button><button class="small-btn close" onclick="closeCapa(${index})">Kapat</button></div></td>
 </tr>`;
 });
 
@@ -559,8 +622,8 @@ area.innerHTML=html;
 }
 
 function updateCards(items){
-let allActions=[];
-items.forEach(x=>{allActions=allActions.concat(x.actions||[])});
+let allTasks=[];
+items.forEach(x=>{allTasks=allTasks.concat(x.tasks||[])});
 const closedItems=items.filter(x=>x.status==="Kapalı"&&x.closedAt&&x.openDate);
 const avgClosed=closedItems.length?Math.round(closedItems.reduce((sum,x)=>sum+(daysBetween(x.openDate,x.closedAt)||0),0)/closedItems.length):0;
 
@@ -568,9 +631,9 @@ document.getElementById("totalCapa").textContent=items.length;
 document.getElementById("openCapa").textContent=items.filter(x=>x.status!=="Kapalı"&&x.status!=="Reddedildi").length;
 document.getElementById("lateCapa").textContent=items.filter(x=>x.status==="Gecikti").length;
 document.getElementById("closedCapa").textContent=items.filter(x=>x.status==="Kapalı").length;
-document.getElementById("totalActions").textContent=allActions.length;
-document.getElementById("openActions").textContent=allActions.filter(x=>x.status!=="Tamamlandı").length;
-document.getElementById("lateActions").textContent=allActions.filter(x=>x.status==="Gecikti").length;
+document.getElementById("totalTasks").textContent=allTasks.length;
+document.getElementById("openTasks").textContent=allTasks.filter(x=>x.status!=="Tamamlandı").length;
+document.getElementById("lateTasks").textContent=allTasks.filter(x=>x.status==="Gecikti").length;
 document.getElementById("avgCloseDays").textContent=avgClosed;
 }
 
@@ -582,7 +645,8 @@ document.getElementById("drawerStatus").textContent=x.status;
 document.getElementById("drawerStatus").className="status "+statusClass(x.status);
 
 const daysOpen=x.status==="Kapalı"&&x.closedAt?daysBetween(x.openDate,x.closedAt):daysBetween(x.openDate,todayISO());
-const actionTable=renderActionDetailTable(x.actions||[]);
+const taskTable=renderTaskDetailTable(x.tasks||[]);
+const workflowHtml=renderWorkflowDetail(x);
 
 document.getElementById("drawerContent").innerHTML=`
 <div class="info-box"><b>CAPA No:</b> ${x.capaNo}
@@ -590,12 +654,16 @@ document.getElementById("drawerContent").innerHTML=`
 <b>Kaynak:</b> ${x.source}
 <b>Departman:</b> ${x.department}
 <b>Lider:</b> ${x.leader}
+<b>Aktif D Adımı:</b> ${x.currentStep}
+<b>İlerleme:</b> ${x.progressRate||0}%
 <b>Açılış:</b> ${formatDateTR(x.openDate)}
 <b>Termin:</b> ${formatDateTR(x.dueDate)}
 <b>Açık/Kapanış Süresi:</b> ${daysOpen===null?"-":daysOpen+" gün"}
-<b>Beklenen SLA:</b> ${x.slaDays} gün
+<b>RPN:</b> ${x.rpn||"-"}
 <b>Takım:</b>
 ${x.teamMembers||"-"}</div>
+
+<div class="info-box"><b>8D Workflow</b><br>${workflowHtml}</div>
 
 <div class="info-box"><b>D0 Planlama:</b>
 ${x.d0Planning||"-"}</div>
@@ -630,7 +698,7 @@ ${x.closureNote||"-"}</div>
 <b>Eğitim:</b> ${x.trainingRequired}
 <b>Kanıt:</b> ${x.evidence?x.evidence.fileName+" - "+x.evidence.fileSizeText:"Yok"}</div>
 
-<div class="info-box"><b>D Adımı Bazlı Aksiyonlar</b><br>${actionTable}</div>
+<div class="info-box"><b>Görev / Aksiyon Listesi</b><br>${taskTable}</div>
 
 <div class="info-box"><b>Audit Trail</b>
 ${(x.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>
@@ -638,15 +706,25 @@ ${(x.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`)
 document.getElementById("drawer").classList.add("active");
 }
 
-function renderActionDetailTable(actions){
-if(!actions||actions.length===0)return"İlişkili aksiyon yok.";
-let html='<table><thead><tr><th>D</th><th>Tip</th><th>Sınıf</th><th>Aksiyon</th><th>Sorumlu</th><th>Plan</th><th>Gerçekleşen</th><th>Durum</th><th>Süre</th></tr></thead><tbody>';
-actions.forEach(a=>{
+function renderWorkflowDetail(x){
+let html='<table><thead><tr><th>Adım</th><th>Durum</th><th>Sorumlu</th><th>Plan</th><th>Gerçek</th><th>Tamamlayan</th></tr></thead><tbody>';
+D_STEPS.forEach(s=>{
+const m=x.stepMeta[s]||{};
+html+=`<tr><td>${s}</td><td><span class="status ${statusClass(m.status)}">${m.status||"Kilitli"}</span></td><td>${m.owner||"-"}</td><td>${formatDateTR(m.plannedDate)}</td><td>${formatDateTR(m.actualDate)}</td><td>${m.completedBy||"-"}</td></tr>`;
+});
+html+='</tbody></table>';
+return html;
+}
+
+function renderTaskDetailTable(tasks){
+if(!tasks||tasks.length===0)return"İlişkili görev yok.";
+let html='<table><thead><tr><th>D</th><th>Tip</th><th>Öncelik</th><th>Görev</th><th>Sorumlu</th><th>Plan</th><th>Gerçek</th><th>Durum</th><th>Süre</th></tr></thead><tbody>';
+tasks.forEach(a=>{
 const closeDays=a.actualDate?daysBetween(a.planDate,a.actualDate):daysBetween(todayISO(),a.planDate);
 html+=`<tr>
 <td>${a.step}</td>
 <td>${a.type}</td>
-<td><span class="status ${statusClass(a.class)}">${a.class}</span></td>
+<td><span class="status ${statusClass(a.priority)}">${a.priority}</span></td>
 <td>${a.description}</td>
 <td>${a.owner}</td>
 <td>${formatDateTR(a.planDate)}</td>
@@ -657,6 +735,63 @@ html+=`<tr>
 });
 html+='</tbody></table>';
 return html;
+}
+
+function advanceCurrentStep(){
+if(selectedIndex===null)return;
+const items=getCapa().map(normalizeCapa);
+const x=items[selectedIndex];
+const current=x.currentStep;
+const currentTasks=(x.tasks||[]).filter(t=>t.step===current);
+const openTasks=currentTasks.filter(t=>t.status!=="Tamamlandı");
+
+if(currentTasks.length===0){
+showToast("Aktif D adımında en az 1 görev olmalı");
+return;
+}
+
+if(openTasks.length>0){
+showToast("Aktif D adımındaki tüm görevler tamamlanmadan sonraki adıma geçilemez");
+return;
+}
+
+const idx=D_STEPS.indexOf(current);
+x.stepMeta[current].status="Tamamlandı";
+x.stepMeta[current].actualDate=todayISO();
+x.stepMeta[current].completedBy=session.name||"System";
+x.stepMeta[current].completedAt=new Date().toISOString();
+
+if(idx<D_STEPS.length-1){
+const next=D_STEPS[idx+1];
+x.currentStep=next;
+x.stepMeta[next].status="Aktif";
+x.stepMeta[next].plannedDate=addDays(todayISO(),getStepDefaultDays(next));
+x.status="Aksiyon Bekliyor";
+createNotification(x,next+" adımı için görev/sorumlu ataması bekleniyor");
+}else{
+x.status="Etkinlik Kontrolü";
+}
+
+x.progressRate=getProgress(x.stepMeta);
+x.updatedAt=new Date().toISOString();
+x.auditTrail=x.auditTrail||[];
+x.auditTrail.push({action:current+" tamamlandı, aktif adım: "+x.currentStep,user:session.name||"System",date:new Date().toISOString()});
+
+items[selectedIndex]=x;
+setCapa(items);
+renderCapa();
+openDrawer(selectedIndex);
+showToast("D adımı tamamlandı");
+}
+
+function getStepDefaultDays(step){
+if(step==="D3 Geçici Önlem")return 2;
+if(step==="D4 Kök Neden")return 5;
+if(step==="D5 Kalıcı Aksiyon")return 7;
+if(step==="D6 Uygulama")return 10;
+if(step==="D7 Önleme")return 14;
+if(step==="D8 Kapanış")return 5;
+return 3;
 }
 
 function closeDrawer(){
@@ -671,7 +806,14 @@ items[index].status="Kapalı";
 items[index].closedAt=now;
 items[index].closedBy=session.name||"System";
 items[index].closureDays=daysBetween(items[index].openDate,now);
-items[index].actions=(items[index].actions||[]).map(a=>{
+items[index].currentStep="D8 Kapanış";
+D_STEPS.forEach(s=>{
+items[index].stepMeta[s].status="Tamamlandı";
+if(!items[index].stepMeta[s].actualDate)items[index].stepMeta[s].actualDate=todayISO();
+if(!items[index].stepMeta[s].completedBy)items[index].stepMeta[s].completedBy=session.name||"System";
+});
+items[index].progressRate=100;
+items[index].tasks=(items[index].tasks||[]).map(a=>{
 if(a.status!=="Tamamlandı"){
 a.status="Tamamlandı";
 a.actualDate=todayISO();
@@ -679,6 +821,7 @@ a.closeDays=daysBetween(a.planDate,a.actualDate);
 }
 return a;
 });
+items[index].actions=items[index].tasks;
 items[index].auditTrail=items[index].auditTrail||[];
 items[index].auditTrail.push({action:"8D/CAPA kapatıldı",user:session.name||"System",date:now});
 setCapa(items);
@@ -720,7 +863,13 @@ document.getElementById("criticality").value="Orta";
 document.getElementById("status").value="Açık";
 document.getElementById("customerImpact").value="Yok";
 document.getElementById("productionImpact").value="Yok";
+document.getElementById("severity").value="1";
+document.getElementById("occurrence").value="1";
+document.getElementById("detection").value="1";
+updateRpn();
 applySlaByClass();
+document.getElementById("currentStep").value="D0 Planlama";
+document.getElementById("progressRate").value="0%";
 document.getElementById("problemTitle").value="";
 document.getElementById("openedBy").value=session.name||"";
 document.getElementById("leader").value="";
@@ -743,11 +892,11 @@ document.getElementById("trainingRequired").value="Hayır";
 document.getElementById("effectivenessDate").value=addDays(todayISO(),30);
 document.getElementById("effectivenessResult").value="Bekliyor";
 document.getElementById("evidenceFile").value="";
-document.getElementById("actionPlanDate").value=addDays(todayISO(),7);
 uploadedEvidence=null;
-actionRows=[];
-renderActionPreview();
-clearActionInputs();
+taskRows=[];
+renderTaskPreview();
+clearTaskInputs();
+renderWorkflowPreview(createStepMeta(),"D0 Planlama");
 }
 
 document.getElementById("evidenceFile").addEventListener("change",function(e){
@@ -772,10 +921,11 @@ setTimeout(()=>t.style.display="none",2500);
 document.getElementById("globalSearch").addEventListener("input",renderCapa);
 document.getElementById("openDate").addEventListener("change",applySlaByClass);
 
+initStepSelects();
 resetForm();
 renderCapa();
 
-console.log("GDNL QDMS 8D CAPA V2 Loaded");
+console.log("GDNL QDMS 8D CAPA V3 Workflow Engine Loaded");
 </script>
 </body>
 </html>
