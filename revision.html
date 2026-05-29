@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Revizyon Yönetimi</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}
+.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}
+.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}
+.profile-info{text-align:right}
+.profile-info strong{display:block;font-size:14px}
+.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}
+.hero p{max-width:850px;color:#dbeafe;line-height:1.7}
+.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}
+.card h2{font-size:34px;color:#0757e8;margin-top:10px}
+.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}
+.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:span 3}
+.field label{font-size:12px;font-weight:900;color:#64748b}
+.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field textarea{height:105px;padding:12px;resize:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
+.btn.dark{background:#0f172a;color:white}
+.btn.green{background:#dcfce7;color:#15803d}
+.btn.red{background:#fee2e2;color:#991b1b}
+.btn.orange{background:#ffedd5;color:#c2410c}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#dbeafe;color:#1d4ed8}
+.status.green{background:#dcfce7;color:#15803d}
+.status.orange{background:#ffedd5;color:#c2410c}
+.status.red{background:#fee2e2;color:#b91c1c}
+.status.gray{background:#e2e8f0;color:#334155}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
+.small-btn.approve{background:#dcfce7;color:#15803d}
+.small-btn.reject{background:#fee2e2;color:#991b1b}
+.small-btn.publish{background:#dbeafe;color:#1d4ed8}
+.empty{padding:28px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="new-document.html">➕ Yeni Doküman</a>
+<a class="active" href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="#">🛠️ DÖF / CAPA</a>
+<a href="#">⚠️ Risk Yönetimi</a>
+<a href="#">🔍 İç Denetimler</a>
+<a href="#">🎓 Eğitim Yönetimi</a>
+<a href="#">📏 Kalibrasyon</a>
+<a href="#">🏭 Tedarikçi Yönetimi</a>
+<a href="#">📈 KPI & Raporlar</a>
+<a href="#">⚙️ Ayarlar</a>
+</nav>
+</div>
+
+<div class="sidebar-footer">
+GDNL QDMS Enterprise<br>
+Revision Control Module<br>
+Version 1.4
+</div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="Revizyon no, doküman, talep eden veya durum ara">
+<div class="profile">
+<div class="profile-info">
+<strong id="userName">Kerem Admin</strong>
+<span id="userRole">Super Administrator</span>
+</div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Revision Control Center</h1>
+<p>Doküman revizyon talebi aç, değişiklik sebebini kaydet, kalite/yasal/müşteri etkisini değerlendir, onayla, reddet veya yayına al.</p>
+</div>
+<div class="hero-badge">Module: <span>V1.4 Active</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Revizyon</small><h2 id="totalRevisions">0</h2><p>Kayıtlı revizyon talebi</p></div>
+<div class="card"><small>Onay Bekleyen</small><h2 id="pendingRevisions">0</h2><p>İnceleme / onay süreci</p></div>
+<div class="card"><small>Yayınlanan</small><h2 id="publishedRevisions">0</h2><p>Master listeye işlenen</p></div>
+<div class="card"><small>Reddedilen</small><h2 id="rejectedRevisions">0</h2><p>Kapanmış red kayıtları</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Yeni Revizyon Talebi</h3>
+<span class="status blue">CREATE MODE</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Revizyon No</label>
+<input id="revisionNo" placeholder="Otomatik üretilecek">
+</div>
+
+<div class="field">
+<label>Doküman Seç</label>
+<select id="documentSelect" onchange="fillDocumentInfo()"></select>
+</div>
+
+<div class="field">
+<label>Yeni Revizyon</label>
+<input id="newRev" value="R01">
+</div>
+
+<div class="field">
+<label>Talep Eden</label>
+<input id="requester" placeholder="Talep eden kişi">
+</div>
+
+<div class="field">
+<label>Departman</label>
+<select id="department">
+<option>Kalite</option>
+<option>Sistem</option>
+<option>Üretim</option>
+<option>Mühendislik</option>
+<option>Satınalma</option>
+<option>İK</option>
+<option>Bakım</option>
+<option>Bilgi Güvenliği</option>
+</select>
+</div>
+
+<div class="field">
+<label>Durum</label>
+<select id="revisionStatus">
+<option>İncelemede</option>
+<option>Onay Bekliyor</option>
+<option>Onaylandı</option>
+<option>Yayınlandı</option>
+<option>Reddedildi</option>
+</select>
+</div>
+
+<div class="field">
+<label>Mevcut Revizyon</label>
+<input id="currentRev" readonly>
+</div>
+
+<div class="field">
+<label>Doküman Sahibi</label>
+<input id="docOwner" readonly>
+</div>
+
+<div class="field">
+<label>Talep Tarihi</label>
+<input id="requestDate" type="date">
+</div>
+
+<div class="field full">
+<label>Revizyon Sebebi</label>
+<textarea id="reason" placeholder="Revizyon neden gerekli?"></textarea>
+</div>
+
+<div class="field full">
+<label>Değişiklik Açıklaması</label>
+<textarea id="changeDescription" placeholder="Dokümanda ne değişecek?"></textarea>
+</div>
+
+<div class="field">
+<label>Kalite Etkisi</label>
+<select id="qualityImpact">
+<option>Yok</option>
+<option>Düşük</option>
+<option>Orta</option>
+<option>Yüksek</option>
+<option>Kritik</option>
+</select>
+</div>
+
+<div class="field">
+<label>Müşteri Etkisi</label>
+<select id="customerImpact">
+<option>Yok</option>
+<option>Düşük</option>
+<option>Orta</option>
+<option>Yüksek</option>
+<option>Kritik</option>
+</select>
+</div>
+
+<div class="field">
+<label>Yasal / Regülasyon Etkisi</label>
+<select id="legalImpact">
+<option>Yok</option>
+<option>Düşük</option>
+<option>Orta</option>
+<option>Yüksek</option>
+<option>Kritik</option>
+</select>
+</div>
+
+<div class="field">
+<label>Hazırlayan</label>
+<input id="preparedBy" placeholder="Hazırlayan">
+</div>
+
+<div class="field">
+<label>Kontrol Eden</label>
+<input id="checkedBy" placeholder="Kontrol eden">
+</div>
+
+<div class="field">
+<label>Onaylayan</label>
+<input id="approvedBy" placeholder="Onaylayan">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn dark" onclick="generateRevisionNo()">Revizyon No Üret</button>
+<button class="btn primary" onclick="saveRevision()">Revizyon Talebi Aç</button>
+<button class="btn green" onclick="saveRevision(true)">Onayla ve Yayına Al</button>
+<button class="btn orange" onclick="resetForm()">Temizle</button>
+<button class="btn red" onclick="clearRevisions()">Tüm Revizyonları Sil</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Revizyon Kayıtları</h3>
+<span class="status green" id="liveStatus">LIVE</span>
+</div>
+
+<div id="revisionTable"></div>
+</section>
+
+</main>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session = JSON.parse(localStorage.getItem("gdnl_qdms_session")) || {
+name:"Kerem Admin",
+role:"Super Administrator",
+loginAt:new Date().toISOString()
+};
+
+localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
+
+document.getElementById("userName").textContent = session.name || "User";
+document.getElementById("userRole").textContent = session.role || "User";
+document.getElementById("userAvatar").textContent = (session.name || "U").charAt(0).toUpperCase();
+
+function logout(){
+localStorage.removeItem("gdnl_qdms_session");
+window.location.href="index.html";
+}
+
+function getDocuments(){
+return JSON.parse(localStorage.getItem("gdnl_documents")) || [];
+}
+
+function setDocuments(docs){
+localStorage.setItem("gdnl_documents",JSON.stringify(docs));
+}
+
+function getRevisions(){
+return JSON.parse(localStorage.getItem("gdnl_revisions")) || [];
+}
+
+function setRevisions(revisions){
+localStorage.setItem("gdnl_revisions",JSON.stringify(revisions));
+}
+
+function todayISO(){
+return new Date().toISOString().split("T")[0];
+}
+
+function statusClass(status){
+if(status==="Yayınlandı") return "green";
+if(status==="Onaylandı") return "green";
+if(status==="Reddedildi") return "red";
+if(status==="Onay Bekliyor") return "orange";
+return "blue";
+}
+
+function impactClass(value){
+if(value==="Kritik") return "red";
+if(value==="Yüksek") return "orange";
+if(value==="Orta") return "blue";
+return "green";
+}
+
+function loadDocuments(){
+const docs = getDocuments();
+const select = document.getElementById("documentSelect");
+
+select.innerHTML = "";
+
+if(docs.length === 0){
+select.innerHTML = `<option value="">Önce doküman oluşturmalısın</option>`;
+return;
+}
+
+docs.forEach((doc,index)=>{
+select.innerHTML += `<option value="${index}">${doc.code} - ${doc.name}</option>`;
+});
+
+fillDocumentInfo();
+}
+
+function fillDocumentInfo(){
+const docs = getDocuments();
+const index = document.getElementById("documentSelect").value;
+
+if(index === "" || !docs[index]) return;
+
+document.getElementById("currentRev").value = docs[index].rev || "R00";
+document.getElementById("docOwner").value = docs[index].owner || "-";
+document.getElementById("newRev").value = nextRevision(docs[index].rev || "R00");
+}
+
+function nextRevision(current){
+const number = parseInt(String(current).replace("R",""),10);
+if(isNaN(number)) return "R01";
+return "R" + String(number + 1).padStart(2,"0");
+}
+
+function generateRevisionNo(){
+const revisions = getRevisions();
+const year = new Date().getFullYear();
+const next = String(revisions.length + 1).padStart(3,"0");
+document.getElementById("revisionNo").value = "REV-" + year + "-" + next;
+}
+
+function saveRevision(publishNow=false){
+const docs = getDocuments();
+const revisions = getRevisions();
+const docIndex = document.getElementById("documentSelect").value;
+
+if(docIndex === "" || !docs[docIndex]){
+showToast("Revizyon için doküman seçilmedi");
+return;
+}
+
+const selectedDoc = docs[docIndex];
+
+const payload = {
+revisionNo:document.getElementById("revisionNo").value.trim(),
+documentCode:selectedDoc.code,
+documentName:selectedDoc.name,
+oldRev:selectedDoc.rev || "R00",
+newRev:document.getElementById("newRev").value.trim(),
+requester:document.getElementById("requester").value.trim(),
+department:document.getElementById("department").value,
+status:publishNow ? "Yayınlandı" : document.getElementById("revisionStatus").value,
+requestDate:document.getElementById("requestDate").value,
+reason:document.getElementById("reason").value.trim(),
+changeDescription:document.getElementById("changeDescription").value.trim(),
+qualityImpact:document.getElementById("qualityImpact").value,
+customerImpact:document.getElementById("customerImpact").value,
+legalImpact:document.getElementById("legalImpact").value,
+preparedBy:document.getElementById("preparedBy").value.trim(),
+checkedBy:document.getElementById("checkedBy").value.trim(),
+approvedBy:document.getElementById("approvedBy").value.trim(),
+createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString()
+};
+
+if(!payload.revisionNo){showToast("Revizyon no zorunlu");return}
+if(!payload.newRev || !/^R\d{2}$/.test(payload.newRev)){showToast("Yeni revizyon R01 formatında olmalı");return}
+if(!payload.requester){showToast("Talep eden zorunlu");return}
+if(payload.reason.length < 10){showToast("Revizyon sebebi en az 10 karakter olmalı");return}
+if(payload.changeDescription.length < 10){showToast("Değişiklik açıklaması en az 10 karakter olmalı");return}
+
+const duplicate = revisions.some(r=>r.revisionNo.toLowerCase()===payload.revisionNo.toLowerCase());
+
+if(duplicate){
+showToast("Bu revizyon no zaten mevcut");
+return;
+}
+
+revisions.unshift(payload);
+setRevisions(revisions);
+
+if(publishNow || payload.status === "Yayınlandı"){
+docs[docIndex].rev = payload.newRev;
+docs[docIndex].status = "Yayında";
+docs[docIndex].date = payload.requestDate;
+docs[docIndex].updatedAt = new Date().toISOString();
+docs[docIndex].lastRevisionNo = payload.revisionNo;
+setDocuments(docs);
+}
+
+showToast(publishNow ? "Revizyon yayına alındı ve doküman güncellendi" : "Revizyon talebi açıldı");
+resetForm();
+renderRevisions();
+loadDocuments();
+}
+
+function approveRevision(index){
+const revisions = getRevisions();
+revisions[index].status = "Onaylandı";
+revisions[index].updatedAt = new Date().toISOString();
+setRevisions(revisions);
+renderRevisions();
+showToast("Revizyon onaylandı");
+}
+
+function rejectRevision(index){
+const revisions = getRevisions();
+revisions[index].status = "Reddedildi";
+revisions[index].updatedAt = new Date().toISOString();
+setRevisions(revisions);
+renderRevisions();
+showToast("Revizyon reddedildi");
+}
+
+function publishRevision(index){
+const revisions = getRevisions();
+const docs = getDocuments();
+const rev = revisions[index];
+
+const docIndex = docs.findIndex(doc=>doc.code === rev.documentCode);
+
+if(docIndex === -1){
+showToast("İlgili doküman bulunamadı");
+return;
+}
+
+docs[docIndex].rev = rev.newRev;
+docs[docIndex].status = "Yayında";
+docs[docIndex].date = rev.requestDate || todayISO();
+docs[docIndex].lastRevisionNo = rev.revisionNo;
+docs[docIndex].updatedAt = new Date().toISOString();
+
+revisions[index].status = "Yayınlandı";
+revisions[index].updatedAt = new Date().toISOString();
+
+setDocuments(docs);
+setRevisions(revisions);
+
+renderRevisions();
+loadDocuments();
+showToast("Revizyon yayınlandı ve master liste güncellendi");
+}
+
+function renderRevisions(){
+const revisions = getRevisions();
+const query = document.getElementById("globalSearch").value.toLowerCase();
+const filtered = revisions.filter(r=>{
+const text = `${r.revisionNo} ${r.documentCode} ${r.documentName} ${r.requester} ${r.department} ${r.status}`.toLowerCase();
+return text.includes(query);
+});
+
+updateCards(revisions);
+
+const area = document.getElementById("revisionTable");
+
+if(filtered.length === 0){
+area.innerHTML = `<div class="empty">Revizyon kaydı bulunamadı.</div>`;
+return;
+}
+
+let html = `
+<table>
+<thead>
+<tr>
+<th>Revizyon No</th>
+<th>Doküman</th>
+<th>Eski</th>
+<th>Yeni</th>
+<th>Talep Eden</th>
+<th>Durum</th>
+<th>Kalite</th>
+<th>Müşteri</th>
+<th>Yasal</th>
+<th>Aksiyon</th>
+</tr>
+</thead>
+<tbody>
+`;
+
+filtered.forEach(r=>{
+const originalIndex = revisions.findIndex(x=>x.createdAt === r.createdAt && x.revisionNo === r.revisionNo);
+
+html += `
+<tr>
+<td>${r.revisionNo}</td>
+<td>${r.documentCode}<br><small>${r.documentName}</small></td>
+<td>${r.oldRev}</td>
+<td>${r.newRev}</td>
+<td>${r.requester}</td>
+<td><span class="status ${statusClass(r.status)}">${r.status}</span></td>
+<td><span class="status ${impactClass(r.qualityImpact)}">${r.qualityImpact}</span></td>
+<td><span class="status ${impactClass(r.customerImpact)}">${r.customerImpact}</span></td>
+<td><span class="status ${impactClass(r.legalImpact)}">${r.legalImpact}</span></td>
+<td>
+<div class="row-actions">
+<button class="small-btn approve" onclick="approveRevision(${originalIndex})">Onayla</button>
+<button class="small-btn publish" onclick="publishRevision(${originalIndex})">Yayınla</button>
+<button class="small-btn reject" onclick="rejectRevision(${originalIndex})">Reddet</button>
+</div>
+</td>
+</tr>
+`;
+});
+
+html += `</tbody></table>`;
+area.innerHTML = html;
+}
+
+function updateCards(revisions){
+document.getElementById("totalRevisions").textContent = revisions.length;
+document.getElementById("pendingRevisions").textContent = revisions.filter(x=>x.status==="İncelemede" || x.status==="Onay Bekliyor").length;
+document.getElementById("publishedRevisions").textContent = revisions.filter(x=>x.status==="Yayınlandı").length;
+document.getElementById("rejectedRevisions").textContent = revisions.filter(x=>x.status==="Reddedildi").length;
+}
+
+function resetForm(){
+document.getElementById("revisionNo").value = "";
+document.getElementById("newRev").value = "R01";
+document.getElementById("requester").value = "";
+document.getElementById("department").value = "Kalite";
+document.getElementById("revisionStatus").value = "İncelemede";
+document.getElementById("requestDate").value = todayISO();
+document.getElementById("reason").value = "";
+document.getElementById("changeDescription").value = "";
+document.getElementById("qualityImpact").value = "Yok";
+document.getElementById("customerImpact").value = "Yok";
+document.getElementById("legalImpact").value = "Yok";
+document.getElementById("preparedBy").value = "";
+document.getElementById("checkedBy").value = "";
+document.getElementById("approvedBy").value = "";
+generateRevisionNo();
+fillDocumentInfo();
+}
+
+function clearRevisions(){
+if(!confirm("Tüm revizyon kayıtları silinsin mi?")) return;
+localStorage.removeItem("gdnl_revisions");
+renderRevisions();
+generateRevisionNo();
+showToast("Tüm revizyon kayıtları silindi");
+}
+
+function showToast(message){
+const toast = document.getElementById("toast");
+toast.textContent = message;
+toast.style.display = "block";
+setTimeout(()=>{toast.style.display = "none"},2500);
+}
+
+document.getElementById("globalSearch").addEventListener("input",renderRevisions);
+
+document.getElementById("requestDate").value = todayISO();
+
+loadDocuments();
+generateRevisionNo();
+renderRevisions();
+
+console.log("GDNL QDMS Revision Module V1.4 Loaded");
+</script>
+
+</body>
+</html>
