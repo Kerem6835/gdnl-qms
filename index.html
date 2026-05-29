@@ -3,208 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QDMS - Quality Document Management System</title>
-
+<title>QDMS Login</title>
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter,Arial,sans-serif;
-}
-
-body{
-background:#f5f7fb;
-}
-
-.header{
-height:70px;
-background:#0f172a;
-color:white;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 30px;
-}
-
-.logo{
-font-size:24px;
-font-weight:700;
-}
-
-.user{
-background:#2563eb;
-padding:10px 18px;
-border-radius:8px;
-}
-
-.container{
-display:flex;
-height:calc(100vh - 70px);
-}
-
-.sidebar{
-width:260px;
-background:white;
-border-right:1px solid #e5e7eb;
-padding:20px;
-}
-
-.sidebar h3{
-margin-bottom:20px;
-}
-
-.menu{
-display:flex;
-flex-direction:column;
-gap:12px;
-}
-
-.menu a{
-text-decoration:none;
-color:#334155;
-padding:12px;
-border-radius:8px;
-background:#f8fafc;
-}
-
-.content{
-flex:1;
-padding:30px;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-bottom:30px;
-}
-
-.card{
-background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
-
-.card h2{
-font-size:32px;
-color:#2563eb;
-margin-bottom:10px;
-}
-
-.table-box{
-background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,td{
-padding:15px;
-border-bottom:1px solid #e5e7eb;
-text-align:left;
-}
-
-th{
-background:#f8fafc;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+body{min-height:100vh;display:flex;background:#eef3f9}
+.left{width:52%;background:linear-gradient(rgba(3,13,31,.92),rgba(3,13,31,.95)),url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1400&q=80');background-size:cover;background-position:center;color:white;padding:70px;display:flex;flex-direction:column;justify-content:space-between}
+.brand{font-size:34px;font-weight:900}
+.brand span{color:#1e90ff}
+.hero h1{font-size:46px;line-height:1.15;margin-bottom:22px}
+.hero p{font-size:20px;line-height:1.6;color:#dbeafe;max-width:650px}
+.badges{display:flex;gap:16px;flex-wrap:wrap}
+.badge{border:1px solid rgba(255,255,255,.25);padding:12px 18px;border-radius:12px;color:#bfdbfe}
+.right{width:48%;display:flex;align-items:center;justify-content:center;padding:50px}
+.login{width:100%;max-width:470px;background:white;padding:46px;border-radius:24px;box-shadow:0 25px 70px rgba(15,23,42,.14)}
+.icon{width:78px;height:78px;border:3px solid #1677ff;border-radius:24px;margin:0 auto 25px;display:flex;align-items:center;justify-content:center;font-size:34px;color:#1677ff}
+.login h2{text-align:center;font-size:34px;color:#0f172a;margin-bottom:10px}
+.login p{text-align:center;color:#64748b;margin-bottom:34px}
+label{display:block;font-weight:700;color:#1e293b;margin-bottom:9px}
+input{width:100%;height:58px;border:1px solid #cbd5e1;border-radius:12px;padding:0 16px;font-size:16px;margin-bottom:22px}
+.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;color:#475569}
+.row a{color:#1677ff;text-decoration:none;font-weight:700}
+button{width:100%;height:62px;border:none;border-radius:13px;background:linear-gradient(90deg,#0757e8,#0ea5ff);color:white;font-size:20px;font-weight:800;cursor:pointer}
+.footer{text-align:center;margin-top:24px;color:#94a3b8;font-size:14px}
+@media(max-width:900px){body{display:block}.left,.right{width:100%}.left{min-height:420px;padding:40px}.hero h1{font-size:34px}.right{padding:28px}.login{padding:32px}}
 </style>
 </head>
-
 <body>
 
-<div class="header">
-<div class="logo">QDMS</div>
-<div class="user">Kerem Admin</div>
-</div>
+<section class="left">
+  <div class="brand">gDNL <span>QDMS</span></div>
 
-<div class="container">
+  <div class="hero">
+    <h1>Kalite Süreçlerinize Güvenli Erişim</h1>
+    <p>Doküman yönetimi, revizyon takibi, uygunsuzluk, DÖF, iç denetim ve KPI süreçlerinizi tek panelden yönetin.</p>
+  </div>
 
-<div class="sidebar">
-<h3>Menü</h3>
+  <div class="badges">
+    <div class="badge">ISO 9001</div>
+    <div class="badge">ISO 14001</div>
+    <div class="badge">ISO 45001</div>
+    <div class="badge">IATF 16949</div>
+  </div>
+</section>
 
-<div class="menu">
-<a href="#">Dashboard</a>
-<a href="#">Dokümanlar</a>
-<a href="#">Revizyonlar</a>
-<a href="#">Risk Yönetimi</a>
-<a href="#">İç Denetimler</a>
-<a href="#">DÖF</a>
-<a href="#">Eğitimler</a>
-<a href="#">Ayarlar</a>
-</div>
+<section class="right">
+  <div class="login">
+    <div class="icon">🔐</div>
+    <h2>Panele Giriş</h2>
+    <p>Kurumsal hesabınızla devam edin.</p>
 
-</div>
+    <label>E-posta Adresi</label>
+    <input type="email" placeholder="mail@ornek.com">
 
-<div class="content">
+    <label>Şifre</label>
+    <input type="password" placeholder="Şifrenizi giriniz">
 
-<div class="cards">
+    <div class="row">
+      <span><input type="checkbox" style="width:auto;height:auto;margin:0 8px 0 0">Beni hatırla</span>
+      <a href="#">Şifremi unuttum?</a>
+    </div>
 
-<div class="card">
-<h2>109</h2>
-<p>Aktif Doküman</p>
-</div>
+    <button onclick="window.location.href='dashboard.html'">Giriş Yap</button>
 
-<div class="card">
-<h2>14</h2>
-<p>Bekleyen Revizyon</p>
-</div>
-
-<div class="card">
-<h2>7</h2>
-<p>Açık DÖF</p>
-</div>
-
-<div class="card">
-<h2>98%</h2>
-<p>Sistem Uygunluğu</p>
-</div>
-
-</div>
-
-<div class="table-box">
-
-<h3 style="margin-bottom:20px;">Son Revizyonlar</h3>
-
-<table>
-
-<tr>
-<th>Doküman</th>
-<th>Revizyon</th>
-<th>Tarih</th>
-</tr>
-
-<tr>
-<td>PR.001 Doküman Kontrol Prosedürü</td>
-<td>R03</td>
-<td>29.05.2026</td>
-</tr>
-
-<tr>
-<td>FR.015 Risk Analizi</td>
-<td>R02</td>
-<td>28.05.2026</td>
-</tr>
-
-<tr>
-<td>KEK.001 Entegre Yönetim El Kitabı</td>
-<td>R05</td>
-<td>27.05.2026</td>
-</tr>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
+    <div class="footer">© 2026 gDNL QDMS - Tüm hakları saklıdır.</div>
+  </div>
+</section>
 
 </body>
 </html>
