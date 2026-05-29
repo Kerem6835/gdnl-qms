@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Users & EmailJS</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}
+.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:980px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 4}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}
+.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field textarea{height:90px;padding:12px;resize:none}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}
+.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
+.small-btn.edit{background:#dbeafe;color:#1d4ed8}.small-btn.mail{background:#dcfce7;color:#15803d}.small-btn.delete{background:#fee2e2;color:#991b1b}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="new-document.html">➕ Yeni Doküman</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="notification-center.html">🔔 Bildirim Merkezi</a>
+<a class="active" href="users.html">👥 Kullanıcılar</a>
+<a href="#">📈 KPI & Raporlar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Users & EmailJS V1<br>No Backend Mail Engine</div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="Kullanıcı, departman, rol, mail veya telefon ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Users & EmailJS Control Center</h1>
+<p>Kullanıcı, departman, rol, mail ve telefon bilgilerini merkezi yönet. EmailJS ayarlarını gir, test maili gönder ve QDMS bildirim kuyruğundaki kayıtları gerçek mail olarak tetikle.</p>
+</div>
+<div class="hero-badge">Mail Engine: <span id="engineStatus">Passive</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Kullanıcı</small><h2 id="totalUsers">0</h2><p>Sistemde tanımlı kişi</p></div>
+<div class="card"><small>Aktif Kullanıcı</small><h2 id="activeUsers">0</h2><p>Mail/SMS alabilir</p></div>
+<div class="card"><small>EmailJS Durumu</small><h2 id="emailStatus">OFF</h2><p>Gerçek mail altyapısı</p></div>
+<div class="card"><small>Kuyrukta Bildirim</small><h2 id="queuedNotifications">0</h2><p>Mail bekleyen kayıt</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>EmailJS Ayarları</h3>
+<span class="status orange">SERVICE CONFIG</span>
+</div>
+
+<div class="form-grid">
+<div class="field"><label>Public Key</label><input id="emailPublicKey" placeholder="EmailJS Public Key"></div>
+<div class="field"><label>Service ID</label><input id="emailServiceId" placeholder="service_xxxxx"></div>
+<div class="field"><label>Template ID</label><input id="emailTemplateId" placeholder="template_xxxxx"></div>
+<div class="field"><label>Gönderen Adı</label><input id="emailFromName" placeholder="GDNL QDMS"></div>
+
+<div class="field double"><label>Test Alıcı Mail</label><input id="testEmailTo" placeholder="ornek@firma.com"></div>
+<div class="field double"><label>Test Konu</label><input id="testSubject" placeholder="GDNL QDMS Test Mail"></div>
+<div class="field full"><label>Test Mesaj</label><textarea id="testMessage" placeholder="Bu mail GDNL QDMS EmailJS entegrasyon testidir."></textarea></div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveEmailConfig()">EmailJS Ayarlarını Kaydet</button>
+<button class="btn green" onclick="sendTestMail()">Test Mail Gönder</button>
+<button class="btn orange" onclick="sendQueuedNotifications()">Kuyruktaki Bildirimleri Gönder</button>
+<button class="btn red" onclick="clearEmailConfig()">EmailJS Ayarlarını Sıfırla</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Kullanıcı Tanımlama</h3>
+<span class="status blue" id="modeBadge">CREATE MODE</span>
+</div>
+
+<div class="form-grid">
+<div class="field"><label>Ad Soyad</label><input id="fullName" placeholder="Ad Soyad"></div>
+<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>İK</option><option>Yönetim</option><option>Diğer</option></select></div>
+<div class="field"><label>Rol</label><select id="role"><option>Super Administrator</option><option>Kalite Admin</option><option>Departman Müdürü</option><option>Süreç Sahibi</option><option>8D Lideri</option><option>Denetçi</option><option>Kullanıcı</option></select></div>
+<div class="field"><label>Durum</label><select id="status"><option>Aktif</option><option>Pasif</option></select></div>
+
+<div class="field"><label>E-Posta</label><input id="email" type="email" placeholder="kullanici@firma.com"></div>
+<div class="field"><label>Telefon</label><input id="phone" placeholder="+90 5xx xxx xx xx"></div>
+<div class="field"><label>Mail Bildirimi</label><select id="mailEnabled"><option>Evet</option><option>Hayır</option></select></div>
+<div class="field"><label>SMS Bildirimi</label><select id="smsEnabled"><option>Evet</option><option>Hayır</option></select></div>
+
+<div class="field full"><label>Yetkiler / Not</label><textarea id="notes" placeholder="Onay yetkisi, CAPA sorumluluğu, denetçi rolü vb."></textarea></div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveUser()">Kullanıcı Kaydet</button>
+<button class="btn green" onclick="sendUserTestMail()">Seçili Kullanıcıya Test Maili</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Kullanıcı Listesi</h3>
+<div class="toolbar">
+<select id="departmentFilter" onchange="renderUsers()"><option value="">Tüm Departmanlar</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>İK</option><option>Yönetim</option><option>Diğer</option></select>
+<select id="statusFilter" onchange="renderUsers()"><option value="">Tüm Durumlar</option><option>Aktif</option><option>Pasif</option></select>
+<select id="roleFilter" onchange="renderUsers()"><option value="">Tüm Roller</option><option>Super Administrator</option><option>Kalite Admin</option><option>Departman Müdürü</option><option>Süreç Sahibi</option><option>8D Lideri</option><option>Denetçi</option><option>Kullanıcı</option></select>
+</div>
+</div>
+<div id="userTable"></div>
+</section>
+
+</main>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+
+document.getElementById("userName").textContent=session.name||"User";
+document.getElementById("userRole").textContent=session.role||"User";
+document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let editIndex=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+
+function getUsers(){try{return JSON.parse(localStorage.getItem("gdnl_users"))||[]}catch(e){return[]}}
+function setUsers(items){localStorage.setItem("gdnl_users",JSON.stringify(items))}
+function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
+function setNotifications(items){localStorage.setItem("gdnl_notifications",JSON.stringify(items))}
+function getEmailConfig(){try{return JSON.parse(localStorage.getItem("gdnl_emailjs_config"))||null}catch(e){return null}}
+function setEmailConfig(cfg){localStorage.setItem("gdnl_emailjs_config",JSON.stringify(cfg))}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+
+function statusClass(s){
+if(s==="Aktif"||s==="Gönderildi"||s==="Okundu")return"green";
+if(s==="Kuyrukta")return"orange";
+if(s==="Pasif"||s==="Hatalı"||s==="Gecikti")return"red";
+return"blue";
+}
+
+function normalizeUser(u){
+return{
+id:u.id||"USR-"+Date.now()+"-"+Math.random().toString(16).slice(2),
+fullName:u.fullName||"",
+department:u.department||"Kalite",
+role:u.role||"Kullanıcı",
+status:u.status||"Aktif",
+email:u.email||"",
+phone:u.phone||"",
+mailEnabled:u.mailEnabled||"Evet",
+smsEnabled:u.smsEnabled||"Hayır",
+notes:u.notes||"",
+createdAt:u.createdAt||new Date().toISOString(),
+updatedAt:u.updatedAt||new Date().toISOString()
+};
+}
+
+function seedCurrentUser(){
+const users=getUsers();
+if(users.length>0)return;
+
+users.push({
+id:"USR-ADMIN-001",
+fullName:session.name||"Kerem Güdenli",
+department:"Kalite",
+role:"Super Administrator",
+status:"Aktif",
+email:session.email||"admin@gdnl.com",
+phone:"",
+mailEnabled:"Evet",
+smsEnabled:"Hayır",
+notes:"Sistem varsayılan yöneticisi.",
+createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString()
+});
+
+setUsers(users);
+}
+
+function saveEmailConfig(){
+const cfg={
+publicKey:document.getElementById("emailPublicKey").value.trim(),
+serviceId:document.getElementById("emailServiceId").value.trim(),
+templateId:document.getElementById("emailTemplateId").value.trim(),
+fromName:document.getElementById("emailFromName").value.trim()||"GDNL QDMS",
+updatedAt:new Date().toISOString()
+};
+
+if(!cfg.publicKey||!cfg.serviceId||!cfg.templateId){
+showToast("Public Key, Service ID ve Template ID zorunlu");
+return;
+}
+
+setEmailConfig(cfg);
+initEmailJS();
+updateCards();
+showToast("EmailJS ayarları kaydedildi");
+}
+
+function loadEmailConfig(){
+const cfg=getEmailConfig();
+if(!cfg)return;
+document.getElementById("emailPublicKey").value=cfg.publicKey||"";
+document.getElementById("emailServiceId").value=cfg.serviceId||"";
+document.getElementById("emailTemplateId").value=cfg.templateId||"";
+document.getElementById("emailFromName").value=cfg.fromName||"GDNL QDMS";
+initEmailJS();
+}
+
+function clearEmailConfig(){
+localStorage.removeItem("gdnl_emailjs_config");
+document.getElementById("emailPublicKey").value="";
+document.getElementById("emailServiceId").value="";
+document.getElementById("emailTemplateId").value="";
+document.getElementById("emailFromName").value="";
+updateCards();
+showToast("EmailJS ayarları sıfırlandı");
+}
+
+function initEmailJS(){
+const cfg=getEmailConfig();
+if(cfg&&cfg.publicKey&&window.emailjs){
+emailjs.init({publicKey:cfg.publicKey});
+document.getElementById("engineStatus").textContent="Active";
+document.getElementById("emailStatus").textContent="ON";
+return true;
+}
+document.getElementById("engineStatus").textContent="Passive";
+document.getElementById("emailStatus").textContent="OFF";
+return false;
+}
+
+async function sendEmail(toEmail,toName,subject,message,moduleName){
+const cfg=getEmailConfig();
+if(!cfg||!cfg.publicKey||!cfg.serviceId||!cfg.templateId){
+showToast("EmailJS ayarları eksik");
+return false;
+}
+
+try{
+emailjs.init({publicKey:cfg.publicKey});
+
+await emailjs.send(cfg.serviceId,cfg.templateId,{
+to_email:toEmail,
+to_name:toName||toEmail,
+from_name:cfg.fromName||"GDNL QDMS",
+subject:subject,
+message:message,
+module:moduleName||"GDNL QDMS",
+reply_to:toEmail
+});
+
+return true;
+}catch(err){
+console.error(err);
+showToast("Mail gönderilemedi. EmailJS ayarlarını kontrol et.");
+return false;
+}
+}
+
+async function sendTestMail(){
+const to=document.getElementById("testEmailTo").value.trim();
+const subject=document.getElementById("testSubject").value.trim()||"GDNL QDMS Test Mail";
+const message=document.getElementById("testMessage").value.trim()||"Bu mail GDNL QDMS EmailJS entegrasyon testidir.";
+
+if(!to){showToast("Test alıcı mail zorunlu");return}
+
+const ok=await sendEmail(to,"Test Kullanıcısı",subject,message,"EmailJS Test");
+if(ok)showToast("Test mail gönderildi");
+}
+
+async function sendUserTestMail(){
+if(editIndex===null){
+showToast("Önce listeden kullanıcı düzenle seç");
+return;
+}
+
+const user=getUsers()[editIndex];
+if(!user||!user.email){
+showToast("Kullanıcı mail adresi yok");
+return;
+}
+
+const ok=await sendEmail(
+user.email,
+user.fullName,
+"GDNL QDMS Kullanıcı Bildirim Testi",
+"Merhaba "+user.fullName+", GDNL QDMS mail bildirimi başarıyla çalışıyor.",
+"Users"
+);
+
+if(ok)showToast("Kullanıcıya test mail gönderildi");
+}
+
+async function sendQueuedNotifications(){
+const cfg=getEmailConfig();
+if(!cfg){showToast("EmailJS ayarları eksik");return}
+
+const notifications=getNotifications();
+const users=getUsers().map(normalizeUser);
+let sentCount=0;
+let failCount=0;
+
+for(let i=0;i<notifications.length;i++){
+const n=notifications[i];
+if(n.status&&n.status!=="Kuyrukta")continue;
+
+const recipients=resolveRecipients(n,users);
+if(recipients.length===0){
+notifications[i].status="Hatalı";
+notifications[i].lastError="Alıcı bulunamadı";
+failCount++;
+continue;
+}
+
+let localSent=0;
+for(const r of recipients){
+const ok=await sendEmail(
+r.email,
+r.fullName,
+"GDNL QDMS | "+(n.documentCode||n.module||"Bildirim"),
+buildNotificationMessage(n),
+n.module||"QDMS"
+);
+if(ok)localSent++;
+}
+
+if(localSent>0){
+notifications[i].status="Gönderildi";
+notifications[i].sentAt=new Date().toISOString();
+notifications[i].lastError="";
+notifications[i].sentCount=(notifications[i].sentCount||0)+localSent;
+notifications[i].auditTrail=notifications[i].auditTrail||[];
+notifications[i].auditTrail.unshift({action:"EmailJS ile mail gönderildi",user:session.name||"System",date:new Date().toISOString()});
+sentCount++;
+}else{
+notifications[i].status="Hatalı";
+notifications[i].lastError="EmailJS gönderimi başarısız";
+failCount++;
+}
+}
+
+setNotifications(notifications);
+updateCards();
+showToast(sentCount+" bildirim gönderildi, "+failCount+" hatalı");
+}
+
+function resolveRecipients(notification,users){
+const list=[];
+const raw=(notification.mailGroups||notification.distributionPoints||"").toLowerCase();
+
+users.forEach(u=>{
+if(u.status!=="Aktif"||u.mailEnabled!=="Evet"||!u.email)return;
+
+const nameHit=raw.includes((u.fullName||"").toLowerCase());
+const depHit=raw.includes((u.department||"").toLowerCase());
+const roleHit=raw.includes((u.role||"").toLowerCase());
+const mailHit=raw.includes((u.email||"").toLowerCase());
+
+if(nameHit||depHit||roleHit||mailHit){
+list.push(u);
+}
+});
+
+if(list.length===0 && notification.mailGroups){
+notification.mailGroups.split(/[,;\n]/).map(x=>x.trim()).filter(x=>x.includes("@")).forEach(mail=>{
+list.push({fullName:mail,email:mail});
+});
+}
+
+return uniqueByEmail(list);
+}
+
+function uniqueByEmail(arr){
+const out=[];
+arr.forEach(x=>{
+if(!out.some(y=>String(y.email).toLowerCase()===String(x.email).toLowerCase()))out.push(x);
+});
+return out;
+}
+
+function buildNotificationMessage(n){
+return `
+GDNL QDMS Bildirimi
+
+Modül: ${n.module||"-"}
+Kayıt: ${n.documentCode||"-"} ${n.documentName||""}
+Workflow: ${n.workflowId||"-"}
+
+Mesaj:
+${n.message||"-"}
+
+Tarih: ${new Date().toLocaleString("tr-TR")}
+`;
+}
+
+function saveUser(){
+const users=getUsers().map(normalizeUser);
+
+const payload={
+id:editIndex!==null?users[editIndex].id:"USR-"+Date.now(),
+fullName:document.getElementById("fullName").value.trim(),
+department:document.getElementById("department").value,
+role:document.getElementById("role").value,
+status:document.getElementById("status").value,
+email:document.getElementById("email").value.trim().toLowerCase(),
+phone:document.getElementById("phone").value.trim(),
+mailEnabled:document.getElementById("mailEnabled").value,
+smsEnabled:document.getElementById("smsEnabled").value,
+notes:document.getElementById("notes").value.trim(),
+createdAt:editIndex!==null?users[editIndex].createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString()
+};
+
+if(!payload.fullName){showToast("Ad Soyad zorunlu");return}
+if(payload.mailEnabled==="Evet"&&!payload.email){showToast("Mail bildirimi aktifse e-posta zorunlu");return}
+if(payload.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)){showToast("E-posta formatı hatalı");return}
+
+const duplicate=users.some((u,i)=>u.email&&payload.email&&u.email===payload.email&&i!==editIndex);
+if(duplicate){showToast("Bu e-posta zaten kayıtlı");return}
+
+if(editIndex!==null){
+users[editIndex]=payload;
+showToast("Kullanıcı güncellendi");
+}else{
+users.unshift(payload);
+showToast("Kullanıcı eklendi");
+}
+
+setUsers(users);
+resetForm();
+renderUsers();
+updateCards();
+}
+
+function editUser(index){
+const u=normalizeUser(getUsers()[index]);
+editIndex=index;
+
+document.getElementById("fullName").value=u.fullName;
+document.getElementById("department").value=u.department;
+document.getElementById("role").value=u.role;
+document.getElementById("status").value=u.status;
+document.getElementById("email").value=u.email;
+document.getElementById("phone").value=u.phone;
+document.getElementById("mailEnabled").value=u.mailEnabled;
+document.getElementById("smsEnabled").value=u.smsEnabled;
+document.getElementById("notes").value=u.notes;
+
+document.getElementById("modeBadge").textContent="EDIT MODE";
+document.getElementById("modeBadge").className="status orange";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteUser(index){
+const users=getUsers();
+if(!confirm(users[index].fullName+" silinsin mi?"))return;
+users.splice(index,1);
+setUsers(users);
+renderUsers();
+updateCards();
+showToast("Kullanıcı silindi");
+}
+
+function resetForm(){
+editIndex=null;
+document.getElementById("fullName").value="";
+document.getElementById("department").value="Kalite";
+document.getElementById("role").value="Kullanıcı";
+document.getElementById("status").value="Aktif";
+document.getElementById("email").value="";
+document.getElementById("phone").value="";
+document.getElementById("mailEnabled").value="Evet";
+document.getElementById("smsEnabled").value="Hayır";
+document.getElementById("notes").value="";
+document.getElementById("modeBadge").textContent="CREATE MODE";
+document.getElementById("modeBadge").className="status blue";
+}
+
+function renderUsers(){
+const users=getUsers().map(normalizeUser);
+const q=document.getElementById("globalSearch").value.toLowerCase();
+const dep=document.getElementById("departmentFilter").value;
+const st=document.getElementById("statusFilter").value;
+const role=document.getElementById("roleFilter").value;
+
+const filtered=users.filter(u=>{
+const text=`${u.fullName} ${u.department} ${u.role} ${u.status} ${u.email} ${u.phone}`.toLowerCase();
+return text.includes(q)&&(!dep||u.department===dep)&&(!st||u.status===st)&&(!role||u.role===role);
+});
+
+const area=document.getElementById("userTable");
+
+if(filtered.length===0){
+area.innerHTML='<div class="empty">Kullanıcı kaydı bulunamadı.</div>';
+return;
+}
+
+let html=`<table>
+<thead>
+<tr>
+<th>Ad Soyad</th>
+<th>Departman</th>
+<th>Rol</th>
+<th>Mail</th>
+<th>Telefon</th>
+<th>Durum</th>
+<th>Bildirim</th>
+<th>Aksiyon</th>
+</tr>
+</thead>
+<tbody>`;
+
+filtered.forEach(u=>{
+const index=users.findIndex(x=>x.id===u.id);
+html+=`<tr>
+<td>${u.fullName}</td>
+<td>${u.department}</td>
+<td>${u.role}</td>
+<td>${u.email||"-"}</td>
+<td>${u.phone||"-"}</td>
+<td><span class="status ${statusClass(u.status)}">${u.status}</span></td>
+<td>Mail: ${u.mailEnabled}<br><small>SMS: ${u.smsEnabled}</small></td>
+<td>
+<div class="row-actions">
+<button class="small-btn edit" onclick="editUser(${index})">Düzenle</button>
+<button class="small-btn mail" onclick="editUser(${index});sendUserTestMail()">Mail Test</button>
+<button class="small-btn delete" onclick="deleteUser(${index})">Sil</button>
+</div>
+</td>
+</tr>`;
+});
+
+html+='</tbody></table>';
+area.innerHTML=html;
+}
+
+function updateCards(){
+const users=getUsers().map(normalizeUser);
+const notifications=getNotifications();
+const cfg=getEmailConfig();
+
+document.getElementById("totalUsers").textContent=users.length;
+document.getElementById("activeUsers").textContent=users.filter(x=>x.status==="Aktif").length;
+document.getElementById("queuedNotifications").textContent=notifications.filter(x=>!x.status||x.status==="Kuyrukta").length;
+
+if(cfg&&cfg.publicKey&&cfg.serviceId&&cfg.templateId){
+document.getElementById("emailStatus").textContent="ON";
+document.getElementById("engineStatus").textContent="Active";
+}else{
+document.getElementById("emailStatus").textContent="OFF";
+document.getElementById("engineStatus").textContent="Passive";
+}
+}
+
+function showToast(message){
+const toast=document.getElementById("toast");
+toast.textContent=message;
+toast.style.display="block";
+setTimeout(()=>toast.style.display="none",2600);
+}
+
+document.getElementById("globalSearch").addEventListener("input",renderUsers);
+
+seedCurrentUser();
+loadEmailConfig();
+resetForm();
+renderUsers();
+updateCards();
+
+console.log("GDNL QDMS Users & EmailJS V1 Loaded");
+</script>
+
+</body>
+</html>
