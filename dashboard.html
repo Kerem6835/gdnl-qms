@@ -4,73 +4,449 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL QDMS | Enterprise Dashboard</title>
-<div class="profile">
 
-<span>🔔</span>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
+}
 
-<div class="profile-text">
-<strong id="userName">Loading...</strong>
-<span id="userRole">Loading...</span>
-</div>
+body{
+background:#eef3f9;
+color:#0f172a;
+}
 
-<div class="avatar" id="userAvatar">U</div>
+.app{
+display:grid;
+grid-template-columns:260px 1fr;
+min-height:100vh;
+}
 
-<button onclick="logout()" style="
+.sidebar{
+background:linear-gradient(180deg,#061225,#071a34);
+color:white;
+padding:25px 18px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.logo{
+font-size:30px;
+font-weight:900;
+margin-bottom:35px;
+}
+
+.logo span{
+color:#1597ff;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.menu a{
+text-decoration:none;
+color:#cbd5e1;
+padding:13px 14px;
+border-radius:14px;
+font-size:14px;
+font-weight:800;
+transition:.2s;
+}
+
+.menu a:hover,
+.menu a.active{
+background:rgba(21,151,255,.18);
+color:white;
+}
+
+.sidebar-footer{
+font-size:12px;
+color:#8da2bd;
+line-height:1.6;
+border-top:1px solid rgba(255,255,255,.1);
+padding-top:18px;
+}
+
+.main{
+padding:24px;
+}
+
+.topbar{
+height:72px;
+background:white;
+border-radius:24px;
+padding:0 22px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 12px 40px rgba(15,23,42,.08);
+margin-bottom:24px;
+}
+
+.search{
+width:550px;
+height:46px;
+border:1px solid #dbe3ef;
+border-radius:14px;
+padding:0 16px;
+background:#f8fafc;
+outline:none;
+font-weight:700;
+}
+
+.profile{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.profile-info{
+text-align:right;
+}
+
+.profile-info strong{
+display:block;
+font-size:14px;
+}
+
+.profile-info span{
+font-size:12px;
+color:#64748b;
+}
+
+.avatar{
+width:44px;
+height:44px;
+border-radius:14px;
+background:linear-gradient(135deg,#0757e8,#0ea5ff);
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-weight:900;
+}
+
+.logout-btn{
 border:none;
 background:#fee2e2;
 color:#991b1b;
 padding:10px 14px;
 border-radius:12px;
 font-weight:900;
-cursor:pointer;">
-Logout
-</button>
+cursor:pointer;
+}
 
-</div>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#eef3f9;color:#0f172a}
-.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:26px 18px;display:flex;flex-direction:column;justify-content:space-between}
-.logo{font-size:27px;font-weight:950;margin-bottom:34px;letter-spacing:-.5px}.logo span{color:#1597ff}
-.menu{display:flex;flex-direction:column;gap:7px}
-.menu a{text-decoration:none;color:#cbd5e1;padding:12px 13px;border-radius:13px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:10px}
-.menu a.active,.menu a:hover{background:rgba(21,151,255,.18);color:white}
-.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.55;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
-.main{padding:22px 30px 32px}
-.topbar{height:68px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-radius:24px;box-shadow:0 14px 45px rgba(15,23,42,.07);display:flex;align-items:center;justify-content:space-between;padding:0 22px;margin-bottom:24px}
-.search{width:min(620px,52vw);height:46px;border:1px solid #dbe3ef;border-radius:15px;padding:0 18px;font-size:14px;outline:none;background:#f8fafc}
-.profile{display:flex;align-items:center;gap:14px}
-.profile-text{line-height:1.2;text-align:right}.profile-text strong{display:block}.profile-text span{font-size:12px;color:#64748b}
-.avatar{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white;display:flex;align-items:center;justify-content:center;font-weight:950}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:28px 32px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 25px 70px rgba(15,23,42,.18);overflow:hidden;position:relative}
-.hero:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.08)}
-.hero h1{font-size:35px;margin-bottom:9px;letter-spacing:-.8px}.hero p{color:#dbeafe;font-size:15px;line-height:1.55;max-width:780px}
-.hero-badge{position:relative;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:15px 18px;border-radius:18px;font-weight:950;color:#bfdbfe;white-space:nowrap}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
-.card{background:white;border-radius:24px;padding:22px;box-shadow:0 14px 45px rgba(15,23,42,.065);border:1px solid #edf2f7;position:relative;overflow:hidden}
-.card:after{content:"";position:absolute;right:-28px;top:-28px;width:92px;height:92px;border-radius:50%;background:#eff6ff}
-.card small{color:#64748b;font-weight:900;position:relative}.card h2{font-size:34px;color:#0757e8;margin:11px 0 5px;position:relative}.card p{font-size:13px;color:#64748b;position:relative}
-.grid{display:grid;grid-template-columns:1.35fr .65fr;gap:20px}
-.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 14px 45px rgba(15,23,42,.065);border:1px solid #edf2f7;margin-bottom:20px}
-.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.panel h3{font-size:21px;letter-spacing:-.3px}.link{color:#0757e8;font-weight:900;font-size:13px}
-table{width:100%;border-collapse:collapse}th{text-align:left;background:#f8fafc;color:#334155;font-size:12px;padding:13px}td{padding:14px 13px;border-bottom:1px solid #edf2f7;font-size:13.5px}
-.status{padding:7px 11px;border-radius:999px;font-size:11px;font-weight:950;display:inline-block}.green{background:#dcfce7;color:#166534}.orange{background:#ffedd5;color:#9a3412}.blue{background:#dbeafe;color:#1d4ed8}.red{background:#fee2e2;color:#991b1b}
-.modules{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.module{background:#f8fafc;border:1px solid #edf2f7;border-radius:18px;padding:16px}.module h4{margin-bottom:7px}.module p{font-size:12.5px;color:#64748b;line-height:1.45}
-.activity{display:flex;flex-direction:column;gap:12px}.activity-item{background:#f8fafc;border:1px solid #edf2f7;border-radius:18px;padding:15px}.activity-item strong{display:block;margin-bottom:6px}.activity-item span{color:#64748b;font-size:12.5px}
-.progress{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:11px}.bar{height:100%;background:linear-gradient(90deg,#0757e8,#0ea5ff);border-radius:999px}
-.quick{display:grid;grid-template-columns:1fr 1fr;gap:12px}.quick div{background:#f8fafc;border:1px solid #edf2f7;border-radius:16px;padding:14px}.quick b{display:block;font-size:22px;color:#0757e8}.quick span{font-size:12px;color:#64748b;font-weight:800}
-@media(max-width:1180px){.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.modules{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.hero{display:block}.hero-badge{margin-top:16px;display:inline-block}.cards,.modules{grid-template-columns:1fr}.search{width:56vw}}
+.hero{
+background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);
+color:white;
+border-radius:30px;
+padding:32px;
+margin-bottom:24px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+}
+
+.hero h1{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.hero p{
+max-width:760px;
+color:#dbeafe;
+line-height:1.7;
+}
+
+.hero-badge{
+background:rgba(255,255,255,.12);
+padding:16px 18px;
+border-radius:18px;
+font-weight:900;
+white-space:nowrap;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+margin-bottom:24px;
+}
+
+.card{
+background:white;
+border-radius:24px;
+padding:22px;
+box-shadow:0 12px 40px rgba(15,23,42,.06);
+}
+
+.card small{
+color:#64748b;
+font-weight:900;
+}
+
+.card h2{
+font-size:34px;
+color:#0757e8;
+margin-top:10px;
+}
+
+.card p{
+margin-top:6px;
+font-size:13px;
+color:#64748b;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1.35fr .85fr;
+gap:24px;
+}
+
+.panel{
+background:white;
+border-radius:26px;
+padding:24px;
+box-shadow:0 12px 40px rgba(15,23,42,.06);
+margin-bottom:24px;
+}
+
+.panel-head{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:18px;
+}
+
+.panel h3{
+font-size:19px;
+font-weight:900;
+color:#0f172a;
+}
+
+.link{
+font-size:13px;
+font-weight:900;
+color:#0757e8;
+cursor:pointer;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+text-align:left;
+font-size:12px;
+color:#64748b;
+padding:12px;
+border-bottom:1px solid #e2e8f0;
+}
+
+td{
+font-size:13px;
+padding:13px 12px;
+border-bottom:1px solid #eef2f7;
+font-weight:700;
+color:#334155;
+}
+
+.status{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:6px 10px;
+border-radius:999px;
+font-size:11px;
+font-weight:900;
+}
+
+.status.blue{
+background:#dbeafe;
+color:#1d4ed8;
+}
+
+.status.green{
+background:#dcfce7;
+color:#15803d;
+}
+
+.status.orange{
+background:#ffedd5;
+color:#c2410c;
+}
+
+.status.red{
+background:#fee2e2;
+color:#b91c1c;
+}
+
+.modules{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+}
+
+.module{
+background:#f8fafc;
+border:1px solid #e2e8f0;
+border-radius:20px;
+padding:18px;
+transition:.2s;
+}
+
+.module:hover{
+transform:translateY(-2px);
+box-shadow:0 12px 25px rgba(15,23,42,.08);
+}
+
+.module h4{
+font-size:14px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.module p{
+font-size:12px;
+color:#64748b;
+line-height:1.6;
+}
+
+.quick{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+}
+
+.quick div{
+background:#f8fafc;
+border:1px solid #e2e8f0;
+border-radius:20px;
+padding:18px;
+}
+
+.quick b{
+display:block;
+font-size:28px;
+color:#0757e8;
+margin-bottom:6px;
+}
+
+.quick span{
+font-size:12px;
+font-weight:800;
+color:#64748b;
+}
+
+.activity{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.activity-item{
+background:#f8fafc;
+border:1px solid #e2e8f0;
+border-radius:18px;
+padding:16px;
+}
+
+.activity-item strong{
+display:block;
+font-size:14px;
+font-weight:900;
+margin-bottom:8px;
+}
+
+.activity-item span{
+font-size:12px;
+color:#64748b;
+line-height:1.6;
+}
+
+.progress{
+height:10px;
+background:#e2e8f0;
+border-radius:999px;
+overflow:hidden;
+margin-top:12px;
+}
+
+.bar{
+height:100%;
+background:linear-gradient(90deg,#0757e8,#0ea5ff);
+border-radius:999px;
+}
+
+@media(max-width:1100px){
+.cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.search{
+width:320px;
+}
+}
+
+@media(max-width:850px){
+.app{
+grid-template-columns:1fr;
+}
+
+.sidebar{
+display:none;
+}
+
+.cards,
+.modules,
+.quick{
+grid-template-columns:1fr;
+}
+
+.search{
+width:180px;
+}
+
+.hero{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.hero h1{
+font-size:28px;
+}
+
+.topbar{
+gap:12px;
+}
+
+.profile-info{
+display:none;
+}
+}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <aside class="sidebar">
 <div>
 <div class="logo">GDNL <span>QDMS</span></div>
+
 <nav class="menu">
 <a class="active" href="#">🏠 Dashboard</a>
 <a href="#">📄 Doküman Yönetimi</a>
@@ -82,196 +458,365 @@ table{width:100%;border-collapse:collapse}th{text-align:left;background:#f8fafc;
 <a href="#">📏 Kalibrasyon</a>
 <a href="#">🏭 Tedarikçi Yönetimi</a>
 <a href="#">📈 KPI & Raporlar</a>
-<a href="#">💬 Müşteri Şikayetleri</a>
 <a href="#">👥 Kullanıcı Yönetimi</a>
 <a href="#">⚙️ Ayarlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>Quality & Compliance Platform<br>Version 0.4</div>
+
+<div class="sidebar-footer">
+GDNL QDMS Enterprise<br>
+Quality & Compliance Platform<br>
+Version 2.0
+</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" placeholder="Doküman, DÖF, risk, denetim veya kullanıcı ara...">
+<input class="search" placeholder="Doküman, DÖF, Risk, Denetim veya Kullanıcı Ara">
+
 <div class="profile">
-<span>🔔</span>
-<div class="profile-text"><strong>Kerem Admin</strong><span>Super Administrator</span></div>
-<div class="avatar">K</div>
+<div class="profile-info">
+<strong id="userName">Kerem Admin</strong>
+<span id="userRole">Super Administrator</span>
+</div>
+
+<div class="avatar" id="userAvatar">K</div>
+
+<button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
 <h1>Enterprise Quality Control Center</h1>
-<p>ISO, IATF, CAPA, audit, risk, document control, training, calibration and supplier quality processes managed from one premium control platform.</p>
+<p>
+ISO 9001, ISO 14001, ISO 45001, ISO 27001, IATF 16949,
+CAPA, Risk, Audit, Training ve Supplier Quality süreçlerini tek merkezden yönetin.
+</p>
 </div>
-<div class="hero-badge">System Health: <span id="systemHealthHero">0%</span></div>
+
+<div class="hero-badge">
+System Health: <span id="health">98%</span>
+</div>
 </section>
 
 <section class="cards">
-<div class="card"><small>Document Control</small><h2 id="totalDocuments">0</h2><p>Aktif doküman</p></div>
-<div class="card"><small>Open CAPA / DÖF</small><h2 id="openCapa">0</h2><p>Açık faaliyet</p></div>
-<div class="card"><small>Risk Management</small><h2 id="openRisks">0</h2><p>Aktif risk kaydı</p></div>
-<div class="card"><small>Compliance Score</small><h2 id="complianceScore">0%</h2><p>Sistem uygunluğu</p></div>
+<div class="card">
+<small>Document Control</small>
+<h2 id="documentCount">109</h2>
+<p>Aktif Doküman</p>
+</div>
+
+<div class="card">
+<small>Open CAPA</small>
+<h2>7</h2>
+<p>Açık DÖF</p>
+</div>
+
+<div class="card">
+<small>Risk Management</small>
+<h2>11</h2>
+<p>Aktif Risk</p>
+</div>
+
+<div class="card">
+<small>Compliance Score</small>
+<h2 id="complianceScore">98%</h2>
+<p>Sistem Uygunluğu</p>
+</div>
 </section>
 
 <section class="grid">
 
 <div>
+
 <div class="panel">
-<div class="panel-head"><h3>Son Revizyonlar</h3><span class="link">Tümünü Gör</span></div>
+<div class="panel-head">
+<h3>Son Revizyonlar</h3>
+<span class="link">Tümünü Gör</span>
+</div>
+
 <table>
 <thead>
-<tr><th>Kod</th><th>Doküman</th><th>Rev.</th><th>Sahip</th><th>Durum</th><th>Tarih</th></tr>
+<tr>
+<th>Kod</th>
+<th>Doküman</th>
+<th>Rev.</th>
+<th>Sahip</th>
+<th>Durum</th>
+<th>Tarih</th>
+</tr>
 </thead>
-<tbody id="revisionTable"></tbody>
+
+<tbody id="revisionBody">
+<tr>
+<td>PR.001</td>
+<td>Doküman Kontrol Prosedürü</td>
+<td>R03</td>
+<td>Kalite</td>
+<td><span class="status blue">Onayda</span></td>
+<td>29.05.2026</td>
+</tr>
+
+<tr>
+<td>KEK.001</td>
+<td>Entegre Yönetim El Kitabı</td>
+<td>R05</td>
+<td>YGG</td>
+<td><span class="status green">Yayında</span></td>
+<td>28.05.2026</td>
+</tr>
+
+<tr>
+<td>PR.008</td>
+<td>İç Denetim Prosedürü</td>
+<td>R01</td>
+<td>Denetim</td>
+<td><span class="status orange">Revizyon</span></td>
+<td>27.05.2026</td>
+</tr>
+
+<tr>
+<td>FR.015</td>
+<td>Risk Analizi Formu</td>
+<td>R02</td>
+<td>Sistem</td>
+<td><span class="status green">Yayında</span></td>
+<td>26.05.2026</td>
+</tr>
+</tbody>
 </table>
 </div>
 
 <div class="panel">
-<div class="panel-head"><h3>Modül Merkezi</h3><span class="link">Yönet</span></div>
-<div class="modules" id="moduleCenter"></div>
+<div class="panel-head">
+<h3>Modül Merkezi</h3>
+<span class="link">Yönet</span>
 </div>
+
+<div class="modules">
+<div class="module">
+<h4>📄 Doküman Yönetimi</h4>
+<p>Doküman, revizyon, yayın ve arşiv süreçleri.</p>
+</div>
+
+<div class="module">
+<h4>🛠️ DÖF / CAPA</h4>
+<p>Uygunsuzluk, kök neden ve aksiyon yönetimi.</p>
+</div>
+
+<div class="module">
+<h4>⚠️ Risk Yönetimi</h4>
+<p>Risk değerlendirme ve aksiyon takibi.</p>
+</div>
+
+<div class="module">
+<h4>🔍 İç Denetim</h4>
+<p>Planlama, bulgu ve kapanış yönetimi.</p>
+</div>
+
+<div class="module">
+<h4>🎓 Eğitim Yönetimi</h4>
+<p>Yetkinlik matrisi ve eğitim kayıtları.</p>
+</div>
+
+<div class="module">
+<h4>🏭 Tedarikçi Kalitesi</h4>
+<p>Performans ve uygunsuzluk takibi.</p>
+</div>
+</div>
+</div>
+
 </div>
 
 <div>
+
 <div class="panel">
-<div class="panel-head"><h3>Executive Alerts</h3><span class="link">Canlı</span></div>
+<div class="panel-head">
+<h3>Executive Alerts</h3>
+<span class="link">Canlı</span>
+</div>
+
 <div class="quick">
-<div><b id="pendingApprovals">0</b><span>Bekleyen Onay</span></div>
-<div><b id="calibrationDue">0</b><span>Kalibrasyon</span></div>
-<div><b id="monthlyAudits">0</b><span>Bu Ay Denetim</span></div>
-<div><b id="trainingRate">0%</b><span>Eğitim Durumu</span></div>
+<div>
+<b>14</b>
+<span>Bekleyen Onay</span>
+</div>
+
+<div>
+<b>5</b>
+<span>Kalibrasyon</span>
+</div>
+
+<div>
+<b>4</b>
+<span>Bu Ay Denetim</span>
+</div>
+
+<div>
+<b>86%</b>
+<span>Eğitim Durumu</span>
+</div>
 </div>
 </div>
 
 <div class="panel">
-<h3>Sistem Uygunluğu</h3><br>
-<div id="complianceBlocks"></div>
+<h3>Sistem Uygunluğu</h3>
+
+<br>
+
+<div class="activity">
+<div class="activity-item">
+<strong>ISO 9001</strong>
+<span>Doküman ve süreç uygunluğu</span>
+<div class="progress">
+<div class="bar" style="width:96%"></div>
+</div>
+</div>
+
+<div class="activity-item">
+<strong>IATF 16949</strong>
+<span>APQP / PPAP / FMEA süreçleri</span>
+<div class="progress">
+<div class="bar" style="width:82%"></div>
+</div>
+</div>
+
+<div class="activity-item">
+<strong>ISO 27001</strong>
+<span>BGYS uygunluk seviyesi</span>
+<div class="progress">
+<div class="bar" style="width:88%"></div>
+</div>
+</div>
+</div>
 </div>
 
 <div class="panel">
-<div class="panel-head"><h3>Kritik Bildirimler</h3><span class="link" id="alertCount">0 Yeni</span></div>
-<div class="activity" id="criticalAlerts"></div>
+<div class="panel-head">
+<h3>Kritik Bildirimler</h3>
+<span class="link">2 Yeni</span>
 </div>
+
+<div class="activity">
+<div class="activity-item">
+<strong><span class="status red">Kritik</span> Geciken DÖF</strong>
+<span>DÖF-2026-007 termin aşımı.</span>
+</div>
+
+<div class="activity-item">
+<strong><span class="status orange">Uyarı</span> Revizyon Bekliyor</strong>
+<span>14 doküman onay sürecinde.</span>
+</div>
+</div>
+</div>
+
 </div>
 
 </section>
+
 </main>
 </div>
 
 <script>
-
-const session = JSON.parse(localStorage.getItem("gdnl_qdms_session"));
-
-if(!session){
-    window.location.href="index.html";
-}
-
-const dashboardData = {
-  totalDocuments: 109,
-  openCapa: 7,
-  openRisks: 11,
-  complianceScore: 98,
-  pendingApprovals: 14,
-  calibrationDue: 5,
-  monthlyAudits: 4,
-  trainingRate: 86,
-
-  revisions: [
-    {code:"PR.001", name:"Doküman Kontrol Prosedürü", rev:"R03", owner:"Kalite", status:"Onayda", statusClass:"blue", date:"29.05.2026"},
-    {code:"FR.015", name:"Risk Analizi Formu", rev:"R02", owner:"Sistem", status:"Yayında", statusClass:"green", date:"28.05.2026"},
-    {code:"KEK.001", name:"Entegre Yönetim El Kitabı", rev:"R05", owner:"YGG", status:"Revizyon", statusClass:"orange", date:"27.05.2026"},
-    {code:"PR.008", name:"İç Denetim Prosedürü", rev:"R01", owner:"Denetim", status:"Yayında", statusClass:"green", date:"26.05.2026"}
-  ],
-
-  modules: [
-    {title:"Doküman Yönetimi", desc:"Kodlama, revizyon, onay, yayın ve arşiv süreçleri."},
-    {title:"DÖF / CAPA", desc:"Uygunsuzluk, kök neden, aksiyon ve etkinlik takibi."},
-    {title:"Risk Yönetimi", desc:"Süreç bazlı risk skoru, aksiyon ve takip sistemi."},
-    {title:"İç Denetim", desc:"Plan, soru listesi, bulgu, aksiyon ve kapanış."},
-    {title:"Eğitim Yönetimi", desc:"Yetkinlik matrisi, eğitim planı ve katılım kayıtları."},
-    {title:"Tedarikçi Kalitesi", desc:"Performans, uygunsuzluk, denetim ve değerlendirme."}
-  ],
-
-  compliance: [
-    {standard:"ISO 9001", desc:"Doküman ve süreç uygunluğu", rate:96},
-    {standard:"IATF 16949", desc:"APQP / PPAP / FMEA takibi", rate:74},
-    {standard:"ISO 27001", desc:"BGYS kontrol ve kanıt durumu", rate:81}
-  ],
-
-  alerts: [
-    {level:"Kritik", levelClass:"red", title:"Geciken DÖF", desc:"DÖF-2026-007 termin aşımı."},
-    {level:"Uyarı", levelClass:"orange", title:"Revizyon Bekliyor", desc:"14 doküman onay sürecinde."}
-  ]
+const session = JSON.parse(localStorage.getItem("gdnl_qdms_session")) || {
+name:"Kerem Admin",
+role:"Super Administrator",
+loginAt:new Date().toISOString()
 };
 
-function setText(id, value){
-  document.getElementById(id).textContent = value;
-}
+localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
 
-function renderDashboard(data){
-  setText("totalDocuments", data.totalDocuments);
-  setText("openCapa", data.openCapa);
-  setText("openRisks", data.openRisks);
-  setText("complianceScore", data.complianceScore + "%");
-  setText("systemHealthHero", data.complianceScore + "%");
-  setText("pendingApprovals", data.pendingApprovals);
-  setText("calibrationDue", data.calibrationDue);
-  setText("monthlyAudits", data.monthlyAudits);
-  setText("trainingRate", data.trainingRate + "%");
-  setText("alertCount", data.alerts.length + " Yeni");
-
-  document.getElementById("revisionTable").innerHTML = data.revisions.map(item => `
-    <tr>
-      <td>${item.code}</td>
-      <td>${item.name}</td>
-      <td>${item.rev}</td>
-      <td>${item.owner}</td>
-      <td><span class="status ${item.statusClass}">${item.status}</span></td>
-      <td>${item.date}</td>
-    </tr>
-  `).join("");
-
-  document.getElementById("moduleCenter").innerHTML = data.modules.map(item => `
-    <div class="module">
-      <h4>${item.title}</h4>
-      <p>${item.desc}</p>
-    </div>
-  `).join("");
-
-  document.getElementById("complianceBlocks").innerHTML = data.compliance.map(item => `
-    <div class="activity-item">
-      <strong>${item.standard}</strong>
-      <span>${item.desc}</span>
-      <div class="progress"><div class="bar" style="width:${item.rate}%"></div></div>
-    </div><br>
-  `).join("");
-
-  document.getElementById("criticalAlerts").innerHTML = data.alerts.map(item => `
-    <div class="activity-item">
-      <strong><span class="status ${item.levelClass}">${item.level}</span> ${item.title}</strong>
-      <span>${item.desc}</span>
-    </div>
-  `).join("");
-}
-
-renderDashboard(dashboardData);
-
-document.getElementById("userName").textContent =
-session.name || "User";
-
-document.getElementById("userRole").textContent =
-session.role || "User";
-
-document.getElementById("userAvatar").textContent =
-(session.name || "U").charAt(0).toUpperCase();
+document.getElementById("userName").textContent = session.name || "User";
+document.getElementById("userRole").textContent = session.role || "User";
+document.getElementById("userAvatar").textContent = (session.name || "U").charAt(0).toUpperCase();
 
 function logout(){
-    localStorage.removeItem("gdnl_qdms_session");
-    window.location.href="index.html";
+localStorage.removeItem("gdnl_qdms_session");
+window.location.href = "index.html";
 }
+
+let documents = JSON.parse(localStorage.getItem("gdnl_documents")) || [];
+
+if(documents.length === 0){
+documents = [
+{code:"PR.001",name:"Doküman Kontrol Prosedürü",rev:"R03",owner:"Kalite",status:"Onayda",date:"29.05.2026"},
+{code:"KEK.001",name:"Entegre Yönetim El Kitabı",rev:"R05",owner:"YGG",status:"Yayında",date:"28.05.2026"},
+{code:"PR.008",name:"İç Denetim Prosedürü",rev:"R01",owner:"Denetim",status:"Revizyon",date:"27.05.2026"},
+{code:"FR.015",name:"Risk Analizi Formu",rev:"R02",owner:"Sistem",status:"Yayında",date:"26.05.2026"}
+];
+
+localStorage.setItem("gdnl_documents", JSON.stringify(documents));
+}
+
+function statusClass(status){
+if(status === "Yayında") return "green";
+if(status === "Revizyon") return "orange";
+if(status === "Kritik") return "red";
+return "blue";
+}
+
+function renderDashboard(){
+const docs = JSON.parse(localStorage.getItem("gdnl_documents")) || [];
+const revisionBody = document.getElementById("revisionBody");
+
+document.getElementById("documentCount").textContent = docs.length > 0 ? docs.length : 109;
+
+if(revisionBody && docs.length > 0){
+revisionBody.innerHTML = "";
+
+docs.slice(0,10).forEach(doc=>{
+revisionBody.innerHTML += `
+<tr>
+<td>${doc.code || "-"}</td>
+<td>${doc.name || "-"}</td>
+<td>${doc.rev || "-"}</td>
+<td>${doc.owner || "-"}</td>
+<td><span class="status ${statusClass(doc.status)}">${doc.status || "Yayında"}</span></td>
+<td>${doc.date || "-"}</td>
+</tr>
+`;
+});
+}
+
+const health = calculateHealth(docs);
+document.getElementById("health").textContent = health + "%";
+document.getElementById("complianceScore").textContent = health + "%";
+}
+
+function calculateHealth(docs){
+let score = 100;
+
+if(docs.length < 10) score -= 15;
+if(docs.length < 5) score -= 10;
+
+if(score < 50) score = 50;
+
+return score;
+}
+
+const futureModules = JSON.parse(localStorage.getItem("gdnl_modules")) || {
+users:[],
+capa:[],
+risks:[],
+audits:[],
+suppliers:[],
+trainings:[],
+calibrations:[],
+complaints:[]
+};
+
+localStorage.setItem("gdnl_modules", JSON.stringify(futureModules));
+
+renderDashboard();
+
+console.log("GDNL QDMS V2.0 Loaded");
+console.log("Logged User:", session.name);
+console.log("Role:", session.role);
+console.log("Login:", new Date(session.loginAt));
+
+setInterval(renderDashboard, 5000);
 </script>
 
 </body>
