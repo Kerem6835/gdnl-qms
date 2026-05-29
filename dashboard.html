@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Enterprise Dashboard V2</title>
+<title>GDNL QDMS | Enterprise Dashboard V2.1</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -74,13 +74,13 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <a href="#">📈 KPI & Raporlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>Live Dashboard V2<br>No Demo Data</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Live Dashboard V2.1<br>CAPA KPI Integrated</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" id="globalSearch" placeholder="Doküman, revizyon, onay, arşiv veya dağıtım ara">
+<input class="search" id="globalSearch" placeholder="Doküman, revizyon, onay, arşiv, dağıtım veya 8D ara">
 <div class="profile">
 <div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
 <div class="avatar" id="userAvatar">K</div>
@@ -91,7 +91,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <section class="hero">
 <div>
 <h1>Enterprise Quality Control Center</h1>
-<p>Doküman kontrol, revizyon, onay, arşiv, görüntüleme ve dağıtım süreçlerini tek canlı yönetim panelinden takip edin.</p>
+<p>Doküman kontrol, revizyon, onay, arşiv, dağıtım ve 8D/CAPA süreçlerini tek canlı yönetim panelinden takip edin.</p>
 </div>
 <div class="hero-badge">System Health: <span id="health">0%</span></div>
 </section>
@@ -108,6 +108,13 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <div class="card"><small>Arşiv Kayıtları</small><h2 id="archiveCount">0</h2><p>Obsolete / arşiv izi</p></div>
 <div class="card"><small>Dağıtım Kayıtları</small><h2 id="distributionCount">0</h2><p>Okuma takip kayıtları</p></div>
 <div class="card"><small>Okunmayan / Geciken</small><h2 id="unreadCount">0</h2><p>Dağıtım aksiyonları</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam 8D / CAPA</small><h2 id="capaCount">0</h2><p>Problem çözme kayıtları</p></div>
+<div class="card"><small>Açık 8D</small><h2 id="openCapaCount">0</h2><p>Devam eden 8D/CAPA</p></div>
+<div class="card"><small>Geciken 8D</small><h2 id="lateCapaCount">0</h2><p>Termin aşımı</p></div>
+<div class="card"><small>Geciken Aksiyon</small><h2 id="lateCapaActionCount">0</h2><p>D adımı aksiyonları</p></div>
 </section>
 
 <section class="grid">
@@ -131,16 +138,26 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 
 <div class="panel">
 <div class="panel-head">
+<h3>Son 8D / CAPA Kayıtları</h3>
+<a class="link" href="capa.html">Tümünü Gör</a>
+</div>
+<div id="capaTable"></div>
+</div>
+
+<div class="panel">
+<div class="panel-head">
 <h3>Modül Merkezi</h3>
-<span class="status green">V2 CORE ACTIVE</span>
+<span class="status green">V2.1 CORE ACTIVE</span>
 </div>
 <div class="modules">
-<a class="module" href="documents.html"><h4>📄 Doküman Yönetimi</h4><p>Master liste, arama, workflow ve yaşam döngüsü görünümü.</p></a>
+<a class="module" href="documents.html"><h4>📄 Doküman Yönetimi</h4><p>Master liste, arama, workflow ve yaşam döngüsü.</p></a>
 <a class="module" href="new-document.html"><h4>➕ Yeni Doküman</h4><p>Otomatik kod, dosya yükleme ve workflow başlatma.</p></a>
 <a class="module" href="revision.html"><h4>🔄 Revizyon Yönetimi</h4><p>Kontrollü değişiklik, etki analizi ve yeni workflow.</p></a>
 <a class="module" href="approval.html"><h4>✅ Onay Yönetimi</h4><p>Sıralı elektronik onay ve final yayın akışı.</p></a>
 <a class="module" href="archive.html"><h4>🗄️ Arşiv Yönetimi</h4><p>Obsolete ve denetime hazır arşiv izi.</p></a>
 <a class="module" href="distribution.html"><h4>📤 Dağıtım Yönetimi</h4><p>Mail/SMS kuyruğu ve okundu takibi.</p></a>
+<a class="module" href="capa.html"><h4>🛠️ 8D / CAPA</h4><p>D0-D8 aksiyon, kök neden, kapanış ve etkinlik kontrolü.</p></a>
+<a class="module" href="#"><h4>📈 KPI & Raporlar</h4><p>Tüm modüllerden canlı performans takibi.</p></a>
 </div>
 </div>
 
@@ -157,7 +174,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <div><b id="qRevision">0</b><span>Bekleyen Revizyon</span></div>
 <div><b id="qApproval">0</b><span>Bekleyen Onay</span></div>
 <div><b id="qUnread">0</b><span>Okunmayan Dağıtım</span></div>
-<div><b id="qObsolete">0</b><span>Pasif / Obsolete</span></div>
+<div><b id="qCapaLate">0</b><span>Geciken 8D/CAPA</span></div>
 </div>
 </div>
 
@@ -180,13 +197,18 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <span>Okuma ve dağıtım izlenebilirliği</span>
 <div class="progress"><div class="bar" id="distBar" style="width:0%"></div></div>
 </div>
+<div class="activity-item">
+<strong>8D / CAPA Effectiveness</strong>
+<span>Problem çözme, aksiyon kapanış ve etkinlik kontrolü</span>
+<div class="progress"><div class="bar" id="capaBar" style="width:0%"></div></div>
+</div>
 </div>
 </div>
 
 <div class="panel">
 <div class="panel-head">
 <h3>Kritik Bildirimler</h3>
-<span class="status red" id="criticalCount">0 Kritik</span>
+<span class="status red" id="criticalCount">0 Bildirim</span>
 </div>
 <div class="activity" id="criticalAlerts"></div>
 </div>
@@ -236,10 +258,13 @@ unique.push(x);
 return unique;
 }
 
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function daysBetween(a,b){if(!a||!b)return null;const d1=new Date(a);const d2=new Date(b);if(isNaN(d1)||isNaN(d2))return null;return Math.ceil((d2-d1)/(1000*60*60*24))}
+
 function statusClass(status){
-if(status==="Yayında"||status==="Yayınlandı"||status==="Onaylandı"||status==="Okundu"||status==="Arşivlendi"||status==="Geri Alındı")return"green";
-if(status==="Revizyon"||status==="Onayda"||status==="Onay Bekliyor"||status==="Bekliyor"||status==="Devam Ediyor"||status==="Gönderildi"||status==="Kısmi Okundu"||status==="İncelemede"||status==="Workflow Başlatıldı"||status==="Dağıtım Bekliyor")return"orange";
-if(status==="Pasif"||status==="Obsolete"||status==="Reddedildi"||status==="Revizyon İstendi"||status==="Gecikti"||status==="Kilitli")return"red";
+if(status==="Yayında"||status==="Yayınlandı"||status==="Onaylandı"||status==="Okundu"||status==="Arşivlendi"||status==="Geri Alındı"||status==="Kapalı"||status==="Tamamlandı"||status==="Etkili")return"green";
+if(status==="Revizyon"||status==="Onayda"||status==="Onay Bekliyor"||status==="Bekliyor"||status==="Devam Ediyor"||status==="Gönderildi"||status==="Kısmi Okundu"||status==="İncelemede"||status==="Workflow Başlatıldı"||status==="Dağıtım Bekliyor"||status==="Aksiyon Bekliyor"||status==="Etkinlik Kontrolü")return"orange";
+if(status==="Pasif"||status==="Obsolete"||status==="Reddedildi"||status==="Revizyon İstendi"||status==="Gecikti"||status==="Kilitli"||status==="Kritik"||status==="Etkisiz")return"red";
 return"blue";
 }
 
@@ -250,20 +275,34 @@ if(isNaN(d))return value;
 return d.toLocaleDateString("tr-TR");
 }
 
-function isPendingRevision(r){
-return ["İncelemede","Onay Bekliyor"].includes(r.status);
+function isPendingRevision(r){return ["İncelemede","Onay Bekliyor"].includes(r.status)}
+function isPendingApproval(a){return ["Bekliyor","Devam Ediyor"].includes(a.status)}
+function isUnreadDistribution(d){return ["Dağıtım Bekliyor","Gönderildi","Kısmi Okundu","Gecikti"].includes(d.status)}
+function isDelayedDistribution(d){return d.status==="Gecikti"}
+
+function normalizeCapa(x){
+if(!Array.isArray(x.actions))x.actions=[];
+return x;
 }
 
-function isPendingApproval(a){
-return ["Bekliyor","Devam Ediyor"].includes(a.status);
-}
+function getCapaStats(capas){
+let allActions=[];
+capas.forEach(c=>{allActions=allActions.concat((c.actions||[]))});
 
-function isUnreadDistribution(d){
-return ["Dağıtım Bekliyor","Gönderildi","Kısmi Okundu","Gecikti"].includes(d.status);
-}
+const open=capas.filter(x=>x.status!=="Kapalı"&&x.status!=="Reddedildi").length;
+const late=capas.filter(x=>x.status==="Gecikti").length;
+const closed=capas.filter(x=>x.status==="Kapalı").length;
+const lateActions=allActions.filter(a=>a.status==="Gecikti").length;
+const openActions=allActions.filter(a=>a.status!=="Tamamlandı").length;
+const completedActions=allActions.filter(a=>a.status==="Tamamlandı").length;
+const effectivenessOk=capas.filter(x=>x.effectivenessResult==="Etkili").length;
 
-function isDelayedDistribution(d){
-return d.status==="Gecikti";
+const actionScore=allActions.length>0?Math.round((completedActions/allActions.length)*100):0;
+const closeScore=capas.length>0?Math.round((closed/capas.length)*100):0;
+const effScore=capas.length>0?Math.round((effectivenessOk/capas.length)*100):0;
+const capaScore=capas.length>0?Math.round((actionScore+closeScore+effScore)/3):0;
+
+return{allActions,open,late,closed,lateActions,openActions,completedActions,effectivenessOk,capaScore};
 }
 
 function calculateHealth(data){
@@ -275,7 +314,9 @@ if(data.pendingApprovals>0)score-=10;
 if(data.unread>0)score-=8;
 if(data.delayed>0)score-=12;
 if(data.obsolete>0)score-=5;
-if(score<45)score=45;
+if(data.lateCapa>0)score-=12;
+if(data.lateCapaActions>0)score-=8;
+if(score<35)score=35;
 if(score>100)score=100;
 return score;
 }
@@ -304,6 +345,7 @@ const revisions=getLS("gdnl_revisions");
 const approvals=getLS("gdnl_approvals");
 const archive=getLS("gdnl_archive");
 const distributions=getDistributions();
+const capas=getLS("gdnl_capa").map(normalizeCapa);
 
 const publishedDocs=docs.filter(x=>x.status==="Yayında").length;
 const obsolete=docs.filter(x=>x.status==="Pasif"||x.status==="Obsolete").length;
@@ -311,8 +353,9 @@ const pendingRevisions=revisions.filter(isPendingRevision).length;
 const pendingApprovals=approvals.filter(isPendingApproval).length;
 const unread=distributions.filter(isUnreadDistribution).length;
 const delayed=distributions.filter(isDelayedDistribution).length;
+const capaStats=getCapaStats(capas);
 
-const data={docs,publishedDocs,pendingRevisions,pendingApprovals,unread,delayed,obsolete};
+const data={docs,publishedDocs,pendingRevisions,pendingApprovals,unread,delayed,obsolete,lateCapa:capaStats.late,lateCapaActions:capaStats.lateActions};
 const health=calculateHealth(data);
 
 document.getElementById("documentCount").textContent=docs.length;
@@ -325,10 +368,15 @@ document.getElementById("unreadCount").textContent=unread;
 document.getElementById("health").textContent=health+"%";
 document.getElementById("complianceScore").textContent=health+"%";
 
+document.getElementById("capaCount").textContent=capas.length;
+document.getElementById("openCapaCount").textContent=capaStats.open;
+document.getElementById("lateCapaCount").textContent=capaStats.late;
+document.getElementById("lateCapaActionCount").textContent=capaStats.lateActions;
+
 document.getElementById("qRevision").textContent=pendingRevisions;
 document.getElementById("qApproval").textContent=pendingApprovals;
 document.getElementById("qUnread").textContent=unread;
-document.getElementById("qObsolete").textContent=obsolete;
+document.getElementById("qCapaLate").textContent=capaStats.late+capaStats.lateActions;
 
 const docScore=docs.length>0?Math.round((publishedDocs/docs.length)*100):0;
 const completedRevisions=revisions.filter(x=>x.status==="Workflow Başlatıldı"||x.status==="Onaylandı"||x.status==="Yayınlandı").length;
@@ -338,6 +386,7 @@ const distScore=distributions.length>0?Math.round((distributions.filter(x=>x.sta
 document.getElementById("docBar").style.width=docScore+"%";
 document.getElementById("revBar").style.width=revScore+"%";
 document.getElementById("distBar").style.width=distScore+"%";
+document.getElementById("capaBar").style.width=capaStats.capaScore+"%";
 
 renderTable("revisionTable",
 ["Revizyon No","Doküman","Geçiş","Durum","Tarih"],
@@ -363,6 +412,23 @@ formatDateTR(a.updatedAt||a.createdAt)
 "Onay kaydı bulunamadı."
 );
 
+renderTable("capaTable",
+["8D No","Problem","Sınıf","Aksiyon","Durum","Termin"],
+capas.slice(0,6).map(c=>{
+const total=(c.actions||[]).length;
+const done=(c.actions||[]).filter(a=>a.status==="Tamamlandı").length;
+return[
+c.eightDNo||"-",
+(c.problemTitle||"-")+"<br><small>"+(c.source||"-")+" / "+(c.department||"-")+"</small>",
+c.capaClass||"-",
+done+"/"+total,
+`<span class="status ${statusClass(c.status)}">${c.status||"-"}</span>`,
+formatDateTR(c.dueDate)
+];
+}),
+"8D / CAPA kaydı bulunamadı."
+);
+
 renderTable("distributionTable",
 ["Workflow","Doküman","Bildirim","Durum","Son Tarih"],
 distributions.slice(0,5).map(d=>[
@@ -375,12 +441,14 @@ formatDateTR(d.dueDate||d.updatedAt)
 "Dağıtım kaydı bulunamadı."
 );
 
-renderCriticalAlerts({pendingRevisions,pendingApprovals,unread,delayed,obsolete,docs});
+renderCriticalAlerts({pendingRevisions,pendingApprovals,unread,delayed,obsolete,docs,lateCapa:capaStats.late,lateCapaActions:capaStats.lateActions});
 }
 
 function renderCriticalAlerts(data){
 const alerts=[];
 if(data.delayed>0)alerts.push({level:"Kritik",text:data.delayed+" geciken dağıtım var.",cls:"red"});
+if(data.lateCapa>0)alerts.push({level:"Kritik",text:data.lateCapa+" geciken 8D/CAPA var.",cls:"red"});
+if(data.lateCapaActions>0)alerts.push({level:"Kritik",text:data.lateCapaActions+" geciken CAPA aksiyonu var.",cls:"red"});
 if(data.pendingApprovals>0)alerts.push({level:"Uyarı",text:data.pendingApprovals+" onay bekleyen kayıt var.",cls:"orange"});
 if(data.pendingRevisions>0)alerts.push({level:"Uyarı",text:data.pendingRevisions+" revizyon süreci açık.",cls:"orange"});
 if(data.obsolete>0)alerts.push({level:"Bilgi",text:data.obsolete+" pasif / obsolete doküman var.",cls:"blue"});
@@ -395,7 +463,7 @@ return;
 }
 
 area.innerHTML="";
-alerts.slice(0,5).forEach(a=>{
+alerts.slice(0,6).forEach(a=>{
 area.innerHTML+=`<div class="activity-item"><strong><span class="status ${a.cls}">${a.level}</span> Sistem Bildirimi</strong><span>${a.text}</span></div>`;
 });
 }
@@ -404,14 +472,14 @@ document.getElementById("globalSearch").addEventListener("input",function(){
 const q=this.value.trim().toLowerCase();
 if(q.length<2)return;
 const docs=getLS("gdnl_documents");
-const found=docs.find(d=>`${d.code} ${d.name} ${d.owner} ${d.status} ${d.standard}`.toLowerCase().includes(q));
-if(found)localStorage.setItem("gdnl_selected_document_code",found.code);
+const foundDoc=docs.find(d=>`${d.code} ${d.name} ${d.owner} ${d.status} ${d.standard}`.toLowerCase().includes(q));
+if(foundDoc)localStorage.setItem("gdnl_selected_document_code",foundDoc.code);
 });
 
 renderDashboard();
 setInterval(renderDashboard,5000);
 
-console.log("GDNL QDMS Enterprise Dashboard V2 Loaded");
+console.log("GDNL QDMS Enterprise Dashboard V2.1 CAPA Integrated Loaded");
 </script>
 
 </body>
