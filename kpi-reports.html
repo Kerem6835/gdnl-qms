@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | KPI & Reports</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:#fff;color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e2e8f0;box-shadow:0 0 40px rgba(15,23,42,.04)}
+.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#0f172a;display:block}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#475569;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850}.menu a:hover,.menu a.active{background:#e0f2fe;color:#0369a1}
+.sidebar-footer{font-size:12px;color:#64748b;line-height:1.6;border-top:1px solid #e2e8f0;padding-top:18px}
+.main{padding:24px;max-width:1740px;margin:auto;width:100%}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:1120px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{width:100%;min-width:0;height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}.field textarea{height:96px;padding:12px;resize:none}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.progress{height:11px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:9px}.bar{height:100%;background:linear-gradient(90deg,#0757e8,#0ea5ff);border-radius:999px}
+.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}.box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}.empty{padding:28px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;display:none;z-index:99}
+@media print{.sidebar,.topbar,.hero,.actions,.toolbar,.toast{display:none!important}.app{display:block}.main{padding:0;max-width:none}.panel,.card{box-shadow:none;border:1px solid #e2e8f0}}
+@media(max-width:1050px){.grid{grid-template-columns:1fr}.search{width:320px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+</style>
+</head>
+
+<body>
+<div class="app">
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>QDMS</span></a>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="audit.html">🧾 İç Denetim</a>
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+<a href="management-review.html">📊 YGG Yönetimi</a>
+<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+<a class="active" href="kpi-reports.html">📈 KPI & Raporlar</a>
+<a href="users.html">👥 Kullanıcılar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>KPI & Reports Center<br>Live Integrated</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="KPI, modül, rapor, risk, CAPA, müşteri veya tedarikçi ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Güdenli</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar" onclick="window.location.href='dashboard.html'">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>KPI & Reports Center</h1>
+<p>Tüm QDMS modüllerinden canlı veri çeken yönetim rapor merkezi: doküman, CAPA, risk, audit, eğitim, tedarikçi, müşteri, YGG ve kalibrasyon tek panelde.</p>
+</div>
+<div class="hero-badge">Live KPI Engine: <span id="healthBadge">0%</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>System Health</small><h2 id="systemHealth">0%</h2><p>Genel QDMS sağlık skoru</p></div>
+<div class="card"><small>Açık Aksiyon</small><h2 id="openActions">0</h2><p>CAPA + risk + YGG + şikayet</p></div>
+<div class="card"><small>Geciken İş</small><h2 id="lateItems">0</h2><p>Tüm modüllerde termin aşımı</p></div>
+<div class="card"><small>Raporlanabilir Kayıt</small><h2 id="totalRecords">0</h2><p>Canlı master veri</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Açık CAPA</small><h2 id="openCapa">0</h2><p>8D / CAPA kayıtları</p></div>
+<div class="card"><small>Kritik Risk</small><h2 id="criticalRisk">0</h2><p>500+ veya kritik seviye</p></div>
+<div class="card"><small>Açık Şikayet</small><h2 id="openComplaint">0</h2><p>ISO 10002 takip</p></div>
+<div class="card"><small>Kalibrasyon Geciken</small><h2 id="lateCalibration">0</h2><p>Karantina gerektiren</p></div>
+</section>
+
+<section class="grid">
+<div>
+<section class="panel">
+<div class="panel-head">
+<h3>Entegre KPI Skorları</h3>
+<div class="toolbar">
+<select id="moduleFilter" onchange="renderAll()">
+<option value="">Tüm Modüller</option>
+<option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer</option><option>YGG</option><option>Calibration</option>
+</select>
+</div>
+</div>
+<div id="kpiTable"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Kritik Rapor Akışı</h3><span class="status red" id="criticalCount">0 Kritik</span></div>
+<div id="criticalReport"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Özel KPI Tanımla</h3><span class="status blue">CUSTOM KPI</span></div>
+<div class="form-grid">
+<div class="field"><label>KPI No</label><input id="customKpiNo" readonly></div>
+<div class="field"><label>Modül</label><select id="customModule"><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer</option><option>YGG</option><option>Calibration</option></select></div>
+<div class="field"><label>KPI Adı</label><input id="customName"></div>
+<div class="field"><label>Hedef Değer</label><input id="customTarget" type="number" value="100"></div>
+<div class="field"><label>Gerçekleşen</label><input id="customActual" type="number" value="0"></div>
+<div class="field"><label>Periyot</label><select id="customPeriod"><option>2026 Q1</option><option>2026 Q2</option><option>2026 Q3</option><option>2026 Q4</option><option>2026 Yıllık</option></select></div>
+<div class="field"><label>Sorumlu</label><input id="customOwner"></div>
+<div class="field"><label>Durum</label><select id="customStatus"><option>Açık</option><option>İzlemede</option><option>Hedefte</option><option>Sapma Var</option><option>Kapalı</option></select></div>
+<div class="field full"><label>Açıklama / Sapma Analizi</label><textarea id="customNote"></textarea></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="saveCustomKpi()">KPI Kaydet</button>
+<button class="btn dark" onclick="clearCustomKpi()">Temizle</button>
+</div>
+<div id="customKpiTable"></div>
+</section>
+</div>
+
+<div>
+<section class="panel">
+<div class="panel-head"><h3>Yönetim Özeti</h3><span class="status green">EXECUTIVE</span></div>
+<div id="executiveSummary"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Standart Uygunluk Özeti</h3><span class="status blue">ISO / IATF / CoP / EV</span></div>
+<div id="standardSummary"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Rapor İşlemleri</h3><span class="status orange">EXPORT</span></div>
+<div class="actions">
+<button class="btn primary" onclick="window.print()">Yönetim Raporu Yazdır</button>
+<button class="btn green" onclick="exportCSV()">KPI CSV İndir</button>
+<button class="btn orange" onclick="createReportNotification()">Rapor Bildirimi Oluştur</button>
+<button class="btn dark" onclick="renderAll()">Yenile</button>
+</div>
+</section>
+</div>
+</section>
+</main>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator"};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+userName.textContent=session.name||"User";userRole.textContent=session.role||"User";userAvatar.textContent=(session.name||"U").charAt(0).toUpperCase();
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
+function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function getNotifications(){return getLS("gdnl_notifications")}
+function setNotifications(v){setLS("gdnl_notifications",v)}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function statusClass(s){if(["İyi","Hedefte","Uygun","Kapalı","Düşük"].includes(s))return"green";if(["Orta","İzlemede","Uyarı"].includes(s))return"orange";if(["Kritik","Sapma Var","Kötü","Gecikti"].includes(s))return"red";return"blue"}
+function pct(a,b){return b?Math.round((a/b)*100):0}
+function avg(arr){return arr.length?Math.round(arr.reduce((a,b)=>a+Number(b||0),0)/arr.length):0}
+
+function collect(){
+const docs=getLS("gdnl_documents");
+const revisions=getLS("gdnl_revisions");
+const approvals=getLS("gdnl_approvals");
+const archive=getLS("gdnl_archive");
+const capa=getLS("gdnl_capa");
+const risks=getLS("gdnl_risks");
+const audits=getLS("gdnl_audits");
+const trainings=getLS("gdnl_trainings");
+const suppliers=getLS("gdnl_suppliers");
+const customers=getLS("gdnl_customers");
+const ygg=getLS("gdnl_management_reviews");
+const cal=getLS("gdnl_calibrations");
+
+let capaActions=[];capa.forEach(c=>capaActions=capaActions.concat(c.actions||[]));
+let riskActions=[];risks.forEach(r=>riskActions=riskActions.concat(r.actions||[]));
+let yggAgendas=[];ygg.forEach(r=>yggAgendas=yggAgendas.concat(r.agendas||[]));
+let complaints=[];customers.forEach(c=>complaints=complaints.concat(c.complaints||[]));
+let surveys=[];customers.forEach(c=>surveys=surveys.concat(c.surveys||[]));
+
+return{docs,revisions,approvals,archive,capa,risks,audits,trainings,suppliers,customers,ygg,cal,capaActions,riskActions,yggAgendas,complaints,surveys};
+}
+
+function buildKpis(){
+const d=collect();
+const published=d.docs.filter(x=>x.status==="Yayında").length;
+const openC=d.capa.filter(x=>!["Kapalı","Reddedildi"].includes(x.status)).length;
+const lateC=d.capa.filter(x=>x.status==="Gecikti").length;
+const critR=d.risks.filter(x=>Number(x.initialScore||x.residualScore||0)>=500||x.initialLevel==="Kritik"||x.initialLevel==="Acil Aksiyon").length;
+const openR=d.risks.filter(x=>!["Kapalı","İptal"].includes(x.riskStatus)).length;
+const openA=d.audits.filter(x=>!["Kapalı","İptal"].includes(x.auditStatus)).length;
+const lateT=d.trainings.filter(x=>x.trainingStatus==="Gecikti").length;
+const avgSup=avg(d.suppliers.map(x=>x.overallScore));
+const openComp=d.complaints.filter(x=>x.status!=="Kapalı").length;
+const avgSat=avg(d.surveys.map(x=>x.total));
+const lateCal=d.cal.filter(x=>["Gecikti","Uygunsuz"].includes(x.calibrationStatus)).length;
+const dueCal=d.cal.filter(x=>x.calibrationStatus==="Yaklaşıyor").length;
+const openYgg=d.ygg.filter(x=>!["Kapalı","İptal"].includes(x.reviewStatus)).length;
+
+return[
+{module:"Document",name:"Doküman Yayın Oranı",actual:pct(published,d.docs.length),target:95,unit:"%",status:pct(published,d.docs.length)>=95?"Hedefte":"Sapma Var",detail:published+" / "+d.docs.length},
+{module:"Document",name:"Bekleyen Revizyon",actual:d.revisions.filter(x=>["İncelemede","Onay Bekliyor"].includes(x.status)).length,target:0,unit:"adet",status:d.revisions.filter(x=>["İncelemede","Onay Bekliyor"].includes(x.status)).length===0?"Hedefte":"İzlemede",detail:"Revizyon workflow"},
+{module:"CAPA",name:"Açık CAPA",actual:openC,target:0,unit:"adet",status:openC===0?"Hedefte":"İzlemede",detail:"8D/CAPA açık kayıt"},
+{module:"CAPA",name:"Geciken CAPA",actual:lateC,target:0,unit:"adet",status:lateC===0?"Hedefte":"Kritik",detail:"Termin aşımı"},
+{module:"Risk",name:"Açık Risk",actual:openR,target:0,unit:"adet",status:openR===0?"Hedefte":"İzlemede",detail:"Risk register"},
+{module:"Risk",name:"Kritik Risk",actual:critR,target:0,unit:"adet",status:critR===0?"Hedefte":"Kritik",detail:"500+ skor veya kritik"},
+{module:"Audit",name:"Açık Denetim",actual:openA,target:0,unit:"adet",status:openA===0?"Hedefte":"İzlemede",detail:"İç denetim"},
+{module:"Audit",name:"Ortalama Audit Skoru",actual:avg(d.audits.map(x=>x.auditScore)),target:90,unit:"%",status:avg(d.audits.map(x=>x.auditScore))>=90?"Hedefte":"Sapma Var",detail:"Audit score"},
+{module:"Training",name:"Geciken Eğitim",actual:lateT,target:0,unit:"adet",status:lateT===0?"Hedefte":"Kritik",detail:"Eğitim planı"},
+{module:"Training",name:"Eğitim Tamamlama",actual:pct(d.trainings.filter(x=>x.trainingStatus==="Kapalı").length,d.trainings.length),target:90,unit:"%",status:pct(d.trainings.filter(x=>x.trainingStatus==="Kapalı").length,d.trainings.length)>=90?"Hedefte":"İzlemede",detail:"Kapalı eğitim"},
+{module:"Supplier",name:"Ortalama Tedarikçi Performansı",actual:avgSup,target:85,unit:"%",status:avgSup>=85?"Hedefte":"Sapma Var",detail:"Supplier score"},
+{module:"Supplier",name:"Kritik Tedarikçi",actual:d.suppliers.filter(x=>["High","Critical"].includes(x.criticality)).length,target:0,unit:"adet",status:"İzlemede",detail:"High/Critical"},
+{module:"Customer",name:"Açık Müşteri Şikayeti",actual:openComp,target:0,unit:"adet",status:openComp===0?"Hedefte":"Kritik",detail:"ISO 10002"},
+{module:"Customer",name:"Müşteri Memnuniyeti",actual:avgSat,target:85,unit:"%",status:avgSat>=85?"Hedefte":"Sapma Var",detail:"Survey average"},
+{module:"YGG",name:"Açık YGG",actual:openYgg,target:0,unit:"adet",status:openYgg===0?"Hedefte":"İzlemede",detail:"Management Review"},
+{module:"Calibration",name:"Geciken Kalibrasyon",actual:lateCal,target:0,unit:"adet",status:lateCal===0?"Hedefte":"Kritik",detail:"Karantina gerektirir"},
+{module:"Calibration",name:"Yaklaşan Kalibrasyon",actual:dueCal,target:0,unit:"adet",status:dueCal===0?"Hedefte":"İzlemede",detail:"30 gün altı"}
+];
+}
+
+function renderAll(){
+const d=collect(),kpis=buildKpis(),filter=moduleFilter.value,q=globalSearch.value.toLowerCase();
+const visible=kpis.filter(k=>(!filter||k.module===filter)&&`${k.module} ${k.name} ${k.status} ${k.detail}`.toLowerCase().includes(q));
+const critical=visible.filter(k=>["Kritik","Sapma Var"].includes(k.status));
+const late=d.capa.filter(x=>x.status==="Gecikti").length+d.trainings.filter(x=>x.trainingStatus==="Gecikti").length+d.cal.filter(x=>["Gecikti","Uygunsuz"].includes(x.calibrationStatus)).length+d.yggAgendas.filter(x=>x.status==="Gecikti").length;
+const openActions=d.capaActions.filter(x=>x.status!=="Tamamlandı").length+d.riskActions.filter(x=>x.actionStatus!=="Tamamlandı").length+d.yggAgendas.filter(x=>x.actionRequired==="Evet"&&x.status!=="Kapalı").length+d.complaints.filter(x=>x.status!=="Kapalı").length;
+const health=Math.max(35,100-(critical.length*5)-(late*3));
+
+systemHealth.textContent=health+"%";healthBadge.textContent=health+"%";openActions.textContent=openActions;lateItems.textContent=late;
+totalRecords.textContent=d.docs.length+d.capa.length+d.risks.length+d.audits.length+d.trainings.length+d.suppliers.length+d.customers.length+d.ygg.length+d.cal.length;
+openCapa.textContent=d.capa.filter(x=>!["Kapalı","Reddedildi"].includes(x.status)).length;
+criticalRisk.textContent=d.risks.filter(x=>Number(x.initialScore||x.residualScore||0)>=500||x.initialLevel==="Kritik"||x.initialLevel==="Acil Aksiyon").length;
+openComplaint.textContent=d.complaints.filter(x=>x.status!=="Kapalı").length;
+lateCalibration.textContent=d.cal.filter(x=>["Gecikti","Uygunsuz"].includes(x.calibrationStatus)).length;
+
+renderKpiTable(visible);
+renderCritical(critical);
+renderExecutive(d,health);
+renderStandards(d);
+renderCustomKpis();
+}
+
+function renderKpiTable(rows){
+if(!rows.length){kpiTable.innerHTML='<div class="empty">KPI bulunamadı.</div>';return}
+let h='<table><thead><tr><th>Modül</th><th>KPI</th><th>Gerçek</th><th>Hedef</th><th>Durum</th><th>Trend</th><th>Detay</th></tr></thead><tbody>';
+rows.forEach(k=>{
+const ratio=k.target===0?(k.actual===0?100:20):Math.min(100,Math.round((k.actual/k.target)*100));
+h+=`<tr><td>${k.module}</td><td>${k.name}</td><td>${k.actual}${k.unit}</td><td>${k.target}${k.unit}</td><td><span class="status ${statusClass(k.status)}">${k.status}</span></td><td><div class="progress"><div class="bar" style="width:${ratio}%"></div></div></td><td>${k.detail}</td></tr>`;
+});
+kpiTable.innerHTML=h+"</tbody></table>";
+}
+
+function renderCritical(rows){
+criticalCount.textContent=rows.length+" Kritik";
+if(!rows.length){criticalReport.innerHTML='<div class="empty">Kritik sapma yok.</div>';return}
+let h='<table><thead><tr><th>Modül</th><th>Kritik Konu</th><th>Değer</th><th>Durum</th><th>Önerilen Aksiyon</th></tr></thead><tbody>';
+rows.forEach(k=>h+=`<tr><td>${k.module}</td><td>${k.name}</td><td>${k.actual}${k.unit}</td><td><span class="status ${statusClass(k.status)}">${k.status}</span></td><td>Risk/CAPA/YGG aksiyonu aç ve sorumlu ata.</td></tr>`);
+criticalReport.innerHTML=h+"</tbody></table>";
+}
+
+function renderExecutive(d,health){
+executiveSummary.innerHTML=`
+<div class="box"><b>Genel Sağlık:</b> ${health}%<div class="progress"><div class="bar" style="width:${health}%"></div></div></div>
+<div class="box"><b>Kalite Riski:</b> ${d.risks.filter(x=>Number(x.initialScore||0)>=500).length} kritik risk</div>
+<div class="box"><b>Müşteri Sesi:</b> ${d.complaints.filter(x=>x.status!=="Kapalı").length} açık şikayet / ${avg(d.surveys.map(x=>x.total))}% memnuniyet</div>
+<div class="box"><b>Operasyonel Kontrol:</b> ${d.cal.filter(x=>["Gecikti","Uygunsuz"].includes(x.calibrationStatus)).length} geciken/uygunsuz kalibrasyon</div>
+<div class="box"><b>Yönetim Döngüsü:</b> ${d.ygg.filter(x=>!["Kapalı","İptal"].includes(x.reviewStatus)).length} açık YGG</div>
+`;
+}
+
+function renderStandards(d){
+const standards=[
+["ISO 9001",d.docs.length+d.capa.length+d.audits.length],
+["ISO 10002",d.customers.length+d.complaints.length],
+["ISO 17025",d.cal.length],
+["IATF 16949",d.suppliers.length+d.risks.length],
+["CoP",d.suppliers.filter(x=>x.supplierType==="CoP").length+d.ygg.length],
+["EV",d.customers.filter(x=>x.sector==="EV").length+d.risks.filter(x=>x.riskCategory==="EV Sektörü").length],
+["ISO 27001",d.risks.filter(x=>(x.standards||[]).includes("ISO 27001")).length],
+["ISO 50001",d.ygg.length]
+];
+let h='<table><thead><tr><th>Standart</th><th>Bağlı Veri</th><th>Durum</th></tr></thead><tbody>';
+standards.forEach(s=>h+=`<tr><td>${s[0]}</td><td>${s[1]}</td><td><span class="status ${s[1]>0?'green':'orange'}">${s[1]>0?'Aktif':'Veri Bekliyor'}</span></td></tr>`);
+standardSummary.innerHTML=h+"</tbody></table>";
+}
+
+function generateCustomNo(){customKpiNo.value="KPI-"+new Date().getFullYear()+"-"+String(getLS("gdnl_custom_kpis").length+1).padStart(4,"0")}
+function saveCustomKpi(){
+if(!customName.value.trim())return showToast("KPI adı zorunlu");
+const items=getLS("gdnl_custom_kpis");
+items.unshift({id:"CKPI-"+Date.now(),no:customKpiNo.value,module:customModule.value,name:customName.value.trim(),target:Number(customTarget.value||0),actual:Number(customActual.value||0),period:customPeriod.value,owner:customOwner.value.trim(),status:customStatus.value,note:customNote.value.trim(),createdAt:new Date().toISOString()});
+setLS("gdnl_custom_kpis",items);clearCustomKpi();renderCustomKpis();showToast("KPI kaydedildi");
+}
+function clearCustomKpi(){generateCustomNo();customModule.value="Document";customName.value="";customTarget.value=100;customActual.value=0;customPeriod.value="2026 Q1";customOwner.value=session.name||"";customStatus.value="Açık";customNote.value=""}
+function renderCustomKpis(){
+const rows=getLS("gdnl_custom_kpis");
+if(!rows.length){customKpiTable.innerHTML='<div class="empty" style="margin-top:14px">Özel KPI yok.</div>';return}
+let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Modül</th><th>KPI</th><th>Hedef</th><th>Gerçek</th><th>Durum</th></tr></thead><tbody>';
+rows.forEach(r=>h+=`<tr><td>${r.no}</td><td>${r.module}</td><td>${r.name}</td><td>${r.target}</td><td>${r.actual}</td><td><span class="status ${statusClass(r.status)}">${r.status}</span></td></tr>`);
+customKpiTable.innerHTML=h+"</tbody></table>";
+}
+
+function exportCSV(){
+const rows=buildKpis();
+let csv="Module,KPI,Actual,Target,Unit,Status,Detail\n";
+rows.forEach(r=>csv+=`"${r.module}","${r.name}","${r.actual}","${r.target}","${r.unit}","${r.status}","${r.detail}"\n`);
+const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+a.href=url;a.download="gdnl_qdms_kpi_report.csv";a.click();URL.revokeObjectURL(url);
+}
+function createReportNotification(){
+const n=getNotifications();
+n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"KPI Reports",documentCode:"KPI-REPORT",documentName:"QDMS Yönetim KPI Raporu",mailGroups:"Yönetim; Kalite; Süreç Sahipleri",smsGroups:"Yönetim",distributionPoints:"Dashboard / YGG",message:"KPI & Raporlar merkezi yönetim raporu yayınlandı.",status:"Kuyrukta",createdAt:new Date().toISOString()});
+setNotifications(n);showToast("Rapor bildirimi kuyruğa alındı");
+}
+function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
+globalSearch.addEventListener("input",renderAll);
+clearCustomKpi();renderAll();setInterval(renderAll,5000);
+console.log("GDNL QDMS KPI & Reports Loaded");
+</script>
+</body>
+</html>
