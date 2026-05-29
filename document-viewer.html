@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Document Viewer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}
+.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:850px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:24px}.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}.field label{font-size:12px;font-weight:900;color:#64748b}
+.field select,.field input,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field textarea{height:90px;padding:12px;resize:none}.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.red{background:#fee2e2;color:#991b1b}.btn.orange{background:#ffedd5;color:#c2410c}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
+.doc-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:24px;padding:22px}.doc-card h2{font-size:30px;color:#0757e8;margin:10px 0}.doc-card h4{font-size:18px;margin-bottom:10px}.doc-card p{font-size:13px;color:#64748b;line-height:1.7}
+.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}.meta div{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:13px}.meta b{display:block;font-size:11px;color:#64748b;margin-bottom:6px}.meta span{font-size:13px;font-weight:900;color:#0f172a}
+.timeline{display:flex;flex-direction:column;gap:12px}.step{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:16px}.step strong{display:block;font-size:14px;margin-bottom:6px}.step span{font-size:12px;color:#64748b;line-height:1.6}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.empty{padding:24px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.viewer-box{height:360px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:22px;display:flex;align-items:center;justify-content:center;text-align:center;color:#64748b;font-weight:900;line-height:1.6;padding:20px}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1100px){.cards,.meta{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.meta{grid-template-columns:1fr}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+</style>
+</head>
+<body>
+
+<div class="app">
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="new-document.html">➕ Yeni Doküman</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a class="active" href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="#">📤 Dağıtım Yönetimi</a>
+<a href="#">🛠️ DÖF / CAPA</a>
+<a href="#">📈 KPI & Raporlar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Document Viewer Module<br>Version 1.7</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="Doküman kodu, adı, standart, sahip veya durum ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Document Viewer & Lifecycle Center</h1>
+<p>Seçilen dokümanın master bilgilerini, revizyon geçmişini, onay zincirini, arşiv kayıtlarını ve yaşam döngüsünü tek ekranda denetime hazır görüntüle.</p>
+</div>
+<div class="hero-badge">Module: <span>V1.7 Active</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Doküman</small><h2 id="totalDocs">0</h2><p>Master listedeki kayıt</p></div>
+<div class="card"><small>Revizyon Geçmişi</small><h2 id="revCount">0</h2><p>Seçili dokümana ait</p></div>
+<div class="card"><small>Onay Geçmişi</small><h2 id="appCount">0</h2><p>Seçili dokümana ait</p></div>
+<div class="card"><small>Arşiv Geçmişi</small><h2 id="arcCount">0</h2><p>Seçili dokümana ait</p></div>
+</section>
+
+<section class="layout">
+<div>
+<section class="panel">
+<div class="panel-head"><h3>Doküman Seçimi</h3><span class="status blue">LIVE DATA</span></div>
+<div class="field">
+<label>Doküman Seç</label>
+<select id="documentSelect" onchange="renderViewer()"></select>
+</div>
+<div class="field">
+<label>PDF / Dosya Linki</label>
+<input id="fileLink" placeholder="İsteğe bağlı PDF veya dosya linki">
+</div>
+<div class="field">
+<label>Görüntüleme Notu</label>
+<textarea id="viewerNote" placeholder="Denetim, yayın veya görüntüleme notu..."></textarea>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="saveViewerMeta()">Not / Link Kaydet</button>
+<button class="btn green" onclick="activateDocument()">Yayına Al</button>
+<button class="btn orange" onclick="passiveDocument()">Pasife Al</button>
+<button class="btn dark" onclick="exportSelectedDocument()">Detay JSON Export</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Doküman Ön İzleme Alanı</h3><span class="status gray">PLACEHOLDER</span></div>
+<div class="viewer-box" id="filePreview">
+PDF görüntüleme alanı<br>
+Dosya linki girildiğinde burada bağlantı gösterilir.
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yaşam Döngüsü</h3><span class="status green">TRACEABLE</span></div>
+<div class="timeline" id="timelineArea"></div>
+</section>
+</div>
+
+<div>
+<section class="panel">
+<div class="panel-head"><h3>Doküman Detay Kartı</h3><span id="docStatusBadge" class="status blue">-</span></div>
+<div id="documentDetail"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Revizyon Geçmişi</h3><span class="status orange">REVISION</span></div>
+<div id="revisionHistory"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Onay Geçmişi</h3><span class="status green">APPROVAL</span></div>
+<div id="approvalHistory"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Arşiv Geçmişi</h3><span class="status gray">ARCHIVE</span></div>
+<div id="archiveHistory"></div>
+</section>
+</div>
+</section>
+</main>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+document.getElementById("userName").textContent=session.name||"User";
+document.getElementById("userRole").textContent=session.role||"User";
+document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
+function setDocuments(x){localStorage.setItem("gdnl_documents",JSON.stringify(x))}
+function getRevisions(){return JSON.parse(localStorage.getItem("gdnl_revisions"))||[]}
+function getApprovals(){return JSON.parse(localStorage.getItem("gdnl_approvals"))||[]}
+function getArchive(){return JSON.parse(localStorage.getItem("gdnl_archive"))||[]}
+function getViewerMeta(){return JSON.parse(localStorage.getItem("gdnl_viewer_meta"))||{}}
+function setViewerMeta(x){localStorage.setItem("gdnl_viewer_meta",JSON.stringify(x))}
+
+function formatDateTR(v){if(!v)return "-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function statusClass(s){if(s==="Yayında"||s==="Onaylandı"||s==="Yayınlandı")return"green";if(s==="Revizyon"||s==="Onayda"||s==="Onay Bekliyor")return"orange";if(s==="Pasif"||s==="Obsolete"||s==="Reddedildi")return"red";return"blue"}
+function criticalityClass(v){if(v==="Kritik")return"red";if(v==="Yüksek")return"orange";return"green"}
+
+function loadDocuments(){
+const docs=getDocuments();
+const sel=document.getElementById("documentSelect");
+sel.innerHTML="";
+if(docs.length===0){sel.innerHTML='<option value="">Doküman yok</option>';renderViewer();return}
+docs.forEach((d,i)=>{sel.innerHTML+=`<option value="${i}">${d.code||"-"} - ${d.name||"-"}</option>`});
+renderViewer();
+}
+
+function selectedData(){
+const docs=getDocuments();
+const i=document.getElementById("documentSelect").value;
+if(i===""||!docs[i])return null;
+const doc=docs[i];
+const revs=getRevisions().filter(r=>r.documentCode===doc.code);
+const apps=getApprovals().filter(a=>a.documentCode===doc.code);
+const arcs=getArchive().filter(a=>a.documentCode===doc.code);
+return{doc,index:Number(i),revs,apps,arcs};
+}
+
+function renderViewer(){
+const data=selectedData();
+const totalDocs=getDocuments().length;
+document.getElementById("totalDocs").textContent=totalDocs;
+
+if(!data){
+document.getElementById("documentDetail").innerHTML='<div class="empty">Görüntülenecek doküman bulunamadı.</div>';
+document.getElementById("revisionHistory").innerHTML='<div class="empty">Kayıt yok.</div>';
+document.getElementById("approvalHistory").innerHTML='<div class="empty">Kayıt yok.</div>';
+document.getElementById("archiveHistory").innerHTML='<div class="empty">Kayıt yok.</div>';
+document.getElementById("timelineArea").innerHTML='<div class="empty">Yaşam döngüsü yok.</div>';
+return;
+}
+
+const d=data.doc;
+const meta=getViewerMeta()[d.code]||{};
+document.getElementById("fileLink").value=meta.fileLink||"";
+document.getElementById("viewerNote").value=meta.viewerNote||"";
+document.getElementById("revCount").textContent=data.revs.length;
+document.getElementById("appCount").textContent=data.apps.length;
+document.getElementById("arcCount").textContent=data.arcs.length;
+
+document.getElementById("docStatusBadge").textContent=d.status||"-";
+document.getElementById("docStatusBadge").className="status "+statusClass(d.status);
+
+document.getElementById("documentDetail").innerHTML=`
+<div class="doc-card">
+<span class="status ${statusClass(d.status)}">${d.status||"-"}</span>
+<span class="status ${criticalityClass(d.criticality)}">${d.criticality||"Normal"}</span>
+<h2>${d.code||"-"}</h2>
+<h4>${d.name||"-"}</h4>
+<p>${d.description||"Açıklama bulunmuyor."}</p>
+<div class="meta">
+<div><b>Revizyon</b><span>${d.rev||"-"}</span></div>
+<div><b>Süreç Sahibi</b><span>${d.owner||"-"}</span></div>
+<div><b>Standart</b><span>${d.standard||"-"}</span></div>
+<div><b>Yürürlük Tarihi</b><span>${formatDateTR(d.date)}</span></div>
+<div><b>Gözden Geçirme</b><span>${formatDateTR(d.reviewDate)}</span></div>
+<div><b>Son Revizyon No</b><span>${d.lastRevisionNo||"-"}</span></div>
+<div><b>Son Onay No</b><span>${d.lastApprovalNo||"-"}</span></div>
+<div><b>Kaynak</b><span>${d.source||"documents.html"}</span></div>
+</div>
+</div>`;
+
+renderFilePreview(meta.fileLink);
+renderRevisionHistory(data.revs);
+renderApprovalHistory(data.apps);
+renderArchiveHistory(data.arcs);
+renderTimeline(data);
+}
+
+function renderFilePreview(link){
+const box=document.getElementById("filePreview");
+if(!link){box.innerHTML="PDF görüntüleme alanı<br>Dosya linki girildiğinde burada bağlantı gösterilir.";return}
+box.innerHTML=`Dosya Linki Hazır<br><br><a href="${link}" target="_blank" style="color:#0757e8;font-weight:900;text-decoration:none">Dokümanı Aç</a>`;
+}
+
+function renderRevisionHistory(items){
+const area=document.getElementById("revisionHistory");
+if(items.length===0){area.innerHTML='<div class="empty">Revizyon geçmişi yok.</div>';return}
+let html='<table><thead><tr><th>Revizyon No</th><th>Geçiş</th><th>Talep Eden</th><th>Durum</th><th>Tarih</th></tr></thead><tbody>';
+items.forEach(r=>{html+=`<tr><td>${r.revisionNo||"-"}</td><td>${r.oldRev||"-"} → ${r.newRev||"-"}</td><td>${r.requester||"-"}</td><td><span class="status ${statusClass(r.status)}">${r.status||"-"}</span></td><td>${formatDateTR(r.requestDate)}</td></tr>`});
+html+='</tbody></table>';area.innerHTML=html;
+}
+
+function renderApprovalHistory(items){
+const area=document.getElementById("approvalHistory");
+if(items.length===0){area.innerHTML='<div class="empty">Onay geçmişi yok.</div>';return}
+let html='<table><thead><tr><th>Onay No</th><th>Revizyon</th><th>Hazırlayan</th><th>Kontrol</th><th>Onay</th><th>Durum</th></tr></thead><tbody>';
+items.forEach(a=>{html+=`<tr><td>${a.approvalNo||"-"}</td><td>${a.oldRev||"-"} → ${a.newRev||"-"}</td><td>${a.preparedBy||"-"}</td><td>${a.checkedBy||"-"}</td><td>${a.approvedBy||"-"}</td><td><span class="status ${statusClass(a.status)}">${a.status||"-"}</span></td></tr>`});
+html+='</tbody></table>';area.innerHTML=html;
+}
+
+function renderArchiveHistory(items){
+const area=document.getElementById("archiveHistory");
+if(items.length===0){area.innerHTML='<div class="empty">Arşiv geçmişi yok.</div>';return}
+let html='<table><thead><tr><th>Arşiv No</th><th>Tip</th><th>Revizyon</th><th>Durum</th><th>Tarih</th></tr></thead><tbody>';
+items.forEach(a=>{html+=`<tr><td>${a.archiveNo||"-"}</td><td>${a.type||"-"}</td><td>${a.oldRev||"-"} → ${a.newRev||"-"}</td><td><span class="status ${statusClass(a.status)}">${a.status||"-"}</span></td><td>${formatDateTR(a.archiveDate)}</td></tr>`});
+html+='</tbody></table>';area.innerHTML=html;
+}
+
+function renderTimeline(data){
+const d=data.doc;
+let html="";
+html+=`<div class="step"><strong>1. Doküman Oluşturuldu</strong><span>${d.code} - ${d.name}<br>${formatDateTR(d.createdAt||d.date)}</span></div>`;
+if(data.revs.length){data.revs.forEach(r=>{html+=`<div class="step"><strong>Revizyon: ${r.revisionNo}</strong><span>${r.oldRev} → ${r.newRev} / ${r.status}<br>${r.reason||""}</span></div>`})}
+if(data.apps.length){data.apps.forEach(a=>{html+=`<div class="step"><strong>Onay: ${a.approvalNo}</strong><span>${a.status} / ${a.preparedBy||"-"} → ${a.checkedBy||"-"} → ${a.approvedBy||"-"}</span></div>`})}
+if(data.arcs.length){data.arcs.forEach(a=>{html+=`<div class="step"><strong>Arşiv: ${a.archiveNo}</strong><span>${a.type} / ${a.status}<br>${a.reason||""}</span></div>`})}
+document.getElementById("timelineArea").innerHTML=html;
+}
+
+function saveViewerMeta(){
+const data=selectedData();if(!data){showToast("Doküman seçilmedi");return}
+const meta=getViewerMeta();
+meta[data.doc.code]={fileLink:document.getElementById("fileLink").value.trim(),viewerNote:document.getElementById("viewerNote").value.trim(),updatedAt:new Date().toISOString(),updatedBy:session.name};
+setViewerMeta(meta);renderViewer();showToast("Görüntüleme bilgileri kaydedildi");
+}
+
+function passiveDocument(){
+const data=selectedData();if(!data)return;
+const docs=getDocuments();docs[data.index].status="Pasif";docs[data.index].updatedAt=new Date().toISOString();setDocuments(docs);renderViewer();showToast("Doküman pasife alındı");
+}
+
+function activateDocument(){
+const data=selectedData();if(!data)return;
+const docs=getDocuments();docs[data.index].status="Yayında";docs[data.index].updatedAt=new Date().toISOString();setDocuments(docs);renderViewer();showToast("Doküman yayına alındı");
+}
+
+function exportSelectedDocument(){
+const data=selectedData();if(!data){showToast("Doküman seçilmedi");return}
+const payload={document:data.doc,revisions:data.revs,approvals:data.apps,archive:data.arcs,viewerMeta:getViewerMeta()[data.doc.code]||{},exportedAt:new Date().toISOString()};
+const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=(data.doc.code||"document")+"_viewer_export.json";a.click();URL.revokeObjectURL(url);showToast("Doküman detayı dışa aktarıldı");
+}
+
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>{t.style.display="none"},2500)}
+
+document.getElementById("globalSearch").addEventListener("input",function(){
+const q=this.value.toLowerCase();
+const docs=getDocuments();
+const idx=docs.findIndex(d=>`${d.code} ${d.name} ${d.owner} ${d.status} ${d.standard}`.toLowerCase().includes(q));
+if(q.length>1&&idx!==-1){document.getElementById("documentSelect").value=idx;renderViewer()}
+});
+
+loadDocuments();
+console.log("GDNL QDMS Document Viewer V1.7 Loaded");
+</script>
+</body>
+</html>
