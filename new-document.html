@@ -3,85 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Yeni Doküman</title>
-
+<title>GDNL QDMS | Yeni Doküman V1.11</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#eef3f9;color:#0f172a}
-.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+body{background:#eef3f9;color:#0f172a}.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
 .sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
-.logo{font-size:30px;font-weight:900;margin-bottom:35px}
-.logo span{color:#1597ff}
-.menu{display:flex;flex-direction:column;gap:8px}
-.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s}
-.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
-.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
-.main{padding:24px}
-.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}
+.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
 .search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
-.profile{display:flex;align-items:center;gap:14px}
-.profile-info{text-align:right}
-.profile-info strong{display:block;font-size:14px}
-.profile-info span{font-size:12px;color:#64748b}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
 .avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
 .logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.hero h1{font-size:38px;margin-bottom:10px}
-.hero p{max-width:850px;color:#dbeafe;line-height:1.7}
-.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
-.layout{display:grid;grid-template-columns:1.3fr .7fr;gap:24px}
-.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}
-.panel h3{font-size:19px;font-weight:900}
-.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.field{display:flex;flex-direction:column;gap:7px}
-.field.full{grid-column:span 3}
-.field.double{grid-column:span 2}
-.field label{font-size:12px;font-weight:900;color:#64748b}
-.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
-.field input[type=file]{padding:10px;height:auto}
-.field textarea{height:105px;padding:12px;resize:none}
-.field textarea.big{height:220px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
-.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
-.btn.dark{background:#0f172a;color:white}
-.btn.green{background:#dcfce7;color:#15803d}
-.btn.red{background:#fee2e2;color:#991b1b}
-.btn.orange{background:#ffedd5;color:#c2410c}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:900px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
+.layout{display:grid;grid-template-columns:1.35fr .65fr;gap:24px}.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 3}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field input[type=file]{height:auto;padding:10px}.field textarea{height:100px;padding:12px;resize:none}.field textarea.big{height:190px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.red{background:#fee2e2;color:#991b1b}.btn.orange{background:#ffedd5;color:#c2410c}
 .status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
-.status.blue{background:#dbeafe;color:#1d4ed8}
-.status.green{background:#dcfce7;color:#15803d}
-.status.orange{background:#ffedd5;color:#c2410c}
-.status.red{background:#fee2e2;color:#b91c1c}
-.status.gray{background:#e2e8f0;color:#334155}
-.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:20px}
-.preview h2{font-size:26px;color:#0757e8;margin:10px 0}
-.preview h4{font-size:16px;margin-bottom:8px}
-.preview p{font-size:13px;color:#64748b;line-height:1.7}
-.meta{display:flex;flex-direction:column;gap:10px;margin-top:18px}
-.meta div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;font-size:13px}
-.meta b{color:#0f172a}
-.meta span{color:#64748b;font-weight:800;text-align:right}
-.checklist{display:flex;flex-direction:column;gap:12px}
-.check{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;font-size:13px;font-weight:800;color:#334155}
-.check.ok{border-color:#86efac;background:#f0fdf4;color:#166534}
-.check.bad{border-color:#fecaca;background:#fef2f2;color:#991b1b}
-.file-card{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:18px;padding:16px;font-size:13px;color:#64748b;font-weight:800;line-height:1.7}
+.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
+.type-section{display:none}.type-section.active{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:20px}.preview h2{font-size:26px;color:#0757e8;margin:10px 0}.preview h4{font-size:16px;margin-bottom:8px}.preview p{font-size:13px;color:#64748b;line-height:1.7}
+.meta{display:flex;flex-direction:column;gap:10px;margin-top:18px}.meta div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;font-size:13px}.meta b{color:#0f172a}.meta span{color:#64748b;font-weight:800;text-align:right}
+.checklist{display:flex;flex-direction:column;gap:12px}.check{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;font-size:13px;font-weight:800;color:#334155}.check.ok{border-color:#86efac;background:#f0fdf4;color:#166534}.check.bad{border-color:#fecaca;background:#fef2f2;color:#991b1b}
 .toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
-@media(max-width:1100px){.layout{grid-template-columns:1fr}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.search{width:300px}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}.form-grid,.type-section.active{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.form-grid,.type-section.active{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}}
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <aside class="sidebar">
 <div>
 <div class="logo">GDNL <span>QDMS</span></div>
-
 <nav class="menu">
 <a href="dashboard.html">🏠 Dashboard</a>
 <a href="documents.html">📄 Doküman Yönetimi</a>
@@ -95,23 +56,14 @@ body{background:#eef3f9;color:#0f172a}
 <a href="#">📈 KPI & Raporlar</a>
 </nav>
 </div>
-
-<div class="sidebar-footer">
-GDNL QDMS Enterprise<br>
-New Document Module<br>
-Version 1.10 File Engine
-</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Document Type Intelligence<br>Version 1.11</div>
 </aside>
 
 <main class="main">
-
 <header class="topbar">
 <input class="search" id="quickSearch" placeholder="Mevcut doküman kodu veya adı ara">
 <div class="profile">
-<div class="profile-info">
-<strong id="userName">Kerem Admin</strong>
-<span id="userRole">Super Administrator</span>
-</div>
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
 <div class="avatar" id="userAvatar">K</div>
 <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
@@ -120,162 +72,163 @@ Version 1.10 File Engine
 <section class="hero">
 <div>
 <h1>New Document Creation Center</h1>
-<p>Yeni doküman oluştur, dosya yükle, manuel içerik yaz, standart bağlantısı kur ve master listeye canlı kaydet.</p>
+<p>Doküman tipine göre prosedür, talimat, form, liste, politika, akış, KEK, OEK, kontrol planı, görev tanımı ve plan alanlarını akıllı şekilde oluştur.</p>
 </div>
 <div class="hero-badge">Workflow: <span id="workflowState">Draft</span></div>
 </section>
 
 <section class="layout">
-
 <div>
 
 <section class="panel">
 <div class="panel-head">
-<h3>Yeni Doküman Bilgileri</h3>
-<span class="status blue" id="qualityGate">QUALITY GATE ACTIVE</span>
+<h3>Temel Doküman Bilgileri</h3>
+<span class="status blue">TYPE INTELLIGENCE ACTIVE</span>
 </div>
 
 <div class="form-grid">
-
 <div class="field">
 <label>Doküman Tipi</label>
 <select id="docType">
 <option value="PR">Prosedür</option>
-<option value="FR">Form</option>
 <option value="TL">Talimat</option>
-<option value="KEK">Kalite El Kitabı</option>
+<option value="FR">Form</option>
+<option value="LS">Liste</option>
 <option value="POL">Politika</option>
-<option value="AŞ">Akış Şeması</option>
+<option value="AS">Akış Şeması</option>
+<option value="KEK">Kalite El Kitabı</option>
+<option value="OEK">Operasyonel El Kitabı</option>
 <option value="KP">Kontrol Planı</option>
 <option value="GT">Görev Tanımı</option>
-<option value="LS">Liste</option>
 <option value="PL">Plan</option>
+<option value="KLV">Kılavuz</option>
 </select>
 </div>
 
-<div class="field">
-<label>Doküman Kodu</label>
-<input id="docCode" placeholder="Otomatik üretilecek">
+<div class="field"><label>Doküman Kodu</label><input id="docCode" placeholder="Otomatik üretilecek"></div>
+<div class="field"><label>Revizyon No</label><input id="docRev" value="R00"></div>
+
+<div class="field double"><label>Doküman Adı</label><input id="docName" placeholder="Doküman adı"></div>
+<div class="field"><label>Durum</label><select id="docStatus"><option>Taslak</option><option>Onayda</option><option>Yayında</option><option>Revizyon</option><option>Pasif</option></select></div>
+
+<div class="field"><label>Sorumlu Departman</label><select id="docOwner"><option>Kalite</option><option>Sistem</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Bakım</option><option>Bilgi Güvenliği</option><option>Yönetim</option></select></div>
+<div class="field"><label>Standart / Referans Sistem</label><select id="docStandard"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 27001</option><option>ISO 50001</option><option>ISO 10002</option><option>IATF 16949</option><option>CoP</option><option>CE / UL / EMC</option><option>Entegre Sistem</option></select></div>
+<div class="field"><label>Kritiklik</label><select id="docCriticality"><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div>
+
+<div class="field"><label>Yürürlük Tarihi</label><input type="date" id="docDate"></div>
+<div class="field"><label>Revizyon Tarihi</label><input type="date" id="revisionDate"></div>
+<div class="field"><label>Gözden Geçirme Tarihi</label><input type="date" id="reviewDate"></div>
+
+<div class="field"><label>Hazırlayan</label><input id="preparedBy"></div>
+<div class="field"><label>Kontrol Eden</label><input id="checkedBy"></div>
+<div class="field"><label>Onaylayan</label><input id="approvedBy"></div>
+
+<div class="field full"><label>İlgili Referanslar</label><textarea id="references" placeholder="Standart maddeleri, bağlı prosedürler, formlar, yasal şartlar..."></textarea></div>
+<div class="field full"><label>Dağıtım Noktaları</label><textarea id="distributionPoints" placeholder="Kalite, Üretim, Bakım, Satınalma, Yönetim, Tedarikçi vb."></textarea></div>
+<div class="field full"><label>Bağlı Departmanlar</label><textarea id="relatedDepartments" placeholder="Bu dokümandan etkilenen departmanlar..."></textarea></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Doküman Tipine Özel Alanlar</h3>
+<span class="status orange" id="typeBadge">PR</span>
 </div>
 
-<div class="field">
-<label>Revizyon No</label>
-<input id="docRev" value="R00">
+<div id="PR" class="type-section">
+<div class="field full"><label>Amaç</label><textarea id="purpose"></textarea></div>
+<div class="field full"><label>Kapsam</label><textarea id="scope"></textarea></div>
+<div class="field full"><label>Tanımlar</label><textarea id="definitions"></textarea></div>
+<div class="field full"><label>Sorumluluklar</label><textarea id="responsibilities"></textarea></div>
+<div class="field full"><label>Uygulama / Prosedür Akışı</label><textarea class="big" id="application"></textarea></div>
+<div class="field full"><label>Kayıtlar ve İlgili Formlar</label><textarea id="records"></textarea></div>
 </div>
 
-<div class="field double">
-<label>Doküman Adı</label>
-<input id="docName" placeholder="Örn: Doküman Kontrol Prosedürü">
+<div id="TL" class="type-section">
+<div class="field full"><label>Amaç / Kullanım Alanı</label><textarea id="instructionPurpose"></textarea></div>
+<div class="field full"><label>İş Güvenliği / Uyarılar</label><textarea id="safetyWarnings"></textarea></div>
+<div class="field full"><label>Uygulama Adımları</label><textarea class="big" id="instructionSteps"></textarea></div>
+<div class="field full"><label>Kontrol Noktaları</label><textarea id="controlPoints"></textarea></div>
 </div>
 
-<div class="field">
-<label>Durum</label>
-<select id="docStatus">
-<option value="Taslak">Taslak</option>
-<option value="Onayda">Onayda</option>
-<option value="Yayında">Yayında</option>
-<option value="Revizyon">Revizyon</option>
-<option value="Pasif">Pasif</option>
-</select>
+<div id="FR" class="type-section">
+<div class="field"><label>Form Kullanım Amacı</label><input id="formPurpose"></div>
+<div class="field"><label>Saklama Süresi</label><input id="retentionPeriod" placeholder="Örn: 5 yıl"></div>
+<div class="field"><label>Kayıt Tipi</label><input id="recordType" placeholder="Kalite kaydı / operasyon kaydı"></div>
+<div class="field full"><label>Form Açıklaması / Kullanım Talimatı</label><textarea id="formInstruction"></textarea></div>
 </div>
 
-<div class="field">
-<label>Süreç Sahibi</label>
-<select id="docOwner">
-<option value="Kalite">Kalite</option>
-<option value="YGG">YGG</option>
-<option value="Sistem">Sistem</option>
-<option value="Üretim">Üretim</option>
-<option value="Satınalma">Satınalma</option>
-<option value="İK">İK</option>
-<option value="Bakım">Bakım</option>
-<option value="Bilgi Güvenliği">Bilgi Güvenliği</option>
-<option value="Mühendislik">Mühendislik</option>
-</select>
+<div id="LS" class="type-section">
+<div class="field"><label>Liste Sahibi</label><input id="listOwner"></div>
+<div class="field"><label>Güncelleme Periyodu</label><input id="updatePeriod" placeholder="Aylık / Yıllık"></div>
+<div class="field"><label>Bağlı Süreç</label><input id="linkedProcess"></div>
+<div class="field full"><label>Liste Açıklaması</label><textarea id="listDescription"></textarea></div>
 </div>
 
-<div class="field">
-<label>Standart Bağlantısı</label>
-<select id="docStandard">
-<option value="ISO 9001">ISO 9001</option>
-<option value="ISO 14001">ISO 14001</option>
-<option value="ISO 45001">ISO 45001</option>
-<option value="ISO 27001">ISO 27001</option>
-<option value="ISO 50001">ISO 50001</option>
-<option value="ISO 10002">ISO 10002</option>
-<option value="IATF 16949">IATF 16949</option>
-<option value="Entegre Sistem">Entegre Sistem</option>
-</select>
+<div id="POL" class="type-section">
+<div class="field full"><label>Politika Amacı</label><textarea id="policyPurpose"></textarea></div>
+<div class="field full"><label>Politika Metni</label><textarea class="big" id="policyText"></textarea></div>
+<div class="field full"><label>Yönetim Taahhütleri</label><textarea id="commitments"></textarea></div>
 </div>
 
-<div class="field">
-<label>Kritiklik</label>
-<select id="docCriticality">
-<option value="Normal">Normal</option>
-<option value="Yüksek">Yüksek</option>
-<option value="Kritik">Kritik</option>
-</select>
+<div id="AS" class="type-section">
+<div class="field"><label>Süreç Adı</label><input id="processName"></div>
+<div class="field"><label>Girdi</label><input id="processInput"></div>
+<div class="field"><label>Çıktı</label><input id="processOutput"></div>
+<div class="field full"><label>Akış Açıklaması</label><textarea id="flowDescription"></textarea></div>
 </div>
 
-<div class="field">
-<label>Yürürlük Tarihi</label>
-<input type="date" id="docDate">
+<div id="KEK" class="type-section">
+<div class="field full"><label>Kurum / Sistem Tanıtımı</label><textarea id="companyIntro"></textarea></div>
+<div class="field full"><label>Proses Yapısı</label><textarea id="processStructure"></textarea></div>
+<div class="field full"><label>Standart Eşleşmeleri</label><textarea id="standardMapping"></textarea></div>
 </div>
 
-<div class="field">
-<label>Gözden Geçirme Tarihi</label>
-<input type="date" id="reviewDate">
+<div id="OEK" class="type-section">
+<div class="field full"><label>Operasyon Kuralları</label><textarea class="big" id="operationRules"></textarea></div>
+<div class="field full"><label>Görev, Yetki ve Sorumluluklar</label><textarea id="operationResponsibilities"></textarea></div>
 </div>
 
-<div class="field">
-<label>Hazırlayan</label>
-<input id="preparedBy" placeholder="Hazırlayan kişi">
+<div id="KP" class="type-section">
+<div class="field"><label>Ürün / Proses</label><input id="productProcess"></div>
+<div class="field"><label>Karakteristik</label><input id="characteristic"></div>
+<div class="field"><label>Kontrol Yöntemi</label><input id="controlMethod"></div>
+<div class="field"><label>Frekans</label><input id="frequency"></div>
+<div class="field"><label>Numune Sayısı</label><input id="sampleSize"></div>
+<div class="field full"><label>Reaksiyon Planı</label><textarea id="reactionPlan"></textarea></div>
 </div>
 
-<div class="field">
-<label>Kontrol Eden</label>
-<input id="checkedBy" placeholder="Kontrol eden kişi">
+<div id="GT" class="type-section">
+<div class="field"><label>Pozisyon</label><input id="position"></div>
+<div class="field"><label>Raporlama</label><input id="reportingLine"></div>
+<div class="field full"><label>Görevler</label><textarea id="duties"></textarea></div>
+<div class="field full"><label>Yetki ve Sorumluluklar</label><textarea id="authority"></textarea></div>
 </div>
 
-<div class="field">
-<label>Onaylayan</label>
-<input id="approvedBy" placeholder="Onaylayan kişi">
+<div id="PL" class="type-section">
+<div class="field full"><label>Plan Amacı</label><textarea id="planPurpose"></textarea></div>
+<div class="field full"><label>Faaliyetler / Terminler / Sorumlular</label><textarea class="big" id="planActivities"></textarea></div>
+<div class="field full"><label>KPI / İzleme Kriterleri</label><textarea id="planKpi"></textarea></div>
 </div>
 
-<div class="field full">
-<label>Dosya Yükle — PDF / Word / Excel / PowerPoint / Resim / TXT / ZIP</label>
-<input id="documentFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar">
+<div id="KLV" class="type-section">
+<div class="field full"><label>Kılavuz Amacı</label><textarea id="guidePurpose"></textarea></div>
+<div class="field full"><label>Kullanım Açıklaması</label><textarea class="big" id="guideContent"></textarea></div>
 </div>
+</section>
 
-<div class="field full">
-<div class="file-card" id="fileInfo">
-Henüz dosya seçilmedi. Dosya seçersen adı, tipi, boyutu ve Base64 verisi dokümana kaydedilir.
+<section class="panel">
+<div class="panel-head"><h3>Dosya & Manuel İçerik</h3><span class="status green">FILE ENGINE</span></div>
+<div class="form-grid">
+<div class="field full"><label>Dosya Yükle — PDF / Word / Excel / PPT / Resim / TXT / ZIP</label><input id="documentFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+<div class="field full"><label>Manuel Doküman İçeriği</label><textarea class="big" id="documentContent"></textarea></div>
+<div class="field full"><label>Revizyon / Oluşturma Notu</label><textarea id="revisionNote"></textarea></div>
 </div>
-</div>
-
-<div class="field full">
-<label>Manuel Doküman İçeriği</label>
-<textarea class="big" id="documentContent" placeholder="Prosedür, talimat, form açıklaması veya doküman içeriğini buraya yazabilirsin. Bu içerik kaydedilir ve viewer ekranında görüntülenip indirilebilir."></textarea>
-</div>
-
-<div class="field full">
-<label>Amaç ve Kapsam</label>
-<textarea id="docDescription" placeholder="Dokümanın amacı, kapsamı ve hangi süreci yönettiği..."></textarea>
-</div>
-
-<div class="field full">
-<label>Revizyon / Oluşturma Notu</label>
-<textarea id="revisionNote" placeholder="İlk yayın notu veya oluşturma gerekçesi..."></textarea>
-</div>
-
-</div>
-
 <div class="actions">
 <button class="btn dark" onclick="generateCode()">Kod Üret</button>
 <button class="btn primary" onclick="saveNewDocument(false)">Dokümanı Oluştur</button>
 <button class="btn green" onclick="saveNewDocument(true)">Yayınla ve Kaydet</button>
 <button class="btn orange" onclick="clearForm()">Temizle</button>
-<button class="btn dark" onclick="downloadManualContent()">Yazdığım İçeriği TXT İndir</button>
 <button class="btn red" onclick="window.location.href='documents.html'">Master Listeye Git</button>
 </div>
 </section>
@@ -283,374 +236,250 @@ Henüz dosya seçilmedi. Dosya seçersen adı, tipi, boyutu ve Base64 verisi dok
 </div>
 
 <div>
-
 <section class="panel">
-<div class="panel-head">
-<h3>Canlı Ön İzleme</h3>
-<span class="status green">LIVE</span>
-</div>
-
+<div class="panel-head"><h3>Canlı Ön İzleme</h3><span class="status green">LIVE</span></div>
 <div class="preview">
 <span class="status blue" id="pStatus">Taslak</span>
 <h2 id="pCode">PR.001</h2>
 <h4 id="pName">Yeni Doküman Adı</h4>
-<p id="pDescription">Amaç ve kapsam bilgisi burada canlı olarak görüntülenecek.</p>
-
+<p id="pDescription">Tip seçimine göre doküman içeriği oluşturulacak.</p>
 <div class="meta">
+<div><b>Tip</b><span id="pType">Prosedür</span></div>
 <div><b>Revizyon</b><span id="pRev">R00</span></div>
 <div><b>Sahip</b><span id="pOwner">Kalite</span></div>
 <div><b>Standart</b><span id="pStandard">ISO 9001</span></div>
-<div><b>Kritiklik</b><span id="pCriticality">Normal</span></div>
 <div><b>Yürürlük</b><span id="pDate">-</span></div>
-<div><b>Gözden Geçirme</b><span id="pReview">-</span></div>
-<div><b>Yüklenen Dosya</b><span id="pFile">Yok</span></div>
-<div><b>Manuel İçerik</b><span id="pContent">Yok</span></div>
+<div><b>Dosya</b><span id="pFile">Yok</span></div>
 </div>
 </div>
 </section>
 
 <section class="panel">
-<div class="panel-head">
-<h3>Kalite Kapısı</h3>
-<span class="status orange">CONTROL</span>
-</div>
-
+<div class="panel-head"><h3>Kalite Kapısı</h3><span class="status orange">CONTROL</span></div>
 <div class="checklist">
-<div class="check" id="checkCode">Doküman kodu bekleniyor</div>
-<div class="check" id="checkName">Doküman adı bekleniyor</div>
-<div class="check" id="checkRev">Revizyon formatı bekleniyor</div>
-<div class="check" id="checkDesc">Amaç ve kapsam bekleniyor</div>
+<div class="check" id="checkCode">Kod bekleniyor</div>
+<div class="check" id="checkName">Ad bekleniyor</div>
+<div class="check" id="checkRev">Revizyon bekleniyor</div>
+<div class="check" id="checkType">Tip alanları bekleniyor</div>
 <div class="check" id="checkDuplicate">Tekil kod kontrolü bekleniyor</div>
-<div class="check" id="checkFile">Dosya veya manuel içerik opsiyonel</div>
 </div>
 </section>
-
 </div>
-
 </section>
-
 </main>
 </div>
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session = JSON.parse(localStorage.getItem("gdnl_qdms_session")) || {
-name:"Kerem Admin",
-role:"Super Administrator",
-loginAt:new Date().toISOString()
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+document.getElementById("userName").textContent=session.name||"User";
+document.getElementById("userRole").textContent=session.role||"User";
+document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let uploadedFileData=null;
+
+const typeNames={PR:"Prosedür",TL:"Talimat",FR:"Form",LS:"Liste",POL:"Politika",AS:"Akış Şeması",KEK:"Kalite El Kitabı",OEK:"Operasyonel El Kitabı",KP:"Kontrol Planı",GT:"Görev Tanımı",PL:"Plan",KLV:"Kılavuz"};
+
+const typeRequired={
+PR:["purpose","scope","responsibilities","application"],
+TL:["instructionSteps"],
+FR:["formPurpose"],
+LS:["listDescription"],
+POL:["policyText"],
+AS:["processName","flowDescription"],
+KEK:["companyIntro","processStructure"],
+OEK:["operationRules"],
+KP:["productProcess","controlMethod","reactionPlan"],
+GT:["position","duties"],
+PL:["planPurpose","planActivities"],
+KLV:["guideContent"]
 };
 
-localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
-
-document.getElementById("userName").textContent = session.name || "User";
-document.getElementById("userRole").textContent = session.role || "User";
-document.getElementById("userAvatar").textContent = (session.name || "U").charAt(0).toUpperCase();
-
-let uploadedFileData = null;
-
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-window.location.href="index.html";
-}
-
-function getDocuments(){
-return JSON.parse(localStorage.getItem("gdnl_documents")) || [];
-}
-
-function setDocuments(docs){
-localStorage.setItem("gdnl_documents", JSON.stringify(docs));
-}
-
-function todayISO(){
-return new Date().toISOString().split("T")[0];
-}
-
-function addMonths(date,months){
-const d = new Date(date);
-d.setMonth(d.getMonth()+months);
-return d.toISOString().split("T")[0];
-}
-
-function formatDateTR(value){
-if(!value) return "-";
-const d = new Date(value);
-if(isNaN(d)) return value;
-return d.toLocaleDateString("tr-TR");
-}
-
-function formatFileSize(bytes){
-if(!bytes) return "0 KB";
-if(bytes < 1024) return bytes + " B";
-if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-}
-
-function statusClass(status){
-if(status==="Yayında") return "green";
-if(status==="Revizyon") return "orange";
-if(status==="Pasif") return "gray";
-if(status==="Kritik") return "red";
-return "blue";
-}
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
+function setDocuments(docs){localStorage.setItem("gdnl_documents",JSON.stringify(docs))}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addMonths(date,m){const d=new Date(date);d.setMonth(d.getMonth()+m);return d.toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function statusClass(s){if(s==="Yayında")return"green";if(s==="Revizyon")return"orange";if(s==="Pasif")return"gray";return"blue"}
+function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 
 function generateCode(){
-const type = document.getElementById("docType").value;
-const docs = getDocuments();
-let max = 0;
-
-docs.forEach(doc=>{
-const code = doc.code || "";
-if(code.startsWith(type + ".")){
-const num = parseInt(code.split(".")[1],10);
-if(!isNaN(num) && num > max) max = num;
-}
-});
-
-document.getElementById("docCode").value = type + "." + String(max + 1).padStart(3,"0");
+const type=document.getElementById("docType").value;
+const docs=getDocuments();let max=0;
+docs.forEach(doc=>{const c=doc.code||"";if(c.startsWith(type+".")){const n=parseInt(c.split(".")[1],10);if(!isNaN(n)&&n>max)max=n}});
+document.getElementById("docCode").value=type+"."+String(max+1).padStart(3,"0");
 updateLive();
 }
 
-function updateLive(){
-const code = document.getElementById("docCode").value.trim() || "PR.001";
-const name = document.getElementById("docName").value.trim() || "Yeni Doküman Adı";
-const rev = document.getElementById("docRev").value.trim() || "R00";
-const status = document.getElementById("docStatus").value;
-const owner = document.getElementById("docOwner").value;
-const standard = document.getElementById("docStandard").value;
-const criticality = document.getElementById("docCriticality").value;
-const date = document.getElementById("docDate").value;
-const review = document.getElementById("reviewDate").value;
-const desc = document.getElementById("docDescription").value.trim() || "Amaç ve kapsam bilgisi burada canlı olarak görüntülenecek.";
-const manualContent = document.getElementById("documentContent").value.trim();
-
-document.getElementById("pCode").textContent = code;
-document.getElementById("pName").textContent = name;
-document.getElementById("pRev").textContent = rev;
-document.getElementById("pStatus").textContent = status;
-document.getElementById("pStatus").className = "status " + statusClass(status);
-document.getElementById("pOwner").textContent = owner;
-document.getElementById("pStandard").textContent = standard;
-document.getElementById("pCriticality").textContent = criticality;
-document.getElementById("pDate").textContent = formatDateTR(date);
-document.getElementById("pReview").textContent = formatDateTR(review);
-document.getElementById("pDescription").textContent = desc;
-document.getElementById("workflowState").textContent = status;
-document.getElementById("pFile").textContent = uploadedFileData ? uploadedFileData.fileName : "Yok";
-document.getElementById("pContent").textContent = manualContent.length > 0 ? manualContent.length + " karakter" : "Yok";
-
-validateLive();
+function switchType(){
+const type=document.getElementById("docType").value;
+document.querySelectorAll(".type-section").forEach(x=>x.classList.remove("active"));
+document.getElementById(type).classList.add("active");
+document.getElementById("typeBadge").textContent=typeNames[type];
+if(!document.getElementById("docName").value.trim())document.getElementById("docName").placeholder=typeNames[type]+" adı";
+generateCode();
 }
 
-function setCheck(id, ok, okText, badText){
-const el = document.getElementById(id);
-if(ok){
-el.className = "check ok";
-el.textContent = "✓ " + okText;
-}else{
-el.className = "check bad";
-el.textContent = "✕ " + badText;
-}
+function getTypeSpecificData(){
+const type=document.getElementById("docType").value;
+const section=document.getElementById(type);
+const data={};
+section.querySelectorAll("input,textarea,select").forEach(el=>data[el.id]=el.value.trim());
+return data;
 }
 
-function validateLive(){
-const docs = getDocuments();
-const code = document.getElementById("docCode").value.trim();
-const name = document.getElementById("docName").value.trim();
-const rev = document.getElementById("docRev").value.trim();
-const desc = document.getElementById("docDescription").value.trim();
-const manualContent = document.getElementById("documentContent").value.trim();
-const duplicate = docs.some(doc => (doc.code || "").toLowerCase() === code.toLowerCase());
-
-setCheck("checkCode", code.length >= 5, "Kod formatı uygun", "Kod eksik");
-setCheck("checkName", name.length >= 5, "Doküman adı uygun", "Doküman adı kısa");
-setCheck("checkRev", /^R\d{2}$/.test(rev), "Revizyon formatı uygun", "Revizyon R00 formatında olmalı");
-setCheck("checkDesc", desc.length >= 15, "Amaç ve kapsam uygun", "Amaç ve kapsam en az 15 karakter olmalı");
-setCheck("checkDuplicate", code && !duplicate, "Kod tekil ve kullanılabilir", duplicate ? "Bu kod zaten mevcut" : "Kod kontrolü bekleniyor");
-
-if(uploadedFileData || manualContent.length > 0){
-setCheck("checkFile", true, "Dosya / manuel içerik hazır", "");
-}else{
-const el = document.getElementById("checkFile");
-el.className = "check";
-el.textContent = "Dosya veya manuel içerik opsiyonel";
-}
+function validateTypeFields(){
+const type=document.getElementById("docType").value;
+const required=typeRequired[type]||[];
+return required.every(id=>{const el=document.getElementById(id);return el&&el.value.trim().length>=3});
 }
 
-function handleFileUpload(event){
-const file = event.target.files[0];
+function createDocumentText(){
+const type=document.getElementById("docType").value;
+const data=getTypeSpecificData();
+let text="";
+Object.keys(data).forEach(k=>{if(data[k])text+=k.toUpperCase()+":\n"+data[k]+"\n\n"});
+return text.trim();
+}
 
-if(!file){
-uploadedFileData = null;
-document.getElementById("fileInfo").textContent = "Henüz dosya seçilmedi.";
+function handleFileUpload(e){
+const file=e.target.files[0];
+if(!file){uploadedFileData=null;updateLive();return}
+if(file.size>4.5*1024*1024){e.target.value="";uploadedFileData=null;showToast("Maksimum 4.5 MB dosya önerilir.");return}
+const reader=new FileReader();
+reader.onload=function(ev){
+uploadedFileData={fileName:file.name,fileType:file.type||"unknown",fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};
+showToast("Dosya yüklendi");
 updateLive();
-return;
-}
-
-const maxSize = 4.5 * 1024 * 1024;
-
-if(file.size > maxSize){
-uploadedFileData = null;
-event.target.value = "";
-showToast("Dosya çok büyük. Demo sistem için maksimum 4.5 MB önerilir.");
-document.getElementById("fileInfo").textContent = "Dosya reddedildi. Maksimum 4.5 MB.";
-updateLive();
-return;
-}
-
-const reader = new FileReader();
-
-reader.onload = function(e){
-uploadedFileData = {
-fileName:file.name,
-fileType:file.type || "unknown",
-fileSize:file.size,
-fileSizeText:formatFileSize(file.size),
-fileData:e.target.result,
-uploadedAt:new Date().toISOString()
 };
-
-document.getElementById("fileInfo").innerHTML =
-"✓ Dosya hazır<br>" +
-"Ad: " + uploadedFileData.fileName + "<br>" +
-"Tip: " + uploadedFileData.fileType + "<br>" +
-"Boyut: " + uploadedFileData.fileSizeText;
-
-updateLive();
-showToast("Dosya yüklendi ve kayda hazır");
-};
-
-reader.onerror = function(){
-uploadedFileData = null;
-showToast("Dosya okunamadı");
-};
-
 reader.readAsDataURL(file);
 }
 
-function saveNewDocument(forcePublished){
-const docs = getDocuments();
+function updateLive(){
+const type=document.getElementById("docType").value;
+document.getElementById("pCode").textContent=document.getElementById("docCode").value||type+".001";
+document.getElementById("pName").textContent=document.getElementById("docName").value||"Yeni Doküman Adı";
+document.getElementById("pRev").textContent=document.getElementById("docRev").value||"R00";
+document.getElementById("pStatus").textContent=document.getElementById("docStatus").value;
+document.getElementById("pStatus").className="status "+statusClass(document.getElementById("docStatus").value);
+document.getElementById("pType").textContent=typeNames[type];
+document.getElementById("pOwner").textContent=document.getElementById("docOwner").value;
+document.getElementById("pStandard").textContent=document.getElementById("docStandard").value;
+document.getElementById("pDate").textContent=formatDateTR(document.getElementById("docDate").value);
+document.getElementById("pFile").textContent=uploadedFileData?uploadedFileData.fileName:"Yok";
+document.getElementById("workflowState").textContent=document.getElementById("docStatus").value;
+validateLive();
+}
 
-const payload = {
+function setCheck(id,ok,okText,badText){
+const el=document.getElementById(id);
+el.className=ok?"check ok":"check bad";
+el.textContent=(ok?"✓ ":"✕ ")+(ok?okText:badText);
+}
+
+function validateLive(){
+const docs=getDocuments();
+const code=document.getElementById("docCode").value.trim();
+const name=document.getElementById("docName").value.trim();
+const rev=document.getElementById("docRev").value.trim();
+const duplicate=docs.some(d=>(d.code||"").toLowerCase()===code.toLowerCase());
+setCheck("checkCode",code.length>=5,"Kod uygun","Kod eksik");
+setCheck("checkName",name.length>=5,"Doküman adı uygun","Doküman adı kısa");
+setCheck("checkRev",/^R\d{2}$/.test(rev),"Revizyon uygun","Revizyon R00 formatında olmalı");
+setCheck("checkType",validateTypeFields(),"Tip alanları uygun","Bu doküman tipi için zorunlu alanlar eksik");
+setCheck("checkDuplicate",code&&!duplicate,"Kod tekil","Bu kod zaten mevcut");
+}
+
+function saveNewDocument(forcePublished){
+const docs=getDocuments();
+const type=document.getElementById("docType").value;
+const typeText=createDocumentText();
+const manual=document.getElementById("documentContent").value.trim();
+const payload={
+systemId:"DOC-"+Date.now(),
+docType:type,
+docTypeName:typeNames[type],
 code:document.getElementById("docCode").value.trim(),
 name:document.getElementById("docName").value.trim(),
 rev:document.getElementById("docRev").value.trim(),
+status:forcePublished?"Yayında":document.getElementById("docStatus").value,
 owner:document.getElementById("docOwner").value,
-status:forcePublished ? "Yayında" : document.getElementById("docStatus").value,
-date:document.getElementById("docDate").value,
-reviewDate:document.getElementById("reviewDate").value,
 standard:document.getElementById("docStandard").value,
 criticality:document.getElementById("docCriticality").value,
-description:document.getElementById("docDescription").value.trim(),
-revisionNote:document.getElementById("revisionNote").value.trim(),
-documentContent:document.getElementById("documentContent").value.trim(),
-fileName:uploadedFileData ? uploadedFileData.fileName : "",
-fileType:uploadedFileData ? uploadedFileData.fileType : "",
-fileSize:uploadedFileData ? uploadedFileData.fileSize : "",
-fileSizeText:uploadedFileData ? uploadedFileData.fileSizeText : "",
-fileData:uploadedFileData ? uploadedFileData.fileData : "",
-fileUploadedAt:uploadedFileData ? uploadedFileData.uploadedAt : "",
+date:document.getElementById("docDate").value,
+revisionDate:document.getElementById("revisionDate").value,
+reviewDate:document.getElementById("reviewDate").value,
 preparedBy:document.getElementById("preparedBy").value.trim(),
 checkedBy:document.getElementById("checkedBy").value.trim(),
 approvedBy:document.getElementById("approvedBy").value.trim(),
+references:document.getElementById("references").value.trim(),
+distributionPoints:document.getElementById("distributionPoints").value.trim(),
+relatedDepartments:document.getElementById("relatedDepartments").value.trim(),
+typeSpecific:getTypeSpecificData(),
+description:typeText || manual || document.getElementById("docName").value.trim(),
+documentContent:manual || typeText,
+revisionNote:document.getElementById("revisionNote").value.trim(),
+fileName:uploadedFileData?uploadedFileData.fileName:"",
+fileType:uploadedFileData?uploadedFileData.fileType:"",
+fileSize:uploadedFileData?uploadedFileData.fileSize:"",
+fileSizeText:uploadedFileData?uploadedFileData.fileSizeText:"",
+fileData:uploadedFileData?uploadedFileData.fileData:"",
+fileUploadedAt:uploadedFileData?uploadedFileData.uploadedAt:"",
 createdAt:new Date().toISOString(),
 updatedAt:new Date().toISOString(),
 source:"new-document.html"
 };
 
 if(!payload.code){showToast("Doküman kodu zorunlu");return}
-if(payload.name.length < 5){showToast("Doküman adı en az 5 karakter olmalı");return}
+if(payload.name.length<5){showToast("Doküman adı en az 5 karakter olmalı");return}
 if(!/^R\d{2}$/.test(payload.rev)){showToast("Revizyon R00 formatında olmalı");return}
-if(payload.description.length < 15){showToast("Amaç ve kapsam en az 15 karakter olmalı");return}
-
-const duplicate = docs.some(doc => (doc.code || "").toLowerCase() === payload.code.toLowerCase());
-if(duplicate){showToast("Bu doküman kodu zaten mevcut");return}
+if(!validateTypeFields()){showToast("Doküman tipine özel zorunlu alanları doldur");return}
+if(docs.some(d=>(d.code||"").toLowerCase()===payload.code.toLowerCase())){showToast("Bu doküman kodu zaten mevcut");return}
 
 docs.unshift(payload);
 setDocuments(docs);
-
-showToast(forcePublished ? "Doküman yayınlandı ve kaydedildi" : "Yeni doküman oluşturuldu");
+showToast(forcePublished?"Doküman yayınlandı ve kaydedildi":"Yeni doküman oluşturuldu");
 clearForm();
 }
 
 function clearForm(){
-document.getElementById("docType").value = "PR";
-document.getElementById("docCode").value = "";
-document.getElementById("docRev").value = "R00";
-document.getElementById("docName").value = "";
-document.getElementById("docStatus").value = "Taslak";
-document.getElementById("docOwner").value = "Kalite";
-document.getElementById("docStandard").value = "ISO 9001";
-document.getElementById("docCriticality").value = "Normal";
-document.getElementById("docDate").value = todayISO();
-document.getElementById("reviewDate").value = addMonths(todayISO(),12);
-document.getElementById("preparedBy").value = "";
-document.getElementById("checkedBy").value = "";
-document.getElementById("approvedBy").value = "";
-document.getElementById("docDescription").value = "";
-document.getElementById("revisionNote").value = "";
-document.getElementById("documentContent").value = "";
-document.getElementById("documentFile").value = "";
-document.getElementById("fileInfo").textContent = "Henüz dosya seçilmedi. Dosya seçersen adı, tipi, boyutu ve Base64 verisi dokümana kaydedilir.";
-uploadedFileData = null;
+document.querySelectorAll("input,textarea").forEach(el=>{if(el.type!=="date"&&el.type!=="file")el.value=""});
+document.getElementById("docRev").value="R00";
+document.getElementById("docStatus").value="Taslak";
+document.getElementById("docOwner").value="Kalite";
+document.getElementById("docStandard").value="ISO 9001";
+document.getElementById("docCriticality").value="Normal";
+document.getElementById("docDate").value=todayISO();
+document.getElementById("revisionDate").value=todayISO();
+document.getElementById("reviewDate").value=addMonths(todayISO(),12);
+document.getElementById("preparedBy").value=session.name||"";
+uploadedFileData=null;
 generateCode();
 updateLive();
 }
 
-function downloadManualContent(){
-const content = document.getElementById("documentContent").value.trim();
-const code = document.getElementById("docCode").value.trim() || "document";
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2500)}
 
-if(!content){
-showToast("İndirilecek manuel içerik yok");
-return;
-}
-
-const blob = new Blob([content], {type:"text/plain;charset=utf-8"});
-const url = URL.createObjectURL(blob);
-const a = document.createElement("a");
-a.href = url;
-a.download = code + "_manuel_icerik.txt";
-a.click();
-URL.revokeObjectURL(url);
-showToast("Manuel içerik indirildi");
-}
-
-function showToast(message){
-const toast = document.getElementById("toast");
-toast.textContent = message;
-toast.style.display = "block";
-setTimeout(()=>{toast.style.display = "none"},2500);
-}
-
-document.querySelectorAll("input,select,textarea").forEach(el=>{
-el.addEventListener("input",updateLive);
-el.addEventListener("change",updateLive);
-});
-
+document.querySelectorAll("input,select,textarea").forEach(el=>{el.addEventListener("input",updateLive);el.addEventListener("change",updateLive)});
+document.getElementById("docType").addEventListener("change",switchType);
 document.getElementById("documentFile").addEventListener("change",handleFileUpload);
 
 document.getElementById("quickSearch").addEventListener("input",function(){
-const q = this.value.trim().toLowerCase();
-if(q.length < 2) return;
-
-const found = getDocuments().find(doc=>{
-return (doc.code || "").toLowerCase().includes(q) || (doc.name || "").toLowerCase().includes(q);
+const q=this.value.trim().toLowerCase();
+if(q.length<2)return;
+const found=getDocuments().find(d=>(d.code||"").toLowerCase().includes(q)||(d.name||"").toLowerCase().includes(q));
+if(found)showToast("Mevcut kayıt: "+found.code+" / "+found.name);
 });
 
-if(found){
-showToast("Mevcut kayıt: " + found.code + " / " + found.name);
-}
-});
-
-document.getElementById("docDate").value = todayISO();
-document.getElementById("reviewDate").value = addMonths(todayISO(),12);
-
-generateCode();
-updateLive();
-
-console.log("GDNL QDMS New Document Module V1.10 File Engine Loaded");
+document.getElementById("docDate").value=todayISO();
+document.getElementById("revisionDate").value=todayISO();
+document.getElementById("reviewDate").value=addMonths(todayISO(),12);
+document.getElementById("preparedBy").value=session.name||"";
+switchType();
+console.log("GDNL QDMS New Document V1.11 Loaded");
 </script>
-
 </body>
 </html>
