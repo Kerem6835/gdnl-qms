@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS</title>
+<title>GDNL QDMS | Secure Login</title>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
 body{min-height:100vh;background:#eef3f9;color:#0f172a}
 .page{min-height:100vh;display:grid;grid-template-columns:1.12fr .88fr}
 .left{background:linear-gradient(90deg,rgba(3,13,31,.97),rgba(3,13,31,.90)),url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1800&q=90');background-size:cover;background-position:center;color:white;padding:70px 80px;display:flex;flex-direction:column;justify-content:space-between}
-.brand{font-size:40px;font-weight:900}.brand span{color:#1597ff}
+.brand{font-size:40px;font-weight:900}
+.brand span{color:#1597ff}
 .hero h1{font-size:54px;line-height:1.08;margin-bottom:28px;max-width:760px}
 .hero p{font-size:21px;line-height:1.65;color:#dbeafe;max-width:760px}
 .standards{margin-top:28px;color:#93c5fd;font-size:16px;line-height:1.8;max-width:800px}
@@ -23,24 +25,41 @@ body{min-height:100vh;background:#eef3f9;color:#0f172a}
 label{display:block;font-weight:800;margin-bottom:10px}
 input{width:100%;height:64px;border:1px solid #cbd5e1;border-radius:15px;padding:0 18px;font-size:17px;margin-bottom:24px;outline:none}
 input:focus{border-color:#1677ff;box-shadow:0 0 0 4px rgba(22,119,255,.12)}
+.password-wrap{position:relative}
+.password-wrap input{padding-right:58px}
+.toggle-pass{position:absolute;right:12px;top:10px;width:44px;height:44px;border:none;border-radius:12px;background:#eef2f7;color:#334155;font-size:18px;font-weight:900;cursor:pointer}
 .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;color:#475569}
-.row a{color:#1677ff;text-decoration:none;font-weight:800}
-button{width:100%;height:68px;border:none;border-radius:16px;background:linear-gradient(90deg,#0757e8,#0ea5ff);color:white;font-size:22px;font-weight:900;cursor:pointer}
-button:hover{transform:translateY(-1px)}
+.remember{display:flex;align-items:center;font-weight:800;font-size:14px}
+.remember input{width:auto;height:auto;margin:0 8px 0 0}
+.row a{color:#1677ff;text-decoration:none;font-weight:800;font-size:14px}
+.login-btn{width:100%;height:68px;border:none;border-radius:16px;background:linear-gradient(90deg,#0757e8,#0ea5ff);color:white;font-size:22px;font-weight:900;cursor:pointer}
+.login-btn:hover{transform:translateY(-1px)}
+.login-btn:disabled{opacity:.65;cursor:not-allowed}
 .error{display:none;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;padding:13px 15px;border-radius:12px;font-size:14px;font-weight:800;margin-bottom:18px}
+.success{display:none;background:#dcfce7;color:#15803d;border:1px solid #bbf7d0;padding:13px 15px;border-radius:12px;font-size:14px;font-weight:800;margin-bottom:18px}
 .footer{text-align:center;margin-top:26px;color:#94a3b8;font-size:14px}
-@media(max-width:1000px){.page{grid-template-columns:1fr}.left{padding:42px;min-height:560px}.hero h1{font-size:40px}.right{padding:32px}.login{padding:36px}}
+@media(max-width:1000px){
+.page{grid-template-columns:1fr}
+.left{padding:42px;min-height:560px}
+.hero h1{font-size:40px}
+.right{padding:32px}
+.login{padding:36px}
+}
 </style>
 </head>
+
 <body>
 <div class="page">
+
 <section class="left">
   <div class="brand">GDNL <span>QDMS</span></div>
+
   <div class="hero">
     <h1>Kalite ve Uygunluk Süreçlerinize Güvenli Erişim</h1>
     <p>Doküman, revizyon, CAPA/DÖF, iç denetim, risk, eğitim, kalibrasyon, tedarikçi performansı ve KPI süreçlerinizi tek kurumsal platformdan yönetin.</p>
     <div class="standards">COP • EV • ISO 9001 • ISO 14001 • ISO 45001 • ISO 50001 • ISO 27001 • ISO 10002 • IATF 16949 • APQP • PPAP • FMEA • MSA • SPC • 8D • 5Why • CE • UL • EMC</div>
   </div>
+
   <div class="badges">
     <div class="badge">Document Control</div>
     <div class="badge">Audit Management</div>
@@ -56,22 +75,31 @@ button:hover{transform:translateY(-1px)}
     <p>Kurumsal hesabınızla devam edin.</p>
 
     <div class="error" id="loginError">E-posta veya şifre hatalı.</div>
+    <div class="success" id="loginSuccess">Giriş başarılı. Dashboard açılıyor...</div>
 
-    <label>E-posta Adresi</label>
-    <input id="email" type="email" placeholder="admin@gdnl.com">
+    <label for="email">E-posta Adresi</label>
+    <input id="email" type="email" placeholder="admin@gdnl.com" autocomplete="username">
 
-    <label>Şifre</label>
-    <input id="password" type="password" placeholder="Şifrenizi giriniz">
-
-    <div class="row">
-      <span><input type="checkbox" style="width:auto;height:auto;margin:0 8px 0 0">Beni hatırla</span>
-      <a href="#">Şifremi unuttum?</a>
+    <label for="password">Şifre</label>
+    <div class="password-wrap">
+      <input id="password" type="password" placeholder="Şifrenizi giriniz" autocomplete="current-password">
+      <button class="toggle-pass" type="button" onclick="togglePassword()">👁</button>
     </div>
 
-    <button onclick="login()">Giriş Yap</button>
+    <div class="row">
+      <label class="remember">
+        <input id="rememberMe" type="checkbox">
+        Beni hatırla
+      </label>
+      <a href="#" onclick="forgotPassword(event)">Şifremi unuttum?</a>
+    </div>
+
+    <button class="login-btn" id="loginBtn" onclick="login()">Giriş Yap</button>
+
     <div class="footer">© 2026 GDNL QDMS - Enterprise Quality Platform</div>
   </div>
 </section>
+
 </div>
 
 <script>
@@ -79,25 +107,82 @@ const users=[
   {email:"admin@gdnl.com",password:"123456",role:"Super Administrator",name:"Kerem Güdenli"}
 ];
 
+const existingSession=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null");
+
+if(existingSession && existingSession.email && existingSession.loginAt){
+  window.location.href="dashboard.html";
+}
+
 function login(){
   const email=document.getElementById("email").value.trim().toLowerCase();
   const password=document.getElementById("password").value.trim();
-  const user=users.find(u=>u.email===email&&u.password===password);
+  const rememberMe=document.getElementById("rememberMe").checked;
+  const error=document.getElementById("loginError");
+  const success=document.getElementById("loginSuccess");
+  const button=document.getElementById("loginBtn");
 
-  if(!user){
-    document.getElementById("loginError").style.display="block";
+  error.style.display="none";
+  success.style.display="none";
+
+  if(!email || !password){
+    error.textContent="E-posta ve şifre zorunludur.";
+    error.style.display="block";
     return;
   }
 
-  localStorage.setItem("gdnl_qdms_session",JSON.stringify({
+  const user=users.find(u=>u.email===email && u.password===password);
+
+  if(!user){
+    error.textContent="E-posta veya şifre hatalı.";
+    error.style.display="block";
+    return;
+  }
+
+  const session={
     name:user.name,
     email:user.email,
     role:user.role,
+    rememberMe:rememberMe,
     loginAt:new Date().toISOString()
-  }));
+  };
 
-  window.location.href="dashboard.html";
+  localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+
+  button.disabled=true;
+  button.textContent="Giriş yapılıyor...";
+  success.style.display="block";
+
+  setTimeout(function(){
+    window.location.href="dashboard.html";
+  },500);
+}
+
+function togglePassword(){
+  const input=document.getElementById("password");
+  input.type=input.type==="password" ? "text" : "password";
+}
+
+function forgotPassword(e){
+  e.preventDefault();
+  const error=document.getElementById("loginError");
+  error.textContent="Demo sistemde şifre sıfırlama aktif değildir. Yönetici hesabı: admin@gdnl.com";
+  error.style.display="block";
+}
+
+document.getElementById("email").addEventListener("input",clearMessages);
+document.getElementById("password").addEventListener("input",clearMessages);
+
+document.addEventListener("keydown",function(e){
+  if(e.key==="Enter"){
+    login();
+  }
+});
+
+function clearMessages(){
+  document.getElementById("loginError").style.display="none";
+  document.getElementById("loginSuccess").style.display="none";
 }
 </script>
+
 </body>
 </html>
