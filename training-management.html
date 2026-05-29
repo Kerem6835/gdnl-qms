@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Training Management</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:1100px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 4}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}.field textarea{height:92px;padding:12px;resize:none}.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}.status.purple{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.close{background:#dcfce7;color:#15803d}.small-btn.alert{background:#ffedd5;color:#c2410c}.small-btn.delete{background:#fee2e2;color:#991b1b}.small-btn.dark{background:#0f172a;color:white}.small-btn.down{background:#dcfce7;color:#15803d}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.subgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}.box h4{font-size:15px;font-weight:900;margin-bottom:12px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1040px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}.drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px}.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.preview img{max-width:100%;border-radius:14px}.preview iframe{width:100%;height:420px;border:none;border-radius:14px;background:white}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.subgrid{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid,.subgrid{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="new-document.html">➕ Yeni Doküman</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="notification-center.html">🔔 Bildirim Merkezi</a>
+<a href="users.html">👥 Kullanıcılar</a>
+<a href="audit.html">🧾 İç Denetim</a>
+<a href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a class="active" href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="#">📈 KPI & Raporlar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Training & Competency<br>ISO / IATF / CoP / EV Ready</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="Eğitim no, kişi, departman, standart, risk, CAPA, audit veya durum ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Training & Competency Management</h1>
+<p>Risk, CAPA, Audit, doküman revizyonu, CoP, EV, ISO 17025 ve tüm yönetim sistemi eğitimlerini; katılımcı, sınav, sertifika, etkinlik, bildirim ve KPI ile tek merkezden yönet.</p>
+</div>
+<div class="hero-badge">Training Engine: <span>Active</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Eğitim</small><h2 id="totalTrainings">0</h2><p>Planlı / gerçekleşen</p></div>
+<div class="card"><small>Açık Eğitim</small><h2 id="openTrainings">0</h2><p>Devam eden kayıt</p></div>
+<div class="card"><small>Geciken Eğitim</small><h2 id="lateTrainings">0</h2><p>Termin aşımı</p></div>
+<div class="card"><small>Katılımcı</small><h2 id="totalParticipants">0</h2><p>Toplam kişi ataması</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Başarı Oranı</small><h2 id="successRate">0%</h2><p>Sınav/etkinlik sonucu</p></div>
+<div class="card"><small>Sertifikalı</small><h2 id="certifiedCount">0</h2><p>Belge yüklü kayıt</p></div>
+<div class="card"><small>Etkinlik Onayı</small><h2 id="effectiveCount">0</h2><p>Etkin bulundu</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mail/SMS oluşturuldu</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yeni Eğitim Kaydı</h3><span class="status blue" id="formMode">CREATE MODE</span></div>
+
+<div class="form-grid">
+<div class="field"><label>Eğitim No</label><input id="trainingNo" readonly></div>
+<div class="field"><label>Eğitim Durumu</label><select id="trainingStatus"><option>Planlandı</option><option>Davet Gönderildi</option><option>Devam Ediyor</option><option>Tamamlandı</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Gecikti</option><option>İptal</option></select></div>
+<div class="field"><label>Eğitim Kaynağı</label><select id="trainingSource"><option>Risk Aksiyonu</option><option>CAPA / 8D</option><option>İç Denetim</option><option>Doküman Revizyonu</option><option>Yasal Şart</option><option>Müşteri Şartı</option><option>İşe Başlangıç</option><option>Periyodik Eğitim</option><option>CoP</option><option>EV Projesi</option><option>ISO 17025 Laboratuvar</option><option>Enerji Yönetimi</option><option>Bilgi Güvenliği</option></select></div>
+<div class="field"><label>Eğitim Kategorisi</label><select id="trainingCategory"><option>Kalite</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Müşteri Şikayeti</option><option>Laboratuvar</option><option>CoP</option><option>EV Sektörü</option><option>IATF Core Tools</option><option>Proses</option><option>Doküman</option><option>Tedarikçi</option></select></div>
+
+<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>İK</option><option>Laboratuvar</option><option>Enerji Yönetimi</option><option>Yönetim</option><option>Tüm Sistem</option></select></div>
+<div class="field"><label>Süreç</label><input id="processName" placeholder="Örn: Üretim / CoP / Laboratuvar"></div>
+<div class="field"><label>Eğitim Sahibi</label><select id="trainingOwner"></select></div>
+<div class="field"><label>Eğitmen</label><select id="trainer"></select></div>
+
+<div class="field full"><label>Standart Bağlantısı</label><select id="standards" multiple style="height:140px"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 10002</option><option>ISO 17025</option><option>ISO 27001</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option><option>CE / UL / EMC</option><option>Müşteri Özel Şartları</option></select></div>
+
+<div class="field"><label>Planlanan Tarih</label><input id="plannedDate" type="date"></div>
+<div class="field"><label>Gerçekleşen Tarih</label><input id="actualDate" type="date"></div>
+<div class="field"><label>Sonraki Eğitim Tarihi</label><input id="nextTrainingDate" type="date"></div>
+<div class="field"><label>Geçerlilik / Periyot</label><select id="validityPeriod"><option>Tek Seferlik</option><option>3 Ay</option><option>6 Ay</option><option>12 Ay</option><option>24 Ay</option><option>36 Ay</option></select></div>
+
+<div class="field double"><label>İlişkili Risk No</label><input id="riskRef" placeholder="RSK-2026-0001"></div>
+<div class="field double"><label>İlişkili CAPA / 8D No</label><input id="capaRef" placeholder="CAPA-2026-0001 / 8D-2026-0001"></div>
+<div class="field double"><label>İlişkili Audit No</label><input id="auditRef" placeholder="AUD-2026-0001"></div>
+<div class="field double"><label>İlişkili Doküman</label><input id="documentRef" placeholder="PR.001 / TL.005 / FR.012"></div>
+
+<div class="field full"><label>Eğitim Başlığı</label><input id="trainingTitle" placeholder="Kısa ve net eğitim başlığı"></div>
+<div class="field full"><label>Eğitim Amacı / Kapsamı</label><textarea id="trainingScope" class="big" placeholder="Eğitimin amacı, kapsamı, hedeflenen yetkinlik, ilgili standart ve risk/CAPA bağlantısı"></textarea></div>
+<div class="field full"><label>Eğitim İçeriği</label><textarea id="trainingContent" class="big" placeholder="Ana konu başlıkları, standart maddeleri, uygulama adımları, özel şartlar"></textarea></div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveTraining()">Eğitim Kaydet</button>
+<button class="btn orange" onclick="saveTraining(true)">Kaydet ve Bildir</button>
+<button class="btn green" onclick="loadTemplate('EV')">EV Eğitim Şablonu</button>
+<button class="btn green" onclick="loadTemplate('CoP')">CoP Eğitim Şablonu</button>
+<button class="btn green" onclick="loadTemplate('17025')">ISO 17025 Şablonu</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Katılımcı / Yetkinlik Matrisi</h3><span class="status purple" id="participantMode">PARTICIPANT CREATE</span></div>
+<div class="box">
+<div class="subgrid">
+<div class="field"><label>Katılımcı</label><select id="participantUser"></select></div>
+<div class="field"><label>Departman</label><input id="participantDepartment"></div>
+<div class="field"><label>Pozisyon</label><input id="participantPosition"></div>
+<div class="field"><label>Katılım Durumu</label><select id="attendanceStatus"><option>Planlandı</option><option>Katıldı</option><option>Katılmadı</option><option>Mazeretli</option></select></div>
+<div class="field"><label>Sınav Puanı</label><input id="examScore" type="number" min="0" max="100" value="0"></div>
+<div class="field"><label>Sonuç</label><select id="examResult"><option>Bekliyor</option><option>Başarılı</option><option>Başarısız</option><option>Sınavsız</option></select></div>
+<div class="field"><label>Ön Yetkinlik</label><select id="beforeCompetency"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+<div class="field"><label>Son Yetkinlik</label><select id="afterCompetency"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option></select></div>
+<div class="field"><label>Etkinlik Sonucu</label><select id="effectivenessResult"><option>Bekliyor</option><option>Etkin</option><option>Kısmen Etkin</option><option>Etkin Değil</option></select></div>
+<div class="field"><label>Etkinlik Kontrol Tarihi</label><input id="effectivenessDate" type="date"></div>
+<div class="field double"><label>Sertifika / Kanıt Dosyası</label><input id="certificateFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.txt,.csv"></div>
+<div class="field full"><label>Katılımcı Notu</label><textarea id="participantNote"></textarea></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addOrUpdateParticipant()">Katılımcı Ekle</button>
+<button class="btn dark" onclick="clearParticipantInputs()">Katılımcı Alanını Temizle</button>
+</div>
+<div id="participantPreview"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Eğitim Master Listesi</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderTrainings()"><option value="">Tüm Durumlar</option><option>Planlandı</option><option>Davet Gönderildi</option><option>Devam Ediyor</option><option>Tamamlandı</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Gecikti</option></select>
+<select id="categoryFilter" onchange="renderTrainings()"><option value="">Tüm Kategoriler</option><option>Kalite</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Laboratuvar</option><option>CoP</option><option>EV Sektörü</option><option>IATF Core Tools</option></select>
+<select id="sourceFilter" onchange="renderTrainings()"><option value="">Tüm Kaynaklar</option><option>Risk Aksiyonu</option><option>CAPA / 8D</option><option>İç Denetim</option><option>Doküman Revizyonu</option><option>CoP</option><option>EV Projesi</option><option>ISO 17025 Laboratuvar</option></select>
+</div>
+</div>
+<div id="trainingTable"></div>
+</section>
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div><h3 id="drawerTitle">Eğitim Detayı</h3><span class="status blue" id="drawerStatus">Planlandı</span></div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="closeTrainingCurrent()">Eğitimi Kapat</button>
+<button class="btn orange" onclick="notifyTrainingCurrent()">Mail/SMS Bildirim Kuyruğu</button>
+<button class="btn primary" onclick="createRiskActionFromTrainingCurrent()">Etkin Değilse Risk Aksiyonu Aç</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+userName.textContent=session.name||"User";userRole.textContent=session.role||"User";userAvatar.textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let editIndex=null,selectedIndex=null,participants=[],editParticipantIndex=null,certFile=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getTrainings(){try{return JSON.parse(localStorage.getItem("gdnl_trainings"))||[]}catch(e){return[]}}
+function setTrainings(x){localStorage.setItem("gdnl_trainings",JSON.stringify(x))}
+function getUsers(){try{return JSON.parse(localStorage.getItem("gdnl_users"))||[]}catch(e){return[]}}
+function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
+function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
+function getRisks(){try{return JSON.parse(localStorage.getItem("gdnl_risks"))||[]}catch(e){return[]}}
+function setRisks(x){localStorage.setItem("gdnl_risks",JSON.stringify(x))}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function selectedStandards(){return Array.from(standards.selectedOptions).map(o=>o.value)}
+function statusClass(s){if(["Kapalı","Tamamlandı","Başarılı","Etkin","Katıldı"].includes(s))return"green";if(["Gecikti","Başarısız","Etkin Değil","Katılmadı"].includes(s))return"red";if(["Davet Gönderildi","Devam Ediyor","Etkinlik Kontrolü","Kısmen Etkin","Mazeretli"].includes(s))return"orange";return"blue"}
+function generateTrainingNo(){trainingNo.value="TRN-"+new Date().getFullYear()+"-"+String(getTrainings().length+1).padStart(4,"0")}
+
+function initUserSelects(){
+const users=getUsers().filter(u=>u.status!=="Pasif");
+["trainingOwner","trainer","participantUser"].forEach(id=>{
+const el=document.getElementById(id);el.innerHTML='<option value="">Seçiniz</option>';
+users.forEach(u=>el.innerHTML+=`<option value="${u.fullName}" data-dep="${u.department||""}" data-pos="${u.position||u.role||""}">${u.fullName} / ${u.department||"-"} / ${u.position||u.role||"-"}</option>`);
+if(!users.length)el.innerHTML+='<option value="Kerem Güdenli" data-dep="Kalite" data-pos="Admin">Kerem Güdenli</option>';
+});
+}
+
+participantUser.addEventListener("change",()=>{
+const opt=participantUser.selectedOptions[0];
+participantDepartment.value=opt?.dataset?.dep||"";
+participantPosition.value=opt?.dataset?.pos||"";
+});
+
+certificateFile.addEventListener("change",e=>handleCertificate(e.target.files[0]));
+function handleCertificate(file){
+if(!file)return;
+if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");certificateFile.value="";return}
+const r=new FileReader();
+r.onload=ev=>{certFile={fileName:file.name,fileType:file.type,fileSize:file.size,fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Sertifika / kanıt hazırlandı")};
+r.readAsDataURL(file);
+}
+
+function addOrUpdateParticipant(){
+const p={id:editParticipantIndex!==null?participants[editParticipantIndex].id:"PAR-"+Date.now(),participantUser:participantUser.value,participantDepartment:participantDepartment.value.trim(),participantPosition:participantPosition.value.trim(),attendanceStatus:attendanceStatus.value,examScore:Number(examScore.value||0),examResult:examResult.value,beforeCompetency:Number(beforeCompetency.value),afterCompetency:Number(afterCompetency.value),effectivenessResult:effectivenessResult.value,effectivenessDate:effectivenessDate.value,certificate:certFile,participantNote:participantNote.value.trim(),createdAt:new Date().toISOString()};
+if(!p.participantUser)return showToast("Katılımcı seç"); 
+if(editParticipantIndex!==null){participants[editParticipantIndex]=p;editParticipantIndex=null}else participants.push(p);
+clearParticipantInputs();renderParticipantPreview();showToast("Katılımcı kaydedildi");
+}
+function editParticipant(i){const p=participants[i];editParticipantIndex=i;participantUser.value=p.participantUser;participantDepartment.value=p.participantDepartment;participantPosition.value=p.participantPosition;attendanceStatus.value=p.attendanceStatus;examScore.value=p.examScore;examResult.value=p.examResult;beforeCompetency.value=p.beforeCompetency;afterCompetency.value=p.afterCompetency;effectivenessResult.value=p.effectivenessResult;effectivenessDate.value=p.effectivenessDate;participantNote.value=p.participantNote;certFile=p.certificate||null;participantMode.textContent="PARTICIPANT EDIT"}
+function clearParticipantInputs(){editParticipantIndex=null;participantUser.value="";participantDepartment.value="";participantPosition.value="";attendanceStatus.value="Planlandı";examScore.value=0;examResult.value="Bekliyor";beforeCompetency.value=3;afterCompetency.value=4;effectivenessResult.value="Bekliyor";effectivenessDate.value=addDays(todayISO(),30);participantNote.value="";certificateFile.value="";certFile=null;participantMode.textContent="PARTICIPANT CREATE"}
+function renderParticipantPreview(){if(!participants.length){participantPreview.innerHTML='<div class="empty" style="margin-top:14px">Katılımcı yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Katılımcı</th><th>Departman</th><th>Katılım</th><th>Sınav</th><th>Yetkinlik</th><th>Etkinlik</th><th>Belge</th><th>Aksiyon</th></tr></thead><tbody>';participants.forEach((p,i)=>h+=`<tr><td>${p.participantUser}</td><td>${p.participantDepartment}<br><small>${p.participantPosition}</small></td><td><span class="status ${statusClass(p.attendanceStatus)}">${p.attendanceStatus}</span></td><td>${p.examScore} / <span class="status ${statusClass(p.examResult)}">${p.examResult}</span></td><td>${p.beforeCompetency} → ${p.afterCompetency}</td><td><span class="status ${statusClass(p.effectivenessResult)}">${p.effectivenessResult}</span></td><td>${p.certificate?'<span class="status green">Var</span>':'<span class="status gray">Yok</span>'}</td><td><button class="small-btn view" onclick="editParticipant(${i})">Düzenle</button><button class="small-btn delete" onclick="participants.splice(${i},1);renderParticipantPreview()">Sil</button></td></tr>`);participantPreview.innerHTML=h+"</tbody></table>"}
+
+function saveTraining(notify=false){
+const t={id:editIndex!==null?getTrainings()[editIndex].id:"TRN-"+Date.now(),trainingNo:trainingNo.value,trainingStatus:trainingStatus.value,trainingSource:trainingSource.value,trainingCategory:trainingCategory.value,department:department.value,processName:processName.value.trim(),trainingOwner:trainingOwner.value,trainer:trainer.value,standards:selectedStandards(),plannedDate:plannedDate.value,actualDate:actualDate.value,nextTrainingDate:nextTrainingDate.value,validityPeriod:validityPeriod.value,riskRef:riskRef.value.trim(),capaRef:capaRef.value.trim(),auditRef:auditRef.value.trim(),documentRef:documentRef.value.trim(),trainingTitle:trainingTitle.value.trim(),trainingScope:trainingScope.value.trim(),trainingContent:trainingContent.value.trim(),participants:participants,createdBy:session.name||"System",createdAt:editIndex!==null?getTrainings()[editIndex].createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),closedAt:"",auditTrail:editIndex!==null?(getTrainings()[editIndex].auditTrail||[]):[]};
+if(!t.trainingTitle)return showToast("Eğitim başlığı zorunlu");if(!t.trainingOwner)return showToast("Eğitim sahibi zorunlu");if(!t.trainer)return showToast("Eğitmen zorunlu");if(!t.plannedDate)return showToast("Planlanan tarih zorunlu");if(!t.standards.length)return showToast("En az 1 standart seç");if(!t.participants.length)return showToast("En az 1 katılımcı ekle");
+t.auditTrail.push({action:editIndex!==null?"Eğitim güncellendi":"Eğitim açıldı",user:session.name||"System",date:new Date().toISOString()});
+const items=getTrainings();if(editIndex!==null){items[editIndex]=t;showToast("Eğitim güncellendi")}else{items.unshift(t);showToast("Eğitim kaydedildi")}
+setTrainings(items);if(notify)createTrainingNotification(t,"Eğitim planlandı/güncellendi: "+t.trainingNo);resetForm();renderTrainings();
+}
+
+function createTrainingNotification(t,msg){
+const n=getNotifications();
+const people=t.participants.map(p=>p.participantUser).join("; ");
+n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Training",documentCode:t.trainingNo,documentName:t.trainingTitle,mailGroups:t.trainingOwner+"; "+t.trainer+"; "+people,smsGroups:people,distributionPoints:t.department+" / "+t.standards.join(", "),message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});
+setNotifications(n);
+}
+
+function loadTemplate(type){
+if(type==="EV"){trainingCategory.value="EV Sektörü";trainingSource.value="EV Projesi";trainingTitle.value="EV Safety, Battery Risk, HV Safety ve EMC Farkındalık Eğitimi";trainingScope.value="EV ürün ve proseslerinde batarya güvenliği, yüksek voltaj, EMC, charging compatibility, cybersecurity ve field failure risklerinin kontrolü.";trainingContent.value="HV safety, thermal runaway, EMC uygunluğu, functional safety, cybersecurity, batarya bozunması, saha arızası, müşteri özel şartları, CoP ve test kanıtları."}
+if(type==="CoP"){trainingCategory.value="CoP";trainingSource.value="CoP";trainingTitle.value="CoP Üretim Uygunluğu ve Test Kanıt Yönetimi Eğitimi";trainingScope.value="CoP planı, ürün uygunluk kanıtları, akredite test raporları, teknik dosya ve regülasyon uyumunun sürdürülebilir yönetimi.";trainingContent.value="CoP planı, ürün uygunluk kontrolleri, test raporu takibi, teknik dosya, değişiklik yönetimi, uygunsuzluk ve CAPA bağlantısı."}
+if(type==="17025"){trainingCategory.value="Laboratuvar";trainingSource.value="ISO 17025 Laboratuvar";trainingTitle.value="ISO 17025 Laboratuvar Yetkinlik, Kalibrasyon ve Ölçüm Belirsizliği Eğitimi";trainingScope.value="Laboratuvar tarafsızlığı, gizlilik, ölçüm belirsizliği, metot validasyonu, cihaz kalibrasyonu ve numune yönetimi yetkinliği.";trainingContent.value="ISO 17025 şartları, tarafsızlık, metot validasyonu, ölçüm belirsizliği, izlenebilirlik, cihaz ara kontrol, kalibrasyon kayıtları."}
+showToast(type+" eğitim şablonu yüklendi");
+}
+
+function normalizeTraining(t){t.participants=t.participants||[];t.standards=t.standards||[];t.auditTrail=t.auditTrail||[];return t}
+function autoDelay(items){const today=todayISO();items.forEach(t=>{if(!["Kapalı","İptal"].includes(t.trainingStatus)&&t.plannedDate&&t.plannedDate<today&&t.trainingStatus==="Planlandı")t.trainingStatus="Gecikti"});setTrainings(items)}
+function trainingReady(t){return t.participants.length>0&&t.participants.every(p=>["Katıldı","Mazeretli"].includes(p.attendanceStatus))&&t.participants.every(p=>["Başarılı","Sınavsız"].includes(p.examResult))&&t.participants.every(p=>["Etkin","Kısmen Etkin"].includes(p.effectivenessResult))}
+function renderTrainings(){
+let items=getTrainings().map(normalizeTraining);autoDelay(items);items=getTrainings().map(normalizeTraining);
+const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,cf=categoryFilter.value,srcf=sourceFilter.value;
+const filtered=items.filter(t=>`${t.trainingNo} ${t.trainingTitle} ${t.trainingCategory} ${t.trainingSource} ${t.department} ${t.processName} ${t.trainingOwner} ${t.trainer} ${t.standards.join(" ")} ${t.riskRef} ${t.capaRef} ${t.auditRef} ${t.participants.map(p=>p.participantUser).join(" ")}`.toLowerCase().includes(q)&&(!sf||t.trainingStatus===sf)&&(!cf||t.trainingCategory===cf)&&(!srcf||t.trainingSource===srcf));
+updateCards(items);
+if(!filtered.length){trainingTable.innerHTML='<div class="empty">Eğitim kaydı bulunamadı.</div>';return}
+let h='<table><thead><tr><th>Eğitim No</th><th>Eğitim</th><th>Kaynak</th><th>Standart</th><th>Sahip / Eğitmen</th><th>Katılımcı</th><th>Durum</th><th>Tarih</th><th>Aksiyon</th></tr></thead><tbody>';
+filtered.forEach(t=>{const i=items.findIndex(x=>x.id===t.id);h+=`<tr><td>${t.trainingNo}</td><td>${t.trainingTitle}<br><small>${t.trainingCategory} / ${t.processName}</small></td><td>${t.trainingSource}</td><td>${t.standards.slice(0,3).join(", ")}${t.standards.length>3?"...":""}</td><td>${t.trainingOwner}<br><small>${t.trainer}</small></td><td>${t.participants.length}</td><td><span class="status ${statusClass(t.trainingStatus)}">${t.trainingStatus}</span></td><td>${formatDateTR(t.plannedDate)}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyTraining(${i})">Bildir</button><button class="small-btn close" onclick="closeTraining(${i})">Kapat</button></div></td></tr>`});
+trainingTable.innerHTML=h+"</tbody></table>";
+}
+
+function updateCards(items){
+let parts=[];items.forEach(t=>parts=parts.concat(t.participants||[]));
+const success=parts.length?Math.round((parts.filter(p=>p.examResult==="Başarılı"||p.examResult==="Sınavsız").length/parts.length)*100):0;
+totalTrainings.textContent=items.length;
+openTrainings.textContent=items.filter(t=>!["Kapalı","İptal"].includes(t.trainingStatus)).length;
+lateTrainings.textContent=items.filter(t=>t.trainingStatus==="Gecikti").length;
+totalParticipants.textContent=parts.length;
+successRate.textContent=success+"%";
+certifiedCount.textContent=parts.filter(p=>p.certificate).length;
+effectiveCount.textContent=parts.filter(p=>p.effectivenessResult==="Etkin").length;
+notificationCount.textContent=getNotifications().filter(n=>n.module==="Training").length;
+}
+
+function openDrawer(i){
+selectedIndex=i;const t=normalizeTraining(getTrainings()[i]);
+drawerTitle.textContent=t.trainingNo+" / "+t.trainingTitle;drawerStatus.textContent=t.trainingStatus;drawerStatus.className="status "+statusClass(t.trainingStatus);
+drawerContent.innerHTML=`<div class="info-box"><b>Eğitim No:</b> ${t.trainingNo}
+<b>Kaynak:</b> ${t.trainingSource}
+<b>Kategori:</b> ${t.trainingCategory}
+<b>Departman / Süreç:</b> ${t.department} / ${t.processName}
+<b>Eğitim Sahibi:</b> ${t.trainingOwner}
+<b>Eğitmen:</b> ${t.trainer}
+<b>Planlanan:</b> ${formatDateTR(t.plannedDate)}
+<b>Gerçekleşen:</b> ${formatDateTR(t.actualDate)}
+<b>Sonraki Eğitim:</b> ${formatDateTR(t.nextTrainingDate)}
+<b>Standartlar:</b> ${t.standards.join(", ")}
+<b>Risk:</b> ${t.riskRef||"-"}
+<b>CAPA:</b> ${t.capaRef||"-"}
+<b>Audit:</b> ${t.auditRef||"-"}
+<b>Doküman:</b> ${t.documentRef||"-"}</div>
+<div class="info-box"><b>Amaç / Kapsam:</b>
+${t.trainingScope||"-"}
+
+<b>İçerik:</b>
+${t.trainingContent||"-"}</div>
+<div class="info-box"><b>Katılımcılar</b><br>${renderParticipantsTable(t.participants)}</div>
+<div class="info-box"><b>Audit Trail</b>
+${(t.auditTrail||[]).map(x=>`${formatDateTR(x.date)} - ${x.user} - ${x.action}`).join("\\n")||"-"}</div>`;
+drawer.classList.add("active");
+}
+
+function renderParticipantsTable(p){
+if(!p.length)return"Katılımcı yok.";
+let h='<table><thead><tr><th>Kişi</th><th>Departman</th><th>Katılım</th><th>Sınav</th><th>Yetkinlik</th><th>Etkinlik</th><th>Belge</th></tr></thead><tbody>';
+p.forEach(x=>h+=`<tr><td>${x.participantUser}</td><td>${x.participantDepartment}</td><td><span class="status ${statusClass(x.attendanceStatus)}">${x.attendanceStatus}</span></td><td>${x.examScore} / <span class="status ${statusClass(x.examResult)}">${x.examResult}</span></td><td>${x.beforeCompetency} → ${x.afterCompetency}</td><td><span class="status ${statusClass(x.effectivenessResult)}">${x.effectivenessResult}</span></td><td>${x.certificate?'<span class="status green">Var</span>':'<span class="status gray">Yok</span>'}</td></tr>`);
+return h+"</tbody></table>";
+}
+
+function notifyTraining(i){createTrainingNotification(getTrainings()[i],"Eğitim bildirimi oluşturuldu.");showToast("Bildirim kuyruğu oluşturuldu")}
+function notifyTrainingCurrent(){if(selectedIndex!==null)notifyTraining(selectedIndex)}
+function closeTraining(i){
+const items=getTrainings().map(normalizeTraining),t=items[i];
+if(!trainingReady(t))return showToast("Katılım, sınav ve etkinlik kontrolü tamamlanmadan kapatılamaz");
+t.trainingStatus="Kapalı";t.closedAt=new Date().toISOString();t.auditTrail.push({action:"Eğitim kapatıldı",user:session.name||"System",date:new Date().toISOString()});
+setTrainings(items);renderTrainings();showToast("Eğitim kapatıldı");
+}
+function closeTrainingCurrent(){if(selectedIndex!==null){closeTraining(selectedIndex);openDrawer(selectedIndex)}}
+function createRiskActionFromTrainingCurrent(){
+if(selectedIndex===null)return;
+const t=getTrainings()[selectedIndex];
+const bad=t.participants.filter(p=>p.effectivenessResult==="Etkin Değil"||p.examResult==="Başarısız");
+if(!bad.length)return showToast("Etkin olmayan katılımcı yok");
+const risks=getRisks();
+risks.unshift({id:"RISK-"+Date.now(),riskNo:"RSK-"+new Date().getFullYear()+"-"+String(risks.length+1).padStart(4,"0"),riskStatus:"Aksiyon Bekliyor",riskCategory:"Eğitim / Yetkinlik",riskSource:"Eğitim Etkinliği",department:t.department,processName:t.processName,riskOwner:t.trainingOwner,responsiblePerson:t.trainer,standards:t.standards,auditRef:t.auditRef,capaRef:t.capaRef,riskTitle:"Eğitim etkinliği yetersizliği riski: "+t.trainingTitle,riskDescription:"Eğitim sonrası sınav veya etkinlik kontrolünde başarısız/etkin değil sonucu oluştu.",initialO:7,initialS:7,initialD:6,initialScore:294,initialLevel:"Orta",residualO:4,residualS:7,residualD:4,residualScore:112,residualLevel:"İzlenmeli",reductionRate:"62%",actions:[],createdBy:session.name||"System",createdAt:new Date().toISOString(),auditTrail:[{action:"Eğitimden risk aksiyonu oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]});
+setRisks(risks);showToast("Risk aksiyonu oluşturuldu");
+}
+function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
+function resetForm(){
+editIndex=null;generateTrainingNo();trainingStatus.value="Planlandı";trainingSource.value="Risk Aksiyonu";trainingCategory.value="Kalite";department.value="Kalite";processName.value="";trainingOwner.value="";trainer.value="";Array.from(standards.options).forEach(o=>o.selected=false);plannedDate.value=todayISO();actualDate.value="";nextTrainingDate.value=addDays(todayISO(),365);validityPeriod.value="12 Ay";riskRef.value="";capaRef.value="";auditRef.value="";documentRef.value="";trainingTitle.value="";trainingScope.value="";trainingContent.value="";participants=[];renderParticipantPreview();clearParticipantInputs();formMode.textContent="CREATE MODE";
+}
+function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
+globalSearch.addEventListener("input",renderTrainings);
+initUserSelects();resetForm();renderTrainings();
+console.log("GDNL QDMS Training Management Loaded");
+</script>
+</body>
+</html>
