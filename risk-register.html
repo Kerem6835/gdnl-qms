@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Risk Register</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:1100px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 4}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}.field textarea{height:92px;padding:12px;resize:none}.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}.status.purple{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.close{background:#dcfce7;color:#15803d}.small-btn.alert{background:#ffedd5;color:#c2410c}.small-btn.delete{background:#fee2e2;color:#991b1b}.small-btn.dark{background:#0f172a;color:white}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.subgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.risk-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}.risk-box h4{font-size:15px;font-weight:900;margin-bottom:12px}
+.scoreline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}.scorecard{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px}.scorecard small{display:block;color:#64748b;font-weight:900}.scorecard strong{font-size:28px;color:#0757e8}
+.heatmap{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.heatcell{height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900}
+.h-low{background:#dcfce7;color:#166534}.h-watch{background:#e0f2fe;color:#075985}.h-mid{background:#fef9c3;color:#854d0e}.h-high{background:#ffedd5;color:#c2410c}.h-critical{background:#fee2e2;color:#b91c1c}.h-urgent{background:#7f1d1d;color:white}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1040px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}.drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px}.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.subgrid{grid-template-columns:repeat(2,1fr)}.scoreline{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid,.subgrid,.scoreline{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}.heatmap{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="new-document.html">➕ Yeni Doküman</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="notification-center.html">🔔 Bildirim Merkezi</a>
+<a href="users.html">👥 Kullanıcılar</a>
+<a href="audit.html">🧾 İç Denetim</a>
+<a class="active" href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a href="#">📈 KPI & Raporlar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Risk Register 10×10×10<br>ISO / CoP / EV Ready</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="Risk no, standart, süreç, sahip, sorumlu, CoP, EV, CAPA veya durum ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Enterprise Risk Register</h1>
+<p>ISO 9001, 14001, 45001, 50001, 10002, 17025, 27001, IATF 16949, CoP ve EV sektörü için 10×10×10 risk skoru, aksiyon sonrası artık risk, sorumlu kişi, risk sahibi, CAPA, Audit ve bildirim entegrasyonu.</p>
+</div>
+<div class="hero-badge">Risk Engine: <span>10×10×10 Active</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Risk</small><h2 id="totalRisks">0</h2><p>Kayıtlı tüm riskler</p></div>
+<div class="card"><small>Açık Risk</small><h2 id="openRisks">0</h2><p>Devam eden riskler</p></div>
+<div class="card"><small>Kritik / Acil</small><h2 id="criticalRisks">0</h2><p>500+ skor</p></div>
+<div class="card"><small>Geciken Aksiyon</small><h2 id="lateActions">0</h2><p>Termin aşımı</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Ortalama İlk Skor</small><h2 id="avgInitial">0</h2><p>Aksiyon öncesi</p></div>
+<div class="card"><small>Ortalama Artık Skor</small><h2 id="avgResidual">0</h2><p>Aksiyon sonrası</p></div>
+<div class="card"><small>Risk Azalma</small><h2 id="avgReduction">0%</h2><p>Ortalama düşüş</p></div>
+<div class="card"><small>Kapanışa Hazır</small><h2 id="readyRisks">0</h2><p>Aksiyon + artık skor tamam</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Risk Skor Matrisi</h3><span class="status purple">10×10×10 MODEL</span></div>
+<div class="heatmap" id="heatmap"></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yeni Risk Kaydı</h3><span class="status blue" id="formMode">CREATE MODE</span></div>
+
+<div class="form-grid">
+<div class="field"><label>Risk No</label><input id="riskNo" readonly></div>
+<div class="field"><label>Risk Durumu</label><select id="riskStatus"><option>Açık</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapanış Onayı</option><option>Kapalı</option><option>İptal</option></select></div>
+<div class="field"><label>Risk Kategorisi</label><select id="riskCategory"><option>Kalite</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Müşteri Şikayeti</option><option>Laboratuvar</option><option>CoP</option><option>EV Sektörü</option><option>Tedarikçi</option><option>Operasyonel</option><option>Finansal</option><option>Stratejik</option></select></div>
+<div class="field"><label>Kaynak</label><select id="riskSource"><option>İç Denetim</option><option>CAPA / 8D</option><option>Proses</option><option>FMEA</option><option>Yasal Şart</option><option>Müşteri Şartı</option><option>Şikayet</option><option>Tedarikçi</option><option>CoP Testi</option><option>EV Projesi</option><option>Enerji Performansı</option><option>Laboratuvar</option><option>BGYS</option><option>YGG</option></select></div>
+
+<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>İK</option><option>Laboratuvar</option><option>Enerji Yönetimi</option><option>Yönetim</option><option>Tüm Sistem</option></select></div>
+<div class="field"><label>Süreç</label><input id="processName" placeholder="Örn: Üretim / CoP / Kalibrasyon / EV"></div>
+<div class="field"><label>Risk Sahibi</label><select id="riskOwner"></select></div>
+<div class="field"><label>Sorumlu Kişi</label><select id="responsiblePerson"></select></div>
+
+<div class="field full"><label>Standart Bağlantısı</label><select id="standards" multiple style="height:140px"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 10002</option><option>ISO 17025</option><option>ISO 27001</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option><option>CE / UL / EMC</option><option>Müşteri Özel Şartları</option></select></div>
+
+<div class="field double"><label>İlişkili Audit No</label><input id="auditRef" placeholder="AUD-2026-0001"></div>
+<div class="field double"><label>İlişkili CAPA / 8D No</label><input id="capaRef" placeholder="CAPA-2026-0001 / 8D-2026-0001"></div>
+
+<div class="field full"><label>Risk Başlığı</label><input id="riskTitle" placeholder="Kısa ve net risk başlığı"></div>
+<div class="field full"><label>Risk Açıklaması</label><textarea id="riskDescription" class="big" placeholder="Risk olayı, sebep, etki, süreç, müşteri/yasal/standart etkisi"></textarea></div>
+
+<div class="field full"><label>Yasal / Müşteri / CoP / EV Özel Şartı</label><textarea id="legalCustomerRequirement" placeholder="Regülasyon, müşteri özel şartı, CoP, EV güvenlik, EMC, batarya, enerji, laboratuvar şartı"></textarea></div>
+<div class="field full"><label>Mevcut Kontroller</label><textarea id="currentControls" placeholder="Prosedür, talimat, kontrol planı, FMEA, eğitim, denetim, otomatik kontrol, izleme mekanizması"></textarea></div>
+</div>
+
+<div class="risk-box">
+<h4>İlk Risk Skoru — 10×10×10</h4>
+<div class="subgrid">
+<div class="field"><label>İlk Olasılık</label><select id="initialO" onchange="updateScores()"></select></div>
+<div class="field"><label>İlk Şiddet</label><select id="initialS" onchange="updateScores()"></select></div>
+<div class="field"><label>İlk Tespit</label><select id="initialD" onchange="updateScores()"></select></div>
+<div class="field"><label>İlk Risk Skoru</label><input id="initialScore" readonly></div>
+<div class="field"><label>İlk Risk Seviyesi</label><input id="initialLevel" readonly></div>
+<div class="field"><label>Öncelik</label><input id="priorityText" readonly></div>
+</div>
+</div>
+
+<div class="risk-box">
+<h4>Aksiyon Sonrası Artık Risk</h4>
+<div class="subgrid">
+<div class="field"><label>Yeni Olasılık</label><select id="residualO" onchange="updateScores()"></select></div>
+<div class="field"><label>Yeni Şiddet</label><select id="residualS" onchange="updateScores()"></select></div>
+<div class="field"><label>Yeni Tespit</label><select id="residualD" onchange="updateScores()"></select></div>
+<div class="field"><label>Artık Risk Skoru</label><input id="residualScore" readonly></div>
+<div class="field"><label>Artık Risk Seviyesi</label><input id="residualLevel" readonly></div>
+<div class="field"><label>Risk Azalma %</label><input id="reductionRate" readonly></div>
+</div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveRisk()">Risk Kaydet</button>
+<button class="btn orange" onclick="saveRisk(true)">Kaydet ve Bildir</button>
+<button class="btn green" onclick="createTemplate('EV')">EV Risk Şablonu</button>
+<button class="btn green" onclick="createTemplate('CoP')">CoP Risk Şablonu</button>
+<button class="btn green" onclick="createTemplate('17025')">ISO 17025 Şablonu</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Aksiyon Planı</h3><span class="status orange" id="actionMode">ACTION CREATE</span></div>
+<div class="risk-box">
+<div class="subgrid">
+<div class="field"><label>Aksiyon Tipi</label><select id="actionType"><option>Risk Azaltma</option><option>Düzeltici Faaliyet</option><option>Önleyici Faaliyet</option><option>Kontrol Güçlendirme</option><option>Eğitim</option><option>Doküman Revizyonu</option><option>Teknik İyileştirme</option><option>CoP Test / Doğrulama</option><option>EV Güvenlik Önlemi</option><option>Enerji İyileştirme</option><option>Laboratuvar Kontrolü</option></select></div>
+<div class="field"><label>Aksiyon Sorumlusu</label><select id="actionOwner"></select></div>
+<div class="field"><label>Planlanan Tarih</label><input id="plannedDate" type="date"></div>
+<div class="field"><label>Gerçekleşen Tarih</label><input id="actualDate" type="date"></div>
+<div class="field"><label>Durum</label><select id="actionStatus"><option>Açık</option><option>Devam Ediyor</option><option>Tamamlandı</option><option>Gecikti</option><option>İptal</option></select></div>
+<div class="field"><label>Tamamlanma %</label><input id="completionRate" type="number" min="0" max="100" value="0"></div>
+<div class="field full"><label>Aksiyon Açıklaması</label><textarea id="actionDescription"></textarea></div>
+<div class="field full"><label>Kanıt / Not</label><textarea id="actionEvidence"></textarea></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addOrUpdateAction()">Aksiyon Ekle</button>
+<button class="btn dark" onclick="clearActionInputs()">Aksiyon Alanını Temizle</button>
+</div>
+<div id="actionPreview"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Risk Master Listesi</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderRisks()"><option value="">Tüm Durumlar</option><option>Açık</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapanış Onayı</option><option>Kapalı</option><option>Gecikti</option></select>
+<select id="categoryFilter" onchange="renderRisks()"><option value="">Tüm Kategoriler</option><option>Kalite</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Müşteri Şikayeti</option><option>Laboratuvar</option><option>CoP</option><option>EV Sektörü</option></select>
+<select id="levelFilter" onchange="renderRisks()"><option value="">Tüm Seviyeler</option><option>Düşük</option><option>İzlenmeli</option><option>Orta</option><option>Yüksek</option><option>Kritik</option><option>Acil Aksiyon</option></select>
+</div>
+</div>
+<div id="riskTable"></div>
+</section>
+
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div><h3 id="drawerTitle">Risk Detayı</h3><span class="status blue" id="drawerStatus">Açık</span></div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="closeRiskCurrent()">Riski Kapat</button>
+<button class="btn orange" onclick="notifyRiskCurrent()">Mail/SMS Bildirim Kuyruğu</button>
+<button class="btn primary" onclick="createCapaFromRiskCurrent()">Riskten CAPA Aç</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+userName.textContent=session.name||"User";userRole.textContent=session.role||"User";userAvatar.textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let editIndex=null,selectedIndex=null,actions=[],editActionIndex=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getRisks(){try{return JSON.parse(localStorage.getItem("gdnl_risks"))||[]}catch(e){return[]}}
+function setRisks(x){localStorage.setItem("gdnl_risks",JSON.stringify(x))}
+function getUsers(){try{return JSON.parse(localStorage.getItem("gdnl_users"))||[]}catch(e){return[]}}
+function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
+function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
+function getCapa(){try{return JSON.parse(localStorage.getItem("gdnl_capa"))||[]}catch(e){return[]}}
+function setCapa(x){localStorage.setItem("gdnl_capa",JSON.stringify(x))}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function selectedStandards(){return Array.from(standards.selectedOptions).map(o=>o.value)}
+function riskScore(o,s,d){return Number(o)*Number(s)*Number(d)}
+function riskLevel(score){if(score<50)return"Düşük";if(score<150)return"İzlenmeli";if(score<300)return"Orta";if(score<500)return"Yüksek";if(score<750)return"Kritik";return"Acil Aksiyon"}
+function levelClass(v){if(v==="Düşük")return"green";if(v==="İzlenmeli")return"blue";if(v==="Orta")return"orange";if(v==="Yüksek")return"orange";if(v==="Kritik"||v==="Acil Aksiyon")return"red";return"blue"}
+function statusClass(s){if(["Kapalı","Tamamlandı"].includes(s))return"green";if(["Gecikti","Acil Aksiyon","Kritik"].includes(s))return"red";if(["Aksiyon Bekliyor","Etkinlik Kontrolü","Kapanış Onayı","Devam Ediyor"].includes(s))return"orange";return"blue"}
+function generateRiskNo(){riskNo.value="RSK-"+new Date().getFullYear()+"-"+String(getRisks().length+1).padStart(4,"0")}
+function populateScale(id,value=5){const el=document.getElementById(id);el.innerHTML="";for(let i=1;i<=10;i++)el.innerHTML+=`<option value="${i}" ${i===value?"selected":""}>${i}</option>`}
+function initScales(){["initialO","initialS","initialD","residualO","residualS","residualD"].forEach(id=>populateScale(id,id.startsWith("initial")?7:4))}
+function initUserSelects(){const users=getUsers().filter(u=>u.status!=="Pasif");["riskOwner","responsiblePerson","actionOwner"].forEach(id=>{const el=document.getElementById(id);el.innerHTML='<option value="">Seçiniz</option>';users.forEach(u=>el.innerHTML+=`<option value="${u.fullName}">${u.fullName} / ${u.department||"-"} / ${u.role||"-"}</option>`);if(!users.length)el.innerHTML+='<option>Kerem Güdenli</option>'})}
+function updateScores(){const is=riskScore(initialO.value,initialS.value,initialD.value),rs=riskScore(residualO.value,residualS.value,residualD.value),red=is?Math.max(0,Math.round(((is-rs)/is)*100)):0;initialScore.value=is;residualScore.value=rs;initialLevel.value=riskLevel(is);residualLevel.value=riskLevel(rs);reductionRate.value=red+"%";priorityText.value=is>=750?"Hemen aksiyon":is>=500?"Kritik takip":is>=300?"Öncelikli aksiyon":is>=150?"Planlı aksiyon":"İzle"}
+
+function addOrUpdateAction(){const a={id:editActionIndex!==null?actions[editActionIndex].id:"ACT-"+Date.now(),actionType:actionType.value,actionOwner:actionOwner.value,plannedDate:plannedDate.value,actualDate:actualDate.value,actionStatus:actionStatus.value,completionRate:Number(completionRate.value||0),actionDescription:actionDescription.value.trim(),actionEvidence:actionEvidence.value.trim(),createdAt:new Date().toISOString()};if(!a.actionOwner)return showToast("Aksiyon sorumlusu zorunlu");if(!a.plannedDate)return showToast("Planlanan tarih zorunlu");if(!a.actionDescription)return showToast("Aksiyon açıklaması zorunlu");if(editActionIndex!==null){actions[editActionIndex]=a;editActionIndex=null}else actions.push(a);clearActionInputs();renderActionPreview();showToast("Aksiyon kaydedildi")}
+function editAction(i){const a=actions[i];editActionIndex=i;actionType.value=a.actionType;actionOwner.value=a.actionOwner;plannedDate.value=a.plannedDate;actualDate.value=a.actualDate;actionStatus.value=a.actionStatus;completionRate.value=a.completionRate;actionDescription.value=a.actionDescription;actionEvidence.value=a.actionEvidence;actionMode.textContent="ACTION EDIT"}
+function clearActionInputs(){editActionIndex=null;actionType.value="Risk Azaltma";actionOwner.value="";plannedDate.value=addDays(todayISO(),30);actualDate.value="";actionStatus.value="Açık";completionRate.value=0;actionDescription.value="";actionEvidence.value="";actionMode.textContent="ACTION CREATE"}
+function renderActionPreview(){if(!actions.length){actionPreview.innerHTML='<div class="empty" style="margin-top:14px">Aksiyon yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Tip</th><th>Sorumlu</th><th>Plan</th><th>Gerçekleşen</th><th>Durum</th><th>%</th><th>Aksiyon</th></tr></thead><tbody>';actions.forEach((a,i)=>h+=`<tr><td>${a.actionType}</td><td>${a.actionOwner}</td><td>${formatDateTR(a.plannedDate)}</td><td>${formatDateTR(a.actualDate)}</td><td><span class="status ${statusClass(a.actionStatus)}">${a.actionStatus}</span></td><td>${a.completionRate}%</td><td><button class="small-btn view" onclick="editAction(${i})">Düzenle</button><button class="small-btn delete" onclick="actions.splice(${i},1);renderActionPreview()">Sil</button></td></tr>`);actionPreview.innerHTML=h+"</tbody></table>"}
+
+function saveRisk(notify=false){
+updateScores();
+const payload={id:editIndex!==null?getRisks()[editIndex].id:"RISK-"+Date.now(),riskNo:riskNo.value,riskStatus:riskStatus.value,riskCategory:riskCategory.value,riskSource:riskSource.value,department:department.value,processName:processName.value.trim(),riskOwner:riskOwner.value,responsiblePerson:responsiblePerson.value,standards:selectedStandards(),auditRef:auditRef.value.trim(),capaRef:capaRef.value.trim(),riskTitle:riskTitle.value.trim(),riskDescription:riskDescription.value.trim(),legalCustomerRequirement:legalCustomerRequirement.value.trim(),currentControls:currentControls.value.trim(),initialO:Number(initialO.value),initialS:Number(initialS.value),initialD:Number(initialD.value),initialScore:Number(initialScore.value),initialLevel:initialLevel.value,residualO:Number(residualO.value),residualS:Number(residualS.value),residualD:Number(residualD.value),residualScore:Number(residualScore.value),residualLevel:residualLevel.value,reductionRate:reductionRate.value,actions:actions,createdBy:session.name||"System",createdAt:editIndex!==null?getRisks()[editIndex].createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),closedAt:"",auditTrail:editIndex!==null?(getRisks()[editIndex].auditTrail||[]):[]};
+if(!payload.riskTitle)return showToast("Risk başlığı zorunlu");if(!payload.riskDescription)return showToast("Risk açıklaması zorunlu");if(!payload.riskOwner)return showToast("Risk sahibi zorunlu");if(!payload.responsiblePerson)return showToast("Sorumlu kişi zorunlu");if(!payload.standards.length)return showToast("En az 1 standart seç");
+payload.auditTrail.push({action:editIndex!==null?"Risk güncellendi":"Risk açıldı",user:session.name||"System",date:new Date().toISOString()});
+const items=getRisks();if(editIndex!==null){items[editIndex]=payload;showToast("Risk güncellendi")}else{items.unshift(payload);showToast("Risk kaydedildi")}
+setRisks(items);if(notify)createRiskNotification(payload,"Risk kaydı açıldı/güncellendi: "+payload.riskNo);resetForm();renderRisks()
+}
+
+function createRiskNotification(r,msg){const n=getNotifications();n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Risk",documentCode:r.riskNo,documentName:r.riskTitle,mailGroups:r.riskOwner+"; "+r.responsiblePerson+"; "+r.department,smsGroups:r.responsiblePerson,distributionPoints:r.standards.join(", "),message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
+function createTemplate(type){resetForm();if(type==="EV"){riskCategory.value="EV Sektörü";riskSource.value="EV Projesi";riskTitle.value="EV batarya / HV safety / EMC uyumsuzluk riski";riskDescription.value="EV ürün veya prosesinde batarya güvenliği, yüksek voltaj, EMC, siber güvenlik, şarj uyumluluğu veya saha arızası kaynaklı müşteri, güvenlik, yasal ve marka riski.";legalCustomerRequirement.value="EV sektörü özel şartları, HV safety, EMC, batarya güvenliği, charging compatibility, functional safety, cybersecurity.";currentControls.value="Tasarım doğrulama, test planı, CoP kontrolü, EMC testi, FMEA, kontrol planı, tedarikçi kalite kontrolleri."}
+if(type==="CoP"){riskCategory.value="CoP";riskSource.value="CoP Testi";riskTitle.value="CoP ürün uygunluk ve test sürekliliği riski";riskDescription.value="Üretim uygunluğu, akredite test raporu, teknik dosya, ürün doğrulama ve regülasyon şartlarının sürdürülememesi riski.";legalCustomerRequirement.value="CoP planı, teknik dosya, akredite test raporu, CE/UL/EMC, müşteri ve regülasyon şartları.";currentControls.value="CoP planı, test raporları, ürün doğrulama kayıtları, teknik dosya kontrolü, değişiklik yönetimi."}
+if(type==="17025"){riskCategory.value="Laboratuvar";riskSource.value="Laboratuvar";riskTitle.value="ISO 17025 ölçüm belirsizliği ve kalibrasyon geçerlilik riski";riskDescription.value="Laboratuvar tarafsızlığı, cihaz kalibrasyonu, ölçüm belirsizliği, numune yönetimi veya metot validasyonu kaynaklı yanlış sonuç riski.";legalCustomerRequirement.value="ISO 17025, kalibrasyon şartları, ölçüm belirsizliği, metot validasyonu, tarafsızlık ve gizlilik.";currentControls.value="Kalibrasyon planı, cihaz doğrulama, metot validasyonu, personel yetkinliği, ara kontrol kayıtları."}
+showToast(type+" şablonu yüklendi")}
+function normalizeRisk(r){r.actions=r.actions||[];r.standards=r.standards||[];r.auditTrail=r.auditTrail||[];return r}
+function autoDelay(items){const t=todayISO();items.forEach(r=>{r.actions.forEach(a=>{if(a.actionStatus!=="Tamamlandı"&&a.plannedDate&&a.plannedDate<t)a.actionStatus="Gecikti"});if(r.riskStatus!=="Kapalı"&&r.actions.some(a=>a.actionStatus==="Gecikti"))r.riskStatus="Gecikti"});setRisks(items)}
+function isReady(r){return r.actions.length>0&&r.actions.every(a=>a.actionStatus==="Tamamlandı")&&r.residualScore>0&&r.riskOwner&&r.responsiblePerson}
+function renderRisks(){let items=getRisks().map(normalizeRisk);autoDelay(items);items=getRisks().map(normalizeRisk);const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,cf=categoryFilter.value,lf=levelFilter.value;const filtered=items.filter(r=>`${r.riskNo} ${r.riskTitle} ${r.riskDescription} ${r.riskCategory} ${r.department} ${r.processName} ${r.riskOwner} ${r.responsiblePerson} ${r.standards.join(" ")} ${r.auditRef} ${r.capaRef}`.toLowerCase().includes(q)&&(!sf||r.riskStatus===sf)&&(!cf||r.riskCategory===cf)&&(!lf||r.initialLevel===lf||r.residualLevel===lf));updateCards(items);renderHeatmap();if(!filtered.length){riskTable.innerHTML='<div class="empty">Risk kaydı bulunamadı.</div>';return}let h='<table><thead><tr><th>Risk No</th><th>Risk</th><th>Standart</th><th>Sahip / Sorumlu</th><th>İlk Skor</th><th>Artık Skor</th><th>Azalma</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';filtered.forEach(r=>{const i=items.findIndex(x=>x.id===r.id);h+=`<tr><td>${r.riskNo}</td><td>${r.riskTitle}<br><small>${r.riskCategory} / ${r.processName}</small></td><td>${r.standards.slice(0,3).join(", ")}${r.standards.length>3?"...":""}</td><td>${r.riskOwner}<br><small>${r.responsiblePerson}</small></td><td><span class="status ${levelClass(r.initialLevel)}">${r.initialScore} / ${r.initialLevel}</span></td><td><span class="status ${levelClass(r.residualLevel)}">${r.residualScore} / ${r.residualLevel}</span></td><td>${r.reductionRate}</td><td><span class="status ${statusClass(r.riskStatus)}">${r.riskStatus}</span></td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyRisk(${i})">Bildir</button><button class="small-btn close" onclick="closeRisk(${i})">Kapat</button></div></td></tr>`});riskTable.innerHTML=h+"</tbody></table>"}
+function updateCards(items){let allA=[];items.forEach(r=>allA=allA.concat(r.actions||[]));const avgI=items.length?Math.round(items.reduce((s,r)=>s+r.initialScore,0)/items.length):0,avgR=items.length?Math.round(items.reduce((s,r)=>s+r.residualScore,0)/items.length):0,red=avgI?Math.round(((avgI-avgR)/avgI)*100):0;totalRisks.textContent=items.length;openRisks.textContent=items.filter(r=>!["Kapalı","İptal"].includes(r.riskStatus)).length;criticalRisks.textContent=items.filter(r=>r.initialScore>=500||r.residualScore>=500).length;lateActions.textContent=allA.filter(a=>a.actionStatus==="Gecikti").length;avgInitial.textContent=avgI;avgResidual.textContent=avgR;avgReduction.textContent=red+"%";readyRisks.textContent=items.filter(isReady).length}
+function renderHeatmap(){let h="";for(let s=10;s>=1;s--){for(let o=1;o<=10;o++){const val=o*s*10,lev=riskLevel(val),cls=lev==="Düşük"?"h-low":lev==="İzlenmeli"?"h-watch":lev==="Orta"?"h-mid":lev==="Yüksek"?"h-high":lev==="Kritik"?"h-critical":"h-urgent";h+=`<div class="heatcell ${cls}" title="O:${o} Ş:${s} T:10 = ${val}">${val}</div>`}}heatmap.innerHTML=h}
+function openDrawer(i){selectedIndex=i;const r=normalizeRisk(getRisks()[i]);drawerTitle.textContent=r.riskNo+" / "+r.riskTitle;drawerStatus.textContent=r.riskStatus;drawerStatus.className="status "+statusClass(r.riskStatus);drawerContent.innerHTML=`<div class="info-box"><b>Risk No:</b> ${r.riskNo}
+<b>Kategori:</b> ${r.riskCategory}
+<b>Kaynak:</b> ${r.riskSource}
+<b>Departman / Süreç:</b> ${r.department} / ${r.processName}
+<b>Risk Sahibi:</b> ${r.riskOwner}
+<b>Sorumlu Kişi:</b> ${r.responsiblePerson}
+<b>Standartlar:</b> ${r.standards.join(", ")}
+<b>Audit:</b> ${r.auditRef||"-"}
+<b>CAPA:</b> ${r.capaRef||"-"}</div>
+<div class="info-box"><b>Risk Açıklaması:</b>
+${r.riskDescription}
+
+<b>Yasal/Müşteri/CoP/EV Şartı:</b>
+${r.legalCustomerRequirement||"-"}
+
+<b>Mevcut Kontroller:</b>
+${r.currentControls||"-"}</div>
+<div class="scoreline"><div class="scorecard"><small>İlk Skor</small><strong>${r.initialScore}</strong><span class="status ${levelClass(r.initialLevel)}">${r.initialLevel}</span></div><div class="scorecard"><small>Artık Skor</small><strong>${r.residualScore}</strong><span class="status ${levelClass(r.residualLevel)}">${r.residualLevel}</span></div><div class="scorecard"><small>Azalma</small><strong>${r.reductionRate}</strong></div><div class="scorecard"><small>Kapanış Hazır</small><strong>${isReady(r)?"EVET":"HAYIR"}</strong></div></div>
+<div class="info-box"><b>Aksiyonlar</b><br>${renderActionsTable(r.actions)}</div>
+<div class="info-box"><b>Audit Trail</b>
+${(r.auditTrail||[]).map(x=>`${formatDateTR(x.date)} - ${x.user} - ${x.action}`).join("\\n")||"-"}</div>`;drawer.classList.add("active")}
+function renderActionsTable(a){if(!a.length)return"Aksiyon yok.";let h='<table><thead><tr><th>Tip</th><th>Sorumlu</th><th>Plan</th><th>Gerçek</th><th>Durum</th><th>%</th></tr></thead><tbody>';a.forEach(x=>h+=`<tr><td>${x.actionType}</td><td>${x.actionOwner}</td><td>${formatDateTR(x.plannedDate)}</td><td>${formatDateTR(x.actualDate)}</td><td><span class="status ${statusClass(x.actionStatus)}">${x.actionStatus}</span></td><td>${x.completionRate}%</td></tr>`);return h+"</tbody></table>"}
+function notifyRisk(i){createRiskNotification(getRisks()[i],"Risk bildirimi oluşturuldu.");showToast("Bildirim kuyruğu oluşturuldu")}
+function notifyRiskCurrent(){if(selectedIndex!==null)notifyRisk(selectedIndex)}
+function closeRisk(i){const items=getRisks().map(normalizeRisk),r=items[i];if(!isReady(r))return showToast("Aksiyonlar tamamlanmadan ve artık risk hesaplanmadan kapatılamaz");r.riskStatus="Kapalı";r.closedAt=new Date().toISOString();r.auditTrail.push({action:"Risk kapatıldı",user:session.name||"System",date:new Date().toISOString()});setRisks(items);renderRisks();showToast("Risk kapatıldı")}
+function closeRiskCurrent(){if(selectedIndex!==null){closeRisk(selectedIndex);openDrawer(selectedIndex)}}
+function createCapaFromRiskCurrent(){if(selectedIndex===null)return;const risks=getRisks().map(normalizeRisk),r=risks[selectedIndex],c=getCapa(),y=new Date().getFullYear(),n=String(c.length+1).padStart(4,"0"),capaNo="CAPA-"+y+"-"+n,eightD="8D-"+y+"-"+n;c.unshift({id:"CAPA-"+Date.now(),eightDNo:eightD,capaNo,openDate:todayISO(),dueDate:addDays(todayISO(),30),capaClass:r.initialScore>=500?"Major CAPA":"Minor CAPA",source:"Risk Yönetimi",department:r.department,criticality:r.initialScore>=500?"Yüksek":"Orta",status:"Açık",problemTitle:"Risk Kaynaklı CAPA: "+r.riskTitle,leader:r.responsiblePerson,problemDescription:r.riskDescription,correctiveAction:"Risk azaltma aksiyonlarının 8D/CAPA metodolojisi ile doğrulanması.",riskReference:r.riskNo,createdBy:session.name||"System",createdAt:new Date().toISOString(),auditTrail:[{action:"Riskten CAPA oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]});setCapa(c);r.capaRef=capaNo;r.riskStatus="Aksiyon Bekliyor";r.auditTrail.push({action:"Riskten CAPA açıldı: "+capaNo,user:session.name||"System",date:new Date().toISOString()});setRisks(risks);renderRisks();openDrawer(selectedIndex);showToast("CAPA oluşturuldu: "+capaNo)}
+function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
+function resetForm(){editIndex=null;generateRiskNo();riskStatus.value="Açık";riskCategory.value="Kalite";riskSource.value="İç Denetim";department.value="Kalite";processName.value="";riskOwner.value="";responsiblePerson.value="";Array.from(standards.options).forEach(o=>o.selected=false);auditRef.value="";capaRef.value="";riskTitle.value="";riskDescription.value="";legalCustomerRequirement.value="";currentControls.value="";initScales();actions=[];renderActionPreview();clearActionInputs();updateScores();formMode.textContent="CREATE MODE"}
+function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
+globalSearch.addEventListener("input",renderRisks);
+initScales();initUserSelects();resetForm();renderRisks();
+console.log("GDNL QDMS Risk Register Loaded");
+</script>
+</body>
+</html>
