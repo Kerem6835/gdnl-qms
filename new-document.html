@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Yeni Doküman</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:26px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:27px;font-weight:950;margin-bottom:34px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:7px}
+.menu a{text-decoration:none;color:#cbd5e1;padding:12px 13px;border-radius:13px;font-size:14px;font-weight:800;display:flex;gap:10px}
+.menu a.active,.menu a:hover{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.55;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:22px 30px 32px}
+.topbar{height:68px;background:white;border-radius:24px;box-shadow:0 14px 45px rgba(15,23,42,.07);display:flex;align-items:center;justify-content:space-between;padding:0 22px;margin-bottom:24px}
+.search{width:min(620px,52vw);height:46px;border:1px solid #dbe3ef;border-radius:15px;padding:0 18px;font-size:14px;background:#f8fafc}
+.profile{display:flex;align-items:center;gap:14px}.avatar{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white;display:flex;align-items:center;justify-content:center;font-weight:950}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:30px 34px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 25px 70px rgba(15,23,42,.18)}
+.hero h1{font-size:34px;margin-bottom:9px}.hero p{color:#dbeafe;font-size:15px;line-height:1.55;max-width:850px}
+.btn{border:none;border-radius:15px;padding:15px 20px;font-weight:950;cursor:pointer;text-decoration:none;display:inline-block}
+.primary{background:linear-gradient(90deg,#0757e8,#0ea5ff);color:white;box-shadow:0 14px 30px rgba(37,99,235,.22)}
+.secondary{background:#eff6ff;color:#0757e8}
+.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px}
+.panel{background:white;border-radius:26px;padding:26px;box-shadow:0 14px 45px rgba(15,23,42,.065);border:1px solid #edf2f7;margin-bottom:22px}
+.panel h3{font-size:22px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+label{font-size:13px;font-weight:950;color:#334155}
+input,select,textarea{width:100%;border:1px solid #dbe3ef;background:#f8fafc;border-radius:15px;padding:14px 15px;font-size:14px;color:#0f172a;outline:none}
+textarea{min-height:120px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#1677ff;box-shadow:0 0 0 4px rgba(22,119,255,.11)}
+.full{grid-column:1/-1}
+.upload{border:2px dashed #cbd5e1;border-radius:20px;background:#f8fafc;padding:26px;text-align:center;color:#64748b}
+.upload strong{display:block;color:#0757e8;margin-bottom:8px}
+.actions{display:flex;justify-content:flex-end;gap:12px;margin-top:22px}
+.info{display:flex;flex-direction:column;gap:12px}
+.info-card{background:#f8fafc;border:1px solid #edf2f7;border-radius:18px;padding:16px}
+.info-card strong{display:block;margin-bottom:6px}
+.info-card span{font-size:13px;color:#64748b;line-height:1.5}
+.status{padding:7px 11px;border-radius:999px;font-size:11px;font-weight:950;display:inline-block}
+.blue{background:#dbeafe;color:#1d4ed8}.green{background:#dcfce7;color:#166534}.orange{background:#ffedd5;color:#9a3412}
+.toast{display:none;position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:16px 20px;border-radius:16px;box-shadow:0 20px 55px rgba(15,23,42,.25);font-weight:900}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.hero{display:block}.hero a{margin-top:16px}.search{width:56vw}}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a class="active" href="documents.html">📄 Doküman Yönetimi</a>
+<a href="#">🔄 Revizyon Yönetimi</a>
+<a href="#">🛠️ DÖF / CAPA</a>
+<a href="#">⚠️ Risk Yönetimi</a>
+<a href="#">🔍 İç Denetimler</a>
+<a href="#">🎓 Eğitim Yönetimi</a>
+<a href="#">📏 Kalibrasyon</a>
+<a href="#">🏭 Tedarikçi Yönetimi</a>
+<a href="#">📈 KPI & Raporlar</a>
+<a href="#">⚙️ Ayarlar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Create Document Module<br>Version 0.6</div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<input class="search" placeholder="Doküman, süreç, sorumlu veya revizyon ara...">
+<div class="profile">
+<span>🔔</span>
+<strong>Kerem Admin</strong>
+<div class="avatar">K</div>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Yeni Doküman Oluştur</h1>
+<p>Doküman kodu, revizyon, süreç, sahiplik, onay akışı ve yayın durumunu kontrollü şekilde kayıt altına alın.</p>
+</div>
+<a class="btn secondary" href="documents.html">← Master Listeye Dön</a>
+</section>
+
+<section class="grid">
+
+<div>
+<form class="panel" id="documentForm">
+<h3>Doküman Bilgileri</h3>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Doküman Kodu *</label>
+<input id="code" required placeholder="Örn: PR.001">
+</div>
+
+<div class="field">
+<label>Doküman Türü *</label>
+<select id="type" required>
+<option value="">Seçiniz</option>
+<option>El Kitabı</option>
+<option>Politika</option>
+<option>Prosedür</option>
+<option>Talimat</option>
+<option>Form</option>
+<option>Liste</option>
+<option>Plan</option>
+<option>Akış Şeması</option>
+<option>Standart</option>
+<option>Teknik Şartname</option>
+</select>
+</div>
+
+<div class="field full">
+<label>Doküman Adı *</label>
+<input id="name" required placeholder="Örn: Doküman Kontrol Prosedürü">
+</div>
+
+<div class="field">
+<label>Revizyon No *</label>
+<input id="rev" required placeholder="Örn: R00">
+</div>
+
+<div class="field">
+<label>Yayın Tarihi *</label>
+<input id="date" type="date" required>
+</div>
+
+<div class="field">
+<label>Süreç *</label>
+<select id="process" required>
+<option value="">Seçiniz</option>
+<option>Yönetim</option>
+<option>Kalite</option>
+<option>Üretim</option>
+<option>Satınalma</option>
+<option>İnsan Kaynakları</option>
+<option>Bakım</option>
+<option>Kalibrasyon</option>
+<option>Bilgi Güvenliği</option>
+<option>Çevre</option>
+<option>İSG</option>
+<option>Tedarikçi Kalitesi</option>
+<option>Müşteri İlişkileri</option>
+</select>
+</div>
+
+<div class="field">
+<label>Doküman Sahibi *</label>
+<input id="owner" required placeholder="Örn: Kalite">
+</div>
+
+<div class="field">
+<label>Hazırlayan</label>
+<input id="preparedBy" placeholder="Hazırlayan kişi/birim">
+</div>
+
+<div class="field">
+<label>Onaylayan</label>
+<input id="approvedBy" placeholder="Onaylayan kişi/birim">
+</div>
+
+<div class="field">
+<label>Durum *</label>
+<select id="status" required>
+<option>Onayda</option>
+<option>Yayında</option>
+<option>Revizyon</option>
+<option>Arşiv</option>
+</select>
+</div>
+
+<div class="field">
+<label>Standart Bağlantısı</label>
+<select id="standard">
+<option>ISO 9001</option>
+<option>ISO 14001</option>
+<option>ISO 45001</option>
+<option>ISO 50001</option>
+<option>ISO 27001</option>
+<option>ISO 10002</option>
+<option>IATF 16949</option>
+<option>APQP / PPAP</option>
+<option>FMEA / MSA / SPC</option>
+<option>CE / UL / EMC / CoP</option>
+</select>
+</div>
+
+<div class="field full">
+<label>Revizyon Açıklaması</label>
+<textarea id="revisionNote" placeholder="Bu dokümanın neden oluşturulduğunu veya revizyon gerekçesini yazınız."></textarea>
+</div>
+
+<div class="field full">
+<label>Dosya Bilgisi</label>
+<div class="upload">
+<strong>PDF / DOCX / XLSX dosya yükleme alanı</strong>
+<span>Bu demo sürümde dosya adı kayıt altına alınır. Gerçek dosya yükleme Cloudflare R2 ile bağlanacak.</span>
+<br><br>
+<input id="fileName" placeholder="Örn: PR.001_Dokuman_Kontrol_Proseduru.pdf">
+</div>
+</div>
+
+</div>
+
+<div class="actions">
+<a class="btn secondary" href="documents.html">Vazgeç</a>
+<button class="btn primary" type="submit">Kaydet ve Listeye Ekle</button>
+</div>
+</form>
+</div>
+
+<div>
+<div class="panel">
+<h3>Kontrol Özeti</h3>
+<div class="info">
+<div class="info-card"><strong>Doküman Kodu</strong><span id="previewCode">Henüz girilmedi</span></div>
+<div class="info-card"><strong>Akış Durumu</strong><span><span class="status blue">Kayıt Hazırlanıyor</span></span></div>
+<div class="info-card"><strong>Zorunlu Alanlar</strong><span>Kod, ad, tür, revizyon, yayın tarihi, süreç, sahip ve durum alanları zorunludur.</span></div>
+<div class="info-card"><strong>Sonraki Faz</strong><span>Bu kayıt localStorage içinde gerçek veri olarak saklanır. D1 veritabanına geçildiğinde aynı alanlar backend'e bağlanacaktır.</span></div>
+</div>
+</div>
+
+<div class="panel">
+<h3>Doküman Yaşam Döngüsü</h3>
+<div class="info">
+<div class="info-card"><strong>1. Oluşturma</strong><span>Doküman temel bilgileri kaydedilir.</span></div>
+<div class="info-card"><strong>2. Kontrol</strong><span>İlgili süreç sahibi tarafından kontrol edilir.</span></div>
+<div class="info-card"><strong>3. Onay</strong><span>Yetkili yönetici onayı sonrası yayına alınır.</span></div>
+<div class="info-card"><strong>4. Revizyon</strong><span>Değişikliklerde revizyon geçmişi korunur.</span></div>
+</div>
+</div>
+</div>
+
+</section>
+
+</main>
+</div>
+
+<div class="toast" id="toast">Doküman başarıyla kaydedildi.</div>
+
+<script>
+const form=document.getElementById("documentForm");
+const codeInput=document.getElementById("code");
+const previewCode=document.getElementById("previewCode");
+const today=new Date().toISOString().split("T")[0];
+
+document.getElementById("date").value=today;
+
+codeInput.addEventListener("input",()=>{
+  previewCode.textContent=codeInput.value.trim() || "Henüz girilmedi";
+});
+
+function statusClass(status){
+  if(status==="Yayında") return "green";
+  if(status==="Onayda") return "blue";
+  if(status==="Revizyon") return "orange";
+  return "gray";
+}
+
+form.addEventListener("submit",function(e){
+  e.preventDefault();
+
+  const documentRecord={
+    id:crypto.randomUUID(),
+    code:document.getElementById("code").value.trim(),
+    name:document.getElementById("name").value.trim(),
+    type:document.getElementById("type").value,
+    rev:document.getElementById("rev").value.trim(),
+    date:document.getElementById("date").value,
+    process:document.getElementById("process").value,
+    owner:document.getElementById("owner").value.trim(),
+    preparedBy:document.getElementById("preparedBy").value.trim(),
+    approvedBy:document.getElementById("approvedBy").value.trim(),
+    status:document.getElementById("status").value,
+    class:statusClass(document.getElementById("status").value),
+    standard:document.getElementById("standard").value,
+    revisionNote:document.getElementById("revisionNote").value.trim(),
+    fileName:document.getElementById("fileName").value.trim(),
+    createdAt:new Date().toISOString()
+  };
+
+  const documents=JSON.parse(localStorage.getItem("gdnl_documents")) || [];
+  documents.unshift(documentRecord);
+  localStorage.setItem("gdnl_documents",JSON.stringify(documents));
+
+  document.getElementById("toast").style.display="block";
+
+  setTimeout(()=>{
+    window.location.href="documents.html";
+  },900);
+});
+</script>
+
+</body>
+</html>
