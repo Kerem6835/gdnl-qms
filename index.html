@@ -9,180 +9,193 @@
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
 :root{
 --navy:#071225;
---navy2:#0f172a;
---blue:#1677ff;
---cyan:#18b8ff;
---soft:#f4f8ff;
---line:#dbe5f2;
+--text:#0f172a;
 --muted:#64748b;
---danger:#991b1b;
---success:#15803d;
+--blue:#1478ff;
+--cyan:#13b7ff;
+--line:#dbe5f2;
+--soft:#f6f9ff;
 }
-body{min-height:100vh;background:radial-gradient(circle at top right,#dbeafe,#eef3f9 48%,#f8fafc);color:var(--navy2)}
-.page{min-height:100vh;display:grid;grid-template-columns:1.08fr .92fr;overflow:hidden}
-
+body{
+min-height:100vh;
+background:#eef3f9;
+color:var(--text);
+overflow-x:hidden;
+}
+.page{
+min-height:100vh;
+display:grid;
+grid-template-columns:1fr minmax(430px,33vw);
+}
 .left{
 position:relative;
+min-height:100vh;
+padding:64px 78px;
 color:white;
-padding:58px 76px;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
 background:
-linear-gradient(120deg,rgba(2,8,23,.96),rgba(7,18,37,.88),rgba(10,45,91,.74)),
-url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1900&q=90');
+linear-gradient(115deg,rgba(3,10,24,.94),rgba(5,20,44,.88),rgba(7,62,120,.58)),
+url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2200&q=90');
 background-size:cover;
 background-position:center;
+overflow:hidden;
 }
 .left:before{
 content:"";
 position:absolute;
-inset:0;
+inset:-120px;
 background:
-radial-gradient(circle at 20% 20%,rgba(24,184,255,.20),transparent 32%),
-radial-gradient(circle at 80% 70%,rgba(22,119,255,.22),transparent 35%);
+radial-gradient(circle at 18% 18%,rgba(19,183,255,.28),transparent 30%),
+radial-gradient(circle at 78% 70%,rgba(20,120,255,.30),transparent 35%),
+linear-gradient(135deg,rgba(255,255,255,.06),transparent 45%);
 pointer-events:none;
 }
+.left:after{
+content:"";
+position:absolute;
+right:-160px;
+bottom:-160px;
+width:520px;
+height:520px;
+border-radius:50%;
+background:rgba(19,183,255,.11);
+filter:blur(8px);
+}
 .left>*{position:relative;z-index:2}
-
-.brand-wrap{display:flex;align-items:center;justify-content:space-between;gap:18px}
-.brand{font-size:42px;font-weight:950;letter-spacing:-1px}
-.brand span{color:#18b8ff}
-.version{padding:11px 15px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.08);border-radius:999px;font-size:12px;font-weight:900;color:#dbeafe}
-
-.hero h1{font-size:58px;line-height:1.05;letter-spacing:-1.8px;margin-bottom:24px;max-width:790px}
-.hero p{font-size:21px;line-height:1.65;color:#dbeafe;max-width:780px}
-.standards{margin-top:24px;color:#93c5fd;font-size:15px;line-height:1.8;max-width:860px;font-weight:800}
-
-.mock{
-margin-top:34px;
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:14px;
-max-width:760px;
+.brand-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:18px;
 }
-.mock-card{
-border:1px solid rgba(255,255,255,.14);
+.brand{
+font-size:42px;
+font-weight:950;
+letter-spacing:-1px;
+}
+.brand span{color:var(--cyan)}
+.version{
+border:1px solid rgba(255,255,255,.22);
 background:rgba(255,255,255,.08);
-backdrop-filter:blur(16px);
-border-radius:20px;
-padding:16px;
-box-shadow:0 18px 50px rgba(0,0,0,.22);
+backdrop-filter:blur(18px);
+padding:11px 16px;
+border-radius:999px;
+font-size:12px;
+font-weight:950;
+color:#dbeafe;
 }
-.mock-card small{display:block;color:#bfdbfe;font-size:12px;font-weight:900;margin-bottom:8px}
-.mock-card b{display:block;font-size:28px;color:white}
-.mock-card span{display:block;margin-top:5px;font-size:12px;color:#93c5fd;font-weight:800}
-.line{height:8px;background:rgba(255,255,255,.14);border-radius:999px;overflow:hidden;margin-top:14px}
-.line i{display:block;height:100%;background:linear-gradient(90deg,#1677ff,#18b8ff);border-radius:999px}
-
-.badges{display:flex;gap:14px;flex-wrap:wrap}
-.badge{border:1px solid rgba(255,255,255,.22);padding:13px 18px;border-radius:16px;color:#dbeafe;background:rgba(255,255,255,.07);font-weight:900}
+.hero h1{
+font-size:66px;
+line-height:1.02;
+letter-spacing:-2.4px;
+max-width:900px;
+margin-bottom:28px;
+}
+.hero p{
+font-size:22px;
+line-height:1.7;
+max-width:850px;
+color:#dbeafe;
+font-weight:700;
+}
+.standards{
+margin-top:28px;
+max-width:980px;
+color:#93c5fd;
+font-size:15px;
+line-height:1.9;
+font-weight:900;
+}
+.premium-strip{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+max-width:930px;
+margin-top:36px;
+}
+.strip-card{
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.18);
+border-radius:22px;
+padding:18px;
+backdrop-filter:blur(18px);
+box-shadow:0 20px 60px rgba(0,0,0,.22);
+}
+.strip-card b{
+display:block;
+font-size:15px;
+margin-bottom:8px;
+}
+.strip-card span{
+display:block;
+font-size:12px;
+line-height:1.55;
+color:#bfdbfe;
+font-weight:800;
+}
+.badges{
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+}
+.badge{
+border:1px solid rgba(255,255,255,.22);
+background:rgba(255,255,255,.08);
+color:#dbeafe;
+padding:13px 18px;
+border-radius:16px;
+font-size:14px;
+font-weight:950;
+backdrop-filter:blur(16px);
+}
 
 .right{
+min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-padding:52px;
+padding:42px;
 background:
-radial-gradient(circle at top,#ffffff,#edf4ff 62%,#e6eef8);
+radial-gradient(circle at 50% 0%,#ffffff,#edf4ff 58%,#e8eff8);
 }
 .login{
 width:100%;
-max-width:560px;
-background:rgba(255,255,255,.86);
-backdrop-filter:blur(22px);
-padding:50px;
+max-width:520px;
+background:rgba(255,255,255,.88);
+border:1px solid rgba(255,255,255,.82);
 border-radius:34px;
-box-shadow:0 35px 110px rgba(15,23,42,.16);
-border:1px solid rgba(255,255,255,.75);
+padding:46px;
+box-shadow:0 36px 110px rgba(15,23,42,.16);
+backdrop-filter:blur(24px);
 }
 .icon{
-width:86px;height:86px;
-border:3px solid #1677ff;
-border-radius:26px;
-margin:0 auto 24px;
+width:86px;
+height:86px;
+border-radius:27px;
+border:3px solid var(--blue);
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:36px;
+margin:0 auto 24px;
 background:linear-gradient(180deg,#fff,#eff6ff);
-box-shadow:0 18px 40px rgba(22,119,255,.16);
+box-shadow:0 20px 48px rgba(20,120,255,.18);
 }
-.login h2{text-align:center;font-size:42px;margin-bottom:10px;letter-spacing:-1px}
-.login p{text-align:center;color:#64748b;margin-bottom:30px;font-size:17px;font-weight:800}
-
-.trust{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:28px;
-}
-.trust div{
-background:#f8fafc;
-border:1px solid #e2e8f0;
-border-radius:15px;
-padding:10px;
+.login h2{
 text-align:center;
-font-size:11px;
-font-weight:950;
-color:#334155;
+font-size:42px;
+letter-spacing:-1.2px;
+margin-bottom:10px;
 }
-
-label{display:block;font-weight:900;margin-bottom:10px}
-input{
-width:100%;
-height:64px;
-border:1px solid #cbd5e1;
-border-radius:17px;
-padding:0 18px;
+.login p{
+text-align:center;
+color:var(--muted);
 font-size:17px;
-margin-bottom:22px;
-outline:none;
-background:#eef5ff;
 font-weight:800;
+margin-bottom:30px;
 }
-input:focus{border-color:#1677ff;box-shadow:0 0 0 4px rgba(22,119,255,.13);background:white}
-.password-wrap{position:relative}
-.password-wrap input{padding-right:58px}
-.toggle-pass{
-position:absolute;
-right:12px;
-top:10px;
-width:44px;
-height:44px;
-border:none;
-border-radius:13px;
-background:#f1f5f9;
-color:#334155;
-font-size:18px;
-font-weight:900;
-cursor:pointer;
-}
-.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;color:#475569}
-.remember{display:flex;align-items:center;font-weight:900;font-size:14px;margin:0}
-.remember input{width:auto;height:auto;margin:0 8px 0 0}
-.row a{color:#1677ff;text-decoration:none;font-weight:900;font-size:14px}
-
-.login-btn{
-width:100%;
-height:68px;
-border:none;
-border-radius:18px;
-background:linear-gradient(90deg,#0757e8,#0ea5ff);
-color:white;
-font-size:22px;
-font-weight:950;
-cursor:pointer;
-box-shadow:0 18px 42px rgba(22,119,255,.26);
-transition:.2s;
-}
-.login-btn:hover{transform:translateY(-1px)}
-.login-btn:disabled{opacity:.65;cursor:not-allowed}
-
-.progress-login{display:none;margin-top:18px;height:9px;background:#e2e8f0;border-radius:999px;overflow:hidden}
-.progress-login span{display:block;width:0%;height:100%;background:linear-gradient(90deg,#0757e8,#18b8ff);border-radius:999px;animation:load 1s forwards}
-@keyframes load{to{width:100%}}
-
 .error,.success{
 display:none;
 padding:13px 15px;
@@ -194,43 +207,150 @@ margin-bottom:18px;
 .error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
 .success{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0}
 
-.system-status{
-margin-top:22px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
+label{
+display:block;
+font-size:14px;
+font-weight:950;
+margin-bottom:10px;
 }
-.system-status div{
+input{
+width:100%;
+height:64px;
+border:1px solid #cbd5e1;
+border-radius:18px;
+padding:0 18px;
+font-size:17px;
+font-weight:850;
+outline:none;
+background:#eef5ff;
+color:#0f172a;
+margin-bottom:22px;
+}
+input:focus{
+border-color:var(--blue);
+background:white;
+box-shadow:0 0 0 4px rgba(20,120,255,.13);
+}
+.password-wrap{position:relative}
+.password-wrap input{padding-right:60px}
+.toggle-pass{
+position:absolute;
+right:12px;
+top:10px;
+width:44px;
+height:44px;
+border:none;
+border-radius:13px;
+background:#f1f5f9;
+cursor:pointer;
+font-size:18px;
+}
+.row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:14px;
+margin-bottom:26px;
+}
+.remember{
+display:flex;
+align-items:center;
+font-size:14px;
+font-weight:900;
+color:#475569;
+margin:0;
+}
+.remember input{
+width:auto;
+height:auto;
+margin:0 8px 0 0;
+}
+.row a{
+font-size:14px;
+font-weight:950;
+color:var(--blue);
+text-decoration:none;
+}
+.login-btn{
+width:100%;
+height:68px;
+border:none;
+border-radius:19px;
+background:linear-gradient(90deg,#0757e8,#13b7ff);
+color:white;
+font-size:22px;
+font-weight:950;
+cursor:pointer;
+box-shadow:0 20px 46px rgba(20,120,255,.28);
+transition:.2s;
+}
+.login-btn:hover{transform:translateY(-1px)}
+.login-btn:disabled{opacity:.65;cursor:not-allowed}
+.progress-login{
+display:none;
+height:9px;
+background:#e2e8f0;
+border-radius:999px;
+overflow:hidden;
+margin-top:18px;
+}
+.progress-login span{
+display:block;
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#0757e8,#13b7ff);
+border-radius:999px;
+animation:load .9s forwards;
+}
+@keyframes load{to{width:100%}}
+
+.access-note{
+margin-top:24px;
+padding:16px;
+border-radius:18px;
 background:#f8fafc;
 border:1px solid #e2e8f0;
-border-radius:15px;
-padding:12px;
 }
-.system-status b{display:block;color:#0757e8;font-size:20px}
-.system-status span{font-size:11px;font-weight:900;color:#64748b}
-
-.footer{text-align:center;margin-top:24px;color:#94a3b8;font-size:13px;font-weight:800}
+.access-note b{
+display:block;
+font-size:13px;
+margin-bottom:6px;
+}
+.access-note span{
+font-size:12px;
+line-height:1.6;
+color:#64748b;
+font-weight:800;
+}
+.footer{
+text-align:center;
+margin-top:24px;
+color:#94a3b8;
+font-size:13px;
+font-weight:850;
+}
 
 @media(max-width:1180px){
 .page{grid-template-columns:1fr}
-.left{min-height:620px;padding:44px}
-.hero h1{font-size:44px}
-.right{padding:36px}
+.left{min-height:640px;padding:48px}
+.right{min-height:auto;padding:42px}
+.hero h1{font-size:50px}
+.premium-strip{grid-template-columns:repeat(2,1fr)}
+.login{max-width:620px}
 }
-@media(max-width:720px){
-.left{padding:28px;min-height:620px}
+@media(max-width:760px){
+.left{padding:30px;min-height:680px}
+.brand-row{align-items:flex-start;flex-direction:column}
 .brand{font-size:34px}
-.brand-wrap{align-items:flex-start;flex-direction:column}
-.hero h1{font-size:36px}
+.hero h1{font-size:38px}
 .hero p{font-size:17px}
-.mock{grid-template-columns:1fr}
-.badges{gap:9px}
+.standards{font-size:13px}
+.premium-strip{grid-template-columns:1fr}
 .badge{font-size:12px;padding:11px 13px}
 .right{padding:22px}
-.login{padding:28px;border-radius:26px}
+.login{padding:28px;border-radius:28px}
 .login h2{font-size:34px}
-.trust,.system-status{grid-template-columns:1fr}
-.row{align-items:flex-start;gap:12px;flex-direction:column}
+.row{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
@@ -239,28 +359,44 @@ padding:12px;
 <div class="page">
 
 <section class="left">
-  <div class="brand-wrap">
+  <div class="brand-row">
     <div class="brand">GDNL <span>QDMS</span></div>
-    <div class="version">Enterprise V3.0</div>
+    <div class="version">Enterprise Quality Platform</div>
   </div>
 
   <div class="hero">
-    <h1>Kalite ve Uygunluk Süreçlerinize Güvenli Erişim</h1>
-    <p>Doküman, revizyon, CAPA/DÖF, iç denetim, risk, eğitim, kalibrasyon, tedarikçi performansı ve KPI süreçlerinizi tek kurumsal platformdan yönetin.</p>
-    <div class="standards">CoP • EV • ISO 9001 • ISO 14001 • ISO 45001 • ISO 50001 • ISO 27001 • ISO 10002 • ISO 17025 • IATF 16949 • APQP • PPAP • FMEA • MSA • SPC • 8D • 5Why • CE • UL • EMC</div>
+    <h1>Kalite sistemini tek merkezden yöneten güvenli platform.</h1>
+    <p>Doküman, revizyon, onay, CAPA/8D, audit, risk, eğitim, tedarikçi ve KPI süreçlerini kurumsal seviyede birleştiren modern QDMS altyapısı.</p>
 
-    <div class="mock">
-      <div class="mock-card"><small>System Health</small><b>98%</b><span>Live compliance</span><div class="line"><i style="width:98%"></i></div></div>
-      <div class="mock-card"><small>Open CAPA</small><b>04</b><span>Action tracking</span><div class="line"><i style="width:62%"></i></div></div>
-      <div class="mock-card"><small>Audit Score</small><b>94%</b><span>Enterprise ready</span><div class="line"><i style="width:94%"></i></div></div>
+    <div class="standards">
+      CoP • EV • ISO 9001 • ISO 14001 • ISO 45001 • ISO 50001 • ISO 27001 • ISO 10002 • ISO 17025 • IATF 16949 • APQP • PPAP • FMEA • MSA • SPC • 8D • 5Why • CE • UL • EMC
+    </div>
+
+    <div class="premium-strip">
+      <div class="strip-card">
+        <b>Document Control</b>
+        <span>Revizyon, onay, dağıtım ve arşiv izlenebilirliği.</span>
+      </div>
+      <div class="strip-card">
+        <b>Audit & CAPA</b>
+        <span>Bulgu, kök neden, aksiyon ve etkinlik kontrolü.</span>
+      </div>
+      <div class="strip-card">
+        <b>Risk Intelligence</b>
+        <span>10×10×10 skor, aksiyon sonrası artık risk ve KPI.</span>
+      </div>
+      <div class="strip-card">
+        <b>Supplier Quality</b>
+        <span>Tedarikçi performansı, SCAR, sertifika ve CoP/EV takibi.</span>
+      </div>
     </div>
   </div>
 
   <div class="badges">
-    <div class="badge">Document Control</div>
-    <div class="badge">Audit Management</div>
-    <div class="badge">CAPA / 8D</div>
-    <div class="badge">Risk & KPI</div>
+    <div class="badge">Secure Access</div>
+    <div class="badge">Enterprise Workflow</div>
+    <div class="badge">Audit Ready</div>
+    <div class="badge">KPI Driven</div>
   </div>
 </section>
 
@@ -270,14 +406,8 @@ padding:12px;
     <h2>Panele Giriş</h2>
     <p>Kurumsal hesabınızla devam edin.</p>
 
-    <div class="trust">
-      <div>ISO Ready</div>
-      <div>IATF Ready</div>
-      <div>CoP Ready</div>
-    </div>
-
     <div class="error" id="loginError">E-posta veya şifre hatalı.</div>
-    <div class="success" id="loginSuccess">Authenticating... Enterprise Dashboard açılıyor.</div>
+    <div class="success" id="loginSuccess">Giriş başarılı. Dashboard hazırlanıyor...</div>
 
     <label for="email">E-posta Adresi</label>
     <input id="email" type="email" placeholder="admin@gdnl.com" autocomplete="username">
@@ -299,11 +429,9 @@ padding:12px;
     <button class="login-btn" id="loginBtn" onclick="login()">Giriş Yap</button>
     <div class="progress-login" id="loginProgress"><span></span></div>
 
-    <div class="system-status">
-      <div><b>214</b><span>Documents</span></div>
-      <div><b>08</b><span>Audits Planned</span></div>
-      <div><b>05</b><span>Open Risks</span></div>
-      <div><b>67</b><span>Suppliers</span></div>
+    <div class="access-note">
+      <b>Secure QDMS Access</b>
+      <span>Yetkili kullanıcılar için doküman, audit, CAPA, risk ve tedarikçi kalite süreçlerine güvenli erişim sağlar.</span>
     </div>
 
     <div class="footer">© 2026 GDNL QDMS - Enterprise Quality Platform</div>
@@ -367,7 +495,7 @@ function login(){
 
   setTimeout(function(){
     window.location.href="dashboard.html";
-  },900);
+  },850);
 }
 
 function togglePassword(){
