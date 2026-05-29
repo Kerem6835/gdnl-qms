@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Yeni Doküman Oluştur</title>
+<title>GDNL QDMS | Yeni Doküman</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -25,11 +25,11 @@ body{background:#eef3f9;color:#0f172a}
 .profile-info span{font-size:12px;color:#64748b}
 .avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
 .logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
-.hero h1{font-size:36px;margin-bottom:10px}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}
 .hero p{max-width:850px;color:#dbeafe;line-height:1.7}
 .hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
-.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:24px}
+.layout{display:grid;grid-template-columns:1.3fr .7fr;gap:24px}
 .panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
 .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}
 .panel h3{font-size:19px;font-weight:900}
@@ -39,7 +39,7 @@ body{background:#eef3f9;color:#0f172a}
 .field.double{grid-column:span 2}
 .field label{font-size:12px;font-weight:900;color:#64748b}
 .field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
-.field textarea{height:110px;padding:12px;resize:none}
+.field textarea{height:105px;padding:12px;resize:none}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
 .btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
@@ -53,16 +53,18 @@ body{background:#eef3f9;color:#0f172a}
 .status.orange{background:#ffedd5;color:#c2410c}
 .status.red{background:#fee2e2;color:#b91c1c}
 .status.gray{background:#e2e8f0;color:#334155}
-.preview-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:20px}
-.preview-card h2{font-size:24px;color:#0757e8;margin:8px 0}
-.preview-card p{font-size:13px;color:#64748b;line-height:1.7;margin-top:8px}
+.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:20px}
+.preview h2{font-size:26px;color:#0757e8;margin:10px 0}
+.preview h4{font-size:16px;margin-bottom:8px}
+.preview p{font-size:13px;color:#64748b;line-height:1.7}
 .meta{display:flex;flex-direction:column;gap:10px;margin-top:18px}
-.meta div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;font-size:13px}
+.meta div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;font-size:13px}
 .meta b{color:#0f172a}
 .meta span{color:#64748b;font-weight:800;text-align:right}
 .checklist{display:flex;flex-direction:column;gap:12px}
-.check-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;font-size:13px;font-weight:800;color:#334155}
-.check-item.ok{border-color:#86efac;background:#f0fdf4;color:#166534}
+.check{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;font-size:13px;font-weight:800;color:#334155}
+.check.ok{border-color:#86efac;background:#f0fdf4;color:#166534}
+.check.bad{border-color:#fecaca;background:#fef2f2;color:#991b1b}
 .toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
 @media(max-width:1100px){.layout{grid-template-columns:1fr}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.search{width:300px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}}
@@ -89,21 +91,22 @@ body{background:#eef3f9;color:#0f172a}
 <a href="#">📏 Kalibrasyon</a>
 <a href="#">🏭 Tedarikçi Yönetimi</a>
 <a href="#">📈 KPI & Raporlar</a>
+<a href="#">👥 Kullanıcı Yönetimi</a>
 <a href="#">⚙️ Ayarlar</a>
 </nav>
 </div>
 
 <div class="sidebar-footer">
 GDNL QDMS Enterprise<br>
-New Document Creator<br>
-Version 3.0
+New Document Module<br>
+Version 3.1
 </div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" id="quickSearch" placeholder="Doküman kodu veya ad ön kontrolü">
+<input class="search" id="quickSearch" placeholder="Mevcut doküman kodu veya adı ara">
 <div class="profile">
 <div class="profile-info">
 <strong id="userName">Kerem Admin</strong>
@@ -117,7 +120,7 @@ Version 3.0
 <section class="hero">
 <div>
 <h1>New Document Creation Center</h1>
-<p>Yeni doküman oluştur, kodunu üret, standart bağlantısını kur, hazırlayan-kontrol-onay akışını tanımla ve master listeye canlı kaydet.</p>
+<p>Yeni doküman oluştur, otomatik kod üret, standart bağlantısı kur, hazırlayan-kontrol-onay akışını tanımla ve master listeye canlı kaydet.</p>
 </div>
 <div class="hero-badge">Workflow: <span id="workflowState">Draft</span></div>
 </section>
@@ -126,7 +129,7 @@ Version 3.0
 
 <div>
 
-<div class="panel">
+<section class="panel">
 <div class="panel-head">
 <h3>Yeni Doküman Bilgileri</h3>
 <span class="status blue" id="qualityGate">QUALITY GATE ACTIVE</span>
@@ -136,7 +139,7 @@ Version 3.0
 
 <div class="field">
 <label>Doküman Tipi</label>
-<select id="docType" onchange="generateCode(); updatePreview();">
+<select id="docType">
 <option value="PR">Prosedür</option>
 <option value="FR">Form</option>
 <option value="TL">Talimat</option>
@@ -151,7 +154,7 @@ Version 3.0
 </div>
 
 <div class="field">
-<label>Otomatik Doküman Kodu</label>
+<label>Doküman Kodu</label>
 <input id="docCode" placeholder="Otomatik üretilecek">
 </div>
 
@@ -162,12 +165,12 @@ Version 3.0
 
 <div class="field double">
 <label>Doküman Adı</label>
-<input id="docName" placeholder="Örn: Doküman Kontrol Prosedürü" oninput="updatePreview(); validateLive();">
+<input id="docName" placeholder="Örn: Doküman Kontrol Prosedürü">
 </div>
 
 <div class="field">
 <label>Durum</label>
-<select id="docStatus" onchange="updatePreview();">
+<select id="docStatus">
 <option value="Taslak">Taslak</option>
 <option value="Onayda">Onayda</option>
 <option value="Yayında">Yayında</option>
@@ -177,8 +180,8 @@ Version 3.0
 </div>
 
 <div class="field">
-<label>Süreç / Departman Sahibi</label>
-<select id="docOwner" onchange="updatePreview();">
+<label>Süreç Sahibi</label>
+<select id="docOwner">
 <option value="Kalite">Kalite</option>
 <option value="YGG">YGG</option>
 <option value="Sistem">Sistem</option>
@@ -193,12 +196,13 @@ Version 3.0
 
 <div class="field">
 <label>Standart Bağlantısı</label>
-<select id="docStandard" onchange="updatePreview();">
+<select id="docStandard">
 <option value="ISO 9001">ISO 9001</option>
 <option value="ISO 14001">ISO 14001</option>
 <option value="ISO 45001">ISO 45001</option>
 <option value="ISO 27001">ISO 27001</option>
 <option value="ISO 50001">ISO 50001</option>
+<option value="ISO 10002">ISO 10002</option>
 <option value="IATF 16949">IATF 16949</option>
 <option value="Entegre Sistem">Entegre Sistem</option>
 </select>
@@ -206,7 +210,7 @@ Version 3.0
 
 <div class="field">
 <label>Kritiklik</label>
-<select id="docCriticality" onchange="updatePreview();">
+<select id="docCriticality">
 <option value="Normal">Normal</option>
 <option value="Yüksek">Yüksek</option>
 <option value="Kritik">Kritik</option>
@@ -215,12 +219,12 @@ Version 3.0
 
 <div class="field">
 <label>Yürürlük Tarihi</label>
-<input type="date" id="docDate" onchange="updatePreview();">
+<input type="date" id="docDate">
 </div>
 
 <div class="field">
 <label>Gözden Geçirme Tarihi</label>
-<input type="date" id="reviewDate" onchange="updatePreview();">
+<input type="date" id="reviewDate">
 </div>
 
 <div class="field">
@@ -240,7 +244,7 @@ Version 3.0
 
 <div class="field full">
 <label>Amaç ve Kapsam</label>
-<textarea id="docDescription" placeholder="Dokümanın amacı, kapsamı, hangi süreci yönettiği ve neden oluşturulduğu..." oninput="updatePreview(); validateLive();"></textarea>
+<textarea id="docDescription" placeholder="Dokümanın amacı, kapsamı ve hangi süreci yönettiği..."></textarea>
 </div>
 
 <div class="field full">
@@ -251,29 +255,28 @@ Version 3.0
 </div>
 
 <div class="actions">
-<button class="btn primary" onclick="saveNewDocument()">Dokümanı Oluştur</button>
 <button class="btn dark" onclick="generateCode()">Kod Üret</button>
-<button class="btn green" onclick="saveAsPublished()">Yayınla ve Kaydet</button>
-<button class="btn orange" onclick="clearForm()">Formu Temizle</button>
-<button class="btn red" onclick="goDocuments()">Master Listeye Git</button>
+<button class="btn primary" onclick="saveNewDocument(false)">Dokümanı Oluştur</button>
+<button class="btn green" onclick="saveNewDocument(true)">Yayınla ve Kaydet</button>
+<button class="btn orange" onclick="clearForm()">Temizle</button>
+<button class="btn red" onclick="window.location.href='documents.html'">Master Listeye Git</button>
 </div>
-
-</div>
+</section>
 
 </div>
 
 <div>
 
-<div class="panel">
+<section class="panel">
 <div class="panel-head">
 <h3>Canlı Ön İzleme</h3>
-<span class="status green" id="previewStatus">READY</span>
+<span class="status green">LIVE</span>
 </div>
 
-<div class="preview-card">
+<div class="preview">
 <span class="status blue" id="pStatus">Taslak</span>
 <h2 id="pCode">PR.001</h2>
-<h3 id="pName">Yeni Doküman Adı</h3>
+<h4 id="pName">Yeni Doküman Adı</h4>
 <p id="pDescription">Amaç ve kapsam bilgisi burada canlı olarak görüntülenecek.</p>
 
 <div class="meta">
@@ -285,22 +288,22 @@ Version 3.0
 <div><b>Gözden Geçirme</b><span id="pReview">-</span></div>
 </div>
 </div>
-</div>
+</section>
 
-<div class="panel">
+<section class="panel">
 <div class="panel-head">
 <h3>Kalite Kapısı</h3>
-<span class="status orange">LIVE CHECK</span>
+<span class="status orange">CONTROL</span>
 </div>
 
 <div class="checklist">
-<div class="check-item" id="checkCode">Doküman kodu kontrolü bekleniyor</div>
-<div class="check-item" id="checkName">Doküman adı bekleniyor</div>
-<div class="check-item" id="checkRev">Revizyon formatı kontrolü bekleniyor</div>
-<div class="check-item" id="checkOwner">Süreç sahibi seçildi</div>
-<div class="check-item" id="checkDesc">Amaç ve kapsam bekleniyor</div>
+<div class="check" id="checkCode">Doküman kodu bekleniyor</div>
+<div class="check" id="checkName">Doküman adı bekleniyor</div>
+<div class="check" id="checkRev">Revizyon formatı bekleniyor</div>
+<div class="check" id="checkDesc">Amaç ve kapsam bekleniyor</div>
+<div class="check" id="checkDuplicate">Tekil kod kontrolü bekleniyor</div>
 </div>
-</div>
+</section>
 
 </div>
 
@@ -326,15 +329,15 @@ document.getElementById("userAvatar").textContent = (session.name || "U").charAt
 
 function logout(){
 localStorage.removeItem("gdnl_qdms_session");
-window.location.href = "index.html";
+window.location.href="index.html";
 }
 
 function getDocuments(){
 return JSON.parse(localStorage.getItem("gdnl_documents")) || [];
 }
 
-function setDocuments(documents){
-localStorage.setItem("gdnl_documents", JSON.stringify(documents));
+function setDocuments(docs){
+localStorage.setItem("gdnl_documents", JSON.stringify(docs));
 }
 
 function todayISO(){
@@ -343,68 +346,59 @@ return new Date().toISOString().split("T")[0];
 
 function addMonths(date,months){
 const d = new Date(date);
-d.setMonth(d.getMonth() + months);
+d.setMonth(d.getMonth()+months);
 return d.toISOString().split("T")[0];
 }
 
-document.getElementById("docDate").value = todayISO();
-document.getElementById("reviewDate").value = addMonths(todayISO(),12);
-
-function generateCode(){
-const type = document.getElementById("docType").value;
-const documents = getDocuments();
-
-const sameType = documents.filter(doc=>{
-return (doc.code || "").startsWith(type + ".");
-});
-
-let maxNumber = 0;
-
-sameType.forEach(doc=>{
-const parts = (doc.code || "").split(".");
-const number = parseInt(parts[1],10);
-if(!isNaN(number) && number > maxNumber) maxNumber = number;
-});
-
-const nextNumber = String(maxNumber + 1).padStart(3,"0");
-document.getElementById("docCode").value = type + "." + nextNumber;
-
-updatePreview();
-validateLive();
+function formatDateTR(value){
+if(!value) return "-";
+const d = new Date(value);
+if(isNaN(d)) return value;
+return d.toLocaleDateString("tr-TR");
 }
 
 function statusClass(status){
-if(status === "Yayında") return "green";
-if(status === "Revizyon") return "orange";
-if(status === "Pasif") return "gray";
-if(status === "Kritik") return "red";
+if(status==="Yayında") return "green";
+if(status==="Revizyon") return "orange";
+if(status==="Pasif") return "gray";
+if(status==="Kritik") return "red";
 return "blue";
 }
 
 function criticalityClass(value){
-if(value === "Kritik") return "red";
-if(value === "Yüksek") return "orange";
+if(value==="Kritik") return "red";
+if(value==="Yüksek") return "orange";
 return "green";
 }
 
-function formatDateTR(dateValue){
-if(!dateValue) return "-";
-const d = new Date(dateValue);
-if(isNaN(d)) return dateValue;
-return d.toLocaleDateString("tr-TR");
+function generateCode(){
+const type = document.getElementById("docType").value;
+const docs = getDocuments();
+let max = 0;
+
+docs.forEach(doc=>{
+const code = doc.code || "";
+if(code.startsWith(type + ".")){
+const num = parseInt(code.split(".")[1],10);
+if(!isNaN(num) && num > max) max = num;
+}
+});
+
+document.getElementById("docCode").value = type + "." + String(max + 1).padStart(3,"0");
+updateLive();
 }
 
-function updatePreview(){
-const code = document.getElementById("docCode").value || "PR.001";
-const name = document.getElementById("docName").value || "Yeni Doküman Adı";
-const rev = document.getElementById("docRev").value || "R00";
+function updateLive(){
+const code = document.getElementById("docCode").value.trim() || "PR.001";
+const name = document.getElementById("docName").value.trim() || "Yeni Doküman Adı";
+const rev = document.getElementById("docRev").value.trim() || "R00";
 const status = document.getElementById("docStatus").value;
 const owner = document.getElementById("docOwner").value;
 const standard = document.getElementById("docStandard").value;
 const criticality = document.getElementById("docCriticality").value;
 const date = document.getElementById("docDate").value;
-const reviewDate = document.getElementById("reviewDate").value;
-const description = document.getElementById("docDescription").value || "Amaç ve kapsam bilgisi burada canlı olarak görüntülenecek.";
+const review = document.getElementById("reviewDate").value;
+const desc = document.getElementById("docDescription").value.trim() || "Amaç ve kapsam bilgisi burada canlı olarak görüntülenecek.";
 
 document.getElementById("pCode").textContent = code;
 document.getElementById("pName").textContent = name;
@@ -414,117 +408,75 @@ document.getElementById("pStatus").className = "status " + statusClass(status);
 document.getElementById("pOwner").textContent = owner;
 document.getElementById("pStandard").textContent = standard;
 document.getElementById("pCriticality").textContent = criticality;
-document.getElementById("pCriticality").className = "";
 document.getElementById("pDate").textContent = formatDateTR(date);
-document.getElementById("pReview").textContent = formatDateTR(reviewDate);
-document.getElementById("pDescription").textContent = description;
+document.getElementById("pReview").textContent = formatDateTR(review);
+document.getElementById("pDescription").textContent = desc;
 document.getElementById("workflowState").textContent = status;
+
+validateLive();
+}
+
+function setCheck(id, ok, okText, badText){
+const el = document.getElementById(id);
+if(ok){
+el.className = "check ok";
+el.textContent = "✓ " + okText;
+}else{
+el.className = "check bad";
+el.textContent = "✕ " + badText;
+}
 }
 
 function validateLive(){
+const docs = getDocuments();
 const code = document.getElementById("docCode").value.trim();
 const name = document.getElementById("docName").value.trim();
 const rev = document.getElementById("docRev").value.trim();
-const owner = document.getElementById("docOwner").value.trim();
 const desc = document.getElementById("docDescription").value.trim();
-const documents = getDocuments();
+const duplicate = docs.some(doc => (doc.code || "").toLowerCase() === code.toLowerCase());
 
-const duplicate = documents.some(doc=>(doc.code || "").toLowerCase() === code.toLowerCase());
-
-setCheck("checkCode", code && !duplicate, duplicate ? "Bu doküman kodu zaten kullanılıyor" : "Doküman kodu uygun");
-setCheck("checkName", name.length >= 5, "Doküman adı uygun");
-setCheck("checkRev", /^R\d{2}$/.test(rev), "Revizyon formatı uygun");
-setCheck("checkOwner", owner.length > 0, "Süreç sahibi seçildi");
-setCheck("checkDesc", desc.length >= 15, "Amaç ve kapsam uygun");
+setCheck("checkCode", code.length >= 5, "Kod formatı uygun", "Kod eksik");
+setCheck("checkName", name.length >= 5, "Doküman adı uygun", "Doküman adı kısa");
+setCheck("checkRev", /^R\d{2}$/.test(rev), "Revizyon formatı uygun", "Revizyon R00 formatında olmalı");
+setCheck("checkDesc", desc.length >= 15, "Amaç ve kapsam uygun", "Amaç ve kapsam en az 15 karakter olmalı");
+setCheck("checkDuplicate", code && !duplicate, "Kod tekil ve kullanılabilir", duplicate ? "Bu kod zaten mevcut" : "Kod kontrolü bekleniyor");
 }
 
-function setCheck(id,condition,okText){
-const el = document.getElementById(id);
+function saveNewDocument(forcePublished){
+const docs = getDocuments();
 
-if(condition){
-el.className = "check-item ok";
-el.textContent = "✓ " + okText;
-}else{
-el.className = "check-item";
-}
-}
-
-function collectPayload(forcePublished=false){
-const code = document.getElementById("docCode").value.trim();
-const name = document.getElementById("docName").value.trim();
-const rev = document.getElementById("docRev").value.trim();
-const owner = document.getElementById("docOwner").value;
-const status = forcePublished ? "Yayında" : document.getElementById("docStatus").value;
-const date = document.getElementById("docDate").value;
-const reviewDate = document.getElementById("reviewDate").value;
-const standard = document.getElementById("docStandard").value;
-const criticality = document.getElementById("docCriticality").value;
-const description = document.getElementById("docDescription").value.trim();
-const revisionNote = document.getElementById("revisionNote").value.trim();
-const preparedBy = document.getElementById("preparedBy").value.trim();
-const checkedBy = document.getElementById("checkedBy").value.trim();
-const approvedBy = document.getElementById("approvedBy").value.trim();
-
-return {
-code,
-name,
-rev,
-owner,
-status,
-date,
-reviewDate,
-standard,
-criticality,
-description,
-revisionNote,
-preparedBy,
-checkedBy,
-approvedBy,
+const payload = {
+code:document.getElementById("docCode").value.trim(),
+name:document.getElementById("docName").value.trim(),
+rev:document.getElementById("docRev").value.trim(),
+owner:document.getElementById("docOwner").value,
+status:forcePublished ? "Yayında" : document.getElementById("docStatus").value,
+date:document.getElementById("docDate").value,
+reviewDate:document.getElementById("reviewDate").value,
+standard:document.getElementById("docStandard").value,
+criticality:document.getElementById("docCriticality").value,
+description:document.getElementById("docDescription").value.trim(),
+revisionNote:document.getElementById("revisionNote").value.trim(),
+preparedBy:document.getElementById("preparedBy").value.trim(),
+checkedBy:document.getElementById("checkedBy").value.trim(),
+approvedBy:document.getElementById("approvedBy").value.trim(),
 createdAt:new Date().toISOString(),
 updatedAt:new Date().toISOString(),
 source:"new-document.html"
 };
-}
 
-function validateBeforeSave(payload){
-if(!payload.code){showToast("Doküman kodu zorunlu");return false}
-if(!payload.name || payload.name.length < 5){showToast("Doküman adı en az 5 karakter olmalı");return false}
-if(!/^R\d{2}$/.test(payload.rev)){showToast("Revizyon formatı R00 şeklinde olmalı");return false}
-if(!payload.description || payload.description.length < 15){showToast("Amaç ve kapsam en az 15 karakter olmalı");return false}
+if(!payload.code){showToast("Doküman kodu zorunlu");return}
+if(payload.name.length < 5){showToast("Doküman adı en az 5 karakter olmalı");return}
+if(!/^R\d{2}$/.test(payload.rev)){showToast("Revizyon R00 formatında olmalı");return}
+if(payload.description.length < 15){showToast("Amaç ve kapsam en az 15 karakter olmalı");return}
 
-const duplicate = getDocuments().some(doc=>(doc.code || "").toLowerCase() === payload.code.toLowerCase());
+const duplicate = docs.some(doc => (doc.code || "").toLowerCase() === payload.code.toLowerCase());
+if(duplicate){showToast("Bu doküman kodu zaten mevcut");return}
 
-if(duplicate){
-showToast("Bu doküman kodu zaten mevcut");
-return false;
-}
+docs.unshift(payload);
+setDocuments(docs);
 
-return true;
-}
-
-function saveNewDocument(){
-const payload = collectPayload(false);
-
-if(!validateBeforeSave(payload)) return;
-
-const documents = getDocuments();
-documents.unshift(payload);
-setDocuments(documents);
-
-showToast("Yeni doküman oluşturuldu");
-clearForm();
-}
-
-function saveAsPublished(){
-const payload = collectPayload(true);
-
-if(!validateBeforeSave(payload)) return;
-
-const documents = getDocuments();
-documents.unshift(payload);
-setDocuments(documents);
-
-showToast("Doküman yayınlandı ve master listeye kaydedildi");
+showToast(forcePublished ? "Doküman yayınlandı ve kaydedildi" : "Yeni doküman oluşturuldu");
 clearForm();
 }
 
@@ -544,14 +496,8 @@ document.getElementById("checkedBy").value = "";
 document.getElementById("approvedBy").value = "";
 document.getElementById("docDescription").value = "";
 document.getElementById("revisionNote").value = "";
-
 generateCode();
-updatePreview();
-validateLive();
-}
-
-function goDocuments(){
-window.location.href = "documents.html";
+updateLive();
 }
 
 function showToast(message){
@@ -561,37 +507,31 @@ toast.style.display = "block";
 setTimeout(()=>{toast.style.display = "none"},2500);
 }
 
-document.getElementById("quickSearch").addEventListener("input",function(){
-const q = this.value.toLowerCase();
-const documents = getDocuments();
-const found = documents.find(doc=>{
-return (doc.code || "").toLowerCase().includes(q) || (doc.name || "").toLowerCase().includes(q);
+document.querySelectorAll("input,select,textarea").forEach(el=>{
+el.addEventListener("input",updateLive);
+el.addEventListener("change",updateLive);
 });
 
-if(q.length < 2){
-document.getElementById("liveStatus");
-return;
-}
+document.getElementById("quickSearch").addEventListener("input",function(){
+const q = this.value.trim().toLowerCase();
+if(q.length < 2) return;
+
+const found = getDocuments().find(doc=>{
+return (doc.code || "").toLowerCase().includes(q) || (doc.name || "").toLowerCase().includes(q);
+});
 
 if(found){
 showToast("Mevcut kayıt: " + found.code + " / " + found.name);
 }
 });
 
-[
-"docCode","docRev","preparedBy","checkedBy","approvedBy"
-].forEach(id=>{
-document.getElementById(id).addEventListener("input",function(){
-updatePreview();
-validateLive();
-});
-});
+document.getElementById("docDate").value = todayISO();
+document.getElementById("reviewDate").value = addMonths(todayISO(),12);
 
 generateCode();
-updatePreview();
-validateLive();
+updateLive();
 
-console.log("GDNL QDMS New Document Creator V3.0 Loaded");
+console.log("GDNL QDMS New Document Module V3.1 Loaded");
 </script>
 
 </body>
