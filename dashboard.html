@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Enterprise Dashboard V1.9</title>
+<title>GDNL QDMS | Enterprise Dashboard V2</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -22,7 +22,7 @@ body{background:#eef3f9;color:#0f172a}
 .avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
 .logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
 .hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:880px;color:#dbeafe;line-height:1.7}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:900px;color:#dbeafe;line-height:1.7}
 .hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
 .card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
@@ -55,7 +55,6 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 </head>
 
 <body>
-
 <div class="app">
 
 <aside class="sidebar">
@@ -75,12 +74,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <a href="#">📈 KPI & Raporlar</a>
 </nav>
 </div>
-
-<div class="sidebar-footer">
-GDNL QDMS Enterprise<br>
-Live Dashboard V1.9<br>
-Document Control Core
-</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Live Dashboard V2<br>No Demo Data</div>
 </aside>
 
 <main class="main">
@@ -88,10 +82,7 @@ Document Control Core
 <header class="topbar">
 <input class="search" id="globalSearch" placeholder="Doküman, revizyon, onay, arşiv veya dağıtım ara">
 <div class="profile">
-<div class="profile-info">
-<strong id="userName">Kerem Admin</strong>
-<span id="userRole">Super Administrator</span>
-</div>
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
 <div class="avatar" id="userAvatar">K</div>
 <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
@@ -107,20 +98,19 @@ Document Control Core
 
 <section class="cards">
 <div class="card"><small>Toplam Doküman</small><h2 id="documentCount">0</h2><p>Master liste kayıtları</p></div>
-<div class="card"><small>Bekleyen Revizyon</small><h2 id="pendingRevisionCount">0</h2><p>İnceleme / onay bekleyen</p></div>
+<div class="card"><small>Bekleyen Revizyon</small><h2 id="pendingRevisionCount">0</h2><p>İnceleme / workflow bekleyen</p></div>
 <div class="card"><small>Bekleyen Onay</small><h2 id="pendingApprovalCount">0</h2><p>İmza bekleyen işler</p></div>
 <div class="card"><small>Compliance Score</small><h2 id="complianceScore">0%</h2><p>Sistem uygunluk skoru</p></div>
 </section>
 
 <section class="cards">
 <div class="card"><small>Yayındaki Doküman</small><h2 id="publishedDocCount">0</h2><p>Aktif kullanımda</p></div>
-<div class="card"><small>Arşiv Kayıtları</small><h2 id="archiveCount">0</h2><p>Revizyon / obsolete arşivi</p></div>
+<div class="card"><small>Arşiv Kayıtları</small><h2 id="archiveCount">0</h2><p>Obsolete / arşiv izi</p></div>
 <div class="card"><small>Dağıtım Kayıtları</small><h2 id="distributionCount">0</h2><p>Okuma takip kayıtları</p></div>
 <div class="card"><small>Okunmayan / Geciken</small><h2 id="unreadCount">0</h2><p>Dağıtım aksiyonları</p></div>
 </section>
 
 <section class="grid">
-
 <div>
 
 <div class="panel">
@@ -142,16 +132,15 @@ Document Control Core
 <div class="panel">
 <div class="panel-head">
 <h3>Modül Merkezi</h3>
-<span class="status green">V1 CORE ACTIVE</span>
+<span class="status green">V2 CORE ACTIVE</span>
 </div>
-
 <div class="modules">
-<a class="module" href="documents.html"><h4>📄 Doküman Yönetimi</h4><p>Master liste, düzenleme, filtreleme, JSON export.</p></a>
-<a class="module" href="new-document.html"><h4>➕ Yeni Doküman</h4><p>Yeni doküman oluşturma ve kalite kapısı.</p></a>
-<a class="module" href="revision.html"><h4>🔄 Revizyon Yönetimi</h4><p>Revizyon talebi, etki analizi ve yayın akışı.</p></a>
-<a class="module" href="approval.html"><h4>✅ Onay Yönetimi</h4><p>Elektronik imza, onay ve red süreci.</p></a>
-<a class="module" href="archive.html"><h4>🗄️ Arşiv Yönetimi</h4><p>Obsolete ve revizyon arşivi.</p></a>
-<a class="module" href="distribution.html"><h4>📤 Dağıtım Yönetimi</h4><p>Okundu / okunmadı dağıtım takibi.</p></a>
+<a class="module" href="documents.html"><h4>📄 Doküman Yönetimi</h4><p>Master liste, arama, workflow ve yaşam döngüsü görünümü.</p></a>
+<a class="module" href="new-document.html"><h4>➕ Yeni Doküman</h4><p>Otomatik kod, dosya yükleme ve workflow başlatma.</p></a>
+<a class="module" href="revision.html"><h4>🔄 Revizyon Yönetimi</h4><p>Kontrollü değişiklik, etki analizi ve yeni workflow.</p></a>
+<a class="module" href="approval.html"><h4>✅ Onay Yönetimi</h4><p>Sıralı elektronik onay ve final yayın akışı.</p></a>
+<a class="module" href="archive.html"><h4>🗄️ Arşiv Yönetimi</h4><p>Obsolete ve denetime hazır arşiv izi.</p></a>
+<a class="module" href="distribution.html"><h4>📤 Dağıtım Yönetimi</h4><p>Mail/SMS kuyruğu ve okundu takibi.</p></a>
 </div>
 </div>
 
@@ -164,7 +153,6 @@ Document Control Core
 <h3>Executive Alerts</h3>
 <span class="status blue">LIVE</span>
 </div>
-
 <div class="quick">
 <div><b id="qRevision">0</b><span>Bekleyen Revizyon</span></div>
 <div><b id="qApproval">0</b><span>Bekleyen Onay</span></div>
@@ -212,19 +200,13 @@ Document Control Core
 </div>
 
 </div>
-
 </section>
 
 </main>
 </div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{
-name:"Kerem Admin",
-role:"Super Administrator",
-loginAt:new Date().toISOString()
-};
-
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 
 document.getElementById("userName").textContent=session.name||"User";
@@ -237,31 +219,27 @@ window.location.href="index.html";
 }
 
 function getLS(key){
-return JSON.parse(localStorage.getItem(key))||[];
+try{return JSON.parse(localStorage.getItem(key))||[]}catch(e){return[]}
 }
 
-function setLS(key,value){
-localStorage.setItem(key,JSON.stringify(value));
+function getDistributions(){
+const main=getLS("gdnl_distribution");
+const legacy=getLS("gdnl_distributions");
+const merged=[...main,...legacy];
+const unique=[];
+merged.forEach(x=>{
+const id=x.distributionId||x.distributionNo||((x.workflowId||"")+"-"+(x.documentCode||""));
+if(!unique.some(u=>(u.distributionId||u.distributionNo||((u.workflowId||"")+"-"+(u.documentCode||"")))===id)){
+unique.push(x);
 }
-
-function seedIfEmpty(){
-let docs=getLS("gdnl_documents");
-
-if(docs.length===0){
-docs=[
-{code:"PR.001",name:"Doküman Kontrol Prosedürü",rev:"R03",owner:"Kalite",status:"Yayında",date:"2026-05-29",standard:"ISO 9001",criticality:"Kritik",description:"Dokümanların hazırlanması, onayı, yayını ve arşivlenmesi.",createdAt:"demo-1",updatedAt:new Date().toISOString()},
-{code:"KEK.001",name:"Entegre Yönetim Sistemi El Kitabı",rev:"R05",owner:"YGG",status:"Yayında",date:"2026-05-28",standard:"Entegre Sistem",criticality:"Kritik",description:"Kurumun yönetim sistemi ana çerçevesi.",createdAt:"demo-2",updatedAt:new Date().toISOString()},
-{code:"PR.008",name:"İç Denetim Prosedürü",rev:"R01",owner:"Sistem",status:"Revizyon",date:"2026-05-27",standard:"ISO 9001",criticality:"Yüksek",description:"İç denetim planlama, uygulama ve raporlama süreci.",createdAt:"demo-3",updatedAt:new Date().toISOString()},
-{code:"FR.015",name:"Risk Analizi Formu",rev:"R02",owner:"Sistem",status:"Onayda",date:"2026-05-26",standard:"ISO 27001",criticality:"Yüksek",description:"Risklerin tanımlanması, skorlanması ve aksiyon takibi.",createdAt:"demo-4",updatedAt:new Date().toISOString()}
-];
-setLS("gdnl_documents",docs);
-}
+});
+return unique;
 }
 
 function statusClass(status){
-if(status==="Yayında"||status==="Yayınlandı"||status==="Onaylandı"||status==="Okundu"||status==="Arşivlendi")return"green";
-if(status==="Revizyon"||status==="Onayda"||status==="Onay Bekliyor"||status==="Beklemede"||status==="Gönderildi"||status==="İncelemede")return"orange";
-if(status==="Pasif"||status==="Obsolete"||status==="Reddedildi"||status==="Gecikti")return"red";
+if(status==="Yayında"||status==="Yayınlandı"||status==="Onaylandı"||status==="Okundu"||status==="Arşivlendi"||status==="Geri Alındı")return"green";
+if(status==="Revizyon"||status==="Onayda"||status==="Onay Bekliyor"||status==="Bekliyor"||status==="Devam Ediyor"||status==="Gönderildi"||status==="Kısmi Okundu"||status==="İncelemede"||status==="Workflow Başlatıldı"||status==="Dağıtım Bekliyor")return"orange";
+if(status==="Pasif"||status==="Obsolete"||status==="Reddedildi"||status==="Revizyon İstendi"||status==="Gecikti"||status==="Kilitli")return"red";
 return"blue";
 }
 
@@ -272,31 +250,42 @@ if(isNaN(d))return value;
 return d.toLocaleDateString("tr-TR");
 }
 
+function isPendingRevision(r){
+return ["İncelemede","Onay Bekliyor"].includes(r.status);
+}
+
+function isPendingApproval(a){
+return ["Bekliyor","Devam Ediyor"].includes(a.status);
+}
+
+function isUnreadDistribution(d){
+return ["Dağıtım Bekliyor","Gönderildi","Kısmi Okundu","Gecikti"].includes(d.status);
+}
+
+function isDelayedDistribution(d){
+return d.status==="Gecikti";
+}
+
 function calculateHealth(data){
 let score=100;
-
 if(data.docs.length<1)score-=25;
-if(data.docs.filter(x=>x.status==="Yayında").length<1)score-=10;
+if(data.publishedDocs<1&&data.docs.length>0)score-=10;
 if(data.pendingRevisions>0)score-=8;
 if(data.pendingApprovals>0)score-=10;
 if(data.unread>0)score-=8;
 if(data.delayed>0)score-=12;
 if(data.obsolete>0)score-=5;
-
 if(score<45)score=45;
 if(score>100)score=100;
-
 return score;
 }
 
 function renderTable(areaId,headers,rows,emptyText){
 const area=document.getElementById(areaId);
-
 if(rows.length===0){
 area.innerHTML=`<div class="empty">${emptyText}</div>`;
 return;
 }
-
 let html="<table><thead><tr>";
 headers.forEach(h=>html+=`<th>${h}</th>`);
 html+="</tr></thead><tbody>";
@@ -314,16 +303,16 @@ const docs=getLS("gdnl_documents");
 const revisions=getLS("gdnl_revisions");
 const approvals=getLS("gdnl_approvals");
 const archive=getLS("gdnl_archive");
-const distributions=getLS("gdnl_distributions");
+const distributions=getDistributions();
 
 const publishedDocs=docs.filter(x=>x.status==="Yayında").length;
 const obsolete=docs.filter(x=>x.status==="Pasif"||x.status==="Obsolete").length;
-const pendingRevisions=revisions.filter(x=>x.status==="İncelemede"||x.status==="Onay Bekliyor"||x.status==="Revizyon").length;
-const pendingApprovals=approvals.filter(x=>x.status==="Beklemede"||x.status==="Hazırlayan Onayında"||x.status==="Kontrol Eden Onayında"||x.status==="Final Onayda").length;
-const unread=distributions.filter(x=>x.status==="Beklemede"||x.status==="Gönderildi").length;
-const delayed=distributions.filter(x=>x.status==="Gecikti").length;
+const pendingRevisions=revisions.filter(isPendingRevision).length;
+const pendingApprovals=approvals.filter(isPendingApproval).length;
+const unread=distributions.filter(isUnreadDistribution).length;
+const delayed=distributions.filter(isDelayedDistribution).length;
 
-const data={docs,pendingRevisions,pendingApprovals,unread,delayed,obsolete};
+const data={docs,publishedDocs,pendingRevisions,pendingApprovals,unread,delayed,obsolete};
 const health=calculateHealth(data);
 
 document.getElementById("documentCount").textContent=docs.length;
@@ -332,17 +321,18 @@ document.getElementById("pendingRevisionCount").textContent=pendingRevisions;
 document.getElementById("pendingApprovalCount").textContent=pendingApprovals;
 document.getElementById("archiveCount").textContent=archive.length;
 document.getElementById("distributionCount").textContent=distributions.length;
-document.getElementById("unreadCount").textContent=unread+delayed;
+document.getElementById("unreadCount").textContent=unread;
 document.getElementById("health").textContent=health+"%";
 document.getElementById("complianceScore").textContent=health+"%";
 
 document.getElementById("qRevision").textContent=pendingRevisions;
 document.getElementById("qApproval").textContent=pendingApprovals;
-document.getElementById("qUnread").textContent=unread+delayed;
+document.getElementById("qUnread").textContent=unread;
 document.getElementById("qObsolete").textContent=obsolete;
 
 const docScore=docs.length>0?Math.round((publishedDocs/docs.length)*100):0;
-const revScore=revisions.length>0?Math.round((revisions.filter(x=>x.status==="Yayınlandı"||x.status==="Onaylandı").length/revisions.length)*100):0;
+const completedRevisions=revisions.filter(x=>x.status==="Workflow Başlatıldı"||x.status==="Onaylandı"||x.status==="Yayınlandı").length;
+const revScore=revisions.length>0?Math.round((completedRevisions/revisions.length)*100):0;
 const distScore=distributions.length>0?Math.round((distributions.filter(x=>x.status==="Okundu").length/distributions.length)*100):0;
 
 document.getElementById("docBar").style.width=docScore+"%";
@@ -356,31 +346,31 @@ r.revisionNo||"-",
 (r.documentCode||"-")+"<br><small>"+(r.documentName||"-")+"</small>",
 (r.oldRev||"-")+" → "+(r.newRev||"-"),
 `<span class="status ${statusClass(r.status)}">${r.status||"-"}</span>`,
-formatDateTR(r.requestDate)
+formatDateTR(r.requestDate||r.createdAt)
 ]),
 "Revizyon kaydı bulunamadı."
 );
 
 renderTable("approvalTable",
-["Onay No","Revizyon","Doküman","Durum","Tarih"],
+["Workflow","Doküman","Adım","Durum","Tarih"],
 approvals.slice(0,6).map(a=>[
-a.approvalNo||"-",
-a.revisionNo||"-",
+a.workflowId||a.approvalNo||"-",
 (a.documentCode||"-")+"<br><small>"+(a.documentName||"-")+"</small>",
+a.currentStep||"-",
 `<span class="status ${statusClass(a.status)}">${a.status||"-"}</span>`,
-formatDateTR(a.approvalDate)
+formatDateTR(a.updatedAt||a.createdAt)
 ]),
 "Onay kaydı bulunamadı."
 );
 
 renderTable("distributionTable",
-["Dağıtım No","Doküman","Alıcı","Durum","Son Tarih"],
+["Workflow","Doküman","Bildirim","Durum","Son Tarih"],
 distributions.slice(0,5).map(d=>[
-d.distributionNo||"-",
+d.workflowId||d.distributionNo||"-",
 (d.documentCode||"-")+"<br><small>"+(d.documentName||"-")+"</small>",
-d.targetUser||"-",
+d.notificationType||"-",
 `<span class="status ${statusClass(d.status)}">${d.status||"-"}</span>`,
-formatDateTR(d.dueDate)
+formatDateTR(d.dueDate||d.updatedAt)
 ]),
 "Dağıtım kaydı bulunamadı."
 );
@@ -394,48 +384,34 @@ if(data.delayed>0)alerts.push({level:"Kritik",text:data.delayed+" geciken dağı
 if(data.pendingApprovals>0)alerts.push({level:"Uyarı",text:data.pendingApprovals+" onay bekleyen kayıt var.",cls:"orange"});
 if(data.pendingRevisions>0)alerts.push({level:"Uyarı",text:data.pendingRevisions+" revizyon süreci açık.",cls:"orange"});
 if(data.obsolete>0)alerts.push({level:"Bilgi",text:data.obsolete+" pasif / obsolete doküman var.",cls:"blue"});
-if(data.docs.length===0)alerts.push({level:"Kritik",text:"Master doküman listesi boş.",cls:"red"});
+if(data.docs.length===0)alerts.push({level:"Bilgi",text:"Master doküman listesi boş. Yeni doküman oluşturabilirsin.",cls:"blue"});
 
-document.getElementById("criticalCount").textContent=alerts.length+" Kritik";
-
+document.getElementById("criticalCount").textContent=alerts.length+" Bildirim";
 const area=document.getElementById("criticalAlerts");
 
 if(alerts.length===0){
-area.innerHTML=`
-<div class="activity-item">
-<strong><span class="status green">Temiz</span> Sistem Stabil</strong>
-<span>Bekleyen kritik aksiyon görünmüyor.</span>
-</div>`;
+area.innerHTML=`<div class="activity-item"><strong><span class="status green">Temiz</span> Sistem Stabil</strong><span>Bekleyen kritik aksiyon görünmüyor.</span></div>`;
 return;
 }
 
 area.innerHTML="";
 alerts.slice(0,5).forEach(a=>{
-area.innerHTML+=`
-<div class="activity-item">
-<strong><span class="status ${a.cls}">${a.level}</span> Sistem Bildirimi</strong>
-<span>${a.text}</span>
-</div>`;
+area.innerHTML+=`<div class="activity-item"><strong><span class="status ${a.cls}">${a.level}</span> Sistem Bildirimi</strong><span>${a.text}</span></div>`;
 });
 }
 
 document.getElementById("globalSearch").addEventListener("input",function(){
 const q=this.value.trim().toLowerCase();
 if(q.length<2)return;
-
 const docs=getLS("gdnl_documents");
 const found=docs.find(d=>`${d.code} ${d.name} ${d.owner} ${d.status} ${d.standard}`.toLowerCase().includes(q));
-
-if(found){
-localStorage.setItem("gdnl_dashboard_last_search",JSON.stringify(found));
-}
+if(found)localStorage.setItem("gdnl_selected_document_code",found.code);
 });
 
-seedIfEmpty();
 renderDashboard();
 setInterval(renderDashboard,5000);
 
-console.log("GDNL QDMS Enterprise Dashboard V1.9 Loaded");
+console.log("GDNL QDMS Enterprise Dashboard V2 Loaded");
 </script>
 
 </body>
