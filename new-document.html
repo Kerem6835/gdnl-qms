@@ -3,61 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Yeni Doküman</title>
+<title>GDNL QDMS | Yeni Doküman Oluştur</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{background:#eef3f9;color:#0f172a}
-.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:26px 18px;display:flex;flex-direction:column;justify-content:space-between}
-.logo{font-size:27px;font-weight:950;margin-bottom:34px}.logo span{color:#1597ff}
-.menu{display:flex;flex-direction:column;gap:7px}
-.menu a{text-decoration:none;color:#cbd5e1;padding:12px 13px;border-radius:13px;font-size:14px;font-weight:800;display:flex;gap:10px}
-.menu a.active,.menu a:hover{background:rgba(21,151,255,.18);color:white}
-.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.55;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
-.main{padding:22px 30px 32px}
-.topbar{height:68px;background:white;border-radius:24px;box-shadow:0 14px 45px rgba(15,23,42,.07);display:flex;align-items:center;justify-content:space-between;padding:0 22px;margin-bottom:24px}
-.search{width:min(620px,52vw);height:46px;border:1px solid #dbe3ef;border-radius:15px;padding:0 18px;font-size:14px;background:#f8fafc}
-.profile{display:flex;align-items:center;gap:14px}.avatar{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white;display:flex;align-items:center;justify-content:center;font-weight:950}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:30px 34px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 25px 70px rgba(15,23,42,.18)}
-.hero h1{font-size:34px;margin-bottom:9px}.hero p{color:#dbeafe;font-size:15px;line-height:1.55;max-width:850px}
-.btn{border:none;border-radius:15px;padding:15px 20px;font-weight:950;cursor:pointer;text-decoration:none;display:inline-block}
-.primary{background:linear-gradient(90deg,#0757e8,#0ea5ff);color:white;box-shadow:0 14px 30px rgba(37,99,235,.22)}
-.secondary{background:#eff6ff;color:#0757e8}
-.grid{display:grid;grid-template-columns:1.25fr .75fr;gap:22px}
-.panel{background:white;border-radius:26px;padding:26px;box-shadow:0 14px 45px rgba(15,23,42,.065);border:1px solid #edf2f7;margin-bottom:22px}
-.panel h3{font-size:22px;margin-bottom:20px}
-.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.field{display:flex;flex-direction:column;gap:8px}
-label{font-size:13px;font-weight:950;color:#334155}
-input,select,textarea{width:100%;border:1px solid #dbe3ef;background:#f8fafc;border-radius:15px;padding:14px 15px;font-size:14px;color:#0f172a;outline:none}
-textarea{min-height:120px;resize:vertical}
-input:focus,select:focus,textarea:focus{border-color:#1677ff;box-shadow:0 0 0 4px rgba(22,119,255,.11)}
-.full{grid-column:1/-1}
-.upload{border:2px dashed #cbd5e1;border-radius:20px;background:#f8fafc;padding:26px;text-align:center;color:#64748b}
-.upload strong{display:block;color:#0757e8;margin-bottom:8px}
-.actions{display:flex;justify-content:flex-end;gap:12px;margin-top:22px}
-.info{display:flex;flex-direction:column;gap:12px}
-.info-card{background:#f8fafc;border:1px solid #edf2f7;border-radius:18px;padding:16px}
-.info-card strong{display:block;margin-bottom:6px}
-.info-card span{font-size:13px;color:#64748b;line-height:1.5}
-.status{padding:7px 11px;border-radius:999px;font-size:11px;font-weight:950;display:inline-block}
-.blue{background:#dbeafe;color:#1d4ed8}.green{background:#dcfce7;color:#166534}.orange{background:#ffedd5;color:#9a3412}
-.toast{display:none;position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:16px 20px;border-radius:16px;box-shadow:0 20px 55px rgba(15,23,42,.25);font-weight:900}
-@media(max-width:1100px){.grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.hero{display:block}.hero a{margin-top:16px}.search{width:56vw}}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}
+.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s}
+.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}
+.profile-info{text-align:right}
+.profile-info strong{display:block;font-size:14px}
+.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.hero h1{font-size:36px;margin-bottom:10px}
+.hero p{max-width:850px;color:#dbeafe;line-height:1.7}
+.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:24px}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}
+.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:span 3}
+.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}
+.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field textarea{height:110px;padding:12px;resize:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
+.btn.dark{background:#0f172a;color:white}
+.btn.green{background:#dcfce7;color:#15803d}
+.btn.red{background:#fee2e2;color:#991b1b}
+.btn.orange{background:#ffedd5;color:#c2410c}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#dbeafe;color:#1d4ed8}
+.status.green{background:#dcfce7;color:#15803d}
+.status.orange{background:#ffedd5;color:#c2410c}
+.status.red{background:#fee2e2;color:#b91c1c}
+.status.gray{background:#e2e8f0;color:#334155}
+.preview-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:20px}
+.preview-card h2{font-size:24px;color:#0757e8;margin:8px 0}
+.preview-card p{font-size:13px;color:#64748b;line-height:1.7;margin-top:8px}
+.meta{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.meta div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;font-size:13px}
+.meta b{color:#0f172a}
+.meta span{color:#64748b;font-weight:800;text-align:right}
+.checklist{display:flex;flex-direction:column;gap:12px}
+.check-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;font-size:13px;font-weight:800;color:#334155}
+.check-item.ok{border-color:#86efac;background:#f0fdf4;color:#166534}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}.form-grid{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <aside class="sidebar">
 <div>
 <div class="logo">GDNL <span>QDMS</span></div>
+
 <nav class="menu">
 <a href="dashboard.html">🏠 Dashboard</a>
-<a class="active" href="documents.html">📄 Doküman Yönetimi</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a class="active" href="new-document.html">➕ Yeni Doküman</a>
 <a href="#">🔄 Revizyon Yönetimi</a>
 <a href="#">🛠️ DÖF / CAPA</a>
 <a href="#">⚠️ Risk Yönetimi</a>
@@ -69,177 +92,216 @@ input:focus,select:focus,textarea:focus{border-color:#1677ff;box-shadow:0 0 0 4p
 <a href="#">⚙️ Ayarlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>Create Document Module<br>Version 0.6</div>
+
+<div class="sidebar-footer">
+GDNL QDMS Enterprise<br>
+New Document Creator<br>
+Version 3.0
+</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" placeholder="Doküman, süreç, sorumlu veya revizyon ara...">
+<input class="search" id="quickSearch" placeholder="Doküman kodu veya ad ön kontrolü">
 <div class="profile">
-<span>🔔</span>
-<strong>Kerem Admin</strong>
-<div class="avatar">K</div>
+<div class="profile-info">
+<strong id="userName">Kerem Admin</strong>
+<span id="userRole">Super Administrator</span>
+</div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Yeni Doküman Oluştur</h1>
-<p>Doküman kodu, revizyon, süreç, sahiplik, onay akışı ve yayın durumunu kontrollü şekilde kayıt altına alın.</p>
+<h1>New Document Creation Center</h1>
+<p>Yeni doküman oluştur, kodunu üret, standart bağlantısını kur, hazırlayan-kontrol-onay akışını tanımla ve master listeye canlı kaydet.</p>
 </div>
-<a class="btn secondary" href="documents.html">← Master Listeye Dön</a>
+<div class="hero-badge">Workflow: <span id="workflowState">Draft</span></div>
 </section>
 
-<section class="grid">
+<section class="layout">
 
 <div>
-<form class="panel" id="documentForm">
-<h3>Doküman Bilgileri</h3>
+
+<div class="panel">
+<div class="panel-head">
+<h3>Yeni Doküman Bilgileri</h3>
+<span class="status blue" id="qualityGate">QUALITY GATE ACTIVE</span>
+</div>
 
 <div class="form-grid">
 
 <div class="field">
-<label>Doküman Kodu *</label>
-<input id="code" required placeholder="Örn: PR.001">
-</div>
-
-<div class="field">
-<label>Doküman Türü *</label>
-<select id="type" required>
-<option value="">Seçiniz</option>
-<option>El Kitabı</option>
-<option>Politika</option>
-<option>Prosedür</option>
-<option>Talimat</option>
-<option>Form</option>
-<option>Liste</option>
-<option>Plan</option>
-<option>Akış Şeması</option>
-<option>Standart</option>
-<option>Teknik Şartname</option>
-</select>
-</div>
-
-<div class="field full">
-<label>Doküman Adı *</label>
-<input id="name" required placeholder="Örn: Doküman Kontrol Prosedürü">
-</div>
-
-<div class="field">
-<label>Revizyon No *</label>
-<input id="rev" required placeholder="Örn: R00">
-</div>
-
-<div class="field">
-<label>Yayın Tarihi *</label>
-<input id="date" type="date" required>
-</div>
-
-<div class="field">
-<label>Süreç *</label>
-<select id="process" required>
-<option value="">Seçiniz</option>
-<option>Yönetim</option>
-<option>Kalite</option>
-<option>Üretim</option>
-<option>Satınalma</option>
-<option>İnsan Kaynakları</option>
-<option>Bakım</option>
-<option>Kalibrasyon</option>
-<option>Bilgi Güvenliği</option>
-<option>Çevre</option>
-<option>İSG</option>
-<option>Tedarikçi Kalitesi</option>
-<option>Müşteri İlişkileri</option>
+<label>Doküman Tipi</label>
+<select id="docType" onchange="generateCode(); updatePreview();">
+<option value="PR">Prosedür</option>
+<option value="FR">Form</option>
+<option value="TL">Talimat</option>
+<option value="KEK">Kalite El Kitabı</option>
+<option value="POL">Politika</option>
+<option value="AŞ">Akış Şeması</option>
+<option value="KP">Kontrol Planı</option>
+<option value="GT">Görev Tanımı</option>
+<option value="LS">Liste</option>
+<option value="PL">Plan</option>
 </select>
 </div>
 
 <div class="field">
-<label>Doküman Sahibi *</label>
-<input id="owner" required placeholder="Örn: Kalite">
+<label>Otomatik Doküman Kodu</label>
+<input id="docCode" placeholder="Otomatik üretilecek">
 </div>
 
 <div class="field">
-<label>Hazırlayan</label>
-<input id="preparedBy" placeholder="Hazırlayan kişi/birim">
+<label>Revizyon No</label>
+<input id="docRev" value="R00">
+</div>
+
+<div class="field double">
+<label>Doküman Adı</label>
+<input id="docName" placeholder="Örn: Doküman Kontrol Prosedürü" oninput="updatePreview(); validateLive();">
 </div>
 
 <div class="field">
-<label>Onaylayan</label>
-<input id="approvedBy" placeholder="Onaylayan kişi/birim">
+<label>Durum</label>
+<select id="docStatus" onchange="updatePreview();">
+<option value="Taslak">Taslak</option>
+<option value="Onayda">Onayda</option>
+<option value="Yayında">Yayında</option>
+<option value="Revizyon">Revizyon</option>
+<option value="Pasif">Pasif</option>
+</select>
 </div>
 
 <div class="field">
-<label>Durum *</label>
-<select id="status" required>
-<option>Onayda</option>
-<option>Yayında</option>
-<option>Revizyon</option>
-<option>Arşiv</option>
+<label>Süreç / Departman Sahibi</label>
+<select id="docOwner" onchange="updatePreview();">
+<option value="Kalite">Kalite</option>
+<option value="YGG">YGG</option>
+<option value="Sistem">Sistem</option>
+<option value="Üretim">Üretim</option>
+<option value="Satınalma">Satınalma</option>
+<option value="İK">İK</option>
+<option value="Bakım">Bakım</option>
+<option value="Bilgi Güvenliği">Bilgi Güvenliği</option>
+<option value="Mühendislik">Mühendislik</option>
 </select>
 </div>
 
 <div class="field">
 <label>Standart Bağlantısı</label>
-<select id="standard">
-<option>ISO 9001</option>
-<option>ISO 14001</option>
-<option>ISO 45001</option>
-<option>ISO 50001</option>
-<option>ISO 27001</option>
-<option>ISO 10002</option>
-<option>IATF 16949</option>
-<option>APQP / PPAP</option>
-<option>FMEA / MSA / SPC</option>
-<option>CE / UL / EMC / CoP</option>
+<select id="docStandard" onchange="updatePreview();">
+<option value="ISO 9001">ISO 9001</option>
+<option value="ISO 14001">ISO 14001</option>
+<option value="ISO 45001">ISO 45001</option>
+<option value="ISO 27001">ISO 27001</option>
+<option value="ISO 50001">ISO 50001</option>
+<option value="IATF 16949">IATF 16949</option>
+<option value="Entegre Sistem">Entegre Sistem</option>
 </select>
 </div>
 
-<div class="field full">
-<label>Revizyon Açıklaması</label>
-<textarea id="revisionNote" placeholder="Bu dokümanın neden oluşturulduğunu veya revizyon gerekçesini yazınız."></textarea>
+<div class="field">
+<label>Kritiklik</label>
+<select id="docCriticality" onchange="updatePreview();">
+<option value="Normal">Normal</option>
+<option value="Yüksek">Yüksek</option>
+<option value="Kritik">Kritik</option>
+</select>
+</div>
+
+<div class="field">
+<label>Yürürlük Tarihi</label>
+<input type="date" id="docDate" onchange="updatePreview();">
+</div>
+
+<div class="field">
+<label>Gözden Geçirme Tarihi</label>
+<input type="date" id="reviewDate" onchange="updatePreview();">
+</div>
+
+<div class="field">
+<label>Hazırlayan</label>
+<input id="preparedBy" placeholder="Hazırlayan kişi">
+</div>
+
+<div class="field">
+<label>Kontrol Eden</label>
+<input id="checkedBy" placeholder="Kontrol eden kişi">
+</div>
+
+<div class="field">
+<label>Onaylayan</label>
+<input id="approvedBy" placeholder="Onaylayan kişi">
 </div>
 
 <div class="field full">
-<label>Dosya Bilgisi</label>
-<div class="upload">
-<strong>PDF / DOCX / XLSX dosya yükleme alanı</strong>
-<span>Bu demo sürümde dosya adı kayıt altına alınır. Gerçek dosya yükleme Cloudflare R2 ile bağlanacak.</span>
-<br><br>
-<input id="fileName" placeholder="Örn: PR.001_Dokuman_Kontrol_Proseduru.pdf">
+<label>Amaç ve Kapsam</label>
+<textarea id="docDescription" placeholder="Dokümanın amacı, kapsamı, hangi süreci yönettiği ve neden oluşturulduğu..." oninput="updatePreview(); validateLive();"></textarea>
 </div>
+
+<div class="field full">
+<label>Revizyon / Oluşturma Notu</label>
+<textarea id="revisionNote" placeholder="İlk yayın notu veya oluşturma gerekçesi..."></textarea>
 </div>
 
 </div>
 
 <div class="actions">
-<a class="btn secondary" href="documents.html">Vazgeç</a>
-<button class="btn primary" type="submit">Kaydet ve Listeye Ekle</button>
+<button class="btn primary" onclick="saveNewDocument()">Dokümanı Oluştur</button>
+<button class="btn dark" onclick="generateCode()">Kod Üret</button>
+<button class="btn green" onclick="saveAsPublished()">Yayınla ve Kaydet</button>
+<button class="btn orange" onclick="clearForm()">Formu Temizle</button>
+<button class="btn red" onclick="goDocuments()">Master Listeye Git</button>
 </div>
-</form>
+
+</div>
+
 </div>
 
 <div>
+
 <div class="panel">
-<h3>Kontrol Özeti</h3>
-<div class="info">
-<div class="info-card"><strong>Doküman Kodu</strong><span id="previewCode">Henüz girilmedi</span></div>
-<div class="info-card"><strong>Akış Durumu</strong><span><span class="status blue">Kayıt Hazırlanıyor</span></span></div>
-<div class="info-card"><strong>Zorunlu Alanlar</strong><span>Kod, ad, tür, revizyon, yayın tarihi, süreç, sahip ve durum alanları zorunludur.</span></div>
-<div class="info-card"><strong>Sonraki Faz</strong><span>Bu kayıt localStorage içinde gerçek veri olarak saklanır. D1 veritabanına geçildiğinde aynı alanlar backend'e bağlanacaktır.</span></div>
+<div class="panel-head">
+<h3>Canlı Ön İzleme</h3>
+<span class="status green" id="previewStatus">READY</span>
+</div>
+
+<div class="preview-card">
+<span class="status blue" id="pStatus">Taslak</span>
+<h2 id="pCode">PR.001</h2>
+<h3 id="pName">Yeni Doküman Adı</h3>
+<p id="pDescription">Amaç ve kapsam bilgisi burada canlı olarak görüntülenecek.</p>
+
+<div class="meta">
+<div><b>Revizyon</b><span id="pRev">R00</span></div>
+<div><b>Sahip</b><span id="pOwner">Kalite</span></div>
+<div><b>Standart</b><span id="pStandard">ISO 9001</span></div>
+<div><b>Kritiklik</b><span id="pCriticality">Normal</span></div>
+<div><b>Yürürlük</b><span id="pDate">-</span></div>
+<div><b>Gözden Geçirme</b><span id="pReview">-</span></div>
+</div>
 </div>
 </div>
 
 <div class="panel">
-<h3>Doküman Yaşam Döngüsü</h3>
-<div class="info">
-<div class="info-card"><strong>1. Oluşturma</strong><span>Doküman temel bilgileri kaydedilir.</span></div>
-<div class="info-card"><strong>2. Kontrol</strong><span>İlgili süreç sahibi tarafından kontrol edilir.</span></div>
-<div class="info-card"><strong>3. Onay</strong><span>Yetkili yönetici onayı sonrası yayına alınır.</span></div>
-<div class="info-card"><strong>4. Revizyon</strong><span>Değişikliklerde revizyon geçmişi korunur.</span></div>
+<div class="panel-head">
+<h3>Kalite Kapısı</h3>
+<span class="status orange">LIVE CHECK</span>
+</div>
+
+<div class="checklist">
+<div class="check-item" id="checkCode">Doküman kodu kontrolü bekleniyor</div>
+<div class="check-item" id="checkName">Doküman adı bekleniyor</div>
+<div class="check-item" id="checkRev">Revizyon formatı kontrolü bekleniyor</div>
+<div class="check-item" id="checkOwner">Süreç sahibi seçildi</div>
+<div class="check-item" id="checkDesc">Amaç ve kapsam bekleniyor</div>
 </div>
 </div>
+
 </div>
 
 </section>
@@ -247,59 +309,289 @@ input:focus,select:focus,textarea:focus{border-color:#1677ff;box-shadow:0 0 0 4p
 </main>
 </div>
 
-<div class="toast" id="toast">Doküman başarıyla kaydedildi.</div>
+<div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const form=document.getElementById("documentForm");
-const codeInput=document.getElementById("code");
-const previewCode=document.getElementById("previewCode");
-const today=new Date().toISOString().split("T")[0];
+const session = JSON.parse(localStorage.getItem("gdnl_qdms_session")) || {
+name:"Kerem Admin",
+role:"Super Administrator",
+loginAt:new Date().toISOString()
+};
 
-document.getElementById("date").value=today;
+localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
 
-codeInput.addEventListener("input",()=>{
-  previewCode.textContent=codeInput.value.trim() || "Henüz girilmedi";
-});
+document.getElementById("userName").textContent = session.name || "User";
+document.getElementById("userRole").textContent = session.role || "User";
+document.getElementById("userAvatar").textContent = (session.name || "U").charAt(0).toUpperCase();
 
-function statusClass(status){
-  if(status==="Yayında") return "green";
-  if(status==="Onayda") return "blue";
-  if(status==="Revizyon") return "orange";
-  return "gray";
+function logout(){
+localStorage.removeItem("gdnl_qdms_session");
+window.location.href = "index.html";
 }
 
-form.addEventListener("submit",function(e){
-  e.preventDefault();
+function getDocuments(){
+return JSON.parse(localStorage.getItem("gdnl_documents")) || [];
+}
 
-  const documentRecord={
-    id:crypto.randomUUID(),
-    code:document.getElementById("code").value.trim(),
-    name:document.getElementById("name").value.trim(),
-    type:document.getElementById("type").value,
-    rev:document.getElementById("rev").value.trim(),
-    date:document.getElementById("date").value,
-    process:document.getElementById("process").value,
-    owner:document.getElementById("owner").value.trim(),
-    preparedBy:document.getElementById("preparedBy").value.trim(),
-    approvedBy:document.getElementById("approvedBy").value.trim(),
-    status:document.getElementById("status").value,
-    class:statusClass(document.getElementById("status").value),
-    standard:document.getElementById("standard").value,
-    revisionNote:document.getElementById("revisionNote").value.trim(),
-    fileName:document.getElementById("fileName").value.trim(),
-    createdAt:new Date().toISOString()
-  };
+function setDocuments(documents){
+localStorage.setItem("gdnl_documents", JSON.stringify(documents));
+}
 
-  const documents=JSON.parse(localStorage.getItem("gdnl_documents")) || [];
-  documents.unshift(documentRecord);
-  localStorage.setItem("gdnl_documents",JSON.stringify(documents));
+function todayISO(){
+return new Date().toISOString().split("T")[0];
+}
 
-  document.getElementById("toast").style.display="block";
+function addMonths(date,months){
+const d = new Date(date);
+d.setMonth(d.getMonth() + months);
+return d.toISOString().split("T")[0];
+}
 
-  setTimeout(()=>{
-    window.location.href="documents.html";
-  },900);
+document.getElementById("docDate").value = todayISO();
+document.getElementById("reviewDate").value = addMonths(todayISO(),12);
+
+function generateCode(){
+const type = document.getElementById("docType").value;
+const documents = getDocuments();
+
+const sameType = documents.filter(doc=>{
+return (doc.code || "").startsWith(type + ".");
 });
+
+let maxNumber = 0;
+
+sameType.forEach(doc=>{
+const parts = (doc.code || "").split(".");
+const number = parseInt(parts[1],10);
+if(!isNaN(number) && number > maxNumber) maxNumber = number;
+});
+
+const nextNumber = String(maxNumber + 1).padStart(3,"0");
+document.getElementById("docCode").value = type + "." + nextNumber;
+
+updatePreview();
+validateLive();
+}
+
+function statusClass(status){
+if(status === "Yayında") return "green";
+if(status === "Revizyon") return "orange";
+if(status === "Pasif") return "gray";
+if(status === "Kritik") return "red";
+return "blue";
+}
+
+function criticalityClass(value){
+if(value === "Kritik") return "red";
+if(value === "Yüksek") return "orange";
+return "green";
+}
+
+function formatDateTR(dateValue){
+if(!dateValue) return "-";
+const d = new Date(dateValue);
+if(isNaN(d)) return dateValue;
+return d.toLocaleDateString("tr-TR");
+}
+
+function updatePreview(){
+const code = document.getElementById("docCode").value || "PR.001";
+const name = document.getElementById("docName").value || "Yeni Doküman Adı";
+const rev = document.getElementById("docRev").value || "R00";
+const status = document.getElementById("docStatus").value;
+const owner = document.getElementById("docOwner").value;
+const standard = document.getElementById("docStandard").value;
+const criticality = document.getElementById("docCriticality").value;
+const date = document.getElementById("docDate").value;
+const reviewDate = document.getElementById("reviewDate").value;
+const description = document.getElementById("docDescription").value || "Amaç ve kapsam bilgisi burada canlı olarak görüntülenecek.";
+
+document.getElementById("pCode").textContent = code;
+document.getElementById("pName").textContent = name;
+document.getElementById("pRev").textContent = rev;
+document.getElementById("pStatus").textContent = status;
+document.getElementById("pStatus").className = "status " + statusClass(status);
+document.getElementById("pOwner").textContent = owner;
+document.getElementById("pStandard").textContent = standard;
+document.getElementById("pCriticality").textContent = criticality;
+document.getElementById("pCriticality").className = "";
+document.getElementById("pDate").textContent = formatDateTR(date);
+document.getElementById("pReview").textContent = formatDateTR(reviewDate);
+document.getElementById("pDescription").textContent = description;
+document.getElementById("workflowState").textContent = status;
+}
+
+function validateLive(){
+const code = document.getElementById("docCode").value.trim();
+const name = document.getElementById("docName").value.trim();
+const rev = document.getElementById("docRev").value.trim();
+const owner = document.getElementById("docOwner").value.trim();
+const desc = document.getElementById("docDescription").value.trim();
+const documents = getDocuments();
+
+const duplicate = documents.some(doc=>(doc.code || "").toLowerCase() === code.toLowerCase());
+
+setCheck("checkCode", code && !duplicate, duplicate ? "Bu doküman kodu zaten kullanılıyor" : "Doküman kodu uygun");
+setCheck("checkName", name.length >= 5, "Doküman adı uygun");
+setCheck("checkRev", /^R\d{2}$/.test(rev), "Revizyon formatı uygun");
+setCheck("checkOwner", owner.length > 0, "Süreç sahibi seçildi");
+setCheck("checkDesc", desc.length >= 15, "Amaç ve kapsam uygun");
+}
+
+function setCheck(id,condition,okText){
+const el = document.getElementById(id);
+
+if(condition){
+el.className = "check-item ok";
+el.textContent = "✓ " + okText;
+}else{
+el.className = "check-item";
+}
+}
+
+function collectPayload(forcePublished=false){
+const code = document.getElementById("docCode").value.trim();
+const name = document.getElementById("docName").value.trim();
+const rev = document.getElementById("docRev").value.trim();
+const owner = document.getElementById("docOwner").value;
+const status = forcePublished ? "Yayında" : document.getElementById("docStatus").value;
+const date = document.getElementById("docDate").value;
+const reviewDate = document.getElementById("reviewDate").value;
+const standard = document.getElementById("docStandard").value;
+const criticality = document.getElementById("docCriticality").value;
+const description = document.getElementById("docDescription").value.trim();
+const revisionNote = document.getElementById("revisionNote").value.trim();
+const preparedBy = document.getElementById("preparedBy").value.trim();
+const checkedBy = document.getElementById("checkedBy").value.trim();
+const approvedBy = document.getElementById("approvedBy").value.trim();
+
+return {
+code,
+name,
+rev,
+owner,
+status,
+date,
+reviewDate,
+standard,
+criticality,
+description,
+revisionNote,
+preparedBy,
+checkedBy,
+approvedBy,
+createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString(),
+source:"new-document.html"
+};
+}
+
+function validateBeforeSave(payload){
+if(!payload.code){showToast("Doküman kodu zorunlu");return false}
+if(!payload.name || payload.name.length < 5){showToast("Doküman adı en az 5 karakter olmalı");return false}
+if(!/^R\d{2}$/.test(payload.rev)){showToast("Revizyon formatı R00 şeklinde olmalı");return false}
+if(!payload.description || payload.description.length < 15){showToast("Amaç ve kapsam en az 15 karakter olmalı");return false}
+
+const duplicate = getDocuments().some(doc=>(doc.code || "").toLowerCase() === payload.code.toLowerCase());
+
+if(duplicate){
+showToast("Bu doküman kodu zaten mevcut");
+return false;
+}
+
+return true;
+}
+
+function saveNewDocument(){
+const payload = collectPayload(false);
+
+if(!validateBeforeSave(payload)) return;
+
+const documents = getDocuments();
+documents.unshift(payload);
+setDocuments(documents);
+
+showToast("Yeni doküman oluşturuldu");
+clearForm();
+}
+
+function saveAsPublished(){
+const payload = collectPayload(true);
+
+if(!validateBeforeSave(payload)) return;
+
+const documents = getDocuments();
+documents.unshift(payload);
+setDocuments(documents);
+
+showToast("Doküman yayınlandı ve master listeye kaydedildi");
+clearForm();
+}
+
+function clearForm(){
+document.getElementById("docType").value = "PR";
+document.getElementById("docCode").value = "";
+document.getElementById("docRev").value = "R00";
+document.getElementById("docName").value = "";
+document.getElementById("docStatus").value = "Taslak";
+document.getElementById("docOwner").value = "Kalite";
+document.getElementById("docStandard").value = "ISO 9001";
+document.getElementById("docCriticality").value = "Normal";
+document.getElementById("docDate").value = todayISO();
+document.getElementById("reviewDate").value = addMonths(todayISO(),12);
+document.getElementById("preparedBy").value = "";
+document.getElementById("checkedBy").value = "";
+document.getElementById("approvedBy").value = "";
+document.getElementById("docDescription").value = "";
+document.getElementById("revisionNote").value = "";
+
+generateCode();
+updatePreview();
+validateLive();
+}
+
+function goDocuments(){
+window.location.href = "documents.html";
+}
+
+function showToast(message){
+const toast = document.getElementById("toast");
+toast.textContent = message;
+toast.style.display = "block";
+setTimeout(()=>{toast.style.display = "none"},2500);
+}
+
+document.getElementById("quickSearch").addEventListener("input",function(){
+const q = this.value.toLowerCase();
+const documents = getDocuments();
+const found = documents.find(doc=>{
+return (doc.code || "").toLowerCase().includes(q) || (doc.name || "").toLowerCase().includes(q);
+});
+
+if(q.length < 2){
+document.getElementById("liveStatus");
+return;
+}
+
+if(found){
+showToast("Mevcut kayıt: " + found.code + " / " + found.name);
+}
+});
+
+[
+"docCode","docRev","preparedBy","checkedBy","approvedBy"
+].forEach(id=>{
+document.getElementById(id).addEventListener("input",function(){
+updatePreview();
+validateLive();
+});
+});
+
+generateCode();
+updatePreview();
+validateLive();
+
+console.log("GDNL QDMS New Document Creator V3.0 Loaded");
 </script>
 
 </body>
