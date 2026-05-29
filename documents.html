@@ -3,45 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Document Control</title>
+<title>GDNL QDMS | Doküman Yönetimi</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{background:#eef3f9;color:#0f172a}
-.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
-.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:26px 18px;display:flex;flex-direction:column;justify-content:space-between}
-.logo{font-size:27px;font-weight:950;margin-bottom:34px}.logo span{color:#1597ff}
-.menu{display:flex;flex-direction:column;gap:7px}
-.menu a{text-decoration:none;color:#cbd5e1;padding:12px 13px;border-radius:13px;font-size:14px;font-weight:800;display:flex;gap:10px}
-.menu a.active,.menu a:hover{background:rgba(21,151,255,.18);color:white}
-.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.55;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
-.main{padding:22px 30px 32px}
-.topbar{height:68px;background:white;border-radius:24px;box-shadow:0 14px 45px rgba(15,23,42,.07);display:flex;align-items:center;justify-content:space-between;padding:0 22px;margin-bottom:24px}
-.search{width:min(620px,52vw);height:46px;border:1px solid #dbe3ef;border-radius:15px;padding:0 18px;font-size:14px;background:#f8fafc}
-.profile{display:flex;align-items:center;gap:14px}.avatar{width:44px;height:44px;border-radius:15px;background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white;display:flex;align-items:center;justify-content:center;font-weight:950}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:30px 34px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 25px 70px rgba(15,23,42,.18)}
-.hero h1{font-size:34px;margin-bottom:9px}.hero p{color:#dbeafe;font-size:15px;line-height:1.55;max-width:820px}
-.primary-btn{background:linear-gradient(90deg,#0757e8,#0ea5ff);color:white;border:none;border-radius:15px;padding:15px 20px;font-weight:950;cursor:pointer;box-shadow:0 14px 30px rgba(37,99,235,.22)}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}
-.card{background:white;border-radius:24px;padding:22px;box-shadow:0 14px 45px rgba(15,23,42,.065);border:1px solid #edf2f7}
-.card small{color:#64748b;font-weight:900}.card h2{font-size:32px;color:#0757e8;margin:10px 0 4px}.card p{font-size:13px;color:#64748b}
-.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 14px 45px rgba(15,23,42,.065);border:1px solid #edf2f7}
-.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:14px}
-.panel h3{font-size:22px}
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.filters input,.filters select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 14px;background:#f8fafc;color:#334155;font-weight:700}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}
+.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s}
+.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}
+.profile-info{text-align:right}
+.profile-info strong{display:block;font-size:14px}
+.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.hero h1{font-size:36px;margin-bottom:10px}
+.hero p{max-width:850px;color:#dbeafe;line-height:1.7}
+.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}
+.card h2{font-size:34px;color:#0757e8;margin-top:10px}
+.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}
+.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-size:12px;font-weight:900;color:#64748b}
+.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field textarea{height:88px;padding:12px;resize:none;grid-column:span 2}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
+.btn.dark{background:#0f172a;color:white}
+.btn.green{background:#dcfce7;color:#15803d}
+.btn.red{background:#fee2e2;color:#991b1b}
+.btn.orange{background:#ffedd5;color:#c2410c}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
 table{width:100%;border-collapse:collapse}
-th{text-align:left;background:#f8fafc;color:#334155;font-size:12px;padding:14px}
-td{padding:15px 14px;border-bottom:1px solid #edf2f7;font-size:13.5px}
-.status{padding:7px 11px;border-radius:999px;font-size:11px;font-weight:950;display:inline-block}
-.green{background:#dcfce7;color:#166534}.orange{background:#ffedd5;color:#9a3412}.blue{background:#dbeafe;color:#1d4ed8}.red{background:#fee2e2;color:#991b1b}.gray{background:#e2e8f0;color:#334155}
-.action{border:none;background:#eff6ff;color:#0757e8;border-radius:10px;padding:8px 10px;font-weight:900;cursor:pointer}
-@media(max-width:1180px){.cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.cards{grid-template-columns:1fr}.hero{display:block}.primary-btn{margin-top:16px}.search{width:56vw}}
+th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#dbeafe;color:#1d4ed8}
+.status.green{background:#dcfce7;color:#15803d}
+.status.orange{background:#ffedd5;color:#c2410c}
+.status.red{background:#fee2e2;color:#b91c1c}
+.status.gray{background:#e2e8f0;color:#334155}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
+.small-btn.edit{background:#dbeafe;color:#1d4ed8}
+.small-btn.delete{background:#fee2e2;color:#991b1b}
+.small-btn.publish{background:#dcfce7;color:#15803d}
+.empty{padding:28px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid{grid-template-columns:1fr}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <aside class="sidebar">
@@ -58,105 +90,491 @@ td{padding:15px 14px;border-bottom:1px solid #edf2f7;font-size:13.5px}
 <a href="#">📏 Kalibrasyon</a>
 <a href="#">🏭 Tedarikçi Yönetimi</a>
 <a href="#">📈 KPI & Raporlar</a>
+<a href="#">👥 Kullanıcı Yönetimi</a>
 <a href="#">⚙️ Ayarlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>Document Control Module<br>Version 0.5</div>
+<div class="sidebar-footer">
+GDNL QDMS Enterprise<br>
+Document Control Module<br>
+Version 2.1
+</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" placeholder="Doküman kodu, adı, süreç veya sorumlu ara...">
+<input class="search" id="globalSearch" placeholder="Doküman kodu, adı, sahip veya durum ara">
 <div class="profile">
-<span>🔔</span>
-<strong>Kerem Admin</strong>
-<div class="avatar">K</div>
+<div class="profile-info">
+<strong id="userName">Kerem Admin</strong>
+<span id="userRole">Super Administrator</span>
+</div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Document Control Center</h1>
-<p>Prosedür, talimat, form, politika, liste ve akış şemalarını kodlama, revizyon, onay, yayın, dağıtım ve arşiv mantığıyla yönetin.</p>
+<h1>Document Control Command Center</h1>
+<p>Doküman kodu, revizyon, sahip, durum, yayın tarihi, açıklama, canlı arama, filtreleme, düzenleme, silme, JSON dışa aktarma ve içe aktarma sistemi aktif.</p>
 </div>
-<button class="primary-btn">+ Yeni Doküman</button>
+<div class="hero-badge">Live Status: <span id="liveStatus">Ready</span></div>
 </section>
 
 <section class="cards">
 <div class="card"><small>Toplam Doküman</small><h2 id="totalDocs">0</h2><p>Sistemde kayıtlı doküman</p></div>
-<div class="card"><small>Aktif Doküman</small><h2 id="activeDocs">0</h2><p>Yayında olan doküman</p></div>
-<div class="card"><small>Onay Bekleyen</small><h2 id="pendingDocs">0</h2><p>Kontrol/onay sürecinde</p></div>
-<div class="card"><small>Revizyon Açık</small><h2 id="revisionDocs">0</h2><p>Revizyon sürecinde</p></div>
+<div class="card"><small>Yayında</small><h2 id="publishedDocs">0</h2><p>Aktif yayınlanan doküman</p></div>
+<div class="card"><small>Onayda</small><h2 id="approvalDocs">0</h2><p>Onay bekleyen doküman</p></div>
+<div class="card"><small>Revizyon</small><h2 id="revisionDocs">0</h2><p>Revizyon sürecindeki doküman</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3 id="formTitle">Yeni Doküman Kaydı</h3>
+<span class="status blue" id="modeBadge">CREATE MODE</span>
+</div>
+
+<div class="form-grid">
+<div class="field">
+<label>Doküman Kodu</label>
+<input id="docCode" placeholder="Örn: PR.001">
+</div>
+
+<div class="field">
+<label>Doküman Adı</label>
+<input id="docName" placeholder="Örn: Doküman Kontrol Prosedürü">
+</div>
+
+<div class="field">
+<label>Revizyon No</label>
+<input id="docRev" placeholder="Örn: R00">
+</div>
+
+<div class="field">
+<label>Doküman Sahibi</label>
+<select id="docOwner">
+<option value="Kalite">Kalite</option>
+<option value="YGG">YGG</option>
+<option value="Sistem">Sistem</option>
+<option value="Üretim">Üretim</option>
+<option value="Satınalma">Satınalma</option>
+<option value="İK">İK</option>
+<option value="Bakım">Bakım</option>
+<option value="Bilgi Güvenliği">Bilgi Güvenliği</option>
+</select>
+</div>
+
+<div class="field">
+<label>Durum</label>
+<select id="docStatus">
+<option value="Yayında">Yayında</option>
+<option value="Onayda">Onayda</option>
+<option value="Revizyon">Revizyon</option>
+<option value="Pasif">Pasif</option>
+</select>
+</div>
+
+<div class="field">
+<label>Yayın / Revizyon Tarihi</label>
+<input id="docDate" type="date">
+</div>
+
+<div class="field">
+<label>Standart Bağlantısı</label>
+<select id="docStandard">
+<option value="ISO 9001">ISO 9001</option>
+<option value="ISO 14001">ISO 14001</option>
+<option value="ISO 45001">ISO 45001</option>
+<option value="ISO 27001">ISO 27001</option>
+<option value="IATF 16949">IATF 16949</option>
+<option value="Entegre Sistem">Entegre Sistem</option>
+</select>
+</div>
+
+<div class="field">
+<label>Kritiklik</label>
+<select id="docCriticality">
+<option value="Normal">Normal</option>
+<option value="Yüksek">Yüksek</option>
+<option value="Kritik">Kritik</option>
+</select>
+</div>
+
+<div class="field" style="grid-column:span 4">
+<label>Açıklama</label>
+<textarea id="docDescription" placeholder="Doküman amacı, kapsamı veya revizyon notu"></textarea>
+</div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveDocument()">Kaydet</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+<button class="btn green" onclick="seedPremiumDocuments()">Demo Veri Yükle</button>
+<button class="btn orange" onclick="exportDocuments()">JSON Dışa Aktar</button>
+<button class="btn red" onclick="clearAllDocuments()">Tümünü Sil</button>
+<input type="file" id="importFile" accept="application/json" style="display:none" onchange="importDocuments(event)">
+<button class="btn dark" onclick="document.getElementById('importFile').click()">JSON İçe Aktar</button>
+</div>
 </section>
 
 <section class="panel">
 <div class="panel-head">
 <h3>Doküman Master Listesi</h3>
-<button class="primary-btn">Dışa Aktar</button>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderDocuments()">
+<option value="">Tüm Durumlar</option>
+<option value="Yayında">Yayında</option>
+<option value="Onayda">Onayda</option>
+<option value="Revizyon">Revizyon</option>
+<option value="Pasif">Pasif</option>
+</select>
+
+<select id="ownerFilter" onchange="renderDocuments()">
+<option value="">Tüm Sahipler</option>
+<option value="Kalite">Kalite</option>
+<option value="YGG">YGG</option>
+<option value="Sistem">Sistem</option>
+<option value="Üretim">Üretim</option>
+<option value="Satınalma">Satınalma</option>
+<option value="İK">İK</option>
+<option value="Bakım">Bakım</option>
+<option value="Bilgi Güvenliği">Bilgi Güvenliği</option>
+</select>
+</div>
 </div>
 
-<div class="filters">
-<input placeholder="Ara...">
-<select><option>Tüm Türler</option><option>Prosedür</option><option>Form</option><option>Talimat</option><option>Politika</option></select>
-<select><option>Tüm Durumlar</option><option>Yayında</option><option>Onayda</option><option>Revizyon</option><option>Arşiv</option></select>
-<select><option>Tüm Süreçler</option><option>Kalite</option><option>Üretim</option><option>Satınalma</option><option>İK</option></select>
-</div>
-
-<table>
-<thead>
-<tr>
-<th>Kod</th>
-<th>Doküman Adı</th>
-<th>Tür</th>
-<th>Rev.</th>
-<th>Süreç</th>
-<th>Sahip</th>
-<th>Durum</th>
-<th>Yayın Tarihi</th>
-<th>İşlem</th>
-</tr>
-</thead>
-<tbody id="documentTable"></tbody>
-</table>
+<div id="tableArea"></div>
 </section>
 
 </main>
 </div>
 
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
 <script>
-const documents = [
-{code:"KEK.001",name:"Entegre Yönetim El Kitabı",type:"El Kitabı",rev:"R05",process:"Yönetim",owner:"Kalite",status:"Yayında",class:"green",date:"27.05.2026"},
-{code:"PR.001",name:"Doküman Kontrol Prosedürü",type:"Prosedür",rev:"R03",process:"Kalite",owner:"Sistem",status:"Onayda",class:"blue",date:"29.05.2026"},
-{code:"PR.008",name:"İç Denetim Prosedürü",type:"Prosedür",rev:"R01",process:"Denetim",owner:"Kalite",status:"Yayında",class:"green",date:"26.05.2026"},
-{code:"FR.015",name:"Risk Analizi Formu",type:"Form",rev:"R02",process:"Risk",owner:"Sistem",status:"Yayında",class:"green",date:"28.05.2026"},
-{code:"TL.004",name:"Kalibrasyon Takip Talimatı",type:"Talimat",rev:"R01",process:"Kalibrasyon",owner:"Metroloji",status:"Revizyon",class:"orange",date:"25.05.2026"},
-{code:"POL.001",name:"Kalite Politikası",type:"Politika",rev:"R02",process:"Yönetim",owner:"Üst Yönetim",status:"Yayında",class:"green",date:"20.05.2026"},
-{code:"FR.032",name:"DÖF Takip Formu",type:"Form",rev:"R04",process:"CAPA",owner:"Kalite",status:"Onayda",class:"blue",date:"24.05.2026"},
-{code:"AŞ.005",name:"Risk Yönetimi Akış Şeması",type:"Akış Şeması",rev:"R01",process:"BGYS",owner:"Bilgi Güvenliği",status:"Arşiv",class:"gray",date:"18.05.2026"}
-];
+const session = JSON.parse(localStorage.getItem("gdnl_qdms_session")) || {
+name:"Kerem Admin",
+role:"Super Administrator",
+loginAt:new Date().toISOString()
+};
+
+localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
+
+document.getElementById("userName").textContent = session.name || "User";
+document.getElementById("userRole").textContent = session.role || "User";
+document.getElementById("userAvatar").textContent = (session.name || "U").charAt(0).toUpperCase();
+
+let editIndex = null;
+
+function logout(){
+localStorage.removeItem("gdnl_qdms_session");
+window.location.href = "index.html";
+}
+
+function getDocuments(){
+return JSON.parse(localStorage.getItem("gdnl_documents")) || [];
+}
+
+function setDocuments(documents){
+localStorage.setItem("gdnl_documents", JSON.stringify(documents));
+}
+
+function formatDateTR(dateValue){
+if(!dateValue) return "-";
+const d = new Date(dateValue);
+if(isNaN(d)) return dateValue;
+return d.toLocaleDateString("tr-TR");
+}
+
+function todayISO(){
+return new Date().toISOString().split("T")[0];
+}
+
+document.getElementById("docDate").value = todayISO();
+
+function statusClass(status){
+if(status === "Yayında") return "green";
+if(status === "Revizyon") return "orange";
+if(status === "Pasif") return "gray";
+return "blue";
+}
+
+function criticalityClass(value){
+if(value === "Kritik") return "red";
+if(value === "Yüksek") return "orange";
+return "green";
+}
+
+function saveDocument(){
+const code = document.getElementById("docCode").value.trim();
+const name = document.getElementById("docName").value.trim();
+const rev = document.getElementById("docRev").value.trim();
+const owner = document.getElementById("docOwner").value;
+const status = document.getElementById("docStatus").value;
+const date = document.getElementById("docDate").value;
+const standard = document.getElementById("docStandard").value;
+const criticality = document.getElementById("docCriticality").value;
+const description = document.getElementById("docDescription").value.trim();
+
+if(!code || !name || !rev){
+showToast("Kod, ad ve revizyon zorunlu");
+return;
+}
+
+const documents = getDocuments();
+
+const duplicate = documents.some((doc,index)=>doc.code.toLowerCase() === code.toLowerCase() && index !== editIndex);
+
+if(duplicate){
+showToast("Bu doküman kodu zaten var");
+return;
+}
+
+const payload = {
+code,
+name,
+rev,
+owner,
+status,
+date,
+standard,
+criticality,
+description,
+updatedAt:new Date().toISOString()
+};
+
+if(editIndex !== null){
+payload.createdAt = documents[editIndex].createdAt || new Date().toISOString();
+documents[editIndex] = payload;
+showToast("Doküman güncellendi");
+}else{
+payload.createdAt = new Date().toISOString();
+documents.unshift(payload);
+showToast("Doküman eklendi");
+}
+
+setDocuments(documents);
+resetForm();
+renderDocuments();
+}
+
+function editDocument(index){
+const documents = getDocuments();
+const doc = documents[index];
+
+editIndex = index;
+
+document.getElementById("docCode").value = doc.code || "";
+document.getElementById("docName").value = doc.name || "";
+document.getElementById("docRev").value = doc.rev || "";
+document.getElementById("docOwner").value = doc.owner || "Kalite";
+document.getElementById("docStatus").value = doc.status || "Yayında";
+document.getElementById("docDate").value = doc.date || todayISO();
+document.getElementById("docStandard").value = doc.standard || "ISO 9001";
+document.getElementById("docCriticality").value = doc.criticality || "Normal";
+document.getElementById("docDescription").value = doc.description || "";
+
+document.getElementById("formTitle").textContent = "Doküman Güncelleme";
+document.getElementById("modeBadge").textContent = "EDIT MODE";
+document.getElementById("modeBadge").className = "status orange";
+
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteDocument(index){
+const documents = getDocuments();
+const target = documents[index];
+
+if(!confirm(target.code + " kodlu doküman silinsin mi?")) return;
+
+documents.splice(index,1);
+setDocuments(documents);
+renderDocuments();
+showToast("Doküman silindi");
+}
+
+function publishDocument(index){
+const documents = getDocuments();
+documents[index].status = "Yayında";
+documents[index].updatedAt = new Date().toISOString();
+setDocuments(documents);
+renderDocuments();
+showToast("Doküman yayına alındı");
+}
+
+function resetForm(){
+editIndex = null;
+
+document.getElementById("docCode").value = "";
+document.getElementById("docName").value = "";
+document.getElementById("docRev").value = "";
+document.getElementById("docOwner").value = "Kalite";
+document.getElementById("docStatus").value = "Yayında";
+document.getElementById("docDate").value = todayISO();
+document.getElementById("docStandard").value = "ISO 9001";
+document.getElementById("docCriticality").value = "Normal";
+document.getElementById("docDescription").value = "";
+
+document.getElementById("formTitle").textContent = "Yeni Doküman Kaydı";
+document.getElementById("modeBadge").textContent = "CREATE MODE";
+document.getElementById("modeBadge").className = "status blue";
+}
 
 function renderDocuments(){
-document.getElementById("totalDocs").textContent=documents.length;
-document.getElementById("activeDocs").textContent=documents.filter(x=>x.status==="Yayında").length;
-document.getElementById("pendingDocs").textContent=documents.filter(x=>x.status==="Onayda").length;
-document.getElementById("revisionDocs").textContent=documents.filter(x=>x.status==="Revizyon").length;
+const documents = getDocuments();
+const query = document.getElementById("globalSearch").value.toLowerCase();
+const statusFilter = document.getElementById("statusFilter").value;
+const ownerFilter = document.getElementById("ownerFilter").value;
 
-document.getElementById("documentTable").innerHTML=documents.map(d=>`
-<tr>
-<td><strong>${d.code}</strong></td>
-<td>${d.name}</td>
-<td>${d.type}</td>
-<td>${d.rev}</td>
-<td>${d.process}</td>
-<td>${d.owner}</td>
-<td><span class="status ${d.class}">${d.status}</span></td>
-<td>${d.date}</td>
-<td><button class="action">Görüntüle</button></td>
-</tr>
-`).join("");
+const filtered = documents.filter(doc=>{
+const text = `${doc.code} ${doc.name} ${doc.rev} ${doc.owner} ${doc.status} ${doc.standard} ${doc.criticality}`.toLowerCase();
+const matchSearch = text.includes(query);
+const matchStatus = !statusFilter || doc.status === statusFilter;
+const matchOwner = !ownerFilter || doc.owner === ownerFilter;
+return matchSearch && matchStatus && matchOwner;
+});
+
+updateCards(documents);
+
+const tableArea = document.getElementById("tableArea");
+
+if(filtered.length === 0){
+tableArea.innerHTML = `<div class="empty">Kayıt bulunamadı. Yeni doküman ekleyebilir veya demo veri yükleyebilirsin.</div>`;
+return;
 }
+
+let html = `
+<table>
+<thead>
+<tr>
+<th>Kod</th>
+<th>Doküman</th>
+<th>Rev.</th>
+<th>Sahip</th>
+<th>Durum</th>
+<th>Standart</th>
+<th>Kritiklik</th>
+<th>Tarih</th>
+<th>Aksiyon</th>
+</tr>
+</thead>
+<tbody>
+`;
+
+filtered.forEach(doc=>{
+const originalIndex = documents.findIndex(item=>item.createdAt === doc.createdAt && item.code === doc.code);
+
+html += `
+<tr>
+<td>${doc.code || "-"}</td>
+<td>${doc.name || "-"}</td>
+<td>${doc.rev || "-"}</td>
+<td>${doc.owner || "-"}</td>
+<td><span class="status ${statusClass(doc.status)}">${doc.status || "-"}</span></td>
+<td>${doc.standard || "-"}</td>
+<td><span class="status ${criticalityClass(doc.criticality)}">${doc.criticality || "Normal"}</span></td>
+<td>${formatDateTR(doc.date)}</td>
+<td>
+<div class="row-actions">
+<button class="small-btn edit" onclick="editDocument(${originalIndex})">Düzenle</button>
+<button class="small-btn publish" onclick="publishDocument(${originalIndex})">Yayınla</button>
+<button class="small-btn delete" onclick="deleteDocument(${originalIndex})">Sil</button>
+</div>
+</td>
+</tr>
+`;
+});
+
+html += `</tbody></table>`;
+tableArea.innerHTML = html;
+}
+
+function updateCards(documents){
+document.getElementById("totalDocs").textContent = documents.length;
+document.getElementById("publishedDocs").textContent = documents.filter(x=>x.status === "Yayında").length;
+document.getElementById("approvalDocs").textContent = documents.filter(x=>x.status === "Onayda").length;
+document.getElementById("revisionDocs").textContent = documents.filter(x=>x.status === "Revizyon").length;
+}
+
+function seedPremiumDocuments(){
+const demo = [
+{code:"PR.001",name:"Doküman Kontrol Prosedürü",rev:"R03",owner:"Kalite",status:"Yayında",date:"2026-05-29",standard:"ISO 9001",criticality:"Kritik",description:"Dokümanların hazırlanması, onayı, yayını ve arşivlenmesi.",createdAt:"demo-1",updatedAt:new Date().toISOString()},
+{code:"KEK.001",name:"Entegre Yönetim Sistemi El Kitabı",rev:"R05",owner:"YGG",status:"Yayında",date:"2026-05-28",standard:"Entegre Sistem",criticality:"Kritik",description:"Kurumun yönetim sistemi ana çerçevesi.",createdAt:"demo-2",updatedAt:new Date().toISOString()},
+{code:"PR.008",name:"İç Denetim Prosedürü",rev:"R01",owner:"Sistem",status:"Revizyon",date:"2026-05-27",standard:"ISO 9001",criticality:"Yüksek",description:"İç denetim planlama, uygulama ve raporlama süreci.",createdAt:"demo-3",updatedAt:new Date().toISOString()},
+{code:"FR.015",name:"Risk Analizi Formu",rev:"R02",owner:"Sistem",status:"Onayda",date:"2026-05-26",standard:"ISO 27001",criticality:"Yüksek",description:"Risklerin tanımlanması, skorlanması ve aksiyon takibi.",createdAt:"demo-4",updatedAt:new Date().toISOString()},
+{code:"PR.012",name:"DÖF ve CAPA Prosedürü",rev:"R00",owner:"Kalite",status:"Yayında",date:"2026-05-25",standard:"IATF 16949",criticality:"Kritik",description:"Uygunsuzluk, kök neden ve düzeltici faaliyet yönetimi.",createdAt:"demo-5",updatedAt:new Date().toISOString()},
+{code:"AŞ.005",name:"BGYS Risk Yönetimi Akış Şeması",rev:"R01",owner:"Bilgi Güvenliği",status:"Yayında",date:"2026-05-24",standard:"ISO 27001",criticality:"Kritik",description:"Bilgi güvenliği risk değerlendirme akışı.",createdAt:"demo-6",updatedAt:new Date().toISOString()}
+];
+
+setDocuments(demo);
 renderDocuments();
+showToast("Premium demo veri yüklendi");
+}
+
+function clearAllDocuments(){
+if(!confirm("Tüm doküman kayıtları silinsin mi?")) return;
+localStorage.removeItem("gdnl_documents");
+renderDocuments();
+showToast("Tüm dokümanlar silindi");
+}
+
+function exportDocuments(){
+const documents = getDocuments();
+const data = JSON.stringify(documents,null,2);
+const blob = new Blob([data],{type:"application/json"});
+const url = URL.createObjectURL(blob);
+const a = document.createElement("a");
+a.href = url;
+a.download = "gdnl_documents_backup.json";
+a.click();
+URL.revokeObjectURL(url);
+showToast("JSON dışa aktarıldı");
+}
+
+function importDocuments(event){
+const file = event.target.files[0];
+if(!file) return;
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+try{
+const data = JSON.parse(e.target.result);
+if(!Array.isArray(data)) throw new Error("Format hatalı");
+setDocuments(data);
+renderDocuments();
+showToast("JSON içe aktarıldı");
+}catch(error){
+showToast("JSON dosyası okunamadı");
+}
+};
+
+reader.readAsText(file);
+event.target.value = "";
+}
+
+function showToast(message){
+const toast = document.getElementById("toast");
+toast.textContent = message;
+toast.style.display = "block";
+
+setTimeout(()=>{
+toast.style.display = "none";
+},2500);
+}
+
+document.getElementById("globalSearch").addEventListener("input",renderDocuments);
+
+if(getDocuments().length === 0){
+seedPremiumDocuments();
+}else{
+renderDocuments();
+}
+
+document.getElementById("liveStatus").textContent = "Active";
+console.log("GDNL QDMS Documents Module V2.1 Loaded");
 </script>
 
 </body>
