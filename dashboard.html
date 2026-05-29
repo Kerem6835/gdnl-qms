@@ -162,6 +162,13 @@ table{width:100%;border-collapse:collapse}th{text-align:left;background:#f8fafc;
 </div>
 
 <script>
+
+const session = JSON.parse(localStorage.getItem("gdnl_qdms_session"));
+
+if(!session){
+    window.location.href="index.html";
+}
+
 const dashboardData = {
   totalDocuments: 109,
   openCapa: 7,
