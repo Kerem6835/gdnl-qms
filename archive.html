@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Arşiv Yönetimi</title>
+<title>GDNL QDMS | Archive & Obsolete Control V2</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -22,8 +22,8 @@ body{background:#eef3f9;color:#0f172a}
 .avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
 .logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
 .hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:850px;color:#dbeafe;line-height:1.7}
-.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:900px;color:#dbeafe;line-height:1.7}
+.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
 .card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
 .card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
@@ -31,29 +31,25 @@ body{background:#eef3f9;color:#0f172a}
 .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
 .panel h3{font-size:19px;font-weight:900}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap}
-.toolbar select,.toolbar input{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
-.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
-.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
-.btn.dark{background:#0f172a;color:white}
-.btn.green{background:#dcfce7;color:#15803d}
-.btn.red{background:#fee2e2;color:#991b1b}
-.btn.orange{background:#ffedd5;color:#c2410c}
+.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
 .status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
-.status.blue{background:#dbeafe;color:#1d4ed8}
-.status.green{background:#dcfce7;color:#15803d}
-.status.orange{background:#ffedd5;color:#c2410c}
-.status.red{background:#fee2e2;color:#b91c1c}
-.status.gray{background:#e2e8f0;color:#334155}
+.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
 table{width:100%;border-collapse:collapse}
 th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
 td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
 .row-actions{display:flex;gap:8px;flex-wrap:wrap}
 .small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
-.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.restore{background:#dcfce7;color:#15803d}.small-btn.delete{background:#fee2e2;color:#991b1b}
-.empty{padding:28px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
-.detail{display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:18px;margin-top:18px}
-.detail h4{font-size:17px;margin-bottom:12px}
-.detail p{font-size:13px;color:#475569;line-height:1.7;margin-bottom:8px}
+.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.restore{background:#dcfce7;color:#15803d}.small-btn.lock{background:#e2e8f0;color:#334155}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(720px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}
+.drawer.active{display:block}
+.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.drawer h3{font-size:22px;margin-bottom:8px}
+.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.green{background:#dcfce7;color:#15803d}.btn.dark{background:#0f172a;color:white}.btn.orange{background:#ffedd5;color:#c2410c}
 .toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
 @media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards{grid-template-columns:1fr}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
@@ -61,7 +57,6 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 </head>
 
 <body>
-
 <div class="app">
 
 <aside class="sidebar">
@@ -74,28 +69,21 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <a href="revision.html">🔄 Revizyon Yönetimi</a>
 <a href="approval.html">✅ Onay Yönetimi</a>
 <a class="active" href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
 <a href="#">🛠️ DÖF / CAPA</a>
-<a href="#">⚠️ Risk Yönetimi</a>
-<a href="#">🔍 İç Denetimler</a>
 <a href="#">📈 KPI & Raporlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">
-GDNL QDMS Enterprise<br>
-Archive & Obsolete Control<br>
-Version 1.6
-</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Archive V2<br>Obsolete & Traceability</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" id="globalSearch" placeholder="Arşiv no, doküman, revizyon, onay no veya durum ara">
+<input class="search" id="globalSearch" placeholder="Arşiv no, doküman kodu, ad, revizyon, neden veya durum ara">
 <div class="profile">
-<div class="profile-info">
-<strong id="userName">Kerem Admin</strong>
-<span id="userRole">Super Administrator</span>
-</div>
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
 <div class="avatar" id="userAvatar">K</div>
 <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
@@ -104,363 +92,298 @@ Version 1.6
 <section class="hero">
 <div>
 <h1>Archive & Obsolete Control Center</h1>
-<p>Yayınlanan revizyonları arşivle, obsolete/pasif dokümanları izle, eski revizyon geçmişini sakla ve denetime hazır izlenebilirlik oluştur.</p>
+<p>Silinen, obsolete edilen veya revizyon sonrası saklanan kayıtları izlenebilir şekilde yönet. Arşiv kaydı silinmez; denetim izi korunur.</p>
 </div>
-<div class="hero-badge">Module: <span>V1.6 Active</span></div>
+<div class="hero-badge">Module: <span>V2 Active</span></div>
 </section>
 
 <section class="cards">
 <div class="card"><small>Toplam Arşiv</small><h2 id="totalArchive">0</h2><p>Arşiv kayıtları</p></div>
-<div class="card"><small>Revizyon Arşivi</small><h2 id="revisionArchive">0</h2><p>Yayınlanan revizyonlar</p></div>
-<div class="card"><small>Obsolete</small><h2 id="obsoleteArchive">0</h2><p>Pasif / obsolete kayıt</p></div>
-<div class="card"><small>Geri Alınabilir</small><h2 id="restorableArchive">0</h2><p>Restore edilebilir kayıt</p></div>
+<div class="card"><small>Obsolete</small><h2 id="obsoleteArchive">0</h2><p>Pasif / obsolete</p></div>
+<div class="card"><small>Revizyon Arşivi</small><h2 id="revisionArchive">0</h2><p>Eski revizyon izi</p></div>
+<div class="card"><small>Geri Alınabilir</small><h2 id="restorableArchive">0</h2><p>Restore edilebilir</p></div>
 </section>
 
 <section class="panel">
 <div class="panel-head">
-<h3>Arşiv Kontrol Paneli</h3>
+<h3>Arşiv Kayıtları</h3>
 <div class="toolbar">
 <select id="typeFilter" onchange="renderArchive()">
 <option value="">Tüm Tipler</option>
-<option value="Revizyon Arşivi">Revizyon Arşivi</option>
-<option value="Obsolete Doküman">Obsolete Doküman</option>
-<option value="Manuel Arşiv">Manuel Arşiv</option>
+<option>Obsolete Doküman</option>
+<option>Revizyon Arşivi</option>
+<option>Manuel Arşiv</option>
 </select>
-
 <select id="statusFilter" onchange="renderArchive()">
 <option value="">Tüm Durumlar</option>
-<option value="Arşivlendi">Arşivlendi</option>
-<option value="Obsolete">Obsolete</option>
-<option value="Geri Alındı">Geri Alındı</option>
+<option>Obsolete</option>
+<option>Arşivlendi</option>
+<option>Geri Alındı</option>
+<option>Kilitli</option>
 </select>
-
-<button class="btn primary" onclick="buildArchiveFromApprovals()">Onaylardan Arşiv Oluştur</button>
-<button class="btn orange" onclick="buildObsoleteArchive()">Pasif Dokümanları Arşivle</button>
-<button class="btn dark" onclick="exportArchive()">JSON Dışa Aktar</button>
-<button class="btn red" onclick="clearArchive()">Arşivi Temizle</button>
 </div>
 </div>
-
 <div id="archiveTable"></div>
-<div class="detail" id="detailBox"></div>
 </section>
 
 </main>
 </div>
 
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div>
+<h3 id="drawerTitle">Arşiv Detayı</h3>
+<span class="status red" id="drawerStatus">Obsolete</span>
+</div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="restoreCurrent()">Geri Yükle</button>
+<button class="btn orange" onclick="lockCurrent()">Kaydı Kilitle</button>
+<button class="btn dark" onclick="openDocument()">Doküman Kaydını Gör</button>
+</div>
+</div>
+
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session = JSON.parse(localStorage.getItem("gdnl_qdms_session")) || {
-name:"Kerem Admin",
-role:"Super Administrator",
-loginAt:new Date().toISOString()
-};
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 
-localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
+document.getElementById("userName").textContent=session.name||"User";
+document.getElementById("userRole").textContent=session.role||"User";
+document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
 
-document.getElementById("userName").textContent = session.name || "User";
-document.getElementById("userRole").textContent = session.role || "User";
-document.getElementById("userAvatar").textContent = (session.name || "U").charAt(0).toUpperCase();
+let selectedIndex=null;
 
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-window.location.href="index.html";
-}
-
-function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents")) || []}
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
 function setDocuments(items){localStorage.setItem("gdnl_documents",JSON.stringify(items))}
-function getRevisions(){return JSON.parse(localStorage.getItem("gdnl_revisions")) || []}
-function getApprovals(){return JSON.parse(localStorage.getItem("gdnl_approvals")) || []}
-function getArchive(){return JSON.parse(localStorage.getItem("gdnl_archive")) || []}
+function getArchive(){return JSON.parse(localStorage.getItem("gdnl_archive"))||[]}
 function setArchive(items){localStorage.setItem("gdnl_archive",JSON.stringify(items))}
-
 function todayISO(){return new Date().toISOString().split("T")[0]}
-
-function formatDateTR(value){
-if(!value) return "-";
-const d = new Date(value);
-if(isNaN(d)) return value;
-return d.toLocaleDateString("tr-TR");
-}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 
 function statusClass(status){
-if(status==="Arşivlendi") return "green";
-if(status==="Obsolete") return "red";
-if(status==="Geri Alındı") return "blue";
-return "gray";
+if(status==="Geri Alındı")return"green";
+if(status==="Obsolete")return"red";
+if(status==="Kilitli")return"gray";
+return"blue";
 }
 
 function typeClass(type){
-if(type==="Revizyon Arşivi") return "blue";
-if(type==="Obsolete Doküman") return "red";
-return "gray";
+if(type==="Obsolete Doküman")return"red";
+if(type==="Revizyon Arşivi")return"blue";
+return"gray";
 }
 
-function archiveNo(){
-const archive = getArchive();
-const year = new Date().getFullYear();
-return "ARC-" + year + "-" + String(archive.length + 1).padStart(3,"0");
+function normalizeArchive(x){
+return{
+archiveNo:x.archiveNo||"ARC-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-5),
+type:x.type||"Obsolete Doküman",
+status:x.status||"Obsolete",
+documentCode:x.documentCode||x.code||"",
+documentName:x.documentName||x.name||"",
+oldRev:x.oldRev||x.rev||"-",
+newRev:x.newRev||"-",
+sourceRevisionNo:x.sourceRevisionNo||x.revisionNo||"-",
+sourceApprovalNo:x.sourceApprovalNo||x.approvalNo||"-",
+archivedBy:x.archivedBy||session.name||"System",
+archiveDate:x.archiveDate||todayISO(),
+restoreAvailable:x.restoreAvailable||"Evet",
+reason:x.reason||"Doküman arşive alındı.",
+detail:x.detail||x.description||"",
+sourceDocument:x.sourceDocument||null,
+createdAt:x.createdAt||new Date().toISOString(),
+updatedAt:x.updatedAt||new Date().toISOString()
+};
 }
 
-function buildArchiveFromApprovals(){
-const approvals = getApprovals();
-const revisions = getRevisions();
-const archive = getArchive();
-
-const published = approvals.filter(a=>a.status === "Yayınlandı" || a.status === "Onaylandı");
-
-let added = 0;
-
-published.forEach(a=>{
-const exists = archive.some(x=>x.sourceApprovalNo === a.approvalNo);
-if(exists) return;
-
-const relatedRevision = revisions.find(r=>r.revisionNo === a.revisionNo);
-
-archive.unshift({
-archiveNo:archiveNoWithOffset(archive.length + added),
-type:"Revizyon Arşivi",
-status:"Arşivlendi",
-documentCode:a.documentCode,
-documentName:a.documentName,
-oldRev:a.oldRev,
-newRev:a.newRev,
-sourceRevisionNo:a.revisionNo,
-sourceApprovalNo:a.approvalNo,
-archivedBy:session.name || "System",
-archiveDate:todayISO(),
-restoreAvailable:"Evet",
-reason:"Onaylanmış / yayınlanmış revizyon kaydı arşive alındı.",
-detail:relatedRevision ? relatedRevision.changeDescription || relatedRevision.reason || "" : a.approvalNote || "",
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString()
-});
-
-added++;
-});
-
-setArchive(archive);
-renderArchive();
-showToast(added + " arşiv kaydı oluşturuldu");
+function migrateArchive(){
+const normalized=getArchive().map(normalizeArchive);
+setArchive(normalized);
 }
 
-function archiveNoWithOffset(number){
-const year = new Date().getFullYear();
-return "ARC-" + year + "-" + String(number + 1).padStart(3,"0");
+function openDrawer(index){
+selectedIndex=index;
+const item=getArchive().map(normalizeArchive)[index];
+if(!item)return;
+
+document.getElementById("drawerTitle").textContent=item.archiveNo+" / "+item.documentCode;
+document.getElementById("drawerStatus").textContent=item.status;
+document.getElementById("drawerStatus").className="status "+statusClass(item.status);
+
+document.getElementById("drawerContent").innerHTML=`
+<div class="info-box"><b>Doküman:</b> ${item.documentCode} - ${item.documentName}<br><b>Tip:</b> ${item.type}<br><b>Durum:</b> ${item.status}</div>
+<div class="info-box"><b>Revizyon:</b> ${item.oldRev} → ${item.newRev}<br><b>Kaynak Revizyon:</b> ${item.sourceRevisionNo}<br><b>Kaynak Onay:</b> ${item.sourceApprovalNo}</div>
+<div class="info-box"><b>Arşivleyen:</b> ${item.archivedBy}<br><b>Arşiv Tarihi:</b> ${formatDateTR(item.archiveDate)}<br><b>Geri Alınabilir:</b> ${item.restoreAvailable}</div>
+<div class="info-box"><b>Gerekçe:</b><br>${item.reason||"-"}<br><br><b>Detay:</b><br>${item.detail||"-"}</div>
+`;
+
+document.getElementById("drawer").classList.add("active");
 }
 
-function buildObsoleteArchive(){
-const docs = getDocuments();
-const archive = getArchive();
-
-const obsoleteDocs = docs.filter(d=>d.status === "Pasif" || d.status === "Obsolete");
-
-let added = 0;
-
-obsoleteDocs.forEach(d=>{
-const exists = archive.some(x=>x.documentCode === d.code && x.type === "Obsolete Doküman");
-if(exists) return;
-
-archive.unshift({
-archiveNo:archiveNoWithOffset(archive.length + added),
-type:"Obsolete Doküman",
-status:"Obsolete",
-documentCode:d.code,
-documentName:d.name,
-oldRev:d.rev || "-",
-newRev:"-",
-sourceRevisionNo:d.lastRevisionNo || "-",
-sourceApprovalNo:d.lastApprovalNo || "-",
-archivedBy:session.name || "System",
-archiveDate:todayISO(),
-restoreAvailable:"Evet",
-reason:"Pasif / obsolete doküman arşive alındı.",
-detail:d.description || "",
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString()
-});
-
-added++;
-});
-
-setArchive(archive);
-renderArchive();
-showToast(added + " obsolete kayıt arşivlendi");
+function closeDrawer(){
+selectedIndex=null;
+document.getElementById("drawer").classList.remove("active");
 }
 
-function restoreArchive(index){
-const archive = getArchive();
-const docs = getDocuments();
-const item = archive[index];
+function restoreCurrent(){
+if(selectedIndex===null)return;
+const archive=getArchive().map(normalizeArchive);
+const item=archive[selectedIndex];
 
-if(!item || item.restoreAvailable !== "Evet"){
+if(item.restoreAvailable!=="Evet"||item.status==="Kilitli"){
 showToast("Bu kayıt geri alınamaz");
 return;
 }
 
-const docIndex = docs.findIndex(d=>d.code === item.documentCode);
+const docs=getDocuments();
+const exists=docs.some(d=>d.code===item.documentCode);
 
-if(docIndex !== -1){
-docs[docIndex].status = "Yayında";
-docs[docIndex].rev = item.newRev && item.newRev !== "-" ? item.newRev : docs[docIndex].rev;
-docs[docIndex].updatedAt = new Date().toISOString();
+if(!exists){
+const restored=item.sourceDocument||{
+systemId:"DOC-RESTORED-"+Date.now(),
+docType:(item.documentCode||"PR").split(".")[0],
+docTypeName:"Geri Yüklenen Doküman",
+code:item.documentCode,
+name:item.documentName,
+rev:item.newRev&&item.newRev!=="-"?item.newRev:item.oldRev,
+status:"Yayında",
+workflowStatus:"Geri Alındı",
+owner:"Kalite",
+standard:"ISO 9001",
+criticality:"Normal",
+date:todayISO(),
+description:item.detail||item.reason||"",
+documentContent:item.detail||"",
+createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString(),
+source:"archive-restore"
+};
+restored.status="Yayında";
+restored.workflowStatus="Geri Alındı";
+restored.updatedAt=new Date().toISOString();
+docs.unshift(restored);
+setDocuments(docs);
+}else{
+const i=docs.findIndex(d=>d.code===item.documentCode);
+docs[i].status="Yayında";
+docs[i].workflowStatus="Geri Alındı";
+docs[i].updatedAt=new Date().toISOString();
 setDocuments(docs);
 }
 
-archive[index].status = "Geri Alındı";
-archive[index].restoreAvailable = "Hayır";
-archive[index].updatedAt = new Date().toISOString();
-
+archive[selectedIndex].status="Geri Alındı";
+archive[selectedIndex].restoreAvailable="Hayır";
+archive[selectedIndex].updatedAt=new Date().toISOString();
 setArchive(archive);
+
 renderArchive();
-showToast("Arşiv kaydı geri alındı");
+openDrawer(selectedIndex);
+showToast("Arşiv kaydı geri yüklendi");
 }
 
-function deleteArchive(index){
-const archive = getArchive();
-const item = archive[index];
-
-if(!confirm(item.archiveNo + " arşiv kaydı silinsin mi?")) return;
-
-archive.splice(index,1);
+function lockCurrent(){
+if(selectedIndex===null)return;
+const archive=getArchive().map(normalizeArchive);
+archive[selectedIndex].status="Kilitli";
+archive[selectedIndex].restoreAvailable="Hayır";
+archive[selectedIndex].updatedAt=new Date().toISOString();
 setArchive(archive);
 renderArchive();
-showToast("Arşiv kaydı silindi");
+openDrawer(selectedIndex);
+showToast("Arşiv kaydı kilitlendi");
 }
 
-function showDetail(index){
-const archive = getArchive();
-const item = archive[index];
-const box = document.getElementById("detailBox");
-
-if(!item) return;
-
-box.style.display = "block";
-box.innerHTML = `
-<h4>${item.archiveNo} - ${item.documentCode}</h4>
-<p><b>Doküman:</b> ${item.documentName}</p>
-<p><b>Revizyon:</b> ${item.oldRev} → ${item.newRev}</p>
-<p><b>Kaynak Revizyon:</b> ${item.sourceRevisionNo}</p>
-<p><b>Kaynak Onay:</b> ${item.sourceApprovalNo}</p>
-<p><b>Arşivleyen:</b> ${item.archivedBy}</p>
-<p><b>Arşiv Tarihi:</b> ${formatDateTR(item.archiveDate)}</p>
-<p><b>Gerekçe:</b> ${item.reason || "-"}</p>
-<p><b>Detay:</b> ${item.detail || "-"}</p>
-`;
-box.scrollIntoView({behavior:"smooth",block:"center"});
+function openDocument(){
+if(selectedIndex===null)return;
+const item=getArchive().map(normalizeArchive)[selectedIndex];
+localStorage.setItem("gdnl_selected_document_code",item.documentCode);
+window.location.href="document-viewer.html";
 }
 
 function renderArchive(){
-const archive = getArchive();
-const query = document.getElementById("globalSearch").value.toLowerCase();
-const typeFilter = document.getElementById("typeFilter").value;
-const statusFilter = document.getElementById("statusFilter").value;
+const archive=getArchive().map(normalizeArchive);
+const q=document.getElementById("globalSearch").value.toLowerCase();
+const typeFilter=document.getElementById("typeFilter").value;
+const statusFilter=document.getElementById("statusFilter").value;
 
-const filtered = archive.filter(item=>{
-const text = `${item.archiveNo} ${item.type} ${item.status} ${item.documentCode} ${item.documentName} ${item.oldRev} ${item.newRev} ${item.sourceRevisionNo} ${item.sourceApprovalNo}`.toLowerCase();
-const matchSearch = text.includes(query);
-const matchType = !typeFilter || item.type === typeFilter;
-const matchStatus = !statusFilter || item.status === statusFilter;
-return matchSearch && matchType && matchStatus;
+const filtered=archive.filter(item=>{
+const text=`${item.archiveNo} ${item.type} ${item.status} ${item.documentCode} ${item.documentName} ${item.oldRev} ${item.newRev} ${item.reason} ${item.detail}`.toLowerCase();
+return text.includes(q)&&(!typeFilter||item.type===typeFilter)&&(!statusFilter||item.status===statusFilter);
 });
 
 updateCards(archive);
 
-const area = document.getElementById("archiveTable");
-
-if(filtered.length === 0){
-area.innerHTML = `<div class="empty">Arşiv kaydı bulunamadı. Onaylardan arşiv oluşturabilir veya pasif dokümanları arşivleyebilirsin.</div>`;
+const area=document.getElementById("archiveTable");
+if(filtered.length===0){
+area.innerHTML='<div class="empty">Arşiv kaydı bulunamadı. Documents ekranından arşive alınan kayıtlar burada görünür.</div>';
 return;
 }
 
-let html = `
-<table>
+let html=`<table>
 <thead>
 <tr>
 <th>Arşiv No</th>
 <th>Tip</th>
 <th>Doküman</th>
 <th>Revizyon</th>
-<th>Kaynak Rev.</th>
-<th>Kaynak Onay</th>
+<th>Kaynak</th>
 <th>Durum</th>
+<th>Arşivleyen</th>
 <th>Tarih</th>
 <th>Aksiyon</th>
 </tr>
 </thead>
-<tbody>
-`;
+<tbody>`;
 
 filtered.forEach(item=>{
-const originalIndex = archive.findIndex(x=>x.createdAt === item.createdAt && x.archiveNo === item.archiveNo);
-
-html += `
-<tr>
+const index=archive.findIndex(x=>x.archiveNo===item.archiveNo&&x.createdAt===item.createdAt);
+html+=`<tr>
 <td>${item.archiveNo}</td>
 <td><span class="status ${typeClass(item.type)}">${item.type}</span></td>
 <td>${item.documentCode}<br><small>${item.documentName}</small></td>
 <td>${item.oldRev} → ${item.newRev}</td>
-<td>${item.sourceRevisionNo || "-"}</td>
-<td>${item.sourceApprovalNo || "-"}</td>
+<td>${item.sourceRevisionNo}<br><small>${item.sourceApprovalNo}</small></td>
 <td><span class="status ${statusClass(item.status)}">${item.status}</span></td>
+<td>${item.archivedBy}</td>
 <td>${formatDateTR(item.archiveDate)}</td>
 <td>
 <div class="row-actions">
-<button class="small-btn view" onclick="showDetail(${originalIndex})">Detay</button>
-<button class="small-btn restore" onclick="restoreArchive(${originalIndex})">Geri Al</button>
-<button class="small-btn delete" onclick="deleteArchive(${originalIndex})">Sil</button>
+<button class="small-btn view" onclick="openDrawer(${index})">Detay</button>
+<button class="small-btn restore" onclick="selectedIndex=${index};restoreCurrent()">Geri Al</button>
+<button class="small-btn lock" onclick="selectedIndex=${index};lockCurrent()">Kilitle</button>
 </div>
 </td>
-</tr>
-`;
+</tr>`;
 });
 
-html += `</tbody></table>`;
-area.innerHTML = html;
+html+='</tbody></table>';
+area.innerHTML=html;
 }
 
 function updateCards(items){
-document.getElementById("totalArchive").textContent = items.length;
-document.getElementById("revisionArchive").textContent = items.filter(x=>x.type === "Revizyon Arşivi").length;
-document.getElementById("obsoleteArchive").textContent = items.filter(x=>x.type === "Obsolete Doküman" || x.status === "Obsolete").length;
-document.getElementById("restorableArchive").textContent = items.filter(x=>x.restoreAvailable === "Evet").length;
-}
-
-function exportArchive(){
-const archive = getArchive();
-const data = JSON.stringify(archive,null,2);
-const blob = new Blob([data],{type:"application/json"});
-const url = URL.createObjectURL(blob);
-const a = document.createElement("a");
-a.href = url;
-a.download = "gdnl_archive_backup.json";
-a.click();
-URL.revokeObjectURL(url);
-showToast("Arşiv JSON dışa aktarıldı");
-}
-
-function clearArchive(){
-if(!confirm("Tüm arşiv kayıtları silinsin mi?")) return;
-localStorage.removeItem("gdnl_archive");
-document.getElementById("detailBox").style.display = "none";
-renderArchive();
-showToast("Arşiv temizlendi");
+document.getElementById("totalArchive").textContent=items.length;
+document.getElementById("obsoleteArchive").textContent=items.filter(x=>x.type==="Obsolete Doküman"||x.status==="Obsolete").length;
+document.getElementById("revisionArchive").textContent=items.filter(x=>x.type==="Revizyon Arşivi").length;
+document.getElementById("restorableArchive").textContent=items.filter(x=>x.restoreAvailable==="Evet").length;
 }
 
 function showToast(message){
-const toast = document.getElementById("toast");
-toast.textContent = message;
-toast.style.display = "block";
-setTimeout(()=>{toast.style.display = "none"},2500);
+const toast=document.getElementById("toast");
+toast.textContent=message;
+toast.style.display="block";
+setTimeout(()=>toast.style.display="none",2500);
 }
 
 document.getElementById("globalSearch").addEventListener("input",renderArchive);
 
+migrateArchive();
 renderArchive();
 
-console.log("GDNL QDMS Archive Module V1.6 Loaded");
+console.log("GDNL QDMS Archive V2 Loaded");
 </script>
-
 </body>
 </html>
