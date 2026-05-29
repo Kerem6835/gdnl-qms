@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Notification Center</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}
+.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
+.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+.main{padding:24px}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:980px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.panel h3{font-size:19px;font-weight:900}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap}
+.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
+.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.send{background:#dcfce7;color:#15803d}.small-btn.warn{background:#ffedd5;color:#c2410c}.small-btn.close{background:#e2e8f0;color:#334155}.small-btn.fail{background:#fee2e2;color:#991b1b}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(760px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}
+.drawer.active{display:block}
+.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.drawer h3{font-size:22px;margin-bottom:8px}
+.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.dark{background:#0f172a;color:white}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards{grid-template-columns:1fr}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+<div>
+<div class="logo">GDNL <span>QDMS</span></div>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="new-document.html">➕ Yeni Doküman</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a class="active" href="notification-center.html">🔔 Bildirim Merkezi</a>
+<a href="#">📈 KPI & Raporlar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Notification Center V1<br>Mail / SMS / System Queue</div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="Bildirim, modül, doküman, 8D, mail, SMS, mesaj veya durum ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Notification Center</h1>
+<p>Doküman, revizyon, onay, dağıtım ve 8D/CAPA modüllerinden gelen mail, SMS ve sistem bildirimlerini tek merkezden yönet. Kuyruk, gönderim, hata, tekrar gönderim ve kapanış izleri burada tutulur.</p>
+</div>
+<div class="hero-badge">Queue: <span>Live</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Bildirim</small><h2 id="totalNotifications">0</h2><p>Tüm bildirim kayıtları</p></div>
+<div class="card"><small>Kuyrukta</small><h2 id="queuedNotifications">0</h2><p>Gönderim bekleyen</p></div>
+<div class="card"><small>Gönderildi</small><h2 id="sentNotifications">0</h2><p>Başarılı gönderim</p></div>
+<div class="card"><small>Hatalı / Geciken</small><h2 id="failedNotifications">0</h2><p>Aksiyon gerektiren</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Bildirim Kuyruğu</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderNotifications()">
+<option value="">Tüm Durumlar</option>
+<option>Kuyrukta</option>
+<option>Gönderildi</option>
+<option>Okundu</option>
+<option>Hatalı</option>
+<option>Gecikti</option>
+<option>Kapalı</option>
+</select>
+<select id="typeFilter" onchange="renderNotifications()">
+<option value="">Tüm Tipler</option>
+<option>Mail</option>
+<option>SMS</option>
+<option>Mail + SMS</option>
+<option>System</option>
+</select>
+<select id="moduleFilter" onchange="renderNotifications()">
+<option value="">Tüm Modüller</option>
+<option>Document</option>
+<option>Revision</option>
+<option>Approval</option>
+<option>Distribution</option>
+<option>8D/CAPA</option>
+<option>System</option>
+</select>
+</div>
+</div>
+<div id="notificationTable"></div>
+</section>
+
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div>
+<h3 id="drawerTitle">Bildirim Detayı</h3>
+<span class="status blue" id="drawerStatus">Kuyrukta</span>
+</div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+
+<div id="drawerContent"></div>
+
+<div class="actions">
+<button class="btn green" onclick="sendCurrent()">Gönderildi İşaretle</button>
+<button class="btn orange" onclick="resendCurrent()">Tekrar Gönder</button>
+<button class="btn primary" onclick="markReadCurrent()">Okundu Yap</button>
+<button class="btn red" onclick="failCurrent()">Hatalı İşaretle</button>
+<button class="btn dark" onclick="closeCurrentNotification()">Bildirimi Kapat</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+
+document.getElementById("userName").textContent=session.name||"User";
+document.getElementById("userRole").textContent=session.role||"User";
+document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let selectedIndex=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
+function setNotifications(items){localStorage.setItem("gdnl_notifications",JSON.stringify(items))}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function hoursBetween(a,b){if(!a||!b)return 0;const d1=new Date(a);const d2=new Date(b);if(isNaN(d1)||isNaN(d2))return 0;return Math.floor((d2-d1)/(1000*60*60))}
+
+function statusClass(status){
+if(status==="Gönderildi"||status==="Okundu")return"green";
+if(status==="Kuyrukta")return"orange";
+if(status==="Hatalı"||status==="Gecikti")return"red";
+if(status==="Kapalı")return"gray";
+return"blue";
+}
+
+function normalizeNotification(n){
+return{
+notificationId:n.notificationId||"NTF-"+Date.now()+"-"+Math.random().toString(16).slice(2),
+module:n.module||detectModule(n),
+type:n.type||n.notificationType||"System",
+workflowId:n.workflowId||"",
+documentCode:n.documentCode||"",
+documentName:n.documentName||"",
+mailGroups:n.mailGroups||"",
+smsGroups:n.smsGroups||"",
+distributionPoints:n.distributionPoints||"",
+message:n.message||"",
+status:n.status||"Kuyrukta",
+priority:n.priority||detectPriority(n),
+retryCount:n.retryCount||0,
+createdBy:n.createdBy||"System",
+createdAt:n.createdAt||new Date().toISOString(),
+sentAt:n.sentAt||"",
+readAt:n.readAt||"",
+closedAt:n.closedAt||"",
+lastError:n.lastError||"",
+auditTrail:Array.isArray(n.auditTrail)?n.auditTrail:[]
+};
+}
+
+function detectModule(n){
+const text=`${n.module||""} ${n.documentCode||""} ${n.message||""}`.toLowerCase();
+if(text.includes("8d")||text.includes("capa"))return"8D/CAPA";
+if(text.includes("approval")||text.includes("onay"))return"Approval";
+if(text.includes("revision")||text.includes("revizyon"))return"Revision";
+if(text.includes("distribution")||text.includes("dağıtım"))return"Distribution";
+if(text.includes("doc")||text.includes("doküman"))return"Document";
+return"System";
+}
+
+function detectPriority(n){
+const text=`${n.message||""} ${n.documentName||""}`.toLowerCase();
+if(text.includes("kritik")||text.includes("critical")||text.includes("gecik"))return"Critical";
+if(text.includes("8d")||text.includes("capa")||text.includes("onay"))return"High";
+return"Normal";
+}
+
+function migrateNotifications(){
+const items=getNotifications().map(normalizeNotification);
+setNotifications(items);
+}
+
+function autoDelayCheck(){
+const items=getNotifications().map(normalizeNotification);
+const now=new Date().toISOString();
+
+items.forEach(n=>{
+if(n.status==="Kuyrukta"){
+const age=hoursBetween(n.createdAt,now);
+if(age>=24){
+n.status="Gecikti";
+n.lastError="24 saatten uzun süredir kuyrukta bekliyor.";
+n.auditTrail.push({action:"Bildirim gecikti",user:"System",date:now});
+}
+}
+});
+
+setNotifications(items);
+}
+
+function renderNotifications(){
+autoDelayCheck();
+
+const items=getNotifications().map(normalizeNotification);
+const q=document.getElementById("globalSearch").value.toLowerCase();
+const sf=document.getElementById("statusFilter").value;
+const tf=document.getElementById("typeFilter").value;
+const mf=document.getElementById("moduleFilter").value;
+
+const filtered=items.filter(n=>{
+const text=`${n.notificationId} ${n.module} ${n.type} ${n.workflowId} ${n.documentCode} ${n.documentName} ${n.mailGroups} ${n.smsGroups} ${n.distributionPoints} ${n.message} ${n.status}`.toLowerCase();
+return text.includes(q)&&(!sf||n.status===sf)&&(!tf||n.type===tf)&&(!mf||n.module===mf);
+});
+
+updateCards(items);
+
+const area=document.getElementById("notificationTable");
+if(filtered.length===0){
+area.innerHTML='<div class="empty">Bildirim kaydı bulunamadı. Modüller işlem ürettikçe kayıtlar burada görünür.</div>';
+return;
+}
+
+let html=`<table>
+<thead>
+<tr>
+<th>Bildirim No</th>
+<th>Modül</th>
+<th>Tip</th>
+<th>Kayıt</th>
+<th>Mesaj</th>
+<th>Durum</th>
+<th>Öncelik</th>
+<th>Tekrar</th>
+<th>Tarih</th>
+<th>Aksiyon</th>
+</tr>
+</thead>
+<tbody>`;
+
+filtered.forEach(n=>{
+const index=items.findIndex(x=>x.notificationId===n.notificationId);
+html+=`<tr>
+<td>${n.notificationId}</td>
+<td>${n.module}</td>
+<td>${n.type}</td>
+<td>${n.documentCode||"-"}<br><small>${n.documentName||n.workflowId||"-"}</small></td>
+<td>${shortText(n.message,70)}</td>
+<td><span class="status ${statusClass(n.status)}">${n.status}</span></td>
+<td><span class="status ${statusClass(n.priority==="Critical"?"Hatalı":n.priority==="High"?"Kuyrukta":"System")}">${n.priority}</span></td>
+<td>${n.retryCount}</td>
+<td>${formatDateTR(n.createdAt)}</td>
+<td>
+<div class="row-actions">
+<button class="small-btn view" onclick="openDrawer(${index})">İncele</button>
+<button class="small-btn send" onclick="selectedIndex=${index};sendCurrent()">Gönder</button>
+<button class="small-btn warn" onclick="selectedIndex=${index};resendCurrent()">Tekrar</button>
+<button class="small-btn close" onclick="selectedIndex=${index};closeCurrentNotification()">Kapat</button>
+</div>
+</td>
+</tr>`;
+});
+
+html+='</tbody></table>';
+area.innerHTML=html;
+}
+
+function shortText(t,max){
+if(!t)return"-";
+return t.length>max?t.slice(0,max)+"...":t;
+}
+
+function updateCards(items){
+document.getElementById("totalNotifications").textContent=items.length;
+document.getElementById("queuedNotifications").textContent=items.filter(x=>x.status==="Kuyrukta").length;
+document.getElementById("sentNotifications").textContent=items.filter(x=>x.status==="Gönderildi"||x.status==="Okundu").length;
+document.getElementById("failedNotifications").textContent=items.filter(x=>x.status==="Hatalı"||x.status==="Gecikti").length;
+}
+
+function openDrawer(index){
+selectedIndex=index;
+const n=getNotifications().map(normalizeNotification)[index];
+
+document.getElementById("drawerTitle").textContent=n.notificationId+" / "+n.module;
+document.getElementById("drawerStatus").textContent=n.status;
+document.getElementById("drawerStatus").className="status "+statusClass(n.status);
+
+document.getElementById("drawerContent").innerHTML=`
+<div class="info-box"><b>Bildirim No:</b> ${n.notificationId}
+<b>Modül:</b> ${n.module}
+<b>Tip:</b> ${n.type}
+<b>Öncelik:</b> ${n.priority}
+<b>Durum:</b> ${n.status}
+<b>Workflow:</b> ${n.workflowId||"-"}
+<b>Kayıt:</b> ${n.documentCode||"-"} - ${n.documentName||"-"}</div>
+
+<div class="info-box"><b>Mail Alıcıları:</b>
+${n.mailGroups||"-"}
+
+<b>SMS Alıcıları:</b>
+${n.smsGroups||"-"}
+
+<b>Dağıtım Noktaları:</b>
+${n.distributionPoints||"-"}</div>
+
+<div class="info-box"><b>Mesaj:</b>
+${n.message||"-"}</div>
+
+<div class="info-box"><b>Tarihçe:</b>
+Oluşturma: ${formatDateTR(n.createdAt)}
+Gönderim: ${formatDateTR(n.sentAt)}
+Okunma: ${formatDateTR(n.readAt)}
+Kapanış: ${formatDateTR(n.closedAt)}
+Tekrar Sayısı: ${n.retryCount}
+Son Hata: ${n.lastError||"-"}</div>
+
+<div class="info-box"><b>Audit Trail</b>
+${(n.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>
+`;
+
+document.getElementById("drawer").classList.add("active");
+}
+
+function closeDrawer(){
+selectedIndex=null;
+document.getElementById("drawer").classList.remove("active");
+}
+
+function updateNotification(index,changes,actionText){
+const items=getNotifications().map(normalizeNotification);
+if(!items[index])return;
+
+items[index]={...items[index],...changes,updatedAt:new Date().toISOString()};
+items[index].auditTrail=items[index].auditTrail||[];
+items[index].auditTrail.unshift({action:actionText,user:session.name||"System",date:new Date().toISOString()});
+
+setNotifications(items);
+renderNotifications();
+if(selectedIndex!==null)openDrawer(selectedIndex);
+}
+
+function sendCurrent(){
+if(selectedIndex===null)return;
+updateNotification(selectedIndex,{status:"Gönderildi",sentAt:new Date().toISOString(),lastError:""},"Bildirim gönderildi işaretlendi");
+showToast("Bildirim gönderildi");
+}
+
+function resendCurrent(){
+if(selectedIndex===null)return;
+const items=getNotifications().map(normalizeNotification);
+const n=items[selectedIndex];
+updateNotification(selectedIndex,{status:"Kuyrukta",retryCount:(n.retryCount||0)+1,lastError:""},"Bildirim tekrar kuyruğa alındı");
+showToast("Bildirim tekrar kuyruğa alındı");
+}
+
+function markReadCurrent(){
+if(selectedIndex===null)return;
+updateNotification(selectedIndex,{status:"Okundu",readAt:new Date().toISOString(),lastError:""},"Bildirim okundu işaretlendi");
+showToast("Bildirim okundu yapıldı");
+}
+
+function failCurrent(){
+if(selectedIndex===null)return;
+updateNotification(selectedIndex,{status:"Hatalı",lastError:"Manuel hata işaretlendi"},"Bildirim hatalı işaretlendi");
+showToast("Bildirim hatalı işaretlendi");
+}
+
+function closeCurrentNotification(){
+if(selectedIndex===null)return;
+updateNotification(selectedIndex,{status:"Kapalı",closedAt:new Date().toISOString()},"Bildirim kapatıldı");
+showToast("Bildirim kapatıldı");
+}
+
+function showToast(message){
+const toast=document.getElementById("toast");
+toast.textContent=message;
+toast.style.display="block";
+setTimeout(()=>toast.style.display="none",2500);
+}
+
+document.getElementById("globalSearch").addEventListener("input",renderNotifications);
+
+migrateNotifications();
+renderNotifications();
+
+console.log("GDNL QDMS Notification Center V1 Loaded");
+</script>
+
+</body>
+</html>
