@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL QDMS | Management Review</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#eef3f9;color:#0f172a}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.sidebar{background:#ffffff;color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e2e8f0;box-shadow:0 0 40px rgba(15,23,42,.04)}
+.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#0f172a;display:block}.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#475569;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850;transition:.2s}
+.menu a:hover,.menu a.active{background:#e0f2fe;color:#0369a1}
+.sidebar-footer{font-size:12px;color:#64748b;line-height:1.6;border-top:1px solid #e2e8f0;padding-top:18px}
+.main{padding:24px;max-width:1740px;margin:auto;width:100%}
+.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
+.search{width:560px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
+.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:1120px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:24px}
+.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}.field input,.field select,.field textarea{width:100%;min-width:0;height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field textarea{height:92px;padding:12px;resize:none}.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.purple{background:#ede9fe;color:#6d28d9}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}.status.purple{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.close{background:#dcfce7;color:#15803d}.small-btn.alert{background:#ffedd5;color:#c2410c}.small-btn.delete{background:#fee2e2;color:#991b1b}.small-btn.dark{background:#0f172a;color:white}.small-btn.down{background:#dcfce7;color:#15803d}
+.empty{padding:28px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}.box h4{font-size:15px;font-weight:900;margin-bottom:12px}
+.subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1120px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}
+.drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px}.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}.field.double{grid-column:1/-1}}
+</style>
+</head>
+
+<body>
+<div class="app">
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>QDMS</span></a>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="audit.html">🧾 İç Denetim</a>
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a class="active" href="management-review.html">📊 YGG Yönetimi</a>
+<a href="users.html">👥 Kullanıcılar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Management Review<br>ISO / IATF / CoP / EV Ready</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<input class="search" id="globalSearch" placeholder="YGG no, standart, gündem, karar, aksiyon, kişi veya doküman ara">
+<div class="profile">
+<div class="profile-info"><strong id="userName">Kerem Güdenli</strong><span id="userRole">Super Administrator</span></div>
+<div class="avatar" id="userAvatar" onclick="window.location.href='dashboard.html'">K</div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Management Review Center</h1>
+<p>YGG planlama, kişi daveti, standart bazlı otomatik gündem, karar, aksiyon, doküman/rapor yükleme, mail/SMS bildirim kuyruğu ve kapanış kontrolü tek merkezde.</p>
+</div>
+<div class="hero-badge">YGG Engine: <span>Auto Agenda Active</span></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam YGG</small><h2 id="totalReviews">0</h2><p>Kayıtlı yönetim gözden geçirme</p></div>
+<div class="card"><small>Açık YGG</small><h2 id="openReviews">0</h2><p>Planlı / devam eden</p></div>
+<div class="card"><small>Geciken Aksiyon</small><h2 id="lateActions">0</h2><p>Termin aşımı</p></div>
+<div class="card"><small>Doküman / Rapor</small><h2 id="totalDocs">0</h2><p>Yüklenen kanıt ve rapor</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Gündem</small><h2 id="totalAgendas">0</h2><p>Standart bazlı gündemler</p></div>
+<div class="card"><small>Alınan Karar</small><h2 id="totalDecisions">0</h2><p>Yönetim kararları</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="totalNotifications">0</h2><p>Mail/SMS kayıtları</p></div>
+<div class="card"><small>Kapanışa Hazır</small><h2 id="readyReviews">0</h2><p>Kontrol şartları tamam</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yeni YGG Planlama</h3><span class="status blue" id="formMode">CREATE MODE</span></div>
+
+<div class="form-grid">
+<div class="field"><label>YGG No</label><input id="reviewNo" readonly></div>
+<div class="field"><label>Durum</label><select id="reviewStatus"><option>Planlandı</option><option>Davet Gönderildi</option><option>Devam Ediyor</option><option>Karar Bekliyor</option><option>Aksiyon Takibi</option><option>Kapanış Onayı</option><option>Kapalı</option><option>Gecikti</option><option>İptal</option></select></div>
+<div class="field"><label>Dönem</label><select id="reviewPeriod"><option>2026 Q1</option><option>2026 Q2</option><option>2026 Q3</option><option>2026 Q4</option><option>2026 Yıllık</option></select></div>
+<div class="field"><label>YGG Tipi</label><select id="reviewType"><option>Entegre Yönetim Sistemi</option><option>Kalite Yönetim Sistemi</option><option>Çevre / İSG / Enerji</option><option>BGYS</option><option>Laboratuvar</option><option>IATF / Otomotiv</option><option>CoP / EV</option><option>Özel Yönetim Toplantısı</option></select></div>
+
+<div class="field"><label>Planlanan Tarih</label><input id="plannedDate" type="date"></div>
+<div class="field"><label>Gerçekleşen Tarih</label><input id="actualDate" type="date"></div>
+<div class="field"><label>Toplantı Başkanı</label><select id="chairperson"></select></div>
+<div class="field"><label>Toplantı Sekreteri</label><select id="secretary"></select></div>
+
+<div class="field full"><label>Standart Kapsamı</label><select id="standards" multiple style="height:150px">
+<option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 10002</option><option>ISO 17025</option><option>ISO 27001</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option>
+</select></div>
+
+<div class="field full"><label>Toplantı Kapsamı</label><textarea id="reviewScope" class="big" placeholder="YGG kapsamı, amaç, dönem, prosesler, standartlar ve özel gündemler"></textarea></div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="createReview()">YGG Kaydı Oluştur</button>
+<button class="btn orange" onclick="createReview(true)">Oluştur + Kişilere Mail/SMS Kuyruğu</button>
+<button class="btn green" onclick="generateAutoAgenda()">Seçilen Standartlara Göre Gündem Üret</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Katılımcı / Kişi Ekleme</h3><span class="status purple">PEOPLE & INVITATION</span></div>
+<div class="box">
+<div class="subgrid">
+<div class="field"><label>Kişi</label><select id="personSelect"></select></div>
+<div class="field"><label>Ad Soyad</label><input id="personName"></div>
+<div class="field"><label>E-posta</label><input id="personEmail"></div>
+<div class="field"><label>Telefon</label><input id="personPhone"></div>
+<div class="field"><label>Rol</label><select id="personRole"><option>Toplantı Başkanı</option><option>Katılımcı</option><option>Proses Sahibi</option><option>Aksiyon Sorumlusu</option><option>Üst Yönetim</option><option>Kalite Temsilcisi</option><option>Bilgi Amaçlı</option></select></div>
+<div class="field"><label>Katılım Durumu</label><select id="attendanceStatus"><option>Davet Bekliyor</option><option>Davet Gönderildi</option><option>Katılacak</option><option>Katıldı</option><option>Katılmadı</option><option>Mazeretli</option></select></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addPerson()">Kişi Ekle</button>
+<button class="btn orange" onclick="notifyPeople()">Kişilere Davet Bildirimi Oluştur</button>
+<button class="btn dark" onclick="clearPersonInputs()">Temizle</button>
+</div>
+<div id="peoplePreview"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Otomatik / Manuel YGG Gündemleri</h3><span class="status green">AUTO AGENDA</span></div>
+<div class="box">
+<div class="subgrid">
+<div class="field"><label>Kaynak Standart</label><select id="agendaStandard"><option>Manuel</option><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 10002</option><option>ISO 17025</option><option>ISO 27001</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option></select></div>
+<div class="field"><label>Aksiyon Gerekli mi?</label><select id="agendaActionRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Sorumlu</label><select id="agendaOwner"></select></div>
+<div class="field"><label>Planlanan Tarih</label><input id="agendaDueDate" type="date"></div>
+<div class="field"><label>Gerçekleşen Tarih</label><input id="agendaActualDate" type="date"></div>
+<div class="field"><label>Durum</label><select id="agendaStatus"><option>Açık</option><option>Değerlendirildi</option><option>Aksiyon Açıldı</option><option>Kapalı</option><option>Gecikti</option></select></div>
+<div class="field full"><label>Gündem Başlığı</label><input id="agendaTitle"></div>
+<div class="field full"><label>Girdi Özeti / Mevcut Durum</label><textarea id="agendaInput" class="big"></textarea></div>
+<div class="field full"><label>Yönetim Kararı</label><textarea id="agendaDecision" class="big"></textarea></div>
+<div class="field double"><label>Bağlantılı Risk</label><input id="agendaRiskRef"></div>
+<div class="field double"><label>Bağlantılı CAPA / 8D</label><input id="agendaCapaRef"></div>
+<div class="field double"><label>Bağlantılı Audit</label><input id="agendaAuditRef"></div>
+<div class="field double"><label>Bağlantılı Doküman</label><input id="agendaDocRef"></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addAgenda()">Gündem Ekle</button>
+<button class="btn dark" onclick="clearAgendaInputs()">Gündem Alanını Temizle</button>
+</div>
+<div id="agendaPreview"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>YGG Doküman / Rapor Merkezi</h3><span class="status orange">DOCUMENT CENTER</span></div>
+<div class="box">
+<div class="subgrid">
+<div class="field"><label>YGG Seç</label><select id="docReviewSelect"></select></div>
+<div class="field"><label>Doküman Tipi</label><select id="docType"><option>YGG Gündemi</option><option>Toplantı Tutanağı</option><option>YGG Sunumu</option><option>Aksiyon Planı</option><option>KPI Raporu</option><option>Audit Raporu</option><option>Risk Raporu</option><option>CAPA Raporu</option><option>Tedarikçi Raporu</option><option>Eğitim Raporu</option><option>Müşteri Şikayet Raporu</option><option>Enerji Raporu</option><option>Çevre / İSG Raporu</option><option>BGYS Raporu</option><option>ISO 17025 Laboratuvar Raporu</option><option>CoP Raporu</option><option>EV Raporu</option><option>Yönetim Karar Raporu</option><option>Diğer</option></select></div>
+<div class="field"><label>Doküman Adı</label><input id="docName"></div>
+<div class="field"><label>Revizyon</label><input id="docRevision" value="V1"></div>
+<div class="field"><label>Yükleyen</label><input id="docOwner"></div>
+<div class="field"><label>Durum</label><select id="docStatus"><option>Aktif</option><option>İncelemede</option><option>Onaylandı</option><option>Arşiv</option><option>Reddedildi</option></select></div>
+<div class="field full"><label>Dosya</label><input id="docFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+<div class="field full"><label>Açıklama</label><textarea id="docDescription"></textarea></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addDocument()">Doküman Yükle ve YGG’ye Bağla</button>
+<button class="btn dark" onclick="clearDocumentInputs()">Doküman Alanını Temizle</button>
+</div>
+<div id="documentPreview"></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>YGG Master Listesi</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderReviews()"><option value="">Tüm Durumlar</option><option>Planlandı</option><option>Davet Gönderildi</option><option>Devam Ediyor</option><option>Karar Bekliyor</option><option>Aksiyon Takibi</option><option>Kapanış Onayı</option><option>Kapalı</option><option>Gecikti</option></select>
+<select id="periodFilter" onchange="renderReviews()"><option value="">Tüm Dönemler</option><option>2026 Q1</option><option>2026 Q2</option><option>2026 Q3</option><option>2026 Q4</option><option>2026 Yıllık</option></select>
+</div>
+</div>
+<div id="reviewTable"></div>
+</section>
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div><h3 id="drawerTitle">YGG Detayı</h3><span class="status blue" id="drawerStatus">Planlandı</span></div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="closeReviewCurrent()">YGG Kapat</button>
+<button class="btn orange" onclick="notifyReviewCurrent()">Mail/SMS Bildirimi Oluştur</button>
+<button class="btn primary" onclick="createOutputsCurrent()">YGG Çıktılarını Oluştur</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+userName.textContent=session.name||"User";userRole.textContent=session.role||"User";userAvatar.textContent=(session.name||"U").charAt(0).toUpperCase();
+
+let people=[],agendas=[],documents=[],selectedIndex=null,uploadedDoc=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
+function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function getReviews(){return getLS("gdnl_management_reviews")}
+function setReviews(v){setLS("gdnl_management_reviews",v)}
+function getNotifications(){return getLS("gdnl_notifications")}
+function setNotifications(v){setLS("gdnl_notifications",v)}
+function getUsers(){return getLS("gdnl_users")}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split("T")[0]}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function statusClass(s){if(["Kapalı","Tamamlandı","Onaylandı","Katıldı"].includes(s))return"green";if(["Gecikti","Reddedildi","Katılmadı"].includes(s))return"red";if(["Davet Gönderildi","Devam Ediyor","Karar Bekliyor","Aksiyon Takibi","Kapanış Onayı","Aksiyon Açıldı","İncelemede"].includes(s))return"orange";if(["Arşiv"].includes(s))return"gray";return"blue"}
+function selectedStandards(){return Array.from(standards.selectedOptions).map(o=>o.value)}
+function generateReviewNo(){reviewNo.value="YGG-"+new Date().getFullYear()+"-"+String(getReviews().length+1).padStart(4,"0")}
+
+function initUsers(){
+const users=getUsers().filter(u=>u.status!=="Pasif");
+["chairperson","secretary","personSelect","agendaOwner"].forEach(id=>{
+const el=document.getElementById(id);el.innerHTML='<option value="">Seçiniz</option>';
+users.forEach(u=>el.innerHTML+=`<option value="${u.fullName}" data-email="${u.email||""}" data-phone="${u.phone||""}">${u.fullName} / ${u.department||"-"} / ${u.role||"-"}</option>`);
+if(!users.length)el.innerHTML+='<option value="Kerem Güdenli" data-email="admin@gdnl.com" data-phone="">Kerem Güdenli</option>';
+});
+}
+personSelect.addEventListener("change",()=>{
+const opt=personSelect.selectedOptions[0];if(!opt)return;
+personName.value=opt.value||"";personEmail.value=opt.dataset.email||"";personPhone.value=opt.dataset.phone||"";
+});
+
+const agendaBank={
+"ISO 9001":["Önceki YGG aksiyonlarının durumu","İç ve dış hususlar","Müşteri memnuniyeti","Proses performansı","Ürün/hizmet uygunluğu","Uygunsuzluklar ve CAPA","Denetim sonuçları","Tedarikçi performansı","Kaynak yeterliliği","Risk ve fırsatlar","İyileştirme fırsatları"],
+"ISO 14001":["Çevre boyutları","Uygunluk yükümlülükleri","Çevre performansı","Çevre hedefleri","Acil durum hazırlığı","Çevre uygunsuzlukları","Çevre risk ve fırsatları"],
+"ISO 45001":["İSG riskleri","Kaza/ramak kala olayları","Yasal uygunluk","İSG hedefleri","Katılım ve danışma","Acil durum hazırlığı","İSG performansı"],
+"ISO 50001":["Enerji performansı","EnPI göstergeleri","Enerji baz çizgisi","Enerji hedefleri","Önemli enerji kullanımları","Enerji iyileştirme aksiyonları"],
+"ISO 10002":["Müşteri şikayet trendleri","Açık/kapanan şikayetler","Tekrar eden şikayetler","Müşteri memnuniyeti","Şikayet çözüm etkinliği"],
+"ISO 17025":["Laboratuvar tarafsızlığı","Ölçüm belirsizliği","Kalibrasyon durumu","Metot validasyonu","Yeterlilik testleri","Laboratuvar uygunsuzlukları","Personel yetkinliği"],
+"ISO 27001":["BGYS riskleri","Bilgi güvenliği olayları","SoA kontrol durumu","Erişim yetkileri","Yedekleme/iş sürekliliği","Tedarikçi bilgi güvenliği"],
+"IATF 16949":["Müşteri özel şartları","APQP/PPAP durumu","FMEA güncelliği","MSA/SPC performansı","Kontrol planı etkinliği","Hurda/yeniden işleme","Garanti/saha performansı","Tedarikçi kalite performansı"],
+"CoP":["CoP planı","Akredite test raporları","Ürün uygunluk durumu","Regülasyon değişiklikleri","Homologasyon riskleri","Teknik dosya durumu"],
+"EV Sector":["Battery safety","HV safety","EMC uyumluluğu","Charging compatibility","Cybersecurity","Functional safety","Battery degradation","Field failure trendleri","EV tedarikçi riskleri"]
+};
+
+function generateAutoAgenda(){
+const stds=selectedStandards();if(!stds.length)return showToast("Önce standart seç");
+stds.forEach(std=>{
+(agendaBank[std]||[]).forEach(title=>{
+const exists=agendas.some(a=>a.standard===std&&a.title===title);
+if(!exists)agendas.push({id:"AG-"+Date.now()+Math.random(),standard:std,title,input:"",decision:"",actionRequired:"Hayır",owner:"",dueDate:"",actualDate:"",status:"Açık",riskRef:"",capaRef:"",auditRef:"",docRef:"",createdAt:new Date().toISOString()});
+});
+});
+renderAgendaPreview();showToast("Otomatik YGG gündemleri üretildi");
+}
+
+function addPerson(){
+if(!personName.value.trim())return showToast("Kişi adı zorunlu");
+people.push({id:"PER-"+Date.now(),name:personName.value.trim(),email:personEmail.value.trim(),phone:personPhone.value.trim(),role:personRole.value,attendanceStatus:attendanceStatus.value,createdAt:new Date().toISOString()});
+clearPersonInputs();renderPeoplePreview();showToast("Kişi eklendi");
+}
+function clearPersonInputs(){personSelect.value="";personName.value="";personEmail.value="";personPhone.value="";personRole.value="Katılımcı";attendanceStatus.value="Davet Bekliyor"}
+function renderPeoplePreview(){if(!people.length){peoplePreview.innerHTML='<div class="empty" style="margin-top:14px">Katılımcı yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Kişi</th><th>Mail</th><th>Rol</th><th>Katılım</th><th>Aksiyon</th></tr></thead><tbody>';people.forEach((p,i)=>h+=`<tr><td>${p.name}</td><td>${p.email||"-"}</td><td>${p.role}</td><td><span class="status ${statusClass(p.attendanceStatus)}">${p.attendanceStatus}</span></td><td><button class="small-btn delete" onclick="people.splice(${i},1);renderPeoplePreview()">Sil</button></td></tr>`);peoplePreview.innerHTML=h+"</tbody></table>"}
+function notifyPeople(){if(!people.length)return showToast("Katılımcı yok");const n=getNotifications();people.forEach(p=>n.unshift({notificationId:"NTF-"+Date.now()+Math.random(),type:"Mail + SMS",module:"Management Review",documentCode:reviewNo.value,documentName:"YGG Daveti",mailGroups:p.email||p.name,smsGroups:p.phone||"",distributionPoints:p.role,message:"YGG toplantı daveti: "+reviewNo.value+" / "+reviewPeriod.value,status:"Kuyrukta",createdAt:new Date().toISOString()}));setNotifications(n);people=people.map(p=>({...p,attendanceStatus:"Davet Gönderildi"}));renderPeoplePreview();renderReviews();showToast("Kişilere davet bildirimi kuyruğu oluşturuldu")}
+
+function addAgenda(){
+if(!agendaTitle.value.trim())return showToast("Gündem başlığı zorunlu");
+agendas.push({id:"AG-"+Date.now(),standard:agendaStandard.value,title:agendaTitle.value.trim(),input:agendaInput.value.trim(),decision:agendaDecision.value.trim(),actionRequired:agendaActionRequired.value,owner:agendaOwner.value,dueDate:agendaDueDate.value,actualDate:agendaActualDate.value,status:agendaStatus.value,riskRef:agendaRiskRef.value.trim(),capaRef:agendaCapaRef.value.trim(),auditRef:agendaAuditRef.value.trim(),docRef:agendaDocRef.value.trim(),createdAt:new Date().toISOString()});
+clearAgendaInputs();renderAgendaPreview();showToast("Gündem eklendi");
+}
+function clearAgendaInputs(){agendaStandard.value="Manuel";agendaTitle.value="";agendaInput.value="";agendaDecision.value="";agendaActionRequired.value="Hayır";agendaOwner.value="";agendaDueDate.value=addDays(todayISO(),30);agendaActualDate.value="";agendaStatus.value="Açık";agendaRiskRef.value="";agendaCapaRef.value="";agendaAuditRef.value="";agendaDocRef.value=""}
+function renderAgendaPreview(){if(!agendas.length){agendaPreview.innerHTML='<div class="empty" style="margin-top:14px">Gündem yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Std</th><th>Gündem</th><th>Aksiyon</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';agendas.forEach((a,i)=>h+=`<tr><td>${a.standard}</td><td>${a.title}</td><td>${a.actionRequired}</td><td>${a.owner||"-"}</td><td>${formatDateTR(a.dueDate)}</td><td><span class="status ${statusClass(a.status)}">${a.status}</span></td><td><button class="small-btn delete" onclick="agendas.splice(${i},1);renderAgendaPreview()">Sil</button></td></tr>`);agendaPreview.innerHTML=h+"</tbody></table>"}
+
+docFile.addEventListener("change",e=>handleFile(e.target.files[0]));
+function handleFile(file){if(!file)return;if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");docFile.value="";return}const r=new FileReader();r.onload=ev=>{uploadedDoc={fileName:file.name,fileType:file.type,fileSize:file.size,fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Dosya hazırlandı")};r.readAsDataURL(file)}
+function addDocument(){
+if(!docReviewSelect.value)return showToast("YGG seç");if(!docName.value.trim())return showToast("Doküman adı zorunlu");if(!uploadedDoc)return showToast("Dosya seç");
+const items=getReviews(),idx=items.findIndex(r=>r.reviewNo===docReviewSelect.value);if(idx<0)return;
+const d={id:"YGGDOC-"+Date.now(),docNo:"YGG-DOC-"+new Date().getFullYear()+"-"+String((items[idx].documents||[]).length+1).padStart(4,"0"),docType:docType.value,docName:docName.value.trim(),revision:docRevision.value.trim()||"V1",owner:docOwner.value.trim(),status:docStatus.value,description:docDescription.value.trim(),file:uploadedDoc,createdAt:new Date().toISOString()};
+items[idx].documents=items[idx].documents||[];items[idx].documents.unshift(d);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"YGG dokümanı yüklendi: "+d.docNo});
+setReviews(items);clearDocumentInputs();renderDocuments();renderReviews();showToast("Doküman YGG’ye bağlandı");
+}
+function clearDocumentInputs(){docReviewSelect.value="";docType.value="YGG Gündemi";docName.value="";docRevision.value="V1";docOwner.value=session.name||"";docStatus.value="Aktif";docDescription.value="";docFile.value="";uploadedDoc=null}
+function renderDocuments(){let docs=[];getReviews().forEach(r=>(r.documents||[]).forEach(d=>docs.push({...d,reviewNo:r.reviewNo})));if(!docs.length){documentPreview.innerHTML='<div class="empty" style="margin-top:14px">YGG dokümanı yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>YGG</th><th>Tip</th><th>Doküman</th><th>Rev</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';docs.slice(0,30).forEach(d=>h+=`<tr><td>${d.docNo}</td><td>${d.reviewNo}</td><td>${d.docType}</td><td>${d.docName}<br><small>${d.file.fileName}</small></td><td>${d.revision}</td><td><span class="status ${statusClass(d.status)}">${d.status}</span></td><td><button class="small-btn down" onclick="downloadDoc('${d.reviewNo}','${d.id}')">İndir</button></td></tr>`);documentPreview.innerHTML=h+"</tbody></table>"}
+function downloadDoc(rno,id){const r=getReviews().find(x=>x.reviewNo===rno);const d=r?.documents?.find(x=>x.id===id);if(!d)return;const a=document.createElement("a");a.href=d.file.fileData;a.download=d.file.fileName;a.click()}
+
+function createReview(notify=false){
+if(!chairperson.value)return showToast("Toplantı başkanı zorunlu");if(!plannedDate.value)return showToast("Planlanan tarih zorunlu");if(!selectedStandards().length)return showToast("En az 1 standart seç");if(!agendas.length)return showToast("Önce standart gündemlerini üret");
+const item={id:"YGG-"+Date.now(),reviewNo:reviewNo.value,reviewStatus:reviewStatus.value,reviewPeriod:reviewPeriod.value,reviewType:reviewType.value,plannedDate:plannedDate.value,actualDate:actualDate.value,chairperson:chairperson.value,secretary:secretary.value,standards:selectedStandards(),reviewScope:reviewScope.value.trim(),people:people,agendas:agendas,documents:documents,createdBy:session.name,createdAt:new Date().toISOString(),closedAt:"",timeline:[{date:new Date().toISOString(),user:session.name,action:"YGG kaydı oluşturuldu"}]};
+const items=getReviews();items.unshift(item);setReviews(items);if(notify)createReviewNotification(item,"YGG planlandı ve katılımcı davet kuyruğu oluşturuldu.");resetForm();renderReviews();showToast("YGG kaydı oluşturuldu");
+}
+function createReviewNotification(r,msg){const n=getNotifications();const mails=(r.people||[]).map(p=>p.email||p.name).join("; ");n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Management Review",documentCode:r.reviewNo,documentName:r.reviewType,mailGroups:mails||r.chairperson,smsGroups:(r.people||[]).map(p=>p.phone).filter(Boolean).join("; "),distributionPoints:r.standards.join(", "),message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
+
+function closeRule(r){const hasAgenda=r.agendas&&r.agendas.length>0;const allDecision=r.agendas.every(a=>a.decision||a.input);const actionOk=r.agendas.every(a=>a.actionRequired!=="Evet"||(a.owner&&a.dueDate));const hasDoc=(r.documents||[]).length>0;return hasAgenda&&allDecision&&actionOk&&hasDoc}
+function closeReview(i){const items=getReviews();const r=items[i];if(!closeRule(r))return showToast("Gündem kararları, aksiyon sorumluları ve en az 1 doküman tamamlanmadan YGG kapatılamaz");r.reviewStatus="Kapalı";r.closedAt=new Date().toISOString();r.timeline.unshift({date:new Date().toISOString(),user:session.name,action:"YGG kapatıldı"});setReviews(items);renderReviews();showToast("YGG kapatıldı")}
+function closeReviewCurrent(){if(selectedIndex!==null){closeReview(selectedIndex);openDrawer(selectedIndex)}}
+function notifyReviewCurrent(){if(selectedIndex===null)return;const r=getReviews()[selectedIndex];createReviewNotification(r,"YGG bildirimi oluşturuldu: "+r.reviewNo);showToast("Bildirim kuyruğu oluşturuldu")}
+function createOutputsCurrent(){if(selectedIndex===null)return;const items=getReviews();const r=items[selectedIndex];r.timeline.unshift({date:new Date().toISOString(),user:session.name,action:"YGG çıktıları oluşturuldu: Risk/CAPA/Eğitim/Doküman revizyon ihtiyacı değerlendirildi"});r.reviewStatus="Aksiyon Takibi";setReviews(items);renderReviews();openDrawer(selectedIndex);showToast("YGG çıktıları oluşturuldu")}
+
+function renderReviews(){
+const items=getReviews();
+initReviewSelect();
+renderDocuments();
+const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,pf=periodFilter.value;
+const filtered=items.filter(r=>`${r.reviewNo} ${r.reviewStatus} ${r.reviewPeriod} ${r.reviewType} ${r.chairperson} ${r.standards.join(" ")} ${r.agendas.map(a=>a.title+" "+a.decision).join(" ")}`.toLowerCase().includes(q)&&(!sf||r.reviewStatus===sf)&&(!pf||r.reviewPeriod===pf));
+updateCards(items);
+if(!filtered.length){reviewTable.innerHTML='<div class="empty">YGG kaydı bulunamadı.</div>';return}
+let h='<table><thead><tr><th>YGG No</th><th>Dönem / Tip</th><th>Standart</th><th>Başkan</th><th>Gündem</th><th>Doküman</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';
+filtered.forEach(r=>{const i=items.findIndex(x=>x.id===r.id);h+=`<tr><td>${r.reviewNo}</td><td>${r.reviewPeriod}<br><small>${r.reviewType}</small></td><td>${r.standards.slice(0,3).join(", ")}${r.standards.length>3?"...":""}</td><td>${r.chairperson}</td><td>${r.agendas.length}</td><td>${(r.documents||[]).length}</td><td><span class="status ${statusClass(r.reviewStatus)}">${r.reviewStatus}</span></td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="createReviewNotification(getReviews()[${i}],'YGG bildirimi oluşturuldu');showToast('Bildirim kuyruğu oluşturuldu')">Bildir</button><button class="small-btn close" onclick="closeReview(${i})">Kapat</button></div></td></tr>`});
+reviewTable.innerHTML=h+"</tbody></table>";
+}
+function updateCards(items){let ag=0,dec=0,docs=0,late=0;items.forEach(r=>{ag+=r.agendas.length;dec+=r.agendas.filter(a=>a.decision).length;docs+=(r.documents||[]).length;late+=r.agendas.filter(a=>a.status==="Gecikti").length});totalReviews.textContent=items.length;openReviews.textContent=items.filter(r=>!["Kapalı","İptal"].includes(r.reviewStatus)).length;lateActions.textContent=late;totalDocs.textContent=docs;totalAgendas.textContent=ag;totalDecisions.textContent=dec;totalNotifications.textContent=getNotifications().filter(n=>n.module==="Management Review").length;readyReviews.textContent=items.filter(closeRule).length}
+function initReviewSelect(){docReviewSelect.innerHTML='<option value="">YGG Seçiniz</option>';getReviews().forEach(r=>docReviewSelect.innerHTML+=`<option value="${r.reviewNo}">${r.reviewNo} / ${r.reviewPeriod}</option>`)}
+function openDrawer(i){selectedIndex=i;const r=getReviews()[i];drawerTitle.textContent=r.reviewNo+" / "+r.reviewPeriod;drawerStatus.textContent=r.reviewStatus;drawerStatus.className="status "+statusClass(r.reviewStatus);drawerContent.innerHTML=`<div class="info-box"><b>YGG:</b> ${r.reviewNo}
+<b>Tip:</b> ${r.reviewType}
+<b>Dönem:</b> ${r.reviewPeriod}
+<b>Tarih:</b> ${formatDateTR(r.plannedDate)}
+<b>Başkan:</b> ${r.chairperson}
+<b>Sekreter:</b> ${r.secretary}
+<b>Standartlar:</b> ${r.standards.join(", ")}
+<b>Kapanışa Hazır:</b> ${closeRule(r)?"EVET":"HAYIR"}</div>
+<div class="info-box"><b>Kapsam:</b>
+${r.reviewScope||"-"}</div>
+<div class="info-box"><b>Katılımcılar</b><br>${renderPeopleTable(r.people)}</div>
+<div class="info-box"><b>Gündemler / Kararlar</b><br>${renderAgendaTable(r.agendas)}</div>
+<div class="info-box"><b>Dokümanlar</b><br>${renderDocTable(r)}</div>
+<div class="info-box"><b>Timeline</b>
+${(r.timeline||[]).map(t=>`${formatDateTR(t.date)} - ${t.user} - ${t.action}`).join("\\n")||"-"}</div>`;drawer.classList.add("active")}
+function renderPeopleTable(p){if(!p.length)return"Kişi yok.";let h='<table><thead><tr><th>Kişi</th><th>Mail</th><th>Rol</th><th>Durum</th></tr></thead><tbody>';p.forEach(x=>h+=`<tr><td>${x.name}</td><td>${x.email||"-"}</td><td>${x.role}</td><td><span class="status ${statusClass(x.attendanceStatus)}">${x.attendanceStatus}</span></td></tr>`);return h+"</tbody></table>"}
+function renderAgendaTable(a){if(!a.length)return"Gündem yok.";let h='<table><thead><tr><th>Std</th><th>Gündem</th><th>Karar</th><th>Aksiyon</th><th>Sorumlu</th><th>Durum</th></tr></thead><tbody>';a.forEach(x=>h+=`<tr><td>${x.standard}</td><td>${x.title}</td><td>${x.decision||"-"}</td><td>${x.actionRequired}</td><td>${x.owner||"-"}</td><td><span class="status ${statusClass(x.status)}">${x.status}</span></td></tr>`);return h+"</tbody></table>"}
+function renderDocTable(r){if(!r.documents||!r.documents.length)return"Doküman yok.";let h='<table><thead><tr><th>No</th><th>Tip</th><th>Ad</th><th>Rev</th><th>Durum</th></tr></thead><tbody>';r.documents.forEach(d=>h+=`<tr><td>${d.docNo}</td><td>${d.docType}</td><td>${d.docName}</td><td>${d.revision}</td><td><span class="status ${statusClass(d.status)}">${d.status}</span></td></tr>`);return h+"</tbody></table>"}
+function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
+
+function resetForm(){generateReviewNo();reviewStatus.value="Planlandı";reviewPeriod.value="2026 Q1";reviewType.value="Entegre Yönetim Sistemi";plannedDate.value=todayISO();actualDate.value="";chairperson.value="";secretary.value="";Array.from(standards.options).forEach(o=>o.selected=false);reviewScope.value="";people=[];agendas=[];documents=[];renderPeoplePreview();renderAgendaPreview();clearPersonInputs();clearAgendaInputs();formMode.textContent="CREATE MODE"}
+function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
+globalSearch.addEventListener("input",renderReviews);
+
+initUsers();resetForm();clearDocumentInputs();renderReviews();
+console.log("GDNL QDMS Management Review Loaded");
+</script>
+</body>
+</html>
