@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Onay Yönetimi</title>
+<title>GDNL QDMS | Approval Workflow</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -21,22 +21,16 @@ body{background:#eef3f9;color:#0f172a}
 .profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
 .avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
 .logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.hero h1{font-size:38px;margin-bottom:10px}.hero p{max-width:850px;color:#dbeafe;line-height:1.7}
-.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap}
+.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.hero h1{font-size:36px;margin-bottom:10px}.hero p{max-width:900px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
 .card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
 .card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
 .panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px}.panel h3{font-size:19px;font-weight:900}
-.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 3}
-.field label{font-size:12px;font-weight:900;color:#64748b}
-.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
-.field textarea{height:95px;padding:12px;resize:none}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
-.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.red{background:#fee2e2;color:#991b1b}.btn.orange{background:#ffedd5;color:#c2410c}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.panel h3{font-size:19px;font-weight:900}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap}
+.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
 .status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
 .status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
 table{width:100%;border-collapse:collapse}
@@ -44,16 +38,32 @@ th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px s
 td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
 .row-actions{display:flex;gap:8px;flex-wrap:wrap}
 .small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
-.small-btn.approve{background:#dcfce7;color:#15803d}.small-btn.reject{background:#fee2e2;color:#991b1b}.small-btn.publish{background:#dbeafe;color:#1d4ed8}
-.empty{padding:28px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.small-btn.approve{background:#dcfce7;color:#15803d}.small-btn.reject{background:#fee2e2;color:#991b1b}.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.rev{background:#ffedd5;color:#c2410c}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(680px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:white;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}
+.drawer.active{display:block}
+.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.drawer h3{font-size:22px;margin-bottom:8px}
+.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}
+.step{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:13px;margin-bottom:10px;font-size:13px;font-weight:800;color:#334155}
+.step.ok{border-color:#86efac;background:#f0fdf4;color:#166534}
+.step.active{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8}
+.step.red{border-color:#fecaca;background:#fef2f2;color:#991b1b}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}
+.field input,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field textarea{height:100px;padding:12px;resize:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.red{background:#fee2e2;color:#991b1b}.btn.dark{background:#0f172a;color:white}.btn.orange{background:#ffedd5;color:#c2410c}
 .toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
-@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <aside class="sidebar">
@@ -65,29 +75,22 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <a href="new-document.html">➕ Yeni Doküman</a>
 <a href="revision.html">🔄 Revizyon Yönetimi</a>
 <a class="active" href="approval.html">✅ Onay Yönetimi</a>
-<a href="#">🗄️ Arşiv Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
 <a href="#">🛠️ DÖF / CAPA</a>
-<a href="#">⚠️ Risk Yönetimi</a>
-<a href="#">🔍 İç Denetimler</a>
 <a href="#">📈 KPI & Raporlar</a>
 </nav>
 </div>
-<div class="sidebar-footer">
-GDNL QDMS Enterprise<br>
-Approval Workflow Module<br>
-Version 1.5
-</div>
+<div class="sidebar-footer">GDNL QDMS Enterprise<br>Approval Workflow V2<br>Sequential Approval Engine</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
-<input class="search" id="globalSearch" placeholder="Onay no, revizyon, doküman, imzacı veya durum ara">
+<input class="search" id="globalSearch" placeholder="Workflow ID, doküman kodu, ad, onaycı veya durum ara">
 <div class="profile">
-<div class="profile-info">
-<strong id="userName">Kerem Admin</strong>
-<span id="userRole">Super Administrator</span>
-</div>
+<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
 <div class="avatar" id="userAvatar">K</div>
 <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
@@ -95,121 +98,40 @@ Version 1.5
 
 <section class="hero">
 <div>
-<h1>Approval & Electronic Sign Center</h1>
-<p>Revizyon kayıtlarını onaya al, hazırlayan-kontrol-onaylayan imza zincirini kaydet, red gerekçesi oluştur ve yayınlanan dokümanı master listeye işle.</p>
+<h1>Approval Workflow Center</h1>
+<p>Departman onayı, müdür onayı, kalite onayı ve kalite admin final yayın zincirini sırayla yönet. Final onay sonrası dağıtım kuyruğu otomatik hazırlanır.</p>
 </div>
-<div class="hero-badge">Module: <span>V1.5 Active</span></div>
+<div class="hero-badge">Module: <span>V2 Active</span></div>
 </section>
 
 <section class="cards">
-<div class="card"><small>Toplam Onay</small><h2 id="totalApprovals">0</h2><p>Onay kayıtları</p></div>
-<div class="card"><small>Bekleyen</small><h2 id="pendingApprovals">0</h2><p>İmza bekleyen işler</p></div>
-<div class="card"><small>Onaylanan</small><h2 id="approvedApprovals">0</h2><p>Tamamlanan onaylar</p></div>
-<div class="card"><small>Reddedilen</small><h2 id="rejectedApprovals">0</h2><p>Red kayıtları</p></div>
+<div class="card"><small>Toplam Workflow</small><h2 id="totalApprovals">0</h2><p>Onay kuyruğu</p></div>
+<div class="card"><small>Bekleyen</small><h2 id="pendingApprovals">0</h2><p>İmza bekleyen</p></div>
+<div class="card"><small>Tamamlanan</small><h2 id="approvedApprovals">0</h2><p>Yayınlanan / tamamlanan</p></div>
+<div class="card"><small>Reddedilen</small><h2 id="rejectedApprovals">0</h2><p>Red / revizyon isteği</p></div>
 </section>
 
 <section class="panel">
 <div class="panel-head">
-<h3>Yeni Onay Akışı Oluştur</h3>
-<span class="status blue">CREATE MODE</span>
-</div>
-
-<div class="form-grid">
-<div class="field">
-<label>Onay No</label>
-<input id="approvalNo" placeholder="Otomatik üretilecek">
-</div>
-
-<div class="field">
-<label>Revizyon Seç</label>
-<select id="revisionSelect" onchange="fillRevisionInfo()"></select>
-</div>
-
-<div class="field">
-<label>Onay Durumu</label>
-<select id="approvalStatus">
-<option>Beklemede</option>
-<option>Hazırlayan Onayında</option>
-<option>Kontrol Eden Onayında</option>
-<option>Final Onayda</option>
+<h3>Bekleyen Onay Kuyruğu</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderApprovals()">
+<option value="">Tüm Durumlar</option>
+<option>Bekliyor</option>
+<option>Devam Ediyor</option>
 <option>Onaylandı</option>
 <option>Reddedildi</option>
+<option>Revizyon İstendi</option>
 <option>Yayınlandı</option>
 </select>
-</div>
-
-<div class="field">
-<label>Doküman Kodu</label>
-<input id="documentCode" readonly>
-</div>
-
-<div class="field">
-<label>Doküman Adı</label>
-<input id="documentName" readonly>
-</div>
-
-<div class="field">
-<label>Revizyon Geçişi</label>
-<input id="revisionTransition" readonly>
-</div>
-
-<div class="field">
-<label>Hazırlayan</label>
-<input id="preparedBy" placeholder="Hazırlayan">
-</div>
-
-<div class="field">
-<label>Kontrol Eden</label>
-<input id="checkedBy" placeholder="Kontrol eden">
-</div>
-
-<div class="field">
-<label>Onaylayan</label>
-<input id="approvedBy" placeholder="Onaylayan">
-</div>
-
-<div class="field">
-<label>Elektronik İmza</label>
-<input id="electronicSignature" placeholder="İmza / PIN / kullanıcı adı">
-</div>
-
-<div class="field">
-<label>Onay Tarihi</label>
-<input id="approvalDate" type="date">
-</div>
-
-<div class="field">
-<label>Yayınlansın mı?</label>
-<select id="publishAfterApproval">
-<option value="Hayır">Hayır</option>
-<option value="Evet">Evet</option>
+<select id="stepFilter" onchange="renderApprovals()">
+<option value="">Tüm Adımlar</option>
+<option>Departman Onayı</option>
+<option>Müdür Onayı</option>
+<option>Kalite Onayı</option>
+<option>Kalite Admin</option>
 </select>
 </div>
-
-<div class="field full">
-<label>Onay Notu</label>
-<textarea id="approvalNote" placeholder="Onay, kontrol veya yayın notu..."></textarea>
-</div>
-
-<div class="field full">
-<label>Red Gerekçesi</label>
-<textarea id="rejectReason" placeholder="Sadece red durumunda doldurulur..."></textarea>
-</div>
-</div>
-
-<div class="actions">
-<button class="btn dark" onclick="generateApprovalNo()">Onay No Üret</button>
-<button class="btn primary" onclick="saveApproval()">Onay Akışı Kaydet</button>
-<button class="btn green" onclick="approveAndPublish()">Onayla / Yayınla</button>
-<button class="btn orange" onclick="resetForm()">Temizle</button>
-<button class="btn red" onclick="clearApprovals()">Tüm Onayları Sil</button>
-</div>
-</section>
-
-<section class="panel">
-<div class="panel-head">
-<h3>Onay Kayıtları</h3>
-<span class="status green">LIVE</span>
 </div>
 <div id="approvalTable"></div>
 </section>
@@ -217,332 +139,394 @@ Version 1.5
 </main>
 </div>
 
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div>
+<h3 id="drawerTitle">Workflow Detayı</h3>
+<span class="status blue" id="drawerStatus">Bekliyor</span>
+</div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+
+<div id="drawerContent"></div>
+
+<div class="form-grid">
+<div class="field">
+<label>Elektronik İmza / Kullanıcı</label>
+<input id="signatureInput" placeholder="İmza / PIN / kullanıcı adı">
+</div>
+<div class="field">
+<label>İşlem Notu</label>
+<input id="actionNote" placeholder="Onay / red / revizyon notu">
+</div>
+<div class="field full">
+<label>Red veya Revizyon Gerekçesi</label>
+<textarea id="rejectReason" placeholder="Reddetme veya revizyon isteme durumunda gerekçe yaz"></textarea>
+</div>
+</div>
+
+<div class="actions">
+<button class="btn green" onclick="approveCurrent()">Onayla ve Sonraki Adıma Aktar</button>
+<button class="btn orange" onclick="requestRevision()">Revizyon İste</button>
+<button class="btn red" onclick="rejectCurrent()">Reddet</button>
+<button class="btn dark" onclick="openDocument()">Dokümanı Gör</button>
+</div>
+</div>
+
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session = JSON.parse(localStorage.getItem("gdnl_qdms_session")) || {
-name:"Kerem Admin",
-role:"Super Administrator",
-loginAt:new Date().toISOString()
-};
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 
-localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
+document.getElementById("userName").textContent=session.name||"User";
+document.getElementById("userRole").textContent=session.role||"User";
+document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
 
-document.getElementById("userName").textContent = session.name || "User";
-document.getElementById("userRole").textContent = session.role || "User";
-document.getElementById("userAvatar").textContent = (session.name || "U").charAt(0).toUpperCase();
+let selectedApprovalIndex=null;
 
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-window.location.href="index.html";
-}
-
-function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents")) || []}
+function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
 function setDocuments(docs){localStorage.setItem("gdnl_documents",JSON.stringify(docs))}
-function getRevisions(){return JSON.parse(localStorage.getItem("gdnl_revisions")) || []}
-function setRevisions(revs){localStorage.setItem("gdnl_revisions",JSON.stringify(revs))}
-function getApprovals(){return JSON.parse(localStorage.getItem("gdnl_approvals")) || []}
+function getApprovals(){return JSON.parse(localStorage.getItem("gdnl_approvals"))||[]}
 function setApprovals(items){localStorage.setItem("gdnl_approvals",JSON.stringify(items))}
-
+function getDistribution(){return JSON.parse(localStorage.getItem("gdnl_distribution"))||[]}
+function setDistribution(items){localStorage.setItem("gdnl_distribution",JSON.stringify(items))}
+function getNotifications(){return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}
+function setNotifications(items){localStorage.setItem("gdnl_notifications",JSON.stringify(items))}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 
 function statusClass(status){
-if(status==="Yayınlandı" || status==="Onaylandı") return "green";
-if(status==="Reddedildi") return "red";
-if(status==="Final Onayda" || status==="Kontrol Eden Onayında") return "orange";
-return "blue";
+if(status==="Yayınlandı"||status==="Onaylandı"||status==="Tamamlandı")return"green";
+if(status==="Reddedildi"||status==="Revizyon İstendi")return"red";
+if(status==="Bekliyor"||status==="Devam Ediyor")return"orange";
+return"blue";
 }
 
-function loadRevisions(){
-const revisions = getRevisions();
-const select = document.getElementById("revisionSelect");
-select.innerHTML = "";
-
-if(revisions.length === 0){
-select.innerHTML = `<option value="">Önce revizyon kaydı oluşturmalısın</option>`;
-return;
-}
-
-revisions.forEach((rev,index)=>{
-select.innerHTML += `<option value="${index}">${rev.revisionNo} - ${rev.documentCode} / ${rev.oldRev} → ${rev.newRev}</option>`;
-});
-
-fillRevisionInfo();
-}
-
-function fillRevisionInfo(){
-const revisions = getRevisions();
-const index = document.getElementById("revisionSelect").value;
-if(index === "" || !revisions[index]) return;
-
-const rev = revisions[index];
-
-document.getElementById("documentCode").value = rev.documentCode || "";
-document.getElementById("documentName").value = rev.documentName || "";
-document.getElementById("revisionTransition").value = (rev.oldRev || "-") + " → " + (rev.newRev || "-");
-document.getElementById("preparedBy").value = rev.preparedBy || rev.requester || "";
-document.getElementById("checkedBy").value = rev.checkedBy || "";
-document.getElementById("approvedBy").value = rev.approvedBy || "";
-}
-
-function generateApprovalNo(){
-const approvals = getApprovals();
-const year = new Date().getFullYear();
-document.getElementById("approvalNo").value = "APP-" + year + "-" + String(approvals.length + 1).padStart(3,"0");
-}
-
-function collectApproval(forceApproved=false){
-const revisions = getRevisions();
-const revIndex = document.getElementById("revisionSelect").value;
-const rev = revisions[revIndex];
-
-return {
-approvalNo:document.getElementById("approvalNo").value.trim(),
-revisionIndex:revIndex,
-revisionNo:rev ? rev.revisionNo : "",
-documentCode:rev ? rev.documentCode : "",
-documentName:rev ? rev.documentName : "",
-oldRev:rev ? rev.oldRev : "",
-newRev:rev ? rev.newRev : "",
-status:forceApproved ? "Onaylandı" : document.getElementById("approvalStatus").value,
-preparedBy:document.getElementById("preparedBy").value.trim(),
-checkedBy:document.getElementById("checkedBy").value.trim(),
-approvedBy:document.getElementById("approvedBy").value.trim(),
-electronicSignature:document.getElementById("electronicSignature").value.trim(),
-approvalDate:document.getElementById("approvalDate").value,
-publishAfterApproval:document.getElementById("publishAfterApproval").value,
-approvalNote:document.getElementById("approvalNote").value.trim(),
-rejectReason:document.getElementById("rejectReason").value.trim(),
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString()
+function normalizeApproval(a){
+return{
+approvalId:a.approvalId||"APR-"+Date.now(),
+workflowId:a.workflowId||"",
+documentCode:a.documentCode||"",
+documentName:a.documentName||"",
+rev:a.rev||"R00",
+currentStep:a.currentStep||"Departman Onayı",
+status:a.status||"Bekliyor",
+steps:Array.isArray(a.steps)?a.steps:[
+{step:"Departman Onayı",approver:"Departman",status:"Bekliyor",date:""},
+{step:"Müdür Onayı",approver:"Müdür",status:"Sırada",date:""},
+{step:"Kalite Onayı",approver:"Kalite",status:"Sırada",date:""},
+{step:"Kalite Admin",approver:"Kalite Admin",status:"Sırada",date:""}
+],
+history:a.history||[],
+createdAt:a.createdAt||new Date().toISOString(),
+updatedAt:a.updatedAt||new Date().toISOString()
 };
 }
 
-function validateApproval(payload){
-if(!payload.approvalNo){showToast("Onay no zorunlu");return false}
-if(!payload.revisionNo){showToast("Revizyon seçilmedi");return false}
-if(!payload.preparedBy){showToast("Hazırlayan zorunlu");return false}
-if(!payload.checkedBy){showToast("Kontrol eden zorunlu");return false}
-if(!payload.approvedBy){showToast("Onaylayan zorunlu");return false}
-if(!payload.electronicSignature){showToast("Elektronik imza zorunlu");return false}
-if(payload.status==="Reddedildi" && payload.rejectReason.length < 5){showToast("Red gerekçesi zorunlu");return false}
-
-const duplicate = getApprovals().some(x=>x.approvalNo.toLowerCase() === payload.approvalNo.toLowerCase());
-if(duplicate){showToast("Bu onay no zaten var");return false}
-
-return true;
+function migrateApprovals(){
+setApprovals(getApprovals().map(normalizeApproval));
 }
 
-function saveApproval(){
-const payload = collectApproval(false);
-if(!validateApproval(payload)) return;
-
-const approvals = getApprovals();
-approvals.unshift(payload);
-setApprovals(approvals);
-
-syncRevisionStatus(payload);
-showToast("Onay akışı kaydedildi");
-resetForm();
-renderApprovals();
+function findDocument(code){
+return getDocuments().find(d=>d.code===code);
 }
 
-function approveAndPublish(){
-const payload = collectApproval(true);
-if(!validateApproval(payload)) return;
-
-if(payload.publishAfterApproval === "Evet"){
-payload.status = "Yayınlandı";
-}
-
-const approvals = getApprovals();
-approvals.unshift(payload);
-setApprovals(approvals);
-
-syncRevisionStatus(payload);
-
-if(payload.status === "Yayınlandı"){
-publishDocumentFromApproval(payload);
-}
-
-showToast(payload.status === "Yayınlandı" ? "Onaylandı ve yayınlandı" : "Onaylandı");
-resetForm();
-renderApprovals();
-loadRevisions();
-}
-
-function syncRevisionStatus(approval){
-const revisions = getRevisions();
-const index = revisions.findIndex(r=>r.revisionNo === approval.revisionNo);
-
-if(index !== -1){
-revisions[index].status = approval.status === "Yayınlandı" ? "Yayınlandı" : approval.status;
-revisions[index].preparedBy = approval.preparedBy;
-revisions[index].checkedBy = approval.checkedBy;
-revisions[index].approvedBy = approval.approvedBy;
-revisions[index].updatedAt = new Date().toISOString();
-setRevisions(revisions);
-}
-}
-
-function publishDocumentFromApproval(approval){
-const docs = getDocuments();
-const index = docs.findIndex(d=>d.code === approval.documentCode);
-
-if(index !== -1){
-docs[index].rev = approval.newRev;
-docs[index].status = "Yayında";
-docs[index].date = approval.approvalDate || todayISO();
-docs[index].lastApprovalNo = approval.approvalNo;
-docs[index].lastRevisionNo = approval.revisionNo;
-docs[index].updatedAt = new Date().toISOString();
+function updateDocumentWorkflow(code,status,workflowStatus){
+const docs=getDocuments();
+const index=docs.findIndex(d=>d.code===code);
+if(index!==-1){
+docs[index].status=status;
+docs[index].workflowStatus=workflowStatus;
+docs[index].updatedAt=new Date().toISOString();
+docs[index].updatedBy=session.name||"System";
 setDocuments(docs);
 }
 }
 
-function approveRecord(index){
-const approvals = getApprovals();
-approvals[index].status = "Onaylandı";
-approvals[index].updatedAt = new Date().toISOString();
-setApprovals(approvals);
-syncRevisionStatus(approvals[index]);
-renderApprovals();
-showToast("Kayıt onaylandı");
+function getCurrentStepIndex(a){
+return a.steps.findIndex(s=>s.step===a.currentStep);
 }
 
-function rejectRecord(index){
-const approvals = getApprovals();
-const reason = prompt("Red gerekçesi yaz:");
-if(!reason) return;
+function openDrawer(index){
+selectedApprovalIndex=index;
+const approvals=getApprovals().map(normalizeApproval);
+const a=approvals[index];
+const doc=findDocument(a.documentCode);
 
-approvals[index].status = "Reddedildi";
-approvals[index].rejectReason = reason;
-approvals[index].updatedAt = new Date().toISOString();
-setApprovals(approvals);
-syncRevisionStatus(approvals[index]);
-renderApprovals();
-showToast("Kayıt reddedildi");
+document.getElementById("drawerTitle").textContent=a.workflowId+" / "+a.documentCode;
+document.getElementById("drawerStatus").textContent=a.status;
+document.getElementById("drawerStatus").className="status "+statusClass(a.status);
+document.getElementById("signatureInput").value="";
+document.getElementById("actionNote").value="";
+document.getElementById("rejectReason").value="";
+
+let html="";
+html+=`<div class="step active"><b>Doküman:</b> ${a.documentCode} - ${a.documentName}<br><b>Revizyon:</b> ${a.rev}<br><b>Mevcut Adım:</b> ${a.currentStep}</div>`;
+
+a.steps.forEach(s=>{
+let cls="step";
+if(s.status==="Onaylandı")cls+=" ok";
+else if(s.status==="Bekliyor")cls+=" active";
+else if(s.status==="Reddedildi"||s.status==="Revizyon İstendi")cls+=" red";
+html+=`<div class="${cls}"><b>${s.step}</b><br>Onaycı: ${s.approver||"-"}<br>Durum: ${s.status}<br>Tarih: ${s.date||"-"}</div>`;
+});
+
+html+=`<div class="step"><b>Dağıtım:</b><br>${doc&&doc.distributionPoints?doc.distributionPoints:"Dağıtım noktası girilmemiş"}<br><br><b>Mail:</b> ${doc&&doc.mailGroups?doc.mailGroups:"-"}<br><b>SMS:</b> ${doc&&doc.smsGroups?doc.smsGroups:"-"}</div>`;
+
+if(a.history&&a.history.length){
+html+=`<div class="step"><b>Geçmiş:</b><br>${a.history.map(h=>`${h.date} - ${h.action} - ${h.user} - ${h.note||""}`).join("<br>")}</div>`;
 }
 
-function publishRecord(index){
-const approvals = getApprovals();
-approvals[index].status = "Yayınlandı";
-approvals[index].updatedAt = new Date().toISOString();
+document.getElementById("drawerContent").innerHTML=html;
+document.getElementById("drawer").classList.add("active");
+}
+
+function closeDrawer(){
+document.getElementById("drawer").classList.remove("active");
+selectedApprovalIndex=null;
+}
+
+function approveCurrent(){
+if(selectedApprovalIndex===null)return;
+const signature=document.getElementById("signatureInput").value.trim();
+if(!signature){showToast("Elektronik imza zorunlu");return}
+
+const approvals=getApprovals().map(normalizeApproval);
+const a=approvals[selectedApprovalIndex];
+const idx=getCurrentStepIndex(a);
+
+if(idx===-1){showToast("Aktif adım bulunamadı");return}
+
+a.steps[idx].status="Onaylandı";
+a.steps[idx].date=todayISO();
+a.steps[idx].signedBy=signature;
+
+a.history.unshift({
+action:"Onaylandı",
+step:a.steps[idx].step,
+user:session.name||"System",
+signature:signature,
+note:document.getElementById("actionNote").value.trim(),
+date:new Date().toISOString()
+});
+
+if(idx<a.steps.length-1){
+a.steps[idx+1].status="Bekliyor";
+a.currentStep=a.steps[idx+1].step;
+a.status="Devam Ediyor";
+updateDocumentWorkflow(a.documentCode,"Onayda",a.currentStep);
+createNotification(a,"Onay bir sonraki adıma aktarıldı: "+a.currentStep);
+}else{
+a.currentStep="Kalite Admin";
+a.status="Yayınlandı";
+finalPublish(a);
+}
+
+a.updatedAt=new Date().toISOString();
+approvals[selectedApprovalIndex]=a;
 setApprovals(approvals);
-syncRevisionStatus(approvals[index]);
-publishDocumentFromApproval(approvals[index]);
 renderApprovals();
-loadRevisions();
-showToast("Kayıt yayınlandı ve doküman güncellendi");
+openDrawer(selectedApprovalIndex);
+showToast(a.status==="Yayınlandı"?"Workflow tamamlandı ve yayınlandı":"Onaylandı, sonraki adıma aktarıldı");
+}
+
+function finalPublish(a){
+const docs=getDocuments();
+const index=docs.findIndex(d=>d.code===a.documentCode);
+if(index!==-1){
+docs[index].status="Yayında";
+docs[index].workflowStatus="Yayında";
+docs[index].lastApprovalId=a.approvalId;
+docs[index].publishedAt=new Date().toISOString();
+docs[index].updatedAt=new Date().toISOString();
+docs[index].updatedBy=session.name||"System";
+setDocuments(docs);
+createDistributionQueue(docs[index],a);
+createNotification(a,"Doküman yayınlandı ve dağıtım kuyruğuna aktarıldı");
+}
+}
+
+function createDistributionQueue(doc,a){
+const dist=getDistribution();
+const exists=dist.some(x=>x.documentCode===doc.code&&x.workflowId===a.workflowId);
+if(exists)return;
+
+dist.unshift({
+distributionId:"DST-"+Date.now(),
+workflowId:a.workflowId,
+documentCode:doc.code,
+documentName:doc.name,
+rev:doc.rev,
+status:"Dağıtım Bekliyor",
+distributionPoints:doc.distributionPoints||"",
+mailGroups:doc.mailGroups||"",
+smsGroups:doc.smsGroups||"",
+notificationType:doc.notificationType||"Mail + SMS",
+readTracking:[],
+createdBy:session.name||"System",
+createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString()
+});
+setDistribution(dist);
+}
+
+function createNotification(a,message){
+const items=getNotifications();
+const doc=findDocument(a.documentCode)||{};
+items.unshift({
+notificationId:"NTF-"+Date.now(),
+workflowId:a.workflowId,
+documentCode:a.documentCode,
+documentName:a.documentName,
+type:doc.notificationType||"Mail + SMS",
+mailGroups:doc.mailGroups||"",
+smsGroups:doc.smsGroups||"",
+distributionPoints:doc.distributionPoints||"",
+message:message,
+status:"Kuyrukta",
+createdAt:new Date().toISOString()
+});
+setNotifications(items);
+}
+
+function rejectCurrent(){
+if(selectedApprovalIndex===null)return;
+const reason=document.getElementById("rejectReason").value.trim();
+if(reason.length<5){showToast("Red gerekçesi zorunlu");return}
+
+const approvals=getApprovals().map(normalizeApproval);
+const a=approvals[selectedApprovalIndex];
+const idx=getCurrentStepIndex(a);
+
+if(idx!==-1){
+a.steps[idx].status="Reddedildi";
+a.steps[idx].date=todayISO();
+}
+
+a.status="Reddedildi";
+a.history.unshift({action:"Reddedildi",step:a.currentStep,user:session.name||"System",note:reason,date:new Date().toISOString()});
+a.updatedAt=new Date().toISOString();
+
+updateDocumentWorkflow(a.documentCode,"Revizyon","Reddedildi");
+createNotification(a,"Workflow reddedildi: "+reason);
+
+approvals[selectedApprovalIndex]=a;
+setApprovals(approvals);
+renderApprovals();
+openDrawer(selectedApprovalIndex);
+showToast("Workflow reddedildi");
+}
+
+function requestRevision(){
+if(selectedApprovalIndex===null)return;
+const reason=document.getElementById("rejectReason").value.trim();
+if(reason.length<5){showToast("Revizyon gerekçesi zorunlu");return}
+
+const approvals=getApprovals().map(normalizeApproval);
+const a=approvals[selectedApprovalIndex];
+const idx=getCurrentStepIndex(a);
+
+if(idx!==-1){
+a.steps[idx].status="Revizyon İstendi";
+a.steps[idx].date=todayISO();
+}
+
+a.status="Revizyon İstendi";
+a.history.unshift({action:"Revizyon İstendi",step:a.currentStep,user:session.name||"System",note:reason,date:new Date().toISOString()});
+a.updatedAt=new Date().toISOString();
+
+updateDocumentWorkflow(a.documentCode,"Revizyon","Revizyon İstendi");
+createNotification(a,"Revizyon istendi: "+reason);
+
+approvals[selectedApprovalIndex]=a;
+setApprovals(approvals);
+renderApprovals();
+openDrawer(selectedApprovalIndex);
+showToast("Revizyon istendi");
+}
+
+function openDocument(){
+if(selectedApprovalIndex===null)return;
+const a=getApprovals().map(normalizeApproval)[selectedApprovalIndex];
+localStorage.setItem("gdnl_selected_document_code",a.documentCode);
+window.location.href="document-viewer.html";
 }
 
 function renderApprovals(){
-const approvals = getApprovals();
-const query = document.getElementById("globalSearch").value.toLowerCase();
+const approvals=getApprovals().map(normalizeApproval);
+const q=document.getElementById("globalSearch").value.toLowerCase();
+const statusFilter=document.getElementById("statusFilter").value;
+const stepFilter=document.getElementById("stepFilter").value;
 
-const filtered = approvals.filter(a=>{
-const text = `${a.approvalNo} ${a.revisionNo} ${a.documentCode} ${a.documentName} ${a.preparedBy} ${a.checkedBy} ${a.approvedBy} ${a.status}`.toLowerCase();
-return text.includes(query);
+const filtered=approvals.filter(a=>{
+const text=`${a.workflowId} ${a.documentCode} ${a.documentName} ${a.rev} ${a.currentStep} ${a.status} ${a.steps.map(s=>s.approver).join(" ")}`.toLowerCase();
+return text.includes(q)&&(!statusFilter||a.status===statusFilter)&&(!stepFilter||a.currentStep===stepFilter);
 });
 
 updateCards(approvals);
 
-const area = document.getElementById("approvalTable");
-
-if(filtered.length === 0){
-area.innerHTML = `<div class="empty">Onay kaydı bulunamadı.</div>`;
+const area=document.getElementById("approvalTable");
+if(filtered.length===0){
+area.innerHTML=`<div class="empty">Bekleyen onay kaydı yok. New Document ekranından “Workflow Başlat” yapınca buraya düşer.</div>`;
 return;
 }
 
-let html = `
-<table>
+let html=`<table>
 <thead>
 <tr>
-<th>Onay No</th>
-<th>Revizyon</th>
+<th>Workflow</th>
 <th>Doküman</th>
-<th>Geçiş</th>
-<th>Hazırlayan</th>
-<th>Kontrol</th>
-<th>Onay</th>
+<th>Rev.</th>
+<th>Mevcut Adım</th>
+<th>Onaycı</th>
 <th>Durum</th>
+<th>Son Güncelleme</th>
 <th>Aksiyon</th>
 </tr>
 </thead>
-<tbody>
-`;
+<tbody>`;
 
 filtered.forEach(a=>{
-const originalIndex = approvals.findIndex(x=>x.createdAt === a.createdAt && x.approvalNo === a.approvalNo);
+const index=approvals.findIndex(x=>x.approvalId===a.approvalId);
+const idx=getCurrentStepIndex(a);
+const approver=idx!==-1?a.steps[idx].approver:"-";
 
-html += `
-<tr>
-<td>${a.approvalNo}</td>
-<td>${a.revisionNo}</td>
+html+=`<tr>
+<td>${a.workflowId}</td>
 <td>${a.documentCode}<br><small>${a.documentName}</small></td>
-<td>${a.oldRev} → ${a.newRev}</td>
-<td>${a.preparedBy}</td>
-<td>${a.checkedBy}</td>
-<td>${a.approvedBy}</td>
+<td>${a.rev}</td>
+<td>${a.currentStep}</td>
+<td>${approver}</td>
 <td><span class="status ${statusClass(a.status)}">${a.status}</span></td>
-<td>
-<div class="row-actions">
-<button class="small-btn approve" onclick="approveRecord(${originalIndex})">Onayla</button>
-<button class="small-btn publish" onclick="publishRecord(${originalIndex})">Yayınla</button>
-<button class="small-btn reject" onclick="rejectRecord(${originalIndex})">Reddet</button>
-</div>
-</td>
-</tr>
-`;
+<td>${new Date(a.updatedAt).toLocaleDateString("tr-TR")}</td>
+<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button></div></td>
+</tr>`;
 });
 
-html += `</tbody></table>`;
-area.innerHTML = html;
+html+=`</tbody></table>`;
+area.innerHTML=html;
 }
 
 function updateCards(items){
-document.getElementById("totalApprovals").textContent = items.length;
-document.getElementById("pendingApprovals").textContent = items.filter(x=>x.status==="Beklemede" || x.status==="Hazırlayan Onayında" || x.status==="Kontrol Eden Onayında" || x.status==="Final Onayda").length;
-document.getElementById("approvedApprovals").textContent = items.filter(x=>x.status==="Onaylandı" || x.status==="Yayınlandı").length;
-document.getElementById("rejectedApprovals").textContent = items.filter(x=>x.status==="Reddedildi").length;
+document.getElementById("totalApprovals").textContent=items.length;
+document.getElementById("pendingApprovals").textContent=items.filter(x=>x.status==="Bekliyor"||x.status==="Devam Ediyor").length;
+document.getElementById("approvedApprovals").textContent=items.filter(x=>x.status==="Yayınlandı"||x.status==="Onaylandı").length;
+document.getElementById("rejectedApprovals").textContent=items.filter(x=>x.status==="Reddedildi"||x.status==="Revizyon İstendi").length;
 }
 
-function resetForm(){
-document.getElementById("approvalNo").value = "";
-document.getElementById("approvalStatus").value = "Beklemede";
-document.getElementById("electronicSignature").value = "";
-document.getElementById("approvalDate").value = todayISO();
-document.getElementById("publishAfterApproval").value = "Hayır";
-document.getElementById("approvalNote").value = "";
-document.getElementById("rejectReason").value = "";
-generateApprovalNo();
-fillRevisionInfo();
-}
-
-function clearApprovals(){
-if(!confirm("Tüm onay kayıtları silinsin mi?")) return;
-localStorage.removeItem("gdnl_approvals");
-renderApprovals();
-generateApprovalNo();
-showToast("Tüm onay kayıtları silindi");
-}
-
-function showToast(message){
-const toast = document.getElementById("toast");
-toast.textContent = message;
-toast.style.display = "block";
-setTimeout(()=>{toast.style.display = "none"},2500);
+function showToast(msg){
+const toast=document.getElementById("toast");
+toast.textContent=msg;
+toast.style.display="block";
+setTimeout(()=>toast.style.display="none",2500);
 }
 
 document.getElementById("globalSearch").addEventListener("input",renderApprovals);
-document.getElementById("approvalDate").value = todayISO();
-
-loadRevisions();
-generateApprovalNo();
+migrateApprovals();
 renderApprovals();
 
-console.log("GDNL QDMS Approval Module V1.5 Loaded");
+console.log("GDNL QDMS Approval Workflow V2 Loaded");
 </script>
-
 </body>
 </html>
