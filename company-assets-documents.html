@@ -118,6 +118,84 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 .drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px)}
 }
 
+
+.search-results-panel{
+display:none;
+border:1px solid #bae6fd;
+background:rgba(255,255,255,.94);
+}
+
+.search-results-panel.active{
+display:block;
+}
+
+.search-summary{
+display:flex;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+font-size:13px;
+font-weight:900;
+color:#475569;
+}
+
+.search-keyword{
+background:#e0f2fe;
+color:#0369a1;
+border-radius:999px;
+padding:7px 12px;
+font-weight:950;
+}
+
+.result-card{
+background:linear-gradient(135deg,#f8fafc,#ffffff);
+border:1px solid #e2e8f0;
+border-radius:18px;
+padding:15px;
+margin-bottom:12px;
+display:grid;
+grid-template-columns:160px minmax(0,1fr) 130px;
+gap:14px;
+align-items:center;
+}
+
+.result-card b{
+display:block;
+font-size:14px;
+margin-bottom:6px;
+color:#0f172a;
+}
+
+.result-card small{
+display:block;
+font-size:12px;
+color:#64748b;
+line-height:1.55;
+font-weight:800;
+}
+
+.result-card mark{
+background:#fef3c7;
+color:#92400e;
+padding:1px 3px;
+border-radius:4px;
+}
+
+.result-open{
+height:38px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#0757e8,#0ea5ff);
+color:white;
+font-weight:900;
+cursor:pointer;
+}
+
+@media(max-width:850px){
+.result-card{grid-template-columns:1fr;gap:10px}
+.result-open{width:100%}
+}
+
 </style>
 </head>
 
@@ -224,6 +302,18 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <p>Firmanın sahip olduğu sertifika, belge, patent, marka, ruhsat, lisans, izin, sigorta, akreditasyon, sözleşme ve kurumsal varlık dokümanlarını geçerlilik, sorumlu, dosya, yenileme ve bildirim takibiyle yönetin.</p>
 </div>
 <div class="hero-badge">Asset Document Engine: <span>Live</span></div>
+</section>
+
+<section class="panel search-results-panel" id="searchResultsPanel">
+<div class="panel-head">
+<h3>Arama Sonuçları</h3>
+<div class="search-summary">
+<span class="search-keyword" id="searchKeyword">-</span>
+<span id="searchResultCount">0 sonuç</span>
+<a class="link" onclick="clearSearchResults()">Temizle</a>
+</div>
+</div>
+<div id="searchResultsArea"></div>
 </section>
 
 <section class="cards">
@@ -354,10 +444,221 @@ document.addEventListener("keydown",function(e){
   if(e.key==="Escape") closeMobileMenu();
 });
 
+
 function runSearch(){
-  renderAssets();
-  const panel=document.getElementById("assetTable");
-  if(panel) panel.scrollIntoView({behavior:"smooth",block:"start"});
+
+const input=document.getElementById("globalSearch");
+const text=input.value.trim().toLowerCase();
+
+if(!text){
+clearSearchResults();
+input.focus();
+renderAssets();
+return;
+}
+
+const pools=[
+{
+label:"Firma Belgeleri",
+key:"gdnl_company_assets_documents",
+go:"company-assets-documents.html",
+store:"gdnl_selected_company_asset",
+pick:x=>x.assetNo||x.id||"",
+title:x=>x.assetName||x.assetNo||"Firma Belgesi",
+detail:x=>`${x.assetNo||""} ${x.assetType||""} ${x.category||""} ${x.documentNumber||""} ${x.issuingAuthority||""} ${x.owner||""} ${x.department||""} ${x.assetStatus||""} ${x.standardRef||""} ${x.criticality||""}`
+},
+{
+label:"Bildirim Merkezi",
+key:"gdnl_notifications",
+go:"notification-center.html",
+store:"gdnl_selected_notification",
+pick:x=>x.notificationId||x.id||"",
+title:x=>x.documentName||x.notificationId||"Bildirim",
+detail:x=>`${x.module||""} ${x.type||""} ${x.status||""} ${x.message||""} ${x.priority||""}`
+},
+{
+label:"Risk Yönetimi",
+key:"gdnl_risks",
+go:"risk-register.html",
+store:"gdnl_selected_risk",
+pick:x=>x.riskNo||x.id||"",
+title:x=>x.riskTitle||x.riskNo||"Risk",
+detail:x=>`${x.department||""} ${x.initialScore||""} ${x.residualScore||""} ${x.riskStatus||""}`
+},
+{
+label:"Action Center",
+key:"gdnl_action_center_manual",
+go:"action-center.html",
+store:"gdnl_selected_action",
+pick:x=>x.id||x.sourceNo||"",
+title:x=>x.title||x.sourceNo||"Aksiyon",
+detail:x=>`${x.module||""} ${x.owner||""} ${x.status||""} ${x.priority||""}`
+},
+{
+label:"Kullanıcılar",
+key:"gdnl_users",
+go:"users.html",
+store:"gdnl_selected_user",
+pick:x=>x.id||x.email||x.fullName||"",
+title:x=>x.fullName||x.name||x.email||"Kullanıcı",
+detail:x=>`${x.email||""} ${x.department||""} ${x.role||""} ${x.status||""}`
+}
+];
+
+let results=[];
+
+pools.forEach(p=>{
+const list=getLS(p.key);
+list.forEach(item=>{
+const fullText=JSON.stringify(item).toLowerCase();
+if(fullText.includes(text)){
+results.push({
+type:"record",
+module:p.label,
+go:p.go,
+store:p.store,
+selected:p.pick(item),
+title:p.title(item),
+detail:p.detail(item),
+status:item.status||item.assetStatus||item.riskStatus||item.priority||"",
+raw:item
+});
+}
+});
+});
+
+results=results.concat(collectPageSearchResults(text));
+renderSearchResults(text,results);
+}
+
+function collectPageSearchResults(keyword){
+const results=[];
+const seen=new Set();
+
+document.querySelectorAll(".menu a").forEach((el)=>{
+const label=el.textContent.trim();
+const href=el.getAttribute("href")||"";
+const text=(label+" "+href).toLowerCase();
+if(text.includes(keyword)){
+const key="menu-"+href+"-"+label;
+if(!seen.has(key)){
+seen.add(key);
+results.push({type:"page",module:"Sol Menü",title:label,detail:href||"Menü başlığı",go:href||"#",selector:null,selected:""});
+}
+}
+});
+
+document.querySelectorAll(".card").forEach((el,index)=>{
+const title=(el.querySelector("small")?.textContent||"Kart").trim();
+const value=(el.querySelector("h2")?.textContent||"").trim();
+const detail=(el.querySelector("p")?.textContent||"").trim();
+const text=(title+" "+value+" "+detail).toLowerCase();
+if(text.includes(keyword)){
+el.setAttribute("data-search-card",index);
+results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,go:"#",selector:`.card[data-search-card="${index}"]`,selected:""});
+}
+});
+
+document.querySelectorAll(".panel").forEach((el,index)=>{
+if(el.id==="searchResultsPanel")return;
+const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
+const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+const text=(title+" "+detail).toLowerCase();
+if(text.includes(keyword)){
+el.setAttribute("data-search-panel",index);
+results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,go:"#",selector:`.panel[data-search-panel="${index}"]`,selected:""});
+}
+});
+
+return results;
+}
+
+function escapeHTML(value){
+return String(value||"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+
+function highlightText(value,keyword){
+const safe=escapeHTML(value);
+if(!keyword)return safe;
+const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
+}
+
+function renderSearchResults(keyword,results){
+const panel=document.getElementById("searchResultsPanel");
+const area=document.getElementById("searchResultsArea");
+const count=document.getElementById("searchResultCount");
+const key=document.getElementById("searchKeyword");
+
+panel.classList.add("active");
+key.textContent=keyword;
+count.textContent=results.length+" sonuç";
+
+if(!results.length){
+area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı. Sistem uyarı vermez; arama paneli burada açık kalır.</div>`;
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+return;
+}
+
+area.innerHTML=results.slice(0,80).map((r,index)=>`
+<div class="result-card">
+<div><span class="status blue">${escapeHTML(r.module)}</span></div>
+<div>
+<b>${highlightText(r.title,keyword)}</b>
+<small>${highlightText(r.detail,keyword)}</small>
+</div>
+<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
+</div>
+`).join("");
+
+window.gdnlSearchResults=results.slice(0,80);
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function openSearchResult(index){
+const r=(window.gdnlSearchResults||[])[index];
+if(!r)return;
+
+if(r.type==="scroll"&&r.selector){
+const target=document.querySelector(r.selector);
+if(target){
+target.scrollIntoView({behavior:"smooth",block:"center"});
+target.style.outline="3px solid #0ea5ff";
+target.style.outlineOffset="4px";
+setTimeout(()=>{target.style.outline="";target.style.outlineOffset="";},2200);
+}
+return;
+}
+
+localStorage.setItem("gdnl_global_search_text",document.getElementById("globalSearch").value.trim());
+if(r.store)localStorage.setItem(r.store,r.selected||"");
+
+if(r.module==="Firma Belgeleri" && r.selected){
+openDrawerBySearch(r.selected);
+return;
+}
+
+if(r.go&&r.go!=="#")window.location.href=r.go;
+}
+
+function openDrawerBySearch(selected){
+const items=getAssets();
+const found=items.find(x=>x.assetNo===selected||x.id===selected);
+if(found){
+openDrawer(found.id);
+}
+}
+
+function clearSearchResults(){
+document.getElementById("globalSearch").value="";
+document.getElementById("searchResultsPanel").classList.remove("active");
+document.getElementById("searchResultsArea").innerHTML="";
+renderAssets();
 }
 
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
@@ -562,7 +863,13 @@ generateAssetNo();assetType.value="Sertifika";category.value="Kalite";criticalit
 }
 function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
 
-globalSearch.addEventListener("input",renderAssets);
+
+globalSearch.addEventListener("input",function(){
+  if(!this.value.trim()){
+    clearSearchResults();
+  }
+});
+
 globalSearch.addEventListener("keydown",function(e){
   if(e.key==="Enter"){
     e.preventDefault();
