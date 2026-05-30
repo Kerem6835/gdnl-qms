@@ -150,13 +150,207 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 .compliance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .compliance-item{background:linear-gradient(135deg,#f8fafc,#ffffff);border:1px solid #e2e8f0;border-radius:18px;padding:14px}
 .compliance-item b{display:block;font-size:13px;margin-bottom:8px}.compliance-item span{font-size:11px;font-weight:900}
+.mobile-menu-btn{
+display:none;
+width:46px;
+height:46px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#0757e8,#0ea5ff);
+color:white;
+font-size:22px;
+font-weight:950;
+cursor:pointer;
+box-shadow:0 12px 28px rgba(14,165,255,.22);
+flex:0 0 auto;
+}
+
+.mobile-overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(15,23,42,.42);
+backdrop-filter:blur(6px);
+z-index:90;
+}
+
+.mobile-drawer{
+position:fixed;
+top:0;
+left:-88%;
+width:86%;
+max-width:360px;
+height:100vh;
+background:rgba(255,255,255,.98);
+z-index:100;
+box-shadow:28px 0 70px rgba(15,23,42,.22);
+transition:.25s ease;
+display:flex;
+flex-direction:column;
+border-right:1px solid #e2e8f0;
+}
+
+.mobile-drawer.active{left:0}
+.mobile-overlay.active{display:block}
+
+.mobile-drawer-head{
+height:86px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 20px;
+border-bottom:1px solid #e2e8f0;
+background:linear-gradient(135deg,#ffffff,#f0f9ff);
+}
+
+.mobile-drawer-logo{
+font-size:25px;
+font-weight:950;
+letter-spacing:-.5px;
+color:#0f172a;
+}
+
+.mobile-drawer-logo span{color:#1597ff}
+
+.mobile-close{
+width:42px;
+height:42px;
+border:none;
+border-radius:13px;
+background:#fee2e2;
+color:#991b1b;
+font-size:22px;
+font-weight:950;
+cursor:pointer;
+}
+
+.mobile-drawer-menu{
+padding:16px;
+overflow:auto;
+display:flex;
+flex-direction:column;
+gap:8px;
+flex:1;
+}
+
+.mobile-drawer-menu a{
+text-decoration:none;
+color:#475569;
+padding:14px 15px;
+border-radius:15px;
+font-size:15px;
+font-weight:900;
+border:1px solid transparent;
+}
+
+.mobile-drawer-menu a:hover,
+.mobile-drawer-menu a.active{
+background:linear-gradient(135deg,#e0f2fe,#f0f9ff);
+color:#0369a1;
+border-color:#bae6fd;
+}
+
+.mobile-drawer-footer{
+padding:16px;
+border-top:1px solid #e2e8f0;
+background:#fff;
+}
+
+.mobile-logout{
+width:100%;
+height:52px;
+border:none;
+border-radius:15px;
+background:#fee2e2;
+color:#991b1b;
+font-weight:950;
+font-size:15px;
+cursor:pointer;
+}
+
 @media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.search{width:320px}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards,.modules,.quick{grid-template-columns:1fr}.search{width:180px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.topbar{gap:12px}.profile-info{display:none}.panel{overflow:auto}}
+@media(max-width:850px){
+.app{grid-template-columns:1fr}
+.sidebar{display:none}
+.main{padding:18px}
+.mobile-menu-btn{display:flex;align-items:center;justify-content:center}
+.topbar{
+height:auto;
+min-height:78px;
+padding:14px;
+gap:10px;
+position:sticky;
+top:0;
+z-index:40;
+border-radius:22px;
+}
+.search-wrap{
+flex:1;
+display:grid;
+grid-template-columns:minmax(0,1fr) 72px;
+gap:9px;
+}
+.search{width:100%;height:48px;font-size:12px;padding:0 13px}
+.search-btn{height:48px;padding:0 12px}
+.profile{gap:8px}
+.avatar{display:none!important}
+.logout-btn{display:none}
+.cards,.modules,.quick{grid-template-columns:1fr}
+.hero{flex-direction:column;align-items:flex-start;padding:26px 24px}
+.hero h1{font-size:28px}
+.hero p{font-size:16px}
+.hero-badge{width:100%;text-align:center}
+.panel{overflow:auto}
+.result-card{grid-template-columns:1fr;gap:10px}
+.result-open{width:100%}
+}
 </style>
 </head>
 
 <body>
 <div class="app">
+
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-head">
+    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
+  </div>
+
+  <nav class="mobile-drawer-menu">
+    <a class="active" href="dashboard.html">🏠 Dashboard</a>
+    <a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
+    <a href="documents.html">📄 Doküman Yönetimi</a>
+    <a href="new-document.html">➕ Yeni Doküman</a>
+    <a href="revision.html">🔄 Revizyon Yönetimi</a>
+    <a href="approval.html">✅ Onay Yönetimi</a>
+    <a href="archive.html">🗄️ Arşiv Yönetimi</a>
+    <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+    <a href="distribution.html">📤 Dağıtım Yönetimi</a>
+    <a href="capa.html">🛠️ 8D / CAPA</a>
+    <a href="risk-register.html">⚠️ Risk Yönetimi</a>
+    <a href="training-management.html">🎓 Eğitim Yönetimi</a>
+    <a href="audit.html">🧾 İç Denetim</a>
+    <a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+    <a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+    <a href="management-review.html">📊 YGG Yönetimi</a>
+    <a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+    <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+    <a href="process-management.html">🧩 Süreç Yönetimi</a>
+    <a href="action-center.html">✅ Action Center</a>
+    <a href="notification-center.html">🔔 Bildirim Merkezi</a>
+    <a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+    <a href="standards-compliance.html">📚 Standart Uygunluk</a>
+    <a href="legal-compliance.html">⚖️ Yasal Uyum</a>
+    <a href="kpi-reports.html">📈 KPI & Raporlar</a>
+    <a href="users.html">👥 Kullanıcılar</a>
+  </nav>
+
+  <div class="mobile-drawer-footer">
+    <button class="mobile-logout" onclick="logout()">Logout</button>
+  </div>
+</aside>
 
 <aside class="sidebar">
 <div>
@@ -197,6 +391,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:
 <main class="main">
 
 <header class="topbar">
+<button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
 <div class="search-wrap">
 <input class="search" id="globalSearch" placeholder="Doküman, risk, audit, CAPA, eğitim, tedarikçi, kullanıcı veya dağıtım ara">
 <button class="search-btn" onclick="runSearch()">Ara</button>
@@ -404,6 +599,22 @@ function logout(){
 localStorage.removeItem("gdnl_qdms_session");
 window.location.href="index.html";
 }
+
+function openMobileMenu(){
+document.getElementById("mobileDrawer").classList.add("active");
+document.getElementById("mobileOverlay").classList.add("active");
+document.body.style.overflow="hidden";
+}
+
+function closeMobileMenu(){
+document.getElementById("mobileDrawer").classList.remove("active");
+document.getElementById("mobileOverlay").classList.remove("active");
+document.body.style.overflow="";
+}
+
+document.addEventListener("keydown",function(e){
+if(e.key==="Escape")closeMobileMenu();
+});
 
 function runSearch(){
 
