@@ -296,6 +296,59 @@ localStorage.removeItem("gdnl_qdms_session");
 window.location.href="index.html";
 }
 
+function runSearch(){
+
+const text=document
+.getElementById("globalSearch")
+.value
+.trim()
+.toLowerCase();
+
+if(!text){
+alert("Arama metni giriniz");
+return;
+}
+
+const pools=[
+{key:"gdnl_documents",go:"documents.html",store:"gdnl_selected_document_code",pick:x=>x.code||x.documentCode||x.id||""},
+{key:"gdnl_capa",go:"capa.html",store:"gdnl_selected_capa",pick:x=>x.eightDNo||x.capaNo||x.id||""},
+{key:"gdnl_risks",go:"risk-register.html",store:"gdnl_selected_risk",pick:x=>x.riskNo||x.id||""},
+{key:"gdnl_audits",go:"audit.html",store:"gdnl_selected_audit",pick:x=>x.auditNo||x.id||""},
+{key:"gdnl_trainings",go:"training-management.html",store:"gdnl_selected_training",pick:x=>x.trainingNo||x.id||""},
+{key:"gdnl_suppliers",go:"supplier-management.html",store:"gdnl_selected_supplier",pick:x=>x.supplierNo||x.id||""},
+{key:"gdnl_customers",go:"customer-management.html",store:"gdnl_selected_customer",pick:x=>x.customerNo||x.id||""},
+{key:"gdnl_moc",go:"change-management.html",store:"gdnl_selected_moc",pick:x=>x.mocNo||x.id||""},
+{key:"gdnl_action_center_manual",go:"action-center.html",store:"gdnl_selected_action",pick:x=>x.id||x.sourceNo||""},
+{key:"gdnl_company_assets_documents",go:"company-assets-documents.html",store:"gdnl_selected_company_asset",pick:x=>x.assetNo||x.id||""},
+{key:"gdnl_standards_clauses",go:"standards-compliance.html",store:"gdnl_selected_clause",pick:x=>x.clauseRecordNo||x.id||""},
+{key:"gdnl_legal_compliance",go:"legal-compliance.html",store:"gdnl_selected_legal",pick:x=>x.legalNo||x.id||""},
+{key:"gdnl_competencies",go:"competency-matrix.html",store:"gdnl_selected_competency",pick:x=>x.competencyNo||x.id||""},
+{key:"gdnl_competency_assignments",go:"competency-matrix.html",store:"gdnl_selected_competency_assignment",pick:x=>x.id||""},
+{key:"gdnl_notifications",go:"notification-center.html",store:"gdnl_selected_notification",pick:x=>x.notificationId||x.id||""}
+];
+
+for(const p of pools){
+
+const list=getLS(p.key);
+
+const found=list.find(x =>
+JSON.stringify(x)
+.toLowerCase()
+.includes(text)
+);
+
+if(found){
+localStorage.setItem("gdnl_global_search_text",text);
+localStorage.setItem(p.store,p.pick(found));
+window.location.href=p.go;
+return;
+}
+
+}
+
+alert("Sonuç bulunamadı: " + text);
+
+}
 function getLS(key){
 try{return JSON.parse(localStorage.getItem(key))||[]}catch(e){return[]}
 }
