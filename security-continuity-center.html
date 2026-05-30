@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL EQMS | Security & Continuity Center</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+html,body{min-height:100%;overflow-x:hidden}
+body{background:radial-gradient(circle at 86% 8%,rgba(53,168,82,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef7f1 46%,#f8fbff 100%);color:#0f1b2f}
+.app{display:grid;grid-template-columns:282px minmax(0,1fr);min-height:100vh;align-items:start}
+.sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06);min-height:100vh;position:sticky;top:0}
+.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}.logo span{color:#35a852}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850;transition:.2s;border:1px solid transparent}
+.menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid #dfe9f5;padding-top:18px}
+.main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
+.topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px;gap:12px}
+.search-wrap{display:flex;align-items:center;gap:10px;min-width:0}
+.search{width:550px;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
+.search:focus,.field input:focus,.field select:focus,.field textarea:focus,.toolbar select:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12);background:#fff}
+.search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:#fff;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);transition:.2s}
+.search-btn:hover,.avatar:hover,.btn.primary:hover,.result-open:hover{filter:brightness(.99);transform:translateY(-1px)}
+.profile{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.avatar{width:auto!important;height:44px;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);padding:0 24px!important;transition:.2s;white-space:nowrap}
+.logout-btn{height:44px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;padding:0 18px;border-radius:14px;font-weight:950;cursor:pointer;transition:.2s;white-space:nowrap}.logout-btn:hover{background:#fecaca;transform:translateY(-1px)}
+.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf7ef 100%);color:#0f1b2f;border:1px solid #dbe8f7;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 20px 55px rgba(7,27,52,.065)}
+.hero h1{font-size:42px;font-weight:950;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;color:#081d35}
+.hero p{max-width:1120px;color:#4e6078;font-weight:650;line-height:1.7}
+.hero-badge{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;padding:16px 18px;border-radius:18px;font-weight:950;white-space:nowrap;box-shadow:0 14px 32px rgba(53,168,82,.22)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{background:rgba(255,255,255,.84);backdrop-filter:blur(20px);border:1px solid rgba(53,168,82,.12);border-radius:24px;padding:22px;box-shadow:0 10px 30px rgba(7,27,52,.05),0 2px 8px rgba(53,168,82,.05);position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,#35a852,#1597ff);opacity:.88}
+.card small{color:#617086;font-weight:900}.card h2{font-size:38px;font-weight:950;color:#1f7d3d;letter-spacing:-1px;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#536176}
+.panel{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px);margin-bottom:24px;min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:950;color:#071b34;letter-spacing:-.3px}
+.form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}.field.triple{grid-column:span 3}
+.field label{font-size:12px;font-weight:900;color:#617086}
+.field input,.field select,.field textarea{width:100%;max-width:100%;min-width:0;height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 13px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
+.field input[readonly]{background:#eef2f7;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.field textarea{height:92px;padding:12px;resize:none;line-height:1.55}.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}
+.toolbar select{height:42px;border:1px solid #d8e4ef;border-radius:13px;padding:0 12px;background:linear-gradient(135deg,#fff,#f8fbff);font-weight:800;outline:none;color:#0f1b2f}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:950;cursor:pointer;transition:.2s}
+.btn.primary{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;box-shadow:0 14px 32px rgba(53,168,82,.22)}
+.btn.dark{background:linear-gradient(135deg,#071b34,#0d2747);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.blue{background:#e8f7ee;color:#1f7d3d}.btn.purple{background:#ede9fe;color:#6d28d9}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:950}
+.status.blue{background:#e8f7ee;color:#1f7d3d}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e9eef5;color:#405166}.status.purple{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}
+th{text-align:left;font-size:12px;color:#617086;padding:12px;border-bottom:1px solid #e1eaf3;background:linear-gradient(135deg,#f8fbff,#f1f8f4)}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:800;color:#536176;vertical-align:middle}td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:950;cursor:pointer}
+.small-btn.view{background:#e8f7ee;color:#1f7d3d}.small-btn.approve{background:#dcfce7;color:#15803d}.small-btn.warn{background:#ffedd5;color:#c2410c}.small-btn.fail{background:#fee2e2;color:#991b1b}.small-btn.dark{background:#071b34;color:white}.small-btn.purple{background:#ede9fe;color:#6d28d9}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:linear-gradient(135deg,#f8fbff,#fff)}
+.progress{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:6px}.bar{height:100%;background:linear-gradient(90deg,#35a852,#62d46f)}
+.flow{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px;margin-top:14px}
+.flow-step{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:16px;padding:12px 8px;text-align:center;font-weight:950;font-size:11px;color:#536176;min-width:0}
+.flow-step.active{border-color:#bfe7ca;background:#eefaf2;color:#1f7d3d}.flow-step.done{border-color:#86efac;background:#f0fdf4;color:#15803d}.flow-step.reject{border-color:#fecaca;background:#fef2f2;color:#991b1b}
+.subsection{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:22px;padding:18px;margin-top:16px}
+.subsection h4{font-size:16px;font-weight:950;color:#071b34;margin-bottom:12px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1040px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:rgba(255,255,255,.96);border:1px solid #e0e8f0;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.22);z-index:80;padding:24px;backdrop-filter:blur(18px)}
+.drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px;color:#071b34}
+.close-btn{border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:950;cursor:pointer}
+.info-box{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#536176;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.toast{position:fixed;right:24px;bottom:24px;background:linear-gradient(135deg,#071b34,#1f8f43);color:white;padding:15px 18px;border-radius:16px;font-weight:950;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+.search-results-panel{display:none;border:1px solid #c7ebd2;background:rgba(255,255,255,.94)}.search-results-panel.active{display:block}
+.search-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:900;color:#475569}
+.search-keyword{background:#e8f7ee;color:#1f7d3d;border-radius:999px;padding:7px 12px;font-weight:950}.link{cursor:pointer;color:#1f7d3d;font-weight:950;text-decoration:none}
+.result-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:15px;margin-bottom:12px;display:grid;grid-template-columns:160px minmax(0,1fr) 130px;gap:14px;align-items:center}
+.result-card b{display:block;font-size:14px;margin-bottom:6px;color:#0f172a}.result-card small{display:block;font-size:12px;color:#617086;line-height:1.55;font-weight:800}.result-card mark{background:#dcfce7;color:#166534;padding:1px 3px;border-radius:4px}
+.result-open{height:38px;border:none;border-radius:12px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;font-weight:950;cursor:pointer}
+.mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:white;font-size:22px;font-weight:950;cursor:pointer;box-shadow:0 12px 28px rgba(53,168,82,.22);flex:0 0 auto}
+.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}
+.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0;overflow:hidden}.mobile-drawer.active{left:0}.mobile-overlay.active{display:block}
+.mobile-drawer-head{height:86px;flex:0 0 86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#ffffff,#f0fbf4)}
+.mobile-drawer-logo{font-size:25px;font-weight:950;letter-spacing:-.5px;color:#0f172a}.mobile-drawer-logo span{color:#35a852}
+.mobile-close{width:42px;height:42px;border:1px solid #fecaca;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950;cursor:pointer}
+.mobile-drawer-menu{padding:16px 16px 92px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:8px;flex:1 1 auto;-webkit-overflow-scrolling:touch;max-height:calc(100dvh - 86px)}
+.mobile-drawer-menu a{text-decoration:none;color:#516177;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}
+.mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
+.mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
+@media print{.sidebar,.topbar,.hero,.actions,.toolbar,.toast,.mobile-overlay,.mobile-drawer{display:none!important}.app{display:block}.main{padding:0;max-width:none}.panel,.card{box-shadow:none;border:1px solid #e2e8f0}}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double,.field.triple{grid-column:1/-1}.flow{grid-template-columns:repeat(3,minmax(0,1fr))}.search{width:320px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid,.flow{grid-template-columns:1fr}.field.full,.field.double,.field.triple{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
+</style>
+</head>
+
+<body>
+<div class="app">
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-head">
+    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
+  </div>
+  <nav class="mobile-drawer-menu">
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
+    <a href="documents.html">📄 Doküman Yönetimi</a>
+    <a href="new-document.html">➕ Yeni Doküman</a>
+    <a href="revision.html">🔄 Revizyon Yönetimi</a>
+    <a href="approval.html">✅ Onay Yönetimi</a>
+    <a href="archive.html">🗄️ Arşiv Yönetimi</a>
+    <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+    <a href="distribution.html">📤 Dağıtım Yönetimi</a>
+    <a href="capa.html">🛠️ 8D / CAPA</a>
+    <a href="risk-register.html">⚠️ Risk Yönetimi</a>
+    <a href="training-management.html">🎓 Eğitim Yönetimi</a>
+    <a href="audit.html">🧾 İç Denetim</a>
+    <a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+    <a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+    <a href="management-review.html">📊 YGG Yönetimi</a>
+    <a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+    <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+    <a href="process-management.html">🧩 Süreç Yönetimi</a>
+    <a href="continuous-improvement.html">💡 Continuous Improvement</a>
+    <a class="active" href="security-continuity-center.html">🔐 Security & Continuity</a>
+    <a href="action-center.html">✅ Action Center</a>
+    <a href="notification-center.html">🔔 Bildirim Merkezi</a>
+    <a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+    <a href="standards-compliance.html">📚 Standart Uygunluk</a>
+    <a href="legal-compliance.html">⚖️ Yasal Uyum</a>
+    <a href="kpi-reports.html">📈 KPI & Raporlar</a>
+    <a href="users.html">👥 Kullanıcılar</a>
+  </nav>
+  <div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Logout</button></div>
+</aside>
+
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<nav class="menu">
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
+    <a href="documents.html">📄 Doküman Yönetimi</a>
+    <a href="new-document.html">➕ Yeni Doküman</a>
+    <a href="revision.html">🔄 Revizyon Yönetimi</a>
+    <a href="approval.html">✅ Onay Yönetimi</a>
+    <a href="archive.html">🗄️ Arşiv Yönetimi</a>
+    <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+    <a href="distribution.html">📤 Dağıtım Yönetimi</a>
+    <a href="capa.html">🛠️ 8D / CAPA</a>
+    <a href="risk-register.html">⚠️ Risk Yönetimi</a>
+    <a href="training-management.html">🎓 Eğitim Yönetimi</a>
+    <a href="audit.html">🧾 İç Denetim</a>
+    <a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+    <a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+    <a href="management-review.html">📊 YGG Yönetimi</a>
+    <a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+    <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+    <a href="process-management.html">🧩 Süreç Yönetimi</a>
+    <a href="continuous-improvement.html">💡 Continuous Improvement</a>
+    <a class="active" href="security-continuity-center.html">🔐 Security & Continuity</a>
+    <a href="action-center.html">✅ Action Center</a>
+    <a href="notification-center.html">🔔 Bildirim Merkezi</a>
+    <a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+    <a href="standards-compliance.html">📚 Standart Uygunluk</a>
+    <a href="legal-compliance.html">⚖️ Yasal Uyum</a>
+    <a href="kpi-reports.html">📈 KPI & Raporlar</a>
+    <a href="users.html">👥 Kullanıcılar</a>
+</nav>
+</div>
+<div class="sidebar-footer">GDNL EQMS Enterprise<br>ISO 27001 • ISO 22301<br>Security & Continuity Center</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
+<div class="search-wrap">
+<input class="search" id="globalSearch" placeholder="Olay no, risk no, BCP, varlık, tehdit, süreç, RTO, RPO veya durum ara">
+<button class="search-btn" onclick="runSearch()">Ara</button>
+</div>
+<div class="profile">
+<div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>Security & Continuity Center</h1>
+<p>ISO 27001 bilgi güvenliği olay yönetimi, BGYS risk yönetimi ve ISO 22301 iş sürekliliği tek yaşam döngüsünde yönetilir. Olaydan riske, riskten BCP etkisine, aksiyondan lessons learned’e kadar tüm kayıtlar aynı merkezde bağlanır.</p>
+</div>
+<div class="hero-badge">Security Engine: <span>10/10 Active</span></div>
+</section>
+
+<section class="panel search-results-panel" id="searchResultsPanel">
+<div class="panel-head">
+<h3>Arama Sonuçları</h3>
+<div class="search-summary">
+<span class="search-keyword" id="searchKeyword">-</span>
+<span id="searchResultCount">0 sonuç</span>
+<a class="link" onclick="clearSearchResults()">Temizle</a>
+</div>
+</div>
+<div id="searchResultsArea"></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Açık BG Olayı</small><h2 id="openIncidents">0</h2><p>Devam eden güvenlik olayı</p></div>
+<div class="card"><small>Kapalı BG Olayı</small><h2 id="closedIncidents">0</h2><p>Kapatılmış olaylar</p></div>
+<div class="card"><small>Açık BGYS Riski</small><h2 id="openRisks">0</h2><p>İşlem bekleyen riskler</p></div>
+<div class="card"><small>Yüksek Risk</small><h2 id="highRisks">0</h2><p>Yüksek / kritik skor</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>BCP Testleri</small><h2 id="bcpTests">0</h2><p>Tatbikat / test kayıtları</p></div>
+<div class="card"><small>Yaklaşan Tatbikat</small><h2 id="upcomingDrills">0</h2><p>30 gün içinde</p></div>
+<div class="card"><small>Başarısız Tatbikat</small><h2 id="failedDrills">0</h2><p>Başarısız / kısmen başarılı</p></div>
+<div class="card"><small>Açık Aksiyon</small><h2 id="openActions">0</h2><p>Otomatik action kayıtları</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Security & Continuity Master Record</h3>
+<span class="status blue" id="modeBadge">CREATE MODE</span>
+</div>
+
+<div class="form-grid">
+<div class="field"><label>Kayıt No</label><input id="recordNo" readonly></div>
+<div class="field"><label>Kayıt Tipi</label><select id="recordType" onchange="applyTypeDefaults()"><option>Bilgi Güvenliği Olayı</option><option>BGYS Risk</option><option>İş Sürekliliği / BCP</option><option>BCP Tatbikatı</option><option>Entegre Olay + Risk + BCP</option></select></div>
+<div class="field"><label>Kayıt Tarihi</label><input id="recordDate" type="date"></div>
+<div class="field"><label>Durum</label><select id="status" onchange="renderFlowPreview(this.value)"><option>Yeni</option><option>İncelemede</option><option>Risk Değerlendirme</option><option>Aksiyon Bekliyor</option><option>BCP Etki Analizi</option><option>Tatbikat / Test</option><option>Etkinlik Kontrolü</option><option>Lessons Learned</option><option>Kapalı</option><option>Reddedildi</option></select></div>
+
+<div class="field double"><label>Başlık</label><input id="title" placeholder="Olay / risk / süreklilik kaydı başlığı"></div>
+<div class="field"><label>Departman</label><select id="department"><option>Bilgi Güvenliği</option><option>BT</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Yönetim</option><option>Operasyon</option><option>Bakım</option></select></div>
+<div class="field"><label>Sorumlu</label><input id="owner" placeholder="Risk / olay sahibi"></div>
+
+<div class="field"><label>Öncelik</label><select id="priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+<div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Termin</label><input id="dueDate" type="date"></div>
+<div class="field"><label>Bildiren / Kaynak</label><input id="reportedBy" placeholder="Kişi, sistem, denetim, müşteri"></div>
+</div>
+
+<div class="subsection">
+<h4>1. Bilgi Güvenliği Olay Yönetimi / ISO 27001</h4>
+<div class="form-grid">
+<div class="field"><label>Olay No</label><input id="incidentNo" readonly></div>
+<div class="field"><label>Olay Türü</label><select id="incidentType"><option>Yetkisiz Erişim</option><option>Veri İhlali</option><option>Malware / Zararlı Yazılım</option><option>Phishing</option><option>Sistem Kesintisi</option><option>Yanlış Yetkilendirme</option><option>Kayıp / Çalıntı Cihaz</option><option>Fiziksel Güvenlik</option><option>Tedarikçi Kaynaklı Olay</option><option>Diğer</option></select></div>
+<div class="field"><label>Etkilenen Sistem</label><input id="affectedSystem" placeholder="ERP, EQMS, mail, sunucu..."></div>
+<div class="field"><label>Etkilenen Varlık</label><input id="affectedAsset" placeholder="Varlık adı / kodu"></div>
+
+<div class="field"><label>Gizlilik Etkisi</label><select id="confidentiality"><option>Yok</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Bütünlük Etkisi</label><select id="integrity"><option>Yok</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Erişilebilirlik Etkisi</label><select id="availability"><option>Yok</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Olay Seviyesi</label><select id="incidentLevel"><option>Seviye 1</option><option>Seviye 2</option><option>Seviye 3</option><option>Seviye 4 - Kritik</option></select></div>
+
+<div class="field full"><label>Olay Açıklaması</label><textarea id="incidentDescription" class="big" placeholder="Ne oldu, ne zaman oldu, kim bildirdi, hangi sistemler etkilendi?"></textarea></div>
+<div class="field double"><label>İlk Müdahale / Containment</label><textarea id="containment"></textarea></div>
+<div class="field double"><label>Kök Neden</label><textarea id="rootCause"></textarea></div>
+<div class="field full"><label>Düzeltici Faaliyet</label><textarea id="correctiveAction"></textarea></div>
+</div>
+</div>
+
+<div class="subsection">
+<h4>2. BGYS Risk Yönetimi / ISO 27001</h4>
+<div class="form-grid">
+<div class="field"><label>Risk No</label><input id="riskNo" readonly></div>
+<div class="field"><label>Varlık Grubu</label><select id="assetGroup"><option>Bilgi Varlığı</option><option>Yazılım</option><option>Donanım</option><option>Ağ</option><option>Personel</option><option>Tedarikçi</option><option>Fiziksel Alan</option><option>Bulut Servisi</option><option>Süreç</option></select></div>
+<div class="field"><label>Tehdit</label><input id="threat" placeholder="Tehdit kaynağı"></div>
+<div class="field"><label>Zafiyet</label><input id="vulnerability" placeholder="Zafiyet / açıklık"></div>
+
+<div class="field"><label>Olasılık</label><select id="likelihood" onchange="calculateRisk()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="field"><label>Etki</label><select id="impact" onchange="calculateRisk()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="field"><label>Risk Skoru</label><input id="riskScore" readonly></div>
+<div class="field"><label>Risk Seviyesi</label><input id="riskLevel" readonly></div>
+
+<div class="field double"><label>Mevcut Kontroller</label><textarea id="existingControls" placeholder="SoA kontrolü, politika, prosedür, teknik kontrol"></textarea></div>
+<div class="field double"><label>Risk İşleme Planı</label><textarea id="riskTreatment" placeholder="Azalt, kabul et, transfer et, kaçın"></textarea></div>
+<div class="field"><label>Risk Sahibi</label><input id="riskOwner"></div>
+<div class="field"><label>Kontrol Referansı</label><input id="controlRef" placeholder="Annex A / SoA kontrolü"></div>
+<div class="field"><label>Artık Risk</label><select id="residualRisk"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>YGG Girdisi mi?</label><select id="mrmInput"><option>Hayır</option><option>Evet</option></select></div>
+</div>
+</div>
+
+<div class="subsection">
+<h4>3. İş Sürekliliği Yönetimi / ISO 22301</h4>
+<div class="form-grid">
+<div class="field"><label>BCP No</label><input id="bcpNo" readonly></div>
+<div class="field"><label>Kritik Süreç</label><input id="criticalProcess" placeholder="Kritik iş süreci"></div>
+<div class="field"><label>RTO</label><input id="rto" placeholder="Örn: 4 saat"></div>
+<div class="field"><label>RPO</label><input id="rpo" placeholder="Örn: 1 saat"></div>
+
+<div class="field"><label>Kritik Seviye</label><select id="businessCriticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Kurtarma Ekibi</label><input id="recoveryTeam" placeholder="Ekip / kişiler"></div>
+<div class="field"><label>Alternatif Lokasyon</label><input id="alternateLocation" placeholder="Lokasyon / uzaktan çalışma"></div>
+<div class="field"><label>Tatbikat Tarihi</label><input id="drillDate" type="date"></div>
+
+<div class="field"><label>Tatbikat Sonucu</label><select id="drillResult"><option>Planlandı</option><option>Başarılı</option><option>Kısmen Başarılı</option><option>Başarısız</option></select></div>
+<div class="field"><label>Kesinti Süresi</label><input id="downtime" placeholder="Örn: 45 dk"></div>
+<div class="field"><label>İş Etki Analizi</label><select id="biaStatus"><option>Gerekli</option><option>Tamamlandı</option><option>Güncellenecek</option><option>Gerekli Değil</option></select></div>
+<div class="field"><label>BCP Güncelleme</label><select id="bcpUpdateRequired"><option>Hayır</option><option>Evet</option></select></div>
+
+<div class="field full"><label>İş Sürekliliği Etkisi / Senaryo</label><textarea id="continuityScenario" class="big" placeholder="Kesinti senaryosu, kritik süreç etkisi, RTO/RPO değerlendirmesi"></textarea></div>
+<div class="field double"><label>Kurtarma Stratejisi</label><textarea id="recoveryStrategy"></textarea></div>
+<div class="field double"><label>Tatbikat Bulguları</label><textarea id="drillFindings"></textarea></div>
+</div>
+</div>
+
+<div class="subsection">
+<h4>4. EQMS Entegrasyonları</h4>
+<div class="form-grid">
+<div class="field"><label>CAPA Aç</label><select id="createCapa"><option>Evet</option><option>Hayır</option></select></div>
+<div class="field"><label>Risk Register Aç</label><select id="createRisk"><option>Evet</option><option>Hayır</option></select></div>
+<div class="field"><label>Action Center Aç</label><select id="createAction"><option>Evet</option><option>Hayır</option></select></div>
+<div class="field"><label>Lessons Learned Aç</label><select id="createLesson"><option>Evet</option><option>Hayır</option></select></div>
+
+<div class="field"><label>CAPA Ref</label><input id="capaRef" placeholder="CAPA-2026-0001"></div>
+<div class="field"><label>Action Ref</label><input id="actionRef" placeholder="ACT-2026-0001"></div>
+<div class="field"><label>CI Ref</label><input id="ciRef" placeholder="CI-2026-0001"></div>
+<div class="field"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+
+<div class="field full"><label>Lessons Learned / Kapanış Notu</label><textarea id="lessonLearned" class="big" placeholder="Bu olay/risk/tatbikat sonucunda ne öğrenildi, tekrarını önlemek için ne standartlaştırıldı?"></textarea></div>
+</div>
+</div>
+
+<div class="flow" id="flowPreview"></div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveRecord()">Kaydet</button>
+<button class="btn orange" onclick="saveRecord(true)">Kaydet + Bildirim</button>
+<button class="btn green" onclick="markLifecycle('Kapalı')">Kapalı İşaretle</button>
+<button class="btn purple" onclick="markLifecycle('Lessons Learned')">Lessons Learned</button>
+<button class="btn blue" onclick="markLifecycle('BCP Etki Analizi')">BCP Etki Analizi</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Security & Continuity Master Listesi</h3>
+<div class="toolbar">
+<select id="typeFilter" onchange="renderRecords()"><option value="">Tüm Tipler</option><option>Bilgi Güvenliği Olayı</option><option>BGYS Risk</option><option>İş Sürekliliği / BCP</option><option>BCP Tatbikatı</option><option>Entegre Olay + Risk + BCP</option></select>
+<select id="statusFilter" onchange="renderRecords()"><option value="">Tüm Durumlar</option><option>Yeni</option><option>İncelemede</option><option>Risk Değerlendirme</option><option>Aksiyon Bekliyor</option><option>BCP Etki Analizi</option><option>Tatbikat / Test</option><option>Etkinlik Kontrolü</option><option>Lessons Learned</option><option>Kapalı</option><option>Reddedildi</option></select>
+<select id="priorityFilter" onchange="renderRecords()"><option value="">Tüm Öncelikler</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select>
+<select id="departmentFilter" onchange="renderRecords()"><option value="">Tüm Departmanlar</option><option>Bilgi Güvenliği</option><option>BT</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Yönetim</option><option>Operasyon</option><option>Bakım</option></select>
+</div>
+</div>
+<div class="actions">
+<button class="btn green" onclick="exportCSV()">CSV İndir</button>
+<button class="btn orange" onclick="createMRMNotifications()">YGG / Yönetim Bildirimi</button>
+<button class="btn dark" onclick="renderRecords()">Yenile</button>
+</div>
+<div id="recordTable"></div>
+</section>
+
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div>
+<h3 id="drawerTitle">Security Detail</h3>
+<span class="status blue" id="drawerStatus">Durum</span>
+</div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+<div class="actions">
+<button class="btn green" onclick="advanceCurrent()">Sonraki Aşama</button>
+<button class="btn purple" onclick="makeLessonCurrent()">Lessons Learned</button>
+<button class="btn blue" onclick="makeBcpCurrent()">BCP Etki Analizi</button>
+<button class="btn primary" onclick="closeCurrent()">Kapat</button>
+<button class="btn orange" onclick="createIntegrationCurrent()">Entegrasyonları Oluştur</button>
+<button class="btn red" onclick="rejectCurrent()">Reddet</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
+if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+
+const FLOW=["Yeni","İncelemede","Risk Değerlendirme","Aksiyon Bekliyor","BCP Etki Analizi","Tatbikat / Test","Etkinlik Kontrolü","Lessons Learned","Kapalı"];
+let selectedIndex=null;
+let editId=null;
+let uploadedEvidence=null;
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_eqms_session");window.location.href="index.html"}
+function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
+
+function getRecords(){try{return JSON.parse(localStorage.getItem("gdnl_security_continuity"))||[]}catch(e){return[]}}
+function setRecords(x){localStorage.setItem("gdnl_security_continuity",JSON.stringify(x))}
+function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
+function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
+function getActions(){try{return JSON.parse(localStorage.getItem("gdnl_action_center"))||[]}catch(e){return[]}}
+function setActions(x){localStorage.setItem("gdnl_action_center",JSON.stringify(x))}
+function getCapa(){try{return JSON.parse(localStorage.getItem("gdnl_capa"))||[]}catch(e){return[]}}
+function setCapa(x){localStorage.setItem("gdnl_capa",JSON.stringify(x))}
+function getRisks(){try{return JSON.parse(localStorage.getItem("gdnl_risk_register"))||[]}catch(e){return[]}}
+function setRisks(x){localStorage.setItem("gdnl_risk_register",JSON.stringify(x))}
+function getCI(){try{return JSON.parse(localStorage.getItem("gdnl_continuous_improvement"))||[]}catch(e){return[]}}
+function setCI(x){localStorage.setItem("gdnl_continuous_improvement",JSON.stringify(x))}
+
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
+function daysBetween(a,b){if(!a||!b)return null;const d1=new Date(a);const d2=new Date(b);if(isNaN(d1)||isNaN(d2))return null;return Math.ceil((d2-d1)/(1000*60*60*24))}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
+function escapeHTML(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function statusClass(s){if(["Kapalı","Başarılı","Etkili"].includes(s))return"green";if(["Reddedildi","Başarısız","Kritik","Critical","Yüksek"].includes(s))return"red";if(["İncelemede","Aksiyon Bekliyor","BCP Etki Analizi","Tatbikat / Test","Etkinlik Kontrolü","High","Kısmen Başarılı"].includes(s))return"orange";if(["Lessons Learned"].includes(s))return"purple";if(["Low","Düşük"].includes(s))return"gray";return"blue"}
+
+function generateNumbers(){
+const year=new Date().getFullYear();
+const count=getRecords().length+1;
+document.getElementById("recordNo").value="SEC-"+year+"-"+String(count).padStart(4,"0");
+document.getElementById("incidentNo").value="INC-"+year+"-"+String(count).padStart(4,"0");
+document.getElementById("riskNo").value="ISMS-RSK-"+year+"-"+String(count).padStart(4,"0");
+document.getElementById("bcpNo").value="BCP-"+year+"-"+String(count).padStart(4,"0");
+}
+function applyTypeDefaults(){
+const t=document.getElementById("recordType").value;
+if(t==="BGYS Risk")document.getElementById("status").value="Risk Değerlendirme";
+if(t==="İş Sürekliliği / BCP")document.getElementById("status").value="BCP Etki Analizi";
+if(t==="BCP Tatbikatı")document.getElementById("status").value="Tatbikat / Test";
+if(t==="Bilgi Güvenliği Olayı")document.getElementById("status").value="Yeni";
+if(t==="Entegre Olay + Risk + BCP")document.getElementById("status").value="İncelemede";
+renderFlowPreview(document.getElementById("status").value);
+}
+function calculateRisk(){
+const l=Number(document.getElementById("likelihood").value||1);
+const i=Number(document.getElementById("impact").value||1);
+const score=l*i;
+document.getElementById("riskScore").value=score;
+let level="Düşük";
+if(score>=20)level="Kritik";else if(score>=12)level="Yüksek";else if(score>=6)level="Orta";
+document.getElementById("riskLevel").value=level;
+if(["Yüksek","Kritik"].includes(level)){document.getElementById("priority").value=level==="Kritik"?"Critical":"High";document.getElementById("criticality").value=level}
+}
+function renderFlowPreview(status="Yeni"){
+const area=document.getElementById("flowPreview");
+const currentIndex=FLOW.indexOf(status);
+let html="";
+FLOW.forEach((s,i)=>{
+let cls="flow-step";
+if(status==="Reddedildi"&&i===0)cls+=" reject";
+else if(i<currentIndex)cls+=" done";
+else if(i===currentIndex)cls+=" active";
+html+=`<div class="${cls}">${s}<br><small>${i<currentIndex?"Tamamlandı":i===currentIndex?"Aktif":"Bekliyor"}</small></div>`;
+});
+area.innerHTML=html;
+}
+
+function collectPayload(notify=false){
+calculateRisk();
+const existing=editId?getRecords().find(x=>x.id===editId):null;
+const payload={
+id:editId||"SECID-"+Date.now(),
+recordNo:document.getElementById("recordNo").value,
+recordType:document.getElementById("recordType").value,
+recordDate:document.getElementById("recordDate").value,
+status:document.getElementById("status").value,
+title:document.getElementById("title").value.trim(),
+department:document.getElementById("department").value,
+owner:document.getElementById("owner").value.trim(),
+priority:document.getElementById("priority").value,
+criticality:document.getElementById("criticality").value,
+dueDate:document.getElementById("dueDate").value,
+reportedBy:document.getElementById("reportedBy").value.trim(),
+incidentNo:document.getElementById("incidentNo").value,
+incidentType:document.getElementById("incidentType").value,
+affectedSystem:document.getElementById("affectedSystem").value.trim(),
+affectedAsset:document.getElementById("affectedAsset").value.trim(),
+confidentiality:document.getElementById("confidentiality").value,
+integrity:document.getElementById("integrity").value,
+availability:document.getElementById("availability").value,
+incidentLevel:document.getElementById("incidentLevel").value,
+incidentDescription:document.getElementById("incidentDescription").value.trim(),
+containment:document.getElementById("containment").value.trim(),
+rootCause:document.getElementById("rootCause").value.trim(),
+correctiveAction:document.getElementById("correctiveAction").value.trim(),
+riskNo:document.getElementById("riskNo").value,
+assetGroup:document.getElementById("assetGroup").value,
+threat:document.getElementById("threat").value.trim(),
+vulnerability:document.getElementById("vulnerability").value.trim(),
+likelihood:Number(document.getElementById("likelihood").value),
+impact:Number(document.getElementById("impact").value),
+riskScore:Number(document.getElementById("riskScore").value||0),
+riskLevel:document.getElementById("riskLevel").value,
+existingControls:document.getElementById("existingControls").value.trim(),
+riskTreatment:document.getElementById("riskTreatment").value.trim(),
+riskOwner:document.getElementById("riskOwner").value.trim(),
+controlRef:document.getElementById("controlRef").value.trim(),
+residualRisk:document.getElementById("residualRisk").value,
+mrmInput:document.getElementById("mrmInput").value,
+bcpNo:document.getElementById("bcpNo").value,
+criticalProcess:document.getElementById("criticalProcess").value.trim(),
+rto:document.getElementById("rto").value.trim(),
+rpo:document.getElementById("rpo").value.trim(),
+businessCriticality:document.getElementById("businessCriticality").value,
+recoveryTeam:document.getElementById("recoveryTeam").value.trim(),
+alternateLocation:document.getElementById("alternateLocation").value.trim(),
+drillDate:document.getElementById("drillDate").value,
+drillResult:document.getElementById("drillResult").value,
+downtime:document.getElementById("downtime").value.trim(),
+biaStatus:document.getElementById("biaStatus").value,
+bcpUpdateRequired:document.getElementById("bcpUpdateRequired").value,
+continuityScenario:document.getElementById("continuityScenario").value.trim(),
+recoveryStrategy:document.getElementById("recoveryStrategy").value.trim(),
+drillFindings:document.getElementById("drillFindings").value.trim(),
+createCapa:document.getElementById("createCapa").value,
+createRisk:document.getElementById("createRisk").value,
+createAction:document.getElementById("createAction").value,
+createLesson:document.getElementById("createLesson").value,
+capaRef:document.getElementById("capaRef").value.trim(),
+actionRef:document.getElementById("actionRef").value.trim(),
+ciRef:document.getElementById("ciRef").value.trim(),
+lessonLearned:document.getElementById("lessonLearned").value.trim(),
+evidence:uploadedEvidence||existing?.evidence||null,
+notificationSent:notify?"Evet":existing?.notificationSent||"Hayır",
+createdBy:existing?.createdBy||session.name||"System",
+createdAt:existing?.createdAt||new Date().toISOString(),
+updatedAt:new Date().toISOString(),
+closedAt:document.getElementById("status").value==="Kapalı"?(existing?.closedAt||new Date().toISOString()):existing?.closedAt||"",
+auditTrail:existing?.auditTrail||[]
+};
+payload.auditTrail.unshift({action:editId?"Security & Continuity kaydı güncellendi":"Security & Continuity kaydı oluşturuldu",user:session.name||"System",date:new Date().toISOString()});
+return payload;
+}
+function validate(p){
+if(!p.title||p.title.length<5){showToast("Başlık zorunlu");return false}
+if(!p.owner){showToast("Sorumlu zorunlu");return false}
+if(!p.dueDate){showToast("Termin zorunlu");return false}
+if(p.recordType.includes("Olay")&&!p.incidentDescription){showToast("Olay açıklaması zorunlu");return false}
+if(p.recordType.includes("Risk")&&(!p.threat||!p.vulnerability)){showToast("Risk için tehdit ve zafiyet zorunlu");return false}
+if(p.recordType.includes("BCP")&&!p.criticalProcess){showToast("BCP için kritik süreç zorunlu");return false}
+return true;
+}
+function saveRecord(notify=false){
+const p=collectPayload(notify);
+if(!validate(p))return;
+const items=getRecords();
+if(editId){const i=items.findIndex(x=>x.id===editId);if(i>-1)items[i]=p}else{items.unshift(p)}
+setRecords(items);
+if(notify)createNotification(p,"Security & Continuity kaydı oluşturuldu: "+p.title);
+createAutoIntegrations(p);
+showToast(editId?"Kayıt güncellendi":"Kayıt kaydedildi");
+resetForm();
+renderRecords();
+}
+function createNotification(p,msg){
+const n=getNotifications();
+n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Security & Continuity",documentCode:p.recordNo,documentName:p.title,mailGroups:p.owner+"; "+p.department+"; Yönetim",smsGroups:p.owner,distributionPoints:p.department+" / "+p.recordType,message:msg,status:"Kuyrukta",priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name||"System"});
+setNotifications(n);
+}
+function createAutoIntegrations(p){
+if(p.createAction==="Evet"&&!p.actionRef){
+const actions=getActions(),no="ACT-"+new Date().getFullYear()+"-"+String(actions.length+1).padStart(4,"0");
+actions.unshift({id:"ACTID-"+Date.now(),actionNo:no,module:"Security & Continuity",sourceNo:p.recordNo,title:p.title,department:p.department,responsible:p.owner,dueDate:p.dueDate,status:"Açık",priority:p.priority,description:p.correctiveAction||p.riskTreatment||p.recoveryStrategy||p.title,createdAt:new Date().toISOString(),createdBy:session.name});
+setActions(actions);p.actionRef=no;
+}
+if(p.createCapa==="Evet"&&!p.capaRef){
+const capas=getCapa(),no="CAPA-"+new Date().getFullYear()+"-"+String(capas.length+1).padStart(4,"0");
+capas.unshift({id:"CAPAID-"+Date.now(),capaNo:no,eightDNo:no.replace("CAPA","8D"),problemTitle:p.title,source:"Security & Continuity",department:p.department,status:"Açık",criticality:p.criticality,problemDescription:p.incidentDescription||p.riskTreatment||p.continuityScenario,correctiveAction:p.correctiveAction||p.riskTreatment||p.recoveryStrategy,createdAt:new Date().toISOString(),createdBy:session.name});
+setCapa(capas);p.capaRef=no;
+}
+if(p.createRisk==="Evet"&&!p.ciRiskSynced){
+const risks=getRisks(),no=p.riskNo||("ISMS-RSK-"+new Date().getFullYear()+"-"+String(risks.length+1).padStart(4,"0"));
+risks.unshift({id:"RSKID-"+Date.now(),riskNo:no,module:"Security & Continuity",sourceNo:p.recordNo,riskTitle:p.title,department:p.department,riskDescription:(p.threat+" / "+p.vulnerability)||p.incidentDescription,status:"Açık",riskScore:p.riskScore,riskLevel:p.riskLevel,priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name});
+setRisks(risks);p.ciRiskSynced="Evet";
+}
+if(p.createLesson==="Evet"&&!p.ciRef&&p.lessonLearned){
+const ci=getCI(),no="CI-"+new Date().getFullYear()+"-"+String(ci.length+1).padStart(4,"0");
+ci.unshift({id:"CIID-"+Date.now(),improvementNo:no,recordDate:todayISO(),status:"Lessons Learned",title:"Security Lesson - "+p.title,department:p.department,owner:p.owner,responsible:p.owner,category:"Bilgi Güvenliği",priority:p.priority,currentState:p.incidentDescription||p.continuityScenario||p.title,lessonLearned:p.lessonLearned,preventRecurrence:p.correctiveAction||p.riskTreatment||p.recoveryStrategy,sourceModule:"Security & Continuity",sourceNo:p.recordNo,createdAt:new Date().toISOString(),createdBy:session.name});
+setCI(ci);p.ciRef=no;
+}
+setRecords(getRecords().map(x=>x.id===p.id?p:x));
+}
+function normalizeRecord(x){if(!x.auditTrail)x.auditTrail=[];if(!x.status)x.status="Yeni";return x}
+
+function renderRecords(){
+let items=getRecords().map(normalizeRecord);
+setRecords(items);
+items=getRecords().map(normalizeRecord);
+const q=document.getElementById("globalSearch").value.toLowerCase();
+const tf=document.getElementById("typeFilter").value;
+const sf=document.getElementById("statusFilter").value;
+const pf=document.getElementById("priorityFilter").value;
+const df=document.getElementById("departmentFilter").value;
+const filtered=items.filter(x=>{
+const text=JSON.stringify(x).toLowerCase();
+return text.includes(q)&&(!tf||x.recordType===tf)&&(!sf||x.status===sf)&&(!pf||x.priority===pf)&&(!df||x.department===df);
+});
+updateCards(items);
+const area=document.getElementById("recordTable");
+if(!filtered.length){area.innerHTML='<div class="empty">Security & Continuity kaydı bulunamadı.</div>';return}
+let html='<table><thead><tr><th>No</th><th>Başlık</th><th>Tip</th><th>Departman</th><th>Risk</th><th>BCP</th><th>Durum</th><th>Termin</th><th>İlerleme</th><th>Aksiyon</th></tr></thead><tbody>';
+filtered.forEach(x=>{
+const index=items.findIndex(i=>i.id===x.id);
+const progress=getProgressByStatus(x.status);
+html+=`<tr>
+<td>${escapeHTML(x.recordNo)}<br><small>${escapeHTML(x.incidentNo||"-")}</small></td>
+<td>${escapeHTML(x.title)}<br><small>${escapeHTML(x.owner||"-")} / ${escapeHTML(x.affectedSystem||x.criticalProcess||"-")}</small></td>
+<td>${escapeHTML(x.recordType)}</td>
+<td>${escapeHTML(x.department)}</td>
+<td><span class="status ${statusClass(x.riskLevel)}">${escapeHTML(x.riskLevel||"-")}</span><br><small>${x.riskScore||0}</small></td>
+<td>${escapeHTML(x.rto||"-")} / ${escapeHTML(x.rpo||"-")}<br><small>${escapeHTML(x.drillResult||"-")}</small></td>
+<td><span class="status ${statusClass(x.status)}">${escapeHTML(x.status)}</span></td>
+<td>${formatDateTR(x.dueDate)}</td>
+<td>${progress}%<div class="progress"><div class="bar" style="width:${progress}%"></div></div></td>
+<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button><button class="small-btn approve" onclick="advanceIndex(${index})">Sonraki</button><button class="small-btn dark" onclick="editRecord(${index})">Düzenle</button></div></td>
+</tr>`;
+});
+area.innerHTML=html+'</tbody></table>';
+}
+function getProgressByStatus(s){
+if(s==="Yeni")return 10;if(s==="İncelemede")return 20;if(s==="Risk Değerlendirme")return 35;if(s==="Aksiyon Bekliyor")return 50;if(s==="BCP Etki Analizi")return 62;if(s==="Tatbikat / Test")return 72;if(s==="Etkinlik Kontrolü")return 84;if(s==="Lessons Learned")return 94;if(s==="Kapalı")return 100;if(s==="Reddedildi")return 0;return 0;
+}
+function updateCards(items){
+document.getElementById("openIncidents").textContent=items.filter(x=>x.recordType.includes("Olay")&&!["Kapalı","Reddedildi"].includes(x.status)).length;
+document.getElementById("closedIncidents").textContent=items.filter(x=>x.recordType.includes("Olay")&&x.status==="Kapalı").length;
+document.getElementById("openRisks").textContent=items.filter(x=>(x.recordType.includes("Risk")||x.riskScore>0)&&!["Kapalı","Reddedildi"].includes(x.status)).length;
+document.getElementById("highRisks").textContent=items.filter(x=>["Yüksek","Kritik"].includes(x.riskLevel)||["High","Critical"].includes(x.priority)).length;
+document.getElementById("bcpTests").textContent=items.filter(x=>x.recordType.includes("BCP")||x.drillDate).length;
+const now=todayISO(),future=addDays(now,30);
+document.getElementById("upcomingDrills").textContent=items.filter(x=>x.drillDate&&x.drillDate>=now&&x.drillDate<=future).length;
+document.getElementById("failedDrills").textContent=items.filter(x=>["Başarısız","Kısmen Başarılı"].includes(x.drillResult)).length;
+document.getElementById("openActions").textContent=items.filter(x=>x.actionRef&&!["Kapalı","Reddedildi"].includes(x.status)).length;
+}
+function openDrawer(index){
+selectedIndex=index;
+const x=normalizeRecord(getRecords()[index]);
+document.getElementById("drawerTitle").textContent=x.recordNo+" / "+x.title;
+document.getElementById("drawerStatus").textContent=x.status;
+document.getElementById("drawerStatus").className="status "+statusClass(x.status);
+const daysOpen=x.closedAt?daysBetween(x.recordDate,x.closedAt):daysBetween(x.recordDate,todayISO());
+document.getElementById("drawerContent").innerHTML=`
+<div class="info-box"><b>Kayıt:</b> ${x.recordNo}
+<b>Tip:</b> ${x.recordType}
+<b>Başlık:</b> ${x.title}
+<b>Departman:</b> ${x.department}
+<b>Sorumlu:</b> ${x.owner}
+<b>Öncelik:</b> ${x.priority}
+<b>Kritiklik:</b> ${x.criticality}
+<b>Durum:</b> ${x.status}
+<b>Açık Gün:</b> ${daysOpen===null?"-":daysOpen+" gün"}</div>
+
+<div class="info-box"><b>Bilgi Güvenliği Olayı</b>
+Olay No: ${x.incidentNo}
+Tür: ${x.incidentType}
+Sistem: ${x.affectedSystem||"-"}
+Varlık: ${x.affectedAsset||"-"}
+CIA: G=${x.confidentiality} / B=${x.integrity} / E=${x.availability}
+Seviye: ${x.incidentLevel}
+
+Açıklama:
+${x.incidentDescription||"-"}
+
+İlk Müdahale:
+${x.containment||"-"}
+
+Kök Neden:
+${x.rootCause||"-"}
+
+Düzeltici Faaliyet:
+${x.correctiveAction||"-"}</div>
+
+<div class="info-box"><b>BGYS Risk</b>
+Risk No: ${x.riskNo}
+Varlık Grubu: ${x.assetGroup}
+Tehdit: ${x.threat||"-"}
+Zafiyet: ${x.vulnerability||"-"}
+Risk Skoru: ${x.riskScore||0} / ${x.riskLevel||"-"}
+Kontrol Ref: ${x.controlRef||"-"}
+Artık Risk: ${x.residualRisk}
+YGG Girdisi: ${x.mrmInput}
+
+Mevcut Kontroller:
+${x.existingControls||"-"}
+
+Risk İşleme:
+${x.riskTreatment||"-"}</div>
+
+<div class="info-box"><b>İş Sürekliliği / ISO 22301</b>
+BCP No: ${x.bcpNo}
+Kritik Süreç: ${x.criticalProcess||"-"}
+RTO: ${x.rto||"-"}
+RPO: ${x.rpo||"-"}
+Kritik Seviye: ${x.businessCriticality}
+Kurtarma Ekibi: ${x.recoveryTeam||"-"}
+Alternatif Lokasyon: ${x.alternateLocation||"-"}
+Tatbikat Tarihi: ${formatDateTR(x.drillDate)}
+Tatbikat Sonucu: ${x.drillResult}
+Kesinti: ${x.downtime||"-"}
+BIA: ${x.biaStatus}
+BCP Güncelleme: ${x.bcpUpdateRequired}
+
+Senaryo:
+${x.continuityScenario||"-"}
+
+Kurtarma Stratejisi:
+${x.recoveryStrategy||"-"}
+
+Tatbikat Bulguları:
+${x.drillFindings||"-"}</div>
+
+<div class="info-box"><b>EQMS Entegrasyonları</b>
+CAPA: ${x.capaRef||"-"}
+Action: ${x.actionRef||"-"}
+CI / Lessons: ${x.ciRef||"-"}
+Kanıt: ${x.evidence?x.evidence.fileName+" - "+x.evidence.fileSizeText:"Yok"}
+
+Lessons Learned:
+${x.lessonLearned||"-"}</div>
+
+<div class="info-box"><b>Audit Trail</b>
+${(x.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>`;
+document.getElementById("drawer").classList.add("active");
+}
+function closeDrawer(){selectedIndex=null;document.getElementById("drawer").classList.remove("active")}
+function updateRecord(index,changes,actionText){
+const items=getRecords().map(normalizeRecord);if(!items[index])return;
+items[index]={...items[index],...changes,updatedAt:new Date().toISOString()};
+items[index].auditTrail=items[index].auditTrail||[];
+items[index].auditTrail.unshift({action:actionText,user:session.name||"System",date:new Date().toISOString()});
+setRecords(items);renderRecords();if(selectedIndex!==null)openDrawer(selectedIndex);
+}
+function nextStatus(s){const i=FLOW.indexOf(s);return i>=0&&i<FLOW.length-1?FLOW[i+1]:s}
+function advanceIndex(index){const item=getRecords()[index];updateRecord(index,{status:nextStatus(item.status)},"Yaşam döngüsü ilerletildi");showToast("Sonraki aşamaya geçildi")}
+function advanceCurrent(){if(selectedIndex===null)return;advanceIndex(selectedIndex)}
+function makeLessonCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Lessons Learned"},"Lessons Learned aşamasına alındı");showToast("Lessons Learned")}
+function makeBcpCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"BCP Etki Analizi"},"BCP etki analizine alındı");showToast("BCP Etki Analizi")}
+function closeCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Kapalı",closedAt:new Date().toISOString()},"Kayıt kapatıldı");showToast("Kapatıldı")}
+function rejectCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Reddedildi"},"Kayıt reddedildi");showToast("Reddedildi")}
+function createIntegrationCurrent(){if(selectedIndex===null)return;const item=getRecords()[selectedIndex];createAutoIntegrations(item);showToast("Entegrasyonlar oluşturuldu");renderRecords();openDrawer(selectedIndex)}
+
+function editRecord(index){
+const x=normalizeRecord(getRecords()[index]);
+editId=x.id;uploadedEvidence=x.evidence||null;
+document.getElementById("modeBadge").textContent="EDIT MODE";
+document.getElementById("modeBadge").className="status orange";
+["recordNo","recordType","recordDate","status","title","department","owner","priority","criticality","dueDate","reportedBy","incidentNo","incidentType","affectedSystem","affectedAsset","confidentiality","integrity","availability","incidentLevel","incidentDescription","containment","rootCause","correctiveAction","riskNo","assetGroup","threat","vulnerability","likelihood","impact","riskScore","riskLevel","existingControls","riskTreatment","riskOwner","controlRef","residualRisk","mrmInput","bcpNo","criticalProcess","rto","rpo","businessCriticality","recoveryTeam","alternateLocation","drillDate","drillResult","downtime","biaStatus","bcpUpdateRequired","continuityScenario","recoveryStrategy","drillFindings","createCapa","createRisk","createAction","createLesson","capaRef","actionRef","ciRef","lessonLearned"].forEach(id=>{
+if(document.getElementById(id))document.getElementById(id).value=x[id]??"";
+});
+renderFlowPreview(x.status);
+document.querySelector(".panel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function markLifecycle(s){document.getElementById("status").value=s;renderFlowPreview(s);showToast(s+" işaretlendi")}
+
+function resetForm(){
+editId=null;uploadedEvidence=null;
+document.getElementById("modeBadge").textContent="CREATE MODE";
+document.getElementById("modeBadge").className="status blue";
+generateNumbers();
+document.getElementById("recordType").value="Bilgi Güvenliği Olayı";
+document.getElementById("recordDate").value=todayISO();
+document.getElementById("status").value="Yeni";
+document.getElementById("title").value="";
+document.getElementById("department").value="Bilgi Güvenliği";
+document.getElementById("owner").value=session.name||"Kerem Güdenli";
+document.getElementById("priority").value="Medium";
+document.getElementById("criticality").value="Orta";
+document.getElementById("dueDate").value=addDays(todayISO(),14);
+document.getElementById("reportedBy").value=session.name||"Kerem Güdenli";
+["affectedSystem","affectedAsset","incidentDescription","containment","rootCause","correctiveAction","threat","vulnerability","existingControls","riskTreatment","riskOwner","controlRef","criticalProcess","rto","rpo","recoveryTeam","alternateLocation","downtime","continuityScenario","recoveryStrategy","drillFindings","capaRef","actionRef","ciRef","lessonLearned"].forEach(id=>document.getElementById(id).value="");
+document.getElementById("incidentType").value="Yetkisiz Erişim";
+document.getElementById("confidentiality").value="Yok";document.getElementById("integrity").value="Yok";document.getElementById("availability").value="Yok";document.getElementById("incidentLevel").value="Seviye 1";
+document.getElementById("assetGroup").value="Bilgi Varlığı";document.getElementById("likelihood").value="1";document.getElementById("impact").value="1";calculateRisk();
+document.getElementById("residualRisk").value="Düşük";document.getElementById("mrmInput").value="Hayır";
+document.getElementById("businessCriticality").value="Orta";document.getElementById("drillDate").value=addDays(todayISO(),30);document.getElementById("drillResult").value="Planlandı";document.getElementById("biaStatus").value="Gerekli";document.getElementById("bcpUpdateRequired").value="Hayır";
+document.getElementById("createCapa").value="Evet";document.getElementById("createRisk").value="Evet";document.getElementById("createAction").value="Evet";document.getElementById("createLesson").value="Evet";
+document.getElementById("evidenceFile").value="";
+renderFlowPreview("Yeni");
+}
+function createMRMNotifications(){
+getRecords().filter(x=>x.mrmInput==="Evet"||["Yüksek","Kritik"].includes(x.riskLevel)||["High","Critical"].includes(x.priority)||x.drillResult==="Başarısız").forEach(x=>createNotification(x,"YGG gündemi / Security & Continuity: "+x.title));
+showToast("YGG bildirimleri oluşturuldu");
+}
+function exportCSV(){
+const rows=getRecords().map(normalizeRecord);
+let csv="RecordNo,Type,Title,Department,Owner,Priority,Status,RiskScore,RiskLevel,RTO,RPO,DrillResult,CAPA,Action,CI\n";
+rows.forEach(x=>csv+=`"${x.recordNo}","${x.recordType}","${x.title}","${x.department}","${x.owner}","${x.priority}","${x.status}","${x.riskScore}","${x.riskLevel}","${x.rto}","${x.rpo}","${x.drillResult}","${x.capaRef}","${x.actionRef}","${x.ciRef}"\n`);
+const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="security_continuity_center.csv";a.click();URL.revokeObjectURL(url);
+}
+function runSearch(){
+const input=document.getElementById("globalSearch");
+const text=input.value.trim().toLowerCase();
+if(!text){clearSearchResults();input.focus();renderRecords();return}
+let results=[];
+getRecords().map(normalizeRecord).forEach(item=>{
+if(JSON.stringify(item).toLowerCase().includes(text)){
+results.push({type:"record",module:"Security & Continuity",selected:item.id,title:item.recordNo+" / "+item.title,detail:`${item.recordType||""} ${item.department||""} ${item.riskLevel||""} ${item.status||""} ${item.affectedSystem||""} ${item.criticalProcess||""}`});
+}
+});
+getNotifications().forEach(n=>{
+if(JSON.stringify(n).toLowerCase().includes(text)){
+results.push({type:"page",module:"Bildirim Merkezi",go:"notification-center.html",store:"gdnl_selected_notification",selected:n.notificationId||"",title:n.documentName||n.notificationId||"Bildirim",detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`});
+}
+});
+results=results.concat(collectPageSearchResults(text));
+renderSearchResults(text,results);
+renderRecords();
+}
+function collectPageSearchResults(keyword){
+const results=[];const seen=new Set();
+document.querySelectorAll(".menu a").forEach(el=>{
+const label=el.textContent.trim(),href=el.getAttribute("href")||"";
+if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"})}}
+});
+document.querySelectorAll(".card").forEach((el,index)=>{
+const title=(el.querySelector("small")?.textContent||"Kart").trim(),value=(el.querySelector("h2")?.textContent||"").trim(),detail=(el.querySelector("p")?.textContent||"").trim();
+if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}
+});
+document.querySelectorAll(".panel").forEach((el,index)=>{
+if(el.id==="searchResultsPanel")return;
+const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim(),detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`})}
+});
+return results;
+}
+function highlightText(value,keyword){
+const safe=escapeHTML(value);if(!keyword)return safe;
+const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
+}
+function renderSearchResults(keyword,results){
+const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),count=document.getElementById("searchResultCount"),key=document.getElementById("searchKeyword");
+panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";
+if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}
+area.innerHTML=results.slice(0,80).map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");
+window.gdnlSearchResults=results.slice(0,80);panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function openSearchResult(index){
+const r=(window.gdnlSearchResults||[])[index];if(!r)return;
+if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}
+if(r.store)localStorage.setItem(r.store,r.selected||"");
+if(r.module==="Security & Continuity"){const items=getRecords().map(normalizeRecord);const idx=items.findIndex(x=>x.id===r.selected);if(idx!==-1){clearSearchResults();renderRecords();openDrawer(idx)}return}
+if(r.go&&r.go!=="#")window.location.href=r.go;
+}
+function clearSearchResults(){
+document.getElementById("globalSearch").value="";
+document.getElementById("searchResultsPanel").classList.remove("active");
+document.getElementById("searchResultsArea").innerHTML="";
+renderRecords();
+}
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2500)}
+document.getElementById("globalSearch").addEventListener("input",function(){if(!this.value.trim())clearSearchResults();else renderRecords()});
+document.getElementById("globalSearch").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();runSearch()}});
+document.getElementById("evidenceFile").addEventListener("change",function(e){
+const file=e.target.files[0];if(!file)return;
+if(file.size>5*1024*1024){showToast("Dosya 5MB üzerinde olamaz");e.target.value="";return}
+const reader=new FileReader();
+reader.onload=function(ev){uploadedEvidence={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Kanıt dosyası yüklendi")};
+reader.readAsDataURL(file);
+});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeMobileMenu();closeDrawer()}});
+resetForm();
+renderRecords();
+console.log("GDNL EQMS Security & Continuity Center Loaded");
+</script>
+</body>
+</html>
