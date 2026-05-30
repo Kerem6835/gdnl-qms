@@ -8,15 +8,16 @@
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+html,body{min-height:100%;overflow-x:hidden}
 body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef5fc 46%,#f8fbff 100%);color:#0f1b2f}
-.app{display:grid;grid-template-columns:282px 1fr;min-height:100vh}
-.sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06)}
+.app{display:grid;grid-template-columns:282px minmax(0,1fr);min-height:100vh;align-items:start}
+.sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06);min-height:100vh;position:sticky;top:0}
 .logo{font-size:30px;font-weight:900;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}.logo span{color:#35a852}
 .menu{display:flex;flex-direction:column;gap:8px}
 .menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s;border:1px solid transparent}
 .menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
 .sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid #dfe9f5;padding-top:18px}
-.main{padding:24px;max-width:1780px;margin:auto;width:100%}
+.main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
 .topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px}
 .search-wrap{display:flex;align-items:center;gap:10px}
 .search{width:550px;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
@@ -84,7 +85,6 @@ tr:hover td{background:#f7fbf8}
 <div class="app">
 
 <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
-
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
     <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
@@ -249,19 +249,16 @@ function logout(){
 localStorage.removeItem("gdnl_qdms_session");
 window.location.href="index.html";
 }
-
 function openMobileMenu(){
 document.getElementById("mobileDrawer").classList.add("active");
 document.getElementById("mobileOverlay").classList.add("active");
 document.body.style.overflow="hidden";
 }
-
 function closeMobileMenu(){
 document.getElementById("mobileDrawer").classList.remove("active");
 document.getElementById("mobileOverlay").classList.remove("active");
 document.body.style.overflow="";
 }
-
 document.addEventListener("keydown",function(e){
 if(e.key==="Escape")closeMobileMenu();
 });
@@ -271,105 +268,46 @@ function runSearch(){
 const input=document.getElementById("globalSearch");
 const text=input.value.trim().toLowerCase();
 if(!text){clearSearchResults();input.focus();renderDocuments();return}
-
 const docs=getDocuments().map(normalizeDocument);
 let results=[];
-
 docs.forEach(d=>{
 const fullText=JSON.stringify(d).toLowerCase();
 if(fullText.includes(text)){
-results.push({
-type:"record",
-module:"Doküman Yönetimi",
-go:"document-viewer.html",
-store:"gdnl_selected_document_code",
-selected:d.code,
-title:d.name||d.code||"Doküman",
-detail:`${d.code||""} ${d.docType||""} ${d.owner||""} ${d.status||""} ${d.standard||""}`
-});
+results.push({type:"record",module:"Doküman Yönetimi",go:"document-viewer.html",store:"gdnl_selected_document_code",selected:d.code,title:d.name||d.code||"Doküman",detail:`${d.code||""} ${d.docType||""} ${d.owner||""} ${d.status||""} ${d.standard||""}`});
 }
 });
-
 results=results.concat(collectPageSearchResults(text));
 renderSearchResults(text,results);
 }
-
 function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
+const results=[];const seen=new Set();
 document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;
-if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});}
-}
+const label=el.textContent.trim();const href=el.getAttribute("href")||"";
+if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});}}
 });
 document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
+const title=(el.querySelector("small")?.textContent||"Kart").trim();const value=(el.querySelector("h2")?.textContent||"").trim();const detail=(el.querySelector("p")?.textContent||"").trim();
+if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});}
 });
 document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
+if(el.id==="searchResultsPanel")return;const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});}
 });
 return results;
 }
-
 function escapeHTML(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
+function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
 function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-return;
-}
-area.innerHTML=results.slice(0,80).map((r,index)=>`
-<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module)}</span></div>
-<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
-<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-</div>`).join("");
-window.gdnlSearchResults=results.slice(0,80);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
+const panel=document.getElementById("searchResultsPanel");const area=document.getElementById("searchResultsArea");const count=document.getElementById("searchResultCount");const key=document.getElementById("searchKeyword");
+panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";
+if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}
+area.innerHTML=results.slice(0,80).map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");
+window.gdnlSearchResults=results.slice(0,80);panel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];
-if(!r)return;
-if(r.type==="scroll"&&r.selector){
-const target=document.querySelector(r.selector);
-if(target){
-target.scrollIntoView({behavior:"smooth",block:"center"});
-target.style.outline="3px solid #35a852";
-target.style.outlineOffset="4px";
-setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
-}
-return;
-}
-if(r.store)localStorage.setItem(r.store,r.selected||"");
-if(r.go&&r.go!=="#")window.location.href=r.go;
+const r=(window.gdnlSearchResults||[])[index];if(!r)return;
+if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}
+if(r.store)localStorage.setItem(r.store,r.selected||"");if(r.go&&r.go!=="#")window.location.href=r.go;
 }
 function clearSearchResults(){
 document.getElementById("globalSearch").value="";
@@ -608,7 +546,6 @@ setTimeout(()=>toast.style.display="none",2500);
 document.getElementById("globalSearch").addEventListener("input",function(){
 if(!this.value.trim()){clearSearchResults()}else{renderDocuments()}
 });
-
 document.getElementById("globalSearch").addEventListener("keydown",function(e){
 if(e.key==="Enter"){e.preventDefault();runSearch()}
 });
