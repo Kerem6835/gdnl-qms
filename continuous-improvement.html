@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Kaizen & Improvement Suggestions</title>
+<title>GDNL EQMS | Continuous Improvement Center</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -11,8 +11,7 @@ html,body{min-height:100%;overflow-x:hidden}
 body{background:radial-gradient(circle at 86% 8%,rgba(53,168,82,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef7f1 46%,#f8fbff 100%);color:#0f1b2f}
 .app{display:grid;grid-template-columns:282px minmax(0,1fr);min-height:100vh;align-items:start}
 .sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06);min-height:100vh;position:sticky;top:0}
-.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}
-.logo span{color:#35a852}
+.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}.logo span{color:#35a852}
 .menu{display:flex;flex-direction:column;gap:8px}
 .menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850;transition:.2s;border:1px solid transparent}
 .menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
@@ -23,75 +22,68 @@ body{background:radial-gradient(circle at 86% 8%,rgba(53,168,82,.10),transparent
 .search{width:550px;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
 .search:focus,.field input:focus,.field select:focus,.field textarea:focus,.toolbar select:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12);background:#fff}
 .search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:#fff;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);transition:.2s}
-.search-btn:hover,.avatar:hover,.btn.primary:hover,.result-open:hover{opacity:1;filter:brightness(.99);transform:translateY(-1px)}
+.search-btn:hover,.avatar:hover,.btn.primary:hover,.result-open:hover{filter:brightness(.99);transform:translateY(-1px)}
 .profile{display:flex;align-items:center;gap:10px;flex:0 0 auto}
 .avatar{width:auto!important;height:44px;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);padding:0 24px!important;transition:.2s;white-space:nowrap}
-.logout-btn{height:44px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;padding:0 18px;border-radius:14px;font-weight:950;cursor:pointer;transition:.2s;white-space:nowrap}
-.logout-btn:hover{background:#fecaca;transform:translateY(-1px)}
+.logout-btn{height:44px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;padding:0 18px;border-radius:14px;font-weight:950;cursor:pointer;transition:.2s;white-space:nowrap}.logout-btn:hover{background:#fecaca;transform:translateY(-1px)}
 .hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf7ef 100%);color:#0f1b2f;border:1px solid #dbe8f7;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 20px 55px rgba(7,27,52,.065)}
 .hero h1{font-size:42px;font-weight:950;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;color:#081d35}
-.hero p{max-width:1080px;color:#4e6078;font-weight:650;line-height:1.7}
+.hero p{max-width:1120px;color:#4e6078;font-weight:650;line-height:1.7}
 .hero-badge{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;padding:16px 18px;border-radius:18px;font-weight:950;white-space:nowrap;box-shadow:0 14px 32px rgba(53,168,82,.22)}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
 .card{background:rgba(255,255,255,.84);backdrop-filter:blur(20px);border:1px solid rgba(53,168,82,.12);border-radius:24px;padding:22px;box-shadow:0 10px 30px rgba(7,27,52,.05),0 2px 8px rgba(53,168,82,.05);position:relative;overflow:hidden}
 .card:before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,#35a852,#1597ff);opacity:.88}
-.card small{color:#617086;font-weight:900}.card h2{font-size:40px;font-weight:950;color:#1f7d3d;letter-spacing:-1px;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#536176}
+.card small{color:#617086;font-weight:900}.card h2{font-size:38px;font-weight:950;color:#1f7d3d;letter-spacing:-1px;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#536176}
 .panel{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px);margin-bottom:24px;min-width:0}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-.panel h3{font-size:19px;font-weight:950;color:#071b34;letter-spacing:-.3px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:950;color:#071b34;letter-spacing:-.3px}
 .form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .field{display:flex;flex-direction:column;gap:7px;min-width:0}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}.field.triple{grid-column:span 3}
 .field label{font-size:12px;font-weight:900;color:#617086}
 .field input,.field select,.field textarea{width:100%;max-width:100%;min-width:0;height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 13px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
 .field input[readonly]{background:#eef2f7;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.field textarea{height:92px;padding:12px;resize:none;line-height:1.55}.field textarea.big{height:155px}
+.field textarea{height:92px;padding:12px;resize:none;line-height:1.55}.field textarea.big{height:150px}
 .actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}
 .toolbar select{height:42px;border:1px solid #d8e4ef;border-radius:13px;padding:0 12px;background:linear-gradient(135deg,#fff,#f8fbff);font-weight:800;outline:none;color:#0f1b2f}
 .btn{border:none;border-radius:14px;padding:12px 16px;font-weight:950;cursor:pointer;transition:.2s}
 .btn.primary{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;box-shadow:0 14px 32px rgba(53,168,82,.22)}
-.btn.dark{background:linear-gradient(135deg,#071b34,#0d2747);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.blue{background:#e8f7ee;color:#1f7d3d}
+.btn.dark{background:linear-gradient(135deg,#071b34,#0d2747);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.blue{background:#e8f7ee;color:#1f7d3d}.btn.purple{background:#ede9fe;color:#6d28d9}
 .status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:950}
 .status.blue{background:#e8f7ee;color:#1f7d3d}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e9eef5;color:#405166}.status.purple{background:#ede9fe;color:#6d28d9}
 table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}
 th{text-align:left;font-size:12px;color:#617086;padding:12px;border-bottom:1px solid #e1eaf3;background:linear-gradient(135deg,#f8fbff,#f1f8f4)}
-td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:800;color:#536176;vertical-align:middle}
-td small{color:#64748b;font-weight:800}
-tr:hover td{background:#f7fbf8}
-.row-actions{display:flex;gap:8px;flex-wrap:wrap}
-.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:950;cursor:pointer}
-.small-btn.view{background:#e8f7ee;color:#1f7d3d}.small-btn.approve{background:#dcfce7;color:#15803d}.small-btn.warn{background:#ffedd5;color:#c2410c}.small-btn.fail{background:#fee2e2;color:#991b1b}.small-btn.dark{background:#071b34;color:white}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:800;color:#536176;vertical-align:middle}td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:950;cursor:pointer}
+.small-btn.view{background:#e8f7ee;color:#1f7d3d}.small-btn.approve{background:#dcfce7;color:#15803d}.small-btn.warn{background:#ffedd5;color:#c2410c}.small-btn.fail{background:#fee2e2;color:#991b1b}.small-btn.dark{background:#071b34;color:white}.small-btn.purple{background:#ede9fe;color:#6d28d9}
 .empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:linear-gradient(135deg,#f8fbff,#fff)}
 .progress{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:6px}.bar{height:100%;background:linear-gradient(90deg,#35a852,#62d46f)}
-.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:14px}
-.flow-step{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:16px;padding:12px;text-align:center;font-weight:950;font-size:12px;color:#536176;min-width:0}
+.flow{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:10px;margin-top:14px}
+.flow-step{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:16px;padding:12px 8px;text-align:center;font-weight:950;font-size:11px;color:#536176;min-width:0}
 .flow-step.active{border-color:#bfe7ca;background:#eefaf2;color:#1f7d3d}.flow-step.done{border-color:#86efac;background:#f0fdf4;color:#15803d}.flow-step.reject{border-color:#fecaca;background:#fef2f2;color:#991b1b}
-.drawer{display:none;position:fixed;right:24px;top:24px;width:min(960px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:rgba(255,255,255,.96);border:1px solid #e0e8f0;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.22);z-index:80;padding:24px;backdrop-filter:blur(18px)}
+.subsection{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:22px;padding:18px;margin-top:16px}
+.subsection h4{font-size:16px;font-weight:950;color:#071b34;margin-bottom:12px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1040px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:rgba(255,255,255,.96);border:1px solid #e0e8f0;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.22);z-index:80;padding:24px;backdrop-filter:blur(18px)}
 .drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px;color:#071b34}
 .close-btn{border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:950;cursor:pointer}
 .info-box{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#536176;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
 .toast{position:fixed;right:24px;bottom:24px;background:linear-gradient(135deg,#071b34,#1f8f43);color:white;padding:15px 18px;border-radius:16px;font-weight:950;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
-.search-results-panel{display:none;border:1px solid #c7ebd2;background:rgba(255,255,255,.94)}
-.search-results-panel.active{display:block}
+.search-results-panel{display:none;border:1px solid #c7ebd2;background:rgba(255,255,255,.94)}.search-results-panel.active{display:block}
 .search-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:900;color:#475569}
-.search-keyword{background:#e8f7ee;color:#1f7d3d;border-radius:999px;padding:7px 12px;font-weight:950}
-.link{cursor:pointer;color:#1f7d3d;font-weight:950;text-decoration:none}
+.search-keyword{background:#e8f7ee;color:#1f7d3d;border-radius:999px;padding:7px 12px;font-weight:950}.link{cursor:pointer;color:#1f7d3d;font-weight:950;text-decoration:none}
 .result-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:15px;margin-bottom:12px;display:grid;grid-template-columns:160px minmax(0,1fr) 130px;gap:14px;align-items:center}
 .result-card b{display:block;font-size:14px;margin-bottom:6px;color:#0f172a}.result-card small{display:block;font-size:12px;color:#617086;line-height:1.55;font-weight:800}.result-card mark{background:#dcfce7;color:#166534;padding:1px 3px;border-radius:4px}
 .result-open{height:38px;border:none;border-radius:12px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;font-weight:950;cursor:pointer}
 .mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:white;font-size:22px;font-weight:950;cursor:pointer;box-shadow:0 12px 28px rgba(53,168,82,.22);flex:0 0 auto}
 .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}
-.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0;overflow:hidden}
-.mobile-drawer.active{left:0}.mobile-overlay.active{display:block}
+.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0;overflow:hidden}.mobile-drawer.active{left:0}.mobile-overlay.active{display:block}
 .mobile-drawer-head{height:86px;flex:0 0 86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#ffffff,#f0fbf4)}
 .mobile-drawer-logo{font-size:25px;font-weight:950;letter-spacing:-.5px;color:#0f172a}.mobile-drawer-logo span{color:#35a852}
 .mobile-close{width:42px;height:42px;border:1px solid #fecaca;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950;cursor:pointer}
 .mobile-drawer-menu{padding:16px 16px 92px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:8px;flex:1 1 auto;-webkit-overflow-scrolling:touch;max-height:calc(100dvh - 86px)}
-.mobile-drawer-menu a{text-decoration:none;color:#516177;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}
-.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}
+.mobile-drawer-menu a{text-decoration:none;color:#516177;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}
 .mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
 .mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
 @media print{.sidebar,.topbar,.hero,.actions,.toolbar,.toast,.mobile-overlay,.mobile-drawer{display:none!important}.app{display:block}.main{padding:0;max-width:none}.panel,.card{box-shadow:none;border:1px solid #e2e8f0}}
-@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double,.field.triple{grid-column:1/-1}.flow{grid-template-columns:repeat(3,minmax(0,1fr))}.search{width:320px}}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double,.field.triple{grid-column:1/-1}.flow{grid-template-columns:repeat(5,minmax(0,1fr))}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid,.flow{grid-template-columns:1fr}.field.full,.field.double,.field.triple{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
 </style>
 </head>
@@ -107,35 +99,33 @@ tr:hover td{background:#f7fbf8}
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
-<a href="dashboard.html">🏠 Dashboard</a>
-<a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
-<a href="documents.html">📄 Doküman Yönetimi</a>
-<a href="new-document.html">➕ Yeni Doküman</a>
-<a href="revision.html">🔄 Revizyon Yönetimi</a>
-<a href="approval.html">✅ Onay Yönetimi</a>
-<a href="archive.html">🗄️ Arşiv Yönetimi</a>
-<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
-<a href="distribution.html">📤 Dağıtım Yönetimi</a>
-<a href="capa.html">🛠️ 8D / CAPA</a>
-<a href="risk-register.html">⚠️ Risk Yönetimi</a>
-<a href="training-management.html">🎓 Eğitim Yönetimi</a>
-<a href="audit.html">🧾 İç Denetim</a>
-<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
-<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
-<a href="management-review.html">📊 YGG Yönetimi</a>
-<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
-<a href="change-management.html">🔁 Değişiklik Yönetimi</a>
-<a href="process-management.html">🧩 Süreç Yönetimi</a>
-<a class="active" href="kaizen.html">💡 Kaizen Yönetimi</a>
-<a href="action-center.html">✅ Action Center</a>
-<a href="notification-center.html">🔔 Bildirim Merkezi</a>
-<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
-<a href="standards-compliance.html">📚 Standart Uygunluk</a>
-<a href="legal-compliance.html">⚖️ Yasal Uyum</a>
-<a href="kpi-reports.html">📈 KPI & Raporlar</a>
-<a href="lessons-learned.html">📚 Lessons Learned</a>
-<a href="cost-of-quality.html">💰 Cost Of Quality</a>
-<a href="users.html">👥 Kullanıcılar</a>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
+    <a href="documents.html">📄 Doküman Yönetimi</a>
+    <a href="new-document.html">➕ Yeni Doküman</a>
+    <a href="revision.html">🔄 Revizyon Yönetimi</a>
+    <a href="approval.html">✅ Onay Yönetimi</a>
+    <a href="archive.html">🗄️ Arşiv Yönetimi</a>
+    <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+    <a href="distribution.html">📤 Dağıtım Yönetimi</a>
+    <a href="capa.html">🛠️ 8D / CAPA</a>
+    <a href="risk-register.html">⚠️ Risk Yönetimi</a>
+    <a href="training-management.html">🎓 Eğitim Yönetimi</a>
+    <a href="audit.html">🧾 İç Denetim</a>
+    <a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+    <a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+    <a href="management-review.html">📊 YGG Yönetimi</a>
+    <a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+    <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+    <a href="process-management.html">🧩 Süreç Yönetimi</a>
+    <a class="active" href="continuous-improvement.html">💡 Continuous Improvement</a>
+    <a href="action-center.html">✅ Action Center</a>
+    <a href="notification-center.html">🔔 Bildirim Merkezi</a>
+    <a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+    <a href="standards-compliance.html">📚 Standart Uygunluk</a>
+    <a href="legal-compliance.html">⚖️ Yasal Uyum</a>
+    <a href="kpi-reports.html">📈 KPI & Raporlar</a>
+    <a href="users.html">👥 Kullanıcılar</a>
   </nav>
   <div class="mobile-drawer-footer">
     <button class="mobile-logout" onclick="logout()">Logout</button>
@@ -146,38 +136,36 @@ tr:hover td{background:#f7fbf8}
 <div>
 <a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
 <nav class="menu">
-<a href="dashboard.html">🏠 Dashboard</a>
-<a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
-<a href="documents.html">📄 Doküman Yönetimi</a>
-<a href="new-document.html">➕ Yeni Doküman</a>
-<a href="revision.html">🔄 Revizyon Yönetimi</a>
-<a href="approval.html">✅ Onay Yönetimi</a>
-<a href="archive.html">🗄️ Arşiv Yönetimi</a>
-<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
-<a href="distribution.html">📤 Dağıtım Yönetimi</a>
-<a href="capa.html">🛠️ 8D / CAPA</a>
-<a href="risk-register.html">⚠️ Risk Yönetimi</a>
-<a href="training-management.html">🎓 Eğitim Yönetimi</a>
-<a href="audit.html">🧾 İç Denetim</a>
-<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
-<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
-<a href="management-review.html">📊 YGG Yönetimi</a>
-<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
-<a href="change-management.html">🔁 Değişiklik Yönetimi</a>
-<a href="process-management.html">🧩 Süreç Yönetimi</a>
-<a href="action-center.html">✅ Action Center</a>
-<a href="notification-center.html">🔔 Bildirim Merkezi</a>
-<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
-<a href="standards-compliance.html">📚 Standart Uygunluk</a>
-<a href="legal-compliance.html">⚖️ Yasal Uyum</a>
-<a href="kpi-reports.html">📈 KPI & Raporlar</a>
-<a class="active" href="kaizen.html">💡 Kaizen Yönetimi</a>
-<a href="lessons-learned.html">📚 Lessons Learned</a>
-<a href="cost-of-quality.html">💰 Cost Of Quality</a>
-<a href="users.html">👥 Kullanıcılar</a>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
+    <a href="documents.html">📄 Doküman Yönetimi</a>
+    <a href="new-document.html">➕ Yeni Doküman</a>
+    <a href="revision.html">🔄 Revizyon Yönetimi</a>
+    <a href="approval.html">✅ Onay Yönetimi</a>
+    <a href="archive.html">🗄️ Arşiv Yönetimi</a>
+    <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+    <a href="distribution.html">📤 Dağıtım Yönetimi</a>
+    <a href="capa.html">🛠️ 8D / CAPA</a>
+    <a href="risk-register.html">⚠️ Risk Yönetimi</a>
+    <a href="training-management.html">🎓 Eğitim Yönetimi</a>
+    <a href="audit.html">🧾 İç Denetim</a>
+    <a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+    <a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+    <a href="management-review.html">📊 YGG Yönetimi</a>
+    <a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+    <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+    <a href="process-management.html">🧩 Süreç Yönetimi</a>
+    <a class="active" href="continuous-improvement.html">💡 Continuous Improvement</a>
+    <a href="action-center.html">✅ Action Center</a>
+    <a href="notification-center.html">🔔 Bildirim Merkezi</a>
+    <a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+    <a href="standards-compliance.html">📚 Standart Uygunluk</a>
+    <a href="legal-compliance.html">⚖️ Yasal Uyum</a>
+    <a href="kpi-reports.html">📈 KPI & Raporlar</a>
+    <a href="users.html">👥 Kullanıcılar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Kaizen & Improvement<br>Continuous Improvement Engine</div>
+<div class="sidebar-footer">GDNL EQMS Enterprise<br>Continuous Improvement<br>Kaizen • Lessons • COQ</div>
 </aside>
 
 <main class="main">
@@ -185,7 +173,7 @@ tr:hover td{background:#f7fbf8}
 <header class="topbar">
 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
 <div class="search-wrap">
-<input class="search" id="globalSearch" placeholder="Kaizen no, öneri, departman, sahip, fayda, durum veya bağlantı ara">
+<input class="search" id="globalSearch" placeholder="İyileştirme no, Kaizen, Lessons Learned, COQ, süreç, departman, tasarruf veya durum ara">
 <button class="search-btn" onclick="runSearch()">Ara</button>
 </div>
 <div class="profile">
@@ -198,10 +186,10 @@ tr:hover td{background:#f7fbf8}
 
 <section class="hero">
 <div>
-<h1>Kaizen / İyileştirme Önerileri</h1>
-<p>Sürekli iyileştirme kültürünü tek merkezden yönet. Öneri, problem, beklenen fayda, tahmini kazanç, sorumlu, durum, uygulama kanıtı ve YGG bağlantılarını GDNL EQMS standardında takip et.</p>
+<h1>Continuous Improvement Center</h1>
+<p>Kaizen, Lessons Learned ve Cost of Quality aynı kaydın içinde tek yaşam döngüsü olarak yönetilir. Fikir oluşur, uygulanır, öğrenilen ders standartlaşır ve finansal kalite etkisi ölçülür.</p>
 </div>
-<div class="hero-badge">Kaizen Engine: <span>10/10 Integrated</span></div>
+<div class="hero-badge">CI Engine: <span>10/10 Active</span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -217,94 +205,122 @@ tr:hover td{background:#f7fbf8}
 </section>
 
 <section class="cards">
-<div class="card"><small>Toplam Öneri</small><h2 id="totalKaizen">0</h2><p>Tüm iyileştirme kayıtları</p></div>
-<div class="card"><small>Açık Öneri</small><h2 id="openKaizen">0</h2><p>Yeni / değerlendirme / uygulama</p></div>
-<div class="card"><small>Uygulanan Öneri</small><h2 id="completedKaizen">0</h2><p>Tamamlanan iyileştirme</p></div>
-<div class="card"><small>Yıllık Kazanç</small><h2 id="annualGain">0</h2><p>Toplam tahmini / gerçekleşen TL</p></div>
+<div class="card"><small>Toplam İyileştirme</small><h2 id="totalRecords">0</h2><p>Tüm CI kayıtları</p></div>
+<div class="card"><small>Açık İyileştirme</small><h2 id="openRecords">0</h2><p>Devam eden kayıtlar</p></div>
+<div class="card"><small>Tamamlanan</small><h2 id="closedRecords">0</h2><p>Kapanan iyileştirmeler</p></div>
+<div class="card"><small>Yıllık Tasarruf</small><h2 id="annualSaving">0</h2><p>Toplam net TL etkisi</p></div>
 </section>
 
 <section class="cards">
-<div class="card"><small>Onay Bekleyen</small><h2 id="approvalWaiting">0</h2><p>Karar bekleyen kayıt</p></div>
-<div class="card"><small>Yüksek Öncelik</small><h2 id="highPriority">0</h2><p>High / Critical kayıtlar</p></div>
-<div class="card"><small>CAPA Bağlı</small><h2 id="capaLinked">0</h2><p>CAPA / 8D ilişkili</p></div>
-<div class="card"><small>YGG Girdisi</small><h2 id="yggLinked">0</h2><p>Yönetime taşınacak öneri</p></div>
+<div class="card"><small>Lessons Learned</small><h2 id="lessonsCount">0</h2><p>Standartlaşan öğrenimler</p></div>
+<div class="card"><small>COQ Kazancı</small><h2 id="coqGain">0</h2><p>Kalite maliyeti iyileşmesi</p></div>
+<div class="card"><small>Bu Ay Tamamlanan</small><h2 id="monthClosed">0</h2><p>Ay içi kapanış sayısı</p></div>
+<div class="card"><small>Ortalama ROI</small><h2 id="avgRoi">0%</h2><p>Finansal geri dönüş</p></div>
 </section>
 
 <section class="panel">
 <div class="panel-head">
-<h3>Kaizen Öneri Formu</h3>
+<h3>Tek Kayıt Yaşam Döngüsü</h3>
 <span class="status blue" id="modeBadge">CREATE MODE</span>
 </div>
 
 <div class="form-grid">
-<div class="field"><label>Kaizen No</label><input id="kaizenNo" readonly></div>
-<div class="field"><label>Öneri Tarihi</label><input id="suggestionDate" type="date"></div>
-<div class="field"><label>Termin Tarihi</label><input id="dueDate" type="date"></div>
-<div class="field"><label>Durum</label><select id="kaizenStatus"><option>Yeni</option><option>Değerlendiriliyor</option><option>Onaylandı</option><option>Uygulanıyor</option><option>Tamamlandı</option><option>Reddedildi</option><option>YGG Girdisi</option></select></div>
+<div class="field"><label>Improvement No</label><input id="improvementNo" readonly></div>
+<div class="field"><label>Kayıt Tarihi</label><input id="recordDate" type="date"></div>
+<div class="field"><label>Termin</label><input id="dueDate" type="date"></div>
+<div class="field"><label>Durum</label><select id="status" onchange="renderFlowPreview(this.value)"><option>Yeni Fikir</option><option>Kaizen</option><option>Değerlendirme</option><option>Onay</option><option>Uygulama</option><option>Etkinlik Kontrolü</option><option>Lessons Learned</option><option>Cost Of Quality</option><option>Standartlaştırma</option><option>Kapanış</option><option>Reddedildi</option></select></div>
 
-<div class="field double"><label>Öneri Başlığı</label><input id="suggestionTitle" placeholder="İyileştirme önerisi başlığı"></div>
+<div class="field double"><label>Başlık</label><input id="title" placeholder="İyileştirme başlığı"></div>
 <div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>İK</option><option>Bilgi Güvenliği</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Yönetim</option></select></div>
+<div class="field"><label>Süreç</label><input id="process" placeholder="İlgili süreç"></div>
+
 <div class="field"><label>Öneri Sahibi</label><input id="owner" placeholder="Ad Soyad"></div>
-
-<div class="field"><label>Öneri Tipi</label><select id="kaizenType"><option>Kalite İyileştirme</option><option>Verimlilik</option><option>Maliyet Azaltma</option><option>İSG İyileştirme</option><option>Çevre İyileştirme</option><option>Enerji Verimliliği</option><option>5S</option><option>Proses İyileştirme</option><option>Müşteri Memnuniyeti</option><option>Dijitalleşme</option></select></div>
+<div class="field"><label>Sorumlu</label><input id="responsible" placeholder="Sorumlu kişi"></div>
+<div class="field"><label>Kategori</label><select id="category"><option>Kalite</option><option>Maliyet</option><option>Teslimat</option><option>İSG</option><option>Enerji</option><option>Çevre</option><option>Verimlilik</option><option>5S</option><option>Dijitalleşme</option><option>Müşteri Memnuniyeti</option></select></div>
 <div class="field"><label>Öncelik</label><select id="priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
-<div class="field"><label>Etki Alanı</label><select id="impactArea"><option>Yerel</option><option>Departman</option><option>Fabrika Geneli</option><option>Müşteri Etkili</option><option>Tedarikçi Etkili</option><option>Yönetim Stratejik</option></select></div>
-<div class="field"><label>Uygulama Sorumlusu</label><input id="responsible" placeholder="Sorumlu kişi"></div>
 
-<div class="field full"><label>Problem / Mevcut Durum</label><textarea id="problem" class="big" placeholder="Mevcut durum, kayıp, risk, uygunsuzluk veya iyileştirme fırsatı"></textarea></div>
-<div class="field full"><label>Öneri / Çözüm</label><textarea id="suggestion" class="big" placeholder="Önerilen iyileştirme, yöntem, aksiyon ve beklenen değişim"></textarea></div>
-<div class="field full"><label>Beklenen Fayda</label><textarea id="benefit" placeholder="Kalite, maliyet, teslimat, İSG, çevre, enerji, verimlilik veya müşteri memnuniyeti faydası"></textarea></div>
+<div class="field full"><label>Mevcut Durum / Problem / Fırsat</label><textarea id="currentState" class="big" placeholder="Problem, mevcut kayıp, risk veya iyileştirme fırsatı"></textarea></div>
+<div class="field double"><label>Kök Neden / Ana Sebep</label><textarea id="rootCause" placeholder="Neden bu iyileştirmeye ihtiyaç var?"></textarea></div>
+<div class="field double"><label>Risk / Etki</label><textarea id="riskImpact" placeholder="Kalite, maliyet, teslimat, müşteri, İSG, çevre veya enerji etkisi"></textarea></div>
 
-<div class="field"><label>Tahmini Kazanç TL</label><input id="estimatedGain" type="number" min="0" value="0" oninput="updateGainFields()"></div>
-<div class="field"><label>Gerçekleşen Kazanç TL</label><input id="actualGain" type="number" min="0" value="0" oninput="updateGainFields()"></div>
-<div class="field"><label>Uygulama Maliyeti TL</label><input id="implementationCost" type="number" min="0" value="0" oninput="updateGainFields()"></div>
-<div class="field"><label>Net Kazanç TL</label><input id="netGain" readonly></div>
+<div class="field full"><label>Kaizen / Önerilen İyileştirme</label><textarea id="kaizenAction" class="big" placeholder="Önerilen çözüm, uygulanacak aksiyon, beklenen değişim"></textarea></div>
+<div class="field double"><label>Beklenen Fayda</label><textarea id="expectedBenefit" placeholder="Kalite, maliyet, teslimat, İSG, çevre, enerji, müşteri memnuniyeti faydası"></textarea></div>
+<div class="field double"><label>Uygulama Planı</label><textarea id="implementationPlan" placeholder="Ne yapılacak, kim yapacak, ne zaman tamamlanacak?"></textarea></div>
+</div>
 
-<div class="field"><label>Onaylayan</label><input id="approver" placeholder="Onaylayan kişi"></div>
-<div class="field"><label>Onay Tarihi</label><input id="approvalDate" type="date"></div>
-<div class="field"><label>Uygulama Tarihi</label><input id="implementationDate" type="date"></div>
-<div class="field"><label>Etkinlik Kontrol Tarihi</label><input id="effectivenessDate" type="date"></div>
-
-<div class="field"><label>Etkinlik Sonucu</label><select id="effectivenessResult"><option>Bekliyor</option><option>Etkili</option><option>Kısmen Etkili</option><option>Etkisiz</option></select></div>
-<div class="field"><label>Risk Bağlantısı</label><input id="riskRef" placeholder="RSK-2026-0001"></div>
-<div class="field"><label>CAPA / 8D Bağlantısı</label><input id="capaRef" placeholder="CAPA-2026-0001"></div>
-<div class="field"><label>Süreç Bağlantısı</label><input id="processRef" placeholder="PRS-2026-0001"></div>
-
-<div class="field"><label>Doküman Revizyonu Gerekli mi?</label><select id="docRevisionRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="subsection">
+<h4>Lessons Learned</h4>
+<div class="form-grid">
+<div class="field full"><label>Ne Öğrendik?</label><textarea id="lessonLearned" class="big" placeholder="Bu kayıttan organizasyon olarak ne öğrendik?"></textarea></div>
+<div class="field double"><label>Tekrar Yaşanmaması İçin Ne Yapılacak?</label><textarea id="preventRecurrence"></textarea></div>
+<div class="field double"><label>Yaygınlaştırma Planı</label><textarea id="deploymentPlan"></textarea></div>
+<div class="field"><label>Etkilenen Süreç</label><input id="affectedProcess"></div>
+<div class="field"><label>Güncellenen Doküman</label><input id="updatedDocument" placeholder="PR/FR/TL kodu"></div>
+<div class="field"><label>Standartlaştırıldı mı?</label><select id="standardized"><option>Hayır</option><option>Evet</option></select></div>
 <div class="field"><label>Eğitim Gerekli mi?</label><select id="trainingRequired"><option>Hayır</option><option>Evet</option></select></div>
-<div class="field"><label>YGG Girdisi mi?</label><select id="yggInput"><option>Hayır</option><option>Evet</option></select></div>
-<div class="field"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+</div>
+</div>
 
-<div class="field full"><label>Uygulama / Sonuç Notu</label><textarea id="resultNote" placeholder="Uygulama sonucu, kanıt, doğrulama, standartlaştırma ve yaygınlaştırma notları"></textarea></div>
+<div class="subsection">
+<h4>Cost Of Quality / Finansal Etki</h4>
+<div class="form-grid">
+<div class="field"><label>Önceki Maliyet TL</label><input id="beforeCost" type="number" min="0" value="0" oninput="calculateCOQ()"></div>
+<div class="field"><label>Sonraki Maliyet TL</label><input id="afterCost" type="number" min="0" value="0" oninput="calculateCOQ()"></div>
+<div class="field"><label>Hurda Kazancı TL</label><input id="scrapSaving" type="number" min="0" value="0" oninput="calculateCOQ()"></div>
+<div class="field"><label>İşçilik Kazancı TL</label><input id="laborSaving" type="number" min="0" value="0" oninput="calculateCOQ()"></div>
+<div class="field"><label>Enerji Kazancı TL</label><input id="energySaving" type="number" min="0" value="0" oninput="calculateCOQ()"></div>
+<div class="field"><label>Müşteri Şikayet Kazancı TL</label><input id="customerSaving" type="number" min="0" value="0" oninput="calculateCOQ()"></div>
+<div class="field"><label>Uygulama Maliyeti TL</label><input id="implementationCost" type="number" min="0" value="0" oninput="calculateCOQ()"></div>
+<div class="field"><label>Net Tasarruf TL</label><input id="netSaving" readonly></div>
+<div class="field"><label>COQ Kazancı TL</label><input id="coqSaving" readonly></div>
+<div class="field"><label>ROI %</label><input id="roi" readonly></div>
+<div class="field"><label>Kazanım Türü</label><select id="gainType"><option>TL</option><option>Saat</option><option>Hurda Azalışı</option><option>Risk Azalışı</option><option>Enerji Azalışı</option><option>Müşteri Şikayet Azalışı</option></select></div>
+<div class="field"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+</div>
+</div>
+
+<div class="subsection">
+<h4>EQMS Entegrasyonları</h4>
+<div class="form-grid">
+<div class="field"><label>CAPA No</label><input id="capaRef" placeholder="CAPA-2026-0001"></div>
+<div class="field"><label>Risk No</label><input id="riskRef" placeholder="RSK-2026-0001"></div>
+<div class="field"><label>FMEA No</label><input id="fmeaRef" placeholder="FMEA-2026-0001"></div>
+<div class="field"><label>Action No</label><input id="actionRef" placeholder="ACT-2026-0001"></div>
+<div class="field"><label>Doküman Revizyonu Açılsın mı?</label><select id="createDocRevision"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>CAPA Açılsın mı?</label><select id="createCapa"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Risk Açılsın mı?</label><select id="createRisk"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Action Açılsın mı?</label><select id="createAction"><option>Evet</option><option>Hayır</option></select></div>
+</div>
 </div>
 
 <div class="flow" id="flowPreview"></div>
 
 <div class="actions">
-<button class="btn primary" onclick="saveKaizen()">Öneri Kaydet</button>
-<button class="btn orange" onclick="saveKaizen(true)">Kaydet + Bildirim</button>
-<button class="btn green" onclick="markCompletedForm()">Tamamlandı İşaretle</button>
-<button class="btn blue" onclick="markYggForm()">YGG Girdisi İşaretle</button>
+<button class="btn primary" onclick="saveRecord()">Kaydet</button>
+<button class="btn orange" onclick="saveRecord(true)">Kaydet + Bildirim</button>
+<button class="btn green" onclick="markLifecycle('Kapanış')">Kapanış İşaretle</button>
+<button class="btn purple" onclick="markLifecycle('Lessons Learned')">Lessons Learned</button>
+<button class="btn blue" onclick="markLifecycle('Cost Of Quality')">COQ Hesaplandı</button>
 <button class="btn dark" onclick="resetForm()">Temizle</button>
 </div>
 </section>
 
 <section class="panel">
 <div class="panel-head">
-<h3>Kaizen Master Listesi</h3>
+<h3>Continuous Improvement Master Listesi</h3>
 <div class="toolbar">
-<select id="departmentFilter" onchange="renderKaizens()"><option value="">Tüm Departmanlar</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>İK</option><option>Bilgi Güvenliği</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Yönetim</option></select>
-<select id="statusFilter" onchange="renderKaizens()"><option value="">Tüm Durumlar</option><option>Yeni</option><option>Değerlendiriliyor</option><option>Onaylandı</option><option>Uygulanıyor</option><option>Tamamlandı</option><option>Reddedildi</option><option>YGG Girdisi</option></select>
-<select id="priorityFilter" onchange="renderKaizens()"><option value="">Tüm Öncelikler</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select>
-<select id="typeFilter" onchange="renderKaizens()"><option value="">Tüm Tipler</option><option>Kalite İyileştirme</option><option>Verimlilik</option><option>Maliyet Azaltma</option><option>İSG İyileştirme</option><option>Çevre İyileştirme</option><option>Enerji Verimliliği</option><option>5S</option><option>Proses İyileştirme</option><option>Müşteri Memnuniyeti</option><option>Dijitalleşme</option></select>
+<select id="departmentFilter" onchange="renderRecords()"><option value="">Tüm Departmanlar</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>İK</option><option>Bilgi Güvenliği</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Yönetim</option></select>
+<select id="statusFilter" onchange="renderRecords()"><option value="">Tüm Durumlar</option><option>Yeni Fikir</option><option>Kaizen</option><option>Değerlendirme</option><option>Onay</option><option>Uygulama</option><option>Etkinlik Kontrolü</option><option>Lessons Learned</option><option>Cost Of Quality</option><option>Standartlaştırma</option><option>Kapanış</option><option>Reddedildi</option></select>
+<select id="priorityFilter" onchange="renderRecords()"><option value="">Tüm Öncelikler</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select>
+<select id="categoryFilter" onchange="renderRecords()"><option value="">Tüm Kategoriler</option><option>Kalite</option><option>Maliyet</option><option>Teslimat</option><option>İSG</option><option>Enerji</option><option>Çevre</option><option>Verimlilik</option><option>5S</option><option>Dijitalleşme</option><option>Müşteri Memnuniyeti</option></select>
 </div>
 </div>
 <div class="actions">
 <button class="btn green" onclick="exportCSV()">CSV İndir</button>
-<button class="btn orange" onclick="createYggNotifications()">YGG Girdileri İçin Bildirim</button>
-<button class="btn dark" onclick="renderKaizens()">Yenile</button>
+<button class="btn orange" onclick="createYggNotifications()">YGG / Yönetim Bildirimi</button>
+<button class="btn dark" onclick="renderRecords()">Yenile</button>
 </div>
-<div id="kaizenTable"></div>
+<div id="recordTable"></div>
 </section>
 
 </main>
@@ -313,21 +329,18 @@ tr:hover td{background:#f7fbf8}
 <div class="drawer" id="drawer">
 <div class="drawer-head">
 <div>
-<h3 id="drawerTitle">Kaizen Detayı</h3>
+<h3 id="drawerTitle">CI Detayı</h3>
 <span class="status blue" id="drawerStatus">Durum</span>
 </div>
 <button class="close-btn" onclick="closeDrawer()">Kapat</button>
 </div>
 <div id="drawerContent"></div>
 <div class="actions">
-<button class="btn green" onclick="approveCurrent()">Onayla</button>
-<button class="btn orange" onclick="implementCurrent()">Uygulanıyor Yap</button>
-<button class="btn primary" onclick="completeCurrent()">Tamamla</button>
-<button class="btn blue" onclick="createActionFromCurrent()">Action Center Görevi Aç</button>
-<button class="btn orange" onclick="createCapaFromCurrent()">CAPA / 8D Aç</button>
-<button class="btn green" onclick="createFmeaFromCurrent()">FMEA Güncelleme Aç</button>
-<button class="btn primary" onclick="createDocRevisionFromCurrent()">Doküman Revizyonu Aç</button>
-<button class="btn blue" onclick="sendCurrentYgg()">YGG Girdisi Yap</button>
+<button class="btn green" onclick="advanceCurrent()">Sonraki Aşamaya Geç</button>
+<button class="btn purple" onclick="makeLessonCurrent()">Lessons Learned Yap</button>
+<button class="btn blue" onclick="makeCoqCurrent()">COQ Yap</button>
+<button class="btn primary" onclick="closeCurrent()">Kapat</button>
+<button class="btn orange" onclick="createIntegrationCurrent()">Entegrasyonları Oluştur</button>
 <button class="btn red" onclick="rejectCurrent()">Reddet</button>
 <button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
 </div>
@@ -341,69 +354,60 @@ if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
 
+const FLOW=["Yeni Fikir","Kaizen","Değerlendirme","Onay","Uygulama","Etkinlik Kontrolü","Lessons Learned","Cost Of Quality","Standartlaştırma","Kapanış"];
 let selectedIndex=null;
 let editId=null;
 let uploadedEvidence=null;
 
-const FLOW=["Yeni","Değerlendiriliyor","Onaylandı","Uygulanıyor","Tamamlandı","YGG Girdisi"];
+function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_eqms_session");window.location.href="index.html"}
+function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
 
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-localStorage.removeItem("gdnl_eqms_session");
-window.location.href="index.html";
-}
-
-function openMobileMenu(){
-document.getElementById("mobileDrawer").classList.add("active");
-document.getElementById("mobileOverlay").classList.add("active");
-document.body.style.overflow="hidden";
-}
-function closeMobileMenu(){
-document.getElementById("mobileDrawer").classList.remove("active");
-document.getElementById("mobileOverlay").classList.remove("active");
-document.body.style.overflow="";
-}
-
-function getKaizens(){try{return JSON.parse(localStorage.getItem("gdnl_kaizen_management"))||[]}catch(e){return[]}}
-function setKaizens(x){localStorage.setItem("gdnl_kaizen_management",JSON.stringify(x))}
+function getRecords(){try{return JSON.parse(localStorage.getItem("gdnl_continuous_improvement"))||[]}catch(e){return[]}}
+function setRecords(x){localStorage.setItem("gdnl_continuous_improvement",JSON.stringify(x))}
 function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
 function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
+function getActions(){try{return JSON.parse(localStorage.getItem("gdnl_action_center"))||[]}catch(e){return[]}}
+function setActions(x){localStorage.setItem("gdnl_action_center",JSON.stringify(x))}
+function getCapa(){try{return JSON.parse(localStorage.getItem("gdnl_capa"))||[]}catch(e){return[]}}
+function setCapa(x){localStorage.setItem("gdnl_capa",JSON.stringify(x))}
+function getRisks(){try{return JSON.parse(localStorage.getItem("gdnl_risk_register"))||[]}catch(e){return[]}}
+function setRisks(x){localStorage.setItem("gdnl_risk_register",JSON.stringify(x))}
+function getRevisions(){try{return JSON.parse(localStorage.getItem("gdnl_revisions"))||[]}catch(e){return[]}}
+function setRevisions(x){localStorage.setItem("gdnl_revisions",JSON.stringify(x))}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
 function daysBetween(a,b){if(!a||!b)return null;const d1=new Date(a);const d2=new Date(b);if(isNaN(d1)||isNaN(d2))return null;return Math.ceil((d2-d1)/(1000*60*60*24))}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
-function formatMoney(v){const n=Number(v||0);return n.toLocaleString("tr-TR")}
+function formatMoney(v){return Number(v||0).toLocaleString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
-function statusClass(s){
-if(["Tamamlandı","Etkili","Onaylandı"].includes(s))return"green";
-if(["Reddedildi","Etkisiz","Critical"].includes(s))return"red";
-if(["Uygulanıyor","Değerlendiriliyor","Bekliyor","High","Kısmen Etkili"].includes(s))return"orange";
-if(["YGG Girdisi"].includes(s))return"purple";
-if(["Low"].includes(s))return"gray";
-return"blue";
-}
-function escapeHTML(value){
-return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
+function escapeHTML(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function statusClass(s){if(["Kapanış","Tamamlandı","Etkili","Onay"].includes(s))return"green";if(["Reddedildi","Etkisiz","Critical"].includes(s))return"red";if(["Uygulama","Etkinlik Kontrolü","Değerlendirme","High"].includes(s))return"orange";if(["Lessons Learned","Cost Of Quality","Standartlaştırma"].includes(s))return"purple";if(["Low"].includes(s))return"gray";return"blue"}
 
 function generateNo(){
 const year=new Date().getFullYear();
-const count=getKaizens().length+1;
-document.getElementById("kaizenNo").value="KZN-"+year+"-"+String(count).padStart(4,"0");
+const count=getRecords().length+1;
+document.getElementById("improvementNo").value="CI-"+year+"-"+String(count).padStart(4,"0");
 }
-
-function updateGainFields(){
-const estimated=Number(document.getElementById("estimatedGain").value||0);
-const actual=Number(document.getElementById("actualGain").value||0);
+function calculateCOQ(){
+const before=Number(document.getElementById("beforeCost").value||0);
+const after=Number(document.getElementById("afterCost").value||0);
+const scrap=Number(document.getElementById("scrapSaving").value||0);
+const labor=Number(document.getElementById("laborSaving").value||0);
+const energy=Number(document.getElementById("energySaving").value||0);
+const customer=Number(document.getElementById("customerSaving").value||0);
 const cost=Number(document.getElementById("implementationCost").value||0);
-const base=actual>0?actual:estimated;
-document.getElementById("netGain").value=Math.max(base-cost,0);
+const coq=Math.max(before-after,0);
+const net=Math.max(coq+scrap+labor+energy+customer-cost,0);
+const roi=cost>0?Math.round((net/cost)*100):net>0?100:0;
+document.getElementById("coqSaving").value=coq;
+document.getElementById("netSaving").value=net;
+document.getElementById("roi").value=roi+"%";
 }
-
-function renderFlowPreview(status="Yeni"){
+function renderFlowPreview(status="Yeni Fikir"){
 const area=document.getElementById("flowPreview");
-let html="";
 const currentIndex=FLOW.indexOf(status);
+let html="";
 FLOW.forEach((s,i)=>{
 let cls="flow-step";
 if(status==="Reddedildi"&&i===0)cls+=" reject";
@@ -415,702 +419,434 @@ area.innerHTML=html;
 }
 
 function collectPayload(notify=false){
-const status=document.getElementById("kaizenStatus").value;
-const existing=editId?getKaizens().find(x=>x.id===editId):null;
+calculateCOQ();
+const existing=editId?getRecords().find(x=>x.id===editId):null;
 const payload={
-id:editId||"KZNID-"+Date.now(),
-kaizenNo:document.getElementById("kaizenNo").value,
-suggestionDate:document.getElementById("suggestionDate").value,
+id:editId||"CIID-"+Date.now(),
+improvementNo:document.getElementById("improvementNo").value,
+recordDate:document.getElementById("recordDate").value,
 dueDate:document.getElementById("dueDate").value,
-kaizenStatus:status,
-suggestionTitle:document.getElementById("suggestionTitle").value.trim(),
+status:document.getElementById("status").value,
+title:document.getElementById("title").value.trim(),
 department:document.getElementById("department").value,
+process:document.getElementById("process").value.trim(),
 owner:document.getElementById("owner").value.trim(),
-kaizenType:document.getElementById("kaizenType").value,
-priority:document.getElementById("priority").value,
-impactArea:document.getElementById("impactArea").value,
 responsible:document.getElementById("responsible").value.trim(),
-problem:document.getElementById("problem").value.trim(),
-suggestion:document.getElementById("suggestion").value.trim(),
-benefit:document.getElementById("benefit").value.trim(),
-estimatedGain:Number(document.getElementById("estimatedGain").value||0),
-actualGain:Number(document.getElementById("actualGain").value||0),
-implementationCost:Number(document.getElementById("implementationCost").value||0),
-netGain:Number(document.getElementById("netGain").value||0),
-approver:document.getElementById("approver").value.trim(),
-approvalDate:document.getElementById("approvalDate").value,
-implementationDate:document.getElementById("implementationDate").value,
-effectivenessDate:document.getElementById("effectivenessDate").value,
-effectivenessResult:document.getElementById("effectivenessResult").value,
-riskRef:document.getElementById("riskRef").value.trim(),
-capaRef:document.getElementById("capaRef").value.trim(),
-processRef:document.getElementById("processRef").value.trim(),
-docRevisionRequired:document.getElementById("docRevisionRequired").value,
+category:document.getElementById("category").value,
+priority:document.getElementById("priority").value,
+currentState:document.getElementById("currentState").value.trim(),
+rootCause:document.getElementById("rootCause").value.trim(),
+riskImpact:document.getElementById("riskImpact").value.trim(),
+kaizenAction:document.getElementById("kaizenAction").value.trim(),
+expectedBenefit:document.getElementById("expectedBenefit").value.trim(),
+implementationPlan:document.getElementById("implementationPlan").value.trim(),
+lessonLearned:document.getElementById("lessonLearned").value.trim(),
+preventRecurrence:document.getElementById("preventRecurrence").value.trim(),
+deploymentPlan:document.getElementById("deploymentPlan").value.trim(),
+affectedProcess:document.getElementById("affectedProcess").value.trim(),
+updatedDocument:document.getElementById("updatedDocument").value.trim(),
+standardized:document.getElementById("standardized").value,
 trainingRequired:document.getElementById("trainingRequired").value,
-yggInput:document.getElementById("yggInput").value,
-resultNote:document.getElementById("resultNote").value.trim(),
+beforeCost:Number(document.getElementById("beforeCost").value||0),
+afterCost:Number(document.getElementById("afterCost").value||0),
+scrapSaving:Number(document.getElementById("scrapSaving").value||0),
+laborSaving:Number(document.getElementById("laborSaving").value||0),
+energySaving:Number(document.getElementById("energySaving").value||0),
+customerSaving:Number(document.getElementById("customerSaving").value||0),
+implementationCost:Number(document.getElementById("implementationCost").value||0),
+coqSaving:Number(document.getElementById("coqSaving").value||0),
+netSaving:Number(document.getElementById("netSaving").value||0),
+roi:Number((document.getElementById("roi").value||"0").replace("%","")||0),
+gainType:document.getElementById("gainType").value,
+capaRef:document.getElementById("capaRef").value.trim(),
+riskRef:document.getElementById("riskRef").value.trim(),
+fmeaRef:document.getElementById("fmeaRef").value.trim(),
+actionRef:document.getElementById("actionRef").value.trim(),
+createDocRevision:document.getElementById("createDocRevision").value,
+createCapa:document.getElementById("createCapa").value,
+createRisk:document.getElementById("createRisk").value,
+createAction:document.getElementById("createAction").value,
 evidence:uploadedEvidence||existing?.evidence||null,
 notificationSent:notify?"Evet":existing?.notificationSent||"Hayır",
 createdBy:existing?.createdBy||session.name||"System",
 createdAt:existing?.createdAt||new Date().toISOString(),
 updatedAt:new Date().toISOString(),
-closedAt:status==="Tamamlandı"?(existing?.closedAt||new Date().toISOString()):existing?.closedAt||"",
+closedAt:document.getElementById("status").value==="Kapanış"?(existing?.closedAt||new Date().toISOString()):existing?.closedAt||"",
 auditTrail:existing?.auditTrail||[]
 };
-payload.auditTrail.unshift({action:editId?"Kaizen kaydı güncellendi":"Kaizen kaydı oluşturuldu",user:session.name||"System",date:new Date().toISOString()});
+payload.auditTrail.unshift({action:editId?"CI kaydı güncellendi":"CI kaydı oluşturuldu",user:session.name||"System",date:new Date().toISOString()});
 return payload;
 }
 
 function validate(p){
-if(!p.suggestionTitle||p.suggestionTitle.length<5){showToast("Öneri başlığı zorunlu");return false}
+if(!p.title||p.title.length<5){showToast("Başlık zorunlu");return false}
 if(!p.owner){showToast("Öneri sahibi zorunlu");return false}
-if(!p.problem||p.problem.length<10){showToast("Problem / mevcut durum en az 10 karakter olmalı");return false}
-if(!p.suggestion||p.suggestion.length<10){showToast("Öneri / çözüm en az 10 karakter olmalı");return false}
-if(!p.dueDate){showToast("Termin tarihi zorunlu");return false}
+if(!p.currentState||p.currentState.length<10){showToast("Mevcut durum en az 10 karakter olmalı");return false}
+if(!p.kaizenAction||p.kaizenAction.length<10){showToast("Kaizen / önerilen iyileştirme en az 10 karakter olmalı");return false}
+if(!p.dueDate){showToast("Termin zorunlu");return false}
 return true;
 }
 
-function saveKaizen(notify=false){
-updateGainFields();
+function saveRecord(notify=false){
 const p=collectPayload(notify);
 if(!validate(p))return;
-const items=getKaizens();
-if(editId){
-const i=items.findIndex(x=>x.id===editId);
-if(i>-1)items[i]=p;
-}else{
-items.unshift(p);
-}
-setKaizens(items);
-if(notify)createNotification(p,"Kaizen önerisi oluşturuldu: "+p.suggestionTitle);
-showToast(editId?"Kaizen güncellendi":"Kaizen önerisi kaydedildi");
+const items=getRecords();
+if(editId){const i=items.findIndex(x=>x.id===editId);if(i>-1)items[i]=p}else{items.unshift(p)}
+setRecords(items);
+if(notify)createNotification(p,"Continuous Improvement kaydı oluşturuldu: "+p.title);
+createAutoIntegrations(p);
+showToast(editId?"CI kaydı güncellendi":"CI kaydı kaydedildi");
 resetForm();
-renderKaizens();
+renderRecords();
 }
 
 function createNotification(p,msg){
 const n=getNotifications();
-n.unshift({
-notificationId:"NTF-"+Date.now(),
-type:"Mail + SMS",
-module:"Kaizen",
-documentCode:p.kaizenNo,
-documentName:p.suggestionTitle,
-mailGroups:p.responsible+"; "+p.department+"; Yönetim",
-smsGroups:p.responsible||p.owner,
-distributionPoints:p.department+" / "+p.kaizenType,
-message:msg,
-status:"Kuyrukta",
-priority:p.priority,
-createdAt:new Date().toISOString(),
-createdBy:session.name||"System"
-});
+n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Continuous Improvement",documentCode:p.improvementNo,documentName:p.title,mailGroups:p.responsible+"; "+p.department+"; Yönetim",smsGroups:p.responsible||p.owner,distributionPoints:p.department+" / "+p.category,message:msg,status:"Kuyrukta",priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name||"System"});
 setNotifications(n);
 }
 
-function normalizeKaizen(x){
+function createAutoIntegrations(p){
+if(p.createAction==="Evet"&&!p.actionRef){
+const actions=getActions();
+const no="ACT-"+new Date().getFullYear()+"-"+String(actions.length+1).padStart(4,"0");
+actions.unshift({id:"ACTID-"+Date.now(),actionNo:no,module:"Continuous Improvement",sourceNo:p.improvementNo,title:p.title,department:p.department,responsible:p.responsible||p.owner,dueDate:p.dueDate,status:"Açık",priority:p.priority,description:p.kaizenAction,createdAt:new Date().toISOString(),createdBy:session.name});
+setActions(actions);p.actionRef=no;
+}
+if(p.createCapa==="Evet"&&!p.capaRef){
+const capas=getCapa();
+const no="CAPA-"+new Date().getFullYear()+"-"+String(capas.length+1).padStart(4,"0");
+capas.unshift({id:"CAPAID-"+Date.now(),capaNo:no,eightDNo:no.replace("CAPA","8D"),problemTitle:p.title,source:"Kaizen / CI",department:p.department,status:"Açık",criticality:p.priority==="Critical"?"Kritik":"Orta",problemDescription:p.currentState,correctiveAction:p.kaizenAction,createdAt:new Date().toISOString(),createdBy:session.name});
+setCapa(capas);p.capaRef=no;
+}
+if(p.createRisk==="Evet"&&!p.riskRef){
+const risks=getRisks();
+const no="RSK-"+new Date().getFullYear()+"-"+String(risks.length+1).padStart(4,"0");
+risks.unshift({id:"RSKID-"+Date.now(),riskNo:no,module:"Continuous Improvement",sourceNo:p.improvementNo,riskTitle:p.title,department:p.department,riskDescription:p.riskImpact||p.currentState,status:"Açık",priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name});
+setRisks(risks);p.riskRef=no;
+}
+if(p.createDocRevision==="Evet"&&p.updatedDocument){
+const revs=getRevisions();
+const no="REV-"+new Date().getFullYear()+"-"+String(revs.length+1).padStart(4,"0");
+revs.unshift({id:"REVID-"+Date.now(),revisionNo:no,documentCode:p.updatedDocument,sourceModule:"Continuous Improvement",sourceNo:p.improvementNo,reason:p.lessonLearned||p.kaizenAction,status:"Taslak",createdAt:new Date().toISOString(),createdBy:session.name});
+setRevisions(revs);
+}
+setRecords(getRecords().map(x=>x.id===p.id?p:x));
+}
+
+function normalizeRecord(x){
 if(!x.auditTrail)x.auditTrail=[];
-if(!x.kaizenStatus)x.kaizenStatus="Yeni";
-if(x.yggInput==="Evet"&&x.kaizenStatus!=="Tamamlandı"&&x.kaizenStatus!=="Reddedildi")x.kaizenStatus="YGG Girdisi";
+if(!x.status)x.status="Yeni Fikir";
 return x;
 }
 
-function renderKaizens(){
-let items=getKaizens().map(normalizeKaizen);
-setKaizens(items);
-items=getKaizens().map(normalizeKaizen);
+function renderRecords(){
+let items=getRecords().map(normalizeRecord);
+setRecords(items);
+items=getRecords().map(normalizeRecord);
 
 const q=document.getElementById("globalSearch").value.toLowerCase();
 const df=document.getElementById("departmentFilter").value;
 const sf=document.getElementById("statusFilter").value;
 const pf=document.getElementById("priorityFilter").value;
-const tf=document.getElementById("typeFilter").value;
+const cf=document.getElementById("categoryFilter").value;
 
 const filtered=items.filter(x=>{
 const text=JSON.stringify(x).toLowerCase();
-return text.includes(q)&&(!df||x.department===df)&&(!sf||x.kaizenStatus===sf)&&(!pf||x.priority===pf)&&(!tf||x.kaizenType===tf);
+return text.includes(q)&&(!df||x.department===df)&&(!sf||x.status===sf)&&(!pf||x.priority===pf)&&(!cf||x.category===cf);
 });
 
 updateCards(items);
-const area=document.getElementById("kaizenTable");
+const area=document.getElementById("recordTable");
+if(!filtered.length){area.innerHTML='<div class="empty">Continuous Improvement kaydı bulunamadı.</div>';return}
 
-if(filtered.length===0){
-area.innerHTML='<div class="empty">Kaizen / iyileştirme önerisi bulunamadı.</div>';
-return;
-}
-
-let html='<table><thead><tr><th>No</th><th>Öneri</th><th>Departman</th><th>Sahip</th><th>Tip</th><th>Öncelik</th><th>Durum</th><th>Net Kazanç</th><th>İlerleme</th><th>Aksiyon</th></tr></thead><tbody>';
-
+let html='<table><thead><tr><th>No</th><th>Başlık</th><th>Departman</th><th>Kategori</th><th>Öncelik</th><th>Durum</th><th>Net Tasarruf</th><th>ROI</th><th>İlerleme</th><th>Aksiyon</th></tr></thead><tbody>';
 filtered.forEach(x=>{
 const index=items.findIndex(i=>i.id===x.id);
-const progress=getProgressByStatus(x.kaizenStatus);
+const progress=getProgressByStatus(x.status);
 html+=`<tr>
-<td>${escapeHTML(x.kaizenNo)}<br><small>${formatDateTR(x.suggestionDate)}</small></td>
-<td>${escapeHTML(x.suggestionTitle)}<br><small>${escapeHTML(x.impactArea)}</small></td>
+<td>${escapeHTML(x.improvementNo)}<br><small>${formatDateTR(x.recordDate)}</small></td>
+<td>${escapeHTML(x.title)}<br><small>${escapeHTML(x.owner||"-")} / ${escapeHTML(x.responsible||"-")}</small></td>
 <td>${escapeHTML(x.department)}</td>
-<td>${escapeHTML(x.owner)}<br><small>Sorumlu: ${escapeHTML(x.responsible||"-")}</small></td>
-<td>${escapeHTML(x.kaizenType)}</td>
+<td>${escapeHTML(x.category)}</td>
 <td><span class="status ${statusClass(x.priority)}">${escapeHTML(x.priority)}</span></td>
-<td><span class="status ${statusClass(x.kaizenStatus)}">${escapeHTML(x.kaizenStatus)}</span></td>
-<td>${formatMoney(x.netGain)} TL</td>
+<td><span class="status ${statusClass(x.status)}">${escapeHTML(x.status)}</span></td>
+<td>${formatMoney(x.netSaving)} TL</td>
+<td>${x.roi||0}%</td>
 <td>${progress}%<div class="progress"><div class="bar" style="width:${progress}%"></div></div></td>
-<td><div class="row-actions">
-<button class="small-btn view" onclick="openDrawer(${index})">İncele</button>
-<button class="small-btn approve" onclick="quickStatus(${index},'Onaylandı')">Onayla</button>
-<button class="small-btn warn" onclick="createFullIntegrationForKaizen(${index})">Entegre Et</button>
-<button class="small-btn dark" onclick="editKaizen(${index})">Düzenle</button>
-</div></td>
+<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button><button class="small-btn approve" onclick="advanceIndex(${index})">Sonraki</button><button class="small-btn dark" onclick="editRecord(${index})">Düzenle</button></div></td>
 </tr>`;
 });
-
-html+='</tbody></table>';
-area.innerHTML=html;
+area.innerHTML=html+'</tbody></table>';
 }
 
 function getProgressByStatus(s){
-if(s==="Yeni")return 10;
-if(s==="Değerlendiriliyor")return 25;
-if(s==="Onaylandı")return 45;
-if(s==="Uygulanıyor")return 70;
-if(s==="Tamamlandı")return 100;
-if(s==="YGG Girdisi")return 85;
+if(s==="Yeni Fikir")return 10;
+if(s==="Kaizen")return 20;
+if(s==="Değerlendirme")return 30;
+if(s==="Onay")return 40;
+if(s==="Uygulama")return 55;
+if(s==="Etkinlik Kontrolü")return 65;
+if(s==="Lessons Learned")return 78;
+if(s==="Cost Of Quality")return 88;
+if(s==="Standartlaştırma")return 95;
+if(s==="Kapanış")return 100;
 if(s==="Reddedildi")return 0;
 return 0;
 }
 
 function updateCards(items){
-const open=items.filter(x=>["Yeni","Değerlendiriliyor","Onaylandı","Uygulanıyor","YGG Girdisi"].includes(x.kaizenStatus)).length;
-const annual=items.reduce((s,x)=>s+Number(x.netGain||0),0);
-document.getElementById("totalKaizen").textContent=items.length;
-document.getElementById("openKaizen").textContent=open;
-document.getElementById("completedKaizen").textContent=items.filter(x=>x.kaizenStatus==="Tamamlandı").length;
-document.getElementById("annualGain").textContent=formatMoney(annual);
-document.getElementById("approvalWaiting").textContent=items.filter(x=>x.kaizenStatus==="Değerlendiriliyor").length;
-document.getElementById("highPriority").textContent=items.filter(x=>["High","Critical"].includes(x.priority)).length;
-document.getElementById("capaLinked").textContent=items.filter(x=>x.capaRef).length;
-document.getElementById("yggLinked").textContent=items.filter(x=>x.yggInput==="Evet"||x.kaizenStatus==="YGG Girdisi").length;
+const open=items.filter(x=>!["Kapanış","Reddedildi"].includes(x.status)).length;
+const closed=items.filter(x=>x.status==="Kapanış").length;
+const annual=items.reduce((s,x)=>s+Number(x.netSaving||0),0);
+const coq=items.reduce((s,x)=>s+Number(x.coqSaving||0),0);
+const lessons=items.filter(x=>x.lessonLearned||["Lessons Learned","Cost Of Quality","Standartlaştırma","Kapanış"].includes(x.status)).length;
+const month=new Date().toISOString().slice(0,7);
+const monthClosed=items.filter(x=>x.status==="Kapanış"&&String(x.closedAt||"").slice(0,7)===month).length;
+const roiItems=items.filter(x=>Number(x.roi||0)>0);
+const avg=roiItems.length?Math.round(roiItems.reduce((s,x)=>s+Number(x.roi||0),0)/roiItems.length):0;
+
+document.getElementById("totalRecords").textContent=items.length;
+document.getElementById("openRecords").textContent=open;
+document.getElementById("closedRecords").textContent=closed;
+document.getElementById("annualSaving").textContent=formatMoney(annual);
+document.getElementById("lessonsCount").textContent=lessons;
+document.getElementById("coqGain").textContent=formatMoney(coq);
+document.getElementById("monthClosed").textContent=monthClosed;
+document.getElementById("avgRoi").textContent=avg+"%";
 }
 
 function openDrawer(index){
 selectedIndex=index;
-const x=normalizeKaizen(getKaizens()[index]);
-document.getElementById("drawerTitle").textContent=x.kaizenNo+" / "+x.suggestionTitle;
-document.getElementById("drawerStatus").textContent=x.kaizenStatus;
-document.getElementById("drawerStatus").className="status "+statusClass(x.kaizenStatus);
-
-const daysOpen=x.closedAt?daysBetween(x.suggestionDate,x.closedAt):daysBetween(x.suggestionDate,todayISO());
+const x=normalizeRecord(getRecords()[index]);
+document.getElementById("drawerTitle").textContent=x.improvementNo+" / "+x.title;
+document.getElementById("drawerStatus").textContent=x.status;
+document.getElementById("drawerStatus").className="status "+statusClass(x.status);
+const daysOpen=x.closedAt?daysBetween(x.recordDate,x.closedAt):daysBetween(x.recordDate,todayISO());
 
 document.getElementById("drawerContent").innerHTML=`
-<div class="info-box"><b>Kaizen No:</b> ${x.kaizenNo}
-<b>Başlık:</b> ${x.suggestionTitle}
+<div class="info-box"><b>No:</b> ${x.improvementNo}
+<b>Başlık:</b> ${x.title}
 <b>Departman:</b> ${x.department}
-<b>Öneri Sahibi:</b> ${x.owner}
-<b>Uygulama Sorumlusu:</b> ${x.responsible||"-"}
-<b>Tip:</b> ${x.kaizenType}
+<b>Süreç:</b> ${x.process||"-"}
+<b>Sahip:</b> ${x.owner||"-"}
+<b>Sorumlu:</b> ${x.responsible||"-"}
+<b>Kategori:</b> ${x.category}
 <b>Öncelik:</b> ${x.priority}
-<b>Etki Alanı:</b> ${x.impactArea}
-<b>Durum:</b> ${x.kaizenStatus}
+<b>Durum:</b> ${x.status}
 <b>Açık Gün:</b> ${daysOpen===null?"-":daysOpen+" gün"}</div>
 
-<div class="info-box"><b>Problem / Mevcut Durum:</b>
-${x.problem||"-"}
+<div class="info-box"><b>Problem / Fırsat:</b>
+${x.currentState||"-"}
 
-<b>Öneri / Çözüm:</b>
-${x.suggestion||"-"}
+<b>Kök Neden:</b>
+${x.rootCause||"-"}
+
+<b>Risk / Etki:</b>
+${x.riskImpact||"-"}</div>
+
+<div class="info-box"><b>Kaizen:</b>
+${x.kaizenAction||"-"}
 
 <b>Beklenen Fayda:</b>
-${x.benefit||"-"}</div>
+${x.expectedBenefit||"-"}
 
-<div class="info-box"><b>Finansal Etki</b>
-Tahmini Kazanç: ${formatMoney(x.estimatedGain)} TL
-Gerçekleşen Kazanç: ${formatMoney(x.actualGain)} TL
+<b>Uygulama Planı:</b>
+${x.implementationPlan||"-"}</div>
+
+<div class="info-box"><b>Lessons Learned</b>
+Ne Öğrendik:
+${x.lessonLearned||"-"}
+
+Tekrar Yaşanmaması İçin:
+${x.preventRecurrence||"-"}
+
+Yaygınlaştırma:
+${x.deploymentPlan||"-"}
+
+Etkilenen Süreç: ${x.affectedProcess||"-"}
+Güncellenen Doküman: ${x.updatedDocument||"-"}
+Standartlaştırıldı: ${x.standardized}
+Eğitim Gerekli: ${x.trainingRequired}</div>
+
+<div class="info-box"><b>Cost Of Quality</b>
+Önceki Maliyet: ${formatMoney(x.beforeCost)} TL
+Sonraki Maliyet: ${formatMoney(x.afterCost)} TL
+COQ Kazancı: ${formatMoney(x.coqSaving)} TL
+Hurda Kazancı: ${formatMoney(x.scrapSaving)} TL
+İşçilik Kazancı: ${formatMoney(x.laborSaving)} TL
+Enerji Kazancı: ${formatMoney(x.energySaving)} TL
+Müşteri Şikayet Kazancı: ${formatMoney(x.customerSaving)} TL
 Uygulama Maliyeti: ${formatMoney(x.implementationCost)} TL
-Net Kazanç: ${formatMoney(x.netGain)} TL</div>
+Net Tasarruf: ${formatMoney(x.netSaving)} TL
+ROI: ${x.roi||0}%</div>
 
-<div class="info-box"><b>Bağlantılar</b>
+<div class="info-box"><b>EQMS Entegrasyonları</b>
+Action: ${x.actionRef||"-"}
+CAPA: ${x.capaRef||"-"}
 Risk: ${x.riskRef||"-"}
-CAPA / 8D: ${x.capaRef||"-"}
-Süreç: ${x.processRef||"-"}
-Doküman Revizyonu: ${x.docRevisionRequired}
-Eğitim: ${x.trainingRequired}
-YGG Girdisi: ${x.yggInput}
-Action Center: ${x.actionCenterLinked||"Hayır"}
-CAPA Oluşturuldu: ${x.capaGenerated||"Hayır"}
-FMEA Oluşturuldu: ${x.fmeaGenerated||"Hayır"}
-Doküman Revizyonu Oluşturuldu: ${x.docRevisionGenerated||"Hayır"}</div>
-
-<div class="info-box"><b>Uygulama / Etkinlik</b>
-Onaylayan: ${x.approver||"-"}
-Onay Tarihi: ${formatDateTR(x.approvalDate)}
-Uygulama Tarihi: ${formatDateTR(x.implementationDate)}
-Etkinlik Kontrol Tarihi: ${formatDateTR(x.effectivenessDate)}
-Etkinlik Sonucu: ${x.effectivenessResult}
-Kanıt: ${x.evidence?x.evidence.fileName+" - "+x.evidence.fileSizeText:"Yok"}
-
-Sonuç Notu:
-${x.resultNote||"-"}</div>
+FMEA: ${x.fmeaRef||"-"}
+Doküman Revizyonu: ${x.createDocRevision}
+Kanıt: ${x.evidence?x.evidence.fileName+" - "+x.evidence.fileSizeText:"Yok"}</div>
 
 <div class="info-box"><b>Audit Trail</b>
-${(x.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>
-`;
+${(x.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>`;
 document.getElementById("drawer").classList.add("active");
 }
 
 function closeDrawer(){selectedIndex=null;document.getElementById("drawer").classList.remove("active")}
-
 function updateRecord(index,changes,actionText){
-const items=getKaizens().map(normalizeKaizen);
+const items=getRecords().map(normalizeRecord);
 if(!items[index])return;
 items[index]={...items[index],...changes,updatedAt:new Date().toISOString()};
 items[index].auditTrail=items[index].auditTrail||[];
 items[index].auditTrail.unshift({action:actionText,user:session.name||"System",date:new Date().toISOString()});
-setKaizens(items);
-renderKaizens();
-if(selectedIndex!==null)openDrawer(selectedIndex);
+setRecords(items);renderRecords();if(selectedIndex!==null)openDrawer(selectedIndex);
 }
+function nextStatus(s){const i=FLOW.indexOf(s);return i>=0&&i<FLOW.length-1?FLOW[i+1]:s}
+function advanceIndex(index){const item=getRecords()[index];updateRecord(index,{status:nextStatus(item.status)},"Yaşam döngüsü ilerletildi");showToast("Sonraki aşamaya geçildi")}
+function advanceCurrent(){if(selectedIndex===null)return;advanceIndex(selectedIndex)}
+function makeLessonCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Lessons Learned"},"Lessons Learned aşamasına alındı");showToast("Lessons Learned")}
+function makeCoqCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Cost Of Quality"},"COQ aşamasına alındı");showToast("COQ")}
+function closeCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Kapanış",closedAt:new Date().toISOString()},"CI kaydı kapatıldı");showToast("Kapatıldı")}
+function rejectCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Reddedildi"},"CI kaydı reddedildi");showToast("Reddedildi")}
+function createIntegrationCurrent(){if(selectedIndex===null)return;const item=getRecords()[selectedIndex];createAutoIntegrations(item);showToast("Entegrasyonlar oluşturuldu");renderRecords();openDrawer(selectedIndex)}
 
-function quickStatus(index,status){updateRecord(index,{kaizenStatus:status,approvalDate:status==="Onaylandı"?todayISO():getKaizens()[index].approvalDate},"Durum değiştirildi: "+status);showToast("Durum güncellendi")}
-function approveCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{kaizenStatus:"Onaylandı",approvalDate:todayISO(),approver:session.name||"System"},"Kaizen onaylandı");showToast("Kaizen onaylandı")}
-function implementCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{kaizenStatus:"Uygulanıyor"},"Kaizen uygulanıyor yapıldı");showToast("Uygulanıyor yapıldı")}
-function completeCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{kaizenStatus:"Tamamlandı",implementationDate:todayISO(),closedAt:new Date().toISOString(),effectivenessResult:"Etkili"},"Kaizen tamamlandı");showToast("Kaizen tamamlandı")}
-function sendCurrentYgg(){if(selectedIndex===null)return;const x=getKaizens()[selectedIndex];updateRecord(selectedIndex,{kaizenStatus:"YGG Girdisi",yggInput:"Evet"},"Kaizen YGG girdisi yapıldı");createNotification(x,"Kaizen önerisi YGG gündemine taşındı: "+x.suggestionTitle);showToast("YGG girdisi yapıldı")}
-function rejectCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{kaizenStatus:"Reddedildi"},"Kaizen reddedildi");showToast("Kaizen reddedildi")}
-
-function editKaizen(index){
-const x=normalizeKaizen(getKaizens()[index]);
-editId=x.id;
-uploadedEvidence=x.evidence||null;
+function editRecord(index){
+const x=normalizeRecord(getRecords()[index]);
+editId=x.id;uploadedEvidence=x.evidence||null;
 document.getElementById("modeBadge").textContent="EDIT MODE";
 document.getElementById("modeBadge").className="status orange";
-
-Object.keys({
-kaizenNo:1,suggestionDate:1,dueDate:1,kaizenStatus:1,suggestionTitle:1,department:1,owner:1,kaizenType:1,priority:1,impactArea:1,responsible:1,problem:1,suggestion:1,benefit:1,estimatedGain:1,actualGain:1,implementationCost:1,netGain:1,approver:1,approvalDate:1,implementationDate:1,effectivenessDate:1,effectivenessResult:1,riskRef:1,capaRef:1,processRef:1,docRevisionRequired:1,trainingRequired:1,yggInput:1,resultNote:1
-}).forEach(id=>{
+["improvementNo","recordDate","dueDate","status","title","department","process","owner","responsible","category","priority","currentState","rootCause","riskImpact","kaizenAction","expectedBenefit","implementationPlan","lessonLearned","preventRecurrence","deploymentPlan","affectedProcess","updatedDocument","standardized","trainingRequired","beforeCost","afterCost","scrapSaving","laborSaving","energySaving","customerSaving","implementationCost","netSaving","coqSaving","roi","gainType","capaRef","riskRef","fmeaRef","actionRef","createDocRevision","createCapa","createRisk","createAction"].forEach(id=>{
 if(document.getElementById(id))document.getElementById(id).value=x[id]??"";
 });
-renderFlowPreview(x.kaizenStatus);
+if(document.getElementById("roi").value&&!String(document.getElementById("roi").value).includes("%"))document.getElementById("roi").value=document.getElementById("roi").value+"%";
+renderFlowPreview(x.status);
 document.querySelector(".panel").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
-function markCompletedForm(){
-document.getElementById("kaizenStatus").value="Tamamlandı";
-document.getElementById("implementationDate").value=todayISO();
-document.getElementById("effectivenessResult").value="Etkili";
-renderFlowPreview("Tamamlandı");
-showToast("Form tamamlandı durumuna alındı");
-}
-function markYggForm(){
-document.getElementById("kaizenStatus").value="YGG Girdisi";
-document.getElementById("yggInput").value="Evet";
-renderFlowPreview("YGG Girdisi");
-showToast("Form YGG girdisi durumuna alındı");
-}
+function markLifecycle(s){document.getElementById("status").value=s;if(s==="Kapanış"){}renderFlowPreview(s);showToast(s+" işaretlendi")}
 
 function resetForm(){
-editId=null;
-uploadedEvidence=null;
+editId=null;uploadedEvidence=null;
 document.getElementById("modeBadge").textContent="CREATE MODE";
 document.getElementById("modeBadge").className="status blue";
 generateNo();
-document.getElementById("suggestionDate").value=todayISO();
+document.getElementById("recordDate").value=todayISO();
 document.getElementById("dueDate").value=addDays(todayISO(),30);
-document.getElementById("kaizenStatus").value="Yeni";
-document.getElementById("suggestionTitle").value="";
+document.getElementById("status").value="Yeni Fikir";
+document.getElementById("title").value="";
 document.getElementById("department").value="Kalite";
+document.getElementById("process").value="";
 document.getElementById("owner").value=session.name||"Kerem Güdenli";
-document.getElementById("kaizenType").value="Kalite İyileştirme";
-document.getElementById("priority").value="Medium";
-document.getElementById("impactArea").value="Departman";
 document.getElementById("responsible").value="";
-document.getElementById("problem").value="";
-document.getElementById("suggestion").value="";
-document.getElementById("benefit").value="";
-document.getElementById("estimatedGain").value=0;
-document.getElementById("actualGain").value=0;
-document.getElementById("implementationCost").value=0;
-document.getElementById("netGain").value=0;
-document.getElementById("approver").value="";
-document.getElementById("approvalDate").value="";
-document.getElementById("implementationDate").value="";
-document.getElementById("effectivenessDate").value=addDays(todayISO(),60);
-document.getElementById("effectivenessResult").value="Bekliyor";
-document.getElementById("riskRef").value="";
-document.getElementById("capaRef").value="";
-document.getElementById("processRef").value="";
-document.getElementById("docRevisionRequired").value="Hayır";
+document.getElementById("category").value="Kalite";
+document.getElementById("priority").value="Medium";
+["currentState","rootCause","riskImpact","kaizenAction","expectedBenefit","implementationPlan","lessonLearned","preventRecurrence","deploymentPlan","affectedProcess","updatedDocument","capaRef","riskRef","fmeaRef","actionRef"].forEach(id=>document.getElementById(id).value="");
+document.getElementById("standardized").value="Hayır";
 document.getElementById("trainingRequired").value="Hayır";
-document.getElementById("yggInput").value="Hayır";
-document.getElementById("resultNote").value="";
+["beforeCost","afterCost","scrapSaving","laborSaving","energySaving","customerSaving","implementationCost"].forEach(id=>document.getElementById(id).value=0);
+document.getElementById("netSaving").value=0;
+document.getElementById("coqSaving").value=0;
+document.getElementById("roi").value="0%";
+document.getElementById("gainType").value="TL";
+document.getElementById("createDocRevision").value="Hayır";
+document.getElementById("createCapa").value="Hayır";
+document.getElementById("createRisk").value="Hayır";
+document.getElementById("createAction").value="Evet";
 document.getElementById("evidenceFile").value="";
-renderFlowPreview("Yeni");
+renderFlowPreview("Yeni Fikir");
 }
 
 function createYggNotifications(){
-getKaizens().filter(x=>x.yggInput==="Evet"||x.kaizenStatus==="YGG Girdisi").forEach(x=>{
-createNotification(x,"Kaizen YGG gündemi: "+x.suggestionTitle);
-});
+getRecords().filter(x=>["Lessons Learned","Cost Of Quality","Standartlaştırma","Kapanış"].includes(x.status)||Number(x.netSaving||0)>0).forEach(x=>createNotification(x,"YGG gündemi / CI çıktısı: "+x.title));
 showToast("YGG bildirimleri oluşturuldu");
 }
 
 function exportCSV(){
-const rows=getKaizens().map(normalizeKaizen);
-let csv="KaizenNo,Title,Department,Owner,Type,Priority,Status,EstimatedGain,ActualGain,Cost,NetGain,YGG\n";
-rows.forEach(x=>{
-csv+=`"${x.kaizenNo}","${x.suggestionTitle}","${x.department}","${x.owner}","${x.kaizenType}","${x.priority}","${x.kaizenStatus}","${x.estimatedGain}","${x.actualGain}","${x.implementationCost}","${x.netGain}","${x.yggInput}"\n`;
-});
-const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
-a.href=url;a.download="kaizen_management.csv";a.click();URL.revokeObjectURL(url);
+const rows=getRecords().map(normalizeRecord);
+let csv="ImprovementNo,Title,Department,Category,Priority,Status,NetSaving,COQ,ROI,Lesson,Action,CAPA,Risk,FMEA\n";
+rows.forEach(x=>csv+=`"${x.improvementNo}","${x.title}","${x.department}","${x.category}","${x.priority}","${x.status}","${x.netSaving}","${x.coqSaving}","${x.roi}","${String(x.lessonLearned||'').replaceAll('"','""')}","${x.actionRef}","${x.capaRef}","${x.riskRef}","${x.fmeaRef}"\n`);
+const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="continuous_improvement.csv";a.click();URL.revokeObjectURL(url);
 }
 
 function runSearch(){
 const input=document.getElementById("globalSearch");
 const text=input.value.trim().toLowerCase();
-if(!text){clearSearchResults();input.focus();renderKaizens();return;}
-
+if(!text){clearSearchResults();input.focus();renderRecords();return}
 let results=[];
-getKaizens().map(normalizeKaizen).forEach(item=>{
-const fullText=JSON.stringify(item).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"record",
-module:"Kaizen",
-selected:item.id,
-title:item.kaizenNo+" / "+item.suggestionTitle,
-detail:`${item.department||""} ${item.owner||""} ${item.kaizenType||""} ${item.priority||""} ${item.kaizenStatus||""} ${item.benefit||""}`
-});
+getRecords().map(normalizeRecord).forEach(item=>{
+if(JSON.stringify(item).toLowerCase().includes(text)){
+results.push({type:"record",module:"Continuous Improvement",selected:item.id,title:item.improvementNo+" / "+item.title,detail:`${item.department||""} ${item.category||""} ${item.priority||""} ${item.status||""} ${item.lessonLearned||""} ${item.netSaving||""}`});
 }
 });
-
 getNotifications().forEach(n=>{
-const fullText=JSON.stringify(n).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"page",
-module:"Bildirim Merkezi",
-go:"notification-center.html",
-store:"gdnl_selected_notification",
-selected:n.notificationId||"",
-title:n.documentName||n.notificationId||"Bildirim",
-detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`
-});
+if(JSON.stringify(n).toLowerCase().includes(text)){
+results.push({type:"page",module:"Bildirim Merkezi",go:"notification-center.html",store:"gdnl_selected_notification",selected:n.notificationId||"",title:n.documentName||n.notificationId||"Bildirim",detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`});
 }
 });
-
 results=results.concat(collectPageSearchResults(text));
 renderSearchResults(text,results);
-renderKaizens();
+renderRecords();
 }
-
 function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
+const results=[];const seen=new Set();
 document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;
-if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});}
-}
+const label=el.textContent.trim(),href=el.getAttribute("href")||"";
+if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"})}}
 });
 document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
+const title=(el.querySelector("small")?.textContent||"Kart").trim(),value=(el.querySelector("h2")?.textContent||"").trim(),detail=(el.querySelector("p")?.textContent||"").trim();
+if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}
 });
 document.querySelectorAll(".panel").forEach((el,index)=>{
 if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
+const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim(),detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`})}
 });
 return results;
 }
-
 function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
+const safe=escapeHTML(value);if(!keyword)return safe;
 const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
 }
 function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-return;
+const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),count=document.getElementById("searchResultCount"),key=document.getElementById("searchKeyword");
+panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";
+if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}
+area.innerHTML=results.slice(0,80).map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");
+window.gdnlSearchResults=results.slice(0,80);panel.scrollIntoView({behavior:"smooth",block:"start"});
 }
-area.innerHTML=results.slice(0,80).map((r,index)=>`
-<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module)}</span></div>
-<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
-<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-</div>`).join("");
-window.gdnlSearchResults=results.slice(0,80);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
 function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];
-if(!r)return;
-if(r.type==="scroll"&&r.selector){
-const target=document.querySelector(r.selector);
-if(target){
-target.scrollIntoView({behavior:"smooth",block:"center"});
-target.style.outline="3px solid #35a852";
-target.style.outlineOffset="4px";
-setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
-}
-return;
-}
+const r=(window.gdnlSearchResults||[])[index];if(!r)return;
+if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}
 if(r.store)localStorage.setItem(r.store,r.selected||"");
-if(r.module==="Kaizen"){
-const items=getKaizens().map(normalizeKaizen);
-const idx=items.findIndex(x=>x.id===r.selected);
-if(idx!==-1){clearSearchResults();renderKaizens();openDrawer(idx);}
-return;
-}
+if(r.module==="Continuous Improvement"){const items=getRecords().map(normalizeRecord);const idx=items.findIndex(x=>x.id===r.selected);if(idx!==-1){clearSearchResults();renderRecords();openDrawer(idx)}return}
 if(r.go&&r.go!=="#")window.location.href=r.go;
 }
 function clearSearchResults(){
 document.getElementById("globalSearch").value="";
 document.getElementById("searchResultsPanel").classList.remove("active");
 document.getElementById("searchResultsArea").innerHTML="";
-renderKaizens();
+renderRecords();
 }
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2500)}
 
-
-function getLS(key){try{return JSON.parse(localStorage.getItem(key))||[]}catch(e){return[]}}
-function setLS(key,value){localStorage.setItem(key,JSON.stringify(value))}
-function buildKaizenLinkNote(x){return `${x.kaizenNo} / ${x.suggestionTitle} / ${x.department} / ${x.kaizenType}`}
-
-function createActionCenterRecord(x){
-const items=getLS("gdnl_action_center");
-const exists=items.some(a=>a.sourceModule==="Kaizen"&&a.sourceId===x.id&&a.title===x.suggestionTitle);
-if(exists)return false;
-items.unshift({
-id:"ACT-KZN-"+Date.now(),
-actionNo:"ACT-"+new Date().getFullYear()+"-"+String(items.length+1).padStart(4,"0"),
-sourceModule:"Kaizen",
-sourceId:x.id,
-sourceCode:x.kaizenNo,
-title:x.suggestionTitle,
-description:`Kaizen önerisi için uygulama aksiyonu: ${x.suggestion}\n\nProblem / Mevcut Durum:\n${x.problem}\n\nBeklenen Fayda:\n${x.benefit}`,
-department:x.department,
-owner:x.responsible||x.owner,
-priority:x.priority,
-status:"Açık",
-dueDate:x.dueDate,
-createdBy:session.name||"System",
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString(),
-links:{kaizenRef:x.kaizenNo,capaRef:x.capaRef||"",riskRef:x.riskRef||"",processRef:x.processRef||""},
-auditTrail:[{action:"Kaizen üzerinden Action Center görevi oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]
-});
-setLS("gdnl_action_center",items);
-return true;
-}
-
-function createCapaRecordFromKaizen(x){
-const items=getLS("gdnl_capa");
-const exists=items.some(c=>c.sourceModule==="Kaizen"&&c.sourceId===x.id);
-if(exists)return false;
-const year=new Date().getFullYear();
-const count=items.length+1;
-items.unshift({
-id:"CAPA-KZN-"+Date.now(),
-eightDNo:"8D-"+year+"-"+String(count).padStart(4,"0"),
-capaNo:"CAPA-"+year+"-"+String(count).padStart(4,"0"),
-sourceModule:"Kaizen",
-sourceId:x.id,
-openDate:todayISO(),
-dueDate:x.dueDate||addDays(todayISO(),30),
-capaClass:x.priority==="Critical"?"Critical 8D":x.priority==="High"?"Major CAPA":"Minor CAPA",
-source:"Kaizen / İyileştirme Önerisi",
-department:x.department,
-criticality:x.priority==="Critical"?"Kritik":x.priority==="High"?"Yüksek":"Orta",
-status:"Açık",
-currentStep:"D0 Planlama",
-progressRate:0,
-problemTitle:"Kaizen kaynaklı CAPA - "+x.suggestionTitle,
-openedBy:session.name||"System",
-leader:x.responsible||x.owner,
-teamMembers:`${x.owner} / ${x.department} / Kaizen Sahibi\n${x.responsible||"-"} / ${x.department} / Uygulama Sorumlusu`,
-mailGroups:`${x.department}; Yönetim; ${x.responsible||x.owner}`,
-smsGroups:x.responsible||x.owner,
-d0Planning:"Kaizen önerisi CAPA/8D değerlendirmesine alındı.",
-problemDescription:x.problem,
-containment:"Kaizen değerlendirmesi kapsamında geçici kontrol gereksinimi incelenecek.",
-rootCause:"Kaizen önerisi üzerinden kök neden analizi yapılacak.",
-fishbone:"İnsan / Makine / Metot / Malzeme / Ölçüm / Çevre başlıkları üzerinden analiz edilecek.",
-correctiveAction:x.suggestion,
-implementation:x.resultNote||"Uygulama planı Action Center üzerinden takip edilecek.",
-prevention:`Kaizen çıktısı standartlaştırılacak. Süreç: ${x.processRef||"-"}. Risk: ${x.riskRef||"-"}.`,
-closureNote:"Kaizen tamamlandığında CAPA etkinlik kontrolü yapılacak.",
-docRevisionRequired:x.docRevisionRequired,
-fmeaRequired:"Evet",
-controlPlanRequired:"Hayır",
-trainingRequired:x.trainingRequired,
-effectivenessDate:x.effectivenessDate,
-effectivenessResult:"Bekliyor",
-tasks:[{id:"TASK-KZN-"+Date.now(),step:"D0 Planlama",type:"Analiz",class:x.priority==="Critical"?"Critical":x.priority==="High"?"Major":"Minor",priority:x.priority,owner:x.responsible||x.owner,planDate:x.dueDate||addDays(todayISO(),30),actualDate:"",escalation:"Normal",description:"Kaizen önerisini CAPA/8D kapsamında değerlendir ve aksiyon planını oluştur.",status:"Açık",createdAt:new Date().toISOString()}],
-actions:[],
-createdBy:session.name||"System",
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString(),
-closedAt:"",
-closedBy:"",
-closureDays:null,
-auditTrail:[{action:"Kaizen üzerinden CAPA/8D kaydı oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]
-});
-setLS("gdnl_capa",items);
-return true;
-}
-
-function createFmeaRecordFromKaizen(x){
-const items=getLS("gdnl_fmea_management");
-const exists=items.some(f=>f.sourceModule==="Kaizen"&&f.sourceId===x.id);
-if(exists)return false;
-items.unshift({
-id:"FMEA-KZN-"+Date.now(),
-fmeaNo:"FMEA-"+new Date().getFullYear()+"-"+String(items.length+1).padStart(4,"0"),
-sourceModule:"Kaizen",
-sourceId:x.id,
-sourceCode:x.kaizenNo,
-processRef:x.processRef||"",
-department:x.department,
-owner:x.responsible||x.owner,
-title:"Kaizen kaynaklı FMEA güncelleme - "+x.suggestionTitle,
-failureMode:x.problem,
-effect:x.benefit,
-currentControl:"Mevcut kontrol Kaizen önerisi kapsamında gözden geçirilecek.",
-recommendedAction:x.suggestion,
-priority:x.priority,
-status:"Açık",
-dueDate:x.dueDate||addDays(todayISO(),30),
-createdBy:session.name||"System",
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString(),
-auditTrail:[{action:"Kaizen üzerinden FMEA güncelleme kaydı oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]
-});
-setLS("gdnl_fmea_management",items);
-return true;
-}
-
-function createDocRevisionFromKaizen(x){
-const items=getLS("gdnl_revision_requests");
-const exists=items.some(r=>r.sourceModule==="Kaizen"&&r.sourceId===x.id);
-if(exists)return false;
-items.unshift({
-id:"REV-KZN-"+Date.now(),
-revisionNo:"REV-"+new Date().getFullYear()+"-"+String(items.length+1).padStart(4,"0"),
-sourceModule:"Kaizen",
-sourceId:x.id,
-sourceCode:x.kaizenNo,
-title:"Kaizen kaynaklı doküman revizyonu - "+x.suggestionTitle,
-department:x.department,
-requestedBy:session.name||"System",
-owner:x.responsible||x.owner,
-reason:`Kaizen önerisi sonucu doküman/prosedür/talimat güncelleme ihtiyacı.\n\nÖneri: ${x.suggestion}`,
-status:"Revizyon Bekliyor",
-priority:x.priority,
-dueDate:x.dueDate||addDays(todayISO(),30),
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString(),
-auditTrail:[{action:"Kaizen üzerinden doküman revizyon talebi oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]
-});
-setLS("gdnl_revision_requests",items);
-return true;
-}
-
-function markIntegrationOnKaizen(index,fieldName,actionText){
-const items=getKaizens().map(normalizeKaizen);
-if(!items[index])return;
-items[index][fieldName]="Evet";
-items[index].auditTrail=items[index].auditTrail||[];
-items[index].auditTrail.unshift({action:actionText,user:session.name||"System",date:new Date().toISOString()});
-items[index].updatedAt=new Date().toISOString();
-setKaizens(items);
-renderKaizens();
-if(selectedIndex!==null)openDrawer(selectedIndex);
-}
-
-function createActionFromCurrent(){
-if(selectedIndex===null)return;
-const x=normalizeKaizen(getKaizens()[selectedIndex]);
-const ok=createActionCenterRecord(x);
-markIntegrationOnKaizen(selectedIndex,"actionCenterLinked","Action Center görevi oluşturuldu");
-showToast(ok?"Action Center görevi açıldı":"Bu Kaizen için Action Center görevi zaten var");
-}
-function createCapaFromCurrent(){
-if(selectedIndex===null)return;
-const x=normalizeKaizen(getKaizens()[selectedIndex]);
-const ok=createCapaRecordFromKaizen(x);
-markIntegrationOnKaizen(selectedIndex,"capaGenerated","CAPA / 8D kaydı oluşturuldu");
-showToast(ok?"CAPA / 8D kaydı açıldı":"Bu Kaizen için CAPA zaten var");
-}
-function createFmeaFromCurrent(){
-if(selectedIndex===null)return;
-const x=normalizeKaizen(getKaizens()[selectedIndex]);
-const ok=createFmeaRecordFromKaizen(x);
-markIntegrationOnKaizen(selectedIndex,"fmeaGenerated","FMEA güncelleme kaydı oluşturuldu");
-showToast(ok?"FMEA güncelleme kaydı açıldı":"Bu Kaizen için FMEA kaydı zaten var");
-}
-function createDocRevisionFromCurrent(){
-if(selectedIndex===null)return;
-const x=normalizeKaizen(getKaizens()[selectedIndex]);
-const ok=createDocRevisionFromKaizen(x);
-markIntegrationOnKaizen(selectedIndex,"docRevisionGenerated","Doküman revizyon talebi oluşturuldu");
-showToast(ok?"Doküman revizyon talebi açıldı":"Bu Kaizen için revizyon talebi zaten var");
-}
-function createFullIntegrationForKaizen(index){
-selectedIndex=index;
-createActionFromCurrent();
-const x=normalizeKaizen(getKaizens()[index]);
-if(x.priority==="High"||x.priority==="Critical")createCapaFromCurrent();
-if(x.processRef||x.riskRef)createFmeaFromCurrent();
-if(x.docRevisionRequired==="Evet")createDocRevisionFromCurrent();
-}
-
-function showToast(msg){
-const t=document.getElementById("toast");
-t.textContent=msg;
-t.style.display="block";
-setTimeout(()=>t.style.display="none",2500);
-}
-
-document.getElementById("kaizenStatus").addEventListener("change",function(){renderFlowPreview(this.value)});
-document.getElementById("globalSearch").addEventListener("input",function(){if(!this.value.trim())clearSearchResults();else renderKaizens();});
-document.getElementById("globalSearch").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();runSearch();}});
+document.getElementById("globalSearch").addEventListener("input",function(){if(!this.value.trim())clearSearchResults();else renderRecords()});
+document.getElementById("globalSearch").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();runSearch()}});
 document.getElementById("evidenceFile").addEventListener("change",function(e){
-const file=e.target.files[0];
-if(!file)return;
+const file=e.target.files[0];if(!file)return;
 if(file.size>5*1024*1024){showToast("Dosya 5MB üzerinde olamaz");e.target.value="";return}
 const reader=new FileReader();
-reader.onload=function(ev){
-uploadedEvidence={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};
-showToast("Kanıt dosyası yüklendi");
-};
+reader.onload=function(ev){uploadedEvidence={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Kanıt dosyası yüklendi")};
 reader.readAsDataURL(file);
 });
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeMobileMenu();closeDrawer();}});
-
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeMobileMenu();closeDrawer()}});
 resetForm();
-renderKaizens();
-
-console.log("GDNL EQMS Kaizen Management Loaded");
+renderRecords();
+console.log("GDNL EQMS Continuous Improvement Center Loaded");
 </script>
+
 </body>
 </html>
