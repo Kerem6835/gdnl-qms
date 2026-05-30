@@ -209,6 +209,136 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
   }
 }
 
+
+/* === GDNL EQMS UNIFIED DOCUMENT FLOW === */
+.unified-flow{
+  padding:0!important;
+  overflow:hidden!important;
+}
+
+.unified-flow-head{
+  padding:24px 24px 18px;
+  border-bottom:1px solid #e0e8f0;
+  background:linear-gradient(135deg,#ffffff,#f7fbff 55%,#eefaf2);
+}
+
+.unified-flow-head h3{
+  font-size:24px!important;
+  font-weight:950!important;
+  color:#071b34!important;
+  letter-spacing:-.7px!important;
+}
+
+.unified-flow-head p{
+  margin-top:8px;
+  color:#5f6f86;
+  font-weight:750;
+  line-height:1.65;
+  max-width:980px;
+}
+
+.flow-map{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  padding:18px 24px;
+  background:rgba(248,251,255,.72);
+  border-bottom:1px solid #e0e8f0;
+}
+
+.flow-chip{
+  border:1px solid #dbe8f7;
+  background:#fff;
+  border-radius:18px;
+  padding:13px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  box-shadow:0 8px 22px rgba(7,27,52,.045);
+}
+
+.flow-chip b{
+  width:30px;
+  height:30px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  font-size:14px;
+  font-weight:950;
+}
+
+.flow-chip span{
+  font-size:12px;
+  font-weight:950;
+  color:#071b34;
+  line-height:1.35;
+}
+
+.flow-step{
+  padding:24px;
+  border-bottom:1px solid #e7eef6;
+}
+
+.flow-step:last-child{
+  border-bottom:none;
+}
+
+.flow-step-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.flow-step-title h4{
+  font-size:20px;
+  font-weight:950;
+  color:#071b34;
+  letter-spacing:-.4px;
+}
+
+.flow-step-title h4 span{
+  color:#1f7d3d;
+  margin-right:8px;
+}
+
+.unified-flow .actions{
+  margin-bottom:0!important;
+}
+
+@media(max-width:1200px){
+  .flow-map{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:850px){
+  .flow-map{
+    grid-template-columns:1fr;
+    padding:16px;
+  }
+
+  .unified-flow-head,
+  .flow-step{
+    padding:20px 18px;
+  }
+
+  .unified-flow-head h3{
+    font-size:22px!important;
+  }
+
+  .flow-step-title h4{
+    font-size:18px;
+  }
+}
+
 </style>
 </head>
 
@@ -326,15 +456,28 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 </section>
 <section class="layout">
 
+
 <div>
 
-<section class="panel">
-<div class="panel-head">
-<h3>1. Doküman Kimliği</h3>
-<span class="status blue">AUTO CODE ACTIVE</span>
-</div>
+<section class="panel unified-flow">
+  <div class="unified-flow-head">
+    <h3>Doküman Oluşturma Tek Akış Merkezi</h3>
+    <p>Kimlik, içerik, referans/dosya ve onay zinciri tek kontrollü form içinde ilerler. Kullanıcılar ayrı kutular arasında kaybolmadan yukarıdan aşağıya aynı akışta dokümanı tamamlar.</p>
+  </div>
 
-<div class="form-grid">
+  <div class="flow-map">
+    <div class="flow-chip"><b>1</b><span>Doküman Kimliği<br>kod, revizyon, sahip</span></div>
+    <div class="flow-chip"><b>2</b><span>Tip Bazlı İçerik<br>prosedür, form, plan</span></div>
+    <div class="flow-chip"><b>3</b><span>Referans & Dosya<br>ek, dağıtım, kayıt</span></div>
+    <div class="flow-chip"><b>4</b><span>Onay Zinciri<br>workflow ve yayın</span></div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-step-title">
+      <h4><span>1.</span>Doküman Kimliği</h4>
+      <span class="status blue">AUTO CODE ACTIVE</span>
+    </div>
+    <div class="form-grid">
 <div class="field">
 <label>Doküman Tipi</label>
 <select id="docType">
@@ -414,15 +557,14 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 <input id="reviewDate" type="date">
 </div>
 </div>
-</section>
+  </div>
 
-<section class="panel">
-<div class="panel-head">
-<h3>2. Doküman Tipine Özel İçerik</h3>
-<span class="status orange" id="typeBadge">Prosedür</span>
-</div>
-
-<div id="PR" class="type-section">
+  <div class="flow-step">
+    <div class="flow-step-title">
+      <h4><span>2.</span>Doküman Tipine Özel İçerik</h4>
+      <span class="status orange" id="typeBadge">Prosedür</span>
+    </div>
+    <div id="PR" class="type-section">
 <div class="field full"><label>Amaç</label><textarea id="purpose"></textarea></div>
 <div class="field full"><label>Kapsam</label><textarea id="scope"></textarea></div>
 <div class="field full"><label>Tanımlar</label><textarea id="definitions"></textarea></div>
@@ -505,15 +647,14 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 <div class="field full"><label>Kılavuz Amacı</label><textarea id="guidePurpose"></textarea></div>
 <div class="field full"><label>Kullanım Açıklaması</label><textarea class="big" id="guideContent"></textarea></div>
 </div>
-</section>
+  </div>
 
-<section class="panel">
-<div class="panel-head">
-<h3>3. Referans, Dağıtım ve Dosya</h3>
-<span class="status green">FILE ENGINE ACTIVE</span>
-</div>
-
-<div class="form-grid">
+  <div class="flow-step">
+    <div class="flow-step-title">
+      <h4><span>3.</span>Referans, Dağıtım ve Dosya</h4>
+      <span class="status green">FILE ENGINE ACTIVE</span>
+    </div>
+    <div class="form-grid">
 <div class="field full"><label>İlgili Referanslar</label><textarea id="references" placeholder="Standart maddeleri, bağlı dokümanlar, yasal şartlar..."></textarea></div>
 <div class="field full"><label>Bağlı Departmanlar</label><textarea id="relatedDepartments" placeholder="Kalite, Üretim, Bakım, Satınalma..."></textarea></div>
 <div class="field full"><label>Dağıtım Noktaları</label><textarea id="distributionPoints" placeholder="Kimlere yayınlanacak? Departman / kullanıcı / tedarikçi..."></textarea></div>
@@ -524,15 +665,14 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 <div class="field full"><label>Manuel Doküman İçeriği</label><textarea class="big" id="documentContent"></textarea></div>
 <div class="field full"><label>Oluşturma / Revizyon Notu</label><textarea id="revisionNote"></textarea></div>
 </div>
-</section>
+  </div>
 
-<section class="panel">
-<div class="panel-head">
-<h3>4. Workflow Onay Zinciri</h3>
-<span class="status blue">APPROVAL ROUTING</span>
-</div>
-
-<div class="form-grid">
+  <div class="flow-step">
+    <div class="flow-step-title">
+      <h4><span>4.</span>Workflow Onay Zinciri</h4>
+      <span class="status blue">APPROVAL ROUTING</span>
+    </div>
+    <div class="form-grid">
 <div class="field"><label>Hazırlayan</label><input id="preparedBy"></div>
 <div class="field"><label>Departman Onayı</label><input id="departmentApprover" placeholder="Departman sorumlusu"></div>
 <div class="field"><label>Müdür Onayı</label><input id="managerApprover" placeholder="Bölüm müdürü"></div>
@@ -548,9 +688,10 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 <button class="btn green" onclick="publishDirect()">Yayınla</button>
 <button class="btn red" onclick="clearForm()">Temizle</button>
 </div>
+  </div>
 </section>
 
-</div>
+
 
 <div>
 <section class="panel">
