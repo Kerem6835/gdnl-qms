@@ -508,7 +508,8 @@ body:before{
   .page{padding:24px 18px}.hero h1{font-size:37px}.logo-text strong{font-size:31px}.main{gap:20px}.visual{min-height:auto}.monitor{width:100%;border-width:8px}.stand,.base{display:none}.login-card{padding:34px 22px}.features{gap:14px}.standards-bar{grid-template-columns:1fr}.standard:not(:last-child):after{display:none}.standard{border-bottom:1px solid #d8e0ea}.standard:last-child{border-bottom:0}.stats,.grid-panels,.lower{grid-template-columns:1fr}.app{grid-template-columns:84px 1fr}.app-content{padding:14px}.nav-item{font-size:9px;padding:0 6px}.hero-desc{font-size:16px}
 }
 
-/* === GDNL FULL SCREEN PREMIUM FIT OVERRIDES === */
+
+/* === GDNL CLEAN FULL-PAGE FIT FIX === */
 @media (min-width:1381px){
   html,body{
     height:100%;
@@ -518,372 +519,105 @@ body:before{
   .page{
     height:100vh;
     min-height:0;
-    padding:30px 38px 18px;
+    padding:28px 38px 16px;
+    display:grid;
+    grid-template-rows:minmax(0,1fr) 82px 18px;
+    gap:10px;
   }
 
   .main{
-    height:calc(100vh - 150px);
+    height:auto;
     min-height:0;
-    grid-template-columns:minmax(330px,.86fr) minmax(620px,1.56fr) minmax(340px,.82fr);
-    gap:26px;
+    grid-template-columns:minmax(330px,.9fr) minmax(660px,1.62fr) minmax(350px,.9fr);
+    gap:24px;
     align-items:center;
+    overflow:visible;
   }
 
-  .logo-wrap{margin-bottom:22px}
-  .logo-mark{width:58px;height:58px}
-  .logo-text strong{font-size:35px}
+  .logo-wrap{margin-bottom:20px}
+  .logo-mark{width:56px;height:56px}
+  .logo-text strong{font-size:34px}
   .logo-text p{font-size:15px;margin-top:7px}
 
   .hero h1{
-    font-size:55px;
-    line-height:1.05;
-    margin-bottom:18px;
+    font-size:53px;
+    line-height:1.04;
+    margin-bottom:16px;
   }
 
   .hero-desc{
-    font-size:17px;
-    line-height:1.55;
-    margin-bottom:20px;
+    font-size:16.5px;
+    line-height:1.52;
+    margin-bottom:18px;
+    width:min(510px,100%);
   }
 
-  .features{gap:11px}
-  .feature{
-    grid-template-columns:56px 1fr;
-    gap:14px;
-  }
-
-  .feature-icon{
-    width:50px;
-    height:50px;
-    border-radius:14px;
-  }
-
-  .feature-icon svg{
-    width:28px;
-    height:28px;
-  }
-
-  .feature h3{font-size:16px}
-  .feature p{font-size:13px}
+  .features{gap:9px}
+  .feature{grid-template-columns:54px 1fr;gap:12px}
+  .feature-icon{width:48px;height:48px;border-radius:14px}
+  .feature-icon svg{width:26px;height:26px}
+  .feature h3{font-size:15.5px;margin-bottom:3px}
+  .feature p{font-size:12.6px;line-height:1.35}
 
   .visual{
     min-height:0;
     height:100%;
     justify-content:center;
-    margin-left:-42px;
-    margin-right:-18px;
+    margin-left:-38px;
+    margin-right:-10px;
+    z-index:1;
   }
 
   .monitor{
-    width:min(920px,116%);
-    max-height:calc(100vh - 230px);
+    width:min(970px,120%);
+    max-height:calc(100vh - 255px);
   }
 
-  .stand{
-    bottom:20px;
-    width:155px;
-    height:96px;
-  }
-
-  .base{
-    bottom:0;
-    width:285px;
-  }
+  .stand{bottom:6px;width:148px;height:90px}
+  .base{bottom:-18px;width:270px}
 
   .login-card{
     max-width:385px;
-    padding:38px 28px 34px;
+    padding:36px 28px 32px;
     border-radius:28px;
+    position:relative;
+    z-index:2;
   }
 
-  .login-logo{
-    margin-bottom:22px;
-  }
-
-  .login-logo svg{
-    width:70px;
-    height:70px;
-    margin-bottom:13px;
-  }
-
-  .login-logo strong{font-size:28px}
+  .login-logo{margin-bottom:20px}
+  .login-logo svg{width:68px;height:68px;margin-bottom:12px}
+  .login-logo strong{font-size:27px}
   .login-logo p{font-size:13px;margin-top:7px}
-
-  .welcome{
-    margin-bottom:20px;
-  }
-
+  .welcome{margin-bottom:18px}
   .welcome h2{font-size:20px}
   .welcome p{font-size:14px}
-
-  .form-group{
-    margin-bottom:16px;
-  }
-
-  .form-group label{
-    font-size:13px;
-    margin-bottom:8px;
-  }
-
-  .input-wrap input{
-    height:54px;
-    font-size:14px;
-  }
-
-  .form-row{
-    margin-bottom:22px;
-  }
-
-  .login-btn{
-    height:58px;
-    font-size:17px;
-  }
+  .form-group{margin-bottom:15px}
+  .form-group label{font-size:13px;margin-bottom:8px}
+  .input-wrap input{height:52px;font-size:14px}
+  .form-row{margin-bottom:20px}
+  .login-btn{height:56px;font-size:17px}
 
   .standards-bar{
-    margin-top:18px;
-    min-height:86px;
-    height:86px;
+    margin-top:0;
+    min-height:0;
+    height:82px;
     border-radius:20px;
+    position:relative;
+    z-index:5;
+    align-self:end;
   }
 
-  .standard{
-    padding:14px 16px;
-    gap:10px;
-  }
-
-  .standard svg{
-    width:30px;
-    height:30px;
-  }
-
-  .standard b{font-size:13px}
-  .standard span{font-size:9px}
+  .standard{padding:12px 15px;gap:10px}
+  .standard svg{width:28px;height:28px}
+  .standard b{font-size:12.5px}
+  .standard span{font-size:8.8px}
 
   .copy{
-    margin-top:12px;
+    margin-top:0;
     font-size:12px;
-  }
-}
-
-/* Tablet: clean vertical landing without horizontal pressure */
-@media (max-width:1380px) and (min-width:761px){
-  body{overflow-x:hidden;overflow-y:auto}
-  .page{padding:34px 26px 24px}
-  .main{
-    grid-template-columns:1fr;
-    gap:28px;
-  }
-  .left{order:1}
-  .visual{order:2;min-height:auto;padding:20px 0}
-  .right{order:3}
-  .monitor{
-    width:min(900px,100%);
-    transform:perspective(1200px) rotateY(-3deg) rotateX(1deg);
-  }
-  .login-card{
-    max-width:520px;
-    margin:0 auto;
-  }
-}
-
-/* Mobile: fully responsive, readable and no horizontal overflow */
-@media (max-width:760px){
-  html,body{
-    width:100%;
-    overflow-x:hidden;
-    overflow-y:auto;
-  }
-
-  .page{
-    min-height:100dvh;
-    padding:22px 16px 18px;
-  }
-
-  .main{
-    display:flex;
-    flex-direction:column;
-    gap:24px;
-  }
-
-  .left{order:1;width:100%}
-  .visual{order:2;width:100%;min-height:auto;padding:6px 0 14px}
-  .right{order:3;width:100%}
-
-  .logo-wrap{
-    justify-content:flex-start;
-    gap:13px;
-    margin-bottom:24px;
-  }
-
-  .logo-mark{
-    width:54px;
-    height:54px;
-  }
-
-  .logo-text strong{
-    font-size:29px;
-    letter-spacing:-1px;
-  }
-
-  .logo-text p{
-    font-size:13px;
-    margin-top:6px;
-  }
-
-  .hero{
-    text-align:left;
-  }
-
-  .hero h1{
-    font-size:38px;
-    line-height:1.08;
-    letter-spacing:-1.7px;
-  }
-
-  .hero-desc{
-    font-size:16px;
-    line-height:1.6;
-    margin-bottom:22px;
-  }
-
-  .features{
-    width:100%;
-    gap:13px;
-  }
-
-  .feature{
-    grid-template-columns:54px 1fr;
-    gap:13px;
-  }
-
-  .feature-icon{
-    width:50px;
-    height:50px;
-  }
-
-  .feature h3{font-size:16px}
-  .feature p{font-size:13px}
-
-  .monitor{
-    width:100%;
-    aspect-ratio:1.15/1;
-    transform:none;
-    border-width:7px;
-    border-radius:13px;
-    box-shadow:0 22px 48px rgba(4,14,28,.22);
-  }
-
-  .stand,.base{display:none}
-
-  .app{
-    grid-template-columns:68px 1fr;
-  }
-
-  .app-sidebar{
-    padding:12px 6px;
-  }
-
-  .app-logo{
-    font-size:0;
-    justify-content:center;
-    margin-bottom:14px;
-  }
-
-  .app-logo .mini{
-    width:24px;
-    height:24px;
-  }
-
-  .nav-item{
-    height:24px;
-    padding:0;
-    justify-content:center;
-    font-size:0;
-    margin-bottom:4px;
-  }
-
-  .nav-dot{
-    width:10px;
-    height:10px;
-  }
-
-  .app-content{
-    padding:10px;
-  }
-
-  .app-top{
-    margin-bottom:10px;
-  }
-
-  .search{
-    width:120px;
-    height:24px;
-    font-size:7px;
-  }
-
-  .app-title{
-    font-size:14px;
-    margin-bottom:10px;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
-    margin-bottom:8px;
-  }
-
-  .stat{
-    height:auto;
-    padding:9px;
-    border-radius:9px;
-  }
-
-  .stat small{font-size:7px;margin-bottom:5px}
-  .stat b{font-size:18px}
-  .stat span{font-size:7px;margin-top:4px}
-
-  .grid-panels,.lower{
-    display:none;
-  }
-
-  .login-card{
-    width:100%;
-    max-width:440px;
-    margin:0 auto;
-    padding:30px 22px;
-    border-radius:26px;
-  }
-
-  .login-logo{
-    margin-bottom:24px;
-  }
-
-  .login-logo svg{
-    width:72px;
-    height:72px;
-  }
-
-  .login-logo strong{
-    font-size:29px;
-  }
-
-  .form-row{
-    align-items:flex-start;
-    gap:12px;
-  }
-
-  .standards-bar{
-    margin-top:22px;
-    grid-template-columns:1fr;
-    min-height:auto;
-  }
-
-  .standard{
-    min-height:76px;
-  }
-
-  .copy{
-    padding-bottom:18px;
+    line-height:18px;
+    position:relative;
+    z-index:5;
   }
 }
 
