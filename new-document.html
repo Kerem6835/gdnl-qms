@@ -3,61 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | New Document Center</title>
+<title>GDNL EQMS | New Document Center</title>
 
 <style>
+
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#eef3f9;color:#0f172a}
-.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
-.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
-.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
-.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}
-.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
-.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
-.main{padding:24px}
-.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
-.search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
-.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
-.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
-.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
-.hero h1{font-size:36px;margin-bottom:10px}.hero p{max-width:920px;color:#dbeafe;line-height:1.7}.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
-.layout{display:grid;grid-template-columns:1.35fr .65fr;gap:24px}
-.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:900}
+html,body{min-height:100%;overflow-x:hidden}
+body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef5fc 46%,#f8fbff 100%);color:#0f1b2f}
+.app{display:grid;grid-template-columns:282px minmax(0,1fr);min-height:100vh;align-items:start}
+.sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06);min-height:100vh;position:sticky;top:0}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}
+.logo span{color:#35a852}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s;border:1px solid transparent}
+.menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid #dfe9f5;padding-top:18px}
+.main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
+.topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px}
+.search-wrap{display:flex;align-items:center;gap:10px;min-width:0}
+.search{width:550px;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
+.search:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12);background:#fff}
+.search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);transition:.2s}
+.search-btn:hover,.avatar:hover,.btn.primary:hover,.result-open:hover{opacity:1;filter:brightness(.99);transform:translateY(-1px)}
+.profile{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.avatar{width:auto!important;height:44px;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);padding:0 24px!important;transition:.2s;white-space:nowrap}
+.logout-btn{height:44px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;padding:0 18px;border-radius:14px;font-weight:900;cursor:pointer;transition:.2s;white-space:nowrap}
+.logout-btn:hover{background:#fecaca;transform:translateY(-1px)}
+.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf3ff 100%);color:#0f1b2f;border:1px solid #dbe8f7;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 20px 55px rgba(7,27,52,.065)}
+.hero h1{font-size:42px;font-weight:950;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;color:#081d35}
+.hero p{max-width:920px;color:#4e6078;font-weight:650;line-height:1.7}
+.hero-badge{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap;box-shadow:0 14px 32px rgba(53,168,82,.22)}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.65fr);gap:24px}
+.panel{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.panel h3{font-size:19px;font-weight:900;color:#071b34;letter-spacing:-.3px}
 .form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:span 4}.field.double{grid-column:span 2}
-.field label{font-size:12px;font-weight:900;color:#64748b}
-.field input,.field select,.field textarea{height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:span 4}.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#617086}
+.field input,.field select,.field textarea{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 13px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
 .field input[readonly]{background:#eef2f7;color:#475569}
 .field input[type=file]{height:auto;padding:10px}
 .field textarea{height:86px;padding:12px;resize:none}.field textarea.big{height:170px}
 .type-section{display:none}.type-section.active{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
 .btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
-.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}.btn.dark{background:#0f172a;color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
+.btn.primary{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;box-shadow:0 14px 32px rgba(53,168,82,.22)}
+.btn.dark{background:linear-gradient(135deg,#071b34,#0d2747);color:white}
+.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
 .status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
-.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
-.preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:20px}.preview h2{font-size:26px;color:#0757e8;margin:10px 0}.preview h4{font-size:16px;margin-bottom:8px}.preview p{font-size:13px;color:#64748b;line-height:1.7}
+.status.blue{background:#e8f7ee;color:#1f7d3d}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e9eef5;color:#405166}
+.preview{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:22px;padding:20px}
+.preview h2{font-size:28px;color:#1f7d3d;margin:10px 0;font-weight:950;letter-spacing:-1px}.preview h4{font-size:16px;margin-bottom:8px}.preview p{font-size:13px;color:#64748b;line-height:1.7}
 .meta{display:flex;flex-direction:column;gap:10px;margin-top:18px}.meta div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #e2e8f0;padding-bottom:10px;font-size:13px}.meta b{color:#0f172a}.meta span{color:#64748b;font-weight:800;text-align:right}
-.step{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:13px;margin-bottom:10px;font-size:13px;font-weight:800;color:#334155}
-.step.active{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8}
-.step.ok{border-color:#86efac;background:#f0fdf4;color:#166534}
-.file-card{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:18px;padding:14px;font-size:13px;color:#64748b;font-weight:800;line-height:1.6}
-.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
-@media(max-width:1200px){.layout{grid-template-columns:1fr}.form-grid,.type-section.active{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.form-grid,.type-section.active{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}}
+.step{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:13px;margin-bottom:10px;font-size:13px;font-weight:800;color:#334155}
+.step.active{border-color:#bfe7ca;background:#eefaf2;color:#1f7d3d}.step.ok{border-color:#86efac;background:#f0fdf4;color:#166534}
+.file-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px dashed #cbd5e1;border-radius:18px;padding:14px;font-size:13px;color:#64748b;font-weight:800;line-height:1.6}
+.toast{position:fixed;right:24px;bottom:24px;background:linear-gradient(135deg,#071b34,#1f8f43);color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+.search-results-panel{display:none;border:1px solid #bae6fd;background:rgba(255,255,255,.94)}
+.search-results-panel.active{display:block;border-color:#c7ebd2}
+.search-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:900;color:#475569}
+.search-keyword{background:#e8f7ee;color:#1f7d3d;border-radius:999px;padding:7px 12px;font-weight:950}
+.result-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:15px;margin-bottom:12px;display:grid;grid-template-columns:160px minmax(0,1fr) 130px;gap:14px;align-items:center}
+.result-card b{display:block;font-size:14px;margin-bottom:6px;color:#0f172a}.result-card small{display:block;font-size:12px;color:#617086;line-height:1.55;font-weight:800}.result-card mark{background:#dcfce7;color:#166534;padding:1px 3px;border-radius:4px}
+.result-open{height:38px;border:none;border-radius:12px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;font-weight:900;cursor:pointer}
+.mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:white;font-size:22px;font-weight:950;cursor:pointer;box-shadow:0 12px 28px rgba(53,168,82,.22);flex:0 0 auto}
+.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}
+.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0;overflow:hidden}
+.mobile-drawer.active{left:0}.mobile-overlay.active{display:block}
+.mobile-drawer-head{height:86px;flex:0 0 86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#ffffff,#f0fbf4)}
+.mobile-drawer-logo{font-size:25px;font-weight:950;letter-spacing:-.5px;color:#0f172a}.mobile-drawer-logo span{color:#35a852}
+.mobile-close{width:42px;height:42px;border:1px solid #fecaca;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950;cursor:pointer}
+.mobile-drawer-menu{padding:16px 16px 92px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:8px;flex:1 1 auto;-webkit-overflow-scrolling:touch;max-height:calc(100dvh - 86px)}
+.mobile-drawer-menu a{text-decoration:none;color:#516177;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}
+.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}
+.mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
+.mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
+@media(max-width:1200px){.layout{grid-template-columns:1fr}.form-grid,.type-section.active{grid-template-columns:repeat(2,1fr)}.field.full,.field.double{grid-column:span 2}.search{width:320px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.form-grid,.type-section.active{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}}
+
 </style>
 </head>
 
 <body>
 <div class="app">
 
-<aside class="sidebar">
-<div>
-<div class="logo">GDNL <span>QDMS</span></div>
-<nav class="menu">
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-head">
+    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
+  </div>
+  <nav class="mobile-drawer-menu">
 <a href="dashboard.html">🏠 Dashboard</a>
+<a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
 <a href="documents.html">📄 Doküman Yönetimi</a>
 <a class="active" href="new-document.html">➕ Yeni Doküman</a>
 <a href="revision.html">🔄 Revizyon Yönetimi</a>
@@ -65,21 +105,76 @@ body{background:#eef3f9;color:#0f172a}
 <a href="archive.html">🗄️ Arşiv Yönetimi</a>
 <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
 <a href="distribution.html">📤 Dağıtım Yönetimi</a>
-<a href="#">🛠️ DÖF / CAPA</a>
-<a href="users.html">👥 Kullanıcılar</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
 <a href="audit.html">🧾 İç Denetim</a>
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+<a href="management-review.html">📊 YGG Yönetimi</a>
+<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+<a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+<a href="process-management.html">🧩 Süreç Yönetimi</a>
+<a href="action-center.html">✅ Action Center</a>
+<a href="notification-center.html">🔔 Bildirim Merkezi</a>
+<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+<a href="standards-compliance.html">📚 Standart Uygunluk</a>
+<a href="legal-compliance.html">⚖️ Yasal Uyum</a>
+<a href="kpi-reports.html">📈 KPI & Raporlar</a>
+<a href="users.html">👥 Kullanıcılar</a>
+  </nav>
+  <div class="mobile-drawer-footer">
+    <button class="mobile-logout" onclick="logout()">Logout</button>
+  </div>
+</aside>
+
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
+<a href="documents.html">📄 Doküman Yönetimi</a>
+<a class="active" href="new-document.html">➕ Yeni Doküman</a>
+<a href="revision.html">🔄 Revizyon Yönetimi</a>
+<a href="approval.html">✅ Onay Yönetimi</a>
+<a href="archive.html">🗄️ Arşiv Yönetimi</a>
+<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
+<a href="distribution.html">📤 Dağıtım Yönetimi</a>
+<a href="capa.html">🛠️ 8D / CAPA</a>
+<a href="risk-register.html">⚠️ Risk Yönetimi</a>
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="audit.html">🧾 İç Denetim</a>
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+<a href="management-review.html">📊 YGG Yönetimi</a>
+<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+<a href="change-management.html">🔁 Değişiklik Yönetimi</a>
+<a href="process-management.html">🧩 Süreç Yönetimi</a>
+<a href="action-center.html">✅ Action Center</a>
+<a href="notification-center.html">🔔 Bildirim Merkezi</a>
+<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+<a href="standards-compliance.html">📚 Standart Uygunluk</a>
+<a href="legal-compliance.html">⚖️ Yasal Uyum</a>
+<a href="kpi-reports.html">📈 KPI & Raporlar</a>
+<a href="users.html">👥 Kullanıcılar</a>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>New Document Workflow<br>V2 Enterprise</div>
+<div class="sidebar-footer">GDNL EQMS Enterprise<br>New Document Workflow<br>V2 Enterprise</div>
 </aside>
 
 <main class="main">
 
 <header class="topbar">
+<button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
+<div class="search-wrap">
 <input class="search" id="quickSearch" placeholder="Mevcut doküman kodu veya adı ara">
+<button class="search-btn" onclick="runSearch()">Ara</button>
+</div>
 <div class="profile">
-<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
-<div class="avatar" id="userAvatar">K</div>
+<div class="avatar" onclick="window.location.href='dashboard.html'">
+<span id="userName">Kerem Güdenli</span>
+</div>
 <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 </header>
@@ -91,7 +186,17 @@ body{background:#eef3f9;color:#0f172a}
 </div>
 <div class="hero-badge">Workflow: <span id="workflowState">Taslak</span></div>
 </section>
-
+<section class="panel search-results-panel" id="searchResultsPanel">
+<div class="panel-head">
+<h3>Arama Sonuçları</h3>
+<div class="search-summary">
+<span class="search-keyword" id="searchKeyword">-</span>
+<span id="searchResultCount">0 sonuç</span>
+<a class="link" onclick="clearSearchResults()">Temizle</a>
+</div>
+</div>
+<div id="searchResultsArea"></div>
+</section>
 <section class="layout">
 
 <div>
@@ -356,18 +461,162 @@ body{background:#eef3f9;color:#0f172a}
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
+if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 
-document.getElementById("userName").textContent=session.name||"User";
-document.getElementById("userRole").textContent=session.role||"User";
-document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
+document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+
+
+function runSearch(){
+const input=document.getElementById("quickSearch");
+const text=input.value.trim().toLowerCase();
+
+if(!text){
+clearSearchResults();
+input.focus();
+return;
+}
+
+const docs=getDocuments();
+let results=[];
+
+docs.forEach(d=>{
+const fullText=JSON.stringify(d).toLowerCase();
+if(fullText.includes(text)){
+results.push({
+type:"record",
+module:"Doküman Yönetimi",
+go:"document-viewer.html",
+store:"gdnl_selected_document_code",
+selected:d.code||"",
+title:d.name||d.documentName||d.code||"Doküman",
+detail:`${d.code||""} ${d.docType||""} ${d.owner||""} ${d.status||""} ${d.standard||""}`
+});
+}
+});
+
+results=results.concat(collectPageSearchResults(text));
+renderSearchResults(text,results);
+}
+
+function collectPageSearchResults(keyword){
+const results=[];
+const seen=new Set();
+
+document.querySelectorAll(".menu a").forEach(el=>{
+const label=el.textContent.trim();
+const href=el.getAttribute("href")||"";
+if((label+" "+href).toLowerCase().includes(keyword)){
+const key=href+"-"+label;
+if(!seen.has(key)){
+seen.add(key);
+results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});
+}
+}
+});
+
+document.querySelectorAll(".panel").forEach((el,index)=>{
+if(el.id==="searchResultsPanel")return;
+const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
+const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+if((title+" "+detail).toLowerCase().includes(keyword)){
+el.setAttribute("data-search-panel",index);
+results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
+}
+});
+
+return results;
+}
+
+function escapeHTML(value){
+return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+function highlightText(value,keyword){
+const safe=escapeHTML(value);
+if(!keyword)return safe;
+const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
+}
+
+function renderSearchResults(keyword,results){
+const panel=document.getElementById("searchResultsPanel");
+const area=document.getElementById("searchResultsArea");
+const count=document.getElementById("searchResultCount");
+const key=document.getElementById("searchKeyword");
+
+panel.classList.add("active");
+key.textContent=keyword;
+count.textContent=results.length+" sonuç";
+
+if(!results.length){
+area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+return;
+}
+
+area.innerHTML=results.slice(0,80).map((r,index)=>`
+<div class="result-card">
+<div><span class="status blue">${escapeHTML(r.module)}</span></div>
+<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
+<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
+</div>`).join("");
+
+window.gdnlSearchResults=results.slice(0,80);
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function openSearchResult(index){
+const r=(window.gdnlSearchResults||[])[index];
+if(!r)return;
+
+if(r.type==="scroll"&&r.selector){
+const target=document.querySelector(r.selector);
+if(target){
+target.scrollIntoView({behavior:"smooth",block:"center"});
+target.style.outline="3px solid #35a852";
+target.style.outlineOffset="4px";
+setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
+}
+return;
+}
+
+if(r.store)localStorage.setItem(r.store,r.selected||"");
+if(r.go&&r.go!=="#")window.location.href=r.go;
+}
+
+function clearSearchResults(){
+document.getElementById("quickSearch").value="";
+document.getElementById("searchResultsPanel").classList.remove("active");
+document.getElementById("searchResultsArea").innerHTML="";
+}
 
 let uploadedFileData=null;
 
 const typeNames={PR:"Prosedür",TL:"Talimat",FR:"Form",LS:"Liste",POL:"Politika",AS:"Akış Şeması",KEK:"Kalite El Kitabı",OEK:"Operasyonel El Kitabı",KP:"Kontrol Planı",GT:"Görev Tanımı",PL:"Plan",KLV:"Kılavuz"};
 
-function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function logout(){
+localStorage.removeItem("gdnl_qdms_session");
+localStorage.removeItem("gdnl_eqms_session");
+window.location.href="index.html";
+}
+
+function openMobileMenu(){
+document.getElementById("mobileDrawer").classList.add("active");
+document.getElementById("mobileOverlay").classList.add("active");
+document.body.style.overflow="hidden";
+}
+
+function closeMobileMenu(){
+document.getElementById("mobileDrawer").classList.remove("active");
+document.getElementById("mobileOverlay").classList.remove("active");
+document.body.style.overflow="";
+}
+
+document.addEventListener("keydown",function(e){
+if(e.key==="Escape")closeMobileMenu();
+});
 function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
 function setDocuments(docs){localStorage.setItem("gdnl_documents",JSON.stringify(docs))}
 function getApprovals(){return JSON.parse(localStorage.getItem("gdnl_approvals"))||[]}
@@ -635,14 +884,20 @@ document.getElementById("docType").addEventListener("change",switchType);
 document.getElementById("documentFile").addEventListener("change",handleFileUpload);
 
 document.getElementById("quickSearch").addEventListener("input",function(){
-const q=this.value.trim().toLowerCase();
-if(q.length<2)return;
-const found=getDocuments().find(d=>(d.code||"").toLowerCase().includes(q)||(d.name||"").toLowerCase().includes(q));
-if(found)showToast("Mevcut kayıt: "+found.code+" / "+found.name);
+if(!this.value.trim()){
+clearSearchResults();
+}
+});
+
+document.getElementById("quickSearch").addEventListener("keydown",function(e){
+if(e.key==="Enter"){
+e.preventDefault();
+runSearch();
+}
 });
 
 clearForm();
-console.log("GDNL QDMS New Document V2 Enterprise Loaded");
+console.log("GDNL EQMS New Document V2 Enterprise Loaded");
 </script>
 </body>
 </html>
