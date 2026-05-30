@@ -1,393 +1,800 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Doküman Master Listesi</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GDNL EQMS | Enterprise Quality Management Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#eef3f9;color:#0f172a}
-.app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
-.sidebar{background:linear-gradient(180deg,#061225,#071a34);color:white;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between}
-.logo{font-size:30px;font-weight:900;margin-bottom:35px}.logo span{color:#1597ff}
-.menu{display:flex;flex-direction:column;gap:8px}
-.menu a{text-decoration:none;color:#cbd5e1;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800}
-.menu a:hover,.menu a.active{background:rgba(21,151,255,.18);color:white}
-.sidebar-footer{font-size:12px;color:#8da2bd;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
-.main{padding:24px}
-.topbar{height:72px;background:white;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 40px rgba(15,23,42,.08);margin-bottom:24px}
-.search{width:520px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
-.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
-.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900}
-.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
-.hero{background:linear-gradient(135deg,#061225,#092b58 65%,#0b74d1);color:white;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
-.hero h1{font-size:36px;margin-bottom:10px}.hero p{max-width:900px;color:#dbeafe;line-height:1.7}
-.hero-badge{background:rgba(255,255,255,.12);padding:16px 18px;border-radius:18px;font-weight:900}
-.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px}
-.card{background:white;border-radius:24px;padding:22px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
-.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
-.panel{background:white;border-radius:26px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06);margin-bottom:24px}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-.panel h3{font-size:19px;font-weight:900}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.toolbar select,.toolbar input{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
-.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
-.btn.dark{background:#0f172a;color:white}
-.btn.green{background:#dcfce7;color:#15803d}
-.btn.orange{background:#ffedd5;color:#c2410c}
-.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
-.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
-td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
-.row-actions{display:flex;gap:8px;flex-wrap:wrap}
-.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
-.small-btn.view{background:#dbeafe;color:#1d4ed8}.small-btn.rev{background:#ffedd5;color:#c2410c}.small-btn.flow{background:#dcfce7;color:#15803d}.small-btn.archive{background:#fee2e2;color:#991b1b}
-.empty{padding:34px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
-.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
-@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:300px}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.cards{grid-template-columns:1fr}.search{width:170px}.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}.profile-info{display:none}.panel{overflow:auto}}
+:root{
+  --navy:#0b1a33;
+  --navy2:#10213e;
+  --text:#0f1b2f;
+  --muted:#5d6b83;
+  --line:#dce5ef;
+  --green:#35a852;
+  --green2:#46b85f;
+  --soft:#f7fafc;
+  --card:#ffffff;
+  --shadow:0 28px 80px rgba(12,28,54,.12);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  min-height:100vh;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 34% 42%,rgba(193,206,220,.28),transparent 28%),
+    radial-gradient(circle at 75% 34%,rgba(214,222,232,.36),transparent 30%),
+    linear-gradient(135deg,#f9fbfd 0%,#eef3f8 50%,#f8fafc 100%);
+  overflow-x:hidden;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.86),rgba(255,255,255,.35) 44%,rgba(255,255,255,.78)),
+    radial-gradient(circle at 50% 100%,rgba(130,148,169,.13),transparent 38%);
+  pointer-events:none;
+}
+
+.page{
+  position:relative;
+  z-index:1;
+  width:100%;
+  min-height:100vh;
+  padding:42px 38px 30px;
+  display:flex;
+  flex-direction:column;
+}
+
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns: 1.05fr 1.38fr .95fr;
+  gap:44px;
+  align-items:center;
+}
+
+.logo-wrap{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-bottom:34px;
+}
+
+.logo-mark{
+  width:72px;
+  height:72px;
+  filter:drop-shadow(0 14px 18px rgba(11,26,51,.14));
+}
+
+.logo-text strong{
+  font-size:39px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1.7px;
+  color:#0b1730;
+}
+
+.logo-text strong span{color:var(--green)}
+.logo-text p{
+  margin-top:11px;
+  color:#526178;
+  font-size:17px;
+  font-weight:500;
+}
+
+.hero h1{
+  font-size:58px;
+  line-height:1.12;
+  letter-spacing:-2.6px;
+  color:#08162d;
+  font-weight:900;
+  margin-bottom:22px;
+}
+
+.hero h1 span{
+  display:block;
+  color:var(--green);
+}
+
+.hero-desc{
+  width:min(530px,100%);
+  color:#40506a;
+  font-size:18px;
+  line-height:1.7;
+  font-weight:500;
+  margin-bottom:28px;
+}
+
+.features{
+  display:grid;
+  gap:18px;
+  width:min(500px,100%);
+}
+
+.feature{
+  display:grid;
+  grid-template-columns:68px 1fr;
+  gap:18px;
+  align-items:center;
+}
+
+.feature-icon{
+  width:58px;
+  height:58px;
+  border-radius:15px;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(222,230,240,.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 14px 34px rgba(15,35,65,.08);
+}
+
+.feature-icon svg{
+  width:31px;
+  height:31px;
+  stroke:#0c1b34;
+  stroke-width:2.1;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.feature h3{
+  font-size:18px;
+  font-weight:850;
+  color:#0c1830;
+  margin-bottom:5px;
+}
+
+.feature p{
+  font-size:14.5px;
+  line-height:1.45;
+  font-weight:500;
+  color:#526176;
+}
+
+.visual{
+  position:relative;
+  min-height:670px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.monitor{
+  position:relative;
+  width:min(780px,100%);
+  aspect-ratio:1.31/1;
+  transform:perspective(1350px) rotateY(-5deg) rotateX(1deg) rotateZ(-1deg);
+  border:13px solid #0c111a;
+  border-radius:15px;
+  background:#f8fafc;
+  box-shadow:
+    0 36px 80px rgba(4,14,28,.26),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+  overflow:hidden;
+}
+
+.monitor:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.25),transparent 35%);
+  z-index:5;
+  pointer-events:none;
+}
+
+.stand{
+  position:absolute;
+  left:50%;
+  bottom:55px;
+  transform:translateX(-50%);
+  width:170px;
+  height:108px;
+  background:linear-gradient(180deg,#d9e0e8,#aeb9c5);
+  clip-path:polygon(22% 0,78% 0,92% 100%,8% 100%);
+  box-shadow:0 34px 55px rgba(39,55,74,.18);
+  z-index:-1;
+}
+
+.base{
+  position:absolute;
+  left:50%;
+  bottom:28px;
+  transform:translateX(-50%);
+  width:310px;
+  height:34px;
+  border-radius:50%;
+  background:linear-gradient(180deg,#c4ced9,#9eaab7);
+  filter:blur(.1px);
+  box-shadow:0 20px 34px rgba(33,49,70,.18);
+  z-index:-2;
+}
+
+.app{
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:116px 1fr;
+  background:#f7fafc;
+  font-size:12px;
+}
+
+.app-sidebar{
+  background:linear-gradient(180deg,#0d1f3a,#09182e);
+  padding:22px 12px;
+  color:white;
+}
+
+.app-logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:900;
+  margin-bottom:25px;
+}
+
+.app-logo .mini{
+  width:22px;
+  height:22px;
+}
+
+.nav-item{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  height:34px;
+  border-radius:8px;
+  padding:0 10px;
+  margin-bottom:5px;
+  font-size:11px;
+  font-weight:700;
+  color:#d8e3f0;
+}
+
+.nav-item.active{
+  background:#184f9a;
+  color:#fff;
+}
+
+.nav-dot{
+  width:11px;
+  height:11px;
+  border:1.5px solid currentColor;
+  border-radius:3px;
+}
+
+.app-content{
+  padding:24px;
+  overflow:hidden;
+}
+
+.app-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+}
+
+.search{
+  width:195px;
+  height:28px;
+  border-radius:9px;
+  background:#eef3f8;
+  border:1px solid #e1e8f0;
+  color:#95a1b2;
+  display:flex;
+  align-items:center;
+  padding:0 11px;
+  font-size:9px;
+  font-weight:600;
+}
+
+.app-icons{display:flex;gap:14px;align-items:center;color:#60708b}
+.avatar{
+  width:23px;height:23px;border-radius:50%;
+  background:linear-gradient(135deg,#d8a06b,#6d4b33);
+}
+
+.app-title{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.stat,.panel{
+  background:#fff;
+  border:1px solid #e6edf4;
+  border-radius:11px;
+  box-shadow:0 10px 24px rgba(15,35,65,.045);
+}
+
+.stat{padding:16px 14px;height:97px}
+.stat small{display:block;color:#536277;font-size:10px;font-weight:700;margin-bottom:9px}
+.stat b{display:block;font-size:26px;color:#0d1b34;letter-spacing:-1px}
+.stat span{display:block;color:#35a852;font-size:10px;font-weight:800;margin-top:6px}
+.stat.blue b{color:#1e63b6}.stat.green b{color:#35a852}
+
+.grid-panels{
+  display:grid;
+  grid-template-columns:1.05fr 1.45fr;
+  gap:16px;
+  margin-bottom:16px;
+}
+.panel{padding:17px;min-height:172px}
+.panel h4{font-size:13px;font-weight:850;margin-bottom:13px;color:#0f1b2f}
+
+.donut-wrap{display:flex;align-items:center;gap:16px}
+.donut{
+  width:104px;height:104px;border-radius:50%;
+  background:conic-gradient(#1e63b6 0 38%,#54b86b 38% 62%,#ffbb3d 62% 82%,#bfc9d7 82% 100%);
+  position:relative;
+}
+.donut:after{
+  content:"24\A Total";
+  white-space:pre;
+  position:absolute;inset:20px;
+  border-radius:50%;
+  background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  font-size:10px;font-weight:700;color:#536277;
+}
+.legend{display:grid;gap:10px;font-size:10px;font-weight:700;color:#334155}
+.legend div{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:130px}
+.legend i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px}
+
+.chart{
+  position:relative;
+  height:118px;
+  border-left:1px solid #dbe3ec;
+  border-bottom:1px solid #dbe3ec;
+  margin:8px 4px 0 6px;
+  background:repeating-linear-gradient(to top,transparent 0 28px,#edf2f7 29px);
+}
+.chart svg{position:absolute;inset:0;width:100%;height:100%}
+
+.lower{
+  display:grid;
+  grid-template-columns:1fr .95fr .95fr;
+  gap:16px;
+}
+.progress{
+  height:9px;border-radius:999px;overflow:hidden;margin:17px 0 12px;
+  background:linear-gradient(90deg,#35a852 0 62%,#ffbe3d 62% 82%,#e66b63 82% 100%);
+}
+.risk-row{display:flex;justify-content:space-between;margin:13px 0;font-size:11px;font-weight:800;color:#334155}
+.risk-row i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px}
+.compliance{
+  width:110px;height:110px;border-radius:50%;margin:5px auto 0;
+  background:conic-gradient(#35a852 0 92%,#d9e3eb 92% 100%);
+  position:relative;
+}
+.compliance:after{
+  content:"92%\A Compliant";
+  white-space:pre;
+  position:absolute;inset:16px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:12px;font-weight:800;color:#0d1b34;
+}
+
+.login-card{
+  width:100%;
+  max-width:430px;
+  margin-left:auto;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:32px;
+  padding:56px 32px 52px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(24px);
+}
+
+.login-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:33px;
+}
+.login-logo svg{width:88px;height:88px;margin-bottom:18px;filter:drop-shadow(0 14px 24px rgba(27,45,73,.14))}
+.login-logo strong{font-size:32px;font-weight:900;letter-spacing:-1.2px;color:#0b1730}
+.login-logo strong span{color:var(--green)}
+.login-logo p{margin-top:10px;font-size:15px;color:#5b6980;font-weight:500;text-align:center}
+
+.welcome{text-align:center;margin-bottom:28px}
+.welcome h2{font-size:22px;font-weight:850;margin-bottom:10px;color:#101b2f}
+.welcome p{font-size:15px;color:#6a7689;font-weight:500}
+
+.form-group{margin-bottom:21px}
+.form-group label{display:block;font-size:14px;font-weight:800;margin-bottom:10px;color:#111b2f}
+.input-wrap{position:relative}
+.input-wrap svg{
+  position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:22px;height:22px;stroke:#8190a4;fill:none;stroke-width:2;
+}
+.input-wrap input{
+  width:100%;height:60px;border:1px solid #d6e0ea;border-radius:11px;
+  background:rgba(255,255,255,.9);
+  padding:0 50px 0 54px;
+  outline:none;
+  color:#0f172a;
+  font-size:15px;
+  font-weight:600;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.input-wrap input::placeholder{color:#9aa7b7;font-weight:500}
+.input-wrap input:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.11)}
+.eye{position:absolute;right:16px;top:50%;transform:translateY(-50%);border:none;background:transparent;cursor:pointer;color:#718096}
+.eye svg{position:static;transform:none;width:22px;height:22px}
+
+.form-row{display:flex;align-items:center;justify-content:space-between;margin:6px 0 30px}
+.remember{display:flex;align-items:center;gap:9px;font-size:14px;color:#111b2f;font-weight:600}
+.remember input{accent-color:#41af56;width:17px;height:17px}
+.forgot{font-size:14px;font-weight:700;color:#239341;text-decoration:none}
+
+.login-btn{
+  width:100%;height:64px;border:0;border-radius:10px;
+  background:#0e2341;color:#fff;font-size:18px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  box-shadow:0 18px 34px rgba(14,35,65,.22);
+  transition:.18s ease;
+}
+.login-btn:hover{transform:translateY(-1px);background:#102948}
+.login-btn svg{width:21px;height:21px;stroke:white;fill:none;stroke-width:2}
+
+.message{display:none;border-radius:12px;padding:13px 14px;font-size:13px;font-weight:800;margin-bottom:18px}
+.message.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.message.success{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+
+.standards-bar{
+  margin-top:32px;
+  width:100%;
+  min-height:118px;
+  background:rgba(255,255,255,.67);
+  border:1px solid rgba(255,255,255,.92);
+  border-radius:23px;
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  box-shadow:0 22px 60px rgba(15,35,65,.08);
+  backdrop-filter:blur(20px);
+  overflow:hidden;
+}
+.standard{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:20px 22px;
+}
+.standard:not(:last-child):after{
+  content:"";position:absolute;right:0;top:20px;bottom:20px;width:1px;background:#d8e0ea;
+}
+.standard svg{width:35px;height:35px;stroke:#0b1830;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.standard.green svg{stroke:#2eaf45}
+.standard b{display:block;font-size:15px;font-weight:850;color:#0d1930;margin-bottom:5px;white-space:nowrap}
+.standard span{display:block;font-size:10.5px;line-height:1.25;color:#526176;font-weight:600}
+
+.copy{
+  text-align:center;
+  color:#64748b;
+  font-size:14px;
+  font-weight:500;
+  margin-top:25px;
+}
+
+@media(max-width:1380px){
+  .main{grid-template-columns:1fr;gap:28px}
+  .visual{order:2;min-height:560px}.left{order:1}.right{order:3}.login-card{margin:0 auto}.hero h1{font-size:48px}.standards-bar{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:760px){
+  .page{padding:24px 18px}.hero h1{font-size:37px}.logo-text strong{font-size:31px}.main{gap:20px}.visual{min-height:auto}.monitor{width:100%;border-width:8px}.stand,.base{display:none}.login-card{padding:34px 22px}.features{gap:14px}.standards-bar{grid-template-columns:1fr}.standard:not(:last-child):after{display:none}.standard{border-bottom:1px solid #d8e0ea}.standard:last-child{border-bottom:0}.stats,.grid-panels,.lower{grid-template-columns:1fr}.app{grid-template-columns:84px 1fr}.app-content{padding:14px}.nav-item{font-size:9px;padding:0 6px}.hero-desc{font-size:16px}
+}
+
+
+/* === GDNL CLEAN FULL-PAGE FIT FIX === */
+@media (min-width:1381px){
+  html,body{
+    height:100%;
+    overflow:hidden;
+  }
+
+  .page{
+    height:100vh;
+    min-height:0;
+    padding:28px 38px 16px;
+    display:grid;
+    grid-template-rows:minmax(0,1fr) 82px 18px;
+    gap:10px;
+  }
+
+  .main{
+    height:auto;
+    min-height:0;
+    grid-template-columns:minmax(330px,.9fr) minmax(660px,1.62fr) minmax(350px,.9fr);
+    gap:24px;
+    align-items:center;
+    overflow:visible;
+  }
+
+  .logo-wrap{margin-bottom:20px}
+  .logo-mark{width:56px;height:56px}
+  .logo-text strong{font-size:34px}
+  .logo-text p{font-size:15px;margin-top:7px}
+
+  .hero h1{
+    font-size:53px;
+    line-height:1.04;
+    margin-bottom:16px;
+  }
+
+  .hero-desc{
+    font-size:16.5px;
+    line-height:1.52;
+    margin-bottom:18px;
+    width:min(510px,100%);
+  }
+
+  .features{gap:9px}
+  .feature{grid-template-columns:54px 1fr;gap:12px}
+  .feature-icon{width:48px;height:48px;border-radius:14px}
+  .feature-icon svg{width:26px;height:26px}
+  .feature h3{font-size:15.5px;margin-bottom:3px}
+  .feature p{font-size:12.6px;line-height:1.35}
+
+  .visual{
+    min-height:0;
+    height:100%;
+    justify-content:center;
+    margin-left:-38px;
+    margin-right:-10px;
+    z-index:1;
+  }
+
+  .monitor{
+    width:min(970px,120%);
+    max-height:calc(100vh - 255px);
+  }
+
+  .stand{bottom:6px;width:148px;height:90px}
+  .base{bottom:-18px;width:270px}
+
+  .login-card{
+    max-width:385px;
+    padding:36px 28px 32px;
+    border-radius:28px;
+    position:relative;
+    z-index:2;
+  }
+
+  .login-logo{margin-bottom:20px}
+  .login-logo svg{width:68px;height:68px;margin-bottom:12px}
+  .login-logo strong{font-size:27px}
+  .login-logo p{font-size:13px;margin-top:7px}
+  .welcome{margin-bottom:18px}
+  .welcome h2{font-size:20px}
+  .welcome p{font-size:14px}
+  .form-group{margin-bottom:15px}
+  .form-group label{font-size:13px;margin-bottom:8px}
+  .input-wrap input{height:52px;font-size:14px}
+  .form-row{margin-bottom:20px}
+  .login-btn{height:56px;font-size:17px}
+
+  .standards-bar{
+    margin-top:0;
+    min-height:0;
+    height:82px;
+    border-radius:20px;
+    position:relative;
+    z-index:5;
+    align-self:end;
+  }
+
+  .standard{padding:12px 15px;gap:10px}
+  .standard svg{width:28px;height:28px}
+  .standard b{font-size:12.5px}
+  .standard span{font-size:8.8px}
+
+  .copy{
+    margin-top:0;
+    font-size:12px;
+    line-height:18px;
+    position:relative;
+    z-index:5;
+  }
+}
+
 </style>
 </head>
 
 <body>
-<div class="app">
+<div class="page">
+  <main class="main">
+    <section class="left">
+      <div class="logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#18314f"/><stop offset=".52" stop-color="#1f8f52"/><stop offset="1" stop-color="#53c45c"/></linearGradient>
+            <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fc45d"/><stop offset="1" stop-color="#0b1a33"/></linearGradient>
+          </defs>
+          <path d="M50 6 86 27v23L66 38 50 29 24 44v31l26 15 25-14V61H52V44h39v42L50 109 9 86V34z" fill="url(#g1)" transform="translate(0 -7)"/>
+          <path d="M50 6 9 30v25l20-12 21-12 21 12 20 12V30z" fill="url(#g2)" opacity=".92" transform="translate(0 -3)"/>
+        </svg>
+        <div class="logo-text">
+          <strong>GDNL <span>EQMS</span></strong>
+          <p>Enterprise Quality Management Platform</p>
+        </div>
+      </div>
 
-<aside class="sidebar">
-<div>
-<div class="logo">GDNL <span>QDMS</span></div>
-<nav class="menu">
-<a href="dashboard.html">🏠 Dashboard</a>
-<a class="active" href="documents.html">📄 Doküman Yönetimi</a>
-<a href="new-document.html">➕ Yeni Doküman</a>
-<a href="revision.html">🔄 Revizyon Yönetimi</a>
-<a href="approval.html">✅ Onay Yönetimi</a>
-<a href="archive.html">🗄️ Arşiv Yönetimi</a>
-<a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
-<a href="distribution.html">📤 Dağıtım Yönetimi</a>
-<a href="#">🛠️ DÖF / CAPA</a>
-<a href="users.html">👥 Kullanıcılar</a>
-<a href="audit.html">🧾 İç Denetim</a>
-</nav>
+      <div class="hero">
+        <h1>Enterprise <span>Quality Intelligence</span></h1>
+        <p class="hero-desc">One platform to manage quality, ensure compliance and drive continuous improvement across your enterprise.</p>
+      </div>
+
+      <div class="features">
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div><div><h3>Document Control</h3><p>Centralize, manage and secure all quality documents.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m9 12 2 2 4-5"/></svg></div><div><h3>Risk & CAPA</h3><p>Identify risks, manage CAPA and prevent recurrence.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v4H9zM9 14l2 2 4-5"/></svg></div><div><h3>Audit Management</h3><p>Plan, execute and track audits effortlessly.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c2 2 10 2 12 0v-5"/></svg></div><div><h3>Training Management</h3><p>Manage training, competence and employee development.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M2 21v-2a4 4 0 0 1 3-3.87"/></svg></div><div><h3>Supplier Quality</h3><p>Monitor supplier performance and drive quality across the supply chain.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg></div><div><h3>Compliance Center</h3><p>Stay compliant with standards and regulatory requirements.</p></div></div>
+      </div>
+    </section>
+
+    <section class="visual">
+      <div class="monitor">
+        <div class="app">
+          <aside class="app-sidebar">
+            <div class="app-logo">
+              <svg class="mini" viewBox="0 0 100 100"><path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#45b85e" transform="translate(0 -8)"/><path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#0d1d37" transform="translate(0 -3)"/></svg>
+              EQMS
+            </div>
+            <div class="nav-item active"><span class="nav-dot"></span>Dashboard</div>
+            <div class="nav-item"><span class="nav-dot"></span>Documents</div>
+            <div class="nav-item"><span class="nav-dot"></span>Risks</div>
+            <div class="nav-item"><span class="nav-dot"></span>CAPA</div>
+            <div class="nav-item"><span class="nav-dot"></span>Audits</div>
+            <div class="nav-item"><span class="nav-dot"></span>Training</div>
+            <div class="nav-item"><span class="nav-dot"></span>Suppliers</div>
+            <div class="nav-item"><span class="nav-dot"></span>Complaints</div>
+            <div class="nav-item"><span class="nav-dot"></span>Reports</div>
+            <div class="nav-item"><span class="nav-dot"></span>Analytics</div>
+            <div class="nav-item"><span class="nav-dot"></span>Settings</div>
+          </aside>
+          <section class="app-content">
+            <div class="app-top"><div></div><div class="search">⌕ &nbsp; Search anything...</div><div class="app-icons">♧ ⚙ <span class="avatar"></span></div></div>
+            <div class="app-title">Dashboard</div>
+            <div class="stats">
+              <div class="stat"><small>Total Documents</small><b>12,458</b><span>↑ 12% vs last month</span></div>
+              <div class="stat blue"><small>Open CAPA</small><b>24</b><span style="color:#1e63b6">↓ 8% vs last month</span></div>
+              <div class="stat green"><small>Open Audits</small><b>15</b><span>↑ 3% vs last month</span></div>
+              <div class="stat green"><small>Training Compliance</small><b>98%</b><span>↑ 5% vs last month</span></div>
+            </div>
+            <div class="grid-panels">
+              <div class="panel"><h4>CAPA Overview</h4><div class="donut-wrap"><div class="donut"></div><div class="legend"><div><span><i style="background:#1e63b6"></i>Open</span><b>12</b></div><div><span><i style="background:#54b86b"></i>In Progress</span><b>6</b></div><div><span><i style="background:#ffbb3d"></i>Pending Verification</span><b>4</b></div><div><span><i style="background:#bfc9d7"></i>Closed</span><b>2</b></div></div></div></div>
+              <div class="panel"><h4>Audit Trend <span style="float:right;font-size:9px;border:1px solid #dbe3ec;border-radius:6px;padding:4px 8px;color:#64748b">Last 6 Months⌄</span></h4><div class="chart"><svg viewBox="0 0 300 120"><polyline points="10,95 55,72 100,76 145,52 190,32 235,19 290,10" fill="none" stroke="#299348" stroke-width="4"/><g fill="#fff" stroke="#299348" stroke-width="3"><circle cx="10" cy="95" r="5"/><circle cx="55" cy="72" r="5"/><circle cx="100" cy="76" r="5"/><circle cx="145" cy="52" r="5"/><circle cx="190" cy="32" r="5"/><circle cx="235" cy="19" r="5"/><circle cx="290" cy="10" r="5"/></g></svg></div></div>
+            </div>
+            <div class="lower">
+              <div class="panel"><h4>Document Status</h4><b style="font-size:22px">12,458</b><small style="display:block;color:#64748b;margin-top:2px">Total Documents</small><div class="progress"></div><div style="display:flex;justify-content:space-between;font-size:9px;color:#64748b;font-weight:700"><span>Approved<br><b>9,256</b></span><span>Pending Review<br><b>2,124</b></span><span>Expired<br><b>1,078</b></span></div></div>
+              <div class="panel"><h4>Top Risk by Score</h4><div class="risk-row"><span><i style="background:#e34b44"></i>High Risk</span><b>7</b></div><div class="risk-row"><span><i style="background:#f2a51c"></i>Medium Risk</span><b>11</b></div><div class="risk-row"><span><i style="background:#4caf60"></i>Low Risk</span><b>8</b></div></div>
+              <div class="panel"><h4>Compliance Overview</h4><div class="compliance"></div></div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="stand"></div><div class="base"></div>
+    </section>
+
+    <section class="right">
+      <div class="login-card">
+        <div class="login-logo">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#45b85e" transform="translate(0 -8)"/><path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#0d1d37" transform="translate(0 -3)"/></svg>
+          <strong>GDNL <span>EQMS</span></strong>
+          <p>Enterprise Quality Management Platform</p>
+        </div>
+        <div class="welcome"><h2>Hoş Geldiniz!</h2><p>Hesabınıza giriş yaparak devam edin.</p></div>
+        <div id="msg" class="message"></div>
+        <div class="form-group"><label for="username">Kullanıcı Adı</label><div class="input-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input id="username" type="text" placeholder="Kullanıcı adınızı girin" autocomplete="username"></div></div>
+        <div class="form-group"><label for="password">Şifre</label><div class="input-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><input id="password" type="password" placeholder="Şifrenizi girin" autocomplete="current-password"><button class="eye" type="button" onclick="togglePassword()"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="form-row"><label class="remember"><input id="remember" type="checkbox" checked> Beni Hatırla</label><a href="#" class="forgot" onclick="forgotPassword(event)">Şifremi Unuttum?</a></div>
+        <button class="login-btn" onclick="login()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Giriş Yap</button>
+      </div>
+    </section>
+  </main>
+
+  <section class="standards-bar">
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg><div><b>ISO 9001</b><span>Quality Management</span></div></div>
+    <div class="standard green"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 6 9 6 17c0 2 1 3 1 3s1-5 6-8"/><path d="M4 20c2-1 4-2 7-2 6 0 9-7 9-14"/></svg><div><b>ISO 14001</b><span>Environmental Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="M12 8v8M8 12h8"/></svg><div><b>ISO 45001</b><span>Occupational Health & Safety</span></div></div>
+    <div class="standard green"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg><div><b>ISO 50001</b><span>Energy Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><div><b>ISO 27001</b><span>Information Security Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg><div><b>ISO 10002</b><span>Customer Satisfaction Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M5 13h14l-2-5H7z"/><path d="M5 13v5h14v-5M7 18v2M17 18v2"/><circle cx="8" cy="16" r="1.2"/><circle cx="16" cy="16" r="1.2"/></svg><div><b>IATF 16949</b><span>Automotive Quality Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m12 7 1.5 3 3.5.5-2.5 2.4.6 3.4-3.1-1.6-3.1 1.6.6-3.4-2.5-2.4 3.5-.5z"/></svg><div><b>CoP</b><span>Code of Practice</span></div></div>
+  </section>
+
+  <div class="copy">© 2024 GDNL Digital. All rights reserved.</div>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>Document Master List<br>Live Controlled View</div>
-</aside>
-
-<main class="main">
-
-<header class="topbar">
-<input class="search" id="globalSearch" placeholder="Kod, ad, tip, sahip, standart, departman veya durum ara">
-<div class="profile">
-<div class="profile-info"><strong id="userName">Kerem Admin</strong><span id="userRole">Super Administrator</span></div>
-<div class="avatar" id="userAvatar">K</div>
-<button class="logout-btn" onclick="logout()">Logout</button>
-</div>
-</header>
-
-<section class="hero">
-<div>
-<h1>Document Master List</h1>
-<p>Bu ekran sadece doküman master listesidir. Doküman oluşturma, dosya yükleme ve workflow başlatma işlemleri New Document ekranından yapılır.</p>
-</div>
-<div class="hero-badge">Live Status: <span id="liveStatus">Active</span></div>
-</section>
-
-<section class="cards">
-<div class="card"><small>Toplam Doküman</small><h2 id="totalDocs">0</h2><p>Master listedeki kayıt</p></div>
-<div class="card"><small>Yayında</small><h2 id="publishedDocs">0</h2><p>Aktif doküman</p></div>
-<div class="card"><small>Onayda</small><h2 id="approvalDocs">0</h2><p>Onay bekleyen</p></div>
-<div class="card"><small>Revizyonda</small><h2 id="revisionDocs">0</h2><p>Revizyon süreci</p></div>
-<div class="card"><small>Dosyalı</small><h2 id="fileDocs">0</h2><p>Ek dosyalı kayıt</p></div>
-</section>
-
-<section class="panel">
-<div class="actions">
-<button class="btn primary" onclick="window.location.href='new-document.html'">+ Yeni Doküman</button>
-<button class="btn green" onclick="window.location.href='approval.html'">Onay Bekleyenler</button>
-<button class="btn orange" onclick="window.location.href='revision.html'">Revizyondakiler</button>
-<button class="btn dark" onclick="window.location.href='archive.html'">Arşiv</button>
-</div>
-
-<div class="panel-head">
-<h3>Doküman Master Listesi</h3>
-<div class="toolbar">
-<select id="typeFilter" onchange="renderDocuments()">
-<option value="">Tüm Tipler</option>
-<option value="PR">PR</option><option value="TL">TL</option><option value="FR">FR</option><option value="LS">LS</option><option value="POL">POL</option><option value="AS">AS</option><option value="KEK">KEK</option><option value="OEK">OEK</option><option value="KP">KP</option><option value="GT">GT</option><option value="PL">PL</option><option value="KLV">KLV</option>
-</select>
-
-<select id="statusFilter" onchange="renderDocuments()">
-<option value="">Tüm Durumlar</option>
-<option>Taslak</option><option>Onayda</option><option>Yayında</option><option>Revizyon</option><option>Pasif</option><option>Obsolete</option>
-</select>
-
-<select id="ownerFilter" onchange="renderDocuments()">
-<option value="">Tüm Sahipler</option>
-<option>Kalite</option><option>YGG</option><option>Sistem</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Bakım</option><option>Bilgi Güvenliği</option><option>Yönetim</option>
-</select>
-</div>
-</div>
-
-<div id="tableArea"></div>
-</section>
-
-</main>
-</div>
-
-<div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Admin",role:"Super Administrator",loginAt:new Date().toISOString()};
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+const DEMO_USERS = [
+  {username:"keremgudenli",password:"123456",name:"Kerem Güdenli",role:"Super Administrator"},
+  {username:"keremgudenli",password:"123456",name:"Kerem Güdenli",role:"Super Administrator"}
+];
 
-document.getElementById("userName").textContent=session.name||"User";
-document.getElementById("userRole").textContent=session.role||"User";
-document.getElementById("userAvatar").textContent=(session.name||"U").charAt(0).toUpperCase();
-
-const typeNames={PR:"Prosedür",TL:"Talimat",FR:"Form",LS:"Liste",POL:"Politika",AS:"Akış Şeması",KEK:"Kalite El Kitabı",OEK:"Operasyonel El Kitabı",KP:"Kontrol Planı",GT:"Görev Tanımı",PL:"Plan",KLV:"Kılavuz"};
-
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-window.location.href="index.html";
+const existingSession = JSON.parse(localStorage.getItem("gdnl_qdms_session") || "null");
+if(existingSession && existingSession.username){
+  // window.location.href = "dashboard.html";
 }
 
-function getDocuments(){
-return JSON.parse(localStorage.getItem("gdnl_documents"))||[];
+function login(){
+  const username = document.getElementById("username").value.trim().toLowerCase();
+  const password = document.getElementById("password").value.trim();
+  const remember = document.getElementById("remember").checked;
+  const msg = document.getElementById("msg");
+  msg.style.display = "none";
+  msg.className = "message";
+
+  if(!username || !password){
+    showMessage("Kullanıcı adı ve şifre zorunludur.", "error");
+    return;
+  }
+
+  const user = DEMO_USERS.find(u => u.username === username && u.password === password);
+  if(!user){
+    showMessage("Kullanıcı adı veya şifre hatalı.", "error");
+    return;
+  }
+
+  localStorage.setItem("gdnl_qdms_session", JSON.stringify({
+    username:user.username,
+    name:user.name,
+    role:user.role,
+    remember,
+    loginAt:new Date().toISOString()
+  }));
+
+  showMessage("Giriş başarılı. Dashboard hazırlanıyor...", "success");
+  setTimeout(() => { window.location.href = "dashboard.html"; }, 750);
 }
 
-function setDocuments(docs){
-localStorage.setItem("gdnl_documents",JSON.stringify(docs));
+function showMessage(text,type){
+  const msg = document.getElementById("msg");
+  msg.textContent = text;
+  msg.className = "message " + type;
+  msg.style.display = "block";
 }
 
-function getArchive(){
-return JSON.parse(localStorage.getItem("gdnl_archive"))||[];
+function togglePassword(){
+  const input = document.getElementById("password");
+  input.type = input.type === "password" ? "text" : "password";
 }
 
-function setArchive(items){
-localStorage.setItem("gdnl_archive",JSON.stringify(items));
+function forgotPassword(e){
+  e.preventDefault();
+  showMessage("Demo sistemde şifre sıfırlama henüz aktif değildir.", "error");
 }
 
-function todayISO(){
-return new Date().toISOString().split("T")[0];
-}
-
-function formatDateTR(value){
-if(!value)return"-";
-const d=new Date(value);
-if(isNaN(d))return value;
-return d.toLocaleDateString("tr-TR");
-}
-
-function getTypeFromCode(code){
-if(!code)return"PR";
-return String(code).split(".")[0].replace("AŞ","AS");
-}
-
-function normalizeDate(v){
-if(!v)return"";
-if(String(v).includes(".")){
-const p=String(v).split(".");
-if(p.length===3)return p[2]+"-"+p[1].padStart(2,"0")+"-"+p[0].padStart(2,"0");
-}
-return v;
-}
-
-function normalizeDocument(doc){
-const type=doc.docType||getTypeFromCode(doc.code)||"PR";
-return{
-systemId:doc.systemId||"DOC-"+Date.now()+"-"+Math.random().toString(16).slice(2),
-docType:type,
-docTypeName:doc.docTypeName||typeNames[type]||"Doküman",
-code:doc.code||"",
-name:doc.name||"",
-rev:doc.rev||"R00",
-status:doc.status||"Taslak",
-owner:doc.owner||"Kalite",
-standard:doc.standard||"ISO 9001",
-criticality:doc.criticality||"Normal",
-date:normalizeDate(doc.date)||todayISO(),
-revisionDate:normalizeDate(doc.revisionDate)||normalizeDate(doc.date)||todayISO(),
-reviewDate:normalizeDate(doc.reviewDate)||"",
-preparedBy:doc.preparedBy||"",
-checkedBy:doc.checkedBy||"",
-approvedBy:doc.approvedBy||"",
-workflowId:doc.workflowId||"",
-workflowStatus:doc.workflowStatus||doc.status||"Taslak",
-references:doc.references||"",
-distributionPoints:doc.distributionPoints||"",
-relatedDepartments:doc.relatedDepartments||"",
-description:doc.description||"",
-documentContent:doc.documentContent||"",
-fileName:doc.fileName||"",
-fileType:doc.fileType||"",
-fileSizeText:doc.fileSizeText||"",
-fileData:doc.fileData||"",
-createdAt:doc.createdAt||new Date().toISOString(),
-updatedAt:doc.updatedAt||new Date().toISOString(),
-source:doc.source||"documents"
-};
-}
-
-function migrateDocuments(){
-const docs=getDocuments().map(normalizeDocument);
-setDocuments(docs);
-}
-
-function statusClass(status){
-if(status==="Yayında"||status==="Yayınlandı")return"green";
-if(status==="Onayda"||status==="Revizyon"||status==="Taslak")return"orange";
-if(status==="Pasif"||status==="Obsolete")return"red";
-return"blue";
-}
-
-function viewDocument(index){
-const docs=getDocuments().map(normalizeDocument);
-const doc=docs[index];
-localStorage.setItem("gdnl_selected_document_code",doc.code);
-window.location.href="document-viewer.html";
-}
-
-function startRevision(index){
-const docs=getDocuments().map(normalizeDocument);
-const doc=docs[index];
-localStorage.setItem("gdnl_revision_target_code",doc.code);
-window.location.href="revision.html";
-}
-
-function viewWorkflow(index){
-const docs=getDocuments().map(normalizeDocument);
-const doc=docs[index];
-localStorage.setItem("gdnl_workflow_target_code",doc.code);
-window.location.href="approval.html";
-}
-
-function archiveDocument(index){
-const docs=getDocuments().map(normalizeDocument);
-const doc=docs[index];
-
-if(!confirm(doc.code+" arşive alınsın mı?"))return;
-
-const archive=getArchive();
-archive.unshift({
-archiveNo:"ARC-"+new Date().getFullYear()+"-"+String(archive.length+1).padStart(3,"0"),
-type:"Obsolete Doküman",
-status:"Obsolete",
-documentCode:doc.code,
-documentName:doc.name,
-oldRev:doc.rev||"-",
-newRev:"-",
-archivedBy:session.name||"System",
-archiveDate:todayISO(),
-restoreAvailable:"Evet",
-reason:"Doküman master listeden arşive alındı.",
-detail:doc.description||doc.documentContent||"",
-sourceDocument:doc,
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString()
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter") login();
 });
-
-docs.splice(index,1);
-setDocuments(docs);
-setArchive(archive);
-renderDocuments();
-showToast("Doküman arşive alındı");
-}
-
-function renderDocuments(){
-const docs=getDocuments().map(normalizeDocument);
-const q=document.getElementById("globalSearch").value.toLowerCase();
-const typeFilter=document.getElementById("typeFilter").value;
-const statusFilter=document.getElementById("statusFilter").value;
-const ownerFilter=document.getElementById("ownerFilter").value;
-
-const filtered=docs.filter(d=>{
-const text=`${d.docType} ${d.docTypeName} ${d.code} ${d.name} ${d.rev} ${d.owner} ${d.status} ${d.workflowStatus} ${d.standard} ${d.references} ${d.distributionPoints} ${d.relatedDepartments}`.toLowerCase();
-return text.includes(q)&&(!typeFilter||d.docType===typeFilter)&&(!statusFilter||d.status===statusFilter)&&(!ownerFilter||d.owner===ownerFilter);
-});
-
-updateCards(docs);
-
-const area=document.getElementById("tableArea");
-
-if(filtered.length===0){
-area.innerHTML=`<div class="empty">Kayıt bulunamadı. Yeni doküman oluşturmak için “+ Yeni Doküman” butonunu kullan.</div>`;
-return;
-}
-
-let html=`<table>
-<thead>
-<tr>
-<th>No</th>
-<th>Kod</th>
-<th>Doküman</th>
-<th>Tip</th>
-<th>Rev.</th>
-<th>Durum</th>
-<th>Workflow</th>
-<th>Sahip</th>
-<th>Standart</th>
-<th>Dosya</th>
-<th>Son Güncelleme</th>
-<th>İşlem</th>
-</tr>
-</thead>
-<tbody>`;
-
-filtered.forEach((d,i)=>{
-const index=docs.findIndex(x=>x.systemId===d.systemId||x.code===d.code&&x.createdAt===d.createdAt);
-
-html+=`<tr>
-<td>${i+1}</td>
-<td>${d.code||"-"}</td>
-<td>${d.name||"-"}<br><small>${d.description?d.description.substring(0,70):""}</small></td>
-<td><span class="status blue">${d.docType}</span></td>
-<td>${d.rev||"R00"}</td>
-<td><span class="status ${statusClass(d.status)}">${d.status||"Taslak"}</span></td>
-<td><span class="status ${statusClass(d.workflowStatus)}">${d.workflowStatus||"Taslak"}</span></td>
-<td>${d.owner||"-"}</td>
-<td>${d.standard||"-"}</td>
-<td>${d.fileName?`<span class="status green">Var</span>`:`<span class="status gray">Yok</span>`}</td>
-<td>${formatDateTR(d.updatedAt||d.date)}</td>
-<td>
-<div class="row-actions">
-<button class="small-btn view" onclick="viewDocument(${index})">Görüntüle</button>
-<button class="small-btn rev" onclick="startRevision(${index})">Revizyon</button>
-<button class="small-btn flow" onclick="viewWorkflow(${index})">Workflow</button>
-<button class="small-btn archive" onclick="archiveDocument(${index})">Arşiv</button>
-</div>
-</td>
-</tr>`;
-});
-
-html+=`</tbody></table>`;
-area.innerHTML=html;
-}
-
-function updateCards(docs){
-document.getElementById("totalDocs").textContent=docs.length;
-document.getElementById("publishedDocs").textContent=docs.filter(x=>x.status==="Yayında").length;
-document.getElementById("approvalDocs").textContent=docs.filter(x=>x.status==="Onayda"||x.workflowStatus==="Kalite Onayı"||x.workflowStatus==="Departman Onayı"||x.workflowStatus==="Müdür Onayı").length;
-document.getElementById("revisionDocs").textContent=docs.filter(x=>x.status==="Revizyon").length;
-document.getElementById("fileDocs").textContent=docs.filter(x=>x.fileName).length;
-}
-
-function showToast(msg){
-const toast=document.getElementById("toast");
-toast.textContent=msg;
-toast.style.display="block";
-setTimeout(()=>toast.style.display="none",2500);
-}
-
-document.getElementById("globalSearch").addEventListener("input",renderDocuments);
-
-migrateDocuments();
-renderDocuments();
-
-console.log("GDNL QDMS Documents Master List Loaded");
 </script>
-
 </body>
 </html>
