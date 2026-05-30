@@ -180,7 +180,8 @@ top:0;
 left:-88%;
 width:86%;
 max-width:360px;
-height:100vh;
+height:100dvh;
+min-height:100vh;
 background:rgba(255,255,255,.98);
 z-index:100;
 box-shadow:28px 0 70px rgba(15,23,42,.22);
@@ -225,12 +226,13 @@ cursor:pointer;
 }
 
 .mobile-drawer-menu{
-padding:16px;
+padding:16px 16px 10px;
 overflow:auto;
 display:flex;
 flex-direction:column;
 gap:8px;
 flex:1;
+-webkit-overflow-scrolling:touch;
 }
 
 .mobile-drawer-menu a{
@@ -251,9 +253,13 @@ border-color:#bae6fd;
 }
 
 .mobile-drawer-footer{
-padding:16px;
+padding:14px 16px calc(18px + env(safe-area-inset-bottom));
 border-top:1px solid #e2e8f0;
 background:#fff;
+position:sticky;
+bottom:0;
+box-shadow:0 -12px 28px rgba(15,23,42,.08);
+z-index:2;
 }
 
 .mobile-logout{
