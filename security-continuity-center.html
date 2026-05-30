@@ -85,6 +85,16 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 @media print{.sidebar,.topbar,.hero,.actions,.toolbar,.toast,.mobile-overlay,.mobile-drawer{display:none!important}.app{display:block}.main{padding:0;max-width:none}.panel,.card{box-shadow:none;border:1px solid #e2e8f0}}
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double,.field.triple{grid-column:1/-1}.flow{grid-template-columns:repeat(3,minmax(0,1fr))}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid,.flow{grid-template-columns:1fr}.field.full,.field.double,.field.triple{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
+
+.heatmap-wrap{overflow:auto;border:1px solid #e0e8f0;border-radius:22px;background:linear-gradient(135deg,#f8fbff,#fff);padding:16px}
+.heatmap{display:grid;grid-template-columns:64px repeat(5,74px);gap:6px;align-items:stretch;width:max-content}
+.hm-cell{min-height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:950;border:1px solid rgba(15,23,42,.08);color:#0f172a}
+.hm-head{background:#eef2f7;color:#475569}.hm-low{background:#dcfce7;color:#166534}.hm-med{background:#fef9c3;color:#854d0e}.hm-high{background:#ffedd5;color:#c2410c}.hm-critical{background:#fee2e2;color:#991b1b}
+.hm-active{outline:3px solid #071b34;outline-offset:2px;box-shadow:0 10px 28px rgba(15,23,42,.18)}
+.schedule-list{display:grid;gap:10px}.schedule-item{display:grid;grid-template-columns:150px minmax(0,1fr) 140px 110px;gap:12px;align-items:center;border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#fff);border-radius:16px;padding:13px;font-size:13px;font-weight:850;color:#536176}.schedule-item b{color:#071b34}
+.admin-lock{background:linear-gradient(135deg,#fff,#f0fbf4);border:1px dashed #bfe7ca}
+@media(max-width:850px){.schedule-item{grid-template-columns:1fr}.heatmap{grid-template-columns:54px repeat(5,62px)}.hm-cell{min-height:48px;font-size:10px}}
+
 </style>
 </head>
 
@@ -183,9 +193,9 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <section class="hero">
 <div>
 <h1>Security & Continuity Center</h1>
-<p>ISO 27001 bilgi güvenliği olay yönetimi, BGYS risk yönetimi ve ISO 22301 iş sürekliliği tek yaşam döngüsünde yönetilir. Olaydan riske, riskten BCP etkisine, aksiyondan lessons learned’e kadar tüm kayıtlar aynı merkezde bağlanır.</p>
+<p>ISO 27001 bilgi güvenliği olay yönetimi, BGYS risk yönetimi ve ISO 22301 iş sürekliliği tek yaşam döngüsünde yönetilir. V2 yapıda 10×10×10 RPN, aksiyon yönetimi, varlık envanteri, BIA, BCP tatbikat takvimi, risk heat map ve YGG entegrasyonu aynı merkezde çalışır.</p>
 </div>
-<div class="hero-badge">Security Engine: <span>10/10 Active</span></div>
+<div class="hero-badge">Security Engine V2: <span>10/10 Active</span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -214,6 +224,13 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="card"><small>Açık Aksiyon</small><h2 id="openActions">0</h2><p>Otomatik action kayıtları</p></div>
 </section>
 
+<section class="cards">
+<div class="card"><small>Kritik Risk Sayısı</small><h2 id="criticalRiskCount">0</h2><p>RPN ≥ 600 veya kritik</p></div>
+<div class="card"><small>Ortalama RPN</small><h2 id="averageRpn">0</h2><p>10×10×10 risk ortalaması</p></div>
+<div class="card"><small>YGG Girdisi</small><h2 id="mrmCount">0</h2><p>Yönetime taşınacak kayıt</p></div>
+<div class="card"><small>Varlık Kapsamı</small><h2 id="assetCoverage">0</h2><p>Farklı varlık/sistem</p></div>
+</section>
+
 <section class="panel">
 <div class="panel-head">
 <h3>Security & Continuity Master Record</h3>
@@ -230,6 +247,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="field"><label>Departman</label><select id="department"><option>Bilgi Güvenliği</option><option>BT</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Yönetim</option><option>Operasyon</option><option>Bakım</option></select></div>
 <div class="field"><label>Sorumlu</label><input id="owner" placeholder="Risk / olay sahibi"></div>
 
+<div class="field"><label>Varlık Seç</label><select id="assetRegister" onchange="syncAssetRegister()"><option>ERP</option><option>EQMS</option><option>Mail Server</option><option>Firewall</option><option>NAS</option><option>Sunucu</option><option>Laptop</option><option>Veritabanı</option><option>Bulut Servisi</option><option>Tedarikçi Portalı</option><option>PLC / OT Sistemleri</option><option>Yedekleme Sistemi</option><option>VPN</option><option>Active Directory</option><option>Diğer</option></select></div>
 <div class="field"><label>Öncelik</label><select id="priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
 <div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Termin</label><input id="dueDate" type="date"></div>
@@ -264,10 +282,16 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="field"><label>Tehdit</label><input id="threat" placeholder="Tehdit kaynağı"></div>
 <div class="field"><label>Zafiyet</label><input id="vulnerability" placeholder="Zafiyet / açıklık"></div>
 
-<div class="field"><label>Olasılık</label><select id="likelihood" onchange="calculateRisk()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
-<div class="field"><label>Etki</label><select id="impact" onchange="calculateRisk()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
-<div class="field"><label>Risk Skoru</label><input id="riskScore" readonly></div>
+<div class="field"><label>Olasılık (1-10)</label><select id="likelihood" onchange="calculateRisk()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>Şiddet (1-10)</label><select id="severity" onchange="calculateRisk()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>Keşfetme (1-10)</label><select id="detection" onchange="calculateRisk()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>RPN</label><input id="riskScore" readonly></div>
 <div class="field"><label>Risk Seviyesi</label><input id="riskLevel" readonly></div>
+<div class="field"><label>Aksiyon Gerekli mi?</label><select id="actionRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Aksiyon Sahibi</label><input id="actionOwner" placeholder="Aksiyon sahibi"></div>
+<div class="field"><label>Aksiyon Termin</label><input id="actionDueDate" type="date"></div>
+<div class="field"><label>Aksiyon Durumu</label><select id="actionStatus"><option>Açık</option><option>Devam Ediyor</option><option>Etkinlik Kontrolü</option><option>Kapalı</option></select></div>
+<div class="field"><label>Aksiyon Etkinlik Kontrolü</label><select id="actionEffectiveness"><option>Bekliyor</option><option>Etkili</option><option>Kısmen Etkili</option><option>Etkisiz</option></select></div>
 
 <div class="field double"><label>Mevcut Kontroller</label><textarea id="existingControls" placeholder="SoA kontrolü, politika, prosedür, teknik kontrol"></textarea></div>
 <div class="field double"><label>Risk İşleme Planı</label><textarea id="riskTreatment" placeholder="Azalt, kabul et, transfer et, kaçın"></textarea></div>
@@ -295,8 +319,16 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="field"><label>Kesinti Süresi</label><input id="downtime" placeholder="Örn: 45 dk"></div>
 <div class="field"><label>İş Etki Analizi</label><select id="biaStatus"><option>Gerekli</option><option>Tamamlandı</option><option>Güncellenecek</option><option>Gerekli Değil</option></select></div>
 <div class="field"><label>BCP Güncelleme</label><select id="bcpUpdateRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>MTPD</label><input id="mtpd" placeholder="Örn: 24 saat"></div>
 
-<div class="field full"><label>İş Sürekliliği Etkisi / Senaryo</label><textarea id="continuityScenario" class="big" placeholder="Kesinti senaryosu, kritik süreç etkisi, RTO/RPO değerlendirmesi"></textarea></div>
+<div class="field"><label>Finansal Etki (1-10)</label><select id="financialImpact" onchange="calculateBia()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>Operasyonel Etki (1-10)</label><select id="operationalImpact" onchange="calculateBia()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>Yasal Etki (1-10)</label><select id="legalImpact" onchange="calculateBia()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>İtibar Etkisi (1-10)</label><select id="reputationImpact" onchange="calculateBia()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>BIA Skoru</label><input id="biaScore" readonly></div>
+<div class="field"><label>BIA Kritiklik</label><input id="biaLevel" readonly></div>
+
+<div class="field full"><label>İş Sürekliliği Etkisi / Senaryo</label><textarea id="continuityScenario" class="big" placeholder="Kesinti senaryosu, kritik süreç etkisi, MTPD/RTO/RPO değerlendirmesi"></textarea></div>
 <div class="field double"><label>Kurtarma Stratejisi</label><textarea id="recoveryStrategy"></textarea></div>
 <div class="field double"><label>Tatbikat Bulguları</label><textarea id="drillFindings"></textarea></div>
 </div>
@@ -316,6 +348,10 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="field"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
 
 <div class="field full"><label>Lessons Learned / Kapanış Notu</label><textarea id="lessonLearned" class="big" placeholder="Bu olay/risk/tatbikat sonucunda ne öğrenildi, tekrarını önlemek için ne standartlaştırıldı?"></textarea></div>
+<div class="field"><label>Standart Güncellendi mi?</label><select id="standardUpdated"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Eğitim Açıldı mı?</label><select id="trainingOpened"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>CAPA Açıldı mı?</label><select id="capaOpened"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Risk Güncellendi mi?</label><select id="riskUpdated"><option>Hayır</option><option>Evet</option></select></div>
 </div>
 </div>
 
@@ -328,6 +364,36 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <button class="btn purple" onclick="markLifecycle('Lessons Learned')">Lessons Learned</button>
 <button class="btn blue" onclick="markLifecycle('BCP Etki Analizi')">BCP Etki Analizi</button>
 <button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Risk Heat Map & BCP Tatbikat Takvimi</h3>
+<span class="status purple">V2 ANALYTICS</span>
+</div>
+<div class="form-grid">
+<div class="field double">
+<label>5x5 Risk Heat Map</label>
+<div class="heatmap-wrap"><div class="heatmap" id="riskHeatMap"></div></div>
+</div>
+<div class="field double">
+<label>Yaklaşan Tatbikatlar</label>
+<div class="schedule-list" id="drillSchedule"></div>
+</div>
+</div>
+</section>
+
+<section class="panel admin-lock" id="securityAdminArea">
+<div class="panel-head">
+<h3>Security Admin Area</h3>
+<span class="status orange">SUPER ADMIN / BGYS MANAGER</span>
+</div>
+<div class="form-grid">
+<div class="field"><label>RPN Aksiyon Eşiği</label><input id="rpnActionThreshold" type="number" value="300"></div>
+<div class="field"><label>Kritik RPN Eşiği</label><input id="rpnCriticalThreshold" type="number" value="600"></div>
+<div class="field"><label>Varsayılan BCP Test Periyodu</label><select id="bcpDefaultPeriod"><option>6 Ay</option><option>3 Ay</option><option>12 Ay</option></select></div>
+<div class="field"><label>YGG Otomatik Bayrak</label><select id="autoMrmFlag"><option>Evet</option><option>Hayır</option></select></div>
 </div>
 </section>
 
@@ -427,15 +493,53 @@ if(t==="Bilgi Güvenliği Olayı")document.getElementById("status").value="Yeni"
 if(t==="Entegre Olay + Risk + BCP")document.getElementById("status").value="İncelemede";
 renderFlowPreview(document.getElementById("status").value);
 }
+function syncAssetRegister(){
+const asset=document.getElementById("assetRegister").value;
+if(document.getElementById("affectedAsset"))document.getElementById("affectedAsset").value=asset;
+if(document.getElementById("affectedSystem")&&!document.getElementById("affectedSystem").value)document.getElementById("affectedSystem").value=asset;
+}
 function calculateRisk(){
 const l=Number(document.getElementById("likelihood").value||1);
-const i=Number(document.getElementById("impact").value||1);
-const score=l*i;
+const s=Number(document.getElementById("severity").value||1);
+const d=Number(document.getElementById("detection").value||1);
+const score=l*s*d;
 document.getElementById("riskScore").value=score;
 let level="Düşük";
-if(score>=20)level="Kritik";else if(score>=12)level="Yüksek";else if(score>=6)level="Orta";
+if(score>=600)level="Kritik";else if(score>=300)level="Yüksek";else if(score>=100)level="Orta";
 document.getElementById("riskLevel").value=level;
-if(["Yüksek","Kritik"].includes(level)){document.getElementById("priority").value=level==="Kritik"?"Critical":"High";document.getElementById("criticality").value=level}
+if(score>=300){
+document.getElementById("actionRequired").value="Evet";
+document.getElementById("createAction").value="Evet";
+}
+if(["Yüksek","Kritik"].includes(level)){
+document.getElementById("priority").value=level==="Kritik"?"Critical":"High";
+document.getElementById("criticality").value=level;
+document.getElementById("mrmInput").value="Evet";
+}
+renderHeatMap(getRecords().map(normalizeRecord));
+}
+function calculateBia(){
+const f=Number(document.getElementById("financialImpact").value||1);
+const o=Number(document.getElementById("operationalImpact").value||1);
+const l=Number(document.getElementById("legalImpact").value||1);
+const r=Number(document.getElementById("reputationImpact").value||1);
+const score=f+o+l+r;
+document.getElementById("biaScore").value=score;
+let level="Düşük";
+if(score>=32)level="Kritik";else if(score>=24)level="Yüksek";else if(score>=14)level="Orta";
+document.getElementById("biaLevel").value=level;
+if(["Yüksek","Kritik"].includes(level)){
+document.getElementById("businessCriticality").value=level;
+document.getElementById("mrmInput").value="Evet";
+}
+}
+function enforceAdminArea(){
+const area=document.getElementById("securityAdminArea");
+if(!area)return;
+const role=session.role||"";
+if(role!=="Super Administrator"&&role!=="Bilgi Güvenliği Yöneticisi"){
+area.style.display="none";
+}
 }
 function renderFlowPreview(status="Yeni"){
 const area=document.getElementById("flowPreview");
@@ -471,6 +575,7 @@ incidentNo:document.getElementById("incidentNo").value,
 incidentType:document.getElementById("incidentType").value,
 affectedSystem:document.getElementById("affectedSystem").value.trim(),
 affectedAsset:document.getElementById("affectedAsset").value.trim(),
+assetRegister:document.getElementById("assetRegister").value,
 confidentiality:document.getElementById("confidentiality").value,
 integrity:document.getElementById("integrity").value,
 availability:document.getElementById("availability").value,
@@ -484,9 +589,16 @@ assetGroup:document.getElementById("assetGroup").value,
 threat:document.getElementById("threat").value.trim(),
 vulnerability:document.getElementById("vulnerability").value.trim(),
 likelihood:Number(document.getElementById("likelihood").value),
-impact:Number(document.getElementById("impact").value),
+severity:Number(document.getElementById("severity").value),
+detection:Number(document.getElementById("detection").value),
+impact:Number(document.getElementById("severity").value),
 riskScore:Number(document.getElementById("riskScore").value||0),
 riskLevel:document.getElementById("riskLevel").value,
+actionRequired:document.getElementById("actionRequired").value,
+actionOwner:document.getElementById("actionOwner").value.trim(),
+actionDueDate:document.getElementById("actionDueDate").value,
+actionStatus:document.getElementById("actionStatus").value,
+actionEffectiveness:document.getElementById("actionEffectiveness").value,
 existingControls:document.getElementById("existingControls").value.trim(),
 riskTreatment:document.getElementById("riskTreatment").value.trim(),
 riskOwner:document.getElementById("riskOwner").value.trim(),
@@ -504,6 +616,13 @@ drillDate:document.getElementById("drillDate").value,
 drillResult:document.getElementById("drillResult").value,
 downtime:document.getElementById("downtime").value.trim(),
 biaStatus:document.getElementById("biaStatus").value,
+mtpd:document.getElementById("mtpd").value.trim(),
+financialImpact:Number(document.getElementById("financialImpact").value||1),
+operationalImpact:Number(document.getElementById("operationalImpact").value||1),
+legalImpact:Number(document.getElementById("legalImpact").value||1),
+reputationImpact:Number(document.getElementById("reputationImpact").value||1),
+biaScore:Number(document.getElementById("biaScore").value||0),
+biaLevel:document.getElementById("biaLevel").value,
 bcpUpdateRequired:document.getElementById("bcpUpdateRequired").value,
 continuityScenario:document.getElementById("continuityScenario").value.trim(),
 recoveryStrategy:document.getElementById("recoveryStrategy").value.trim(),
@@ -516,6 +635,10 @@ capaRef:document.getElementById("capaRef").value.trim(),
 actionRef:document.getElementById("actionRef").value.trim(),
 ciRef:document.getElementById("ciRef").value.trim(),
 lessonLearned:document.getElementById("lessonLearned").value.trim(),
+standardUpdated:document.getElementById("standardUpdated").value,
+trainingOpened:document.getElementById("trainingOpened").value,
+capaOpened:document.getElementById("capaOpened").value,
+riskUpdated:document.getElementById("riskUpdated").value,
 evidence:uploadedEvidence||existing?.evidence||null,
 notificationSent:notify?"Evet":existing?.notificationSent||"Hayır",
 createdBy:existing?.createdBy||session.name||"System",
@@ -554,7 +677,8 @@ n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Security &
 setNotifications(n);
 }
 function createAutoIntegrations(p){
-if(p.createAction==="Evet"&&!p.actionRef){
+const actionThreshold=Number(document.getElementById("rpnActionThreshold")?.value||300);
+if((p.createAction==="Evet"||p.riskScore>=actionThreshold||p.actionRequired==="Evet")&&!p.actionRef){
 const actions=getActions(),no="ACT-"+new Date().getFullYear()+"-"+String(actions.length+1).padStart(4,"0");
 actions.unshift({id:"ACTID-"+Date.now(),actionNo:no,module:"Security & Continuity",sourceNo:p.recordNo,title:p.title,department:p.department,responsible:p.owner,dueDate:p.dueDate,status:"Açık",priority:p.priority,description:p.correctiveAction||p.riskTreatment||p.recoveryStrategy||p.title,createdAt:new Date().toISOString(),createdBy:session.name});
 setActions(actions);p.actionRef=no;
@@ -566,7 +690,7 @@ setCapa(capas);p.capaRef=no;
 }
 if(p.createRisk==="Evet"&&!p.ciRiskSynced){
 const risks=getRisks(),no=p.riskNo||("ISMS-RSK-"+new Date().getFullYear()+"-"+String(risks.length+1).padStart(4,"0"));
-risks.unshift({id:"RSKID-"+Date.now(),riskNo:no,module:"Security & Continuity",sourceNo:p.recordNo,riskTitle:p.title,department:p.department,riskDescription:(p.threat+" / "+p.vulnerability)||p.incidentDescription,status:"Açık",riskScore:p.riskScore,riskLevel:p.riskLevel,priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name});
+risks.unshift({id:"RSKID-"+Date.now(),riskNo:no,module:"Security & Continuity",sourceNo:p.recordNo,riskTitle:p.title,department:p.department,riskDescription:(p.threat+" / "+p.vulnerability)||p.incidentDescription,status:"Açık",riskScore:p.riskScore,rpn:p.riskScore,likelihood:p.likelihood,severity:p.severity,detection:p.detection,riskLevel:p.riskLevel,priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name});
 setRisks(risks);p.ciRiskSynced="Evet";
 }
 if(p.createLesson==="Evet"&&!p.ciRef&&p.lessonLearned){
@@ -603,7 +727,7 @@ html+=`<tr>
 <td>${escapeHTML(x.title)}<br><small>${escapeHTML(x.owner||"-")} / ${escapeHTML(x.affectedSystem||x.criticalProcess||"-")}</small></td>
 <td>${escapeHTML(x.recordType)}</td>
 <td>${escapeHTML(x.department)}</td>
-<td><span class="status ${statusClass(x.riskLevel)}">${escapeHTML(x.riskLevel||"-")}</span><br><small>${x.riskScore||0}</small></td>
+<td><span class="status ${statusClass(x.riskLevel)}">${escapeHTML(x.riskLevel||"-")}</span><br><small>RPN: ${x.riskScore||0}</small></td>
 <td>${escapeHTML(x.rto||"-")} / ${escapeHTML(x.rpo||"-")}<br><small>${escapeHTML(x.drillResult||"-")}</small></td>
 <td><span class="status ${statusClass(x.status)}">${escapeHTML(x.status)}</span></td>
 <td>${formatDateTR(x.dueDate)}</td>
@@ -625,8 +749,52 @@ document.getElementById("bcpTests").textContent=items.filter(x=>x.recordType.inc
 const now=todayISO(),future=addDays(now,30);
 document.getElementById("upcomingDrills").textContent=items.filter(x=>x.drillDate&&x.drillDate>=now&&x.drillDate<=future).length;
 document.getElementById("failedDrills").textContent=items.filter(x=>["Başarısız","Kısmen Başarılı"].includes(x.drillResult)).length;
-document.getElementById("openActions").textContent=items.filter(x=>x.actionRef&&!["Kapalı","Reddedildi"].includes(x.status)).length;
+document.getElementById("openActions").textContent=items.filter(x=>(x.actionRef||x.actionRequired==="Evet")&&!["Kapalı","Reddedildi"].includes(x.status)).length;
+document.getElementById("criticalRiskCount").textContent=items.filter(x=>Number(x.riskScore||0)>=600||x.riskLevel==="Kritik").length;
+const rpnItems=items.filter(x=>Number(x.riskScore||0)>0);
+document.getElementById("averageRpn").textContent=rpnItems.length?Math.round(rpnItems.reduce((s,x)=>s+Number(x.riskScore||0),0)/rpnItems.length):0;
+document.getElementById("mrmCount").textContent=items.filter(x=>x.mrmInput==="Evet").length;
+document.getElementById("assetCoverage").textContent=new Set(items.map(x=>x.assetRegister||x.affectedAsset||x.affectedSystem).filter(Boolean)).size;
+renderHeatMap(items);
+renderDrillSchedule(items);
 }
+
+function heatClass(score){
+if(score>=16)return"hm-critical";
+if(score>=10)return"hm-high";
+if(score>=5)return"hm-med";
+return"hm-low";
+}
+function renderHeatMap(items){
+const area=document.getElementById("riskHeatMap");
+if(!area)return;
+let counts={};
+items.forEach(x=>{
+const sev=Math.min(5,Math.max(1,Math.ceil(Number(x.severity||x.impact||1)/2)));
+const lik=Math.min(5,Math.max(1,Math.ceil(Number(x.likelihood||1)/2)));
+const key=lik+"-"+sev;
+counts[key]=(counts[key]||0)+1;
+});
+let html='<div class="hm-cell hm-head">L/S</div>';
+for(let s=1;s<=5;s++)html+=`<div class="hm-cell hm-head">Ş${s}</div>`;
+for(let l=5;l>=1;l--){
+html+=`<div class="hm-cell hm-head">O${l}</div>`;
+for(let s=1;s<=5;s++){
+const key=l+"-"+s,score=l*s,count=counts[key]||0;
+html+=`<div class="hm-cell ${heatClass(score)} ${count?'hm-active':''}">${count?count:'-'}<br><small>${score}</small></div>`;
+}
+}
+area.innerHTML=html;
+}
+function renderDrillSchedule(items){
+const area=document.getElementById("drillSchedule");
+if(!area)return;
+const now=todayISO(),future=addDays(now,30);
+const drills=items.filter(x=>x.drillDate&&x.drillDate>=now&&x.drillDate<=future).sort((a,b)=>String(a.drillDate).localeCompare(String(b.drillDate))).slice(0,8);
+if(!drills.length){area.innerHTML='<div class="empty">30 gün içinde planlı tatbikat yok.</div>';return;}
+area.innerHTML=drills.map(x=>`<div class="schedule-item"><b>${formatDateTR(x.drillDate)}</b><span>${escapeHTML(x.title||x.criticalProcess||"-")}</span><span>${escapeHTML(x.owner||x.recoveryTeam||"-")}</span><span class="status ${statusClass(x.drillResult)}">${escapeHTML(x.drillResult||"-")}</span></div>`).join("");
+}
+
 function openDrawer(index){
 selectedIndex=index;
 const x=normalizeRecord(getRecords()[index]);
@@ -670,7 +838,7 @@ Risk No: ${x.riskNo}
 Varlık Grubu: ${x.assetGroup}
 Tehdit: ${x.threat||"-"}
 Zafiyet: ${x.vulnerability||"-"}
-Risk Skoru: ${x.riskScore||0} / ${x.riskLevel||"-"}
+RPN: ${x.riskScore||0} / ${x.riskLevel||"-"}\nOlasılık: ${x.likelihood||"-"} | Şiddet: ${x.severity||"-"} | Keşfetme: ${x.detection||"-"}
 Kontrol Ref: ${x.controlRef||"-"}
 Artık Risk: ${x.residualRisk}
 YGG Girdisi: ${x.mrmInput}
@@ -678,14 +846,12 @@ YGG Girdisi: ${x.mrmInput}
 Mevcut Kontroller:
 ${x.existingControls||"-"}
 
-Risk İşleme:
-${x.riskTreatment||"-"}</div>
+Risk İşleme:\n${x.riskTreatment||"-"}\n\nAksiyon Gerekli: ${x.actionRequired||"-"}\nAksiyon Sahibi: ${x.actionOwner||"-"}\nAksiyon Termin: ${formatDateTR(x.actionDueDate)}\nAksiyon Durumu: ${x.actionStatus||"-"}\nEtkinlik: ${x.actionEffectiveness||"-"}</div>
 
 <div class="info-box"><b>İş Sürekliliği / ISO 22301</b>
 BCP No: ${x.bcpNo}
 Kritik Süreç: ${x.criticalProcess||"-"}
-RTO: ${x.rto||"-"}
-RPO: ${x.rpo||"-"}
+MTPD: ${x.mtpd||"-"}\nRTO: ${x.rto||"-"}\nRPO: ${x.rpo||"-"}\nBIA Skoru: ${x.biaScore||0} / ${x.biaLevel||"-"}
 Kritik Seviye: ${x.businessCriticality}
 Kurtarma Ekibi: ${x.recoveryTeam||"-"}
 Alternatif Lokasyon: ${x.alternateLocation||"-"}
@@ -739,7 +905,7 @@ const x=normalizeRecord(getRecords()[index]);
 editId=x.id;uploadedEvidence=x.evidence||null;
 document.getElementById("modeBadge").textContent="EDIT MODE";
 document.getElementById("modeBadge").className="status orange";
-["recordNo","recordType","recordDate","status","title","department","owner","priority","criticality","dueDate","reportedBy","incidentNo","incidentType","affectedSystem","affectedAsset","confidentiality","integrity","availability","incidentLevel","incidentDescription","containment","rootCause","correctiveAction","riskNo","assetGroup","threat","vulnerability","likelihood","impact","riskScore","riskLevel","existingControls","riskTreatment","riskOwner","controlRef","residualRisk","mrmInput","bcpNo","criticalProcess","rto","rpo","businessCriticality","recoveryTeam","alternateLocation","drillDate","drillResult","downtime","biaStatus","bcpUpdateRequired","continuityScenario","recoveryStrategy","drillFindings","createCapa","createRisk","createAction","createLesson","capaRef","actionRef","ciRef","lessonLearned"].forEach(id=>{
+["recordNo","recordType","recordDate","status","title","department","owner","assetRegister","priority","criticality","dueDate","reportedBy","incidentNo","incidentType","affectedSystem","affectedAsset","confidentiality","integrity","availability","incidentLevel","incidentDescription","containment","rootCause","correctiveAction","riskNo","assetGroup","threat","vulnerability","likelihood","severity","detection","riskScore","riskLevel","actionRequired","actionOwner","actionDueDate","actionStatus","actionEffectiveness","existingControls","riskTreatment","riskOwner","controlRef","residualRisk","mrmInput","bcpNo","criticalProcess","mtpd","rto","rpo","financialImpact","operationalImpact","legalImpact","reputationImpact","biaScore","biaLevel","businessCriticality","recoveryTeam","alternateLocation","drillDate","drillResult","downtime","biaStatus","bcpUpdateRequired","continuityScenario","recoveryStrategy","drillFindings","createCapa","createRisk","createAction","createLesson","capaRef","actionRef","ciRef","lessonLearned","standardUpdated","trainingOpened","capaOpened","riskUpdated"].forEach(id=>{
 if(document.getElementById(id))document.getElementById(id).value=x[id]??"";
 });
 renderFlowPreview(x.status);
@@ -758,17 +924,18 @@ document.getElementById("status").value="Yeni";
 document.getElementById("title").value="";
 document.getElementById("department").value="Bilgi Güvenliği";
 document.getElementById("owner").value=session.name||"Kerem Güdenli";
+document.getElementById("assetRegister").value="EQMS";
 document.getElementById("priority").value="Medium";
 document.getElementById("criticality").value="Orta";
 document.getElementById("dueDate").value=addDays(todayISO(),14);
 document.getElementById("reportedBy").value=session.name||"Kerem Güdenli";
-["affectedSystem","affectedAsset","incidentDescription","containment","rootCause","correctiveAction","threat","vulnerability","existingControls","riskTreatment","riskOwner","controlRef","criticalProcess","rto","rpo","recoveryTeam","alternateLocation","downtime","continuityScenario","recoveryStrategy","drillFindings","capaRef","actionRef","ciRef","lessonLearned"].forEach(id=>document.getElementById(id).value="");
+["affectedSystem","affectedAsset","incidentDescription","containment","rootCause","correctiveAction","threat","vulnerability","existingControls","riskTreatment","riskOwner","controlRef","criticalProcess","mtpd","rto","rpo","recoveryTeam","alternateLocation","downtime","continuityScenario","recoveryStrategy","drillFindings","capaRef","actionRef","ciRef","lessonLearned","actionOwner"].forEach(id=>document.getElementById(id).value="");
 document.getElementById("incidentType").value="Yetkisiz Erişim";
 document.getElementById("confidentiality").value="Yok";document.getElementById("integrity").value="Yok";document.getElementById("availability").value="Yok";document.getElementById("incidentLevel").value="Seviye 1";
-document.getElementById("assetGroup").value="Bilgi Varlığı";document.getElementById("likelihood").value="1";document.getElementById("impact").value="1";calculateRisk();
+document.getElementById("assetGroup").value="Bilgi Varlığı";document.getElementById("likelihood").value="1";document.getElementById("severity").value="1";document.getElementById("detection").value="1";document.getElementById("actionRequired").value="Hayır";document.getElementById("actionDueDate").value=addDays(todayISO(),14);document.getElementById("actionStatus").value="Açık";document.getElementById("actionEffectiveness").value="Bekliyor";calculateRisk();
 document.getElementById("residualRisk").value="Düşük";document.getElementById("mrmInput").value="Hayır";
-document.getElementById("businessCriticality").value="Orta";document.getElementById("drillDate").value=addDays(todayISO(),30);document.getElementById("drillResult").value="Planlandı";document.getElementById("biaStatus").value="Gerekli";document.getElementById("bcpUpdateRequired").value="Hayır";
-document.getElementById("createCapa").value="Evet";document.getElementById("createRisk").value="Evet";document.getElementById("createAction").value="Evet";document.getElementById("createLesson").value="Evet";
+document.getElementById("financialImpact").value="1";document.getElementById("operationalImpact").value="1";document.getElementById("legalImpact").value="1";document.getElementById("reputationImpact").value="1";calculateBia();document.getElementById("businessCriticality").value="Orta";document.getElementById("drillDate").value=addDays(todayISO(),30);document.getElementById("drillResult").value="Planlandı";document.getElementById("biaStatus").value="Gerekli";document.getElementById("bcpUpdateRequired").value="Hayır";
+document.getElementById("createCapa").value="Evet";document.getElementById("createRisk").value="Evet";document.getElementById("createAction").value="Evet";document.getElementById("createLesson").value="Evet";document.getElementById("standardUpdated").value="Hayır";document.getElementById("trainingOpened").value="Hayır";document.getElementById("capaOpened").value="Hayır";document.getElementById("riskUpdated").value="Hayır";
 document.getElementById("evidenceFile").value="";
 renderFlowPreview("Yeni");
 }
@@ -778,8 +945,8 @@ showToast("YGG bildirimleri oluşturuldu");
 }
 function exportCSV(){
 const rows=getRecords().map(normalizeRecord);
-let csv="RecordNo,Type,Title,Department,Owner,Priority,Status,RiskScore,RiskLevel,RTO,RPO,DrillResult,CAPA,Action,CI\n";
-rows.forEach(x=>csv+=`"${x.recordNo}","${x.recordType}","${x.title}","${x.department}","${x.owner}","${x.priority}","${x.status}","${x.riskScore}","${x.riskLevel}","${x.rto}","${x.rpo}","${x.drillResult}","${x.capaRef}","${x.actionRef}","${x.ciRef}"\n`);
+let csv="RecordNo,Type,Title,Department,Owner,Priority,Status,Likelihood,Severity,Detection,RPN,RiskLevel,MTPD,RTO,RPO,BIA,DrillResult,ActionRequired,CAPA,Action,CI\n";
+rows.forEach(x=>csv+=`"${x.recordNo}","${x.recordType}","${x.title}","${x.department}","${x.owner}","${x.priority}","${x.status}","${x.likelihood}","${x.severity}","${x.detection}","${x.riskScore}","${x.riskLevel}","${x.mtpd}","${x.rto}","${x.rpo}","${x.biaScore}","${x.drillResult}","${x.actionRequired}","${x.capaRef}","${x.actionRef}","${x.ciRef}"\n`);
 const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="security_continuity_center.csv";a.click();URL.revokeObjectURL(url);
 }
 function runSearch(){
@@ -856,7 +1023,8 @@ reader.readAsDataURL(file);
 document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeMobileMenu();closeDrawer()}});
 resetForm();
 renderRecords();
-console.log("GDNL EQMS Security & Continuity Center Loaded");
+enforceAdminArea();
+console.log("GDNL EQMS Security & Continuity Center V2 Loaded");
 </script>
 </body>
 </html>
