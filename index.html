@@ -1,524 +1,686 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Secure Login</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GDNL EQMS | Enterprise Quality Management Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
 :root{
---navy:#071225;
---text:#0f172a;
---muted:#64748b;
---blue:#1478ff;
---cyan:#13b7ff;
---line:#dbe5f2;
---soft:#f6f9ff;
+  --navy:#0b1a33;
+  --navy2:#10213e;
+  --text:#0f1b2f;
+  --muted:#5d6b83;
+  --line:#dce5ef;
+  --green:#35a852;
+  --green2:#46b85f;
+  --soft:#f7fafc;
+  --card:#ffffff;
+  --shadow:0 28px 80px rgba(12,28,54,.12);
 }
+
+*{box-sizing:border-box;margin:0;padding:0}
+
 body{
-min-height:100vh;
-background:#eef3f9;
-color:var(--text);
-overflow-x:hidden;
+  min-height:100vh;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 34% 42%,rgba(193,206,220,.28),transparent 28%),
+    radial-gradient(circle at 75% 34%,rgba(214,222,232,.36),transparent 30%),
+    linear-gradient(135deg,#f9fbfd 0%,#eef3f8 50%,#f8fafc 100%);
+  overflow-x:hidden;
 }
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.86),rgba(255,255,255,.35) 44%,rgba(255,255,255,.78)),
+    radial-gradient(circle at 50% 100%,rgba(130,148,169,.13),transparent 38%);
+  pointer-events:none;
+}
+
 .page{
-min-height:100vh;
-display:grid;
-grid-template-columns:1fr minmax(430px,38vw);
+  position:relative;
+  z-index:1;
+  width:100%;
+  min-height:100vh;
+  padding:42px 38px 30px;
+  display:flex;
+  flex-direction:column;
 }
-.left{
-position:relative;
-min-height:100vh;
-padding:64px 78px;
-color:white;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-background:
-linear-gradient(115deg,rgba(3,10,24,.94),rgba(5,20,44,.88),rgba(7,62,120,.58)),
-url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=2200&q=90');
-background-size:cover;
-background-position:center;
-overflow:hidden;
+
+.main{
+  flex:1;
+  display:grid;
+  grid-template-columns: 1.05fr 1.38fr .95fr;
+  gap:44px;
+  align-items:center;
 }
-.left:before{
-content:"";
-position:absolute;
-inset:-120px;
-background:
-radial-gradient(circle at 18% 18%,rgba(19,183,255,.28),transparent 30%),
-radial-gradient(circle at 78% 70%,rgba(20,120,255,.30),transparent 35%),
-linear-gradient(135deg,rgba(255,255,255,.06),transparent 45%);
-pointer-events:none;
+
+.logo-wrap{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-bottom:34px;
 }
-.left:after{
-content:"";
-position:absolute;
-right:-160px;
-bottom:-160px;
-width:520px;
-height:520px;
-border-radius:50%;
-background:rgba(19,183,255,.11);
-filter:blur(8px);
+
+.logo-mark{
+  width:72px;
+  height:72px;
+  filter:drop-shadow(0 14px 18px rgba(11,26,51,.14));
 }
-.left>*{position:relative;z-index:2}
-.brand-row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:18px;
+
+.logo-text strong{
+  font-size:39px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1.7px;
+  color:#0b1730;
 }
-.brand{
-font-size:42px;
-font-weight:950;
-letter-spacing:-1px;
+
+.logo-text strong span{color:var(--green)}
+.logo-text p{
+  margin-top:11px;
+  color:#526178;
+  font-size:17px;
+  font-weight:500;
 }
-.brand span{color:var(--cyan)}
-.version{
-border:1px solid rgba(255,255,255,.22);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(18px);
-padding:11px 16px;
-border-radius:999px;
-font-size:12px;
-font-weight:950;
-color:#dbeafe;
-}
+
 .hero h1{
-font-size:66px;
-line-height:1.02;
-letter-spacing:-2.4px;
-max-width:900px;
-margin-bottom:28px;
-}
-.hero p{
-font-size:22px;
-line-height:1.7;
-max-width:850px;
-color:#dbeafe;
-font-weight:700;
-}
-.standards{
-margin-top:28px;
-max-width:980px;
-color:#93c5fd;
-font-size:15px;
-line-height:1.9;
-font-weight:900;
-}
-.premium-strip{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:14px;
-max-width:930px;
-margin-top:36px;
-}
-.strip-card{
-background:rgba(255,255,255,.08);
-border:1px solid rgba(255,255,255,.18);
-border-radius:22px;
-padding:18px;
-backdrop-filter:blur(18px);
-box-shadow:0 20px 60px rgba(0,0,0,.22);
-}
-.strip-card b{
-display:block;
-font-size:15px;
-margin-bottom:8px;
-}
-.strip-card span{
-display:block;
-font-size:12px;
-line-height:1.55;
-color:#bfdbfe;
-font-weight:800;
-}
-.badges{
-display:flex;
-gap:14px;
-flex-wrap:wrap;
-}
-.badge{
-border:1px solid rgba(255,255,255,.22);
-background:rgba(255,255,255,.08);
-color:#dbeafe;
-padding:13px 18px;
-border-radius:16px;
-font-size:14px;
-font-weight:950;
-backdrop-filter:blur(16px);
+  font-size:58px;
+  line-height:1.12;
+  letter-spacing:-2.6px;
+  color:#08162d;
+  font-weight:900;
+  margin-bottom:22px;
 }
 
-.right{
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:42px;
-background:
-radial-gradient(circle at 50% 0%,#ffffff,#edf4ff 58%,#e8eff8);
+.hero h1 span{
+  display:block;
+  color:var(--green);
 }
-.login{
-width:100%;
-max-width:520px;
-background:rgba(255,255,255,.88);
-border:1px solid rgba(255,255,255,.82);
-border-radius:34px;
-padding:46px;
-box-shadow:0 36px 110px rgba(15,23,42,.16);
-backdrop-filter:blur(24px);
-}
-.icon{
-width:86px;
-height:86px;
-border-radius:27px;
-border:3px solid var(--blue);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:36px;
-margin:0 auto 24px;
-background:linear-gradient(180deg,#fff,#eff6ff);
-box-shadow:0 20px 48px rgba(20,120,255,.18);
-}
-.login h2{
-text-align:center;
-font-size:42px;
-letter-spacing:-1.2px;
-margin-bottom:10px;
-}
-.login p{
-text-align:center;
-color:var(--muted);
-font-size:17px;
-font-weight:800;
-margin-bottom:30px;
-}
-.error,.success{
-display:none;
-padding:13px 15px;
-border-radius:14px;
-font-size:14px;
-font-weight:900;
-margin-bottom:18px;
-}
-.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
-.success{background:#dcfce7;color:#15803d;border:1px solid #bbf7d0}
 
-label{
-display:block;
-font-size:14px;
-font-weight:950;
-margin-bottom:10px;
+.hero-desc{
+  width:min(530px,100%);
+  color:#40506a;
+  font-size:18px;
+  line-height:1.7;
+  font-weight:500;
+  margin-bottom:28px;
 }
-input{
-width:100%;
-height:64px;
-border:1px solid #cbd5e1;
-border-radius:18px;
-padding:0 18px;
-font-size:17px;
-font-weight:850;
-outline:none;
-background:#eef5ff;
-color:#0f172a;
-margin-bottom:22px;
+
+.features{
+  display:grid;
+  gap:18px;
+  width:min(500px,100%);
 }
-input:focus{
-border-color:var(--blue);
-background:white;
-box-shadow:0 0 0 4px rgba(20,120,255,.13);
+
+.feature{
+  display:grid;
+  grid-template-columns:68px 1fr;
+  gap:18px;
+  align-items:center;
 }
-.password-wrap{position:relative}
-.password-wrap input{padding-right:60px}
-.toggle-pass{
-position:absolute;
-right:12px;
-top:10px;
-width:44px;
-height:44px;
-border:none;
-border-radius:13px;
-background:#f1f5f9;
-cursor:pointer;
-font-size:18px;
+
+.feature-icon{
+  width:58px;
+  height:58px;
+  border-radius:15px;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(222,230,240,.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 14px 34px rgba(15,35,65,.08);
 }
-.row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:14px;
-margin-bottom:26px;
+
+.feature-icon svg{
+  width:31px;
+  height:31px;
+  stroke:#0c1b34;
+  stroke-width:2.1;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
-.remember{
-display:flex;
-align-items:center;
-font-size:14px;
-font-weight:900;
-color:#475569;
-margin:0;
+
+.feature h3{
+  font-size:18px;
+  font-weight:850;
+  color:#0c1830;
+  margin-bottom:5px;
 }
-.remember input{
-width:auto;
-height:auto;
-margin:0 8px 0 0;
+
+.feature p{
+  font-size:14.5px;
+  line-height:1.45;
+  font-weight:500;
+  color:#526176;
 }
-.row a{
-font-size:14px;
-font-weight:950;
-color:var(--blue);
-text-decoration:none;
+
+.visual{
+  position:relative;
+  min-height:670px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
+.monitor{
+  position:relative;
+  width:min(780px,100%);
+  aspect-ratio:1.31/1;
+  transform:perspective(1350px) rotateY(-5deg) rotateX(1deg) rotateZ(-1deg);
+  border:13px solid #0c111a;
+  border-radius:15px;
+  background:#f8fafc;
+  box-shadow:
+    0 36px 80px rgba(4,14,28,.26),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+  overflow:hidden;
+}
+
+.monitor:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.25),transparent 35%);
+  z-index:5;
+  pointer-events:none;
+}
+
+.stand{
+  position:absolute;
+  left:50%;
+  bottom:55px;
+  transform:translateX(-50%);
+  width:170px;
+  height:108px;
+  background:linear-gradient(180deg,#d9e0e8,#aeb9c5);
+  clip-path:polygon(22% 0,78% 0,92% 100%,8% 100%);
+  box-shadow:0 34px 55px rgba(39,55,74,.18);
+  z-index:-1;
+}
+
+.base{
+  position:absolute;
+  left:50%;
+  bottom:28px;
+  transform:translateX(-50%);
+  width:310px;
+  height:34px;
+  border-radius:50%;
+  background:linear-gradient(180deg,#c4ced9,#9eaab7);
+  filter:blur(.1px);
+  box-shadow:0 20px 34px rgba(33,49,70,.18);
+  z-index:-2;
+}
+
+.app{
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:116px 1fr;
+  background:#f7fafc;
+  font-size:12px;
+}
+
+.app-sidebar{
+  background:linear-gradient(180deg,#0d1f3a,#09182e);
+  padding:22px 12px;
+  color:white;
+}
+
+.app-logo{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:900;
+  margin-bottom:25px;
+}
+
+.app-logo .mini{
+  width:22px;
+  height:22px;
+}
+
+.nav-item{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  height:34px;
+  border-radius:8px;
+  padding:0 10px;
+  margin-bottom:5px;
+  font-size:11px;
+  font-weight:700;
+  color:#d8e3f0;
+}
+
+.nav-item.active{
+  background:#184f9a;
+  color:#fff;
+}
+
+.nav-dot{
+  width:11px;
+  height:11px;
+  border:1.5px solid currentColor;
+  border-radius:3px;
+}
+
+.app-content{
+  padding:24px;
+  overflow:hidden;
+}
+
+.app-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+}
+
+.search{
+  width:195px;
+  height:28px;
+  border-radius:9px;
+  background:#eef3f8;
+  border:1px solid #e1e8f0;
+  color:#95a1b2;
+  display:flex;
+  align-items:center;
+  padding:0 11px;
+  font-size:9px;
+  font-weight:600;
+}
+
+.app-icons{display:flex;gap:14px;align-items:center;color:#60708b}
+.avatar{
+  width:23px;height:23px;border-radius:50%;
+  background:linear-gradient(135deg,#d8a06b,#6d4b33);
+}
+
+.app-title{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.stat,.panel{
+  background:#fff;
+  border:1px solid #e6edf4;
+  border-radius:11px;
+  box-shadow:0 10px 24px rgba(15,35,65,.045);
+}
+
+.stat{padding:16px 14px;height:97px}
+.stat small{display:block;color:#536277;font-size:10px;font-weight:700;margin-bottom:9px}
+.stat b{display:block;font-size:26px;color:#0d1b34;letter-spacing:-1px}
+.stat span{display:block;color:#35a852;font-size:10px;font-weight:800;margin-top:6px}
+.stat.blue b{color:#1e63b6}.stat.green b{color:#35a852}
+
+.grid-panels{
+  display:grid;
+  grid-template-columns:1.05fr 1.45fr;
+  gap:16px;
+  margin-bottom:16px;
+}
+.panel{padding:17px;min-height:172px}
+.panel h4{font-size:13px;font-weight:850;margin-bottom:13px;color:#0f1b2f}
+
+.donut-wrap{display:flex;align-items:center;gap:16px}
+.donut{
+  width:104px;height:104px;border-radius:50%;
+  background:conic-gradient(#1e63b6 0 38%,#54b86b 38% 62%,#ffbb3d 62% 82%,#bfc9d7 82% 100%);
+  position:relative;
+}
+.donut:after{
+  content:"24\A Total";
+  white-space:pre;
+  position:absolute;inset:20px;
+  border-radius:50%;
+  background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  font-size:10px;font-weight:700;color:#536277;
+}
+.legend{display:grid;gap:10px;font-size:10px;font-weight:700;color:#334155}
+.legend div{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:130px}
+.legend i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px}
+
+.chart{
+  position:relative;
+  height:118px;
+  border-left:1px solid #dbe3ec;
+  border-bottom:1px solid #dbe3ec;
+  margin:8px 4px 0 6px;
+  background:repeating-linear-gradient(to top,transparent 0 28px,#edf2f7 29px);
+}
+.chart svg{position:absolute;inset:0;width:100%;height:100%}
+
+.lower{
+  display:grid;
+  grid-template-columns:1fr .95fr .95fr;
+  gap:16px;
+}
+.progress{
+  height:9px;border-radius:999px;overflow:hidden;margin:17px 0 12px;
+  background:linear-gradient(90deg,#35a852 0 62%,#ffbe3d 62% 82%,#e66b63 82% 100%);
+}
+.risk-row{display:flex;justify-content:space-between;margin:13px 0;font-size:11px;font-weight:800;color:#334155}
+.risk-row i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px}
+.compliance{
+  width:110px;height:110px;border-radius:50%;margin:5px auto 0;
+  background:conic-gradient(#35a852 0 92%,#d9e3eb 92% 100%);
+  position:relative;
+}
+.compliance:after{
+  content:"92%\A Compliant";
+  white-space:pre;
+  position:absolute;inset:16px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:12px;font-weight:800;color:#0d1b34;
+}
+
+.login-card{
+  width:100%;
+  max-width:430px;
+  margin-left:auto;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:32px;
+  padding:56px 32px 52px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(24px);
+}
+
+.login-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-bottom:33px;
+}
+.login-logo svg{width:88px;height:88px;margin-bottom:18px;filter:drop-shadow(0 14px 24px rgba(27,45,73,.14))}
+.login-logo strong{font-size:32px;font-weight:900;letter-spacing:-1.2px;color:#0b1730}
+.login-logo strong span{color:var(--green)}
+.login-logo p{margin-top:10px;font-size:15px;color:#5b6980;font-weight:500;text-align:center}
+
+.welcome{text-align:center;margin-bottom:28px}
+.welcome h2{font-size:22px;font-weight:850;margin-bottom:10px;color:#101b2f}
+.welcome p{font-size:15px;color:#6a7689;font-weight:500}
+
+.form-group{margin-bottom:21px}
+.form-group label{display:block;font-size:14px;font-weight:800;margin-bottom:10px;color:#111b2f}
+.input-wrap{position:relative}
+.input-wrap svg{
+  position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:22px;height:22px;stroke:#8190a4;fill:none;stroke-width:2;
+}
+.input-wrap input{
+  width:100%;height:60px;border:1px solid #d6e0ea;border-radius:11px;
+  background:rgba(255,255,255,.9);
+  padding:0 50px 0 54px;
+  outline:none;
+  color:#0f172a;
+  font-size:15px;
+  font-weight:600;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.input-wrap input::placeholder{color:#9aa7b7;font-weight:500}
+.input-wrap input:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.11)}
+.eye{position:absolute;right:16px;top:50%;transform:translateY(-50%);border:none;background:transparent;cursor:pointer;color:#718096}
+.eye svg{position:static;transform:none;width:22px;height:22px}
+
+.form-row{display:flex;align-items:center;justify-content:space-between;margin:6px 0 30px}
+.remember{display:flex;align-items:center;gap:9px;font-size:14px;color:#111b2f;font-weight:600}
+.remember input{accent-color:#41af56;width:17px;height:17px}
+.forgot{font-size:14px;font-weight:700;color:#239341;text-decoration:none}
+
 .login-btn{
-width:100%;
-height:68px;
-border:none;
-border-radius:19px;
-background:linear-gradient(90deg,#0757e8,#13b7ff);
-color:white;
-font-size:22px;
-font-weight:950;
-cursor:pointer;
-box-shadow:0 20px 46px rgba(20,120,255,.28);
-transition:.2s;
+  width:100%;height:64px;border:0;border-radius:10px;
+  background:#0e2341;color:#fff;font-size:18px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  box-shadow:0 18px 34px rgba(14,35,65,.22);
+  transition:.18s ease;
 }
-.login-btn:hover{transform:translateY(-1px)}
-.login-btn:disabled{opacity:.65;cursor:not-allowed}
-.progress-login{
-display:none;
-height:9px;
-background:#e2e8f0;
-border-radius:999px;
-overflow:hidden;
-margin-top:18px;
-}
-.progress-login span{
-display:block;
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#0757e8,#13b7ff);
-border-radius:999px;
-animation:load .9s forwards;
-}
-@keyframes load{to{width:100%}}
+.login-btn:hover{transform:translateY(-1px);background:#102948}
+.login-btn svg{width:21px;height:21px;stroke:white;fill:none;stroke-width:2}
 
-.access-note{
-margin-top:24px;
-padding:16px;
-border-radius:18px;
-background:#f8fafc;
-border:1px solid #e2e8f0;
+.message{display:none;border-radius:12px;padding:13px 14px;font-size:13px;font-weight:800;margin-bottom:18px}
+.message.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.message.success{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+
+.standards-bar{
+  margin-top:32px;
+  width:100%;
+  min-height:118px;
+  background:rgba(255,255,255,.67);
+  border:1px solid rgba(255,255,255,.92);
+  border-radius:23px;
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  box-shadow:0 22px 60px rgba(15,35,65,.08);
+  backdrop-filter:blur(20px);
+  overflow:hidden;
 }
-.access-note b{
-display:block;
-font-size:13px;
-margin-bottom:6px;
+.standard{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:20px 22px;
 }
-.access-note span{
-font-size:12px;
-line-height:1.6;
-color:#64748b;
-font-weight:800;
+.standard:not(:last-child):after{
+  content:"";position:absolute;right:0;top:20px;bottom:20px;width:1px;background:#d8e0ea;
 }
-.footer{
-text-align:center;
-margin-top:24px;
-color:#94a3b8;
-font-size:13px;
-font-weight:850;
+.standard svg{width:35px;height:35px;stroke:#0b1830;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.standard.green svg{stroke:#2eaf45}
+.standard b{display:block;font-size:15px;font-weight:850;color:#0d1930;margin-bottom:5px;white-space:nowrap}
+.standard span{display:block;font-size:10.5px;line-height:1.25;color:#526176;font-weight:600}
+
+.copy{
+  text-align:center;
+  color:#64748b;
+  font-size:14px;
+  font-weight:500;
+  margin-top:25px;
 }
 
-@media(max-width:1180px){
-.page{grid-template-columns:1fr}
-.left{min-height:640px;padding:48px}
-.right{min-height:auto;padding:42px}
-.hero h1{font-size:50px}
-.premium-strip{grid-template-columns:repeat(2,1fr)}
-.login{max-width:620px}
+@media(max-width:1380px){
+  .main{grid-template-columns:1fr;gap:28px}
+  .visual{order:2;min-height:560px}.left{order:1}.right{order:3}.login-card{margin:0 auto}.hero h1{font-size:48px}.standards-bar{grid-template-columns:repeat(4,1fr)}
 }
 @media(max-width:760px){
-.left{padding:30px;min-height:680px}
-.brand-row{align-items:flex-start;flex-direction:column}
-.brand{font-size:34px}
-.hero h1{font-size:38px}
-.hero p{font-size:17px}
-.standards{font-size:13px}
-.premium-strip{grid-template-columns:1fr}
-.badge{font-size:12px;padding:11px 13px}
-.right{padding:22px}
-.login{padding:28px;border-radius:28px}
-.login h2{font-size:34px}
-.row{align-items:flex-start;flex-direction:column}
+  .page{padding:24px 18px}.hero h1{font-size:37px}.logo-text strong{font-size:31px}.main{gap:20px}.visual{min-height:auto}.monitor{width:100%;border-width:8px}.stand,.base{display:none}.login-card{padding:34px 22px}.features{gap:14px}.standards-bar{grid-template-columns:1fr}.standard:not(:last-child):after{display:none}.standard{border-bottom:1px solid #d8e0ea}.standard:last-child{border-bottom:0}.stats,.grid-panels,.lower{grid-template-columns:1fr}.app{grid-template-columns:84px 1fr}.app-content{padding:14px}.nav-item{font-size:9px;padding:0 6px}.hero-desc{font-size:16px}
 }
 </style>
 </head>
 
 <body>
 <div class="page">
-
-<section class="left">
-  <div class="brand-row">
-    <div class="brand">GDNL <span>QDMS</span></div>
-    <div class="version">Enterprise Quality Platform</div>
-  </div>
-
-  <div class="hero">
-    <h1>Kalite sistemini tek merkezden yöneten güvenli platform.</h1>
-    <p>Doküman, revizyon, onay, CAPA/8D, audit, risk, eğitim, tedarikçi ve KPI süreçlerini kurumsal seviyede birleştiren modern QDMS altyapısı.</p>
-    <div class="premium-strip">
-      <div class="strip-card">
-        <b>Document Control</b>
-        <span>Revizyon, onay, dağıtım ve arşiv izlenebilirliği.</span>
+  <main class="main">
+    <section class="left">
+      <div class="logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#18314f"/><stop offset=".52" stop-color="#1f8f52"/><stop offset="1" stop-color="#53c45c"/></linearGradient>
+            <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fc45d"/><stop offset="1" stop-color="#0b1a33"/></linearGradient>
+          </defs>
+          <path d="M50 6 86 27v23L66 38 50 29 24 44v31l26 15 25-14V61H52V44h39v42L50 109 9 86V34z" fill="url(#g1)" transform="translate(0 -7)"/>
+          <path d="M50 6 9 30v25l20-12 21-12 21 12 20 12V30z" fill="url(#g2)" opacity=".92" transform="translate(0 -3)"/>
+        </svg>
+        <div class="logo-text">
+          <strong>GDNL <span>EQMS</span></strong>
+          <p>Enterprise Quality Management Platform</p>
+        </div>
       </div>
-      <div class="strip-card">
-        <b>Audit & CAPA</b>
-        <span>Bulgu, kök neden, aksiyon ve etkinlik kontrolü.</span>
+
+      <div class="hero">
+        <h1>Enterprise <span>Quality Intelligence</span></h1>
+        <p class="hero-desc">One platform to manage quality, ensure compliance and drive continuous improvement across your enterprise.</p>
       </div>
-      <div class="strip-card">
-        <b>Risk Intelligence</b>
-        <span>10×10×10 skor, aksiyon sonrası artık risk ve KPI.</span>
+
+      <div class="features">
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div><div><h3>Document Control</h3><p>Centralize, manage and secure all quality documents.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m9 12 2 2 4-5"/></svg></div><div><h3>Risk & CAPA</h3><p>Identify risks, manage CAPA and prevent recurrence.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v4H9zM9 14l2 2 4-5"/></svg></div><div><h3>Audit Management</h3><p>Plan, execute and track audits effortlessly.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c2 2 10 2 12 0v-5"/></svg></div><div><h3>Training Management</h3><p>Manage training, competence and employee development.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M2 21v-2a4 4 0 0 1 3-3.87"/></svg></div><div><h3>Supplier Quality</h3><p>Monitor supplier performance and drive quality across the supply chain.</p></div></div>
+        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg></div><div><h3>Compliance Center</h3><p>Stay compliant with standards and regulatory requirements.</p></div></div>
       </div>
-      <div class="strip-card">
-        <b>Supplier Quality</b>
-        <span>Tedarikçi performansı, SCAR, sertifika ve CoP/EV takibi.</span>
+    </section>
+
+    <section class="visual">
+      <div class="monitor">
+        <div class="app">
+          <aside class="app-sidebar">
+            <div class="app-logo">
+              <svg class="mini" viewBox="0 0 100 100"><path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#45b85e" transform="translate(0 -8)"/><path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#0d1d37" transform="translate(0 -3)"/></svg>
+              EQMS
+            </div>
+            <div class="nav-item active"><span class="nav-dot"></span>Dashboard</div>
+            <div class="nav-item"><span class="nav-dot"></span>Documents</div>
+            <div class="nav-item"><span class="nav-dot"></span>Risks</div>
+            <div class="nav-item"><span class="nav-dot"></span>CAPA</div>
+            <div class="nav-item"><span class="nav-dot"></span>Audits</div>
+            <div class="nav-item"><span class="nav-dot"></span>Training</div>
+            <div class="nav-item"><span class="nav-dot"></span>Suppliers</div>
+            <div class="nav-item"><span class="nav-dot"></span>Complaints</div>
+            <div class="nav-item"><span class="nav-dot"></span>Reports</div>
+            <div class="nav-item"><span class="nav-dot"></span>Analytics</div>
+            <div class="nav-item"><span class="nav-dot"></span>Settings</div>
+          </aside>
+          <section class="app-content">
+            <div class="app-top"><div></div><div class="search">⌕ &nbsp; Search anything...</div><div class="app-icons">♧ ⚙ <span class="avatar"></span></div></div>
+            <div class="app-title">Dashboard</div>
+            <div class="stats">
+              <div class="stat"><small>Total Documents</small><b>12,458</b><span>↑ 12% vs last month</span></div>
+              <div class="stat blue"><small>Open CAPA</small><b>24</b><span style="color:#1e63b6">↓ 8% vs last month</span></div>
+              <div class="stat green"><small>Open Audits</small><b>15</b><span>↑ 3% vs last month</span></div>
+              <div class="stat green"><small>Training Compliance</small><b>98%</b><span>↑ 5% vs last month</span></div>
+            </div>
+            <div class="grid-panels">
+              <div class="panel"><h4>CAPA Overview</h4><div class="donut-wrap"><div class="donut"></div><div class="legend"><div><span><i style="background:#1e63b6"></i>Open</span><b>12</b></div><div><span><i style="background:#54b86b"></i>In Progress</span><b>6</b></div><div><span><i style="background:#ffbb3d"></i>Pending Verification</span><b>4</b></div><div><span><i style="background:#bfc9d7"></i>Closed</span><b>2</b></div></div></div></div>
+              <div class="panel"><h4>Audit Trend <span style="float:right;font-size:9px;border:1px solid #dbe3ec;border-radius:6px;padding:4px 8px;color:#64748b">Last 6 Months⌄</span></h4><div class="chart"><svg viewBox="0 0 300 120"><polyline points="10,95 55,72 100,76 145,52 190,32 235,19 290,10" fill="none" stroke="#299348" stroke-width="4"/><g fill="#fff" stroke="#299348" stroke-width="3"><circle cx="10" cy="95" r="5"/><circle cx="55" cy="72" r="5"/><circle cx="100" cy="76" r="5"/><circle cx="145" cy="52" r="5"/><circle cx="190" cy="32" r="5"/><circle cx="235" cy="19" r="5"/><circle cx="290" cy="10" r="5"/></g></svg></div></div>
+            </div>
+            <div class="lower">
+              <div class="panel"><h4>Document Status</h4><b style="font-size:22px">12,458</b><small style="display:block;color:#64748b;margin-top:2px">Total Documents</small><div class="progress"></div><div style="display:flex;justify-content:space-between;font-size:9px;color:#64748b;font-weight:700"><span>Approved<br><b>9,256</b></span><span>Pending Review<br><b>2,124</b></span><span>Expired<br><b>1,078</b></span></div></div>
+              <div class="panel"><h4>Top Risk by Score</h4><div class="risk-row"><span><i style="background:#e34b44"></i>High Risk</span><b>7</b></div><div class="risk-row"><span><i style="background:#f2a51c"></i>Medium Risk</span><b>11</b></div><div class="risk-row"><span><i style="background:#4caf60"></i>Low Risk</span><b>8</b></div></div>
+              <div class="panel"><h4>Compliance Overview</h4><div class="compliance"></div></div>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
-  </div>
+      <div class="stand"></div><div class="base"></div>
+    </section>
 
-  <div class="badges">
-    <div class="badge">Secure Access</div>
-    <div class="badge">Enterprise Workflow</div>
-    <div class="badge">Audit Ready</div>
-    <div class="badge">KPI Driven</div>
-  </div>
-</section>
+    <section class="right">
+      <div class="login-card">
+        <div class="login-logo">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#45b85e" transform="translate(0 -8)"/><path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#0d1d37" transform="translate(0 -3)"/></svg>
+          <strong>GDNL <span>EQMS</span></strong>
+          <p>Enterprise Quality Management Platform</p>
+        </div>
+        <div class="welcome"><h2>Hoş Geldiniz!</h2><p>Hesabınıza giriş yaparak devam edin.</p></div>
+        <div id="msg" class="message"></div>
+        <div class="form-group"><label for="username">Kullanıcı Adı</label><div class="input-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input id="username" type="text" placeholder="Kullanıcı adınızı girin" autocomplete="username"></div></div>
+        <div class="form-group"><label for="password">Şifre</label><div class="input-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><input id="password" type="password" placeholder="Şifrenizi girin" autocomplete="current-password"><button class="eye" type="button" onclick="togglePassword()"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
+        <div class="form-row"><label class="remember"><input id="remember" type="checkbox" checked> Beni Hatırla</label><a href="#" class="forgot" onclick="forgotPassword(event)">Şifremi Unuttum?</a></div>
+        <button class="login-btn" onclick="login()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Giriş Yap</button>
+      </div>
+    </section>
+  </main>
 
-<section class="right">
-  <div class="login">
-    <div class="icon">🔐</div>
-    <h2>Panele Giriş</h2>
-    <p>Kurumsal hesabınızla devam edin.</p>
+  <section class="standards-bar">
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg><div><b>ISO 9001</b><span>Quality Management</span></div></div>
+    <div class="standard green"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 6 9 6 17c0 2 1 3 1 3s1-5 6-8"/><path d="M4 20c2-1 4-2 7-2 6 0 9-7 9-14"/></svg><div><b>ISO 14001</b><span>Environmental Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="M12 8v8M8 12h8"/></svg><div><b>ISO 45001</b><span>Occupational Health & Safety</span></div></div>
+    <div class="standard green"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg><div><b>ISO 50001</b><span>Energy Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><div><b>ISO 27001</b><span>Information Security Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg><div><b>ISO 10002</b><span>Customer Satisfaction Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><path d="M5 13h14l-2-5H7z"/><path d="M5 13v5h14v-5M7 18v2M17 18v2"/><circle cx="8" cy="16" r="1.2"/><circle cx="16" cy="16" r="1.2"/></svg><div><b>IATF 16949</b><span>Automotive Quality Management</span></div></div>
+    <div class="standard"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m12 7 1.5 3 3.5.5-2.5 2.4.6 3.4-3.1-1.6-3.1 1.6.6-3.4-2.5-2.4 3.5-.5z"/></svg><div><b>CoP</b><span>Code of Practice</span></div></div>
+  </section>
 
-    <div class="error" id="loginError">E-posta veya şifre hatalı.</div>
-    <div class="success" id="loginSuccess">Giriş başarılı. Dashboard hazırlanıyor...</div>
-
-    <label for="email">E-posta Adresi</label>
-    <input id="email" type="email" placeholder="keremgudenli@gdnl.com" autocomplete="username">
-
-    <label for="password">Şifre</label>
-    <div class="password-wrap">
-      <input id="password" type="password" placeholder="Şifrenizi giriniz" autocomplete="current-password">
-      <button class="toggle-pass" type="button" onclick="togglePassword()">👁</button>
-    </div>
-
-    <div class="row">
-      <label class="remember">
-        <input id="rememberMe" type="checkbox">
-        Beni hatırla
-      </label>
-      <a href="#" onclick="forgotPassword(event)">Şifremi unuttum?</a>
-    </div>
-
-    <button class="login-btn" id="loginBtn" onclick="login()">Giriş Yap</button>
-    <div class="progress-login" id="loginProgress"><span></span></div>
-
-    <div class="access-note">
-      <b>Secure QDMS Access</b>
-      <span>Yetkili kullanıcılar için doküman, audit, CAPA, risk ve tedarikçi kalite süreçlerine güvenli erişim sağlar.</span>
-    </div>
-
-    <div class="footer">© 2025 GDNL QDMS - Enterprise Quality Platform</div>
-  </div>
-</section>
-
+  <div class="copy">© 2024 GDNL Digital. All rights reserved.</div>
 </div>
 
 <script>
-const users=[
-  {email:"keremgudenli@gdnl.com",password:"123456",role:"Super Administrator",name:"Kerem Güdenli"}
+const DEMO_USERS = [
+  {username:"admin",password:"123456",name:"Kerem Güdenli",role:"Super Administrator"},
+  {username:"kerem",password:"123456",name:"Kerem Güdenli",role:"Super Administrator"}
 ];
 
-const existingSession=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null");
-
-if(existingSession && existingSession.email && existingSession.loginAt){
-  window.location.href="dashboard.html";
+const existingSession = JSON.parse(localStorage.getItem("gdnl_qdms_session") || "null");
+if(existingSession && existingSession.username){
+  // window.location.href = "dashboard.html";
 }
 
 function login(){
-  const email=document.getElementById("email").value.trim().toLowerCase();
-  const password=document.getElementById("password").value.trim();
-  const rememberMe=document.getElementById("rememberMe").checked;
-  const error=document.getElementById("loginError");
-  const success=document.getElementById("loginSuccess");
-  const button=document.getElementById("loginBtn");
-  const progress=document.getElementById("loginProgress");
+  const username = document.getElementById("username").value.trim().toLowerCase();
+  const password = document.getElementById("password").value.trim();
+  const remember = document.getElementById("remember").checked;
+  const msg = document.getElementById("msg");
+  msg.style.display = "none";
+  msg.className = "message";
 
-  error.style.display="none";
-  success.style.display="none";
-  progress.style.display="none";
-
-  if(!email || !password){
-    error.textContent="E-posta ve şifre zorunludur.";
-    error.style.display="block";
+  if(!username || !password){
+    showMessage("Kullanıcı adı ve şifre zorunludur.", "error");
     return;
   }
 
-  const user=users.find(u=>u.email===email && u.password===password);
-
+  const user = DEMO_USERS.find(u => u.username === username && u.password === password);
   if(!user){
-    error.textContent="E-posta veya şifre hatalı.";
-    error.style.display="block";
+    showMessage("Kullanıcı adı veya şifre hatalı.", "error");
     return;
   }
 
-  const session={
+  localStorage.setItem("gdnl_qdms_session", JSON.stringify({
+    username:user.username,
     name:user.name,
-    email:user.email,
     role:user.role,
-    rememberMe:rememberMe,
+    remember,
     loginAt:new Date().toISOString()
-  };
+  }));
 
-  localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+  showMessage("Giriş başarılı. Dashboard hazırlanıyor...", "success");
+  setTimeout(() => { window.location.href = "dashboard.html"; }, 750);
+}
 
-  button.disabled=true;
-  button.textContent="Giriş yapılıyor...";
-  success.style.display="block";
-  progress.style.display="block";
-
-  setTimeout(function(){
-    window.location.href="dashboard.html";
-  },850);
+function showMessage(text,type){
+  const msg = document.getElementById("msg");
+  msg.textContent = text;
+  msg.className = "message " + type;
+  msg.style.display = "block";
 }
 
 function togglePassword(){
-  const input=document.getElementById("password");
-  input.type=input.type==="password" ? "text" : "password";
+  const input = document.getElementById("password");
+  input.type = input.type === "password" ? "text" : "password";
 }
 
 function forgotPassword(e){
   e.preventDefault();
-  const error=document.getElementById("loginError");
-  error.textContent="Demo sistemde şifre sıfırlama aktif değildir. Yönetici hesabı: keremgudenli@gdnl.com";
-  error.style.display="block";
+  showMessage("Demo sistemde şifre sıfırlama henüz aktif değildir.", "error");
 }
 
-document.getElementById("email").addEventListener("input",clearMessages);
-document.getElementById("password").addEventListener("input",clearMessages);
-
-document.addEventListener("keydown",function(e){
-  if(e.key==="Enter"){
-    login();
-  }
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter") login();
 });
-
-function clearMessages(){
-  document.getElementById("loginError").style.display="none";
-  document.getElementById("loginSuccess").style.display="none";
-}
 </script>
-
 </body>
 </html>
