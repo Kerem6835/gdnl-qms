@@ -411,13 +411,14 @@ const input=document.getElementById("globalSearch");
 const text=input.value.trim().toLowerCase();
 
 if(!text){
-alert("Arama metni giriniz");
+clearSearchResults();
 input.focus();
 return;
 }
 
 const pools=[
 {label:"Doküman Yönetimi",key:"gdnl_documents",go:"documents.html",store:"gdnl_selected_document_code",pick:x=>x.code||x.documentCode||x.id||"",title:x=>x.documentName||x.name||x.title||x.code||x.documentCode||"Doküman",detail:x=>`${x.code||x.documentCode||""} ${x.department||""} ${x.category||""} ${x.status||""}`},
+{label:"Yeni Doküman",key:"gdnl_new_documents",go:"new-document.html",store:"gdnl_selected_new_document",pick:x=>x.code||x.documentCode||x.id||"",title:x=>x.documentName||x.name||x.title||"Yeni Doküman",detail:x=>`${x.code||x.documentCode||""} ${x.department||""} ${x.status||""}`},
 {label:"Revizyon Yönetimi",key:"gdnl_revisions",go:"revision.html",store:"gdnl_selected_revision",pick:x=>x.revisionNo||x.id||"",title:x=>x.documentName||x.revisionNo||"Revizyon",detail:x=>`${x.documentCode||""} ${x.oldRev||""} → ${x.newRev||""} ${x.status||""}`},
 {label:"Onay Yönetimi",key:"gdnl_approvals",go:"approval.html",store:"gdnl_selected_approval",pick:x=>x.workflowId||x.approvalNo||x.id||"",title:x=>x.documentName||x.workflowId||"Onay",detail:x=>`${x.documentCode||""} ${x.currentStep||""} ${x.status||""}`},
 {label:"Arşiv Yönetimi",key:"gdnl_archive",go:"archive.html",store:"gdnl_selected_archive",pick:x=>x.archiveNo||x.documentCode||x.id||"",title:x=>x.documentName||x.archiveNo||"Arşiv",detail:x=>`${x.documentCode||""} ${x.reason||""} ${x.status||""}`},
@@ -438,7 +439,9 @@ const pools=[
 {label:"Yasal Uyum",key:"gdnl_legal_compliance",go:"legal-compliance.html",store:"gdnl_selected_legal",pick:x=>x.legalNo||x.id||"",title:x=>x.legalName||x.legalNo||"Yasal Şart",detail:x=>`${x.legalType||""} ${x.owner||""} ${x.complianceStatus||""}`},
 {label:"Yetkinlik Matrisi",key:"gdnl_competencies",go:"competency-matrix.html",store:"gdnl_selected_competency",pick:x=>x.competencyNo||x.id||"",title:x=>x.competencyName||x.competencyNo||"Yetkinlik",detail:x=>`${x.competencyCategory||""} ${x.standardRef||""}`},
 {label:"Yetkinlik Matrisi",key:"gdnl_competency_assignments",go:"competency-matrix.html",store:"gdnl_selected_competency_assignment",pick:x=>x.id||"",title:x=>`${x.person||""} / ${x.competencyName||""}`,detail:x=>`${x.department||""} ${x.status||""} ${x.effectivenessResult||""}`},
-{label:"Bildirim Merkezi",key:"gdnl_notifications",go:"notification-center.html",store:"gdnl_selected_notification",pick:x=>x.notificationId||x.id||"",title:x=>x.documentName||x.notificationId||"Bildirim",detail:x=>`${x.module||""} ${x.type||""} ${x.status||""} ${x.message||""}`}
+{label:"Bildirim Merkezi",key:"gdnl_notifications",go:"notification-center.html",store:"gdnl_selected_notification",pick:x=>x.notificationId||x.id||"",title:x=>x.documentName||x.notificationId||"Bildirim",detail:x=>`${x.module||""} ${x.type||""} ${x.status||""} ${x.message||""}`},
+{label:"KPI & Raporlar",key:"gdnl_kpi_reports",go:"kpi-reports.html",store:"gdnl_selected_kpi",pick:x=>x.kpiNo||x.id||"",title:x=>x.kpiName||x.kpiNo||"KPI",detail:x=>`${x.department||""} ${x.status||""} ${x.period||""}`},
+{label:"Süreç Yönetimi",key:"gdnl_processes",go:"process-management.html",store:"gdnl_selected_process",pick:x=>x.processNo||x.id||"",title:x=>x.processName||x.processNo||"Süreç",detail:x=>`${x.owner||""} ${x.department||""} ${x.status||""}`}
 ];
 
 let results=[];
@@ -449,6 +452,7 @@ list.forEach(item=>{
 const fullText=JSON.stringify(item).toLowerCase();
 if(fullText.includes(text)){
 results.push({
+type:"record",
 module:p.label,
 go:p.go,
 store:p.store,
@@ -462,9 +466,67 @@ raw:item
 });
 });
 
+results=results.concat(collectPageSearchResults(text));
 renderSearchResults(text,results);
 
 }
+
+function collectPageSearchResults(keyword){
+const results=[];
+const seen=new Set();
+
+document.querySelectorAll(".menu a").forEach((el,index)=>{
+const label=el.textContent.trim();
+const href=el.getAttribute("href")||"";
+const text=(label+" "+href).toLowerCase();
+if(text.includes(keyword)){
+const key="menu-"+href+"-"+label;
+if(!seen.has(key)){
+seen.add(key);
+results.push({type:"page",module:"Sol Menü",title:label,detail:href||"Dashboard menü başlığı",go:href||"#",selector:null,selected:""});
+}
+}
+});
+
+document.querySelectorAll(".module").forEach((el,index)=>{
+const title=(el.querySelector("h4")?.textContent||el.textContent||"Modül").trim();
+const detail=(el.querySelector("p")?.textContent||"").trim();
+const href=el.getAttribute("href")||"";
+const text=(title+" "+detail+" "+href).toLowerCase();
+if(text.includes(keyword)){
+const key="module-"+href+"-"+title;
+if(!seen.has(key)){
+seen.add(key);
+results.push({type:"page",module:"Modül Merkezi",title:title,detail:detail||href,go:href||"#",selector:null,selected:""});
+}
+}
+});
+
+document.querySelectorAll(".card").forEach((el,index)=>{
+const title=(el.querySelector("small")?.textContent||"Dashboard Kartı").trim();
+const value=(el.querySelector("h2")?.textContent||"").trim();
+const detail=(el.querySelector("p")?.textContent||"").trim();
+const text=(title+" "+value+" "+detail).toLowerCase();
+if(text.includes(keyword)){
+const selector=`.card:nth-of-type(${index+1})`;
+results.push({type:"scroll",module:"Dashboard Kartı",title:title+" / "+value,detail:detail,go:"#",selector:selector,selected:""});
+}
+});
+
+document.querySelectorAll(".panel").forEach((el,index)=>{
+if(el.id==="searchResultsPanel")return;
+const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
+const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+const text=(title+" "+detail).toLowerCase();
+if(text.includes(keyword)){
+results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,go:"#",selector:`.panel[data-search-panel="${index}"]`,selected:""});
+el.setAttribute("data-search-panel",index);
+}
+});
+
+return results;
+}
+
 
 function escapeHTML(value){
 return String(value||"")
@@ -493,33 +555,46 @@ key.textContent=keyword;
 count.textContent=results.length+" sonuç";
 
 if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için bu dashboard verilerinde sonuç bulunamadı.</div>`;
+area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı. Sistem uyarı vermez; arama paneli burada açık kalır.</div>`;
 panel.scrollIntoView({behavior:"smooth",block:"start"});
 return;
 }
 
-area.innerHTML=results.slice(0,50).map((r,index)=>`
+area.innerHTML=results.slice(0,80).map((r,index)=>`
 <div class="result-card">
 <div><span class="status blue">${escapeHTML(r.module)}</span></div>
 <div>
 <b>${highlightText(r.title,keyword)}</b>
 <small>${highlightText(r.detail,keyword)}</small>
 </div>
-<button class="result-open" onclick="openSearchResult(${index})">Aç</button>
+<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
 </div>
 `).join("");
 
-window.gdnlSearchResults=results.slice(0,50);
+window.gdnlSearchResults=results.slice(0,80);
 panel.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 function openSearchResult(index){
 const r=(window.gdnlSearchResults||[])[index];
 if(!r)return;
+
+if(r.type==="scroll"&&r.selector){
+const target=document.querySelector(r.selector);
+if(target){
+target.scrollIntoView({behavior:"smooth",block:"center"});
+target.style.outline="3px solid #0ea5ff";
+target.style.outlineOffset="4px";
+setTimeout(()=>{target.style.outline="";target.style.outlineOffset="";},2200);
+}
+return;
+}
+
 localStorage.setItem("gdnl_global_search_text",document.getElementById("globalSearch").value.trim());
 if(r.store)localStorage.setItem(r.store,r.selected||"");
-window.location.href=r.go;
+if(r.go&&r.go!=="#")window.location.href=r.go;
 }
+
 
 function clearSearchResults(){
 document.getElementById("globalSearch").value="";
