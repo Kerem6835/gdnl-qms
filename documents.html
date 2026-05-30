@@ -80,6 +80,60 @@ tr:hover td{background:#f7fbf8}
 @media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.card{border-radius:22px}.card h2{font-size:36px}}
 
+
+/* === FINAL MOBILE DRAWER LOGOUT FIX === */
+@media(max-width:850px){
+  .mobile-drawer{
+    height:100dvh!important;
+    min-height:100dvh!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+
+  .mobile-drawer-head{
+    flex:0 0 86px!important;
+  }
+
+  .mobile-drawer-menu{
+    flex:1 1 auto!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    padding:16px 16px 92px!important;
+    max-height:calc(100dvh - 86px)!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+
+  .mobile-drawer-footer{
+    position:absolute!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    padding:12px 16px calc(14px + env(safe-area-inset-bottom))!important;
+    background:rgba(255,255,255,.98)!important;
+    border-top:1px solid #e2e8f0!important;
+    box-shadow:0 -14px 30px rgba(15,23,42,.12)!important;
+    z-index:120!important;
+    flex:0 0 auto!important;
+  }
+
+  .mobile-logout{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:100%!important;
+    height:52px!important;
+    border:1px solid #fecaca!important;
+    border-radius:15px!important;
+    background:#fee2e2!important;
+    color:#991b1b!important;
+    font-weight:950!important;
+    font-size:15px!important;
+    cursor:pointer!important;
+  }
+}
+
 </style>
 </head>
 
