@@ -356,16 +356,28 @@ const USERS=[
     username:"keremgudenli",
     password:"123456",
     name:"Kerem Güdenli",
-    role:"Super Administrator",
-    permissions:["*"],
-    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Satınalma","İnsan Kaynakları","Bakım","Çevre ve İSG","COP"],
+    role:"Root Super Administrator",
+    accessLevel:"FULL_SYSTEM_ACCESS",
+    permissions:["*","root","admin","view","create","edit","delete","approve","export","import","audit","settings","users","roles","system","all_modules"],
+    modules:["dashboard","quality","documents","audits","risks","actions","training","maintenance","production","purchasing","hr","environment","ohs","energy","isms","iatf","cop","reports","settings","users","roles","system"],
+    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Satınalma","İnsan Kaynakları","Bakım","Çevre ve İSG","Enerji","BGYS","IATF","COP"],
     canViewAll:true,
     canCreate:true,
     canEdit:true,
     canDelete:true,
+    canApprove:true,
+    canExport:true,
+    canImport:true,
+    canAudit:true,
     canManageUsers:true,
     canManageRoles:true,
-    canManageSystem:true
+    canManageSystem:true,
+    canAccessSettings:true,
+    canAccessAllModules:true,
+    canOverrideWorkflow:true,
+    isRoot:true,
+    isSuperAdmin:true,
+    isFullAuthorized:true
   },
   {
     username:"demo",
@@ -415,15 +427,27 @@ function login(){
     username:user.username,
     name:user.name,
     role:user.role,
-    permissions:user.permissions,
-    departments:user.departments,
-    canViewAll:user.canViewAll,
-    canCreate:user.canCreate,
-    canEdit:user.canEdit,
-    canDelete:user.canDelete,
-    canManageUsers:user.canManageUsers,
-    canManageRoles:user.canManageRoles,
-    canManageSystem:user.canManageSystem,
+    accessLevel:user.accessLevel || "LIMITED_ACCESS",
+    permissions:user.permissions || [],
+    modules:user.modules || [],
+    departments:user.departments || [],
+    canViewAll:!!user.canViewAll,
+    canCreate:!!user.canCreate,
+    canEdit:!!user.canEdit,
+    canDelete:!!user.canDelete,
+    canApprove:!!user.canApprove,
+    canExport:!!user.canExport,
+    canImport:!!user.canImport,
+    canAudit:!!user.canAudit,
+    canManageUsers:!!user.canManageUsers,
+    canManageRoles:!!user.canManageRoles,
+    canManageSystem:!!user.canManageSystem,
+    canAccessSettings:!!user.canAccessSettings,
+    canAccessAllModules:!!user.canAccessAllModules,
+    canOverrideWorkflow:!!user.canOverrideWorkflow,
+    isRoot:!!user.isRoot,
+    isSuperAdmin:!!user.isSuperAdmin,
+    isFullAuthorized:!!user.isFullAuthorized,
     loginAt:new Date().toISOString(),
     system:"GDNL EMS"
   };
@@ -431,7 +455,12 @@ function login(){
   localStorage.setItem("gdnl_ems_session",JSON.stringify(session));
   localStorage.setItem("gdnl_current_user_name",user.name);
   localStorage.setItem("gdnl_current_user_role",user.role);
-  localStorage.setItem("gdnl_current_permissions",JSON.stringify(user.permissions));
+  localStorage.setItem("gdnl_current_access_level",session.accessLevel);
+  localStorage.setItem("gdnl_current_permissions",JSON.stringify(session.permissions));
+  localStorage.setItem("gdnl_current_modules",JSON.stringify(session.modules));
+  localStorage.setItem("gdnl_is_root",String(session.isRoot));
+  localStorage.setItem("gdnl_is_super_admin",String(session.isSuperAdmin));
+  localStorage.setItem("gdnl_is_full_authorized",String(session.isFullAuthorized));
 
   showMessage("Giriş başarılı. Panel hazırlanıyor...","success");
 
