@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL EQMS | Department Gateway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#071b34;
+  --navy2:#0d2747;
+  --green:#35a852;
+  --green2:#62d46f;
+  --text:#0f1b2f;
+  --muted:#617086;
+  --line:#dfe9f5;
+  --card:#ffffff;
+  --red:#991b1b;
+  --gray:#94a3b8;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+html,body{min-height:100%;overflow-x:hidden}
+body{
+  color:var(--text);
+  background:
+    radial-gradient(circle at 82% 10%,rgba(53,168,82,.16),transparent 26%),
+    radial-gradient(circle at 18% 18%,rgba(21,151,255,.13),transparent 26%),
+    radial-gradient(circle at 50% 110%,rgba(7,27,52,.12),transparent 34%),
+    linear-gradient(135deg,#fbfdff 0%,#eef5fc 44%,#f8fbff 100%);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.82),rgba(255,255,255,.28) 45%,rgba(255,255,255,.76)),
+    radial-gradient(circle at 50% 100%,rgba(53,168,82,.08),transparent 38%);
+  pointer-events:none;
+}
+.gateway{
+  position:relative;
+  z-index:1;
+  min-height:100dvh;
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+}
+.topbar{
+  min-height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  background:rgba(255,255,255,.76);
+  border:1px solid rgba(223,233,245,.88);
+  border-radius:28px;
+  padding:14px 18px 14px 22px;
+  box-shadow:0 24px 70px rgba(7,27,52,.08);
+  backdrop-filter:blur(20px);
+  margin-bottom:24px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+}
+.logo-mark{
+  width:52px;
+  height:52px;
+  border-radius:17px;
+  background:linear-gradient(135deg,#071b34,#1f8f43 55%,#62d46f);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-weight:950;
+  letter-spacing:-1px;
+  box-shadow:0 16px 34px rgba(53,168,82,.22);
+  flex:0 0 auto;
+}
+.brand strong{
+  display:block;
+  font-size:28px;
+  line-height:1;
+  font-weight:950;
+  letter-spacing:-.9px;
+  color:var(--navy);
+}
+.brand strong span{color:var(--green)}
+.brand small{
+  display:block;
+  margin-top:7px;
+  color:#5b6a80;
+  font-weight:800;
+}
+.user-zone{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:0 0 auto;
+}
+.user-chip{
+  min-height:50px;
+  border:none;
+  border-radius:16px;
+  padding:0 18px;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  color:#fff;
+  font-weight:950;
+  box-shadow:0 14px 32px rgba(53,168,82,.22);
+}
+.logout{
+  height:50px;
+  border:1px solid #fecaca;
+  border-radius:16px;
+  padding:0 16px;
+  background:#fee2e2;
+  color:#991b1b;
+  font-weight:950;
+  cursor:pointer;
+}
+.hero{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);
+  gap:24px;
+  align-items:stretch;
+  margin-bottom:22px;
+}
+.hero-main,.hero-side{
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(223,233,245,.9);
+  border-radius:34px;
+  box-shadow:0 24px 70px rgba(7,27,52,.075);
+  backdrop-filter:blur(18px);
+  overflow:hidden;
+  position:relative;
+}
+.hero-main{
+  padding:34px;
+  min-height:250px;
+}
+.hero-main:after{
+  content:"";
+  position:absolute;
+  width:360px;
+  height:360px;
+  right:-120px;
+  top:-130px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(53,168,82,.25),transparent 64%);
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:#e8f7ee;
+  color:#1f7d3d;
+  font-size:12px;
+  font-weight:950;
+  margin-bottom:18px;
+}
+.hero h1{
+  position:relative;
+  z-index:2;
+  max-width:760px;
+  font-size:52px;
+  line-height:1.04;
+  letter-spacing:-2.2px;
+  font-weight:950;
+  color:#081d35;
+  margin-bottom:14px;
+}
+.hero h1 span{color:var(--green)}
+.hero p{
+  position:relative;
+  z-index:2;
+  max-width:760px;
+  color:#4e6078;
+  font-weight:650;
+  line-height:1.72;
+  font-size:16px;
+}
+.hero-actions{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:24px;
+}
+.pill{
+  border:1px solid #dbe8f7;
+  background:linear-gradient(135deg,#fff,#f7fbff);
+  border-radius:999px;
+  padding:10px 13px;
+  color:#536176;
+  font-size:12px;
+  font-weight:950;
+}
+.hero-side{
+  padding:26px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  background:
+    radial-gradient(circle at 80% 18%,rgba(53,168,82,.18),transparent 36%),
+    rgba(255,255,255,.82);
+}
+.side-title{
+  font-size:18px;
+  font-weight:950;
+  color:var(--navy);
+  margin-bottom:10px;
+}
+.role-box{
+  border:1px solid #e0e8f0;
+  border-radius:24px;
+  padding:18px;
+  background:linear-gradient(135deg,#f8fbff,#ffffff);
+}
+.role-line{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  padding:11px 0;
+  border-bottom:1px solid #edf2f7;
+  color:#536176;
+  font-size:13px;
+  font-weight:850;
+}
+.role-line:last-child{border-bottom:0}
+.role-line b{color:#0f1b2f}
+.access-meter{
+  margin-top:18px;
+}
+.meter-head{
+  display:flex;
+  justify-content:space-between;
+  color:#536176;
+  font-size:12px;
+  font-weight:950;
+  margin-bottom:9px;
+}
+.meter{
+  height:12px;
+  background:#e8eef5;
+  border-radius:999px;
+  overflow:hidden;
+}
+.meter-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#1f8f43,#62d46f);
+  border-radius:999px;
+  transition:.5s;
+}
+.dept-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:18px;
+  margin:8px 0 16px;
+}
+.dept-head h2{
+  font-size:28px;
+  letter-spacing:-.8px;
+  font-weight:950;
+  color:var(--navy);
+}
+.dept-head p{
+  max-width:720px;
+  color:#5f6f86;
+  font-size:13px;
+  font-weight:750;
+  line-height:1.55;
+}
+.departments{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+.dept-card{
+  min-height:204px;
+  border-radius:28px;
+  border:1px solid rgba(191,231,202,.85);
+  background:
+    radial-gradient(circle at 84% 12%,rgba(98,212,111,.20),transparent 34%),
+    linear-gradient(135deg,rgba(255,255,255,.92),rgba(248,253,250,.92));
+  box-shadow:0 16px 44px rgba(7,27,52,.065),0 6px 20px rgba(53,168,82,.045);
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.22s ease;
+}
+.dept-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 24px 60px rgba(7,27,52,.10),0 8px 28px rgba(53,168,82,.10);
+}
+.dept-card.locked{
+  cursor:not-allowed;
+  filter:grayscale(.25);
+  background:linear-gradient(135deg,rgba(255,255,255,.74),rgba(241,245,249,.84));
+  border-color:#dfe6ee;
+  box-shadow:0 12px 34px rgba(15,23,42,.045);
+}
+.dept-card.locked:hover{transform:none}
+.dept-card.locked:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(248,250,252,.36);
+  pointer-events:none;
+}
+.dept-top{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+  position:relative;
+  z-index:2;
+}
+.dept-icon{
+  width:58px;
+  height:58px;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  color:white;
+  font-size:27px;
+  box-shadow:0 14px 32px rgba(53,168,82,.18);
+}
+.locked .dept-icon{
+  background:linear-gradient(135deg,#94a3b8,#cbd5e1);
+  box-shadow:none;
+}
+.dept-status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border-radius:999px;
+  padding:7px 10px;
+  background:#dcfce7;
+  color:#15803d;
+  font-size:11px;
+  font-weight:950;
+}
+.locked .dept-status{
+  background:#e2e8f0;
+  color:#64748b;
+}
+.dept-body{
+  position:relative;
+  z-index:2;
+}
+.dept-body h3{
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:-.4px;
+  color:#081d35;
+  margin-bottom:8px;
+}
+.locked .dept-body h3{color:#64748b}
+.dept-body p{
+  min-height:42px;
+  color:#536176;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.55;
+}
+.locked .dept-body p{color:#8793a3}
+.dept-meta{
+  position:relative;
+  z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-top:18px;
+  color:#607086;
+  font-size:12px;
+  font-weight:950;
+}
+.open-btn{
+  min-width:86px;
+  height:36px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  color:#fff;
+  font-weight:950;
+  box-shadow:0 12px 26px rgba(53,168,82,.18);
+}
+.locked .open-btn{
+  background:#e2e8f0;
+  color:#64748b;
+  box-shadow:none;
+}
+.toast{
+  position:fixed;
+  right:24px;
+  bottom:24px;
+  z-index:40;
+  display:none;
+  max-width:420px;
+  border-radius:18px;
+  padding:15px 18px;
+  background:linear-gradient(135deg,#071b34,#1f8f43);
+  color:white;
+  font-weight:900;
+  box-shadow:0 22px 60px rgba(7,27,52,.24);
+}
+.footer{
+  margin-top:auto;
+  padding-top:22px;
+  color:#66758a;
+  font-size:12px;
+  font-weight:750;
+  text-align:center;
+}
+@media(max-width:1280px){
+  .departments{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .hero{grid-template-columns:1fr}
+  .hero h1{font-size:46px}
+}
+@media(max-width:900px){
+  .gateway{padding:18px}
+  .topbar{align-items:flex-start;flex-direction:column}
+  .user-zone{width:100%;display:grid;grid-template-columns:1fr auto}
+  .user-chip{width:100%}
+  .hero-main{padding:26px 22px;border-radius:28px}
+  .hero h1{font-size:36px}
+  .departments{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .dept-head{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:560px){
+  .departments{grid-template-columns:1fr}
+  .brand strong{font-size:24px}
+  .hero h1{font-size:32px}
+  .dept-card{min-height:188px}
+}
+</style>
+</head>
+<body>
+<div class="gateway">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-mark">G</div>
+      <div>
+        <strong>GDNL <span>EQMS</span></strong>
+        <small>Enterprise Department Gateway</small>
+      </div>
+    </div>
+    <div class="user-zone">
+      <button class="user-chip" id="userChip">Kullanıcı</button>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-main">
+      <div class="kicker">● Role Based Department Access</div>
+      <h1>Kurumsal sisteme <span>departman kapısından</span> giriş yap.</h1>
+      <p>Bu köprü ekran, kullanıcıyı doğrudan karmaşık modül listesine sokmaz. Önce departman çatı mimarisini gösterir; yetkili alanlar yeşil, yetkisiz alanlar gri görünür. Seçilen departman Dashboard’a aktarılır.</p>
+      <div class="hero-actions">
+        <span class="pill">ISO / IATF uyumlu yapı</span>
+        <span class="pill">Rol bazlı erişim</span>
+        <span class="pill">Departman odaklı kullanım</span>
+        <span class="pill">Demo sunuma hazır</span>
+      </div>
+    </div>
+
+    <aside class="hero-side">
+      <div>
+        <div class="side-title">Oturum Yetki Özeti</div>
+        <div class="role-box">
+          <div class="role-line"><span>Kullanıcı</span><b id="roleName">-</b></div>
+          <div class="role-line"><span>Rol</span><b id="roleTitle">-</b></div>
+          <div class="role-line"><span>Departman</span><b id="roleDepartment">-</b></div>
+          <div class="role-line"><span>Erişim</span><b id="roleAccess">0 / 0</b></div>
+        </div>
+      </div>
+      <div class="access-meter">
+        <div class="meter-head"><span>Yetki Kapsamı</span><span id="meterText">0%</span></div>
+        <div class="meter"><div class="meter-bar" id="meterBar"></div></div>
+      </div>
+    </aside>
+  </section>
+
+  <div class="dept-head">
+    <div>
+      <h2>Departman Seçimi</h2>
+      <p>Yetkili departmana tıklandığında sistem seçimi kaydeder ve Dashboard’u bu departman perspektifiyle açar. Gri departmanlar görünür kalır ama erişim vermez.</p>
+    </div>
+  </div>
+
+  <section class="departments" id="departments"></section>
+
+  <div class="footer">© 2026 GDNL EQMS • Department Gateway • Role Based Access Ready</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const DEFAULT_SESSION={username:"demo",name:"Demo Kullanıcı",role:"Kullanıcı",department:"Kalite",loginAt:new Date().toISOString()};
+let session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null")||DEFAULT_SESSION;
+if(!session.name)session.name="Demo Kullanıcı";
+if(!session.role)session.role="Kullanıcı";
+if(!session.department)session.department=session.role==="Super Administrator"?"Yönetim":"Kalite";
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+
+const departments=[
+  {key:"Yönetim",icon:"🏢",desc:"Üst yönetim, YGG, stratejik kararlar ve kurumsal performans merkezi.",modules:["management-review.html","kpi-reports.html","action-center.html","dashboard.html"]},
+  {key:"Kalite",icon:"✅",desc:"Doküman, CAPA, risk, denetim, uygunsuzluk, kalite performansı ve sistem omurgası.",modules:["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html"]},
+  {key:"Ar-Ge",icon:"🧪",desc:"APQP, FMEA, tasarım doğrulama, ürün geliştirme ve proje kalite kapıları.",modules:["apqp.html","fmea.html","control-plan.html","ppap.html"]},
+  {key:"Tedarik",icon:"🚚",desc:"Tedarikçi performansı, SCAR, tedarikçi dokümanları ve dış kaynak yönetimi.",modules:["supplier-management.html","action-center.html","kpi-reports.html"]},
+  {key:"Üretim",icon:"⚙️",desc:"Proses yönetimi, kontrol planı, SPC, üretim aksiyonları ve saha uygunsuzlukları.",modules:["process-management.html","control-plan.html","spc.html","capa.html"]},
+  {key:"Planlama",icon:"📦",desc:"Termin, iş akışı, aksiyon takibi, kaynak planlama ve operasyonel kontrol.",modules:["action-center.html","kpi-reports.html","process-management.html"]},
+  {key:"Satınalma",icon:"🛒",desc:"Satınalma onayları, tedarikçi seçimleri, sözleşme ve dış proses kontrolü.",modules:["supplier-management.html","approval.html","documents.html"]},
+  {key:"Depo",icon:"🏬",desc:"Depo, sevkiyat, stok disiplini, izlenebilirlik ve lojistik kalite kayıtları.",modules:["distribution.html","process-management.html","action-center.html"]},
+  {key:"Laboratuvar",icon:"🔬",desc:"Kalibrasyon, MSA, ölçüm sistemi, test kayıtları ve ISO 17025 bakışı.",modules:["calibration-management.html","msa.html","standards-compliance.html"]},
+  {key:"Satış Pazarlama",icon:"🤝",desc:"Müşteri yönetimi, şikayetler, müşteri özel şartları ve geri bildirimler.",modules:["customer-management.html","kpi-reports.html","capa.html"]},
+  {key:"İnsan Kaynakları",icon:"👥",desc:"Eğitim, yetkinlik matrisi, kullanıcı kayıtları ve görev yetkinliği takibi.",modules:["training-management.html","competency-matrix.html","users.html"]},
+  {key:"Bilgi Teknolojileri",icon:"💻",desc:"Kullanıcı erişimleri, sistem sürekliliği, bilgi güvenliği ve altyapı kayıtları.",modules:["users.html","security-continuity-center.html","legal-compliance.html"]}
+];
+
+const roleAccess={
+  "Super Administrator":"ALL",
+  "Kalite Admin":["Kalite","Yönetim","Ar-Ge","Üretim","Laboratuvar","Tedarik"],
+  "Departman Müdürü":"OWN_PLUS_MANAGEMENT",
+  "Süreç Sahibi":"OWN_PLUS_QUALITY",
+  "8D Lideri":["Kalite","Üretim","Tedarik","Laboratuvar"],
+  "Denetçi":["Kalite","Yönetim","Tedarik","Üretim","Laboratuvar","İnsan Kaynakları","Bilgi Teknolojileri"],
+  "Kullanıcı":"OWN_ONLY"
+};
+
+function allowedDepartments(){
+  const role=session.role||"Kullanıcı";
+  const dep=session.department||"Kalite";
+  const rule=roleAccess[role]||"OWN_ONLY";
+  if(rule==="ALL")return departments.map(d=>d.key);
+  if(rule==="OWN_ONLY")return [dep];
+  if(rule==="OWN_PLUS_MANAGEMENT")return unique([dep,"Yönetim"]);
+  if(rule==="OWN_PLUS_QUALITY")return unique([dep,"Kalite"]);
+  return Array.isArray(rule)?rule:[dep];
+}
+
+function unique(arr){return [...new Set(arr.filter(Boolean))]}
+
+function render(){
+  const allowed=allowedDepartments();
+  const area=document.getElementById("departments");
+  document.getElementById("userChip").textContent=session.name||"Kullanıcı";
+  document.getElementById("roleName").textContent=session.name||"-";
+  document.getElementById("roleTitle").textContent=session.role||"-";
+  document.getElementById("roleDepartment").textContent=session.department||"-";
+  document.getElementById("roleAccess").textContent=allowed.length+" / "+departments.length;
+  const pct=Math.round((allowed.length/departments.length)*100);
+  document.getElementById("meterText").textContent=pct+"%";
+  document.getElementById("meterBar").style.width=pct+"%";
+
+  area.innerHTML=departments.map(d=>{
+    const ok=allowed.includes(d.key);
+    return `<article class="dept-card ${ok?"":"locked"}" onclick="openDepartment('${escapeJS(d.key)}')">
+      <div class="dept-top">
+        <div class="dept-icon">${d.icon}</div>
+        <span class="dept-status">${ok?"Açık":"Yetki Yok"}</span>
+      </div>
+      <div class="dept-body">
+        <h3>${escapeHTML(d.key)}</h3>
+        <p>${escapeHTML(d.desc)}</p>
+      </div>
+      <div class="dept-meta">
+        <span>${d.modules.length} bağlı alan</span>
+        <button class="open-btn">${ok?"Aç":"Kilitli"}</button>
+      </div>
+    </article>`
+  }).join("");
+}
+
+function openDepartment(key){
+  const allowed=allowedDepartments();
+  if(!allowed.includes(key)){
+    showToast(key+" departmanı için yetkin yok. Bu alan demo görünümde kilitli.");
+    return;
+  }
+  const dept=departments.find(d=>d.key===key);
+  localStorage.setItem("gdnl_selected_department",key);
+  localStorage.setItem("gdnl_department_modules",JSON.stringify(dept?.modules||[]));
+  showToast(key+" departmanı açılıyor...");
+  setTimeout(()=>{window.location.href="dashboard.html"},450);
+}
+
+function logout(){
+  localStorage.removeItem("gdnl_qdms_session");
+  localStorage.removeItem("gdnl_selected_department");
+  localStorage.removeItem("gdnl_department_modules");
+  window.location.href="index.html";
+}
+
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.style.display="block";
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer=setTimeout(()=>t.style.display="none",2600);
+}
+
+function escapeHTML(value){
+  return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+function escapeJS(value){return String(value||"").replaceAll("\\","\\\\").replaceAll("'","\\'")}
+
+render();
+</script>
+</body>
+</html>
