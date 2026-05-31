@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Department Gateway</title>
+<title>GDNL EQMS | Departman Merkezi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -11,408 +11,716 @@
 :root{
   --navy:#071b34;
   --navy2:#0d2747;
-  --green:#35a852;
-  --green2:#62d46f;
+  --blue:#1976ff;
+  --blue2:#5aa7ff;
+  --green:#22b14c;
+  --green2:#63dc73;
   --text:#0f1b2f;
   --muted:#617086;
   --line:#dfe9f5;
+  --soft:#f7fbff;
   --card:#ffffff;
   --red:#991b1b;
   --gray:#94a3b8;
+  --shadow:0 24px 70px rgba(7,27,52,.085);
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 html,body{min-height:100%;overflow-x:hidden}
 body{
   color:var(--text);
   background:
-    radial-gradient(circle at 82% 10%,rgba(53,168,82,.16),transparent 26%),
-    radial-gradient(circle at 18% 18%,rgba(21,151,255,.13),transparent 26%),
-    radial-gradient(circle at 50% 110%,rgba(7,27,52,.12),transparent 34%),
-    linear-gradient(135deg,#fbfdff 0%,#eef5fc 44%,#f8fbff 100%);
+    radial-gradient(circle at 90% 8%,rgba(25,118,255,.12),transparent 28%),
+    radial-gradient(circle at 18% 18%,rgba(34,177,76,.12),transparent 26%),
+    radial-gradient(circle at 78% 90%,rgba(90,167,255,.16),transparent 35%),
+    linear-gradient(135deg,#fbfdff 0%,#edf5ff 45%,#f8fbff 100%);
 }
 body:before{
   content:"";
   position:fixed;
   inset:0;
   background:
-    linear-gradient(90deg,rgba(255,255,255,.82),rgba(255,255,255,.28) 45%,rgba(255,255,255,.76)),
-    radial-gradient(circle at 50% 100%,rgba(53,168,82,.08),transparent 38%);
+    linear-gradient(90deg,rgba(255,255,255,.90),rgba(255,255,255,.46) 50%,rgba(255,255,255,.88)),
+    radial-gradient(circle at 42% 44%,rgba(25,118,255,.055),transparent 28%);
   pointer-events:none;
 }
-.gateway{
+.shell{
   position:relative;
   z-index:1;
   min-height:100dvh;
-  padding:28px;
+  display:grid;
+  grid-template-columns:300px minmax(0,1fr);
+}
+.sidebar{
+  min-height:100dvh;
+  padding:24px 18px;
+  background:rgba(255,255,255,.78);
+  border-right:1px solid rgba(223,233,245,.9);
+  box-shadow:22px 0 70px rgba(7,27,52,.055);
+  backdrop-filter:blur(22px);
   display:flex;
   flex-direction:column;
-}
-.topbar{
-  min-height:82px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-  background:rgba(255,255,255,.76);
-  border:1px solid rgba(223,233,245,.88);
-  border-radius:28px;
-  padding:14px 18px 14px 22px;
-  box-shadow:0 24px 70px rgba(7,27,52,.08);
-  backdrop-filter:blur(20px);
-  margin-bottom:24px;
 }
 .brand{
   display:flex;
   align-items:center;
   gap:14px;
-  min-width:0;
+  padding:10px 8px 26px;
 }
 .logo-mark{
-  width:52px;
-  height:52px;
-  border-radius:17px;
-  background:linear-gradient(135deg,#071b34,#1f8f43 55%,#62d46f);
+  width:54px;
+  height:54px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#071b34 0%,#0b6fd8 42%,#35a852 100%);
+  color:white;
   display:flex;
   align-items:center;
   justify-content:center;
-  color:#fff;
+  font-size:26px;
   font-weight:950;
-  letter-spacing:-1px;
   box-shadow:0 16px 34px rgba(53,168,82,.22);
-  flex:0 0 auto;
 }
 .brand strong{
   display:block;
-  font-size:28px;
-  line-height:1;
+  font-size:26px;
   font-weight:950;
-  letter-spacing:-.9px;
   color:var(--navy);
+  letter-spacing:-.8px;
 }
 .brand strong span{color:var(--green)}
 .brand small{
   display:block;
-  margin-top:7px;
-  color:#5b6a80;
+  margin-top:6px;
+  color:#516177;
+  font-size:12px;
   font-weight:800;
 }
-.user-zone{
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:8px;
+}
+.nav a{
   display:flex;
   align-items:center;
-  gap:10px;
-  flex:0 0 auto;
-}
-.user-chip{
-  min-height:50px;
-  border:none;
+  gap:13px;
+  min-height:52px;
+  padding:0 16px;
+  border:1px solid transparent;
   border-radius:16px;
-  padding:0 18px;
-  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
-  color:#fff;
+  text-decoration:none;
+  color:#19375f;
+  font-weight:850;
+  font-size:14px;
+  transition:.18s ease;
+}
+.nav a.active{
+  color:white;
+  background:linear-gradient(135deg,#1267f1,#4ca3ff);
+  border-color:#9fcbff;
+  box-shadow:0 16px 34px rgba(25,118,255,.18);
+}
+.nav a:not(.active):hover{
+  background:linear-gradient(135deg,#eef7ff,#f7fbff);
+  border-color:#d8eafe;
+  transform:translateX(2px);
+}
+.user-card{
+  margin-top:auto;
+  border:1px solid #dfe9f5;
+  border-radius:22px;
+  padding:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(247,251,255,.9));
+  box-shadow:0 14px 34px rgba(7,27,52,.055);
+}
+.user-mini{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#1976ff,#22b14c);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   font-weight:950;
-  box-shadow:0 14px 32px rgba(53,168,82,.22);
+  box-shadow:0 14px 28px rgba(25,118,255,.18);
+}
+.user-mini b{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  margin-bottom:4px;
+}
+.user-mini span{
+  color:#516177;
+  font-size:12px;
+  font-weight:800;
+}
+.online{
+  margin-top:14px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:#168a38;
+  font-size:12px;
+  font-weight:900;
+}
+.online:before{
+  content:"";
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 4px rgba(34,197,94,.12);
 }
 .logout{
-  height:50px;
+  margin-top:14px;
+  width:100%;
+  height:54px;
   border:1px solid #fecaca;
-  border-radius:16px;
-  padding:0 16px;
-  background:#fee2e2;
-  color:#991b1b;
+  border-radius:17px;
+  background:#fff1f2;
+  color:#b91c1c;
   font-weight:950;
   cursor:pointer;
 }
-.hero{
+.main{
+  padding:22px 26px 24px;
+  min-width:0;
+}
+.topbar{
+  min-height:78px;
+  border:1px solid rgba(223,233,245,.95);
+  border-radius:28px;
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(22px);
+  box-shadow:0 18px 55px rgba(7,27,52,.06);
   display:grid;
-  grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);
-  gap:24px;
-  align-items:stretch;
+  grid-template-columns:64px minmax(260px,560px) minmax(0,1fr) auto;
+  align-items:center;
+  gap:18px;
+  padding:12px 18px;
   margin-bottom:22px;
 }
-.hero-main,.hero-side{
-  background:rgba(255,255,255,.82);
-  border:1px solid rgba(223,233,245,.9);
-  border-radius:34px;
-  box-shadow:0 24px 70px rgba(7,27,52,.075);
-  backdrop-filter:blur(18px);
-  overflow:hidden;
+.menu-btn{
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(135deg,#ffffff,#eef7ff);
+  color:#0d2747;
+  font-size:23px;
+  font-weight:950;
+  box-shadow:0 12px 28px rgba(7,27,52,.06);
+}
+.search{
+  height:48px;
+  border:1px solid #d8e4ef;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff,#f7fbff);
+  padding:0 18px;
+  color:#0f1b2f;
+  font-weight:800;
+  outline:none;
+}
+.top-icons{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:12px;
+}
+.icon-btn{
+  width:46px;
+  height:46px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff,#f7fbff);
+  color:#17365c;
+  font-size:20px;
+  box-shadow:0 12px 26px rgba(7,27,52,.055);
+}
+.top-user{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 12px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#fff,#f7fbff);
+  border:1px solid #dfe9f5;
+}
+.top-user b{
+  display:block;
+  font-size:13px;
+  color:#071b34;
+}
+.top-user span{
+  display:block;
+  color:#168a38;
+  font-size:11px;
+  font-weight:900;
+}
+.hero{
   position:relative;
+  overflow:hidden;
+  min-height:190px;
+  border:1px solid rgba(223,233,245,.92);
+  border-radius:34px;
+  background:
+    radial-gradient(circle at 72% 34%,rgba(34,177,76,.18),transparent 18%),
+    radial-gradient(circle at 84% 48%,rgba(25,118,255,.16),transparent 22%),
+    linear-gradient(135deg,rgba(255,255,255,.88),rgba(247,251,255,.82));
+  backdrop-filter:blur(22px);
+  box-shadow:var(--shadow);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:22px;
+  padding:30px 32px;
+  margin-bottom:22px;
 }
-.hero-main{
-  padding:34px;
-  min-height:250px;
-}
-.hero-main:after{
+.hero:after{
   content:"";
   position:absolute;
-  width:360px;
-  height:360px;
-  right:-120px;
-  top:-130px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(53,168,82,.25),transparent 64%);
+  right:270px;
+  top:20px;
+  width:460px;
+  height:150px;
+  background:
+    linear-gradient(90deg,transparent,rgba(34,177,76,.12),transparent),
+    repeating-linear-gradient(12deg,transparent 0 15px,rgba(25,118,255,.08) 16px);
+  clip-path:polygon(0 70%,20% 50%,40% 68%,62% 38%,84% 52%,100% 24%,100% 100%,0 100%);
+  opacity:.7;
+}
+.title-block{
+  position:relative;
+  z-index:2;
 }
 .kicker{
   display:inline-flex;
   align-items:center;
   gap:8px;
-  padding:8px 12px;
-  border-radius:999px;
-  background:#e8f7ee;
-  color:#1f7d3d;
+  color:#168a38;
   font-size:12px;
   font-weight:950;
-  margin-bottom:18px;
-}
-.hero h1{
-  position:relative;
-  z-index:2;
-  max-width:760px;
-  font-size:52px;
-  line-height:1.04;
-  letter-spacing:-2.2px;
-  font-weight:950;
-  color:#081d35;
+  text-transform:uppercase;
   margin-bottom:14px;
 }
-.hero h1 span{color:var(--green)}
+.kicker:before{
+  content:"";
+  width:9px;
+  height:28px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#1976ff,#22b14c);
+}
+.hero h1{
+  font-size:42px;
+  line-height:1.05;
+  letter-spacing:-1.6px;
+  color:#071b34;
+  font-weight:950;
+  margin-bottom:12px;
+}
 .hero p{
-  position:relative;
-  z-index:2;
-  max-width:760px;
   color:#4e6078;
-  font-weight:650;
-  line-height:1.72;
-  font-size:16px;
+  font-weight:700;
+  line-height:1.65;
+  max-width:780px;
 }
-.hero-actions{
+.summary-card{
   position:relative;
   z-index:2;
+  border:1px solid #dfe9f5;
+  border-radius:26px;
+  padding:20px;
+  background:rgba(255,255,255,.84);
+  box-shadow:0 18px 50px rgba(7,27,52,.075);
   display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:24px;
-}
-.pill{
-  border:1px solid #dbe8f7;
-  background:linear-gradient(135deg,#fff,#f7fbff);
-  border-radius:999px;
-  padding:10px 13px;
-  color:#536176;
-  font-size:12px;
-  font-weight:950;
-}
-.hero-side{
-  padding:26px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  background:
-    radial-gradient(circle at 80% 18%,rgba(53,168,82,.18),transparent 36%),
-    rgba(255,255,255,.82);
-}
-.side-title{
-  font-size:18px;
-  font-weight:950;
-  color:var(--navy);
-  margin-bottom:10px;
-}
-.role-box{
-  border:1px solid #e0e8f0;
-  border-radius:24px;
-  padding:18px;
-  background:linear-gradient(135deg,#f8fbff,#ffffff);
-}
-.role-line{
-  display:flex;
-  justify-content:space-between;
-  gap:14px;
-  padding:11px 0;
-  border-bottom:1px solid #edf2f7;
-  color:#536176;
-  font-size:13px;
-  font-weight:850;
-}
-.role-line:last-child{border-bottom:0}
-.role-line b{color:#0f1b2f}
-.access-meter{
-  margin-top:18px;
-}
-.meter-head{
-  display:flex;
-  justify-content:space-between;
-  color:#536176;
-  font-size:12px;
-  font-weight:950;
-  margin-bottom:9px;
-}
-.meter{
-  height:12px;
-  background:#e8eef5;
-  border-radius:999px;
-  overflow:hidden;
-}
-.meter-bar{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#1f8f43,#62d46f);
-  border-radius:999px;
-  transition:.5s;
-}
-.dept-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
   gap:18px;
-  margin:8px 0 16px;
+  align-items:center;
 }
-.dept-head h2{
+.summary-icon{
+  width:76px;
+  height:76px;
+  border-radius:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#dcfce7;
+  color:#168a38;
+  font-size:34px;
+}
+.summary-card b{
+  display:block;
+  color:#071b34;
   font-size:28px;
-  letter-spacing:-.8px;
-  font-weight:950;
-  color:var(--navy);
+  margin-bottom:4px;
 }
-.dept-head p{
-  max-width:720px;
-  color:#5f6f86;
+.summary-card span{
+  color:#168a38;
   font-size:13px;
-  font-weight:750;
-  line-height:1.55;
+  font-weight:950;
 }
-.departments{
+.metric-strip{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:16px;
+  gap:14px;
+  margin-bottom:22px;
+}
+.metric{
+  min-height:92px;
+  border:1px solid #dfe9f5;
+  border-radius:24px;
+  background:rgba(255,255,255,.82);
+  backdrop-filter:blur(18px);
+  box-shadow:0 16px 42px rgba(7,27,52,.055);
+  padding:18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.metric-icon{
+  width:52px;
+  height:52px;
+  border-radius:18px;
+  background:#e8f7ee;
+  color:#168a38;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+.metric b{
+  display:block;
+  font-size:24px;
+  color:#071b34;
+  line-height:1;
+}
+.metric span{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  font-weight:850;
+  color:#536176;
+}
+.content{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 300px;
+  gap:22px;
+}
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:14px;
+}
+.section-head h2{
+  color:#071b34;
+  font-size:22px;
+  font-weight:950;
+}
+.section-head p{
+  color:#5f6f86;
+  font-size:13px;
+  font-weight:800;
+}
+.dept-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
 }
 .dept-card{
-  min-height:204px;
-  border-radius:28px;
-  border:1px solid rgba(191,231,202,.85);
+  min-height:214px;
+  border-radius:26px;
+  border:1px solid #bfe7ca;
   background:
-    radial-gradient(circle at 84% 12%,rgba(98,212,111,.20),transparent 34%),
-    linear-gradient(135deg,rgba(255,255,255,.92),rgba(248,253,250,.92));
-  box-shadow:0 16px 44px rgba(7,27,52,.065),0 6px 20px rgba(53,168,82,.045);
+    radial-gradient(circle at 86% 15%,rgba(34,177,76,.16),transparent 32%),
+    linear-gradient(135deg,rgba(255,255,255,.96),rgba(248,253,250,.92));
+  box-shadow:0 18px 48px rgba(7,27,52,.065),0 6px 20px rgba(53,168,82,.045);
   padding:22px;
+  position:relative;
+  overflow:hidden;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  position:relative;
-  overflow:hidden;
   cursor:pointer;
   transition:.22s ease;
 }
+.dept-card:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:8px;
+  background:linear-gradient(180deg,#22b14c,#63dc73);
+}
 .dept-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 24px 60px rgba(7,27,52,.10),0 8px 28px rgba(53,168,82,.10);
+  transform:translateY(-6px) scale(1.018);
+  border-color:#73d184;
+  box-shadow:0 28px 70px rgba(7,27,52,.11),0 12px 36px rgba(34,177,76,.16);
 }
 .dept-card.locked{
   cursor:not-allowed;
-  filter:grayscale(.25);
-  background:linear-gradient(135deg,rgba(255,255,255,.74),rgba(241,245,249,.84));
-  border-color:#dfe6ee;
-  box-shadow:0 12px 34px rgba(15,23,42,.045);
+  border-color:#dce4ee;
+  background:linear-gradient(135deg,rgba(255,255,255,.82),rgba(244,247,251,.9));
+  box-shadow:0 12px 34px rgba(7,27,52,.04);
 }
-.dept-card.locked:hover{transform:none}
-.dept-card.locked:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(248,250,252,.36);
-  pointer-events:none;
+.dept-card.locked:before{
+  background:linear-gradient(180deg,#cbd5e1,#e2e8f0);
+}
+.dept-card.locked:hover{
+  transform:none;
+  box-shadow:0 12px 34px rgba(7,27,52,.04);
 }
 .dept-top{
   display:flex;
   justify-content:space-between;
-  gap:14px;
   align-items:flex-start;
-  position:relative;
-  z-index:2;
+  gap:14px;
 }
 .dept-icon{
-  width:58px;
-  height:58px;
-  border-radius:20px;
+  width:64px;
+  height:64px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#e8f7ee,#ffffff);
+  color:#168a38;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
-  color:white;
-  font-size:27px;
-  box-shadow:0 14px 32px rgba(53,168,82,.18);
+  font-size:32px;
+  box-shadow:0 16px 34px rgba(34,177,76,.12);
 }
 .locked .dept-icon{
-  background:linear-gradient(135deg,#94a3b8,#cbd5e1);
+  background:linear-gradient(135deg,#f8fafc,#eef2f7);
+  color:#64748b;
   box-shadow:none;
 }
-.dept-status{
-  display:inline-flex;
+.check{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#22b14c;
+  color:white;
+  display:flex;
   align-items:center;
-  gap:6px;
-  border-radius:999px;
-  padding:7px 10px;
-  background:#dcfce7;
-  color:#15803d;
-  font-size:11px;
+  justify-content:center;
   font-weight:950;
+  box-shadow:0 10px 22px rgba(34,177,76,.18);
 }
-.locked .dept-status{
-  background:#e2e8f0;
-  color:#64748b;
-}
-.dept-body{
-  position:relative;
-  z-index:2;
+.locked .check{
+  background:#eef2f7;
+  color:#506176;
 }
 .dept-body h3{
   font-size:20px;
   font-weight:950;
-  letter-spacing:-.4px;
-  color:#081d35;
+  color:#071b34;
+  letter-spacing:-.3px;
   margin-bottom:8px;
 }
-.locked .dept-body h3{color:#64748b}
+.locked .dept-body h3{color:#526176}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:11px;
+  font-weight:950;
+  background:#dcfce7;
+  color:#15803d;
+  margin-bottom:12px;
+}
+.locked .badge{
+  background:#e2e8f0;
+  color:#64748b;
+}
 .dept-body p{
-  min-height:42px;
   color:#536176;
   font-size:13px;
-  font-weight:700;
-  line-height:1.55;
+  font-weight:750;
+  line-height:1.58;
+  min-height:62px;
 }
-.locked .dept-body p{color:#8793a3}
-.dept-meta{
-  position:relative;
-  z-index:2;
+.locked .dept-body p{color:#7a8797}
+.dept-foot{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:12px;
-  margin-top:18px;
+  margin-top:16px;
+}
+.dept-foot span{
   color:#607086;
   font-size:12px;
   font-weight:950;
 }
-.open-btn{
-  min-width:86px;
-  height:36px;
+.go{
+  width:46px;
+  height:46px;
   border:none;
-  border-radius:12px;
+  border-radius:50%;
   background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
-  color:#fff;
-  font-weight:950;
-  box-shadow:0 12px 26px rgba(53,168,82,.18);
+  color:white;
+  font-size:24px;
+  font-weight:900;
+  box-shadow:0 14px 30px rgba(34,177,76,.22);
 }
-.locked .open-btn{
+.locked .go{
   background:#e2e8f0;
   color:#64748b;
   box-shadow:none;
+}
+.side{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.side-card{
+  border:1px solid #dfe9f5;
+  border-radius:26px;
+  background:rgba(255,255,255,.84);
+  backdrop-filter:blur(18px);
+  box-shadow:0 18px 50px rgba(7,27,52,.06);
+  padding:20px;
+}
+.side-card h3{
+  font-size:17px;
+  font-weight:950;
+  color:#071b34;
+  margin-bottom:14px;
+}
+.donut{
+  width:160px;
+  height:160px;
+  margin:8px auto 18px;
+  border-radius:50%;
+  background:conic-gradient(#6ed34f 0 var(--pct),#edf2f7 var(--pct) 100%);
+  position:relative;
+}
+.donut:after{
+  content:attr(data-value);
+  position:absolute;
+  inset:22px;
+  background:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#071b34;
+  font-size:31px;
+  font-weight:950;
+  box-shadow:inset 0 0 0 1px #edf2f7;
+}
+.legend{
+  display:grid;
+  gap:9px;
+}
+.legend-row{
+  display:flex;
+  justify-content:space-between;
+  color:#536176;
+  font-size:13px;
+  font-weight:850;
+}
+.legend-row i{
+  display:inline-block;
+  width:10px;
+  height:10px;
+  border-radius:3px;
+  margin-right:8px;
+}
+.quick{
+  display:grid;
+  gap:10px;
+}
+.quick a{
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:48px;
+  border-radius:15px;
+  padding:0 13px;
+  color:#19375f;
+  background:linear-gradient(135deg,#fff,#f7fbff);
+  border:1px solid #e0e8f0;
+  font-size:13px;
+  font-weight:900;
+}
+.secure{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  background:linear-gradient(135deg,#f0fff5,#ffffff);
+  border-color:#bfe7ca;
+}
+.secure-icon{
+  width:56px;
+  height:56px;
+  border-radius:20px;
+  background:#dcfce7;
+  color:#168a38;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+}
+.bottom-bar{
+  margin-top:22px;
+  min-height:92px;
+  border:1px solid #dfe9f5;
+  border-radius:28px;
+  background:rgba(255,255,255,.84);
+  backdrop-filter:blur(18px);
+  box-shadow:0 18px 50px rgba(7,27,52,.055);
+  display:grid;
+  grid-template-columns:1.2fr repeat(4,1fr);
+  gap:0;
+  overflow:hidden;
+}
+.bottom-item{
+  padding:18px 20px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border-right:1px solid #edf2f7;
+}
+.bottom-item:last-child{border-right:0}
+.bottom-icon{
+  width:48px;
+  height:48px;
+  border-radius:18px;
+  background:#e8f7ee;
+  color:#168a38;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+}
+.bottom-item b{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  margin-bottom:5px;
+}
+.bottom-item span{
+  color:#536176;
+  font-size:12px;
+  font-weight:800;
 }
 .toast{
   position:fixed;
   right:24px;
   bottom:24px;
-  z-index:40;
   display:none;
-  max-width:420px;
+  z-index:50;
+  max-width:430px;
   border-radius:18px;
   padding:15px 18px;
   background:linear-gradient(135deg,#071b34,#1f8f43);
@@ -420,190 +728,292 @@ body:before{
   font-weight:900;
   box-shadow:0 22px 60px rgba(7,27,52,.24);
 }
-.footer{
-  margin-top:auto;
-  padding-top:22px;
-  color:#66758a;
-  font-size:12px;
-  font-weight:750;
-  text-align:center;
+@media(max-width:1380px){
+  .dept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .content{grid-template-columns:1fr}
+  .side{grid-template-columns:repeat(2,1fr);display:grid}
+  .bottom-bar{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:1280px){
-  .departments{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .hero{grid-template-columns:1fr}
-  .hero h1{font-size:46px}
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:16px}
+  .topbar{grid-template-columns:48px 1fr auto;gap:10px}
+  .top-icons{display:none}
+  .hero{grid-template-columns:1fr;padding:24px;border-radius:28px}
+  .hero h1{font-size:34px}
+  .metric-strip{grid-template-columns:repeat(2,1fr)}
 }
-@media(max-width:900px){
-  .gateway{padding:18px}
-  .topbar{align-items:flex-start;flex-direction:column}
-  .user-zone{width:100%;display:grid;grid-template-columns:1fr auto}
-  .user-chip{width:100%}
-  .hero-main{padding:26px 22px;border-radius:28px}
-  .hero h1{font-size:36px}
-  .departments{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .dept-head{align-items:flex-start;flex-direction:column}
-}
-@media(max-width:560px){
-  .departments{grid-template-columns:1fr}
-  .brand strong{font-size:24px}
-  .hero h1{font-size:32px}
-  .dept-card{min-height:188px}
+@media(max-width:620px){
+  .top-user{display:none}
+  .dept-grid{grid-template-columns:1fr}
+  .side{display:flex}
+  .metric-strip{grid-template-columns:1fr}
+  .bottom-bar{grid-template-columns:1fr}
+  .bottom-item{border-right:0;border-bottom:1px solid #edf2f7}
+  .hero h1{font-size:30px}
 }
 </style>
 </head>
 <body>
-<div class="gateway">
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo-mark">G</div>
-      <div>
-        <strong>GDNL <span>EQMS</span></strong>
-        <small>Enterprise Department Gateway</small>
-      </div>
-    </div>
-    <div class="user-zone">
-      <button class="user-chip" id="userChip">Kullanıcı</button>
-      <button class="logout" onclick="logout()">Logout</button>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="hero-main">
-      <div class="kicker">● Role Based Department Access</div>
-      <h1>Kurumsal sisteme <span>departman kapısından</span> giriş yap.</h1>
-      <p>Bu köprü ekran, kullanıcıyı doğrudan karmaşık modül listesine sokmaz. Önce departman çatı mimarisini gösterir; yetkili alanlar yeşil, yetkisiz alanlar gri görünür. Seçilen departman Dashboard’a aktarılır.</p>
-      <div class="hero-actions">
-        <span class="pill">ISO / IATF uyumlu yapı</span>
-        <span class="pill">Rol bazlı erişim</span>
-        <span class="pill">Departman odaklı kullanım</span>
-        <span class="pill">Demo sunuma hazır</span>
-      </div>
-    </div>
-
-    <aside class="hero-side">
-      <div>
-        <div class="side-title">Oturum Yetki Özeti</div>
-        <div class="role-box">
-          <div class="role-line"><span>Kullanıcı</span><b id="roleName">-</b></div>
-          <div class="role-line"><span>Rol</span><b id="roleTitle">-</b></div>
-          <div class="role-line"><span>Departman</span><b id="roleDepartment">-</b></div>
-          <div class="role-line"><span>Erişim</span><b id="roleAccess">0 / 0</b></div>
+<div class="shell">
+  <aside class="sidebar">
+    <div>
+      <div class="brand">
+        <div class="logo-mark">G</div>
+        <div>
+          <strong>GDNL <span>EQMS</span></strong>
+          <small>Kurumsal Yönetim Platformu</small>
         </div>
       </div>
-      <div class="access-meter">
-        <div class="meter-head"><span>Yetki Kapsamı</span><span id="meterText">0%</span></div>
-        <div class="meter"><div class="meter-bar" id="meterBar"></div></div>
-      </div>
-    </aside>
-  </section>
-
-  <div class="dept-head">
-    <div>
-      <h2>Departman Seçimi</h2>
-      <p>Yetkili departmana tıklandığında sistem seçimi kaydeder ve Dashboard’u bu departman perspektifiyle açar. Gri departmanlar görünür kalır ama erişim vermez.</p>
+      <nav class="nav">
+        <a class="active" href="department-gateway.html">▦ Departman Merkezi</a>
+        <a href="dashboard.html">⌂ Dashboard</a>
+        <a href="documents.html">▣ Dokümanlar</a>
+        <a href="risk-register.html">⚠ Riskler</a>
+        <a href="capa.html">✓ CAPA</a>
+        <a href="audit.html">◎ Denetimler</a>
+        <a href="training-management.html">✦ Eğitimler</a>
+        <a href="supplier-management.html">◇ Tedarikçiler</a>
+        <a href="kpi-reports.html">▥ Raporlar</a>
+        <a href="users.html">⚙ Ayarlar</a>
+      </nav>
     </div>
-  </div>
 
-  <section class="departments" id="departments"></section>
+    <div>
+      <div class="user-card">
+        <div class="user-mini">
+          <div class="avatar" id="sideAvatar">DU</div>
+          <div>
+            <b id="sideUserName">Demo User</b>
+            <span id="sideUserRole">Kullanıcı</span>
+          </div>
+        </div>
+        <div class="online">Çevrimiçi</div>
+      </div>
+      <button class="logout" onclick="logout()">Çıkış Yap</button>
+    </div>
+  </aside>
 
-  <div class="footer">© 2026 GDNL EQMS • Department Gateway • Role Based Access Ready</div>
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn">☰</button>
+      <input class="search" id="searchBox" placeholder="Arama yapın...">
+      <div></div>
+      <div class="top-icons">
+        <button class="icon-btn">🔔</button>
+        <button class="icon-btn">☼</button>
+      </div>
+      <div class="top-user">
+        <div class="avatar" id="topAvatar">DU</div>
+        <div>
+          <b id="topUserName">Demo User</b>
+          <span id="topUserDept">Kalite</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="title-block">
+        <div class="kicker">Erişim Merkezi</div>
+        <h1>Departman Merkezi</h1>
+        <p>Çalışma alanınıza geçmek için bir departman seçin. Yetkili departmanlar yeşil ve aktif, yetkisiz alanlar gri ve kilitli görünür.</p>
+      </div>
+      <div class="summary-card">
+        <div class="summary-icon">🏢</div>
+        <div>
+          <b><span id="openCountHero">0</span> / <span id="totalCountHero">0</span></b>
+          <span>Erişilebilir Departman</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="metric-strip">
+      <div class="metric"><div class="metric-icon">💼</div><div><b id="openCount">0</b><span>Açık Departman</span></div></div>
+      <div class="metric"><div class="metric-icon">🔒</div><div><b id="lockedCount">0</b><span>Kapalı Departman</span></div></div>
+      <div class="metric"><div class="metric-icon">🛡️</div><div><b id="totalCount">0</b><span>Toplam Departman</span></div></div>
+      <div class="metric"><div class="metric-icon">⏱️</div><div><b id="clock">--:--</b><span>Oturum Saati</span></div></div>
+    </section>
+
+    <section class="content">
+      <div>
+        <div class="section-head">
+          <div>
+            <h2>Erişilebilen Departmanlar</h2>
+            <p>Yeşil kartlar aktif çalışma alanlarıdır.</p>
+          </div>
+        </div>
+        <div class="dept-grid" id="activeDepartments"></div>
+
+        <div class="section-head" style="margin-top:26px">
+          <div>
+            <h2>Erişilemeyen Departmanlar</h2>
+            <p>Gri kartlar için yetkin bulunmamaktadır.</p>
+          </div>
+        </div>
+        <div class="dept-grid" id="lockedDepartments"></div>
+      </div>
+
+      <aside class="side">
+        <div class="side-card">
+          <h3>Erişim Özeti</h3>
+          <div class="donut" id="accessDonut" data-value="0%" style="--pct:0%"></div>
+          <div class="legend">
+            <div class="legend-row"><span><i style="background:#22b14c"></i>Erişilebilir</span><b id="legendOpen">0</b></div>
+            <div class="legend-row"><span><i style="background:#cbd5e1"></i>Kilitli</span><b id="legendLocked">0</b></div>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <h3>Hızlı İşlemler</h3>
+          <div class="quick">
+            <a href="dashboard.html">Profilim <span>›</span></a>
+            <a href="users.html">Yetkilerim <span>›</span></a>
+            <a href="notification-center.html">Duyurular <span>›</span></a>
+            <a href="standards-compliance.html">Uygunluk Durumu <span>›</span></a>
+          </div>
+        </div>
+
+        <div class="side-card secure">
+          <div class="secure-icon">🛡️</div>
+          <div>
+            <h3 style="margin-bottom:5px">Güvenli Erişim</h3>
+            <p style="color:#536176;font-size:13px;font-weight:800;line-height:1.45">Rolünüze göre yetkili olduğunuz departmanlara erişebilirsiniz.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="bottom-bar">
+      <div class="bottom-item"><div class="bottom-icon">🛡️</div><div><b>Rol Bazlı Güvenlik</b><span>Yetkileriniz korunuyor</span></div></div>
+      <div class="bottom-item"><div class="bottom-icon">🔐</div><div><b>Veri Güvenliği</b><span>Güvenli oturum</span></div></div>
+      <div class="bottom-item"><div class="bottom-icon">✅</div><div><b>Sistem Durumu</b><span>Tüm sistemler aktif</span></div></div>
+      <div class="bottom-item"><div class="bottom-icon">👥</div><div><b>Aktif Kullanıcı</b><span id="activeUserText">Demo User</span></div></div>
+      <div class="bottom-item"><div class="bottom-icon">📅</div><div><b>Son Giriş</b><span id="loginDate">Bugün</span></div></div>
+    </section>
+  </main>
 </div>
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const DEFAULT_SESSION={username:"demo",name:"Demo Kullanıcı",role:"Kullanıcı",department:"Kalite",loginAt:new Date().toISOString()};
+const DEFAULT_SESSION={username:"demo",name:"Demo User",role:"Kullanıcı",department:"Kalite",loginAt:new Date().toISOString()};
 let session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null")||DEFAULT_SESSION;
-if(!session.name)session.name="Demo Kullanıcı";
+if(!session.name)session.name="Demo User";
 if(!session.role)session.role="Kullanıcı";
 if(!session.department)session.department=session.role==="Super Administrator"?"Yönetim":"Kalite";
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 
 const departments=[
-  {key:"Yönetim",icon:"🏢",desc:"Üst yönetim, YGG, stratejik kararlar ve kurumsal performans merkezi.",modules:["management-review.html","kpi-reports.html","action-center.html","dashboard.html"]},
-  {key:"Kalite",icon:"✅",desc:"Doküman, CAPA, risk, denetim, uygunsuzluk, kalite performansı ve sistem omurgası.",modules:["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html"]},
-  {key:"Ar-Ge",icon:"🧪",desc:"APQP, FMEA, tasarım doğrulama, ürün geliştirme ve proje kalite kapıları.",modules:["apqp.html","fmea.html","control-plan.html","ppap.html"]},
-  {key:"Tedarik",icon:"🚚",desc:"Tedarikçi performansı, SCAR, tedarikçi dokümanları ve dış kaynak yönetimi.",modules:["supplier-management.html","action-center.html","kpi-reports.html"]},
-  {key:"Üretim",icon:"⚙️",desc:"Proses yönetimi, kontrol planı, SPC, üretim aksiyonları ve saha uygunsuzlukları.",modules:["process-management.html","control-plan.html","spc.html","capa.html"]},
-  {key:"Planlama",icon:"📦",desc:"Termin, iş akışı, aksiyon takibi, kaynak planlama ve operasyonel kontrol.",modules:["action-center.html","kpi-reports.html","process-management.html"]},
-  {key:"Satınalma",icon:"🛒",desc:"Satınalma onayları, tedarikçi seçimleri, sözleşme ve dış proses kontrolü.",modules:["supplier-management.html","approval.html","documents.html"]},
-  {key:"Depo",icon:"🏬",desc:"Depo, sevkiyat, stok disiplini, izlenebilirlik ve lojistik kalite kayıtları.",modules:["distribution.html","process-management.html","action-center.html"]},
-  {key:"Laboratuvar",icon:"🔬",desc:"Kalibrasyon, MSA, ölçüm sistemi, test kayıtları ve ISO 17025 bakışı.",modules:["calibration-management.html","msa.html","standards-compliance.html"]},
-  {key:"Satış Pazarlama",icon:"🤝",desc:"Müşteri yönetimi, şikayetler, müşteri özel şartları ve geri bildirimler.",modules:["customer-management.html","kpi-reports.html","capa.html"]},
-  {key:"İnsan Kaynakları",icon:"👥",desc:"Eğitim, yetkinlik matrisi, kullanıcı kayıtları ve görev yetkinliği takibi.",modules:["training-management.html","competency-matrix.html","users.html"]},
-  {key:"Bilgi Teknolojileri",icon:"💻",desc:"Kullanıcı erişimleri, sistem sürekliliği, bilgi güvenliği ve altyapı kayıtları.",modules:["users.html","security-continuity-center.html","legal-compliance.html"]}
+  {key:"Kalite Yönetimi",accessKey:"Kalite",icon:"🏅",desc:"Kalite süreçleri, dokümanlar, denetimler ve CAPA yönetimi.",modules:["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html"]},
+  {key:"Laboratuvar",accessKey:"Laboratuvar",icon:"🧪",desc:"Test yönetimi, kalibrasyon, analizler ve laboratuvar süreçleri.",modules:["calibration-management.html","msa.html","standards-compliance.html"]},
+  {key:"İnsan Kaynakları",accessKey:"İnsan Kaynakları",icon:"👥",desc:"Personel yönetimi, eğitimler, yetkinlikler ve performans.",modules:["training-management.html","competency-matrix.html","users.html"]},
+  {key:"Üretim",accessKey:"Üretim",icon:"🏭",desc:"Üretim planlama, iş emirleri ve proses yönetimi.",modules:["process-management.html","control-plan.html","spc.html","capa.html"]},
+  {key:"Depo",accessKey:"Depo",icon:"📦",desc:"Stok yönetimi, giriş-çıkış ve envanter kontrolü.",modules:["distribution.html","process-management.html","action-center.html"]},
+  {key:"Satınalma",accessKey:"Satınalma",icon:"🛒",desc:"Satınalma talepleri, tedarikçi yönetimi ve onaylar.",modules:["supplier-management.html","approval.html","documents.html"]},
+  {key:"Ar-Ge",accessKey:"Ar-Ge",icon:"💡",desc:"Araştırma, geliştirme ve proje yönetimi.",modules:["apqp.html","fmea.html","control-plan.html","ppap.html"]},
+  {key:"Planlama",accessKey:"Planlama",icon:"🗓️",desc:"Üretim planlama, kapasite ve kaynak yönetimi.",modules:["action-center.html","kpi-reports.html","process-management.html"]},
+  {key:"Tedarik Zinciri",accessKey:"Tedarik",icon:"🚚",desc:"Tedarik, lojistik ve sevkiyat yönetimi.",modules:["supplier-management.html","action-center.html","kpi-reports.html"]},
+  {key:"Bilgi Teknolojileri",accessKey:"Bilgi Teknolojileri",icon:"🖥️",desc:"Sistem yönetimi, altyapı ve destek hizmetleri.",modules:["users.html","security-continuity-center.html","legal-compliance.html"]},
+  {key:"Satış & Pazarlama",accessKey:"Satış Pazarlama",icon:"📣",desc:"Satış süreçleri, müşteri ilişkileri ve pazarlama faaliyetleri.",modules:["customer-management.html","kpi-reports.html","capa.html"]},
+  {key:"Finans",accessKey:"Finans",icon:"🪙",desc:"Finansal işlemler, bütçe ve maliyet yönetimi.",modules:["kpi-reports.html","approval.html","documents.html"]},
+  {key:"Yönetim",accessKey:"Yönetim",icon:"👑",desc:"Yönetim panelleri, strateji ve karar destek sistemleri.",modules:["management-review.html","kpi-reports.html","action-center.html","dashboard.html"]},
+  {key:"İdari İşler",accessKey:"İdari İşler",icon:"📁",desc:"Genel idare, varlıklar ve operasyonel işler.",modules:["company-assets-documents.html","documents.html","action-center.html"]},
+  {key:"Bakım & Teknik",accessKey:"Bakım",icon:"🛠️",desc:"Bakım planlama, arıza ve teknik servis yönetimi.",modules:["calibration-management.html","process-management.html","action-center.html"]}
 ];
 
 const roleAccess={
   "Super Administrator":"ALL",
-  "Kalite Admin":["Kalite","Yönetim","Ar-Ge","Üretim","Laboratuvar","Tedarik"],
+  "Kalite Admin":["Kalite","Yönetim","Ar-Ge","Üretim","Laboratuvar","Tedarik","İnsan Kaynakları"],
   "Departman Müdürü":"OWN_PLUS_MANAGEMENT",
   "Süreç Sahibi":"OWN_PLUS_QUALITY",
   "8D Lideri":["Kalite","Üretim","Tedarik","Laboratuvar"],
   "Denetçi":["Kalite","Yönetim","Tedarik","Üretim","Laboratuvar","İnsan Kaynakları","Bilgi Teknolojileri"],
-  "Kullanıcı":"OWN_ONLY"
+  "Kullanıcı":"OWN_ONLY",
+  "User":"OWN_ONLY"
 };
+
+function unique(arr){return [...new Set(arr.filter(Boolean))]}
 
 function allowedDepartments(){
   const role=session.role||"Kullanıcı";
   const dep=session.department||"Kalite";
   const rule=roleAccess[role]||"OWN_ONLY";
-  if(rule==="ALL")return departments.map(d=>d.key);
+  if(rule==="ALL")return departments.map(d=>d.accessKey);
   if(rule==="OWN_ONLY")return [dep];
   if(rule==="OWN_PLUS_MANAGEMENT")return unique([dep,"Yönetim"]);
   if(rule==="OWN_PLUS_QUALITY")return unique([dep,"Kalite"]);
   return Array.isArray(rule)?rule:[dep];
 }
 
-function unique(arr){return [...new Set(arr.filter(Boolean))]}
+function initials(name){
+  return String(name||"DU").split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase();
+}
 
 function render(){
   const allowed=allowedDepartments();
-  const area=document.getElementById("departments");
-  document.getElementById("userChip").textContent=session.name||"Kullanıcı";
-  document.getElementById("roleName").textContent=session.name||"-";
-  document.getElementById("roleTitle").textContent=session.role||"-";
-  document.getElementById("roleDepartment").textContent=session.department||"-";
-  document.getElementById("roleAccess").textContent=allowed.length+" / "+departments.length;
-  const pct=Math.round((allowed.length/departments.length)*100);
-  document.getElementById("meterText").textContent=pct+"%";
-  document.getElementById("meterBar").style.width=pct+"%";
+  const active=departments.filter(d=>allowed.includes(d.accessKey));
+  const locked=departments.filter(d=>!allowed.includes(d.accessKey));
+  const pct=Math.round((active.length/departments.length)*100);
 
-  area.innerHTML=departments.map(d=>{
-    const ok=allowed.includes(d.key);
-    return `<article class="dept-card ${ok?"":"locked"}" onclick="openDepartment('${escapeJS(d.key)}')">
-      <div class="dept-top">
-        <div class="dept-icon">${d.icon}</div>
-        <span class="dept-status">${ok?"Açık":"Yetki Yok"}</span>
-      </div>
-      <div class="dept-body">
-        <h3>${escapeHTML(d.key)}</h3>
-        <p>${escapeHTML(d.desc)}</p>
-      </div>
-      <div class="dept-meta">
-        <span>${d.modules.length} bağlı alan</span>
-        <button class="open-btn">${ok?"Aç":"Kilitli"}</button>
-      </div>
-    </article>`
-  }).join("");
+  document.getElementById("sideUserName").textContent=session.name;
+  document.getElementById("topUserName").textContent=session.name;
+  document.getElementById("sideUserRole").textContent=session.role;
+  document.getElementById("topUserDept").textContent=session.department;
+  document.getElementById("activeUserText").textContent=session.name;
+  document.getElementById("sideAvatar").textContent=initials(session.name);
+  document.getElementById("topAvatar").textContent=initials(session.name);
+  document.getElementById("openCount").textContent=active.length;
+  document.getElementById("lockedCount").textContent=locked.length;
+  document.getElementById("totalCount").textContent=departments.length;
+  document.getElementById("openCountHero").textContent=active.length;
+  document.getElementById("totalCountHero").textContent=departments.length;
+  document.getElementById("legendOpen").textContent=active.length;
+  document.getElementById("legendLocked").textContent=locked.length;
+  document.getElementById("accessDonut").style.setProperty("--pct",pct+"%");
+  document.getElementById("accessDonut").setAttribute("data-value",pct+"%");
+  document.getElementById("loginDate").textContent=formatDateTR(session.loginAt||new Date().toISOString());
+
+  document.getElementById("activeDepartments").innerHTML=active.map(d=>cardHTML(d,true)).join("");
+  document.getElementById("lockedDepartments").innerHTML=locked.map(d=>cardHTML(d,false)).join("");
 }
 
-function openDepartment(key){
+function cardHTML(d,ok){
+  return `<article class="dept-card ${ok?"":"locked"}" onclick="openDepartment('${escapeJS(d.accessKey)}')">
+    <div class="dept-top">
+      <div class="dept-icon">${d.icon}</div>
+      <div class="check">${ok?"✓":"🔒"}</div>
+    </div>
+    <div class="dept-body">
+      <h3>${escapeHTML(d.key)}</h3>
+      <span class="badge">${ok?"Erişilebilir":"Kilitli"}</span>
+      <p>${escapeHTML(d.desc)}</p>
+    </div>
+    <div class="dept-foot">
+      <span>${d.modules.length} bağlı alan</span>
+      <button class="go">${ok?"→":"›"}</button>
+    </div>
+  </article>`;
+}
+
+function openDepartment(accessKey){
   const allowed=allowedDepartments();
-  if(!allowed.includes(key)){
-    showToast(key+" departmanı için yetkin yok. Bu alan demo görünümde kilitli.");
+  const dept=departments.find(d=>d.accessKey===accessKey);
+  if(!allowed.includes(accessKey)){
+    showToast((dept?.key||accessKey)+" departmanı için yetkiniz bulunmamaktadır.");
     return;
   }
-  const dept=departments.find(d=>d.key===key);
-  localStorage.setItem("gdnl_selected_department",key);
+  localStorage.setItem("gdnl_selected_department",accessKey);
+  localStorage.setItem("gdnl_selected_department_label",dept?.key||accessKey);
   localStorage.setItem("gdnl_department_modules",JSON.stringify(dept?.modules||[]));
-  showToast(key+" departmanı açılıyor...");
+  showToast((dept?.key||accessKey)+" çalışma alanı açılıyor...");
   setTimeout(()=>{window.location.href="dashboard.html"},450);
 }
 
 function logout(){
   localStorage.removeItem("gdnl_qdms_session");
   localStorage.removeItem("gdnl_selected_department");
+  localStorage.removeItem("gdnl_selected_department_label");
   localStorage.removeItem("gdnl_department_modules");
   window.location.href="index.html";
 }
@@ -616,12 +1026,31 @@ function showToast(msg){
   window.__toastTimer=setTimeout(()=>t.style.display="none",2600);
 }
 
+function formatDateTR(value){
+  const d=new Date(value);
+  if(isNaN(d))return"Bugün";
+  return d.toLocaleDateString("tr-TR");
+}
+
 function escapeHTML(value){
   return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
 }
 function escapeJS(value){return String(value||"").replaceAll("\\","\\\\").replaceAll("'","\\'")}
 
+function updateClock(){
+  const d=new Date();
+  const el=document.getElementById("clock");
+  if(el)el.textContent=d.toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"});
+}
+document.getElementById("searchBox").addEventListener("input",function(){
+  const q=this.value.trim().toLowerCase();
+  document.querySelectorAll(".dept-card").forEach(card=>{
+    card.style.display=card.textContent.toLowerCase().includes(q)?"flex":"none";
+  });
+});
 render();
+updateClock();
+setInterval(updateClock,30000);
 </script>
 </body>
 </html>
