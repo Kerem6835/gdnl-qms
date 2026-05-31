@@ -783,7 +783,7 @@ function normalizeLoginUser(u){
 function loadEOSUsersForLogin(){
   let stored=[];
   try{stored=JSON.parse(localStorage.getItem("gdnl_users")||"[]");if(!Array.isArray(stored))stored=[];}catch(e){stored=[]}
-  const merged=[...DEFAULT_EOS_USERS];
+  const merged=[...DEFAULT_USERS];
   stored.forEach(u=>{
     const key=String(u.username||"").toLowerCase();
     const i=merged.findIndex(x=>String(x.username||"").toLowerCase()===key || x.id===u.id);
