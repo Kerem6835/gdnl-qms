@@ -464,2140 +464,497 @@ tr:hover td{background:#f7fbf8}
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+const API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
 
-document.getElementById("userChip").textContent=session.name||"Kerem Güdenli";
+let users = [];
+let editIndex = null;
+let notesAutoMode = true;
 
-let editIndex=null;
-let notesAutoMode=true;
-
-const rolePermissionTemplates={
-"Super Administrator":`Sistem genel yetkisi:
+const rolePermissionTemplates = {
+  "Super Administrator": `Sistem genel yetkisi:
 - Tüm EQMS modüllerine tam erişim
 - Kullanıcı, rol ve yetki yönetimi
-- EmailJS sistem mail motoru yönetimi
+- Sistem mail motoru yönetimi
 - Doküman, revizyon, onay ve arşiv yönetimi
 - Risk, CAPA, audit, eğitim, YGG ve yasal uyum kayıtlarına tam erişim
-- Bildirim merkezi, Action Center ve sistem ayarlarını yönetme
-- Kritik kayıtları silme, güncelleme ve onaylama yetkisi`,
-"Kalite Admin":`Kalite yönetim yetkisi:
+- Bildirim merkezi, Action Center ve sistem ayarlarını yönetme`,
+  "Kalite Admin": `Kalite yönetim yetkisi:
 - Doküman yönetimi, revizyon ve onay süreçlerini yönetme
 - CAPA / 8D kayıtlarını açma, takip etme ve kapatma
 - İç denetim planı, bulgu ve aksiyon takibi
 - Risk kayıtlarını izleme ve kalite aksiyonları oluşturma
-- Eğitim ve YGG girdilerini kalite perspektifiyle takip etme
 - Sistem mail motoru ve kullanıcı yetki ayarlarına erişim yok`,
-"Departman Müdürü":`Departman yönetim yetkisi:
+  "Departman Müdürü": `Departman yönetim yetkisi:
 - Kendi departmanına ait kullanıcı ve süreç kayıtlarını izleme
 - Departman aksiyonlarını onaylama ve takip etme
 - CAPA, risk, eğitim ve audit aksiyonlarına cevap verme
-- Departman performans ve süreç göstergelerini izleme
-- Kritik aksiyonlarda sorumlu atama ve termin takibi
-- Sistem ayarları ve EmailJS motoruna erişim yok`,
-"Süreç Sahibi":`Süreç sahibi yetkisi:
+- Departman performans ve süreç göstergelerini izleme`,
+  "Süreç Sahibi": `Süreç sahibi yetkisi:
 - Kendi sorumluluğundaki süreç kayıtlarını yönetme
 - Süreç girdileri, çıktıları, KPI, risk ve CAPA bağlantılarını güncelleme
-- Süreç performans skorlarını takip etme
-- Süreç bazlı aksiyonları yürütme ve kanıt yükleme
-- Denetim bulgularına süreç kapsamında cevap verme
-- Sistem ayarları ve kullanıcı yönetimine erişim yok`,
-"8D Lideri":`8D / CAPA lider yetkisi:
+- Süreç bazlı aksiyonları yürütme ve kanıt yükleme`,
+  "8D Lideri": `8D / CAPA lider yetkisi:
 - 8D ve CAPA kayıtlarını açma, ekip atama ve takip etme
 - Kök neden, düzeltici faaliyet ve doğrulama adımlarını yönetme
-- Aksiyon sorumluları ile termin takibi yapma
-- Kanıt, kapanış ve etkinlik kontrolü süreçlerini yürütme
-- İlgili risk, audit ve doküman bağlantılarını izleme
-- Sistem ayarları ve EmailJS motoruna erişim yok`,
-"Denetçi":`Denetçi yetkisi:
+- Aksiyon sorumluları ile termin takibi yapma`,
+  "Denetçi": `Denetçi yetkisi:
 - İç denetim planı ve denetim kayıtlarını görüntüleme
 - Denetim bulgusu oluşturma ve bulgu takibi
-- Uygunsuzluk, gözlem ve iyileştirme fırsatı kayıtları açma
-- Denetim kanıtlarını inceleme ve raporlama
-- CAPA kapanışlarını denetim perspektifiyle doğrulama
-- Sistem ayarları ve kullanıcı yönetimine erişim yok`,
-"Kullanıcı":`Standart kullanıcı yetkisi:
+- Denetim kanıtlarını inceleme ve raporlama`,
+  "Kullanıcı": `Standart kullanıcı yetkisi:
 - Kendisine atanan görev, aksiyon ve bildirimleri görüntüleme
 - Kendi sorumluluğundaki aksiyonlara cevap verme
-- Gerekli kanıt, açıklama ve tamamlanma bilgisini girme
 - Yetkili olduğu kayıtları görüntüleme
-- Onay, sistem ayarı, kullanıcı yönetimi ve EmailJS motoruna erişim yok`
+- Onay, sistem ayarı ve kullanıcı yönetimi yok`
 };
 
-const DEFAULT_EOS_USERS=[
-  {
-    "id": "USR-ADMIN-001",
-    "username": "keremgudenli",
-    "password": "123456",
-    "fullName": "Kerem Güdenli",
-    "name": "Kerem Güdenli",
-    "department": "Kalite",
-    "role": "Super Administrator",
-    "status": "Aktif",
-    "email": "keremgudenli@gmail.com",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "FULL_SYSTEM_ACCESS",
-    "permissions": [
-      "*",
-      "root",
-      "admin",
-      "view",
-      "create",
-      "edit",
-      "delete",
-      "approve",
-      "export",
-      "import",
-      "audit",
-      "settings",
-      "users",
-      "roles",
-      "system",
-      "all_modules"
-    ],
-    "departments": [
-      "Yönetim",
-      "Kalite",
-      "Üretim",
-      "Ar-Ge",
-      "Satınalma",
-      "Planlama",
-      "Tedarik Zinciri",
-      "Depo",
-      "İnsan Kaynakları",
-      "Laboratuvar",
-      "Bilgi Teknolojileri",
-      "Finans",
-      "Bakım",
-      "Enerji",
-      "BGYS",
-      "IATF",
-      "COP"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": true,
-      "canPublishDocument": true,
-      "canDeleteDocument": true,
-      "canManageQualitySettings": true
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": true,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": true,
-    "canApprove": true,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": true,
-    "canManageUsers": true,
-    "canManageRoles": true,
-    "canManageSystem": true,
-    "canAccessAllModules": true,
-    "canOverrideWorkflow": true,
-    "isRoot": true,
-    "isSuperAdmin": true,
-    "isFullAuthorized": true,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Super Administrator yetkisi:\n- Tüm departmanları, tüm modülleri ve tüm kayıtları görür\n- Kullanıcı, rol, sistem ve mail motoru ayarlarını yönetir\n- Doküman final onayı, yayınlama, silme ve workflow override yapabilir\n- Departman kısıtı yoktur, full access çalışır",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-KLT-001",
-    "username": "kalite.user",
-    "password": "Klt2026!",
-    "fullName": "Kalite Kullanıcısı",
-    "name": "Kalite Kullanıcısı",
-    "department": "Kalite",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "kalite.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-URT-001",
-    "username": "uretim.mudur",
-    "password": "Urt2026!",
-    "fullName": "Üretim Müdürü",
-    "name": "Üretim Müdürü",
-    "department": "Üretim",
-    "role": "Departman Müdürü",
-    "status": "Aktif",
-    "email": "uretim.mudur@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "approve_own_department",
-      "quality_limited"
-    ],
-    "departments": [
-      "Üretim",
-      "Kalite",
-      "Yönetim"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": true,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Departman müdürü yetkisi:\n- Kendi departmanına ait kayıtları görüntüler, oluşturur, düzenler ve takip eder\n- Kendi departman ekibinin aksiyonlarını izler\n- Kalite modülünde doküman görüntüler, indirir, taslak oluşturur ve revizyon talep eder\n- Kalite final onayı, yayınlama, kullanıcı yönetimi ve sistem ayarlarına erişemez",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-URT-002",
-    "username": "uretim.user",
-    "password": "UrtUser2026!",
-    "fullName": "Üretim Kullanıcısı",
-    "name": "Üretim Kullanıcısı",
-    "department": "Üretim",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "uretim.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Üretim",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-ARG-001",
-    "username": "arge.mudur",
-    "password": "Arg2026!",
-    "fullName": "Ar-Ge Müdürü",
-    "name": "Ar-Ge Müdürü",
-    "department": "Ar-Ge",
-    "role": "Departman Müdürü",
-    "status": "Aktif",
-    "email": "arge.mudur@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "approve_own_department",
-      "quality_limited"
-    ],
-    "departments": [
-      "Ar-Ge",
-      "Kalite",
-      "Yönetim"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": true,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Departman müdürü yetkisi:\n- Kendi departmanına ait kayıtları görüntüler, oluşturur, düzenler ve takip eder\n- Kendi departman ekibinin aksiyonlarını izler\n- Kalite modülünde doküman görüntüler, indirir, taslak oluşturur ve revizyon talep eder\n- Kalite final onayı, yayınlama, kullanıcı yönetimi ve sistem ayarlarına erişemez",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-ARG-002",
-    "username": "arge.user",
-    "password": "ArgUser2026!",
-    "fullName": "Ar-Ge Kullanıcısı",
-    "name": "Ar-Ge Kullanıcısı",
-    "department": "Ar-Ge",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "arge.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Ar-Ge",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-SAT-001",
-    "username": "satinalma.mudur",
-    "password": "Sat2026!",
-    "fullName": "Satınalma Müdürü",
-    "name": "Satınalma Müdürü",
-    "department": "Satınalma",
-    "role": "Departman Müdürü",
-    "status": "Aktif",
-    "email": "satinalma.mudur@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "approve_own_department",
-      "quality_limited"
-    ],
-    "departments": [
-      "Satınalma",
-      "Kalite",
-      "Yönetim"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": true,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Departman müdürü yetkisi:\n- Kendi departmanına ait kayıtları görüntüler, oluşturur, düzenler ve takip eder\n- Kendi departman ekibinin aksiyonlarını izler\n- Kalite modülünde doküman görüntüler, indirir, taslak oluşturur ve revizyon talep eder\n- Kalite final onayı, yayınlama, kullanıcı yönetimi ve sistem ayarlarına erişemez",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-SAT-002",
-    "username": "satinalma.user",
-    "password": "SatUser2026!",
-    "fullName": "Satınalma Kullanıcısı",
-    "name": "Satınalma Kullanıcısı",
-    "department": "Satınalma",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "satinalma.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Satınalma",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-PLN-001",
-    "username": "planlama.user",
-    "password": "Pln2026!",
-    "fullName": "Planlama Kullanıcısı",
-    "name": "Planlama Kullanıcısı",
-    "department": "Planlama",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "planlama.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Planlama",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-TDZ-001",
-    "username": "tedarik.user",
-    "password": "Tdz2026!",
-    "fullName": "Tedarik Zinciri Kullanıcısı",
-    "name": "Tedarik Zinciri Kullanıcısı",
-    "department": "Tedarik Zinciri",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "tedarik.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Tedarik Zinciri",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-DEP-001",
-    "username": "depo.user",
-    "password": "Dep2026!",
-    "fullName": "Depo Kullanıcısı",
-    "name": "Depo Kullanıcısı",
-    "department": "Depo",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "depo.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Depo",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-IK-001",
-    "username": "ik.user",
-    "password": "Ik2026!",
-    "fullName": "İnsan Kaynakları Kullanıcısı",
-    "name": "İnsan Kaynakları Kullanıcısı",
-    "department": "İnsan Kaynakları",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "ik.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "İnsan Kaynakları",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-LAB-001",
-    "username": "lab.user",
-    "password": "Lab2026!",
-    "fullName": "Laboratuvar Kullanıcısı",
-    "name": "Laboratuvar Kullanıcısı",
-    "department": "Laboratuvar",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "lab.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Laboratuvar",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-BT-001",
-    "username": "bt.user",
-    "password": "Bt2026!",
-    "fullName": "Bilgi Teknolojileri Kullanıcısı",
-    "name": "Bilgi Teknolojileri Kullanıcısı",
-    "department": "Bilgi Teknolojileri",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "bt.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Bilgi Teknolojileri",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-YON-001",
-    "username": "yonetim.user",
-    "password": "Yon2026!",
-    "fullName": "Yönetim Kullanıcısı",
-    "name": "Yönetim Kullanıcısı",
-    "department": "Yönetim",
-    "role": "Departman Müdürü",
-    "status": "Aktif",
-    "email": "yonetim.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "download",
-      "reports",
-      "approve_own_department",
-      "quality_limited"
-    ],
-    "departments": [
-      "Yönetim",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": true,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Departman müdürü yetkisi:\n- Kendi departmanına ait kayıtları görüntüler, oluşturur, düzenler ve takip eder\n- Kendi departman ekibinin aksiyonlarını izler\n- Kalite modülünde doküman görüntüler, indirir, taslak oluşturur ve revizyon talep eder\n- Kalite final onayı, yayınlama, kullanıcı yönetimi ve sistem ayarlarına erişemez",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-FIN-001",
-    "username": "finans.user",
-    "password": "Fin2026!",
-    "fullName": "Finans Kullanıcısı",
-    "name": "Finans Kullanıcısı",
-    "department": "Finans",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "finans.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Finans",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-BAK-001",
-    "username": "bakim.user",
-    "password": "Bak2026!",
-    "fullName": "Bakım Kullanıcısı",
-    "name": "Bakım Kullanıcısı",
-    "department": "Bakım",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "bakim.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Bakım",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
-    "id": "USR-ENJ-001",
-    "username": "enerji.user",
-    "password": "Enj2026!",
-    "fullName": "Enerji Kullanıcısı",
-    "name": "Enerji Kullanıcısı",
-    "department": "Enerji",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "enerji.user@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "create",
-      "edit",
-      "download",
-      "quality_limited",
-      "own_department"
-    ],
-    "departments": [
-      "Enerji",
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": true,
-      "canRequestRevision": true,
-      "canRespondCAPA": true,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  }
-];
-
-
-/* GDNL EOS USER STORAGE BOOTSTRAP
-   Bu blok users.html açılır açılmaz DEFAULT_EOS_USERS listesini
-   login ekranının okuyacağı "gdnl_users" localStorage anahtarına yükler.
-*/
-(function bootstrapGDNLUsers(){
-  try{
-    const defaults = Array.isArray(DEFAULT_EOS_USERS) ? DEFAULT_EOS_USERS : [];
-    const cleanDefaults = defaults.filter(u => String(u.username || "").toLowerCase() !== "demo");
-    let current = [];
-    try{
-      const parsed = JSON.parse(localStorage.getItem("gdnl_users") || "[]");
-      current = Array.isArray(parsed) ? parsed.filter(u => String(u.username || "").toLowerCase() !== "demo") : [];
-    }catch(e){
-      current = [];
-    }
-
-    const merged = [...current];
-
-    cleanDefaults.forEach(defaultUser => {
-      const key = String(defaultUser.username || "").toLowerCase();
-      const index = merged.findIndex(u =>
-        String(u.username || "").toLowerCase() === key ||
-        (u.id && defaultUser.id && u.id === defaultUser.id)
-      );
-
-      if(index === -1){
-        merged.push(defaultUser);
-      }else{
-        merged[index] = {
-          ...defaultUser,
-          ...merged[index],
-          id: merged[index].id || defaultUser.id,
-          username: merged[index].username || defaultUser.username,
-          password: merged[index].password || defaultUser.password,
-          fullName: merged[index].fullName || defaultUser.fullName || defaultUser.name,
-          name: merged[index].name || merged[index].fullName || defaultUser.name || defaultUser.fullName,
-          email: merged[index].email || defaultUser.email,
-          status: merged[index].status || defaultUser.status || "Aktif",
-          role: merged[index].role || defaultUser.role || "Kullanıcı",
-          department: merged[index].department || defaultUser.department || "Kalite"
-        };
-      }
-    });
-
-    localStorage.setItem("gdnl_users", JSON.stringify(merged));
-    console.log("GDNL EOS kullanıcı havuzu yüklendi:", merged.length);
-  }catch(err){
-    console.error("GDNL EOS kullanıcı havuzu yüklenemedi:", err);
-  }
-})();
-
-
-function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
-
-function getUsers(){
-  try{
-    const value=JSON.parse(localStorage.getItem("gdnl_users") || "[]");
-    const list=Array.isArray(value) ? value : [];
-    return list.filter(u => String(u.username || "").toLowerCase() !== "demo");
-  }catch(e){
-    return [];
-  }
+function fixTR(value){
+  if(value === null || value === undefined) return "";
+  return String(value)
+    .replaceAll("Ã¼","ü").replaceAll("Ãœ","Ü")
+    .replaceAll("Ä±","ı").replaceAll("Ä°","İ")
+    .replaceAll("ÅŸ","ş").replaceAll("Åž","Ş")
+    .replaceAll("Ã¶","ö").replaceAll("Ã–","Ö")
+    .replaceAll("Ã§","ç").replaceAll("Ã‡","Ç")
+    .replaceAll("ÄŸ","ğ").replaceAll("Äž","Ğ")
+    .replaceAll("â€“","–").replaceAll("â€”","—")
+    .replaceAll("â€˜","'").replaceAll("â€™","'")
+    .replaceAll("â€œ",'"').replaceAll("â€",'"');
 }
 
-function setUsers(items){
-  const clean=(Array.isArray(items) ? items : []).filter(u => String(u.username || "").toLowerCase() !== "demo");
-  localStorage.setItem("gdnl_users", JSON.stringify(clean));
+function toDbStatus(status){
+  const s = fixTR(status).toLowerCase();
+  return s === "pasif" || s === "passive" || s === "inactive" ? "passive" : "active";
 }
 
-function getNotifications(){
-  try{
-    return JSON.parse(localStorage.getItem("gdnl_notifications")) || [];
-  }catch(e){
-    return [];
-  }
-}
-
-function setNotifications(items){
-  localStorage.setItem("gdnl_notifications", JSON.stringify(items));
-}
-
-function getEmailConfig(){
-  try{
-    return JSON.parse(localStorage.getItem("gdnl_emailjs_config")) || null;
-  }catch(e){
-    return null;
-  }
-}
-
-function setEmailConfig(cfg){
-  localStorage.setItem("gdnl_emailjs_config", JSON.stringify(cfg));
-}
-
-function formatDateTR(v){
-  if(!v) return "-";
-  const d = new Date(v);
-  if(isNaN(d)) return v;
-  return d.toLocaleDateString("tr-TR");
-}
-
-function statusClass(s){
-  if(s === "Aktif" || s === "Gönderildi" || s === "Okundu") return "green";
-  if(s === "Kuyrukta") return "orange";
-  if(s === "Pasif" || s === "Hatalı" || s === "Gecikti") return "red";
-  return "blue";
+function toUiStatus(status){
+  const s = fixTR(status).toLowerCase();
+  return s === "passive" || s === "inactive" || s === "pasif" ? "Pasif" : "Aktif";
 }
 
 function normalizeUser(u){
-const qualityDefault={
-  canViewDocuments:true,
-  canDownloadDocuments:true,
-  canCreateDocumentDraft:true,
-  canRequestRevision:true,
-  canRespondCAPA:true,
-  canUploadEvidence:true,
-  canApproveDocument:false,
-  canPublishDocument:false,
-  canDeleteDocument:false,
-  canManageQualitySettings:false
-};
-return{
-id:u.id||"USR-"+Date.now()+"-"+Math.random().toString(16).slice(2),
-username:u.username||slugifyUsername(u.fullName||u.name||"user"),
-password:u.password||"Temp2026!",
-fullName:u.fullName||u.name||"",
-name:u.name||u.fullName||"",
-department:u.department||"Kalite",
-role:u.role||"Kullanıcı",
-status:u.status||"Aktif",
-email:u.email||"",
-phone:u.phone||"",
-mailEnabled:u.mailEnabled||"Evet",
-smsEnabled:u.smsEnabled||"Hayır",
-accessLevel:u.accessLevel||((u.role||"")==="Super Administrator"?"FULL_SYSTEM_ACCESS":"DEPARTMENT_ACCESS"),
-permissions:Array.isArray(u.permissions)?u.permissions:["view","create","edit","download","quality_limited","own_department"],
-departments:Array.isArray(u.departments)&&u.departments.length?u.departments:unique([u.department||"Kalite","Kalite"]),
-qualityAccess:u.qualityAccess||qualityDefault,
-modules:Array.isArray(u.modules)?u.modules:[],
-canViewOwnDepartment:u.canViewOwnDepartment!==false,
-canViewAll:!!u.canViewAll,
-canCreate:u.canCreate!==false,
-canEdit:u.canEdit!==false,
-canDelete:!!u.canDelete,
-canApprove:!!u.canApprove,
-canDownloadDocument:u.canDownloadDocument!==false,
-canCreateDocument:u.canCreateDocument!==false,
-canApproveDocument:!!u.canApproveDocument,
-canManageUsers:!!u.canManageUsers,
-canManageRoles:!!u.canManageRoles,
-canManageSystem:!!u.canManageSystem,
-canAccessAllModules:!!u.canAccessAllModules,
-canOverrideWorkflow:!!u.canOverrideWorkflow,
-isRoot:!!u.isRoot,
-isSuperAdmin:!!u.isSuperAdmin,
-isFullAuthorized:!!u.isFullAuthorized,
-notes:u.notes||"",
-createdAt:u.createdAt||new Date().toISOString(),
-updatedAt:u.updatedAt||new Date().toISOString()
-};
-}
-function slugifyUsername(value){return String(value||"user").trim().toLowerCase().replaceAll("ğ","g").replaceAll("ü","u").replaceAll("ş","s").replaceAll("ı","i").replaceAll("ö","o").replaceAll("ç","c").replace(/[^a-z0-9]+/g,".").replace(/^\.+|\.+$/g,"")||"user"}
-function unique(arr){return [...new Set((arr||[]).filter(Boolean))]}
-
-function seedCurrentUser(){
-  let users = getUsers().map(normalizeUser);
-  const defaults = Array.isArray(DEFAULT_EOS_USERS) ? DEFAULT_EOS_USERS : [];
-
-  defaults.forEach(defaultUser => {
-    const normalized = normalizeUser(defaultUser);
-    const key = String(normalized.username || "").toLowerCase();
-
-    if(key === "demo") return;
-
-    const index = users.findIndex(u =>
-      String(u.username || "").toLowerCase() === key ||
-      (u.id && normalized.id && u.id === normalized.id)
-    );
-
-    if(index === -1){
-      users.push(normalized);
-    }else{
-      users[index] = normalizeUser({
-        ...normalized,
-        ...users[index],
-        id: users[index].id || normalized.id,
-        username: users[index].username || normalized.username,
-        password: users[index].password || normalized.password,
-        fullName: users[index].fullName || users[index].name || normalized.fullName || normalized.name,
-        name: users[index].name || users[index].fullName || normalized.name || normalized.fullName,
-        email: users[index].email || normalized.email,
-        status: users[index].status || normalized.status || "Aktif",
-        department: users[index].department || normalized.department || "Kalite",
-        role: users[index].role || normalized.role || "Kullanıcı",
-        departments: users[index].departments && users[index].departments.length ? users[index].departments : normalized.departments,
-        permissions: users[index].permissions && users[index].permissions.length ? users[index].permissions : normalized.permissions,
-        qualityAccess: users[index].qualityAccess || normalized.qualityAccess
-      });
-    }
-  });
-
-  users = users.filter(u => String(u.username || "").toLowerCase() !== "demo");
-  setUsers(users.map(normalizeUser));
-
-  const count = users.length;
-  console.log("GDNL EOS -> gdnl_users aktif kullanıcı sayısı:", count);
-}
-
-function applyRolePermissions(force=false){
-const selectedRole=document.getElementById("role").value;
-const notes=document.getElementById("notes");
-const template=rolePermissionTemplates[selectedRole]||"";
-if(force&&notesAutoMode){
-notes.value=template;
-}
-}
-
-document.getElementById("notes").addEventListener("input",function(){
-const selectedRole=document.getElementById("role").value;
-notesAutoMode=this.value.trim()===(rolePermissionTemplates[selectedRole]||"").trim()||this.value.trim()==="";
-});
-
-function enforceAdminPanelVisibility(){
-const panel=document.getElementById("emailEnginePanel");
-if(!panel)return;
-if((session.role||"")!=="Super Administrator"){
-panel.style.display="none";
-}else{
-panel.style.display="";
-}
-}
-
-function saveEmailConfig(){
-const cfg={
-publicKey:document.getElementById("emailPublicKey").value.trim(),
-serviceId:document.getElementById("emailServiceId").value.trim(),
-templateId:document.getElementById("emailTemplateId").value.trim(),
-fromName:document.getElementById("emailFromName").value.trim()||"GDNL EQMS",
-updatedAt:new Date().toISOString()
-};
-if(!cfg.publicKey||!cfg.serviceId||!cfg.templateId){
-showToast("Public Key, Service ID ve Template ID zorunlu");
-return;
-}
-setEmailConfig(cfg);
-initEmailJS();
-updateCards();
-showToast("EmailJS ayarları kaydedildi");
-}
-
-function loadEmailConfig(){
-const cfg=getEmailConfig();
-if(!cfg)return;
-document.getElementById("emailPublicKey").value=cfg.publicKey||"";
-document.getElementById("emailServiceId").value=cfg.serviceId||"";
-document.getElementById("emailTemplateId").value=cfg.templateId||"";
-document.getElementById("emailFromName").value=cfg.fromName||"GDNL EQMS";
-initEmailJS();
-}
-
-function clearEmailConfig(){
-localStorage.removeItem("gdnl_emailjs_config");
-document.getElementById("emailPublicKey").value="";
-document.getElementById("emailServiceId").value="";
-document.getElementById("emailTemplateId").value="";
-document.getElementById("emailFromName").value="";
-updateCards();
-showToast("EmailJS ayarları sıfırlandı");
-}
-
-function initEmailJS(){
-const cfg=getEmailConfig();
-if(cfg&&cfg.publicKey&&window.emailjs){
-emailjs.init({publicKey:cfg.publicKey});
-document.getElementById("engineStatus").textContent="Active";
-document.getElementById("emailStatus").textContent="ON";
-return true;
-}
-document.getElementById("engineStatus").textContent="Passive";
-document.getElementById("emailStatus").textContent="OFF";
-return false;
-}
-
-async function sendEmail(toEmail,toName,subject,message,moduleName){
-const cfg=getEmailConfig();
-if(!cfg||!cfg.publicKey||!cfg.serviceId||!cfg.templateId){
-showToast("EmailJS ayarları eksik");
-return false;
-}
-try{
-emailjs.init({publicKey:cfg.publicKey});
-await emailjs.send(cfg.serviceId,cfg.templateId,{
-to_email:toEmail,
-to_name:toName||toEmail,
-from_name:cfg.fromName||"GDNL EQMS",
-subject:subject,
-message:message,
-module:moduleName||"GDNL EQMS",
-reply_to:toEmail
-});
-return true;
-}catch(err){
-console.error(err);
-showToast("Mail gönderilemedi. EmailJS ayarlarını kontrol et.");
-return false;
-}
-}
-
-async function sendTestMail(){
-const to=document.getElementById("testEmailTo").value.trim();
-const subject=document.getElementById("testSubject").value.trim()||"GDNL EQMS Test Mail";
-const message=document.getElementById("testMessage").value.trim()||"Bu mail GDNL EQMS EmailJS entegrasyon testidir.";
-if(!to){showToast("Test alıcı mail zorunlu");return}
-const ok=await sendEmail(to,"Test Kullanıcısı",subject,message,"EmailJS Test");
-if(ok)showToast("Test mail gönderildi");
-}
-
-async function sendUserTestMail(){
-if(editIndex===null){
-showToast("Önce listeden kullanıcı düzenle seç");
-return;
-}
-const user=getUsers()[editIndex];
-if(!user||!user.email){
-showToast("Kullanıcı mail adresi yok");
-return;
-}
-const ok=await sendEmail(
-user.email,
-user.fullName,
-"GDNL EQMS Kullanıcı Bildirim Testi",
-"Merhaba "+user.fullName+", GDNL EQMS mail bildirimi başarıyla çalışıyor.",
-"Users"
-);
-if(ok)showToast("Kullanıcıya test mail gönderildi");
-}
-
-async function sendQueuedNotifications(){
-const cfg=getEmailConfig();
-if(!cfg){showToast("EmailJS ayarları eksik");return}
-const notifications=getNotifications();
-const users=getUsers().map(normalizeUser);
-let sentCount=0;
-let failCount=0;
-
-for(let i=0;i<notifications.length;i++){
-const n=notifications[i];
-if(n.status&&n.status!=="Kuyrukta")continue;
-
-const recipients=resolveRecipients(n,users);
-if(recipients.length===0){
-notifications[i].status="Hatalı";
-notifications[i].lastError="Alıcı bulunamadı";
-failCount++;
-continue;
-}
-
-let localSent=0;
-for(const r of recipients){
-const ok=await sendEmail(
-r.email,
-r.fullName,
-"GDNL EQMS | "+(n.documentCode||n.module||"Bildirim"),
-buildNotificationMessage(n),
-n.module||"EQMS"
-);
-if(ok)localSent++;
-}
-
-if(localSent>0){
-notifications[i].status="Gönderildi";
-notifications[i].sentAt=new Date().toISOString();
-notifications[i].lastError="";
-notifications[i].sentCount=(notifications[i].sentCount||0)+localSent;
-notifications[i].auditTrail=notifications[i].auditTrail||[];
-notifications[i].auditTrail.unshift({action:"EmailJS ile mail gönderildi",user:session.name||"System",date:new Date().toISOString()});
-sentCount++;
-}else{
-notifications[i].status="Hatalı";
-notifications[i].lastError="EmailJS gönderimi başarısız";
-failCount++;
-}
-}
-
-setNotifications(notifications);
-updateCards();
-showToast(sentCount+" bildirim gönderildi, "+failCount+" hatalı");
-}
-
-function resolveRecipients(notification,users){
-const list=[];
-const raw=(notification.mailGroups||notification.distributionPoints||"").toLowerCase();
-
-users.forEach(u=>{
-if(u.status!=="Aktif"||u.mailEnabled!=="Evet"||!u.email)return;
-const nameHit=raw.includes((u.fullName||"").toLowerCase());
-const depHit=raw.includes((u.department||"").toLowerCase());
-const roleHit=raw.includes((u.role||"").toLowerCase());
-const mailHit=raw.includes((u.email||"").toLowerCase());
-if(nameHit||depHit||roleHit||mailHit)list.push(u);
-});
-
-if(list.length===0 && notification.mailGroups){
-notification.mailGroups.split(/[,;\n]/).map(x=>x.trim()).filter(x=>x.includes("@")).forEach(mail=>{
-list.push({fullName:mail,email:mail});
-});
-}
-return uniqueByEmail(list);
-}
-
-function uniqueByEmail(arr){
-const out=[];
-arr.forEach(x=>{
-if(!out.some(y=>String(y.email).toLowerCase()===String(x.email).toLowerCase()))out.push(x);
-});
-return out;
-}
-
-function buildNotificationMessage(n){
-return `
-GDNL EQMS Bildirimi
-
-Modül: ${n.module||"-"}
-Kayıt: ${n.documentCode||"-"} ${n.documentName||""}
-Workflow: ${n.workflowId||"-"}
-
-Mesaj:
-${n.message||"-"}
-
-Tarih: ${new Date().toLocaleString("tr-TR")}
-`;
-}
-
-function saveUser(){
-const users=getUsers().map(normalizeUser);
-
-const payload={
-id:editIndex!==null?users[editIndex].id:"USR-"+Date.now(),
-fullName:document.getElementById("fullName").value.trim(),
-name:document.getElementById("fullName").value.trim(),
-username:document.getElementById("username").value.trim().toLowerCase(),
-password:document.getElementById("password").value.trim(),
-department:document.getElementById("department").value,
-role:document.getElementById("role").value,
-status:document.getElementById("status").value,
-email:document.getElementById("email").value.trim().toLowerCase(),
-phone:document.getElementById("phone").value.trim(),
-mailEnabled:document.getElementById("mailEnabled").value,
-smsEnabled:document.getElementById("smsEnabled").value,
-notes:document.getElementById("notes").value.trim(),
-accessLevel:document.getElementById("role").value==="Super Administrator"?"FULL_SYSTEM_ACCESS":"DEPARTMENT_ACCESS",
-permissions:document.getElementById("role").value==="Super Administrator"?["*","root","admin","view","create","edit","delete","approve","export","import","audit","settings","users","roles","system","all_modules"]:["view","create","edit","download","quality_limited","own_department"],
-departments:document.getElementById("role").value==="Super Administrator"?["Yönetim","Kalite","Üretim","Ar-Ge","Satınalma","Planlama","Tedarik Zinciri","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"]:unique([document.getElementById("department").value,"Kalite"]),
-canViewOwnDepartment:true,
-canViewAll:document.getElementById("role").value==="Super Administrator",
-canCreate:true,
-canEdit:true,
-canDelete:document.getElementById("role").value==="Super Administrator",
-canApprove:document.getElementById("role").value==="Super Administrator"||document.getElementById("role").value==="Departman Müdürü",
-canDownloadDocument:true,
-canCreateDocument:true,
-canApproveDocument:document.getElementById("role").value==="Super Administrator",
-canManageUsers:document.getElementById("role").value==="Super Administrator",
-canManageRoles:document.getElementById("role").value==="Super Administrator",
-canManageSystem:document.getElementById("role").value==="Super Administrator",
-createdAt:editIndex!==null?users[editIndex].createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString()
-};
-
-if(!payload.fullName){showToast("Ad Soyad zorunlu");return}
-if(!payload.username){showToast("Kullanıcı adı zorunlu");return}
-if(!payload.password){showToast("Geçici şifre zorunlu");return}
-if(payload.mailEnabled==="Evet"&&!payload.email){showToast("Mail bildirimi aktifse e-posta zorunlu");return}
-if(payload.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)){showToast("E-posta formatı hatalı");return}
-
-const duplicate=users.some((u,i)=>u.email&&payload.email&&u.email===payload.email&&i!==editIndex);
-if(duplicate){showToast("Bu e-posta zaten kayıtlı");return}
-const duplicateUsername=users.some((u,i)=>String(u.username||"").toLowerCase()===payload.username&&i!==editIndex);
-if(duplicateUsername){showToast("Bu kullanıcı adı zaten kayıtlı");return}
-
-if(editIndex!==null){
-users[editIndex]=payload;
-showToast("Kullanıcı güncellendi");
-}else{
-users.unshift(payload);
-showToast("Kullanıcı eklendi");
-}
-
-setUsers(users);
-resetForm();
-renderUsers();
-updateCards();
-}
-
-function editUser(index){
-const users=getUsers().map(normalizeUser);
-const u=users[index];
-if(!u)return;
-editIndex=index;
-notesAutoMode=false;
-
-document.getElementById("fullName").value=u.fullName;
-document.getElementById("username").value=u.username||"";
-document.getElementById("password").value=u.password||"";
-document.getElementById("department").value=u.department;
-document.getElementById("role").value=u.role;
-document.getElementById("status").value=u.status;
-document.getElementById("email").value=u.email;
-document.getElementById("phone").value=u.phone;
-document.getElementById("mailEnabled").value=u.mailEnabled;
-document.getElementById("smsEnabled").value=u.smsEnabled;
-document.getElementById("notes").value=u.notes||rolePermissionTemplates[u.role]||"";
-
-document.getElementById("modeBadge").textContent="EDIT MODE";
-document.getElementById("modeBadge").className="status orange";
-document.getElementById("userDefinitionPanel").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function deleteUser(index){
-const users=getUsers();
-if(!users[index])return;
-if(!confirm(users[index].fullName+" silinsin mi?"))return;
-users.splice(index,1);
-setUsers(users);
-renderUsers();
-updateCards();
-showToast("Kullanıcı silindi");
-}
-
-function resetForm(){
-editIndex=null;
-notesAutoMode=true;
-document.getElementById("fullName").value="";
-document.getElementById("username").value="";
-document.getElementById("password").value="";
-document.getElementById("department").value="Kalite";
-document.getElementById("role").value="Kullanıcı";
-document.getElementById("status").value="Aktif";
-document.getElementById("email").value="";
-document.getElementById("phone").value="";
-document.getElementById("mailEnabled").value="Evet";
-document.getElementById("smsEnabled").value="Hayır";
-document.getElementById("notes").value=rolePermissionTemplates["Kullanıcı"];
-document.getElementById("modeBadge").textContent="CREATE MODE";
-document.getElementById("modeBadge").className="status blue";
-}
-
-function renderUsers(){
-const users=getUsers().map(normalizeUser);
-const q=document.getElementById("globalSearch").value.toLowerCase();
-const dep=document.getElementById("departmentFilter").value;
-const st=document.getElementById("statusFilter").value;
-const role=document.getElementById("roleFilter").value;
-
-const filtered=users.filter(u=>{
-const text=`${u.fullName} ${u.username} ${u.department} ${u.role} ${u.status} ${u.email} ${u.phone} ${u.notes}`.toLowerCase();
-return text.includes(q)&&(!dep||u.department===dep)&&(!st||u.status===st)&&(!role||u.role===role);
-});
-
-const area=document.getElementById("userTable");
-
-if(filtered.length===0){
-area.innerHTML='<div class="empty">Kullanıcı kaydı bulunamadı.</div>';
-return;
-}
-
-let html=`<table>
-<thead>
-<tr>
-<th>Ad Soyad</th>
-<th>Kullanıcı Adı</th>
-<th>Departman</th>
-<th>Rol</th>
-<th>Mail</th>
-<th>Telefon</th>
-<th>Durum</th>
-<th>Bildirim</th>
-<th>Aksiyon</th>
-</tr>
-</thead>
-<tbody>`;
-
-filtered.forEach(u=>{
-const index=users.findIndex(x=>x.id===u.id);
-html+=`<tr>
-<td>${escapeHTML(u.fullName)}</td>
-<td>${escapeHTML(u.username||"-")}</td>
-<td>${escapeHTML(u.department)}</td>
-<td>${escapeHTML(u.role)}</td>
-<td>${escapeHTML(u.email||"-")}</td>
-<td>${escapeHTML(u.phone||"-")}</td>
-<td><span class="status ${statusClass(u.status)}">${escapeHTML(u.status)}</span></td>
-<td>Mail: ${escapeHTML(u.mailEnabled)}<br><small>SMS: ${escapeHTML(u.smsEnabled)}</small></td>
-<td>
-<div class="row-actions">
-<button class="small-btn edit" onclick="editUser(${index})">Düzenle</button>
-<button class="small-btn mail" onclick="editUser(${index});sendUserTestMail()">Mail Test</button>
-<button class="small-btn delete" onclick="deleteUser(${index})">Sil</button>
-</div>
-</td>
-</tr>`;
-});
-
-html+='</tbody></table>';
-area.innerHTML=html;
-}
-
-function updateCards(){
-const users=getUsers().map(normalizeUser);
-const notifications=getNotifications();
-const cfg=getEmailConfig();
-
-document.getElementById("totalUsers").textContent=users.length;
-document.getElementById("activeUsers").textContent=users.filter(x=>x.status==="Aktif").length;
-document.getElementById("queuedNotifications").textContent=notifications.filter(x=>!x.status||x.status==="Kuyrukta").length;
-
-if(cfg&&cfg.publicKey&&cfg.serviceId&&cfg.templateId){
-document.getElementById("emailStatus").textContent="ON";
-document.getElementById("engineStatus").textContent="Active";
-}else{
-document.getElementById("emailStatus").textContent="OFF";
-document.getElementById("engineStatus").textContent="Passive";
-}
-}
-
-function showToast(message){
-const toast=document.getElementById("toast");
-toast.textContent=message;
-toast.style.display="block";
-setTimeout(()=>toast.style.display="none",2600);
-}
-
-function openMobileMenu(){
-document.getElementById("mobileDrawer")?.classList.add("active");
-document.getElementById("mobileOverlay")?.classList.add("active");
-document.body.style.overflow="hidden";
-}
-function closeMobileMenu(){
-document.getElementById("mobileDrawer")?.classList.remove("active");
-document.getElementById("mobileOverlay")?.classList.remove("active");
-document.body.style.overflow="";
-}
-
-
-function toggleMenuGroup(btn){
-const group=btn.closest(".menu-group");
-const container=btn.closest(".menu-section");
-if(!group)return;
-if(container){
-container.querySelectorAll(".menu-group").forEach(g=>{
-if(g!==group)g.classList.remove("open");
-});
-}
-group.classList.toggle("open");
+  return {
+    id: u.id,
+    username: fixTR(u.username || ""),
+    password: fixTR(u.password || ""),
+    fullName: fixTR(u.fullName || u.fullname || u.name || ""),
+    name: fixTR(u.fullName || u.fullname || u.name || ""),
+    email: fixTR(u.email || ""),
+    phone: fixTR(u.phone || ""),
+    role: fixTR(u.role || "Kullanıcı"),
+    department: fixTR(u.department || "Kalite"),
+    status: toUiStatus(u.status || "active"),
+    mailEnabled: fixTR(u.mailEnabled || u.mail_enabled || "Evet"),
+    smsEnabled: fixTR(u.smsEnabled || u.sms_enabled || "Hayır"),
+    notes: fixTR(u.notes || rolePermissionTemplates[fixTR(u.role || "Kullanıcı")] || ""),
+    createdAt: fixTR(u.created_at || u.createdAt || "")
+  };
 }
 
 function escapeHTML(value){
-return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  return fixTR(value).replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
 }
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
+
+function getSession(){
+  const a = JSON.parse(localStorage.getItem("gdnl_eos_session") || "null");
+  const b = JSON.parse(localStorage.getItem("gdnl_qdms_session") || "null");
+  return a || b || {name:"Kerem Güdenli", role:"Super Administrator"};
 }
+
+function setSessionUi(){
+  const session = getSession();
+  const chip = document.getElementById("userChip");
+  if(chip) chip.textContent = fixTR(session.name || session.fullName || "Kerem Güdenli");
+  enforceAdminPanelVisibility();
+}
+
+async function apiRequest(path, options = {}){
+  const res = await fetch(API_BASE + path, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+  const txt = await res.text();
+  let data = null;
+  try { data = txt ? JSON.parse(txt) : null; } catch(e) { data = txt; }
+  if(!res.ok){
+    throw new Error((data && data.message) ? data.message : "API işlem hatası");
+  }
+  return data;
+}
+
+async function loadUsers(){
+  try{
+    showToast("Kullanıcılar D1 veritabanından yükleniyor...");
+    const data = await apiRequest("/users");
+    users = Array.isArray(data) ? data.map(normalizeUser) : [];
+    renderUsers();
+    updateCards();
+    showToast("Kullanıcı listesi güncellendi");
+  }catch(err){
+    console.error(err);
+    users = [];
+    renderUsers();
+    updateCards();
+    showToast("D1 kullanıcı listesi alınamadı");
+  }
+}
+
+function renderUsers(){
+  const table = document.getElementById("userTable");
+  if(!table) return;
+
+  const dep = document.getElementById("departmentFilter")?.value || "";
+  const stat = document.getElementById("statusFilter")?.value || "";
+  const role = document.getElementById("roleFilter")?.value || "";
+  const q = fixTR(document.getElementById("globalSearch")?.value || "").toLowerCase().trim();
+
+  let filtered = users.filter(u => {
+    const blob = [
+      u.id,u.username,u.fullName,u.email,u.phone,u.role,u.department,u.status,u.mailEnabled,u.smsEnabled,u.notes
+    ].map(fixTR).join(" ").toLowerCase();
+
+    return (!dep || u.department === dep) &&
+           (!stat || u.status === stat) &&
+           (!role || u.role === role) &&
+           (!q || blob.includes(q));
+  });
+
+  if(!filtered.length){
+    table.innerHTML = `<div class="empty">Kayıt bulunamadı. D1 bağlantısını ve kullanıcı verilerini kontrol et.</div>`;
+    return;
+  }
+
+  table.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Kullanıcı</th>
+          <th>Departman</th>
+          <th>Rol</th>
+          <th>Durum</th>
+          <th>Bildirim</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${filtered.map(u => {
+          const realIndex = users.findIndex(x => String(x.id) === String(u.id));
+          return `
+            <tr>
+              <td>
+                <b>${escapeHTML(u.fullName)}</b><br>
+                <small>${escapeHTML(u.username)} · ${escapeHTML(u.email || "-")}</small>
+              </td>
+              <td>${escapeHTML(u.department)}</td>
+              <td>${escapeHTML(u.role)}</td>
+              <td><span class="status ${u.status === "Aktif" ? "green" : "red"}">${escapeHTML(u.status)}</span></td>
+              <td><small>Mail: ${escapeHTML(u.mailEnabled)}<br>SMS: ${escapeHTML(u.smsEnabled)}</small></td>
+              <td>
+                <div class="row-actions">
+                  <button class="small-btn edit" onclick="editUser(${realIndex})">Düzenle</button>
+                  <button class="small-btn mail" onclick="sendUserTestMail(${realIndex})">Mail</button>
+                  <button class="small-btn delete" onclick="deleteUser(${realIndex})">Sil</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function updateCards(){
+  const total = users.length;
+  const active = users.filter(u => u.status === "Aktif").length;
+  const emailConfig = getEmailConfig();
+  const emailReady = !!(emailConfig.publicKey && emailConfig.serviceId && emailConfig.templateId);
+
+  document.getElementById("totalUsers").textContent = total;
+  document.getElementById("activeUsers").textContent = active;
+  document.getElementById("emailStatus").textContent = emailReady ? "ON" : "OFF";
+  document.getElementById("engineStatus").textContent = emailReady ? "Active" : "Passive";
+  document.getElementById("queuedNotifications").textContent = JSON.parse(localStorage.getItem("gdnl_email_queue") || "[]").length;
+}
+
+function getFormUser(){
+  return {
+    fullName: document.getElementById("fullName").value.trim(),
+    username: document.getElementById("username").value.trim(),
+    password: document.getElementById("password").value.trim(),
+    department: document.getElementById("department").value,
+    role: document.getElementById("role").value,
+    status: document.getElementById("status").value,
+    email: document.getElementById("email").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    mailEnabled: document.getElementById("mailEnabled").value,
+    smsEnabled: document.getElementById("smsEnabled").value,
+    notes: document.getElementById("notes").value.trim()
+  };
+}
+
+async function saveUser(){
+  const payload = getFormUser();
+
+  if(!payload.fullName || !payload.username || !payload.password){
+    showToast("Ad Soyad, Kullanıcı Adı ve Şifre zorunlu");
+    return;
+  }
+
+  try{
+    if(editIndex !== null && users[editIndex]){
+      await apiRequest(`/users/${users[editIndex].id}`, {
+        method: "PUT",
+        body: JSON.stringify(payload)
+      });
+      showToast("Kullanıcı D1 üzerinde güncellendi");
+    }else{
+      await apiRequest("/users", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      showToast("Yeni kullanıcı D1 üzerine kaydedildi");
+    }
+
+    resetForm();
+    await loadUsers();
+  }catch(err){
+    console.error(err);
+    showToast("Kayıt başarısız: Worker CRUD endpoint kontrol et");
+  }
+}
+
+function editUser(index){
+  const u = users[index];
+  if(!u) return;
+
+  editIndex = index;
+  document.getElementById("modeBadge").textContent = "EDIT MODE";
+  document.getElementById("fullName").value = u.fullName;
+  document.getElementById("username").value = u.username;
+  document.getElementById("password").value = u.password;
+  document.getElementById("department").value = u.department;
+  document.getElementById("role").value = u.role;
+  document.getElementById("status").value = u.status;
+  document.getElementById("email").value = u.email;
+  document.getElementById("phone").value = u.phone;
+  document.getElementById("mailEnabled").value = u.mailEnabled;
+  document.getElementById("smsEnabled").value = u.smsEnabled;
+  document.getElementById("notes").value = u.notes || rolePermissionTemplates[u.role] || "";
+  notesAutoMode = false;
+  document.getElementById("userDefinitionPanel").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+async function deleteUser(index){
+  const u = users[index];
+  if(!u) return;
+
+  if(!confirm(`${u.fullName} kullanıcısı D1 veritabanından silinsin mi?`)) return;
+
+  try{
+    await apiRequest(`/users/${u.id}`, { method: "DELETE" });
+    showToast("Kullanıcı D1 üzerinden silindi");
+    await loadUsers();
+  }catch(err){
+    console.error(err);
+    showToast("Silme başarısız: Worker CRUD endpoint kontrol et");
+  }
+}
+
+function resetForm(){
+  editIndex = null;
+  notesAutoMode = true;
+  document.getElementById("modeBadge").textContent = "CREATE MODE";
+  ["fullName","username","password","email","phone","notes"].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+  document.getElementById("department").value = "Kalite";
+  document.getElementById("role").value = "Kullanıcı";
+  document.getElementById("status").value = "Aktif";
+  document.getElementById("mailEnabled").value = "Evet";
+  document.getElementById("smsEnabled").value = "Hayır";
+  applyRolePermissions(false);
+}
+
+function applyRolePermissions(force){
+  const role = document.getElementById("role").value;
+  const notes = document.getElementById("notes");
+
+  if(force || notesAutoMode || !notes.value.trim()){
+    notes.value = rolePermissionTemplates[role] || "";
+    notesAutoMode = true;
+  }
+}
+
 function runSearch(){
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-if(!text){clearSearchResults();input.focus();renderUsers();return;}
+  const q = fixTR(document.getElementById("globalSearch").value || "").toLowerCase().trim();
+  const panel = document.getElementById("searchResultsPanel");
+  const area = document.getElementById("searchResultsArea");
+  const keyword = document.getElementById("searchKeyword");
+  const count = document.getElementById("searchResultCount");
 
-let results=[];
-getUsers().map(normalizeUser).forEach(u=>{
-const fullText=JSON.stringify(u).toLowerCase();
-if(fullText.includes(text)){
-results.push({type:"user",module:"Kullanıcı",title:u.fullName+" / "+u.role,detail:`${u.username||""} ${u.department||""} ${u.email||""} ${u.phone||""} ${u.status||""} ${u.notes||""}`,id:u.id});
-}
-});
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
-renderUsers();
-}
-function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
+  if(!q){
+    clearSearchResults();
+    renderUsers();
+    return;
+  }
 
-document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;
-if(!seen.has(key)){
-seen.add(key);
-results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});
-}
-}
-});
+  const results = users.filter(u => [
+    u.fullName,u.username,u.email,u.phone,u.department,u.role,u.status,u.notes
+  ].map(fixTR).join(" ").toLowerCase().includes(q));
 
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
-});
+  panel.classList.add("active");
+  keyword.textContent = q;
+  count.textContent = `${results.length} sonuç`;
 
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
-});
+  area.innerHTML = results.length ? results.map(u => `
+    <div class="result-card">
+      <div><b>${escapeHTML(u.fullName)}</b><small>${escapeHTML(u.username)}</small></div>
+      <div><small>${escapeHTML(u.department)} · ${escapeHTML(u.role)} · ${escapeHTML(u.email || "-")}</small></div>
+      <button class="result-open" onclick="editUser(${users.findIndex(x => String(x.id) === String(u.id))})">Aç</button>
+    </div>
+  `).join("") : `<div class="empty">Arama sonucu bulunamadı</div>`;
 
-return results;
+  renderUsers();
 }
-function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-if(!panel||!area)return;
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-if(!results.length){area.innerHTML='<div class="empty">Arama sonucu bulunamadı.</div>';return;}
-area.innerHTML=results.map((r,i)=>`<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module||"Sonuç")}</span></div>
-<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail||"",keyword)}</small></div>
-<button class="result-open" onclick="openSearchResult(${i})">Aç</button>
-</div>`).join("");
-window.__userSearchResults=results;
-}
-function openSearchResult(i){
-const r=(window.__userSearchResults||[])[i];
-if(!r)return;
-if(r.type==="user"&&r.id){
-const users=getUsers().map(normalizeUser);
-const index=users.findIndex(x=>x.id===r.id);
-if(index>-1)editUser(index);
-return;
-}
-if(r.type==="page"&&r.go&&r.go!=="#"){window.location.href=r.go;return;}
-if(r.type==="scroll"&&r.selector){document.querySelector(r.selector)?.scrollIntoView({behavior:"smooth",block:"center"});}
-}
+
 function clearSearchResults(){
-const panel=document.getElementById("searchResultsPanel");
-if(panel)panel.classList.remove("active");
-const area=document.getElementById("searchResultsArea");
-if(area)area.innerHTML="";
-window.__userSearchResults=[];
+  const input = document.getElementById("globalSearch");
+  if(input) input.value = "";
+  document.getElementById("searchResultsPanel")?.classList.remove("active");
+  document.getElementById("searchResultsArea").innerHTML = "";
+  renderUsers();
 }
 
-document.getElementById("globalSearch").addEventListener("input",renderUsers);
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMobileMenu();clearSearchResults();}});
+function getEmailConfig(){
+  return JSON.parse(localStorage.getItem("gdnl_emailjs_config") || "{}");
+}
 
-seedCurrentUser();
+function loadEmailConfig(){
+  const c = getEmailConfig();
+  document.getElementById("emailPublicKey").value = c.publicKey || "";
+  document.getElementById("emailServiceId").value = c.serviceId || "";
+  document.getElementById("emailTemplateId").value = c.templateId || "";
+  document.getElementById("emailFromName").value = c.fromName || "GDNL EQMS";
+  updateCards();
+}
+
+function saveEmailConfig(){
+  const config = {
+    publicKey: document.getElementById("emailPublicKey").value.trim(),
+    serviceId: document.getElementById("emailServiceId").value.trim(),
+    templateId: document.getElementById("emailTemplateId").value.trim(),
+    fromName: document.getElementById("emailFromName").value.trim() || "GDNL EQMS"
+  };
+  localStorage.setItem("gdnl_emailjs_config", JSON.stringify(config));
+  updateCards();
+  showToast("EmailJS ayarları kaydedildi");
+}
+
+function clearEmailConfig(){
+  localStorage.removeItem("gdnl_emailjs_config");
+  loadEmailConfig();
+  showToast("EmailJS ayarları sıfırlandı");
+}
+
+async function sendTestMail(){
+  const config = getEmailConfig();
+  if(!config.publicKey || !config.serviceId || !config.templateId){
+    showToast("Önce EmailJS ayarlarını tamamla");
+    return;
+  }
+
+  emailjs.init({ publicKey: config.publicKey });
+
+  try{
+    await emailjs.send(config.serviceId, config.templateId, {
+      to_email: document.getElementById("testEmailTo").value.trim(),
+      subject: document.getElementById("testSubject").value.trim() || "GDNL EQMS Test Mail",
+      message: document.getElementById("testMessage").value.trim() || "GDNL EQMS EmailJS test mesajı",
+      from_name: config.fromName || "GDNL EQMS"
+    });
+    showToast("Test mail gönderildi");
+  }catch(err){
+    console.error(err);
+    showToast("Test mail gönderilemedi");
+  }
+}
+
+async function sendUserTestMail(index = editIndex){
+  const u = index !== null && users[index] ? users[index] : null;
+  if(!u || !u.email){
+    showToast("Önce mail adresi olan bir kullanıcı seç");
+    return;
+  }
+
+  document.getElementById("testEmailTo").value = u.email;
+  document.getElementById("testSubject").value = "GDNL EQMS Kullanıcı Bildirimi";
+  document.getElementById("testMessage").value = `Merhaba ${u.fullName}, GDNL EQMS kullanıcı bildirimi testidir.`;
+  await sendTestMail();
+}
+
+function sendQueuedNotifications(){
+  showToast("Kuyruk motoru sonraki aşamada D1 notification tablosuna bağlanacak");
+}
+
+function enforceAdminPanelVisibility(){
+  const session = getSession();
+  const role = fixTR(session.role || "");
+  const panel = document.getElementById("emailEnginePanel");
+  if(panel) panel.style.display = role.includes("Super") || role.includes("Root") ? "block" : "none";
+}
+
+function toggleMenuGroup(btn){
+  const group = btn.closest(".menu-group");
+  if(group) group.classList.toggle("open");
+}
+
+function openMobileMenu(){
+  document.getElementById("mobileOverlay").classList.add("active");
+  document.getElementById("mobileDrawer").classList.add("active");
+}
+
+function closeMobileMenu(){
+  document.getElementById("mobileOverlay").classList.remove("active");
+  document.getElementById("mobileDrawer").classList.remove("active");
+}
+
+function logout(){
+  localStorage.removeItem("gdnl_qdms_session");
+  localStorage.removeItem("gdnl_eos_session");
+  window.location.href = "index.html";
+}
+
+function showToast(message){
+  const toast = document.getElementById("toast");
+  if(!toast) return;
+  toast.textContent = message;
+  toast.style.display = "block";
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => toast.style.display = "none", 2400);
+}
+
+document.getElementById("globalSearch").addEventListener("input", renderUsers);
+document.getElementById("notes").addEventListener("input", () => notesAutoMode = false);
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    closeMobileMenu();
+    clearSearchResults();
+  }
+});
+
+setSessionUi();
 loadEmailConfig();
 resetForm();
-renderUsers();
-updateCards();
-enforceAdminPanelVisibility();
+loadUsers();
 
-console.log("GDNL EQMS Users & EmailJS Final Role Based V2 Loaded");
+console.log("GDNL EQMS Users D1 Ready Loaded");
 </script>
 
 </body>
