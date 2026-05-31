@@ -616,6 +616,68 @@ body:before{
 
 <script>
 
+const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
+
+function repairTR(value){
+  if(typeof value !== "string") return value;
+  const map = {
+    "Ã¼":"ü","Ãœ":"Ü","Ã¶":"ö","Ã–":"Ö","Ã§":"ç","Ã‡":"Ç","ÄŸ":"ğ","Äž":"Ğ","Ä±":"ı","Ä°":"İ","ÅŸ":"ş","Åž":"Ş",
+    "â€“":"–","â€”":"—","â€˜":"‘","â€™":"’","â€œ":"“","â€�":"”"
+  };
+  return Object.entries(map).reduce((txt,[bad,good]) => txt.split(bad).join(good), value);
+}
+
+function deepRepairTR(input){
+  if(Array.isArray(input)) return input.map(deepRepairTR);
+  if(input && typeof input === "object"){
+    const out = {};
+    Object.entries(input).forEach(([key,value]) => out[key] = deepRepairTR(value));
+    return out;
+  }
+  return repairTR(input);
+}
+
+function mapD1UserToEOS(row){
+  const fixed = deepRepairTR(row || {});
+  const role = fixed.role || "Kullanıcı";
+  const department = fixed.department || "Kalite";
+  const fullName = fixed.fullName || fixed.fullname || fixed.name || fixed.username || "GDNL Kullanıcı";
+  const isFull = role === "Super Administrator" || role === "Root Super Administrator" || fixed.accessLevel === "FULL_SYSTEM_ACCESS" || fixed.isRoot === true || fixed.isSuperAdmin === true || fixed.isFullAuthorized === true;
+
+  return normalizeLoginUser({
+    ...fixed,
+    fullName,
+    name: fullName,
+    username: String(fixed.username || "").trim().toLowerCase(),
+    password: String(fixed.password || ""),
+    email: String(fixed.email || "").trim().toLowerCase(),
+    role,
+    department,
+    status: fixed.status === "active" ? "Aktif" : (fixed.status || "Aktif"),
+    accessLevel: isFull ? "FULL_SYSTEM_ACCESS" : (fixed.accessLevel || "DEPARTMENT_ACCESS"),
+    modules: Array.isArray(fixed.modules) ? fixed.modules : ["dashboard","department-gateway","documents","new-document","revision","distribution","document-viewer","capa","risk-register","action-center"],
+    departments: Array.isArray(fixed.departments) ? fixed.departments : (isFull ? ["Yönetim","Kalite","Üretim","Ar-Ge","Satınalma","Planlama","Tedarik Zinciri","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"] : [department,"Kalite"]),
+    isRoot: isFull,
+    isSuperAdmin: isFull,
+    isFullAuthorized: isFull,
+    canViewAll: isFull,
+    canManageUsers: isFull,
+    canManageRoles: isFull,
+    canManageSystem: isFull,
+    canAccessAllModules: isFull,
+    canOverrideWorkflow: isFull,
+    canDelete: isFull,
+    canApprove: isFull
+  });
+}
+
+async function apiGet(path){
+  const res = await fetch(GDNL_API_BASE + path, { method:"GET", cache:"no-store" });
+  if(!res.ok) throw new Error("API HTTP " + res.status);
+  return await res.json();
+}
+
+
 function safeArrayFromLS(key){
   try{
     const value=JSON.parse(localStorage.getItem(key)||"[]");
@@ -2046,14 +2108,24 @@ function detectDataSources(){
   return (hasLS||hasSession)?1:0;
 }
 
-function loadEOSLoginStats(){
+async function loadEOSLoginStats(){
+  let cloudUserCount = null;
+  try{
+    const users = await apiGet("/users");
+    if(Array.isArray(users)){
+      cloudUserCount = users.filter(u => String(u.status || "active").toLowerCase() !== "pasif").length;
+    }
+  }catch(e){
+    cloudUserCount = null;
+  }
+
   const statMap={
     statDepartments:EOS_DEPARTMENTS.length,
     statModules:EOS_MODULES.length,
     statRecords:formatTR(countEOSRecords()),
-    statUsers:getUserCount(),
+    statUsers:cloudUserCount ?? getUserCount(),
     statUptime:calculateSystemHealth(),
-    statSource:detectDataSources()||1
+    statSource:1
   };
   Object.entries(statMap).forEach(([id,value])=>{
     const el=document.getElementById(id);
@@ -2228,16 +2300,64 @@ function completePasswordReset(){
   closeResetModal();
   showMessage("Şifre başarıyla güncellendi. Yeni şifrenizle giriş yapabilirsiniz.","success");
 }
-function login(){
+async function login(){
   const username=document.getElementById("username").value.trim().toLowerCase();
   const password=document.getElementById("password").value.trim();
-  const user=refreshLoginUsers().find(u=>String(u.username||"").toLowerCase()===username && String(u.password||"")===password);
-  if(!user){showMessage("Kullanıcı adı veya şifre hatalı.","error");return;}
+
+  if(!username || !password){
+    showMessage("Kullanıcı adı ve şifre giriniz.","error");
+    return;
+  }
+
+  let user=null;
+
+  try{
+    const data = await apiGet("/login?username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+    if(data && data.success && data.user){
+      user = mapD1UserToEOS(data.user);
+    }
+  }catch(err){
+    console.error("GDNL EOS API login hatası:", err);
+    showMessage("Cloud veritabanı bağlantısı kurulamadı. API/CORS ayarını kontrol edin.","error");
+    return;
+  }
+
+  if(!user){
+    showMessage("Kullanıcı adı veya şifre hatalı.","error");
+    return;
+  }
+
   const session={
-    username:user.username,name:user.name,role:user.role,department:user.department||"Kalite",accessLevel:user.accessLevel||"LIMITED_ACCESS",permissions:user.permissions||[],modules:user.modules||[],departments:user.departments||[],
-    canViewAll:!!user.canViewAll,canCreate:!!user.canCreate,canEdit:!!user.canEdit,canDelete:!!user.canDelete,canApprove:!!user.canApprove,canExport:!!user.canExport,canImport:!!user.canImport,canAudit:!!user.canAudit,canManageUsers:!!user.canManageUsers,canManageRoles:!!user.canManageRoles,canManageSystem:!!user.canManageSystem,canAccessSettings:!!user.canAccessSettings,canAccessAllModules:!!user.canAccessAllModules,canOverrideWorkflow:!!user.canOverrideWorkflow,isRoot:!!user.isRoot,isSuperAdmin:!!user.isSuperAdmin,isFullAuthorized:!!user.isFullAuthorized,
-    loginAt:new Date().toISOString(),system:"GDNL EOS"
+    username:user.username,
+    name:user.name,
+    role:user.role,
+    department:user.department||"Kalite",
+    accessLevel:user.accessLevel||"LIMITED_ACCESS",
+    permissions:user.permissions||[],
+    modules:user.modules||[],
+    departments:user.departments||[],
+    canViewAll:!!user.canViewAll,
+    canCreate:!!user.canCreate,
+    canEdit:!!user.canEdit,
+    canDelete:!!user.canDelete,
+    canApprove:!!user.canApprove,
+    canExport:!!user.canExport,
+    canImport:!!user.canImport,
+    canAudit:!!user.canAudit,
+    canManageUsers:!!user.canManageUsers,
+    canManageRoles:!!user.canManageRoles,
+    canManageSystem:!!user.canManageSystem,
+    canAccessSettings:!!user.canAccessSettings,
+    canAccessAllModules:!!user.canAccessAllModules,
+    canOverrideWorkflow:!!user.canOverrideWorkflow,
+    isRoot:!!user.isRoot,
+    isSuperAdmin:!!user.isSuperAdmin,
+    isFullAuthorized:!!user.isFullAuthorized,
+    loginAt:new Date().toISOString(),
+    system:"GDNL EOS",
+    source:"Cloudflare D1"
   };
+
   localStorage.removeItem("gdnl_selected_department");
   localStorage.removeItem("gdnl_selected_department_label");
   localStorage.removeItem("gdnl_department_modules");
@@ -2251,9 +2371,11 @@ function login(){
   localStorage.setItem("gdnl_is_root",String(session.isRoot));
   localStorage.setItem("gdnl_is_super_admin",String(session.isSuperAdmin));
   localStorage.setItem("gdnl_is_full_authorized",String(session.isFullAuthorized));
+
   showMessage("Giriş başarılı. Departman merkezi hazırlanıyor...","success");
   setTimeout(()=>{window.location.href="department-gateway.html";},650);
 }
+
 loadEOSLoginStats();
 
 document.addEventListener("keydown",e=>{if(e.key==="Enter"&&!document.getElementById("resetOverlay").classList.contains("active"))login();if(e.key==="Escape")closeResetModal();});
