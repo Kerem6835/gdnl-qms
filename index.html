@@ -582,7 +582,7 @@ body:before{
         <button class="reset-btn secondary" type="button" onclick="closeResetModal()">Vazgeç</button>
         <button class="reset-btn primary" type="button" onclick="createResetCode()">Kod Oluştur</button>
       </div>
-      <div class="reset-hint">Not: Gerçek e-posta gönderimi için ileride SMTP / backend bağlantısı eklenir. Şu an güvenli demo akışı aktif edilir.</div>
+      <div class="reset-hint">Kullanıcı adı ve kayıtlı e-posta eşleşirse 6 haneli doğrulama kodu oluşturulur. EmailJS/SMTP bağlanınca bu kod kayıtlı e-postaya gönderilecektir.</div>
     </div>
 
     <div id="resetStep2" class="reset-step">
@@ -743,6 +743,57 @@ function saveLoginUsers(){
 
 let resetState={username:"",code:""};
 
+
+function normalizeLoginUser(u){
+  const name=u.name||u.fullName||"";
+  const department=u.department||"Kalite";
+  const role=u.role||"Kullanıcı";
+  const isFull=role==="Super Administrator"||u.accessLevel==="FULL_SYSTEM_ACCESS"||u.isRoot===true||u.isSuperAdmin===true||u.isFullAuthorized===true;
+  return {
+    ...u,
+    name,
+    fullName:name,
+    username:u.username||"",
+    password:u.password||"",
+    department,
+    role,
+    email:u.email||"",
+    accessLevel:isFull?"FULL_SYSTEM_ACCESS":(u.accessLevel||"DEPARTMENT_ACCESS"),
+    permissions:Array.isArray(u.permissions)?u.permissions:(isFull?["*"]:["view","create","edit","download","quality_limited","own_department"]),
+    departments:Array.isArray(u.departments)&&u.departments.length?u.departments:(isFull?["Yönetim","Kalite","Üretim","Ar-Ge","Satınalma","Planlama","Tedarik Zinciri","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"]:[department,"Kalite"]),
+    canViewAll:isFull||!!u.canViewAll,
+    canCreate:u.canCreate!==false,
+    canEdit:u.canEdit!==false,
+    canDelete:isFull||!!u.canDelete,
+    canApprove:isFull||!!u.canApprove,
+    canExport:isFull||!!u.canExport,
+    canImport:isFull||!!u.canImport,
+    canAudit:isFull||!!u.canAudit,
+    canManageUsers:isFull||!!u.canManageUsers,
+    canManageRoles:isFull||!!u.canManageRoles,
+    canManageSystem:isFull||!!u.canManageSystem,
+    canAccessSettings:isFull||!!u.canAccessSettings,
+    canAccessAllModules:isFull||!!u.canAccessAllModules,
+    canOverrideWorkflow:isFull||!!u.canOverrideWorkflow,
+    isRoot:isFull||!!u.isRoot,
+    isSuperAdmin:isFull||!!u.isSuperAdmin,
+    isFullAuthorized:isFull||!!u.isFullAuthorized
+  };
+}
+function loadEOSUsersForLogin(){
+  let stored=[];
+  try{stored=JSON.parse(localStorage.getItem("gdnl_users")||"[]");if(!Array.isArray(stored))stored=[];}catch(e){stored=[]}
+  const merged=[...DEFAULT_EOS_USERS];
+  stored.forEach(u=>{
+    const key=String(u.username||"").toLowerCase();
+    const i=merged.findIndex(x=>String(x.username||"").toLowerCase()===key || x.id===u.id);
+    if(i===-1)merged.push(u); else merged[i]={...merged[i],...u};
+  });
+  localStorage.setItem("gdnl_users",JSON.stringify(merged.map(normalizeLoginUser)));
+  return merged.map(normalizeLoginUser).filter(u=>u.status!=="Pasif");
+}
+function refreshLoginUsers(){USERS=loadEOSUsersForLogin();return USERS;}
+
 function showMessage(text,type){const msg=document.getElementById("msg");msg.textContent=text;msg.className="msg "+type;}
 function togglePassword(){const p=document.getElementById("password");p.type=p.type==="password"?"text":"password";}
 function forgot(e){
@@ -774,7 +825,7 @@ function backResetStep(){
 function createResetCode(){
   const username=document.getElementById("resetUsername").value.trim().toLowerCase();
   const email=document.getElementById("resetEmail").value.trim();
-  const user=USERS.find(u=>u.username.toLowerCase()===username);
+  const user=refreshLoginUsers().find(u=>String(u.username||"").toLowerCase()===username);
 
   if(!username || !email){
     showMessage("Şifre sıfırlama için kullanıcı adı ve e-posta giriniz.","error");
@@ -804,7 +855,7 @@ function createResetCode(){
 
   document.getElementById("resetStep1").classList.remove("active");
   document.getElementById("resetStep2").classList.add("active");
-  document.getElementById("resetCodeHint").textContent="Demo doğrulama kodu: "+code;
+  document.getElementById("resetCodeHint").textContent="Doğrulama kodu oluşturuldu. Mail motoru bağlanana kadar test kodu: "+code;
   showMessage("Doğrulama kodu oluşturuldu. Demo kod modal içinde gösterildi.","success");
 }
 
@@ -822,7 +873,8 @@ function completePasswordReset(){
     return;
   }
 
-  USERS=USERS.map(u=>u.username===resetState.username?{...u,password:newPassword}:u);
+  USERS=refreshLoginUsers().map(u=>String(u.username||"").toLowerCase()===String(resetState.username||"").toLowerCase()?{...u,password:newPassword,updatedAt:new Date().toISOString()}:u);
+  localStorage.setItem("gdnl_users",JSON.stringify(USERS));
   saveLoginUsers();
 
   const logs=safeArrayFromLS("gdnl_password_reset_logs");
@@ -840,7 +892,7 @@ function completePasswordReset(){
 function login(){
   const username=document.getElementById("username").value.trim().toLowerCase();
   const password=document.getElementById("password").value.trim();
-  const user=USERS.find(u=>u.username.toLowerCase()===username && u.password===password);
+  const user=refreshLoginUsers().find(u=>String(u.username||"").toLowerCase()===username && String(u.password||"")===password);
   if(!user){showMessage("Kullanıcı adı veya şifre hatalı.","error");return;}
   const session={
     username:user.username,name:user.name,role:user.role,department:user.department||"Kalite",accessLevel:user.accessLevel||"LIMITED_ACCESS",permissions:user.permissions||[],modules:user.modules||[],departments:user.departments||[],
