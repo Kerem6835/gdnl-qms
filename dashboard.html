@@ -1141,18 +1141,51 @@ style="width:auto;padding:0 22px;">
 </div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null");
+let session=
+  JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null") ||
+  JSON.parse(localStorage.getItem("gdnl_ems_session")||"null");
+
 if(!session||!session.username){
 window.location.href="index.html";
 }
-if(!localStorage.getItem("gdnl_selected_department")){
-window.location.href="department-gateway.html";
+
+const isFullAccess =
+  session.isRoot === true ||
+  session.isSuperAdmin === true ||
+  session.isFullAuthorized === true ||
+  session.accessLevel === "FULL_SYSTEM_ACCESS" ||
+  (session.permissions || []).includes("*") ||
+  String(session.role || "").toLowerCase().includes("super administrator") ||
+  String(session.role || "").toLowerCase().includes("root");
+
+if(isFullAccess){
+  session.name = session.name || "Kerem Güdenli";
+  session.role = "Root Super Administrator";
+  session.department = session.department || "Yönetim";
+  session.accessLevel = "FULL_SYSTEM_ACCESS";
+  session.permissions = session.permissions && session.permissions.length ? session.permissions : ["*"];
+  session.isRoot = true;
+  session.isSuperAdmin = true;
+  session.isFullAuthorized = true;
+
+  if(!localStorage.getItem("gdnl_selected_department")){
+    localStorage.setItem("gdnl_selected_department","Yönetim");
+    localStorage.setItem("gdnl_selected_department_label","Yönetim");
+  }
+}else{
+  if(!localStorage.getItem("gdnl_selected_department")){
+    window.location.href="department-gateway.html";
+  }
 }
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
+
+if(!session.name||session.name==="Kerem Admin"||session.name==="Demo Kullanıcı")session.name="Kerem Güdenli";
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+localStorage.setItem("gdnl_ems_session",JSON.stringify(session));
+localStorage.setItem("gdnl_current_user_name",session.name);
+localStorage.setItem("gdnl_current_user_role",session.role);
 
 const selectedDepartment=localStorage.getItem("gdnl_selected_department")||session.department||"Genel";
-const selectedDepartmentModules=JSON.parse(localStorage.getItem("gdnl_department_modules")||"[]");
+const selectedDepartmentModules=isFullAccess ? [] : JSON.parse(localStorage.getItem("gdnl_department_modules")||"[]");
 document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
 const depNameEl=document.getElementById("activeDepartmentName");
 const heroDepNameEl=document.getElementById("heroDepartmentName");
@@ -1682,6 +1715,15 @@ const oldHeroDept=document.getElementById("departmentHeroBadge");
 if(oldHeroDept)oldHeroDept.remove();
 }
 function applyDepartmentModuleAccess(){
+if(isFullAccess){
+  document.querySelectorAll(".modules .module").forEach(link=>{
+    link.classList.remove("department-locked");
+    link.style.pointerEvents="";
+    link.style.opacity="";
+    link.style.filter="";
+  });
+  return;
+}
 if(!selectedDepartmentModules||!selectedDepartmentModules.length)return;
 const role=session.role||"";
 document.querySelectorAll(".modules .module").forEach(link=>{
