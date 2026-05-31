@@ -645,6 +645,52 @@ tr:hover td{
 .mobile-drawer-menu .submenu{margin-left:10px;padding-left:10px;gap:7px}
 .mobile-drawer-menu .submenu a{font-size:14px!important;padding:12px 13px!important}
 
+
+/* === GDNL EQMS MOBILE DRAWER FOOTER / SCROLL FIX === */
+@media(max-width:850px){
+  .mobile-drawer{
+    height:100dvh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+    display:flex!important;
+    flex-direction:column!important;
+  }
+
+  .mobile-drawer-head{
+    flex:0 0 86px!important;
+  }
+
+  .mobile-drawer-menu{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+    padding:16px 16px calc(118px + env(safe-area-inset-bottom))!important;
+    max-height:none!important;
+  }
+
+  .mobile-drawer-footer{
+    position:absolute!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    z-index:5!important;
+    padding:12px 16px calc(14px + env(safe-area-inset-bottom))!important;
+    background:rgba(255,255,255,.98)!important;
+    border-top:1px solid #e2e8f0!important;
+    box-shadow:0 -14px 30px rgba(15,23,42,.12)!important;
+  }
+
+  .mobile-drawer-menu .submenu.open{
+    display:flex!important;
+  }
+
+  .mobile-drawer-menu .submenu{
+    padding-bottom:8px!important;
+  }
+}
+
 </style>
 </head>
 
@@ -1528,6 +1574,9 @@ function initLockedAccordionMenu(){
       parent.querySelectorAll(".menu-group").forEach(group=>{if(group!==btn)group.classList.remove("open")});
       submenu.classList.toggle("open");
       btn.classList.toggle("open",submenu.classList.contains("open"));
+      if(submenu.classList.contains("open") && parent.classList.contains("mobile-drawer-menu")){
+        setTimeout(()=>submenu.scrollIntoView({behavior:"smooth",block:"nearest"}),80);
+      }
     });
   });
 }
