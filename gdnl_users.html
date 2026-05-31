@@ -1831,6 +1831,59 @@ const DEFAULT_EOS_USERS=[
   }
 ];
 
+
+/* GDNL EOS USER STORAGE BOOTSTRAP
+   Bu blok users.html açılır açılmaz DEFAULT_EOS_USERS listesini
+   login ekranının okuyacağı "gdnl_users" localStorage anahtarına yükler.
+*/
+(function bootstrapGDNLUsers(){
+  try{
+    const defaults = Array.isArray(DEFAULT_EOS_USERS) ? DEFAULT_EOS_USERS : [];
+    const cleanDefaults = defaults.filter(u => String(u.username || "").toLowerCase() !== "demo");
+    let current = [];
+    try{
+      const parsed = JSON.parse(localStorage.getItem("gdnl_users") || "[]");
+      current = Array.isArray(parsed) ? parsed.filter(u => String(u.username || "").toLowerCase() !== "demo") : [];
+    }catch(e){
+      current = [];
+    }
+
+    const merged = [...current];
+
+    cleanDefaults.forEach(defaultUser => {
+      const key = String(defaultUser.username || "").toLowerCase();
+      const index = merged.findIndex(u =>
+        String(u.username || "").toLowerCase() === key ||
+        (u.id && defaultUser.id && u.id === defaultUser.id)
+      );
+
+      if(index === -1){
+        merged.push(defaultUser);
+      }else{
+        merged[index] = {
+          ...defaultUser,
+          ...merged[index],
+          id: merged[index].id || defaultUser.id,
+          username: merged[index].username || defaultUser.username,
+          password: merged[index].password || defaultUser.password,
+          fullName: merged[index].fullName || defaultUser.fullName || defaultUser.name,
+          name: merged[index].name || merged[index].fullName || defaultUser.name || defaultUser.fullName,
+          email: merged[index].email || defaultUser.email,
+          status: merged[index].status || defaultUser.status || "Aktif",
+          role: merged[index].role || defaultUser.role || "Kullanıcı",
+          department: merged[index].department || defaultUser.department || "Kalite"
+        };
+      }
+    });
+
+    localStorage.setItem("gdnl_users", JSON.stringify(merged));
+    console.log("GDNL EOS kullanıcı havuzu yüklendi:", merged.length);
+  }catch(err){
+    console.error("GDNL EOS kullanıcı havuzu yüklenemedi:", err);
+  }
+})();
+
+
 function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
 
 function getUsers(){
@@ -1943,25 +1996,47 @@ function slugifyUsername(value){return String(value||"user").trim().toLowerCase(
 function unique(arr){return [...new Set((arr||[]).filter(Boolean))]}
 
 function seedCurrentUser(){
-let users=getUsers().map(normalizeUser);
-DEFAULT_EOS_USERS.forEach(defaultUser=>{
-  const normalized=normalizeUser(defaultUser);
-  const index=users.findIndex(u=>String(u.username||"").toLowerCase()===String(normalized.username||"").toLowerCase() || u.id===normalized.id);
-  if(index===-1){
-    users.push(normalized);
-  }else{
-    users[index]={...normalized,...users[index],
-      id:users[index].id||normalized.id,
-      username:users[index].username||normalized.username,
-      password:users[index].password||normalized.password,
-      email:users[index].email||normalized.email,
-      departments:users[index].departments&&users[index].departments.length?users[index].departments:normalized.departments,
-      permissions:users[index].permissions&&users[index].permissions.length?users[index].permissions:normalized.permissions,
-      qualityAccess:users[index].qualityAccess||normalized.qualityAccess
-    };
-  }
-});
-setUsers(users.map(normalizeUser));
+  let users = getUsers().map(normalizeUser);
+  const defaults = Array.isArray(DEFAULT_EOS_USERS) ? DEFAULT_EOS_USERS : [];
+
+  defaults.forEach(defaultUser => {
+    const normalized = normalizeUser(defaultUser);
+    const key = String(normalized.username || "").toLowerCase();
+
+    if(key === "demo") return;
+
+    const index = users.findIndex(u =>
+      String(u.username || "").toLowerCase() === key ||
+      (u.id && normalized.id && u.id === normalized.id)
+    );
+
+    if(index === -1){
+      users.push(normalized);
+    }else{
+      users[index] = normalizeUser({
+        ...normalized,
+        ...users[index],
+        id: users[index].id || normalized.id,
+        username: users[index].username || normalized.username,
+        password: users[index].password || normalized.password,
+        fullName: users[index].fullName || users[index].name || normalized.fullName || normalized.name,
+        name: users[index].name || users[index].fullName || normalized.name || normalized.fullName,
+        email: users[index].email || normalized.email,
+        status: users[index].status || normalized.status || "Aktif",
+        department: users[index].department || normalized.department || "Kalite",
+        role: users[index].role || normalized.role || "Kullanıcı",
+        departments: users[index].departments && users[index].departments.length ? users[index].departments : normalized.departments,
+        permissions: users[index].permissions && users[index].permissions.length ? users[index].permissions : normalized.permissions,
+        qualityAccess: users[index].qualityAccess || normalized.qualityAccess
+      });
+    }
+  });
+
+  users = users.filter(u => String(u.username || "").toLowerCase() !== "demo");
+  setUsers(users.map(normalizeUser));
+
+  const count = users.length;
+  console.log("GDNL EOS -> gdnl_users aktif kullanıcı sayısı:", count);
 }
 
 function applyRolePermissions(force=false){
