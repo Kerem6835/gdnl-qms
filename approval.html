@@ -17,6 +17,17 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 .menu{display:flex;flex-direction:column;gap:8px}
 .menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s;border:1px solid transparent}
 .menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.menu-group{width:100%;border:1px solid transparent;background:transparent;color:#334155;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:950;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:.2s}
+.menu-group:hover,.menu-group.open{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.menu-group:after{content:"›";font-size:18px;font-weight:950;transition:.2s;color:#94a3b8}
+.menu-group.open:after{transform:rotate(90deg);color:#35a852}
+.submenu{display:none;flex-direction:column;gap:6px;margin:2px 0 8px 10px;padding-left:10px;border-left:2px solid #e2e8f0}
+.submenu.open{display:flex}
+.submenu a{font-size:13px!important;padding:11px 12px!important;border-radius:12px!important}
+.mobile-drawer-menu .menu-group{font-size:15px;padding:14px 15px;border-radius:15px}
+.mobile-drawer-menu .submenu{margin-left:10px;padding-left:10px}
+.mobile-drawer-menu .submenu a{font-size:14px!important;padding:12px 13px!important}
+
 .sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid #dfe9f5;padding-top:18px}
 .main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
 .topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px}
@@ -107,7 +118,11 @@ tr:hover td{background:#f7fbf8}
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
+
 <a href="dashboard.html">🏠 Dashboard</a>
+
+<button type="button" class="menu-group">📚 Doküman Yönetimi</button>
+<div class="submenu open">
 <a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
 <a href="documents.html">📄 Doküman Yönetimi</a>
 <a href="new-document.html">➕ Yeni Doküman</a>
@@ -116,23 +131,60 @@ tr:hover td{background:#f7fbf8}
 <a href="archive.html">🗄️ Arşiv Yönetimi</a>
 <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
 <a href="distribution.html">📤 Dağıtım Yönetimi</a>
+</div>
+
+<button type="button" class="menu-group">⚙️ Kalite Yönetimi</button>
+<div class="submenu">
 <a href="capa.html">🛠️ 8D / CAPA</a>
 <a href="risk-register.html">⚠️ Risk Yönetimi</a>
-<a href="training-management.html">🎓 Eğitim Yönetimi</a>
-<a href="audit.html">🧾 İç Denetim</a>
-<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
-<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
-<a href="management-review.html">📊 YGG Yönetimi</a>
-<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
 <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
 <a href="process-management.html">🧩 Süreç Yönetimi</a>
+<a href="continuous-improvement.html">💡 Sürekli İyileştirme</a>
+</div>
+
+<button type="button" class="menu-group">👥 Organizasyon Yönetimi</button>
+<div class="submenu">
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+<a href="users.html">👥 Kullanıcılar</a>
+</div>
+
+<button type="button" class="menu-group">🏭 Paydaş Yönetimi</button>
+<div class="submenu">
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+</div>
+
+<button type="button" class="menu-group">📊 Performans Yönetimi</button>
+<div class="submenu">
+<a href="kpi-reports.html">📈 KPI & Raporlar</a>
+<a href="management-review.html">📊 YGG Yönetimi</a>
 <a href="action-center.html">✅ Action Center</a>
 <a href="notification-center.html">🔔 Bildirim Merkezi</a>
-<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+</div>
+
+<button type="button" class="menu-group">🔬 Teknik Yönetim</button>
+<div class="submenu">
+<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+</div>
+
+<button type="button" class="menu-group">🔒 Uyum ve Güvenlik</button>
+<div class="submenu">
+<a href="security-continuity-center.html">🔐 BGYS & İş Sürekliliği</a>
 <a href="standards-compliance.html">📚 Standart Uygunluk</a>
 <a href="legal-compliance.html">⚖️ Yasal Uyum</a>
-<a href="kpi-reports.html">📈 KPI & Raporlar</a>
-<a href="users.html">👥 Kullanıcılar</a>
+</div>
+
+<button type="button" class="menu-group">🚗 IATF 16949</button>
+<div class="submenu">
+<a href="apqp.html">🚗 APQP / Proje Yönetimi</a>
+<a href="fmea.html">🧠 FMEA Yönetimi</a>
+<a href="control-plan.html">📋 Control Plan Yönetimi</a>
+<a href="ppap.html">📦 PPAP Yönetimi</a>
+<a href="spc.html">📉 SPC Yönetimi</a>
+<a href="msa.html">📐 MSA Yönetimi</a>
+</div>
+
   </nav>
   <div class="mobile-drawer-footer">
     <button class="mobile-logout" onclick="logout()">Logout</button>
@@ -143,7 +195,11 @@ tr:hover td{background:#f7fbf8}
 <div>
 <a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
 <nav class="menu">
+
 <a href="dashboard.html">🏠 Dashboard</a>
+
+<button type="button" class="menu-group">📚 Doküman Yönetimi</button>
+<div class="submenu open">
 <a href="company-assets-documents.html">🏛️ Firma Belgeleri</a>
 <a href="documents.html">📄 Doküman Yönetimi</a>
 <a href="new-document.html">➕ Yeni Doküman</a>
@@ -152,23 +208,60 @@ tr:hover td{background:#f7fbf8}
 <a href="archive.html">🗄️ Arşiv Yönetimi</a>
 <a href="document-viewer.html">👁️ Doküman Görüntüleyici</a>
 <a href="distribution.html">📤 Dağıtım Yönetimi</a>
+</div>
+
+<button type="button" class="menu-group">⚙️ Kalite Yönetimi</button>
+<div class="submenu">
 <a href="capa.html">🛠️ 8D / CAPA</a>
 <a href="risk-register.html">⚠️ Risk Yönetimi</a>
-<a href="training-management.html">🎓 Eğitim Yönetimi</a>
-<a href="audit.html">🧾 İç Denetim</a>
-<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
-<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
-<a href="management-review.html">📊 YGG Yönetimi</a>
-<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
 <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
 <a href="process-management.html">🧩 Süreç Yönetimi</a>
+<a href="continuous-improvement.html">💡 Sürekli İyileştirme</a>
+</div>
+
+<button type="button" class="menu-group">👥 Organizasyon Yönetimi</button>
+<div class="submenu">
+<a href="training-management.html">🎓 Eğitim Yönetimi</a>
+<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+<a href="users.html">👥 Kullanıcılar</a>
+</div>
+
+<button type="button" class="menu-group">🏭 Paydaş Yönetimi</button>
+<div class="submenu">
+<a href="supplier-management.html">🏭 Tedarikçi Yönetimi</a>
+<a href="customer-management.html">🤝 Müşteri Yönetimi</a>
+</div>
+
+<button type="button" class="menu-group">📊 Performans Yönetimi</button>
+<div class="submenu">
+<a href="kpi-reports.html">📈 KPI & Raporlar</a>
+<a href="management-review.html">📊 YGG Yönetimi</a>
 <a href="action-center.html">✅ Action Center</a>
 <a href="notification-center.html">🔔 Bildirim Merkezi</a>
-<a href="competency-matrix.html">🧠 Yetkinlik Matrisi</a>
+</div>
+
+<button type="button" class="menu-group">🔬 Teknik Yönetim</button>
+<div class="submenu">
+<a href="calibration-management.html">📏 Kalibrasyon Yönetimi</a>
+</div>
+
+<button type="button" class="menu-group">🔒 Uyum ve Güvenlik</button>
+<div class="submenu">
+<a href="security-continuity-center.html">🔐 BGYS & İş Sürekliliği</a>
 <a href="standards-compliance.html">📚 Standart Uygunluk</a>
 <a href="legal-compliance.html">⚖️ Yasal Uyum</a>
-<a href="kpi-reports.html">📈 KPI & Raporlar</a>
-<a href="users.html">👥 Kullanıcılar</a>
+</div>
+
+<button type="button" class="menu-group">🚗 IATF 16949</button>
+<div class="submenu">
+<a href="apqp.html">🚗 APQP / Proje Yönetimi</a>
+<a href="fmea.html">🧠 FMEA Yönetimi</a>
+<a href="control-plan.html">📋 Control Plan Yönetimi</a>
+<a href="ppap.html">📦 PPAP Yönetimi</a>
+<a href="spc.html">📉 SPC Yönetimi</a>
+<a href="msa.html">📐 MSA Yönetimi</a>
+</div>
+
 </nav>
 </div>
 <div class="sidebar-footer">GDNL EQMS Enterprise<br>Approval Workflow V2<br>Sequential Approval Engine</div>
@@ -450,6 +543,28 @@ renderApprovals();
 }
 
 let selectedApprovalIndex=null;
+
+
+function initAccordionMenus(){
+document.querySelectorAll(".menu-group").forEach(btn=>{
+  const submenu=btn.nextElementSibling;
+  if(submenu&&submenu.classList.contains("open"))btn.classList.add("open");
+  btn.addEventListener("click",()=>{
+    const parent=btn.closest("nav");
+    const current=btn.nextElementSibling;
+    if(!current)return;
+    parent.querySelectorAll(".submenu").forEach(menu=>{
+      if(menu!==current)menu.classList.remove("open");
+    });
+    parent.querySelectorAll(".menu-group").forEach(group=>{
+      if(group!==btn)group.classList.remove("open");
+    });
+    current.classList.toggle("open");
+    btn.classList.toggle("open");
+  });
+});
+}
+
 
 function logout(){
 localStorage.removeItem("gdnl_qdms_session");
@@ -823,6 +938,7 @@ runSearch();
 }
 });
 migrateApprovals();
+initAccordionMenus();
 renderApprovals();
 
 console.log("GDNL EQMS Approval Workflow V2 Loaded");
