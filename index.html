@@ -34,16 +34,18 @@ body{
     radial-gradient(circle at 10% 70%,rgba(32,184,90,.08),transparent 28%),
     radial-gradient(circle at 65% 20%,rgba(22,119,255,.08),transparent 30%),
     linear-gradient(135deg,#ffffff 0%,#f7fafc 45%,#eef4f9 100%);
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
 .page{
   min-height:100vh;
   padding:12px;
+  display:flex;
 }
 
 .shell{
   min-height:calc(100vh - 24px);
+  width:100%;
   border:1px solid #d8e3ef;
   border-radius:20px;
   background:rgba(255,255,255,.72);
@@ -52,7 +54,7 @@ body{
 }
 
 .topbar{
-  height:88px;
+  height:108px;
   display:grid;
   grid-template-columns:1.1fr 1fr 1fr 1fr 1fr 1fr;
   align-items:center;
@@ -119,13 +121,13 @@ body{
 }
 
 .content{
-  padding:28px 34px 24px;
+  padding:38px 54px 28px;
 }
 
 .main{
   display:grid;
-  grid-template-columns:minmax(320px,.9fr) minmax(600px,1.55fr) minmax(340px,.85fr);
-  gap:28px;
+  grid-template-columns:430px minmax(820px,1fr) 390px;
+  gap:26px;
   align-items:center;
 }
 
@@ -133,7 +135,7 @@ body{
   display:flex;
   align-items:center;
   gap:17px;
-  margin-bottom:44px;
+  margin-bottom:42px;
 }
 
 .logo-mark{
@@ -163,7 +165,7 @@ body{
 }
 
 .hero h1{
-  font-size:42px;
+  font-size:46px;
   line-height:1.08;
   letter-spacing:-1.7px;
   font-weight:900;
@@ -236,9 +238,9 @@ body{
   background:rgba(255,255,255,.86);
   border:1px solid #dfe8f2;
   border-radius:24px;
-  min-height:630px;
+  height:790px;
   display:grid;
-  grid-template-columns:140px 1fr;
+  grid-template-columns:170px 1fr;
   overflow:hidden;
   box-shadow:var(--shadow);
 }
@@ -289,7 +291,7 @@ body{
 }
 
 .preview-content{
-  padding:20px;
+  padding:24px 24px 26px;
 }
 
 .preview-top{
@@ -355,7 +357,7 @@ body{
 }
 
 .kpi{
-  min-height:104px;
+  min-height:132px;
   padding:16px;
 }
 
@@ -390,7 +392,7 @@ body{
 }
 
 .panel{
-  min-height:188px;
+  min-height:245px;
   padding:17px;
 }
 
@@ -454,7 +456,7 @@ body{
 }
 
 .chart{
-  height:128px;
+  height:168px;
   position:relative;
   border-left:1px solid #dbe5ef;
   border-bottom:1px solid #dbe5ef;
@@ -519,7 +521,8 @@ body{
   background:rgba(255,255,255,.82);
   border:1px solid #dfe8f2;
   border-radius:28px;
-  padding:58px 32px 38px;
+  height:840px;
+  padding:76px 34px 44px;
   box-shadow:var(--shadow);
   backdrop-filter:blur(18px);
 }
@@ -734,14 +737,14 @@ body{
 }
 
 .modules{
-  margin-top:28px;
+  margin-top:34px;
   display:grid;
   grid-template-columns:repeat(8,1fr);
   gap:16px;
 }
 
 .module{
-  min-height:142px;
+  height:176px;
   background:rgba(255,255,255,.84);
   border:1px solid #e0e8f1;
   border-radius:17px;
@@ -788,7 +791,8 @@ body{
 .purple{color:var(--purple);stroke:var(--purple)}
 .gray{color:var(--gray);stroke:var(--gray)}
 
-@media(max-width:1450px){
+@media(max-width:1680px){
+  body{overflow:auto}
   .main{grid-template-columns:1fr;gap:28px}
   .login-card{max-width:520px;margin:auto}
   .modules{grid-template-columns:repeat(4,1fr)}
@@ -1050,9 +1054,9 @@ body{
                 <small style="display:block;color:#64748b;margin-top:3px">Toplam Doküman</small>
                 <div class="progress"></div>
                 <div style="display:flex;justify-content:space-between;font-size:9px;color:#64748b;font-weight:700">
-                  <span>Onaylandı<br><b>9.256</b></span>
-                  <span>İncelemede<br><b>2.124</b></span>
-                  <span>Süresi Dolan<br><b>1.078</b></span>
+                  <span>Onaylandı<br><b id="approvedDocuments">9.256</b></span>
+                  <span>İncelemede<br><b id="reviewDocuments">2.124</b></span>
+                  <span>Süresi Dolan<br><b id="expiredDocuments">1.078</b></span>
                 </div>
               </div>
 
@@ -1175,7 +1179,7 @@ body{
         </div>
       </section>
 
-      <div class="copy">© 2025 GDNL Digital. Tüm hakları saklıdır.</div>
+
     </div>
   </div>
 </div>
@@ -1239,13 +1243,34 @@ function getEMSData(){
     try{
       const value = JSON.parse(localStorage.getItem(key) || "null");
       if(value && typeof value === "object"){
-        return {...DEFAULT_EMS_DATA, ...value};
+        return normalizeEMSData({...DEFAULT_EMS_DATA, ...value});
       }
     }catch(e){}
   }
 
   localStorage.setItem("gdnl_ems_dashboard_data", JSON.stringify(DEFAULT_EMS_DATA));
-  return DEFAULT_EMS_DATA;
+  return normalizeEMSData(DEFAULT_EMS_DATA);
+}
+
+
+function pickFirst(obj, keys, fallback){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== "") return obj[key];
+  }
+  return fallback;
+}
+
+function normalizeEMSData(raw){
+  return {
+    systemStatus: pickFirst(raw,["systemStatus","status","sistemDurumu"], DEFAULT_EMS_DATA.systemStatus),
+    totalDocuments: pickFirst(raw,["totalDocuments","documents","documentCount","toplamDokuman","toplamDoküman","dokumanSayisi"], DEFAULT_EMS_DATA.totalDocuments),
+    openRisks: pickFirst(raw,["openRisks","risks","riskCount","acikRisk","açıkRisk"], DEFAULT_EMS_DATA.openRisks),
+    complianceRate: pickFirst(raw,["complianceRate","compliance","uyumOrani","uyumOranı"], DEFAULT_EMS_DATA.complianceRate),
+    openCapa: pickFirst(raw,["openCapa","capa","capaCount","acikCapa","açıkCapa"], DEFAULT_EMS_DATA.openCapa),
+    approvedDocuments: pickFirst(raw,["approvedDocuments","onaylananDokuman"], 9256),
+    reviewDocuments: pickFirst(raw,["reviewDocuments","incelemedeDokuman"], 2124),
+    expiredDocuments: pickFirst(raw,["expiredDocuments","suresiDolanDokuman"], 1078)
+  };
 }
 
 function formatNumber(value){
@@ -1275,6 +1300,13 @@ function loadDashboardData(){
 
   document.getElementById("topCompliance").textContent = formatPercent(data.complianceRate);
   document.getElementById("cardCompliance").textContent = formatPercent(data.complianceRate);
+
+  const approved = document.getElementById("approvedDocuments");
+  const review = document.getElementById("reviewDocuments");
+  const expired = document.getElementById("expiredDocuments");
+  if(approved) approved.textContent = formatNumber(data.approvedDocuments);
+  if(review) review.textContent = formatNumber(data.reviewDocuments);
+  if(expired) expired.textContent = formatNumber(data.expiredDocuments);
 }
 
 function updateClock(){
