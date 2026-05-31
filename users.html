@@ -1901,34 +1901,52 @@ function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.h
 
 function getUsers(){
   try{
-    return JSON.parse(localStorage.getItem("users")) || [];
+    return JSON.parse(localStorage.getItem("gdnl_users")) || [];
   }catch(e){
     return [];
   }
 }
 
 function setUsers(items){
-  localStorage.setItem("users", JSON.stringify(items));
+  localStorage.setItem("gdnl_users", JSON.stringify(items));
 }
 
 function getNotifications(){
   try{
-    return JSON.parse(localStorage.getItem("notifications")) || [];
+    return JSON.parse(localStorage.getItem("gdnl_notifications")) || [];
   }catch(e){
     return [];
   }
 }
 
 function setNotifications(items){
-  localStorage.setItem("notifications", JSON.stringify(items));
+  localStorage.setItem("gdnl_notifications", JSON.stringify(items));
 }
 
 function getEmailConfig(){
   try{
-    return JSON.parse(localStorage.getItem("emailjs_config")) || null;
+    return JSON.parse(localStorage.getItem("gdnl_emailjs_config")) || null;
   }catch(e){
     return null;
   }
+}
+
+function setEmailConfig(cfg){
+  localStorage.setItem("gdnl_emailjs_config", JSON.stringify(cfg));
+}
+
+function formatDateTR(v){
+  if(!v) return "-";
+  const d = new Date(v);
+  if(isNaN(d)) return v;
+  return d.toLocaleDateString("tr-TR");
+}
+
+function statusClass(s){
+  if(s === "Aktif" || s === "Gönderildi" || s === "Okundu") return "green";
+  if(s === "Kuyrukta") return "orange";
+  if(s === "Pasif" || s === "Hatalı" || s === "Gecikti") return "red";
+  return "blue";
 }
 
 function setEmailConfig(cfg){
