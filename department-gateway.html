@@ -263,11 +263,58 @@ body:before{
 <div class="toast" id="toast">İşlem tamamlandı</div>
 <script>
 const DEFAULT_SESSION={username:"demo",name:"Demo Kullanıcı",role:"Kullanıcı",department:"Kalite",loginAt:new Date().toISOString()};
-let session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null")||DEFAULT_SESSION;
-if(!session.name)session.name="Demo Kullanıcı";
-if(!session.role)session.role="Kullanıcı";
-if(!session.department)session.department=session.role==="Super Administrator"?"Yönetim":"Kalite";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+
+function readSession(){
+  const emsSession=JSON.parse(localStorage.getItem("gdnl_ems_session")||"null");
+  const qdmsSession=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null");
+  const activeSession=emsSession||qdmsSession||DEFAULT_SESSION;
+
+  if(activeSession.username==="keremgudenli"){
+    activeSession.name="Kerem Güdenli";
+    activeSession.role="Root Super Administrator";
+    activeSession.department="Yönetim";
+    activeSession.accessLevel="FULL_SYSTEM_ACCESS";
+    activeSession.permissions=["*","root","admin","view","create","edit","delete","approve","export","import","audit","settings","users","roles","system","all_modules"];
+    activeSession.canViewAll=true;
+    activeSession.canCreate=true;
+    activeSession.canEdit=true;
+    activeSession.canDelete=true;
+    activeSession.canApprove=true;
+    activeSession.canExport=true;
+    activeSession.canImport=true;
+    activeSession.canAudit=true;
+    activeSession.canManageUsers=true;
+    activeSession.canManageRoles=true;
+    activeSession.canManageSystem=true;
+    activeSession.canAccessSettings=true;
+    activeSession.canAccessAllModules=true;
+    activeSession.canOverrideWorkflow=true;
+    activeSession.isRoot=true;
+    activeSession.isSuperAdmin=true;
+    activeSession.isFullAuthorized=true;
+  }
+
+  if(!activeSession.name)activeSession.name="Demo Kullanıcı";
+  if(!activeSession.role)activeSession.role="Kullanıcı";
+  if(!activeSession.department)activeSession.department=activeSession.role==="Super Administrator"||activeSession.role==="Root Super Administrator"?"Yönetim":"Kalite";
+
+  localStorage.setItem("gdnl_qdms_session",JSON.stringify(activeSession));
+  localStorage.setItem("gdnl_ems_session",JSON.stringify(activeSession));
+  return activeSession;
+}
+
+let session=readSession();
+
+function isFullAccess(){
+  return session.isRoot===true ||
+    session.isSuperAdmin===true ||
+    session.isFullAuthorized===true ||
+    session.canAccessAllModules===true ||
+    session.accessLevel==="FULL_SYSTEM_ACCESS" ||
+    (session.permissions||[]).includes("*") ||
+    session.role==="Super Administrator" ||
+    session.role==="Root Super Administrator";
+}
 
 const departments=[
   {key:"Kalite Yönetimi",accessKey:"Kalite",icon:"🏅",modules:["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html"]},
@@ -299,6 +346,7 @@ const roleAccess={
 };
 function unique(arr){return [...new Set(arr.filter(Boolean))]}
 function allowedDepartments(){
+  if(isFullAccess())return departments.map(d=>d.accessKey);
   const role=session.role||"Kullanıcı";
   const dep=session.department||"Kalite";
   const rule=roleAccess[role]||"OWN_ONLY";
