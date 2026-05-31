@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GDNL EQMS | Enterprise Quality Management Platform</title>
+<title>GDNL EMS | Enterprise Management System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --navy:#0b1a33;
-  --navy2:#10213e;
-  --text:#0f1b2f;
-  --muted:#5d6b83;
-  --line:#dce5ef;
-  --green:#35a852;
-  --green2:#46b85f;
+  --navy:#07162c;
+  --text:#0b1730;
+  --muted:#5c6b82;
+  --line:#dfe8f2;
   --soft:#f7fafc;
   --card:#ffffff;
-  --shadow:0 28px 80px rgba(12,28,54,.12);
+  --blue:#1677ff;
+  --green:#20b85a;
+  --orange:#ff8a00;
+  --purple:#8b5cf6;
+  --gray:#64748b;
+  --shadow:0 30px 90px rgba(15,35,65,.10);
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -29,895 +31,1163 @@ body{
   font-family:Inter,Arial,sans-serif;
   color:var(--text);
   background:
-    radial-gradient(circle at 34% 42%,rgba(193,206,220,.28),transparent 28%),
-    radial-gradient(circle at 75% 34%,rgba(214,222,232,.36),transparent 30%),
-    linear-gradient(135deg,#f9fbfd 0%,#eef3f8 50%,#f8fafc 100%);
+    radial-gradient(circle at 10% 70%,rgba(32,184,90,.08),transparent 28%),
+    radial-gradient(circle at 65% 20%,rgba(22,119,255,.08),transparent 30%),
+    linear-gradient(135deg,#ffffff 0%,#f7fafc 45%,#eef4f9 100%);
   overflow-x:hidden;
 }
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    linear-gradient(90deg,rgba(255,255,255,.86),rgba(255,255,255,.35) 44%,rgba(255,255,255,.78)),
-    radial-gradient(circle at 50% 100%,rgba(130,148,169,.13),transparent 38%);
-  pointer-events:none;
+.page{
+  min-height:100vh;
+  padding:12px;
 }
 
-.page{
-  position:relative;
-  z-index:1;
-  width:100%;
-  min-height:100vh;
-  padding:42px 38px 30px;
+.shell{
+  min-height:calc(100vh - 24px);
+  border:1px solid #d8e3ef;
+  border-radius:20px;
+  background:rgba(255,255,255,.72);
+  box-shadow:0 24px 80px rgba(15,35,65,.08);
+  overflow:hidden;
+}
+
+.topbar{
+  height:88px;
+  display:grid;
+  grid-template-columns:1.1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items:center;
+  border-bottom:1px solid #e3ebf3;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(18px);
+}
+
+.top-item{
+  height:100%;
   display:flex;
-  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  padding:0 26px;
+  border-right:1px solid #e6edf5;
+}
+
+.top-item:last-child{
+  border-right:0;
+  justify-content:flex-end;
+  text-align:right;
+}
+
+.top-icon{
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:11px;
+  background:#f4f8fc;
+}
+
+.top-icon svg{
+  width:25px;
+  height:25px;
+  fill:none;
+  stroke-width:2.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.top-item b{
+  display:block;
+  font-size:20px;
+  font-weight:850;
+  letter-spacing:-.4px;
+}
+
+.top-item span{
+  display:block;
+  margin-top:4px;
+  font-size:13px;
+  color:#25344e;
+  font-weight:500;
+}
+
+.status-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 8px rgba(32,184,90,.12);
+}
+
+.content{
+  padding:28px 34px 24px;
 }
 
 .main{
-  flex:1;
   display:grid;
-  grid-template-columns: 1.05fr 1.38fr .95fr;
-  gap:44px;
+  grid-template-columns:minmax(320px,.9fr) minmax(600px,1.55fr) minmax(340px,.85fr);
+  gap:28px;
   align-items:center;
 }
 
 .logo-wrap{
   display:flex;
   align-items:center;
-  gap:18px;
-  margin-bottom:34px;
+  gap:17px;
+  margin-bottom:44px;
 }
 
 .logo-mark{
-  width:72px;
-  height:72px;
-  filter:drop-shadow(0 14px 18px rgba(11,26,51,.14));
+  width:64px;
+  height:64px;
+  filter:drop-shadow(0 16px 24px rgba(15,35,65,.12));
 }
 
 .logo-text strong{
-  font-size:39px;
+  display:block;
+  font-size:36px;
   line-height:1;
   font-weight:900;
-  letter-spacing:-1.7px;
-  color:#0b1730;
+  letter-spacing:4px;
 }
 
-.logo-text strong span{color:var(--green)}
+.logo-text strong span{
+  color:var(--green);
+  letter-spacing:2px;
+}
+
 .logo-text p{
-  margin-top:11px;
-  color:#526178;
-  font-size:17px;
+  margin-top:10px;
+  font-size:14px;
+  color:#53657e;
   font-weight:500;
 }
 
 .hero h1{
-  font-size:58px;
-  line-height:1.12;
-  letter-spacing:-2.6px;
-  color:#08162d;
+  font-size:42px;
+  line-height:1.08;
+  letter-spacing:-1.7px;
   font-weight:900;
-  margin-bottom:22px;
+  color:#09162d;
+  margin-bottom:16px;
 }
 
-.hero h1 span{
+.hero h1 .green{
   display:block;
   color:var(--green);
 }
 
 .hero-desc{
-  width:min(530px,100%);
-  color:#40506a;
-  font-size:18px;
-  line-height:1.7;
+  max-width:430px;
+  font-size:15px;
+  line-height:1.55;
+  color:#52647d;
   font-weight:500;
-  margin-bottom:28px;
+  margin-bottom:22px;
 }
 
 .features{
   display:grid;
-  gap:18px;
-  width:min(500px,100%);
+  gap:15px;
 }
 
 .feature{
   display:grid;
-  grid-template-columns:68px 1fr;
-  gap:18px;
+  grid-template-columns:52px 1fr;
+  gap:15px;
   align-items:center;
 }
 
 .feature-icon{
-  width:58px;
-  height:58px;
-  border-radius:15px;
-  background:rgba(255,255,255,.9);
-  border:1px solid rgba(222,230,240,.95);
+  width:50px;
+  height:50px;
+  border-radius:16px;
+  background:#fff;
+  border:1px solid #dfe9f4;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 14px 34px rgba(15,35,65,.08);
+  box-shadow:0 14px 34px rgba(15,35,65,.06);
 }
 
 .feature-icon svg{
-  width:31px;
-  height:31px;
-  stroke:#0c1b34;
-  stroke-width:2.1;
+  width:28px;
+  height:28px;
   fill:none;
+  stroke-width:2.1;
   stroke-linecap:round;
   stroke-linejoin:round;
 }
 
 .feature h3{
-  font-size:18px;
+  font-size:15px;
   font-weight:850;
-  color:#0c1830;
-  margin-bottom:5px;
+  color:#0b1730;
+  margin-bottom:4px;
 }
 
 .feature p{
-  font-size:14.5px;
-  line-height:1.45;
+  font-size:12.5px;
+  line-height:1.38;
+  color:#53657e;
   font-weight:500;
-  color:#526176;
 }
 
-.visual{
-  position:relative;
-  min-height:670px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.monitor{
-  position:relative;
-  width:min(780px,100%);
-  aspect-ratio:1.31/1;
-  transform:perspective(1350px) rotateY(-5deg) rotateX(1deg) rotateZ(-1deg);
-  border:13px solid #0c111a;
-  border-radius:15px;
-  background:#f8fafc;
-  box-shadow:
-    0 36px 80px rgba(4,14,28,.26),
-    inset 0 0 0 1px rgba(255,255,255,.4);
-  overflow:hidden;
-}
-
-.monitor:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.25),transparent 35%);
-  z-index:5;
-  pointer-events:none;
-}
-
-.stand{
-  position:absolute;
-  left:50%;
-  bottom:55px;
-  transform:translateX(-50%);
-  width:170px;
-  height:108px;
-  background:linear-gradient(180deg,#d9e0e8,#aeb9c5);
-  clip-path:polygon(22% 0,78% 0,92% 100%,8% 100%);
-  box-shadow:0 34px 55px rgba(39,55,74,.18);
-  z-index:-1;
-}
-
-.base{
-  position:absolute;
-  left:50%;
-  bottom:28px;
-  transform:translateX(-50%);
-  width:310px;
-  height:34px;
-  border-radius:50%;
-  background:linear-gradient(180deg,#c4ced9,#9eaab7);
-  filter:blur(.1px);
-  box-shadow:0 20px 34px rgba(33,49,70,.18);
-  z-index:-2;
-}
-
-.app{
-  width:100%;
-  height:100%;
+.dashboard-preview{
+  background:rgba(255,255,255,.86);
+  border:1px solid #dfe8f2;
+  border-radius:24px;
+  min-height:630px;
   display:grid;
-  grid-template-columns:116px 1fr;
-  background:#f7fafc;
-  font-size:12px;
+  grid-template-columns:140px 1fr;
+  overflow:hidden;
+  box-shadow:var(--shadow);
 }
 
-.app-sidebar{
-  background:linear-gradient(180deg,#0d1f3a,#09182e);
-  padding:22px 12px;
-  color:white;
+.preview-sidebar{
+  background:#fbfdff;
+  border-right:1px solid #e4ebf3;
+  padding:22px 14px;
 }
 
-.app-logo{
+.preview-logo{
   display:flex;
   align-items:center;
   gap:8px;
   font-weight:900;
-  margin-bottom:25px;
+  margin-bottom:28px;
 }
 
-.app-logo .mini{
-  width:22px;
-  height:22px;
+.preview-logo svg{
+  width:26px;
+  height:26px;
 }
 
 .nav-item{
   display:flex;
-  gap:8px;
   align-items:center;
-  height:34px;
-  border-radius:8px;
+  gap:9px;
+  height:38px;
+  border-radius:10px;
   padding:0 10px;
-  margin-bottom:5px;
-  font-size:11px;
+  margin-bottom:7px;
+  color:#12213a;
+  font-size:12px;
   font-weight:700;
-  color:#d8e3f0;
 }
 
 .nav-item.active{
-  background:#184f9a;
-  color:#fff;
+  background:#e9f2ff;
+  color:#0868e7;
 }
 
-.nav-dot{
-  width:11px;
-  height:11px;
-  border:1.5px solid currentColor;
-  border-radius:3px;
+.nav-item svg{
+  width:16px;
+  height:16px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
 }
 
-.app-content{
-  padding:24px;
-  overflow:hidden;
+.preview-content{
+  padding:20px;
 }
 
-.app-top{
+.preview-top{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  margin-bottom:22px;
+  justify-content:space-between;
+  margin-bottom:28px;
+}
+
+.menu-line{
+  font-size:24px;
+  color:#64748b;
 }
 
 .search{
-  width:195px;
-  height:28px;
-  border-radius:9px;
-  background:#eef3f8;
-  border:1px solid #e1e8f0;
-  color:#95a1b2;
+  width:220px;
+  height:34px;
+  border:1px solid #e0e8f1;
+  border-radius:10px;
   display:flex;
   align-items:center;
-  padding:0 11px;
-  font-size:9px;
+  padding:0 12px;
+  color:#8b98aa;
+  font-size:11px;
   font-weight:600;
-}
-
-.app-icons{display:flex;gap:14px;align-items:center;color:#60708b}
-.avatar{
-  width:23px;height:23px;border-radius:50%;
-  background:linear-gradient(135deg,#d8a06b,#6d4b33);
-}
-
-.app-title{
-  font-size:18px;
-  font-weight:800;
-  margin-bottom:18px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin-bottom:18px;
-}
-
-.stat,.panel{
   background:#fff;
-  border:1px solid #e6edf4;
-  border-radius:11px;
-  box-shadow:0 10px 24px rgba(15,35,65,.045);
 }
 
-.stat{padding:16px 14px;height:97px}
-.stat small{display:block;color:#536277;font-size:10px;font-weight:700;margin-bottom:9px}
-.stat b{display:block;font-size:26px;color:#0d1b34;letter-spacing:-1px}
-.stat span{display:block;color:#35a852;font-size:10px;font-weight:800;margin-top:6px}
-.stat.blue b{color:#1e63b6}.stat.green b{color:#35a852}
+.preview-icons{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  color:#1f2f46;
+}
 
-.grid-panels{
-  display:grid;
-  grid-template-columns:1.05fr 1.45fr;
-  gap:16px;
+.avatar{
+  width:31px;
+  height:31px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffd2a1,#83512f);
+  border:2px solid #fff;
+  box-shadow:0 8px 16px rgba(15,35,65,.12);
+}
+
+.preview-title{
+  font-size:20px;
+  font-weight:850;
   margin-bottom:16px;
 }
-.panel{padding:17px;min-height:172px}
-.panel h4{font-size:13px;font-weight:850;margin-bottom:13px;color:#0f1b2f}
 
-.donut-wrap{display:flex;align-items:center;gap:16px}
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.kpi,.panel{
+  background:#fff;
+  border:1px solid #e3ebf4;
+  border-radius:13px;
+  box-shadow:0 12px 28px rgba(15,35,65,.045);
+}
+
+.kpi{
+  min-height:104px;
+  padding:16px;
+}
+
+.kpi small{
+  display:block;
+  font-size:11px;
+  color:#17233a;
+  font-weight:750;
+  margin-bottom:13px;
+}
+
+.kpi b{
+  display:block;
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:-.7px;
+}
+
+.kpi span{
+  display:block;
+  margin-top:9px;
+  color:#18a34a;
+  font-size:10px;
+  font-weight:800;
+}
+
+.panel-grid{
+  display:grid;
+  grid-template-columns:1.05fr 1.35fr;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.panel{
+  min-height:188px;
+  padding:17px;
+}
+
+.panel h4{
+  font-size:13px;
+  font-weight:850;
+  margin-bottom:13px;
+}
+
+.donut-area{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
 .donut{
-  width:104px;height:104px;border-radius:50%;
-  background:conic-gradient(#1e63b6 0 38%,#54b86b 38% 62%,#ffbb3d 62% 82%,#bfc9d7 82% 100%);
+  width:112px;
+  height:112px;
+  border-radius:50%;
+  background:conic-gradient(#2fbd59 0 76%,#ffb02e 76% 90%,#ff5d4d 90% 96%,#e4edf5 96% 100%);
   position:relative;
 }
+
 .donut:after{
-  content:"24\A Total";
+  content:"92%\A Genel Performans";
   white-space:pre;
-  position:absolute;inset:20px;
-  border-radius:50%;
+  position:absolute;
+  inset:18px;
   background:#fff;
-  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  font-size:10px;font-weight:700;color:#536277;
+  font-size:11px;
+  font-weight:850;
+  color:#0b1730;
 }
-.legend{display:grid;gap:10px;font-size:10px;font-weight:700;color:#334155}
-.legend div{display:flex;align-items:center;gap:8px;justify-content:space-between;min-width:130px}
-.legend i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px}
+
+.legend{
+  display:grid;
+  gap:10px;
+  font-size:11px;
+  color:#26364f;
+  font-weight:700;
+  min-width:155px;
+}
+
+.legend-row{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.legend-row i{
+  width:8px;
+  height:8px;
+  display:inline-block;
+  border-radius:50%;
+  margin-right:6px;
+}
 
 .chart{
+  height:128px;
   position:relative;
-  height:118px;
-  border-left:1px solid #dbe3ec;
-  border-bottom:1px solid #dbe3ec;
-  margin:8px 4px 0 6px;
-  background:repeating-linear-gradient(to top,transparent 0 28px,#edf2f7 29px);
+  border-left:1px solid #dbe5ef;
+  border-bottom:1px solid #dbe5ef;
+  background:repeating-linear-gradient(to top,transparent 0 30px,#edf3f8 31px);
 }
-.chart svg{position:absolute;inset:0;width:100%;height:100%}
 
-.lower{
+.chart svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.lower-grid{
   display:grid;
-  grid-template-columns:1fr .95fr .95fr;
-  gap:16px;
+  grid-template-columns:1fr 1.15fr 1fr;
+  gap:14px;
 }
+
 .progress{
-  height:9px;border-radius:999px;overflow:hidden;margin:17px 0 12px;
-  background:linear-gradient(90deg,#35a852 0 62%,#ffbe3d 62% 82%,#e66b63 82% 100%);
+  height:10px;
+  border-radius:999px;
+  overflow:hidden;
+  background:linear-gradient(90deg,#2fbd59 0 68%,#ffb02e 68% 83%,#ff5d4d 83% 100%);
+  margin:16px 0 12px;
 }
-.risk-row{display:flex;justify-content:space-between;margin:13px 0;font-size:11px;font-weight:800;color:#334155}
-.risk-row i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px}
-.compliance{
-  width:110px;height:110px;border-radius:50%;margin:5px auto 0;
-  background:conic-gradient(#35a852 0 92%,#d9e3eb 92% 100%);
+
+.audit-line{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:#53657e;
+  font-weight:700;
+  margin:11px 0;
+}
+
+.complete{
+  width:112px;
+  height:112px;
+  border-radius:50%;
+  margin:4px auto 0;
+  background:conic-gradient(#2fbd59 0 89%,#e3ebf3 89% 100%);
   position:relative;
 }
-.compliance:after{
-  content:"92%\A Compliant";
+
+.complete:after{
+  content:"89%\A Tamamlandı";
   white-space:pre;
-  position:absolute;inset:16px;border-radius:50%;background:#fff;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  font-size:12px;font-weight:800;color:#0d1b34;
+  position:absolute;
+  inset:17px;
+  background:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:12px;
+  font-weight:850;
 }
 
 .login-card{
-  width:100%;
-  max-width:430px;
-  margin-left:auto;
-  background:rgba(255,255,255,.78);
-  border:1px solid rgba(255,255,255,.9);
-  border-radius:32px;
-  padding:56px 32px 52px;
+  background:rgba(255,255,255,.82);
+  border:1px solid #dfe8f2;
+  border-radius:28px;
+  padding:58px 32px 38px;
   box-shadow:var(--shadow);
-  backdrop-filter:blur(24px);
+  backdrop-filter:blur(18px);
 }
 
 .login-logo{
   display:flex;
   flex-direction:column;
   align-items:center;
-  margin-bottom:33px;
-}
-.login-logo svg{width:88px;height:88px;margin-bottom:18px;filter:drop-shadow(0 14px 24px rgba(27,45,73,.14))}
-.login-logo strong{font-size:32px;font-weight:900;letter-spacing:-1.2px;color:#0b1730}
-.login-logo strong span{color:var(--green)}
-.login-logo p{margin-top:10px;font-size:15px;color:#5b6980;font-weight:500;text-align:center}
-
-.welcome{text-align:center;margin-bottom:28px}
-.welcome h2{font-size:22px;font-weight:850;margin-bottom:10px;color:#101b2f}
-.welcome p{font-size:15px;color:#6a7689;font-weight:500}
-
-.form-group{margin-bottom:21px}
-.form-group label{display:block;font-size:14px;font-weight:800;margin-bottom:10px;color:#111b2f}
-.input-wrap{position:relative}
-.input-wrap svg{
-  position:absolute;left:18px;top:50%;transform:translateY(-50%);
-  width:22px;height:22px;stroke:#8190a4;fill:none;stroke-width:2;
-}
-.input-wrap input{
-  width:100%;height:60px;border:1px solid #d6e0ea;border-radius:11px;
-  background:rgba(255,255,255,.9);
-  padding:0 50px 0 54px;
-  outline:none;
-  color:#0f172a;
-  font-size:15px;
-  font-weight:600;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
-}
-.input-wrap input::placeholder{color:#9aa7b7;font-weight:500}
-.input-wrap input:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.11)}
-.eye{position:absolute;right:16px;top:50%;transform:translateY(-50%);border:none;background:transparent;cursor:pointer;color:#718096}
-.eye svg{position:static;transform:none;width:22px;height:22px}
-
-.form-row{display:flex;align-items:center;justify-content:space-between;margin:6px 0 30px}
-.remember{display:flex;align-items:center;gap:9px;font-size:14px;color:#111b2f;font-weight:600}
-.remember input{accent-color:#41af56;width:17px;height:17px}
-.forgot{font-size:14px;font-weight:700;color:#239341;text-decoration:none}
-
-.login-btn{
-  width:100%;height:64px;border:0;border-radius:10px;
-  background:#0e2341;color:#fff;font-size:18px;font-weight:800;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  box-shadow:0 18px 34px rgba(14,35,65,.22);
-  transition:.18s ease;
-}
-.login-btn:hover{transform:translateY(-1px);background:#102948}
-.login-btn svg{width:21px;height:21px;stroke:white;fill:none;stroke-width:2}
-
-.message{display:none;border-radius:12px;padding:13px 14px;font-size:13px;font-weight:800;margin-bottom:18px}
-.message.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
-.message.success{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
-
-.standards-bar{
-  margin-top:32px;
-  width:100%;
-  min-height:118px;
-  background:rgba(255,255,255,.67);
-  border:1px solid rgba(255,255,255,.92);
-  border-radius:23px;
-  display:grid;
-  grid-template-columns:repeat(8,1fr);
-  box-shadow:0 22px 60px rgba(15,35,65,.08);
-  backdrop-filter:blur(20px);
-  overflow:hidden;
-}
-.standard{
-  position:relative;
-  display:flex;
-  align-items:center;
-  gap:16px;
-  padding:20px 22px;
-}
-.standard:not(:last-child):after{
-  content:"";position:absolute;right:0;top:20px;bottom:20px;width:1px;background:#d8e0ea;
-}
-.standard svg{width:35px;height:35px;stroke:#0b1830;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
-.standard.green svg{stroke:#2eaf45}
-.standard b{display:block;font-size:15px;font-weight:850;color:#0d1930;margin-bottom:5px;white-space:nowrap}
-.standard span{display:block;font-size:10.5px;line-height:1.25;color:#526176;font-weight:600}
-
-.copy{
   text-align:center;
+  margin-bottom:42px;
+}
+
+.login-logo svg{
+  width:84px;
+  height:84px;
+  margin-bottom:16px;
+  filter:drop-shadow(0 14px 24px rgba(15,35,65,.12));
+}
+
+.login-logo strong{
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:4px;
+}
+
+.login-logo strong span{
+  color:var(--green);
+  letter-spacing:2px;
+}
+
+.login-logo p{
+  margin-top:9px;
+  color:#53657e;
+  font-size:13px;
+  font-weight:500;
+}
+
+.welcome{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.welcome h2{
+  font-size:22px;
+  font-weight:850;
+  margin-bottom:9px;
+}
+
+.welcome p{
   color:#64748b;
   font-size:14px;
   font-weight:500;
-  margin-top:25px;
 }
 
-@media(max-width:1380px){
-  .main{grid-template-columns:1fr;gap:28px}
-  .visual{order:2;min-height:560px}.left{order:1}.right{order:3}.login-card{margin:0 auto}.hero h1{font-size:48px}.standards-bar{grid-template-columns:repeat(4,1fr)}
+.form-group{
+  margin-bottom:18px;
 }
+
+.form-group label{
+  display:block;
+  font-size:13px;
+  font-weight:750;
+  color:#25344e;
+  margin-bottom:9px;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.input-wrap svg{
+  position:absolute;
+  left:17px;
+  top:50%;
+  transform:translateY(-50%);
+  width:21px;
+  height:21px;
+  fill:none;
+  stroke:#74849a;
+  stroke-width:2;
+}
+
+.input-wrap input{
+  width:100%;
+  height:56px;
+  border:1px solid #dce6f1;
+  border-radius:12px;
+  background:#fff;
+  padding:0 48px 0 52px;
+  outline:none;
+  color:#0b1730;
+  font-size:14px;
+  font-weight:650;
+}
+
+.input-wrap input:focus{
+  border-color:#27b75a;
+  box-shadow:0 0 0 4px rgba(32,184,90,.12);
+}
+
+.eye{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  border:0;
+  background:transparent;
+  cursor:pointer;
+}
+
+.eye svg{
+  position:static;
+  transform:none;
+}
+
+.form-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:3px 0 24px;
+}
+
+.remember{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#34445c;
+  font-size:13px;
+  font-weight:650;
+}
+
+.remember input{
+  width:16px;
+  height:16px;
+  accent-color:var(--green);
+}
+
+.forgot{
+  color:#17a84d;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:750;
+}
+
+.login-btn{
+  width:100%;
+  height:58px;
+  border:0;
+  border-radius:12px;
+  background:linear-gradient(105deg,#176dff,#20c75a);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  font-size:17px;
+  font-weight:850;
+  cursor:pointer;
+  box-shadow:0 18px 36px rgba(22,119,255,.20);
+  transition:.18s ease;
+}
+
+.login-btn:hover{
+  transform:translateY(-1px);
+  filter:saturate(1.08);
+}
+
+.security{
+  margin-top:30px;
+  display:grid;
+  grid-template-columns:44px 1fr;
+  gap:13px;
+  align-items:center;
+  color:#53657e;
+  font-size:12px;
+  line-height:1.45;
+  font-weight:500;
+}
+
+.security b{
+  color:#25344e;
+  font-size:13px;
+}
+
+.security svg{
+  width:40px;
+  height:40px;
+  fill:none;
+  stroke:#64748b;
+  stroke-width:2;
+}
+
+.message{
+  display:none;
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.message.error{
+  background:#fee2e2;
+  color:#991b1b;
+  border:1px solid #fecaca;
+}
+
+.message.success{
+  background:#dcfce7;
+  color:#166534;
+  border:1px solid #bbf7d0;
+}
+
+.modules{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:16px;
+}
+
+.module{
+  min-height:142px;
+  background:rgba(255,255,255,.84);
+  border:1px solid #e0e8f1;
+  border-radius:17px;
+  padding:20px 18px;
+  box-shadow:0 16px 38px rgba(15,35,65,.055);
+}
+
+.module svg{
+  width:40px;
+  height:40px;
+  fill:none;
+  stroke-width:2.1;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  margin-bottom:13px;
+}
+
+.module b{
+  display:block;
+  font-size:14px;
+  font-weight:850;
+  margin-bottom:9px;
+}
+
+.module span{
+  display:block;
+  color:#53657e;
+  font-size:11.5px;
+  line-height:1.38;
+  font-weight:500;
+}
+
+.copy{
+  margin-top:18px;
+  text-align:center;
+  color:#64748b;
+  font-size:12px;
+  font-weight:500;
+}
+
+.blue{color:var(--blue);stroke:var(--blue)}
+.green{color:var(--green);stroke:var(--green)}
+.orange{color:var(--orange);stroke:var(--orange)}
+.purple{color:var(--purple);stroke:var(--purple)}
+.gray{color:var(--gray);stroke:var(--gray)}
+
+@media(max-width:1450px){
+  .main{grid-template-columns:1fr;gap:28px}
+  .login-card{max-width:520px;margin:auto}
+  .modules{grid-template-columns:repeat(4,1fr)}
+  .topbar{grid-template-columns:repeat(3,1fr);height:auto}
+  .top-item{min-height:76px}
+}
+
 @media(max-width:760px){
-  .page{padding:24px 18px}.hero h1{font-size:37px}.logo-text strong{font-size:31px}.main{gap:20px}.visual{min-height:auto}.monitor{width:100%;border-width:8px}.stand,.base{display:none}.login-card{padding:34px 22px}.features{gap:14px}.standards-bar{grid-template-columns:1fr}.standard:not(:last-child):after{display:none}.standard{border-bottom:1px solid #d8e0ea}.standard:last-child{border-bottom:0}.stats,.grid-panels,.lower{grid-template-columns:1fr}.app{grid-template-columns:84px 1fr}.app-content{padding:14px}.nav-item{font-size:9px;padding:0 6px}.hero-desc{font-size:16px}
-}
-
-
-
-/* === GDNL FINAL PREMIUM FULL-PAGE BALANCE === */
-@media (min-width:1381px){
-  html,body{
-    height:100%;
-    overflow:hidden;
-  }
-
-  .page{
-    height:100vh;
-    min-height:0;
-    padding:28px 38px 16px;
-    display:grid;
-    grid-template-rows:minmax(0,1fr) 78px 18px;
-    gap:9px;
-  }
-
-  .main{
-    height:auto;
-    min-height:0;
-    grid-template-columns:minmax(330px,.95fr) minmax(600px,1.28fr) minmax(390px,.92fr);
-    gap:20px;
-    align-items:start;
-    padding-top:10px;
-    overflow:visible;
-  }
-
-  .left{
-    align-self:start;
-  }
-
-  .logo-wrap{
-    margin-bottom:18px;
-  }
-
-  .logo-mark{
-    width:54px;
-    height:54px;
-  }
-
-  .logo-text strong{
-    font-size:33px;
-    letter-spacing:-1.2px;
-  }
-
-  .logo-text p{
-    font-size:14.5px;
-    margin-top:7px;
-  }
-
-  .hero{
-    margin-top:16px;
-  }
-
-  .hero h1{
-    font-size:52px;
-    line-height:1.04;
-    margin-bottom:15px;
-  }
-
-  .hero-desc{
-    width:min(500px,100%);
-    font-size:16px;
-    line-height:1.5;
-    margin-bottom:16px;
-  }
-
-  .features{
-    gap:8px;
-  }
-
-  .feature{
-    grid-template-columns:52px 1fr;
-    gap:11px;
-  }
-
-  .feature-icon{
-    width:47px;
-    height:47px;
-    border-radius:14px;
-  }
-
-  .feature-icon svg{
-    width:25px;
-    height:25px;
-  }
-
-  .feature h3{
-    font-size:15px;
-    margin-bottom:3px;
-  }
-
-  .feature p{
-    font-size:12.3px;
-    line-height:1.34;
-  }
-
-  .visual{
-    min-height:0;
-    height:100%;
-    justify-content:center;
-    align-self:start;
-    margin-left:-8px;
-    margin-right:0;
-    padding-top:70px;
-    z-index:1;
-  }
-
-  .monitor{
-    width:min(710px,92%);
-    max-height:calc(100vh - 360px);
-    border-width:12px;
-    transform:
-      perspective(1350px)
-      rotateY(-5deg)
-      rotateX(1deg)
-      rotateZ(-1deg)
-      scale(.88);
-}
-
-  .stand{
-    bottom:74px;
-    width:142px;
-    height:86px;
-  }
-
-  .base{
-    bottom:55px;
-    width:255px;
-  }
-
-  .right{
-    align-self:start;
-    display:flex;
-    justify-content:flex-end;
-  }
-
-  .login-card{
-    max-width:392px;
-    margin-left:0;
-    padding:34px 28px 31px;
-    border-radius:28px;
-    position:relative;
-    z-index:2;
-    transform:translateY(-18px);
-}
-
-  .login-logo{
-    margin-bottom:18px;
-  }
-
-  .login-logo svg{
-    width:66px;
-    height:66px;
-    margin-bottom:11px;
-  }
-
-  .login-logo strong{
-    font-size:27px;
-  }
-
-  .login-logo p{
-    font-size:13px;
-    margin-top:7px;
-  }
-
-  .welcome{
-    margin-bottom:17px;
-  }
-
-  .welcome h2{
-    font-size:20px;
-  }
-
-  .welcome p{
-    font-size:14px;
-  }
-
-  .form-group{
-    margin-bottom:14px;
-  }
-
-  .form-group label{
-    font-size:13px;
-    margin-bottom:8px;
-  }
-
-  .input-wrap input{
-    height:51px;
-    font-size:14px;
-  }
-
-  .form-row{
-    margin:5px 0 18px;
-  }
-
-  .login-btn{
-    height:55px;
-    font-size:17px;
-  }
-
-  .standards-bar{
-    margin-top:0;
-    min-height:0;
-    height:78px;
-    border-radius:20px;
-    position:relative;
-    z-index:5;
-    align-self:end;
-  }
-
-  .standard{
-    padding:11px 14px;
-    gap:10px;
-  }
-
-  .standard svg{
-    width:27px;
-    height:27px;
-  }
-
-  .standard b{
-    font-size:12px;
-  }
-
-  .standard span{
-    font-size:8.6px;
-  }
-
-  .copy{
-    margin-top:0;
-    font-size:12px;
-    line-height:18px;
-    position:relative;
-    z-index:5;
-  }
-}
-
-/* Tablet: clean vertical landing without horizontal pressure */
-@media (max-width:1380px) and (min-width:761px){
-  body{overflow-x:hidden;overflow-y:auto}
-  .page{padding:34px 26px 24px}
-  .main{grid-template-columns:1fr;gap:28px}
-  .left{order:1}.visual{order:2;min-height:auto;padding:20px 0}.right{order:3}
-  .monitor{width:min(900px,100%);transform:perspective(1200px) rotateY(-3deg) rotateX(1deg)}
-  .login-card{max-width:520px;margin:0 auto}
-}
-
-/* Mobile: fully responsive, readable and no horizontal overflow */
-@media (max-width:760px){
-  html,body{width:100%;overflow-x:hidden;overflow-y:auto}
-  .page{min-height:100dvh;padding:22px 16px 18px}
-  .main{display:flex;flex-direction:column;gap:24px}
-  .left{order:1;width:100%}.visual{order:2;width:100%;min-height:auto;padding:6px 0 14px}.right{order:3;width:100%}
-  .logo-wrap{justify-content:flex-start;gap:13px;margin-bottom:24px}
+  .page{padding:0}
+  .shell{border-radius:0;min-height:100vh}
+  .content{padding:22px 16px}
+  .topbar{grid-template-columns:1fr}
+  .top-item{border-right:0;border-bottom:1px solid #e6edf5}
+  .main{display:flex;flex-direction:column}
+  .logo-wrap{margin-bottom:26px}
   .logo-mark{width:54px;height:54px}
-  .logo-text strong{font-size:29px;letter-spacing:-1px}
-  .logo-text p{font-size:13px;margin-top:6px}
-  .hero{text-align:left}
-  .hero h1{font-size:38px;line-height:1.08;letter-spacing:-1.7px}
-  .hero-desc{font-size:16px;line-height:1.6;margin-bottom:22px}
-  .features{width:100%;gap:13px}
-  .feature{grid-template-columns:54px 1fr;gap:13px}
-  .feature-icon{width:50px;height:50px}
-  .feature h3{font-size:16px}.feature p{font-size:13px}
-  .monitor{width:100%;aspect-ratio:1.15/1;transform:none;border-width:7px;border-radius:13px;box-shadow:0 22px 48px rgba(4,14,28,.22)}
-  .stand,.base{display:none}
-  .app{grid-template-columns:68px 1fr}
-  .app-sidebar{padding:12px 6px}
-  .app-logo{font-size:0;justify-content:center;margin-bottom:14px}
-  .app-logo .mini{width:24px;height:24px}
-  .nav-item{height:24px;padding:0;justify-content:center;font-size:0;margin-bottom:4px}
-  .nav-dot{width:10px;height:10px}
-  .app-content{padding:10px}
-  .app-top{margin-bottom:10px}
-  .search{width:120px;height:24px;font-size:7px}
-  .app-title{font-size:14px;margin-bottom:10px}
-  .stats{grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px}
-  .stat{height:auto;padding:9px;border-radius:9px}
-  .stat small{font-size:7px;margin-bottom:5px}.stat b{font-size:18px}.stat span{font-size:7px;margin-top:4px}
-  .grid-panels,.lower{display:none}
-  .login-card{width:100%;max-width:440px;margin:0 auto;padding:30px 22px;border-radius:26px}
-  .login-logo{margin-bottom:24px}.login-logo svg{width:72px;height:72px}.login-logo strong{font-size:29px}
-  .form-row{align-items:flex-start;gap:12px}
-  .standards-bar{margin-top:22px;grid-template-columns:1fr;min-height:auto}
-  .standard{min-height:76px}
-  .copy{padding-bottom:18px}
+  .logo-text strong{font-size:28px}
+  .hero h1{font-size:38px}
+  .dashboard-preview{width:100%;grid-template-columns:72px 1fr;min-height:auto}
+  .preview-sidebar{padding:14px 7px}
+  .preview-logo{justify-content:center;font-size:0}
+  .nav-item{justify-content:center;font-size:0;padding:0}
+  .preview-content{padding:12px}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .panel-grid,.lower-grid{display:none}
+  .search{width:135px}
+  .login-card{width:100%;padding:34px 22px}
+  .modules{grid-template-columns:1fr}
 }
-
 </style>
 </head>
 
 <body>
 <div class="page">
-  <main class="main">
-    <section class="left">
-      <div class="logo-wrap">
-        <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
-          <defs>
-            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#18314f"/><stop offset=".52" stop-color="#1f8f52"/><stop offset="1" stop-color="#53c45c"/></linearGradient>
-            <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fc45d"/><stop offset="1" stop-color="#0b1a33"/></linearGradient>
-          </defs>
-          <path d="M50 6 86 27v23L66 38 50 29 24 44v31l26 15 25-14V61H52V44h39v42L50 109 9 86V34z" fill="url(#g1)" transform="translate(0 -7)"/>
-          <path d="M50 6 9 30v25l20-12 21-12 21 12 20 12V30z" fill="url(#g2)" opacity=".92" transform="translate(0 -3)"/>
-        </svg>
-        <div class="logo-text">
-          <strong>GDNL <span>EQMS</span></strong>
-          <p>Enterprise Quality Management Platform</p>
+  <div class="shell">
+
+    <header class="topbar">
+      <div class="top-item">
+        <div class="status-dot"></div>
+        <div>
+          <span>Sistem Durumu</span>
+          <b style="color:var(--green)" id="systemStatus">Operasyonel</b>
         </div>
       </div>
 
-      <div class="hero">
-        <h1>Enterprise <span>Quality Intelligence</span></h1>
-        <p class="hero-desc">One platform to manage quality, ensure compliance and drive continuous improvement across your enterprise.</p>
+      <div class="top-item">
+        <div class="top-icon">
+          <svg class="blue" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+        </div>
+        <div>
+          <b id="topDocuments">12.458</b>
+          <span>Toplam Doküman</span>
+        </div>
       </div>
 
-      <div class="features">
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg></div><div><h3>Document Control</h3><p>Centralize, manage and secure all quality documents.</p></div></div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m9 12 2 2 4-5"/></svg></div><div><h3>Risk & CAPA</h3><p>Identify risks, manage CAPA and prevent recurrence.</p></div></div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v4H9zM9 14l2 2 4-5"/></svg></div><div><h3>Audit Management</h3><p>Plan, execute and track audits effortlessly.</p></div></div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c2 2 10 2 12 0v-5"/></svg></div><div><h3>Training Management</h3><p>Manage training, competence and employee development.</p></div></div>
-        <div class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M2 21v-2a4 4 0 0 1 3-3.87"/></svg></div><div><h3>Supplier Quality</h3><p>Monitor supplier performance and drive quality across the supply chain.</p></div></div>
-        
+      <div class="top-item">
+        <div class="top-icon">
+          <svg class="orange" viewBox="0 0 24 24"><path d="M12 2 22 20H2z"/><path d="M12 8v5M12 17h.01"/></svg>
+        </div>
+        <div>
+          <b id="topRisks">83</b>
+          <span>Açık Risk</span>
+        </div>
       </div>
-    </section>
 
-    <section class="visual">
-      <div class="monitor">
-        <div class="app">
-          <aside class="app-sidebar">
-            <div class="app-logo">
-              <svg class="mini" viewBox="0 0 100 100"><path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#45b85e" transform="translate(0 -8)"/><path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#0d1d37" transform="translate(0 -3)"/></svg>
-              EQMS
+      <div class="top-item">
+        <div class="top-icon">
+          <svg class="green" viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m9 12 2 2 4-5"/></svg>
+        </div>
+        <div>
+          <b id="topCompliance">97,4%</b>
+          <span>Uyum Oranı</span>
+        </div>
+      </div>
+
+      <div class="top-item">
+        <div class="top-icon">
+          <svg class="green" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+        </div>
+        <div>
+          <b id="topCapa">24</b>
+          <span>Açık CAPA</span>
+        </div>
+      </div>
+
+      <div class="top-item">
+        <div>
+          <b id="clock">09:42</b>
+          <span id="today">23 Mayıs 2024</span>
+        </div>
+        <div class="top-icon">
+          <svg class="gray" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <main class="main">
+
+        <section>
+          <div class="logo-wrap">
+            <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
+              <defs>
+                <linearGradient id="logoA" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#18a0fb"/>
+                  <stop offset=".52" stop-color="#16b66a"/>
+                  <stop offset="1" stop-color="#5ee85f"/>
+                </linearGradient>
+                <linearGradient id="logoB" x1="1" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#5eff73"/>
+                  <stop offset="1" stop-color="#0b1730"/>
+                </linearGradient>
+              </defs>
+              <path d="M50 6 86 27v23L66 38 50 29 24 44v31l26 15 25-14V61H52V44h39v42L50 109 9 86V34z" fill="url(#logoA)" transform="translate(0 -7)"/>
+              <path d="M50 6 9 30v25l20-12 21-12 21 12 20 12V30z" fill="url(#logoB)" opacity=".92" transform="translate(0 -3)"/>
+            </svg>
+            <div class="logo-text">
+              <strong>GDNL <span>EMS</span></strong>
+              <p>Enterprise Management System</p>
             </div>
-            <div class="nav-item active"><span class="nav-dot"></span>Dashboard</div>
-            <div class="nav-item"><span class="nav-dot"></span>Documents</div>
-            <div class="nav-item"><span class="nav-dot"></span>Risks</div>
-            <div class="nav-item"><span class="nav-dot"></span>CAPA</div>
-            <div class="nav-item"><span class="nav-dot"></span>Audits</div>
-            <div class="nav-item"><span class="nav-dot"></span>Training</div>
-            <div class="nav-item"><span class="nav-dot"></span>Suppliers</div>
-            <div class="nav-item"><span class="nav-dot"></span>Complaints</div>
-            <div class="nav-item"><span class="nav-dot"></span>Reports</div>
-            <div class="nav-item"><span class="nav-dot"></span>Analytics</div>
-            <div class="nav-item"><span class="nav-dot"></span>Settings</div>
+          </div>
+
+          <div class="hero">
+            <h1>
+              Yönet.<br>
+              Kontrol Et.<br>
+              Geliştir.<br>
+              Kurumu Güçlendir.
+              <span class="green">Tüm Departmanlar Tek Platformda.</span>
+            </h1>
+            <p class="hero-desc">Kurumunuzdaki tüm departmanları, süreçleri, kayıtları ve performans göstergelerini tek merkezden yönetin.</p>
+          </div>
+
+          <div class="features">
+            <div class="feature">
+              <div class="feature-icon">
+                <svg class="blue" viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m9 12 2 2 4-5"/></svg>
+              </div>
+              <div>
+                <h3>Kalite Yönetimi</h3>
+                <p>Dokümanlar, denetimler, uygunsuzluklar ve iyileştirme süreçlerini yönetin.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">
+                <svg class="purple" viewBox="0 0 24 24"><path d="M10 2v6l-5 9a3 3 0 0 0 2.6 4.5h8.8A3 3 0 0 0 19 17l-5-9V2"/><path d="M8 2h8"/><path d="M8.5 14h7"/></svg>
+              </div>
+              <div>
+                <h3>Ar-Ge Yönetimi</h3>
+                <p>Projeleri, testleri, ürün geliştirme ve teknik kayıtları takip edin.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">
+                <svg class="orange" viewBox="0 0 24 24"><path d="M6 6h15l-2 8H8z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+              </div>
+              <div>
+                <h3>Satınalma Yönetimi</h3>
+                <p>Tedarikçi performansı, siparişler ve satınalma süreçlerini yönetin.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">
+                <svg class="green" viewBox="0 0 24 24"><path d="M3 21V9l6 3V9l6 3V5h6v16z"/><path d="M6 18h.01M10 18h.01M14 18h.01"/></svg>
+              </div>
+              <div>
+                <h3>Üretim Yönetimi</h3>
+                <p>Operasyonları, üretim kayıtlarını ve performans göstergelerini izleyin.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-preview">
+          <aside class="preview-sidebar">
+            <div class="preview-logo">
+              <svg viewBox="0 0 100 100"><path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#20b85a" transform="translate(0 -8)"/><path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#1677ff" transform="translate(0 -3)"/></svg>
+              EMS
+            </div>
+
+            <div class="nav-item active"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>Ana Sayfa</div>
+            <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/></svg>Dokümanlar</div>
+            <div class="nav-item"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 7l3 8M16 7l-3 8"/></svg>Süreçler</div>
+            <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 2 22 20H2z"/><path d="M12 8v5M12 17h.01"/></svg>Riskler</div>
+            <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M7 3h10v18H7z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>CAPA'lar</div>
+            <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M7 3h10v18H7z"/><path d="m9 12 2 2 4-5"/></svg>Denetimler</div>
+            <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5z"/><path d="M6 12v5c2 2 10 2 12 0v-5"/></svg>Eğitimler</div>
+            <div class="nav-item"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 15 4-4 3 3 5-7"/></svg>Göstergeler</div>
           </aside>
-          <section class="app-content">
-            <div class="app-top"><div></div><div class="search">⌕ &nbsp; Search anything...</div><div class="app-icons">♧ ⚙ <span class="avatar"></span></div></div>
-            <div class="app-title">Dashboard</div>
-            <div class="stats">
-              <div class="stat"><small>Total Documents</small><b>12,458</b><span>↑ 12% vs last month</span></div>
-              <div class="stat blue"><small>Open CAPA</small><b>24</b><span style="color:#1e63b6">↓ 8% vs last month</span></div>
-              <div class="stat green"><small>Open Audits</small><b>15</b><span>↑ 3% vs last month</span></div>
-              <div class="stat green"><small>Training Compliance</small><b>98%</b><span>↑ 5% vs last month</span></div>
+
+          <section class="preview-content">
+            <div class="preview-top">
+              <div class="menu-line">≡</div>
+              <div class="search">⌕ Arama yapın...</div>
+              <div class="preview-icons">
+                ♧ ⚙ <span class="avatar"></span>
+              </div>
             </div>
-            <div class="grid-panels">
-              <div class="panel"><h4>CAPA Overview</h4><div class="donut-wrap"><div class="donut"></div><div class="legend"><div><span><i style="background:#1e63b6"></i>Open</span><b>12</b></div><div><span><i style="background:#54b86b"></i>In Progress</span><b>6</b></div><div><span><i style="background:#ffbb3d"></i>Pending Verification</span><b>4</b></div><div><span><i style="background:#bfc9d7"></i>Closed</span><b>2</b></div></div></div></div>
-              <div class="panel"><h4>Audit Trend <span style="float:right;font-size:9px;border:1px solid #dbe3ec;border-radius:6px;padding:4px 8px;color:#64748b">Last 6 Months⌄</span></h4><div class="chart"><svg viewBox="0 0 300 120"><polyline points="10,95 55,72 100,76 145,52 190,32 235,19 290,10" fill="none" stroke="#299348" stroke-width="4"/><g fill="#fff" stroke="#299348" stroke-width="3"><circle cx="10" cy="95" r="5"/><circle cx="55" cy="72" r="5"/><circle cx="100" cy="76" r="5"/><circle cx="145" cy="52" r="5"/><circle cx="190" cy="32" r="5"/><circle cx="235" cy="19" r="5"/><circle cx="290" cy="10" r="5"/></g></svg></div></div>
+
+            <div class="preview-title">Genel Bakış</div>
+
+            <div class="kpi-grid">
+              <div class="kpi">
+                <small>Toplam Doküman</small>
+                <b id="cardDocuments">12.458</b>
+                <span>↑ %12 geçen aya göre</span>
+              </div>
+              <div class="kpi">
+                <small>Açık CAPA</small>
+                <b style="color:var(--blue)" id="cardCapa">24</b>
+                <span style="color:var(--blue)">↓ %8 geçen aya göre</span>
+              </div>
+              <div class="kpi">
+                <small>Açık Risk</small>
+                <b style="color:var(--orange)" id="cardRisks">83</b>
+                <span style="color:var(--orange)">↑ %5 geçen aya göre</span>
+              </div>
+              <div class="kpi">
+                <small>Uyum Oranı</small>
+                <b style="color:var(--green)" id="cardCompliance">97,4%</b>
+                <span>↑ %8 geçen aya göre</span>
+              </div>
             </div>
-            <div class="lower">
-              <div class="panel"><h4>Document Status</h4><b style="font-size:22px">12,458</b><small style="display:block;color:#64748b;margin-top:2px">Total Documents</small><div class="progress"></div><div style="display:flex;justify-content:space-between;font-size:9px;color:#64748b;font-weight:700"><span>Approved<br><b>9,256</b></span><span>Pending Review<br><b>2,124</b></span><span>Expired<br><b>1,078</b></span></div></div>
-              <div class="panel"><h4>Top Risk by Score</h4><div class="risk-row"><span><i style="background:#e34b44"></i>High Risk</span><b>7</b></div><div class="risk-row"><span><i style="background:#f2a51c"></i>Medium Risk</span><b>11</b></div><div class="risk-row"><span><i style="background:#4caf60"></i>Low Risk</span><b>8</b></div></div>
-              <div class="panel"><h4>Compliance Overview</h4><div class="compliance"></div></div>
+
+            <div class="panel-grid">
+              <div class="panel">
+                <h4>Süreç Performansı</h4>
+                <div class="donut-area">
+                  <div class="donut"></div>
+                  <div class="legend">
+                    <div class="legend-row"><span><i style="background:#2fbd59"></i>İyi</span><b>64%</b></div>
+                    <div class="legend-row"><span><i style="background:#ffb02e"></i>Orta</span><b>24%</b></div>
+                    <div class="legend-row"><span><i style="background:#ff7a00"></i>İyileştirme Gerekli</span><b>8%</b></div>
+                    <div class="legend-row"><span><i style="background:#ff4d4d"></i>Kritik</span><b>4%</b></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h4>Açık Risk Trendi <span style="float:right;font-size:10px;color:#64748b;border:1px solid #dfe8f2;border-radius:8px;padding:5px 9px">Son 6 Ay⌄</span></h4>
+                <div class="chart">
+                  <svg viewBox="0 0 320 130">
+                    <polyline points="10,105 62,72 114,78 166,55 218,36 310,13" fill="none" stroke="#ff6b00" stroke-width="4"/>
+                    <g fill="#fff" stroke="#ff6b00" stroke-width="3">
+                      <circle cx="10" cy="105" r="5"/><circle cx="62" cy="72" r="5"/><circle cx="114" cy="78" r="5"/><circle cx="166" cy="55" r="5"/><circle cx="218" cy="36" r="5"/><circle cx="310" cy="13" r="5"/>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="lower-grid">
+              <div class="panel">
+                <h4>Doküman Durumu</h4>
+                <b style="font-size:22px" id="panelDocuments">12.458</b>
+                <small style="display:block;color:#64748b;margin-top:3px">Toplam Doküman</small>
+                <div class="progress"></div>
+                <div style="display:flex;justify-content:space-between;font-size:9px;color:#64748b;font-weight:700">
+                  <span>Onaylandı<br><b>9.256</b></span>
+                  <span>İncelemede<br><b>2.124</b></span>
+                  <span>Süresi Dolan<br><b>1.078</b></span>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h4>Yaklaşan Denetimler</h4>
+                <div class="audit-line"><span>İç Tetkik</span><b>10 Haz 2024</b></div>
+                <div class="audit-line"><span>Tedarikçi Denetimi</span><b>18 Haz 2024</b></div>
+                <div class="audit-line"><span>Sistem Denetimi</span><b>25 Haz 2024</b></div>
+                <div style="color:var(--blue);font-size:11px;font-weight:800;margin-top:15px">Tümünü Gör →</div>
+              </div>
+
+              <div class="panel">
+                <h4>Eğitim Tamamlama Oranı</h4>
+                <div class="complete"></div>
+              </div>
             </div>
           </section>
+        </section>
+
+        <section class="login-card">
+          <div class="login-logo">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#20b85a" transform="translate(0 -8)"/>
+              <path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#1677ff" transform="translate(0 -3)"/>
+            </svg>
+            <strong>GDNL <span>EMS</span></strong>
+            <p>Enterprise Management System</p>
+          </div>
+
+          <div class="welcome">
+            <h2>Hoş Geldiniz!</h2>
+            <p>Devam etmek için giriş yapın.</p>
+          </div>
+
+          <div id="msg" class="message"></div>
+
+          <div class="form-group">
+            <label for="username">Kullanıcı Adı</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input id="username" type="text" placeholder="Kullanıcı adınızı girin" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Şifre</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input id="password" type="password" placeholder="Şifrenizi girin" autocomplete="current-password">
+              <button class="eye" type="button" onclick="togglePassword()">
+                <svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="remember"><input id="remember" type="checkbox" checked> Beni Hatırla</label>
+            <a href="#" class="forgot" onclick="forgotPassword(event)">Şifremi Unuttum?</a>
+          </div>
+
+          <button class="login-btn" onclick="login()">Giriş Yap <span style="font-size:26px">→</span></button>
+
+          <div class="security">
+            <svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m9 12 2 2 4-5"/></svg>
+            <div>
+              <b>Güvenli • Güvenilir • Uyumlu</b><br>
+              Verileriniz, kurumsal güvenlik standartları ile korunmaktadır.
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <section class="modules">
+        <div class="module">
+          <svg class="blue" viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m9 12 2 2 4-5"/></svg>
+          <b>Kalite Yönetimi</b>
+          <span>Kalite süreçlerinizi yönetin ve iyileştirin.</span>
         </div>
-      </div>
-      <div class="stand"></div><div class="base"></div>
-    </section>
 
-    <section class="right">
-      <div class="login-card">
-        <div class="login-logo">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#45b85e" transform="translate(0 -8)"/><path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#0d1d37" transform="translate(0 -3)"/></svg>
-          <strong>GDNL <span>EQMS</span></strong>
-          <p>Enterprise Quality Management Platform</p>
+        <div class="module">
+          <svg class="purple" viewBox="0 0 24 24"><path d="M10 2v6l-5 9a3 3 0 0 0 2.6 4.5h8.8A3 3 0 0 0 19 17l-5-9V2"/><path d="M8 2h8"/><path d="M8.5 14h7"/></svg>
+          <b>Ar-Ge ve Proje Yönetimi</b>
+          <span>Projeleri, testleri ve ürün geliştirme süreçlerini takip edin.</span>
         </div>
-        <div class="welcome"><h2>Hoş Geldiniz!</h2><p>Hesabınıza giriş yaparak devam edin.</p></div>
-        <div id="msg" class="message"></div>
-        <div class="form-group"><label for="username">Kullanıcı Adı</label><div class="input-wrap"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input id="username" type="text" placeholder="Kullanıcı adınızı girin" autocomplete="username"></div></div>
-        <div class="form-group"><label for="password">Şifre</label><div class="input-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><input id="password" type="password" placeholder="Şifrenizi girin" autocomplete="current-password"><button class="eye" type="button" onclick="togglePassword()"><svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
-        <div class="form-row"><label class="remember"><input id="remember" type="checkbox" checked> Beni Hatırla</label><a href="#" class="forgot" onclick="forgotPassword(event)">Şifremi Unuttum?</a></div>
-        <button class="login-btn" onclick="login()"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Giriş Yap</button>
-      </div>
-    </section>
-  </main>
 
-  <section class="standards-bar">
-    <div class="standard"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="m8.5 12.5 2.5 2.5 5-6"/></svg><div><b>ISO 9001</b><span>Quality Management</span></div></div>
-    <div class="standard green"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 6 9 6 17c0 2 1 3 1 3s1-5 6-8"/><path d="M4 20c2-1 4-2 7-2 6 0 9-7 9-14"/></svg><div><b>ISO 14001</b><span>Environmental Management</span></div></div>
-    <div class="standard"><svg viewBox="0 0 24 24"><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/><path d="M12 8v8M8 12h8"/></svg><div><b>ISO 45001</b><span>Occupational Health & Safety</span></div></div>
-    <div class="standard green"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-13h-7z"/></svg><div><b>ISO 50001</b><span>Energy Management</span></div></div>
-    <div class="standard"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><div><b>ISO 27001</b><span>Information Security Management</span></div></div>
-    <div class="standard"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg><div><b>ISO 10002</b><span>Customer Satisfaction Management</span></div></div>
-    <div class="standard"><svg viewBox="0 0 24 24"><path d="M5 13h14l-2-5H7z"/><path d="M5 13v5h14v-5M7 18v2M17 18v2"/><circle cx="8" cy="16" r="1.2"/><circle cx="16" cy="16" r="1.2"/></svg><div><b>IATF 16949</b><span>Automotive Quality Management</span></div></div>
-    <div class="standard"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m12 7 1.5 3 3.5.5-2.5 2.4.6 3.4-3.1-1.6-3.1 1.6.6-3.4-2.5-2.4 3.5-.5z"/></svg><div><b>CoP</b><span>Conformity of Production</span></div></div>
-  </section>
+        <div class="module">
+          <svg class="orange" viewBox="0 0 24 24"><path d="M6 6h15l-2 8H8z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+          <b>Satınalma ve Tedarikçi Yönetimi</b>
+          <span>Tedarik zincirinizi yönetin, performansı izleyin.</span>
+        </div>
 
-  <div class="copy">© 2025 GDNL Digital. All rights reserved.</div>
+        <div class="module">
+          <svg class="green" viewBox="0 0 24 24"><path d="M3 21V9l6 3V9l6 3V5h6v16z"/><path d="M6 18h.01M10 18h.01M14 18h.01"/></svg>
+          <b>Üretim Operasyonları</b>
+          <span>Üretim süreçlerinizi planlayın, izleyin ve optimize edin.</span>
+        </div>
+
+        <div class="module">
+          <svg class="purple" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M2 21v-2a4 4 0 0 1 3-3.87"/></svg>
+          <b>İnsan Kaynakları</b>
+          <span>Personel süreçlerinizi etkin yönetin.</span>
+        </div>
+
+        <div class="module">
+          <svg class="gray" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-3 3-3-3z"/></svg>
+          <b>Bakım ve Varlık Yönetimi</b>
+          <span>Varlıklarınızı koruyun, bakım süreçlerini yönetin.</span>
+        </div>
+
+        <div class="module">
+          <svg class="green" viewBox="0 0 24 24"><path d="M20 4C12 4 6 9 6 17c0 2 1 3 1 3s1-5 6-8"/><path d="M12 3 20 7v5c0 5-3.4 8.3-8 9-4.6-.7-8-4-8-9V7z"/></svg>
+          <b>Çevre, Sağlık ve Güvenlik</b>
+          <span>Çevreyi koruyun, İSG süreçlerini yönetin.</span>
+        </div>
+
+        <div class="module">
+          <svg class="green" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M10 1h4"/><path d="M10 8h4M10 12h4M10 16h4"/></svg>
+          <b>COP</b>
+          <span>Conformity of Production</span>
+        </div>
+      </section>
+
+      <div class="copy">© 2025 GDNL Digital. Tüm hakları saklıdır.</div>
+    </div>
+  </div>
 </div>
 
 <script>
-const DEMO_USERS = [
+const DEFAULT_USERS = [
   {
     username:"keremgudenli",
     password:"123456",
     name:"Kerem Güdenli",
     role:"Super Administrator",
-    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Planlama","Satınalma","Tedarik Zinciri","Depo","Laboratuvar","İnsan Kaynakları","Satış Pazarlama","Bilgi Teknolojileri"]
+    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Planlama","Satınalma","Tedarik Zinciri","Depo","Laboratuvar","İnsan Kaynakları","Satış Pazarlama","Bilgi Teknolojileri","Bakım","Çevre ve İSG","Enerji"]
   },
   {
     username:"demo",
@@ -928,45 +1198,136 @@ const DEMO_USERS = [
   }
 ];
 
-const existingSession = JSON.parse(localStorage.getItem("gdnl_qdms_session") || "null");
-if(existingSession && existingSession.username){
-  // window.location.href = "dashboard.html";
+const DEFAULT_EMS_DATA = {
+  systemStatus:"Operasyonel",
+  totalDocuments:12458,
+  openRisks:83,
+  complianceRate:97.4,
+  openCapa:24
+};
+
+function getStoredUsers(){
+  const keys = [
+    "gdnl_ems_users",
+    "gdnl_eqms_users",
+    "gdnl_qdms_users",
+    "gdnl_users"
+  ];
+
+  for(const key of keys){
+    try{
+      const value = JSON.parse(localStorage.getItem(key) || "null");
+      if(Array.isArray(value) && value.length){
+        return value;
+      }
+    }catch(e){}
+  }
+
+  localStorage.setItem("gdnl_ems_users", JSON.stringify(DEFAULT_USERS));
+  return DEFAULT_USERS;
+}
+
+function getEMSData(){
+  const keys = [
+    "gdnl_ems_dashboard_data",
+    "gdnl_dashboard_data",
+    "gdnl_eqms_dashboard_data",
+    "gdnl_qdms_dashboard_data"
+  ];
+
+  for(const key of keys){
+    try{
+      const value = JSON.parse(localStorage.getItem(key) || "null");
+      if(value && typeof value === "object"){
+        return {...DEFAULT_EMS_DATA, ...value};
+      }
+    }catch(e){}
+  }
+
+  localStorage.setItem("gdnl_ems_dashboard_data", JSON.stringify(DEFAULT_EMS_DATA));
+  return DEFAULT_EMS_DATA;
+}
+
+function formatNumber(value){
+  const number = Number(value || 0);
+  return number.toLocaleString("tr-TR");
+}
+
+function formatPercent(value){
+  const number = Number(value || 0);
+  return number.toLocaleString("tr-TR", {minimumFractionDigits:1, maximumFractionDigits:1}) + "%";
+}
+
+function loadDashboardData(){
+  const data = getEMSData();
+
+  document.getElementById("systemStatus").textContent = data.systemStatus || "Operasyonel";
+
+  document.getElementById("topDocuments").textContent = formatNumber(data.totalDocuments);
+  document.getElementById("cardDocuments").textContent = formatNumber(data.totalDocuments);
+  document.getElementById("panelDocuments").textContent = formatNumber(data.totalDocuments);
+
+  document.getElementById("topRisks").textContent = formatNumber(data.openRisks);
+  document.getElementById("cardRisks").textContent = formatNumber(data.openRisks);
+
+  document.getElementById("topCapa").textContent = formatNumber(data.openCapa);
+  document.getElementById("cardCapa").textContent = formatNumber(data.openCapa);
+
+  document.getElementById("topCompliance").textContent = formatPercent(data.complianceRate);
+  document.getElementById("cardCompliance").textContent = formatPercent(data.complianceRate);
+}
+
+function updateClock(){
+  const now = new Date();
+  const time = now.toLocaleTimeString("tr-TR", {hour:"2-digit", minute:"2-digit"});
+  const date = now.toLocaleDateString("tr-TR", {day:"2-digit", month:"long", year:"numeric"});
+
+  document.getElementById("clock").textContent = time;
+  document.getElementById("today").textContent = date;
 }
 
 function login(){
+  const users = getStoredUsers();
   const username = document.getElementById("username").value.trim().toLowerCase();
   const password = document.getElementById("password").value.trim();
   const remember = document.getElementById("remember").checked;
-  const msg = document.getElementById("msg");
-  msg.style.display = "none";
-  msg.className = "message";
 
   if(!username || !password){
     showMessage("Kullanıcı adı ve şifre zorunludur.", "error");
     return;
   }
 
-  const user = DEMO_USERS.find(u => u.username === username && u.password === password);
+  const user = users.find(u =>
+    String(u.username || "").toLowerCase() === username &&
+    String(u.password || "") === password
+  );
+
   if(!user){
     showMessage("Kullanıcı adı veya şifre hatalı.", "error");
     return;
   }
 
-  localStorage.setItem("gdnl_qdms_session", JSON.stringify({
+  const session = {
     username:user.username,
-    name:user.name,
-    role:user.role,
+    name:user.name || user.username,
+    role:user.role || "User",
     departments:user.departments || [],
     remember,
-    loginAt:new Date().toISOString()
-  }));
+    loginAt:new Date().toISOString(),
+    system:"GDNL EMS"
+  };
 
-  localStorage.setItem("gdnl_current_user_role", user.role);
-  localStorage.setItem("gdnl_current_user_name", user.name);
-  localStorage.setItem("gdnl_allowed_departments", JSON.stringify(user.departments || []));
+  localStorage.setItem("gdnl_ems_session", JSON.stringify(session));
+  localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
+  localStorage.setItem("gdnl_current_user_role", session.role);
+  localStorage.setItem("gdnl_current_user_name", session.name);
+  localStorage.setItem("gdnl_allowed_departments", JSON.stringify(session.departments));
 
   showMessage("Giriş başarılı. Departman portalı hazırlanıyor...", "success");
-  setTimeout(() => { window.location.href = "department-gateway.html"; }, 750);
+
+  setTimeout(() => {
+    window.location.href = "department-gateway.html";
+  }, 700);
 }
 
 function showMessage(text,type){
@@ -989,6 +1350,10 @@ function forgotPassword(e){
 document.addEventListener("keydown", function(e){
   if(e.key === "Enter") login();
 });
+
+loadDashboardData();
+updateClock();
+setInterval(updateClock, 30000);
 </script>
 </body>
 </html>
