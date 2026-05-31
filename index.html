@@ -564,7 +564,7 @@ body:before{
     <div class="reset-modal-head">
       <div>
         <h3>Şifre Sıfırlama</h3>
-        <p>Demo sistemde kullanıcı doğrulanır, geçici kod oluşturulur ve yeni şifre localStorage üzerinde güncellenir.</p>
+        <p>Kullanıcı adı ve kayıtlı e-posta doğrulanır, geçici kod oluşturulur ve yeni şifre kullanıcı kaydına işlenir.</p>
       </div>
       <button class="reset-close" type="button" onclick="closeResetModal()">×</button>
     </div>
@@ -582,7 +582,7 @@ body:before{
         <button class="reset-btn secondary" type="button" onclick="closeResetModal()">Vazgeç</button>
         <button class="reset-btn primary" type="button" onclick="createResetCode()">Kod Oluştur</button>
       </div>
-      <div class="reset-hint">Kullanıcı adı ve kayıtlı e-posta eşleşirse 6 haneli doğrulama kodu oluşturulur. EmailJS/SMTP bağlanınca bu kod kayıtlı e-postaya gönderilecektir.</div>
+      <div class="reset-hint">Kullanıcı adı ve kayıtlı e-posta eşleşirse 6 haneli doğrulama kodu oluşturulur. Mail motoru bağlandığında bu kod kayıtlı e-postaya gönderilecektir.</div>
     </div>
 
     <div id="resetStep2" class="reset-step">
@@ -663,12 +663,8 @@ function countEOSRecords(){
 }
 
 function getUserCount(){
-  const keys=["gdnl_users","gdnl_eqms_users","gdnl_system_users"];
-  for(const key of keys){
-    const list=safeArrayFromLS(key);
-    if(list.length)return list.length;
-  }
-  return USERS.length;
+  const list=safeArrayFromLS("gdnl_users").filter(u=>String(u.username||"").toLowerCase()!=="demo" && String(u.status||"Aktif")!=="Pasif");
+  return list.length;
 }
 
 function calculateSystemHealth(){
@@ -705,59 +701,24 @@ function loadEOSLoginStats(){
   });
 }
 
-const DEFAULT_USERS=[
-  {
-    username:"keremgudenli",
-    password:"123456",
-    name:"Kerem Güdenli",
-    role:"Root Super Administrator",
-    department:"Yönetim",
-    accessLevel:"FULL_SYSTEM_ACCESS",
-    permissions:["*","root","admin","view","create","edit","delete","approve","export","import","audit","settings","users","roles","system","all_modules"],
-    modules:["dashboard","quality","documents","audits","risks","actions","training","maintenance","production","purchasing","hr","environment","ohs","energy","isms","iatf","cop","reports","settings","users","roles","system"],
-    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Satınalma","Planlama","Tedarik","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"],
-    canViewAll:true,canCreate:true,canEdit:true,canDelete:true,canApprove:true,canExport:true,canImport:true,canAudit:true,canManageUsers:true,canManageRoles:true,canManageSystem:true,canAccessSettings:true,canAccessAllModules:true,canOverrideWorkflow:true,isRoot:true,isSuperAdmin:true,isFullAuthorized:true
-  },
-  {
-    username:"demo",
-    password:"demo123",
-    name:"Demo Kullanıcı",
-    role:"Kullanıcı",
-    department:"Kalite",
-    accessLevel:"LIMITED_ACCESS",
-    permissions:["view"],
-    departments:["Kalite"],
-    canViewAll:false,canCreate:false,canEdit:false,canDelete:false,canManageUsers:false,canManageRoles:false,canManageSystem:false,isRoot:false,isSuperAdmin:false,isFullAuthorized:false
-  }
-];
-let USERS=loadUsers();
-
-function loadUsers(){
-  const stored=safeArrayFromLS("gdnl_login_users");
-  return stored.length?stored:DEFAULT_USERS.map(u=>({...u}));
-}
-
-function saveLoginUsers(){
-  localStorage.setItem("gdnl_login_users",JSON.stringify(USERS));
-}
-
+let USERS=[];
 let resetState={username:"",code:""};
-
 
 function normalizeLoginUser(u){
   const name=u.name||u.fullName||"";
   const department=u.department||"Kalite";
   const role=u.role||"Kullanıcı";
-  const isFull=role==="Super Administrator"||u.accessLevel==="FULL_SYSTEM_ACCESS"||u.isRoot===true||u.isSuperAdmin===true||u.isFullAuthorized===true;
+  const isFull=role==="Super Administrator"||role==="Root Super Administrator"||u.accessLevel==="FULL_SYSTEM_ACCESS"||u.isRoot===true||u.isSuperAdmin===true||u.isFullAuthorized===true;
   return {
     ...u,
     name,
     fullName:name,
-    username:u.username||"",
-    password:u.password||"",
+    username:String(u.username||"").trim().toLowerCase(),
+    password:String(u.password||""),
     department,
     role,
-    email:u.email||"",
+    email:String(u.email||"").trim().toLowerCase(),
+    status:u.status||"Aktif",
     accessLevel:isFull?"FULL_SYSTEM_ACCESS":(u.accessLevel||"DEPARTMENT_ACCESS"),
     permissions:Array.isArray(u.permissions)?u.permissions:(isFull?["*"]:["view","create","edit","download","quality_limited","own_department"]),
     departments:Array.isArray(u.departments)&&u.departments.length?u.departments:(isFull?["Yönetim","Kalite","Üretim","Ar-Ge","Satınalma","Planlama","Tedarik Zinciri","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"]:[department,"Kalite"]),
@@ -780,19 +741,32 @@ function normalizeLoginUser(u){
     isFullAuthorized:isFull||!!u.isFullAuthorized
   };
 }
-function loadEOSUsersForLogin(){
-  let stored=[];
-  try{stored=JSON.parse(localStorage.getItem("gdnl_users")||"[]");if(!Array.isArray(stored))stored=[];}catch(e){stored=[]}
-  const merged=[...DEFAULT_USERS];
-  stored.forEach(u=>{
-    const key=String(u.username||"").toLowerCase();
-    const i=merged.findIndex(x=>String(x.username||"").toLowerCase()===key || x.id===u.id);
-    if(i===-1)merged.push(u); else merged[i]={...merged[i],...u};
-  });
-  localStorage.setItem("gdnl_users",JSON.stringify(merged.map(normalizeLoginUser)));
-  return merged.map(normalizeLoginUser).filter(u=>u.status!=="Pasif");
+
+function readUsersForLogin(){
+  try{
+    const stored=JSON.parse(localStorage.getItem("gdnl_users")||"[]");
+    if(!Array.isArray(stored)) return [];
+    return stored
+      .filter(u=>String(u.username||"").trim()!=="")
+      .filter(u=>String(u.username||"").toLowerCase()!=="demo")
+      .map(normalizeLoginUser)
+      .filter(u=>u.status!=="Pasif");
+  }catch(e){
+    return [];
+  }
 }
-function refreshLoginUsers(){USERS=loadEOSUsersForLogin();return USERS;}
+
+function saveUsersForLogin(items){
+  const clean=(Array.isArray(items)?items:[])
+    .filter(u=>String(u.username||"").toLowerCase()!=="demo")
+    .map(normalizeLoginUser);
+  localStorage.setItem("gdnl_users",JSON.stringify(clean));
+}
+
+function refreshLoginUsers(){
+  USERS=readUsersForLogin();
+  return USERS;
+}
 
 function showMessage(text,type){const msg=document.getElementById("msg");msg.textContent=text;msg.className="msg "+type;}
 function togglePassword(){const p=document.getElementById("password");p.type=p.type==="password"?"text":"password";}
@@ -828,12 +802,17 @@ function createResetCode(){
   const user=refreshLoginUsers().find(u=>String(u.username||"").toLowerCase()===username);
 
   if(!username || !email){
-    showMessage("Şifre sıfırlama için kullanıcı adı ve e-posta giriniz.","error");
+    showMessage("Şifre sıfırlama için kullanıcı adı ve kayıtlı e-posta giriniz.","error");
     return;
   }
 
   if(!user){
     showMessage("Bu kullanıcı adı sistemde bulunamadı.","error");
+    return;
+  }
+
+  if(String(user.email||"").trim().toLowerCase()!==String(email||"").trim().toLowerCase()){
+    showMessage("Kullanıcı adı ile kayıtlı e-posta eşleşmiyor.","error");
     return;
   }
 
@@ -846,7 +825,7 @@ function createResetCode(){
     email,
     code,
     createdAt:new Date().toISOString(),
-    status:"CODE_CREATED_DEMO"
+    status:"CODE_CREATED"
   };
 
   const logs=safeArrayFromLS("gdnl_password_reset_logs");
@@ -855,8 +834,8 @@ function createResetCode(){
 
   document.getElementById("resetStep1").classList.remove("active");
   document.getElementById("resetStep2").classList.add("active");
-  document.getElementById("resetCodeHint").textContent="Doğrulama kodu oluşturuldu. Mail motoru bağlanana kadar test kodu: "+code;
-  showMessage("Doğrulama kodu oluşturuldu. Demo kod modal içinde gösterildi.","success");
+  document.getElementById("resetCodeHint").textContent="Doğrulama kodu oluşturuldu. Test kodu: "+code;
+  showMessage("Doğrulama kodu oluşturuldu.","success");
 }
 
 function completePasswordReset(){
@@ -875,14 +854,14 @@ function completePasswordReset(){
 
   USERS=refreshLoginUsers().map(u=>String(u.username||"").toLowerCase()===String(resetState.username||"").toLowerCase()?{...u,password:newPassword,updatedAt:new Date().toISOString()}:u);
   localStorage.setItem("gdnl_users",JSON.stringify(USERS));
-  saveLoginUsers();
+  saveUsersForLogin(USERS);
 
   const logs=safeArrayFromLS("gdnl_password_reset_logs");
   logs.push({
     username:resetState.username,
     action:"PASSWORD_UPDATED",
     updatedAt:new Date().toISOString(),
-    status:"SUCCESS_DEMO"
+    status:"SUCCESS"
   });
   localStorage.setItem("gdnl_password_reset_logs",JSON.stringify(logs));
 
