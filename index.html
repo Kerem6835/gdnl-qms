@@ -374,6 +374,453 @@ body{
   .dashboard-preview{display:none}
 }
 
+/* === FINAL OVERRIDE: 13 / 14 / 15 inch ZERO-GAP + NO OVERFLOW FIX === */
+@media (min-width:821px){
+  html,body,#viewport,#stage{
+    width:100vw!important;
+    height:100vh!important;
+    overflow:hidden!important;
+  }
+
+  #stage{
+    position:absolute!important;
+    inset:0!important;
+    left:0!important;
+    top:0!important;
+    transform:none!important;
+  }
+
+  .shell{
+    position:absolute!important;
+    inset:0!important;
+    border-radius:0!important;
+    overflow:hidden!important;
+  }
+
+  .topbar{
+    height:58px!important;
+    grid-template-columns:1.05fr 1fr 1fr 1fr 1fr .9fr!important;
+  }
+
+  .top-item{
+    padding:0 18px!important;
+    gap:10px!important;
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+
+  .top-icon{
+    width:30px!important;
+    height:30px!important;
+    flex:0 0 30px!important;
+  }
+
+  .top-icon svg{
+    width:20px!important;
+    height:20px!important;
+  }
+
+  .top-item b{
+    font-size:18px!important;
+    line-height:1.05!important;
+    white-space:nowrap!important;
+  }
+
+  .top-item span{
+    font-size:11px!important;
+    line-height:1.1!important;
+    white-space:nowrap!important;
+  }
+
+  .status-dot{
+    width:12px!important;
+    height:12px!important;
+    box-shadow:0 0 0 6px rgba(32,184,90,.12)!important;
+    flex:0 0 12px!important;
+  }
+
+  .content{
+    height:calc(100vh - 58px)!important;
+    padding:4px 4px 0!important;
+    display:grid!important;
+    grid-template-rows:minmax(0,1fr) 58px!important;
+    gap:4px!important;
+    overflow:hidden!important;
+  }
+
+  .main{
+    height:100%!important;
+    min-height:0!important;
+    display:grid!important;
+    grid-template-columns:minmax(300px,27fr) minmax(560px,43fr) minmax(360px,30fr)!important;
+    gap:4px!important;
+    align-items:stretch!important;
+    overflow:hidden!important;
+  }
+
+  .main>section{
+    min-width:0!important;
+    min-height:0!important;
+    height:100%!important;
+    overflow:hidden!important;
+  }
+
+  .logo-wrap{
+    gap:12px!important;
+    margin-bottom:8px!important;
+  }
+
+  .logo-mark{
+    width:48px!important;
+    height:48px!important;
+  }
+
+  .logo-text strong{
+    font-size:28px!important;
+    letter-spacing:3px!important;
+  }
+
+  .logo-text p{
+    margin-top:5px!important;
+    font-size:12px!important;
+  }
+
+  .hero h1{
+    font-size:31px!important;
+    line-height:1.02!important;
+    letter-spacing:-1.4px!important;
+    margin-bottom:8px!important;
+  }
+
+  .hero-desc{
+    max-width:360px!important;
+    font-size:12px!important;
+    line-height:1.28!important;
+    margin-bottom:8px!important;
+  }
+
+  .features{
+    gap:6px!important;
+  }
+
+  .feature{
+    grid-template-columns:40px 1fr!important;
+    gap:8px!important;
+  }
+
+  .feature-icon{
+    width:38px!important;
+    height:38px!important;
+    border-radius:13px!important;
+  }
+
+  .feature-icon svg{
+    width:19px!important;
+    height:19px!important;
+  }
+
+  .feature h3{
+    font-size:12px!important;
+    margin-bottom:2px!important;
+  }
+
+  .feature p{
+    font-size:9.7px!important;
+    line-height:1.2!important;
+  }
+
+  .dashboard-preview{
+    width:100%!important;
+    height:100%!important;
+    max-height:560px!important;
+    align-self:center!important;
+    min-height:0!important;
+    grid-template-columns:118px 1fr!important;
+    border-radius:20px!important;
+    transform:perspective(1400px) rotateZ(-.45deg) rotateY(-1deg)!important;
+    overflow:hidden!important;
+  }
+
+  .preview-sidebar{
+    padding:10px 8px!important;
+  }
+
+  .preview-logo{
+    font-size:12px!important;
+    margin-bottom:10px!important;
+    gap:6px!important;
+  }
+
+  .preview-logo svg{
+    width:20px!important;
+    height:20px!important;
+  }
+
+  .nav-item{
+    height:26px!important;
+    padding:0 7px!important;
+    margin-bottom:3px!important;
+    gap:6px!important;
+    font-size:8.8px!important;
+    border-radius:8px!important;
+  }
+
+  .nav-item svg{
+    width:13px!important;
+    height:13px!important;
+  }
+
+  .preview-content{
+    padding:10px!important;
+  }
+
+  .preview-top{
+    margin-bottom:8px!important;
+  }
+
+  .menu-line{
+    font-size:19px!important;
+  }
+
+  .search{
+    width:185px!important;
+    height:26px!important;
+    font-size:8.8px!important;
+    border-radius:8px!important;
+  }
+
+  .preview-icons{
+    gap:9px!important;
+    font-size:14px!important;
+  }
+
+  .avatar{
+    width:28px!important;
+    height:28px!important;
+  }
+
+  .preview-title{
+    font-size:14px!important;
+    margin-bottom:8px!important;
+  }
+
+  .kpi-grid{
+    gap:8px!important;
+    margin-bottom:8px!important;
+  }
+
+  .kpi{
+    height:74px!important;
+    padding:9px!important;
+    border-radius:11px!important;
+  }
+
+  .kpi small{
+    font-size:8px!important;
+    margin-bottom:8px!important;
+  }
+
+  .kpi b{
+    font-size:17px!important;
+  }
+
+  .kpi span{
+    margin-top:4px!important;
+    font-size:7px!important;
+  }
+
+  .panel-grid{
+    gap:8px!important;
+    margin-bottom:8px!important;
+  }
+
+  .panel{
+    height:134px!important;
+    padding:9px!important;
+    border-radius:11px!important;
+  }
+
+  .panel h4{
+    font-size:9px!important;
+    margin-bottom:7px!important;
+  }
+
+  .donut-area{
+    gap:10px!important;
+  }
+
+  .donut,.complete{
+    width:72px!important;
+    height:72px!important;
+  }
+
+  .donut:after,.complete:after{
+    inset:12px!important;
+    font-size:7.5px!important;
+  }
+
+  .legend{
+    gap:6px!important;
+    font-size:7.3px!important;
+    min-width:115px!important;
+  }
+
+  .chart{
+    height:88px!important;
+  }
+
+  .months{
+    font-size:7.5px!important;
+    margin-top:3px!important;
+  }
+
+  .lower-grid{
+    gap:8px!important;
+  }
+
+  .progress{
+    height:8px!important;
+    margin:9px 0 7px!important;
+  }
+
+  .audit-line{
+    font-size:7.5px!important;
+    margin:7px 0!important;
+  }
+
+  .login-card{
+    width:100%!important;
+    height:100%!important;
+    max-height:560px!important;
+    align-self:center!important;
+    min-height:0!important;
+    border-radius:22px!important;
+    padding:24px 34px 20px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+  }
+
+  .login-logo{
+    margin-bottom:10px!important;
+  }
+
+  .login-logo svg{
+    width:70px!important;
+    height:70px!important;
+    margin-bottom:8px!important;
+  }
+
+  .login-logo strong{
+    font-size:24px!important;
+    letter-spacing:3px!important;
+  }
+
+  .login-logo p{
+    margin-top:5px!important;
+    font-size:11px!important;
+  }
+
+  .welcome{
+    margin-bottom:10px!important;
+  }
+
+  .welcome h2{
+    font-size:18px!important;
+    margin-bottom:5px!important;
+  }
+
+  .welcome p{
+    font-size:11px!important;
+  }
+
+  .form-group{
+    margin-bottom:10px!important;
+  }
+
+  .form-group label{
+    font-size:11px!important;
+    margin-bottom:6px!important;
+  }
+
+  .input-wrap input{
+    height:48px!important;
+    border-radius:11px!important;
+    font-size:12px!important;
+  }
+
+  .input-wrap svg{
+    width:18px!important;
+    height:18px!important;
+  }
+
+  .form-row{
+    margin:2px 0 14px!important;
+  }
+
+  .remember,.forgot{
+    font-size:11px!important;
+  }
+
+  .login-btn{
+    height:50px!important;
+    border-radius:11px!important;
+    font-size:13px!important;
+  }
+
+  .security{
+    margin-top:12px!important;
+    grid-template-columns:34px 1fr!important;
+    gap:10px!important;
+    font-size:9.5px!important;
+    line-height:1.22!important;
+  }
+
+  .security b{
+    font-size:10.5px!important;
+  }
+
+  .security svg{
+    width:32px!important;
+    height:32px!important;
+  }
+
+  .modules{
+    height:58px!important;
+    margin-top:0!important;
+    display:grid!important;
+    grid-template-columns:repeat(8,minmax(0,1fr))!important;
+    gap:4px!important;
+    overflow:hidden!important;
+  }
+
+  .module{
+    height:58px!important;
+    min-width:0!important;
+    border-radius:12px!important;
+    padding:5px 6px!important;
+    overflow:hidden!important;
+  }
+
+  .module svg{
+    width:17px!important;
+    height:17px!important;
+    margin-bottom:3px!important;
+  }
+
+  .module b{
+    font-size:8px!important;
+    line-height:1.05!important;
+    margin-bottom:2px!important;
+  }
+
+  .module span{
+    font-size:6.4px!important;
+    line-height:1.05!important;
+  }
+}
+
 </style>
 </head>
 <body>
