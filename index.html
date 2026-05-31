@@ -1,461 +1,1035 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EMS | Premium Login</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GDNL EMS | Login</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --navy:#08172f;
-  --muted:#607089;
-  --line:#dfe8f3;
-  --green:#22c55e;
+  --navy:#07162f;
+  --text:#0a1530;
+  --muted:#66728a;
+  --green:#20c766;
+  --green2:#16a95c;
   --blue:#1677ff;
-  --shadow:0 28px 80px rgba(15,35,65,.12);
+  --soft:#f5f9fc;
+  --line:rgba(15,35,70,.10);
+  --glass:rgba(255,255,255,.76);
+  --shadow:0 34px 90px rgba(28,58,105,.14);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,sans-serif;color:var(--navy)}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+}
+
 body{
+  min-height:100vh;
+  overflow:hidden;
   background:
-  radial-gradient(circle at 22% 82%,rgba(34,197,94,.13),transparent 32%),
-  radial-gradient(circle at 82% 18%,rgba(22,119,255,.12),transparent 34%),
-  linear-gradient(135deg,#fff 0%,#f8fbff 52%,#eef6ff 100%);
+    radial-gradient(circle at 14% 82%, rgba(32,199,102,.20), transparent 34%),
+    radial-gradient(circle at 86% 15%, rgba(22,119,255,.18), transparent 30%),
+    linear-gradient(135deg,#fbfdff 0%,#edf5fb 100%);
 }
-.page{
-  width:100vw;
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(118deg,transparent 0%,transparent 52%,rgba(8,30,64,.045) 52.1%,transparent 52.45%),
+    radial-gradient(circle at 52% 62%,rgba(255,255,255,.95),transparent 34%);
+}
+
+.login-page{
+  width:min(1720px,94vw);
   height:100vh;
+  margin:0 auto;
   display:grid;
-  grid-template-columns:1.05fr .95fr;
-  gap:34px;
-  padding:44px 64px;
+  grid-template-columns:58% 42%;
+  align-items:center;
+  gap:56px;
+  position:relative;
+  z-index:2;
 }
+
 .left{
+  height:100%;
+  padding:58px 0 44px;
   display:flex;
   flex-direction:column;
-  justify-content:center;
-  min-width:0;
+  justify-content:space-between;
 }
+
 .brand{
   display:flex;
   align-items:center;
-  gap:14px;
-  margin-bottom:70px;
+  gap:18px;
 }
-.logo{width:62px;height:62px}
-.brand h1{font-size:34px;font-weight:900;letter-spacing:1px}
-.brand h1 span{color:var(--green)}
-.brand p{font-size:14px;color:var(--muted);font-weight:600;margin-top:4px}
-.badge{
-  display:inline-flex;
-  width:max-content;
-  align-items:center;
-  gap:9px;
-  border:1px solid #cdeedd;
-  background:#f3fff8;
-  color:#129447;
-  padding:10px 18px;
-  border-radius:999px;
-  font-weight:800;
-  font-size:14px;
-  margin-bottom:28px;
-}
-.hero h2{
-  font-size:46px;
-  line-height:1.18;
-  letter-spacing:-1.8px;
-}
-.hero h2 span{color:#15a979}
-.hero p{
-  max-width:610px;
-  margin-top:24px;
-  font-size:18px;
-  line-height:1.65;
-  color:var(--muted);
-  font-weight:600;
-}
-.features{
-  display:grid;
-  grid-template-columns:repeat(4,120px);
-  gap:42px;
-  margin-top:46px;
-}
-.feature{text-align:center}
-.feature i{
-  display:grid;
-  place-items:center;
+
+.logo-mark{
   width:72px;
   height:72px;
-  margin:auto;
-  border-radius:20px;
-  background:rgba(255,255,255,.84);
-  border:1px solid var(--line);
-  box-shadow:0 18px 42px rgba(15,35,65,.08);
-  font-style:normal;
-  font-size:28px;
-}
-.feature b{display:block;margin-top:14px;font-size:15px}
-.feature span{display:block;margin-top:7px;font-size:13px;line-height:1.45;color:var(--muted)}
-.login-wrap{
+  border-radius:22px;
+  background:linear-gradient(135deg,#21d16c 0%,#1393ef 100%);
   display:flex;
   align-items:center;
   justify-content:center;
-  min-width:0;
+  color:#fff;
+  font-size:38px;
+  font-weight:900;
+  box-shadow:0 24px 60px rgba(21,145,239,.22);
 }
-.card{
+
+.brand-title{
+  font-size:44px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:-1.5px;
+}
+
+.brand-title span{
+  color:var(--green);
+}
+
+.brand-sub{
+  margin-top:8px;
+  color:#63708a;
+  font-size:18px;
+  font-weight:700;
+}
+
+.hero{
+  margin-top:40px;
+}
+
+.secure-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:12px 21px;
+  border-radius:999px;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(32,199,102,.25);
+  color:#07984c;
+  font-size:17px;
+  font-weight:900;
+  box-shadow:0 20px 55px rgba(32,199,102,.10);
+}
+
+.hero h1{
+  margin:34px 0 22px;
+  max-width:920px;
+  font-size:74px;
+  line-height:.98;
+  letter-spacing:-4px;
+  font-weight:900;
+}
+
+.hero h1 span{
+  color:#17aa84;
+}
+
+.hero p{
+  margin:0;
+  max-width:850px;
+  color:#586680;
+  font-size:21px;
+  line-height:1.65;
+  font-weight:650;
+}
+
+.ems-hub{
   width:100%;
-  max-width:610px;
-  height:calc(100vh - 88px);
-  max-height:780px;
-  min-height:650px;
-  padding:34px 56px 34px;
+  max-width:900px;
+  height:390px;
+  position:relative;
+  margin-top:30px;
+}
+
+.ems-orbit{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:880px;
+  height:330px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,1) 0%,rgba(255,255,255,.76) 35%,rgba(145,215,255,.16) 62%,transparent 72%);
+  filter:drop-shadow(0 45px 60px rgba(32,95,148,.16));
+}
+
+.ems-orbit::before{
+  content:"";
+  position:absolute;
+  left:70px;
+  right:70px;
+  top:42px;
+  bottom:34px;
+  border-radius:50%;
+  border:2px solid rgba(55,161,255,.20);
+  box-shadow:
+    inset 0 0 34px rgba(255,255,255,.95),
+    0 0 55px rgba(32,199,102,.08);
+  background:rgba(255,255,255,.24);
+}
+
+.ems-orbit::after{
+  content:"";
+  position:absolute;
+  left:150px;
+  right:150px;
+  top:82px;
+  bottom:72px;
+  border-radius:50%;
+  border:1px solid rgba(32,199,102,.20);
+}
+
+.hub-logo{
+  position:absolute;
+  left:50%;
+  top:53%;
+  transform:translate(-50%,-50%);
+  width:152px;
+  height:152px;
+  border-radius:44px;
+  background:linear-gradient(135deg,#21d16c 0%,#0d7fff 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:84px;
+  font-weight:900;
+  box-shadow:0 30px 75px rgba(32,199,102,.28);
+}
+
+.standard{
+  position:absolute;
+  padding:14px 18px;
+  min-width:176px;
+  border-radius:18px;
+  background:rgba(255,255,255,.76);
+  border:1px solid rgba(15,35,70,.08);
+  box-shadow:0 22px 48px rgba(28,58,105,.08);
+  backdrop-filter:blur(18px);
+  font-size:15px;
+  font-weight:900;
+}
+
+.standard small{
+  display:block;
+  margin-top:4px;
+  color:#66728a;
+  font-size:11px;
+  font-weight:750;
+}
+
+.st1{left:380px;top:24px}
+.st2{left:92px;top:150px}
+.st3{left:116px;top:236px}
+.st4{right:82px;top:166px}
+.st5{left:385px;bottom:3px}
+
+.bottom-note{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  color:#657189;
+  font-size:15px;
+  font-weight:700;
+}
+
+.bottom-note strong{
+  color:#15233f;
+}
+
+.right{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.lang{
+  position:absolute;
+  top:58px;
+  right:18px;
+  height:48px;
+  padding:0 18px;
+  border-radius:17px;
   border:1px solid var(--line);
-  border-radius:30px;
-  background:rgba(255,255,255,.84);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(22px);
+  background:rgba(255,255,255,.82);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#21304c;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(28,58,105,.08);
+}
+
+.login-card{
+  width:640px;
+  min-height:790px;
+  border-radius:48px;
+  padding:64px 58px 44px;
+  border:1px solid rgba(15,35,70,.10);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,255,255,.68));
+  backdrop-filter:blur(28px);
+  box-shadow:
+    0 42px 100px rgba(28,58,105,.15),
+    inset 0 1px 0 rgba(255,255,255,.92);
+}
+
+.login-head{
+  text-align:center;
+}
+
+.login-logo{
+  width:112px;
+  height:112px;
+  margin:0 auto 28px;
+  border-radius:35px;
+  background:linear-gradient(135deg,#21d16c 0%,#0d7fff 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:64px;
+  font-weight:900;
+  box-shadow:0 34px 80px rgba(22,119,255,.18);
+}
+
+.login-head h2{
+  margin:0;
+  font-size:39px;
+  line-height:1;
+  letter-spacing:-1.2px;
+  font-weight:900;
+}
+
+.login-head p{
+  margin:14px 0 0;
+  color:#66728a;
+  font-size:17px;
+  font-weight:700;
+}
+
+.login-line{
+  width:56px;
+  height:4px;
+  margin:24px auto 0;
+  border-radius:99px;
+  background:linear-gradient(90deg,var(--green),var(--blue));
+}
+
+form{
+  margin-top:42px;
+}
+
+.form-group{
+  margin-bottom:24px;
+}
+
+label{
+  display:block;
+  margin-bottom:10px;
+  font-size:15px;
+  font-weight:900;
+  color:#0b1733;
+}
+
+.field{
+  width:100%;
+  height:66px;
+  border-radius:18px;
+  border:1px solid rgba(15,35,70,.10);
+  background:rgba(255,255,255,.86);
+  box-shadow:
+    0 18px 42px rgba(28,58,105,.07),
+    inset 0 1px 0 rgba(255,255,255,.8);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:0 20px;
+}
+
+.field-icon{
+  color:#66728a;
+  font-size:20px;
+}
+
+.field input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#0b1733;
+  font-size:17px;
+  font-weight:750;
+}
+
+.field input::placeholder{
+  color:#8a96aa;
+}
+
+.eye{
+  cursor:pointer;
+  user-select:none;
+  color:#66728a;
+  font-size:19px;
+}
+
+.login-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:4px 0 28px;
+  color:#3f4f6a;
+  font-size:15px;
+  font-weight:800;
+}
+
+.remember{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.remember input{
+  width:17px;
+  height:17px;
+  accent-color:var(--green);
+}
+
+.forgot{
+  color:#12a65a;
+  text-decoration:none;
+  font-weight:900;
+}
+
+.login-btn{
+  width:100%;
+  height:70px;
+  border:0;
+  border-radius:18px;
+  background:linear-gradient(100deg,#20c766 0%,#0d7fff 100%);
+  color:white;
+  font-size:21px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 26px 52px rgba(22,119,255,.24);
+  transition:.25s ease;
+}
+
+.login-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 34px 70px rgba(22,119,255,.30);
+}
+
+.login-btn:active{
+  transform:translateY(0);
+}
+
+.message{
+  display:none;
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:850;
+}
+
+.message.error{
+  color:#b42318;
+  background:#fff1f0;
+  border:1px solid #ffd0cc;
+}
+
+.message.success{
+  color:#067647;
+  background:#ecfdf3;
+  border:1px solid #bbf7d0;
+}
+
+.system-status{
+  margin-top:34px;
+  padding:22px;
+  border-radius:22px;
+  background:rgba(255,255,255,.74);
+  border:1px solid rgba(15,35,70,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.88);
+}
+
+.status-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  font-size:15px;
+  font-weight:900;
+}
+
+.operational{
+  color:#0fa958;
+}
+
+.status-items{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.status-item{
+  min-height:70px;
+  border-radius:16px;
+  background:rgba(248,251,254,.88);
+  border:1px solid rgba(15,35,70,.06);
+  padding:12px;
   display:flex;
   flex-direction:column;
   justify-content:center;
 }
-.login-logo{text-align:center}
-.login-logo svg{
-  width:105px;
-  height:105px;
-  filter:drop-shadow(0 18px 28px rgba(34,197,94,.18));
-}
-.login-logo h2{
-  font-size:36px;
-  margin-top:18px;
+
+.status-item strong{
+  display:block;
+  color:#0b1733;
+  font-size:20px;
+  line-height:1;
   font-weight:900;
-  letter-spacing:2px;
 }
-.login-logo h2 span{color:var(--green)}
-.login-logo p{color:var(--muted);font-weight:700;margin-top:8px}
-.welcome{text-align:center;margin-top:26px}
-.welcome h3{font-size:27px;font-weight:900}
-.welcome p{margin-top:8px;color:var(--muted);font-weight:700}
-.line{width:56px;height:3px;background:var(--green);border-radius:999px;margin:20px auto 24px}
-.group{margin-bottom:18px}
-.group label{display:block;margin-bottom:8px;font-size:14px;font-weight:850}
-.input{position:relative}
-.input input{
-  width:100%;
-  height:56px;
-  border:1px solid #dbe5f0;
-  border-radius:14px;
-  background:#f8fbff;
-  padding:0 52px;
-  font-size:15px;
+
+.status-item span{
+  display:block;
+  margin-top:7px;
+  color:#6b7894;
+  font-size:12px;
   font-weight:750;
-  color:var(--navy);
-  outline:none;
 }
-.input input:focus{
-  border-color:var(--green);
-  box-shadow:0 0 0 4px rgba(34,197,94,.12);
-}
-.input span{
-  position:absolute;
-  left:18px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#6b7b93;
-}
-.eye{
-  position:absolute;
-  right:18px;
-  top:50%;
-  transform:translateY(-50%);
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  color:#6b7b93;
-}
-.row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:2px 0 20px;
-  font-size:14px;
-  font-weight:800;
-}
-.row label{display:flex;align-items:center;gap:8px}
-.row input{accent-color:var(--green);width:17px;height:17px}
-.row a{color:#10a651;text-decoration:none;font-weight:900}
-.btn{
-  width:100%;
-  height:60px;
-  border:0;
-  border-radius:14px;
-  background:linear-gradient(105deg,#22c55e,#0ea5e9,#2563eb);
-  color:#fff;
-  font-size:17px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 20px 42px rgba(22,119,255,.22);
-}
-.divider{
-  display:flex;
-  align-items:center;
-  gap:18px;
-  margin:22px 0;
-  color:#7a879a;
-  font-weight:800;
-  font-size:13px;
-}
-.divider:before,.divider:after{content:"";height:1px;background:#e0e8f1;flex:1}
-.sso{
-  width:100%;
-  height:54px;
-  border:1px solid #dfe8f3;
-  background:#fff;
-  border-radius:14px;
-  font-weight:900;
-  color:var(--navy);
-  font-size:15px;
-}
-.info{
-  margin-top:22px;
-  display:grid;
-  grid-template-columns:48px 1fr;
-  gap:14px;
-  align-items:center;
-  padding:16px;
-  border:1px solid #e5edf5;
-  border-radius:18px;
-  background:#fff;
-}
-.info i{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  background:#f3f7fb;
-  display:grid;
-  place-items:center;
-  font-style:normal;
-}
-.info b{font-size:14px}
-.info p{font-size:13px;color:var(--muted);margin-top:4px}
-.msg{
+
+.copyright-mobile{
   display:none;
-  margin-bottom:16px;
-  padding:12px 14px;
-  border-radius:12px;
-  font-weight:850;
-  font-size:13px;
 }
-.msg.error{display:block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
-.msg.success{display:block;background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
-@media(max-width:1180px){
-  .page{grid-template-columns:1fr;padding:26px;overflow:auto}
-  body{overflow:auto}
-  .left{display:none}
-  .card{height:auto;min-height:auto}
+
+@media(max-width:1380px){
+  .login-page{
+    width:min(1560px,94vw);
+    gap:34px;
+  }
+
+  .hero h1{
+    font-size:62px;
+  }
+
+  .login-card{
+    width:590px;
+    min-height:730px;
+    padding:54px 48px 38px;
+  }
+
+  .ems-orbit{
+    width:760px;
+  }
+
+  .ems-hub{
+    height:340px;
+  }
 }
-@media(max-height:820px) and (min-width:1181px){
-  .page{padding:28px 54px}
-  .brand{margin-bottom:38px}
-  .hero h2{font-size:39px}
-  .hero p{font-size:15px;margin-top:16px}
-  .features{margin-top:30px}
-  .feature i{width:60px;height:60px}
-  .card{height:calc(100vh - 56px);padding:24px 48px}
-  .login-logo svg{width:82px;height:82px}
-  .login-logo h2{font-size:31px;margin-top:12px}
-  .welcome{margin-top:18px}
-  .welcome h3{font-size:24px}
-  .line{margin:16px auto 18px}
-  .input input{height:50px}
-  .btn{height:54px}
-  .sso{height:50px}
-  .info{margin-top:16px}
+
+@media(max-width:1120px){
+  body{
+    overflow:auto;
+  }
+
+  .login-page{
+    height:auto;
+    min-height:100vh;
+    grid-template-columns:1fr;
+    padding:34px 0;
+  }
+
+  .left{
+    height:auto;
+    padding:0;
+  }
+
+  .right{
+    height:auto;
+  }
+
+  .lang{
+    top:0;
+  }
+
+  .login-card{
+    width:min(640px,100%);
+  }
+
+  .bottom-note{
+    display:none;
+  }
+
+  .copyright-mobile{
+    display:block;
+    text-align:center;
+    margin-top:24px;
+    color:#6b7894;
+    font-size:13px;
+    font-weight:700;
+  }
+}
+
+@media(max-width:720px){
+  .login-page{
+    width:min(100%,92vw);
+  }
+
+  .brand-title{
+    font-size:32px;
+  }
+
+  .brand-sub{
+    font-size:14px;
+  }
+
+  .logo-mark{
+    width:58px;
+    height:58px;
+  }
+
+  .hero h1{
+    font-size:44px;
+    letter-spacing:-2.2px;
+  }
+
+  .hero p{
+    font-size:16px;
+  }
+
+  .secure-pill{
+    font-size:14px;
+  }
+
+  .ems-hub{
+    height:250px;
+  }
+
+  .ems-orbit{
+    width:100%;
+    height:240px;
+  }
+
+  .standard{
+    display:none;
+  }
+
+  .hub-logo{
+    width:110px;
+    height:110px;
+    font-size:58px;
+  }
+
+  .login-card{
+    min-height:auto;
+    border-radius:32px;
+    padding:42px 24px 30px;
+  }
+
+  .login-logo{
+    width:86px;
+    height:86px;
+    font-size:48px;
+  }
+
+  .login-head h2{
+    font-size:31px;
+  }
+
+  .status-items{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .lang{
+    right:0;
+  }
 }
 </style>
 </head>
+
 <body>
 
-<div class="page">
+<main class="login-page">
+
   <section class="left">
-    <div class="brand">
-      <svg class="logo" viewBox="0 0 100 100">
-        <path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#22c55e" transform="translate(0 -8)"/>
-        <path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#1677ff" transform="translate(0 -3)"/>
-      </svg>
-      <div>
-        <h1>GDNL <span>EMS</span></h1>
-        <p>Enterprise Management System</p>
-      </div>
-    </div>
-
-    <div class="hero">
-      <div class="badge">🛡 Güvenli • Güvenilir • Uyumlu</div>
-      <h2>Yönet. Kontrol Et.<br>Geliştir. Kurumu <span>Güçlendir.</span></h2>
-      <p>Tüm departmanlarınızı tek platformda yönetin, süreçlerinizi optimize edin, geleceğe güvenle ilerleyin.</p>
-    </div>
-
-    <div class="features">
-      <div class="feature"><i>▥</i><b>Verimlilik</b><span>Süreçlerinizi hızlandırın</span></div>
-      <div class="feature"><i>🛡</i><b>Güvenlik</b><span>Verileriniz güvende</span></div>
-      <div class="feature"><i>↗</i><b>Kontrol</b><span>Her an her yerden kontrol</span></div>
-      <div class="feature"><i>👥</i><b>İş Birliği</b><span>Ekibinizle güçlü iletişim</span></div>
-    </div>
-  </section>
-
-  <section class="login-wrap">
-    <div class="card">
-      <div class="login-logo">
-        <svg viewBox="0 0 100 100">
-          <path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#22c55e" transform="translate(0 -8)"/>
-          <path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#1677ff" transform="translate(0 -3)"/>
-        </svg>
-        <h2>GDNL <span>EMS</span></h2>
-        <p>Enterprise Management System</p>
-      </div>
-
-      <div class="welcome">
-        <h3>Hoş Geldiniz!</h3>
-        <p>Devam etmek için giriş yapın.</p>
-        <div class="line"></div>
-      </div>
-
-      <div id="msg" class="msg"></div>
-
-      <div class="group">
-        <label>Kullanıcı Adı</label>
-        <div class="input">
-          <span>👤</span>
-          <input id="username" value="keremgudenli" autocomplete="username">
-        </div>
-      </div>
-
-      <div class="group">
-        <label>Şifre</label>
-        <div class="input">
-          <span>🔒</span>
-          <input id="password" type="password" value="123456" autocomplete="current-password">
-          <button class="eye" type="button" onclick="togglePassword()">◉</button>
-        </div>
-      </div>
-
-      <div class="row">
-        <label><input id="remember" type="checkbox" checked> Beni Hatırla</label>
-        <a href="#" onclick="forgot(event)">Şifremi Unuttum?</a>
-      </div>
-
-      <button class="btn" onclick="login()">Giriş Yap →</button>
-
-      <div class="divider">veya</div>
-
-      <button class="sso" onclick="sso()">🛡 SSO ile Giriş Yap</button>
-
-      <div class="info">
-        <i>🛡</i>
+    <div>
+      <div class="brand">
+        <div class="logo-mark">G</div>
         <div>
-          <b>Güvenli • Güvenilir • Uyumlu</b>
-          <p>Kurumsal güvenlik standartlarına tam uyumlu altyapı.</p>
+          <div class="brand-title">GDNL <span>EMS</span></div>
+          <div class="brand-sub">Enterprise Management System</div>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="secure-pill">🛡 Güvenli • Güvenilir • Uyumlu</div>
+
+        <h1>
+          Yönet. Kontrol Et.<br>
+          Geliştir. Kurumu <span>Güçlendir.</span>
+        </h1>
+
+        <p>
+          Tüm departmanlarınızı tek platformda yönetin, süreçlerinizi optimize edin,
+          kurumsal hafızayı güvenli ve sürdürülebilir hale getirin.
+        </p>
+
+        <div class="ems-hub">
+          <div class="ems-orbit">
+            <div class="hub-logo">G</div>
+
+            <div class="standard st1">
+              ISO 9001
+              <small>Kalite Yönetim Sistemi</small>
+            </div>
+
+            <div class="standard st2">
+              ISO 14001
+              <small>Çevre Yönetim Sistemi</small>
+            </div>
+
+            <div class="standard st3">
+              ISO 27001
+              <small>Bilgi Güvenliği Yönetimi</small>
+            </div>
+
+            <div class="standard st4">
+              ISO 45001
+              <small>İş Sağlığı ve Güvenliği</small>
+            </div>
+
+            <div class="standard st5">
+              IATF 16949
+              <small>Otomotiv Kalite Yönetimi</small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="bottom-note">
+      <span>🛡</span>
+      <span><strong>Verileriniz</strong>, kurumsal güvenlik standartları ile korunmaktadır.</span>
+      <span style="margin-left:auto;">© 2026 GDNL EMS. Tüm hakları saklıdır.</span>
+    </div>
   </section>
-</div>
+
+  <section class="right">
+    <div class="lang">🌐 TR⌄</div>
+
+    <div class="login-card">
+
+      <div class="login-head">
+        <div class="login-logo">G</div>
+        <h2>Hoş Geldiniz!</h2>
+        <p>Devam etmek için giriş yapın.</p>
+        <div class="login-line"></div>
+      </div>
+
+      <form id="loginForm">
+
+        <div class="form-group">
+          <label for="username">Kullanıcı Adı</label>
+          <div class="field">
+            <span class="field-icon">👤</span>
+            <input id="username" type="text" placeholder="kullanıcı adınızı girin" autocomplete="username" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Şifre</label>
+          <div class="field">
+            <span class="field-icon">🔒</span>
+            <input id="password" type="password" placeholder="şifrenizi girin" autocomplete="current-password" required />
+            <span class="eye" id="togglePassword">👁</span>
+          </div>
+        </div>
+
+        <div class="login-row">
+          <label class="remember">
+            <input id="rememberMe" type="checkbox" checked />
+            Beni Hatırla
+          </label>
+          <a href="#" class="forgot">Şifremi Unuttum?</a>
+        </div>
+
+        <button class="login-btn" type="submit">Giriş Yap →</button>
+
+        <div id="errorMessage" class="message error">
+          Kullanıcı adı veya şifre hatalı.
+        </div>
+
+        <div id="successMessage" class="message success">
+          Giriş başarılı. Sistem açılıyor...
+        </div>
+
+      </form>
+
+      <div class="system-status">
+        <div class="status-top">
+          <span>Sistem Durumu</span>
+          <span class="operational">● Operational</span>
+        </div>
+
+        <div class="status-items">
+          <div class="status-item">
+            <strong id="statDocuments">12.458</strong>
+            <span>Doküman</span>
+          </div>
+
+          <div class="status-item">
+            <strong id="statCompliance">97,4%</strong>
+            <span>Uyum</span>
+          </div>
+
+          <div class="status-item">
+            <strong id="statCapa">24</strong>
+            <span>Açık CAPA</span>
+          </div>
+
+          <div class="status-item">
+            <strong id="statRisks">83</strong>
+            <span>Risk</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright-mobile">
+        © 2026 GDNL EMS. Tüm hakları saklıdır.
+      </div>
+
+    </div>
+  </section>
+
+</main>
 
 <script>
-const USERS=[
-  {
-    username:"keremgudenli",
-    password:"123456",
-    name:"Kerem Güdenli",
-    role:"Super Administrator",
-    permissions:["*"],
-    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Satınalma","İnsan Kaynakları","Bakım","Çevre ve İSG","COP"],
-    canViewAll:true,
-    canCreate:true,
-    canEdit:true,
-    canDelete:true,
-    canManageUsers:true,
-    canManageRoles:true,
-    canManageSystem:true
-  },
-  {
-    username:"demo",
-    password:"demo123",
-    name:"Demo User",
-    role:"Demo User",
-    permissions:["view"],
-    departments:["Kalite"],
-    canViewAll:false,
-    canCreate:false,
-    canEdit:false,
-    canDelete:false,
-    canManageUsers:false,
-    canManageRoles:false,
-    canManageSystem:false
-  }
-];
+(function(){
 
-function showMessage(text,type){
-  const msg=document.getElementById("msg");
-  msg.textContent=text;
-  msg.className="msg "+type;
-}
+  const defaultDatabase = {
+    users: [
+      {
+        username: "keremgudenli",
+        password: "123456",
+        fullName: "Kerem Güdenli",
+        role: "Super Administrator",
+        accessLevel: "full",
+        permissions: [
+          "dashboard.view",
+          "documents.view",
+          "documents.create",
+          "documents.edit",
+          "documents.delete",
+          "processes.manage",
+          "risks.manage",
+          "capa.manage",
+          "audits.manage",
+          "trainings.manage",
+          "reports.view",
+          "settings.manage",
+          "users.manage"
+        ]
+      },
+      {
+        username: "demo",
+        password: "demo123",
+        fullName: "Demo User",
+        role: "Demo Kullanıcı",
+        accessLevel: "demo",
+        permissions: [
+          "dashboard.view",
+          "documents.view",
+          "reports.view"
+        ]
+      }
+    ],
 
-function togglePassword(){
-  const p=document.getElementById("password");
-  p.type=p.type==="password"?"text":"password";
-}
+    systemData: {
+      systemName: "GDNL EMS",
+      status: "Operational",
+      totalDocuments: "12.458",
+      complianceRate: "97,4%",
+      openCapa: "24",
+      openRisks: "83",
+      standards: [
+        "ISO 9001",
+        "ISO 14001",
+        "ISO 45001",
+        "ISO 27001",
+        "IATF 16949"
+      ],
+      lastUpdated: new Date().toISOString()
+    },
 
-function forgot(e){
-  e.preventDefault();
-  showMessage("Şifre sıfırlama modülü daha sonra aktif edilecektir.","error");
-}
-
-function sso(){
-  showMessage("SSO bağlantısı demo modda pasif durumdadır.","error");
-}
-
-function login(){
-  const username=document.getElementById("username").value.trim().toLowerCase();
-  const password=document.getElementById("password").value.trim();
-  const user=USERS.find(u=>u.username.toLowerCase()===username && u.password===password);
-
-  if(!user){
-    showMessage("Kullanıcı adı veya şifre hatalı.","error");
-    return;
-  }
-
-  const session={
-    username:user.username,
-    name:user.name,
-    role:user.role,
-    permissions:user.permissions,
-    departments:user.departments,
-    canViewAll:user.canViewAll,
-    canCreate:user.canCreate,
-    canEdit:user.canEdit,
-    canDelete:user.canDelete,
-    canManageUsers:user.canManageUsers,
-    canManageRoles:user.canManageRoles,
-    canManageSystem:user.canManageSystem,
-    loginAt:new Date().toISOString(),
-    system:"GDNL EMS"
+    currentSession: null,
+    loginHistory: []
   };
 
-  localStorage.setItem("gdnl_ems_session",JSON.stringify(session));
-  localStorage.setItem("gdnl_current_user_name",user.name);
-  localStorage.setItem("gdnl_current_user_role",user.role);
-  localStorage.setItem("gdnl_current_permissions",JSON.stringify(user.permissions));
+  const storageKey = "gdnl_ems_database";
+  const sessionKey = "gdnl_ems_current_session";
+  const rememberKey = "gdnl_ems_remembered_username";
 
-  showMessage("Giriş başarılı. Panel hazırlanıyor...","success");
+  function getDatabase(){
+    const saved = localStorage.getItem(storageKey);
 
-  setTimeout(()=>{
-    window.location.href="dashboard.html";
-  },700);
-}
+    if(!saved){
+      localStorage.setItem(storageKey, JSON.stringify(defaultDatabase));
+      return defaultDatabase;
+    }
 
-document.addEventListener("keydown",e=>{
-  if(e.key==="Enter")login();
-});
+    try{
+      return JSON.parse(saved);
+    }catch(e){
+      localStorage.setItem(storageKey, JSON.stringify(defaultDatabase));
+      return defaultDatabase;
+    }
+  }
+
+  function saveDatabase(db){
+    localStorage.setItem(storageKey, JSON.stringify(db));
+  }
+
+  function applySystemData(){
+    const db = getDatabase();
+    const data = db.systemData;
+
+    document.getElementById("statDocuments").textContent = data.totalDocuments;
+    document.getElementById("statCompliance").textContent = data.complianceRate;
+    document.getElementById("statCapa").textContent = data.openCapa;
+    document.getElementById("statRisks").textContent = data.openRisks;
+  }
+
+  function loadRememberedUser(){
+    const rememberedUsername = localStorage.getItem(rememberKey);
+
+    if(rememberedUsername){
+      document.getElementById("username").value = rememberedUsername;
+      document.getElementById("rememberMe").checked = true;
+    }
+  }
+
+  function showMessage(type){
+    const errorMessage = document.getElementById("errorMessage");
+    const successMessage = document.getElementById("successMessage");
+
+    errorMessage.style.display = "none";
+    successMessage.style.display = "none";
+
+    if(type === "error"){
+      errorMessage.style.display = "block";
+    }
+
+    if(type === "success"){
+      successMessage.style.display = "block";
+    }
+  }
+
+  function createSession(user){
+    return {
+      username: user.username,
+      fullName: user.fullName,
+      role: user.role,
+      accessLevel: user.accessLevel,
+      permissions: user.permissions,
+      loginTime: new Date().toISOString(),
+      isAuthenticated: true
+    };
+  }
+
+  function login(username,password,rememberMe){
+    const db = getDatabase();
+
+    const user = db.users.find(function(item){
+      return item.username === username && item.password === password;
+    });
+
+    if(!user){
+      return false;
+    }
+
+    const session = createSession(user);
+
+    db.currentSession = session;
+
+    db.loginHistory.push({
+      username: user.username,
+      fullName: user.fullName,
+      role: user.role,
+      loginTime: session.loginTime,
+      status: "success"
+    });
+
+    saveDatabase(db);
+
+    localStorage.setItem(sessionKey, JSON.stringify(session));
+
+    if(rememberMe){
+      localStorage.setItem(rememberKey, username);
+    }else{
+      localStorage.removeItem(rememberKey);
+    }
+
+    return true;
+  }
+
+  document.getElementById("togglePassword").addEventListener("click", function(){
+    const passwordInput = document.getElementById("password");
+
+    if(passwordInput.type === "password"){
+      passwordInput.type = "text";
+      this.textContent = "🙈";
+    }else{
+      passwordInput.type = "password";
+      this.textContent = "👁";
+    }
+  });
+
+  document.getElementById("loginForm").addEventListener("submit", function(event){
+    event.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const rememberMe = document.getElementById("rememberMe").checked;
+
+    const success = login(username,password,rememberMe);
+
+    if(!success){
+      showMessage("error");
+      return;
+    }
+
+    showMessage("success");
+
+    setTimeout(function(){
+      window.location.href = "department-gateway.html";
+    }, 700);
+  });
+
+  applySystemData();
+  loadRememberedUser();
+
+})();
 </script>
 
 </body>
