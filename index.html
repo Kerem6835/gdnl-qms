@@ -313,6 +313,96 @@ body:before{
 .eos-note b{display:block;font-size:16px;color:#071b34;font-weight:950}
 .eos-note p{max-width:320px;margin:7px auto 0;font-size:13px;line-height:1.5;color:#536176;font-weight:600}
 .login-footer{margin-top:clamp(18px,2.2vh,26px);border-top:1px solid #e2eaf3;padding-top:clamp(13px,1.6vh,18px);display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.mini{display:flex;align-items:center;gap:8px;font-size:11px;color:#4f6178;font-weight:900}.mini i{font-style:normal;color:var(--green);font-size:18px}
+
+/* === FORGOT PASSWORD MODAL === */
+.reset-overlay{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(7,27,52,.28);
+  backdrop-filter:blur(10px);
+}
+.reset-overlay.active{display:flex}
+.reset-modal{
+  width:min(460px,calc(100vw - 36px));
+  border:1px solid #dfe8f3;
+  border-radius:26px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 34px 95px rgba(7,27,52,.22);
+  padding:28px;
+}
+.reset-modal-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+}
+.reset-modal-head h3{
+  font-size:24px;
+  font-weight:950;
+  color:#071b34;
+  letter-spacing:-.6px;
+}
+.reset-modal-head p{
+  margin-top:7px;
+  color:#617086;
+  font-size:13px;
+  line-height:1.55;
+  font-weight:650;
+}
+.reset-close{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:13px;
+  background:#fee2e2;
+  color:#991b1b;
+  font-size:22px;
+  font-weight:950;
+  cursor:pointer;
+}
+.reset-step{display:none}
+.reset-step.active{display:block}
+.reset-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:18px;
+}
+.reset-btn{
+  height:52px;
+  border:0;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:950;
+  cursor:pointer;
+}
+.reset-btn.primary{
+  background:linear-gradient(135deg,#22c55e,#07923f);
+  color:white;
+  box-shadow:0 16px 32px rgba(34,177,76,.22);
+}
+.reset-btn.secondary{
+  background:#f3f7fb;
+  color:#071b34;
+  border:1px solid #dfe8f3;
+}
+.reset-hint{
+  margin-top:14px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:#f8fbff;
+  border:1px solid #e4edf7;
+  color:#536176;
+  font-size:12px;
+  line-height:1.5;
+  font-weight:700;
+}
+
 @media(max-width:1320px){.page{grid-template-columns:1fr;padding:26px}.login-card{min-height:auto;max-width:none}.content-grid{grid-template-columns:1fr}.hub-wrap{min-height:470px}.hub-ring{transform:scale(.92)}.stats-panel{grid-template-columns:repeat(3,1fr);row-gap:18px}.stat:nth-child(3){border-right:0}.cap-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:820px){.page{padding:18px;gap:18px}.brand-title b{font-size:32px}.logo-mark{width:58px;height:58px}.copy h1{font-size:34px}.content-grid{gap:0}.hub-wrap{min-height:380px}.hub-ring{transform:scale(.72)}.stats-panel{grid-template-columns:repeat(2,1fr);padding:18px}.stat{border-right:0;border-bottom:1px solid #e4ebf3}.stat:nth-child(5),.stat:nth-child(6){border-bottom:0}.cap-grid{grid-template-columns:1fr 1fr}.login-card{padding:34px 24px}.login-footer{grid-template-columns:1fr 1fr}.tagline{font-size:12px;letter-spacing:2px}}
 @media(max-width:520px){.hub-wrap{display:none}.stats-panel{grid-template-columns:1fr}.stat{border-bottom:1px solid #e4ebf3}.stat:last-child{border-bottom:0}.cap-grid{grid-template-columns:1fr}.row{align-items:flex-start;gap:12px;flex-direction:column}.login-footer{grid-template-columns:1fr}}
@@ -468,6 +558,51 @@ body:before{
   </section>
 </div>
 
+
+<div class="reset-overlay" id="resetOverlay">
+  <div class="reset-modal">
+    <div class="reset-modal-head">
+      <div>
+        <h3>Şifre Sıfırlama</h3>
+        <p>Demo sistemde kullanıcı doğrulanır, geçici kod oluşturulur ve yeni şifre localStorage üzerinde güncellenir.</p>
+      </div>
+      <button class="reset-close" type="button" onclick="closeResetModal()">×</button>
+    </div>
+
+    <div id="resetStep1" class="reset-step active">
+      <div class="group">
+        <label>Kullanıcı Adı</label>
+        <div class="input"><span>👤</span><input id="resetUsername" type="text" placeholder="Kullanıcı adınızı giriniz"></div>
+      </div>
+      <div class="group">
+        <label>Kurumsal E-Posta</label>
+        <div class="input"><span>✉</span><input id="resetEmail" type="email" placeholder="ornek@firma.com"></div>
+      </div>
+      <div class="reset-actions">
+        <button class="reset-btn secondary" type="button" onclick="closeResetModal()">Vazgeç</button>
+        <button class="reset-btn primary" type="button" onclick="createResetCode()">Kod Oluştur</button>
+      </div>
+      <div class="reset-hint">Not: Gerçek e-posta gönderimi için ileride SMTP / backend bağlantısı eklenir. Şu an güvenli demo akışı aktif edilir.</div>
+    </div>
+
+    <div id="resetStep2" class="reset-step">
+      <div class="group">
+        <label>Doğrulama Kodu</label>
+        <div class="input"><span>🔐</span><input id="resetCodeInput" type="text" placeholder="6 haneli kod"></div>
+      </div>
+      <div class="group">
+        <label>Yeni Şifre</label>
+        <div class="input"><span>🔒</span><input id="newPasswordInput" type="password" placeholder="Yeni şifrenizi giriniz"></div>
+      </div>
+      <div class="reset-actions">
+        <button class="reset-btn secondary" type="button" onclick="backResetStep()">Geri</button>
+        <button class="reset-btn primary" type="button" onclick="completePasswordReset()">Şifreyi Güncelle</button>
+      </div>
+      <div class="reset-hint" id="resetCodeHint">Doğrulama kodu oluşturuldu.</div>
+    </div>
+  </div>
+</div>
+
 <svg width="0" height="0" style="position:absolute;visibility:hidden">
   <defs>
     <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1677ff"/><stop offset="1" stop-color="#22b14c"/></linearGradient>
@@ -570,7 +705,7 @@ function loadEOSLoginStats(){
   });
 }
 
-const USERS=[
+const DEFAULT_USERS=[
   {
     username:"keremgudenli",
     password:"123456",
@@ -595,9 +730,113 @@ const USERS=[
     canViewAll:false,canCreate:false,canEdit:false,canDelete:false,canManageUsers:false,canManageRoles:false,canManageSystem:false,isRoot:false,isSuperAdmin:false,isFullAuthorized:false
   }
 ];
+let USERS=loadUsers();
+
+function loadUsers(){
+  const stored=safeArrayFromLS("gdnl_login_users");
+  return stored.length?stored:DEFAULT_USERS.map(u=>({...u}));
+}
+
+function saveLoginUsers(){
+  localStorage.setItem("gdnl_login_users",JSON.stringify(USERS));
+}
+
+let resetState={username:"",code:""};
+
 function showMessage(text,type){const msg=document.getElementById("msg");msg.textContent=text;msg.className="msg "+type;}
 function togglePassword(){const p=document.getElementById("password");p.type=p.type==="password"?"text":"password";}
-function forgot(e){e.preventDefault();showMessage("Şifre sıfırlama modülü daha sonra aktif edilecektir.","error");}
+function forgot(e){
+  e.preventDefault();
+  openResetModal();
+}
+
+function openResetModal(){
+  document.getElementById("resetOverlay").classList.add("active");
+  document.getElementById("resetStep1").classList.add("active");
+  document.getElementById("resetStep2").classList.remove("active");
+  document.getElementById("resetUsername").value="";
+  document.getElementById("resetEmail").value="";
+  document.getElementById("resetCodeInput").value="";
+  document.getElementById("newPasswordInput").value="";
+  resetState={username:"",code:""};
+  setTimeout(()=>document.getElementById("resetUsername").focus(),80);
+}
+
+function closeResetModal(){
+  document.getElementById("resetOverlay").classList.remove("active");
+}
+
+function backResetStep(){
+  document.getElementById("resetStep2").classList.remove("active");
+  document.getElementById("resetStep1").classList.add("active");
+}
+
+function createResetCode(){
+  const username=document.getElementById("resetUsername").value.trim().toLowerCase();
+  const email=document.getElementById("resetEmail").value.trim();
+  const user=USERS.find(u=>u.username.toLowerCase()===username);
+
+  if(!username || !email){
+    showMessage("Şifre sıfırlama için kullanıcı adı ve e-posta giriniz.","error");
+    return;
+  }
+
+  if(!user){
+    showMessage("Bu kullanıcı adı sistemde bulunamadı.","error");
+    return;
+  }
+
+  const code=String(Math.floor(100000+Math.random()*900000));
+  resetState={username:user.username,code};
+
+  const resetLog={
+    username:user.username,
+    name:user.name,
+    email,
+    code,
+    createdAt:new Date().toISOString(),
+    status:"CODE_CREATED_DEMO"
+  };
+
+  const logs=safeArrayFromLS("gdnl_password_reset_logs");
+  logs.push(resetLog);
+  localStorage.setItem("gdnl_password_reset_logs",JSON.stringify(logs));
+
+  document.getElementById("resetStep1").classList.remove("active");
+  document.getElementById("resetStep2").classList.add("active");
+  document.getElementById("resetCodeHint").textContent="Demo doğrulama kodu: "+code;
+  showMessage("Doğrulama kodu oluşturuldu. Demo kod modal içinde gösterildi.","success");
+}
+
+function completePasswordReset(){
+  const code=document.getElementById("resetCodeInput").value.trim();
+  const newPassword=document.getElementById("newPasswordInput").value.trim();
+
+  if(code!==resetState.code){
+    showMessage("Doğrulama kodu hatalı.","error");
+    return;
+  }
+
+  if(newPassword.length<4){
+    showMessage("Yeni şifre en az 4 karakter olmalıdır.","error");
+    return;
+  }
+
+  USERS=USERS.map(u=>u.username===resetState.username?{...u,password:newPassword}:u);
+  saveLoginUsers();
+
+  const logs=safeArrayFromLS("gdnl_password_reset_logs");
+  logs.push({
+    username:resetState.username,
+    action:"PASSWORD_UPDATED",
+    updatedAt:new Date().toISOString(),
+    status:"SUCCESS_DEMO"
+  });
+  localStorage.setItem("gdnl_password_reset_logs",JSON.stringify(logs));
+
+  closeResetModal();
+  showMessage("Şifre başarıyla güncellendi. Yeni şifrenizle giriş yapabilirsiniz.","success");
+}
 function login(){
   const username=document.getElementById("username").value.trim().toLowerCase();
   const password=document.getElementById("password").value.trim();
@@ -626,7 +865,7 @@ function login(){
 }
 loadEOSLoginStats();
 
-document.addEventListener("keydown",e=>{if(e.key==="Enter")login();});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&!document.getElementById("resetOverlay").classList.contains("active"))login();if(e.key==="Escape")closeResetModal();});
 </script>
 </body>
 </html>
