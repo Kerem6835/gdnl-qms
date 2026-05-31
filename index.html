@@ -912,8 +912,20 @@ body:before{
 
 <script>
 const DEMO_USERS = [
-  {username:"keremgudenli",password:"123456",name:"Kerem Güdenli",role:"Super Administrator"},
-  {username:"keremgudenli",password:"123456",name:"Kerem Güdenli",role:"Super Administrator"}
+  {
+    username:"keremgudenli",
+    password:"123456",
+    name:"Kerem Güdenli",
+    role:"Super Administrator",
+    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Planlama","Satınalma","Tedarik Zinciri","Depo","Laboratuvar","İnsan Kaynakları","Satış Pazarlama","Bilgi Teknolojileri"]
+  },
+  {
+    username:"demo",
+    password:"demo123",
+    name:"Demo Kullanıcı",
+    role:"User",
+    departments:["Kalite"]
+  }
 ];
 
 const existingSession = JSON.parse(localStorage.getItem("gdnl_qdms_session") || "null");
@@ -944,12 +956,17 @@ function login(){
     username:user.username,
     name:user.name,
     role:user.role,
+    departments:user.departments || [],
     remember,
     loginAt:new Date().toISOString()
   }));
 
-  showMessage("Giriş başarılı. Dashboard hazırlanıyor...", "success");
-  setTimeout(() => { window.location.href = "dashboard.html"; }, 750);
+  localStorage.setItem("gdnl_current_user_role", user.role);
+  localStorage.setItem("gdnl_current_user_name", user.name);
+  localStorage.setItem("gdnl_allowed_departments", JSON.stringify(user.departments || []));
+
+  showMessage("Giriş başarılı. Departman portalı hazırlanıyor...", "success");
+  setTimeout(() => { window.location.href = "department-gateway.html"; }, 750);
 }
 
 function showMessage(text,type){
