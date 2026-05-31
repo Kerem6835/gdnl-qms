@@ -1,476 +1,556 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EMS | Premium Login</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GDNL EOS | Enterprise Operating System</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#08172f;
-  --muted:#607089;
+  --navy:#071b34;
+  --text:#0f1b2f;
+  --muted:#617086;
   --line:#dfe8f3;
-  --green:#22c55e;
+  --green:#22b14c;
+  --green2:#12a445;
   --blue:#1677ff;
-  --shadow:0 28px 80px rgba(15,35,65,.12);
+  --orange:#ff9f1c;
+  --purple:#7c3aed;
+  --shadow:0 28px 80px rgba(7,27,52,.10);
+  --soft-shadow:0 18px 46px rgba(7,27,52,.075);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;font-family:Inter,Arial,sans-serif;color:var(--navy)}
+html,body{width:100%;min-height:100%;font-family:Inter,Arial,sans-serif;color:var(--text);overflow-x:hidden}
 body{
+  min-height:100vh;
   background:
-  radial-gradient(circle at 22% 82%,rgba(34,197,94,.13),transparent 32%),
-  radial-gradient(circle at 82% 18%,rgba(22,119,255,.12),transparent 34%),
-  linear-gradient(135deg,#fff 0%,#f8fbff 52%,#eef6ff 100%);
+    radial-gradient(circle at 44% 23%,rgba(22,119,255,.08),transparent 28%),
+    radial-gradient(circle at 8% 83%,rgba(34,177,76,.08),transparent 28%),
+    linear-gradient(135deg,#ffffff 0%,#f8fbff 46%,#f4f8fd 100%);
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(115deg,rgba(255,255,255,.65),rgba(255,255,255,.20)),
+    repeating-linear-gradient(135deg,rgba(22,119,255,.025) 0 1px,transparent 1px 18px);
+  pointer-events:none;
 }
 .page{
-  width:100vw;
-  height:100vh;
+  position:relative;
+  z-index:1;
+  width:100%;
+  min-height:100vh;
+  padding:34px 36px 26px;
   display:grid;
-  grid-template-columns:1.05fr .95fr;
-  gap:34px;
-  padding:44px 64px;
+  grid-template-columns:minmax(720px,1.55fr) minmax(430px,.78fr);
+  gap:42px;
+  align-items:stretch;
 }
 .left{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
   min-width:0;
+  display:grid;
+  grid-template-rows:auto 1fr auto auto auto;
+  gap:22px;
 }
 .brand{
   display:flex;
   align-items:center;
-  gap:14px;
-  margin-bottom:70px;
+  gap:16px;
 }
-.logo{width:62px;height:62px}
-.brand h1{font-size:34px;font-weight:900;letter-spacing:1px}
-.brand h1 span{color:var(--green)}
-.brand p{font-size:14px;color:var(--muted);font-weight:600;margin-top:4px}
-.badge{
-  display:inline-flex;
-  width:max-content;
-  align-items:center;
-  gap:9px;
-  border:1px solid #cdeedd;
-  background:#f3fff8;
-  color:#129447;
-  padding:10px 18px;
-  border-radius:999px;
-  font-weight:800;
-  font-size:14px;
-  margin-bottom:28px;
-}
-.hero h2{
-  font-size:46px;
-  line-height:1.18;
-  letter-spacing:-1.8px;
-}
-.hero h2 span{color:#15a979}
-.hero p{
-  max-width:560px;
-  margin-top:24px;
-  font-size:18px;
-  line-height:1.65;
-  color:var(--muted);
-  font-weight:600;
-}
-.features{
-  display:grid;
-  grid-template-columns:repeat(4,120px);
-  gap:42px;
-  margin-top:46px;
-}
-.feature{text-align:center}
-.feature i{
-  display:grid;
-  place-items:center;
+.logo-mark{
   width:72px;
   height:72px;
-  margin:auto;
-  border-radius:20px;
-  background:rgba(255,255,255,.84);
-  border:1px solid var(--line);
-  box-shadow:0 18px 42px rgba(15,35,65,.08);
-  font-style:normal;
-  font-size:28px;
+  flex:0 0 auto;
+  filter:drop-shadow(0 18px 22px rgba(34,177,76,.16));
 }
-.feature b{display:block;margin-top:14px;font-size:15px}
-.feature span{display:block;margin-top:7px;font-size:13px;line-height:1.45;color:var(--muted)}
-.login-wrap{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-width:0;
-}
-.card{
-  width:100%;
-  max-width:560px;
-  height:calc(100vh - 88px);
-  max-height:720px;
-  min-height:560px;
-  padding:30px 44px 30px;
-  border:1px solid var(--line);
-  border-radius:30px;
-  background:rgba(255,255,255,.84);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(22px);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.login-logo{text-align:center}
-.login-logo svg{
-  width:105px;
-  height:105px;
-  filter:drop-shadow(0 18px 28px rgba(34,197,94,.18));
-}
-.login-logo h2{
-  font-size:36px;
-  margin-top:18px;
-  font-weight:900;
-  letter-spacing:2px;
-}
-.login-logo h2 span{color:var(--green)}
-.login-logo p{color:var(--muted);font-weight:700;margin-top:8px}
-.welcome{text-align:center;margin-top:26px}
-.welcome h3{font-size:27px;font-weight:900}
-.welcome p{margin-top:8px;color:var(--muted);font-weight:700}
-.line{width:56px;height:3px;background:var(--green);border-radius:999px;margin:20px auto 24px}
-.group{margin-bottom:18px}
-.group label{display:block;margin-bottom:8px;font-size:14px;font-weight:850}
-.input{position:relative}
-.input input{
-  width:100%;
-  height:56px;
-  border:1px solid #dbe5f0;
-  border-radius:14px;
-  background:#f8fbff;
-  padding:0 52px;
-  font-size:15px;
-  font-weight:750;
+.brand-title b{
+  display:block;
+  font-size:42px;
+  line-height:.95;
+  font-weight:950;
+  letter-spacing:-1.8px;
   color:var(--navy);
-  outline:none;
 }
-.input input:focus{
-  border-color:var(--green);
-  box-shadow:0 0 0 4px rgba(34,197,94,.12);
+.brand-title b span{color:var(--green)}
+.brand-title small{
+  display:block;
+  margin-top:9px;
+  font-size:17px;
+  color:#516177;
+  font-weight:650;
 }
-.input span{
-  position:absolute;
-  left:18px;
-  top:50%;
-  transform:translateY(-50%);
-  color:#6b7b93;
+.content-grid{
+  min-height:470px;
+  display:grid;
+  grid-template-columns:minmax(320px,.7fr) minmax(430px,1fr);
+  gap:20px;
+  align-items:center;
 }
-.eye{
-  position:absolute;
-  right:18px;
-  top:50%;
-  transform:translateY(-50%);
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  color:#6b7b93;
+.copy h1{
+  max-width:520px;
+  font-size:45px;
+  line-height:1.14;
+  letter-spacing:-2px;
+  font-weight:950;
+  color:#071b34;
 }
-.row{
+.copy h1 span{color:var(--green)}
+.copy p{
+  max-width:485px;
+  margin-top:25px;
+  font-size:17px;
+  line-height:1.75;
+  color:#40516a;
+  font-weight:580;
+}
+.bullets{
+  margin-top:36px;
+  display:grid;
+  gap:17px;
+}
+.bullet{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin:2px 0 20px;
-  font-size:14px;
-  font-weight:800;
-}
-.row label{display:flex;align-items:center;gap:8px}
-.row input{accent-color:var(--green);width:17px;height:17px}
-.row a{color:#10a651;text-decoration:none;font-weight:900}
-.btn{
-  width:100%;
-  height:72px;
-  margin-top:18px;
-  border:0;
-  border-radius:18px;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  color:#fff;
-  font-size:21px;
+  gap:12px;
+  font-size:15px;
+  color:#12233b;
   font-weight:900;
-  letter-spacing:1px;
-  cursor:pointer;
-  box-shadow:0 18px 40px rgba(34,197,94,.32);
 }
-
-.btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 24px 52px rgba(34,197,94,.42);
-}
-.divider{
-  display:flex;
-  align-items:center;
-  gap:18px;
-  margin:22px 0;
-  color:#7a879a;
-  font-weight:800;
-  font-size:13px;
-}
-.divider:before,.divider:after{content:"";height:1px;background:#e0e8f1;flex:1}
-.info{
-  margin:22px auto 0;
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  gap:10px;
-  padding:18px 20px;
-  border:1px solid #e5edf5;
-  border-radius:18px;
-  background:#fff;
-}
-.info i{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  background:#f3f7fb;
+.bullet i{
+  width:24px;
+  height:24px;
   display:grid;
   place-items:center;
+  color:var(--green);
   font-style:normal;
+  font-size:20px;
 }
-.info b{font-size:14px}
-.info p{font-size:13px;color:var(--muted);margin-top:4px}
-.msg{
-  display:none;
-  margin-bottom:16px;
-  padding:12px 14px;
-  border-radius:12px;
-  font-weight:850;
-  font-size:13px;
+.hub-wrap{
+  position:relative;
+  min-height:520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.msg.error{display:block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
-.msg.success{display:block;background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
-@media(max-width:1180px){
-  .page{grid-template-columns:1fr;padding:26px;overflow:auto}
-  body{overflow:auto}
-  .left{display:none}
-  .card{height:auto;min-height:auto}
+.hub-wrap:before{
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,rgba(22,119,255,.08),transparent 58%),
+    radial-gradient(circle at 50% 50%,rgba(34,177,76,.06),transparent 42%);
+  filter:blur(.2px);
 }
-@media(max-height:820px) and (min-width:1181px){
-  .page{padding:28px 54px}
-  .brand{margin-bottom:38px}
-  .hero h2{font-size:39px}
-  .hero p{font-size:15px;margin-top:16px}
-  .features{margin-top:30px}
-  .feature i{width:60px;height:60px}
-  .card{height:calc(100vh - 56px);padding:24px 48px}
-  .login-logo svg{width:82px;height:82px}
-  .login-logo h2{font-size:31px;margin-top:12px}
-  .welcome{margin-top:18px}
-  .welcome h3{font-size:24px}
-  .line{margin:16px auto 18px}
-  .input input{height:50px}
-  .btn{height:54px}
-  .sso{height:50px}
-  .info{margin-top:16px}
+.hub-ring{
+  position:relative;
+  width:500px;
+  height:500px;
+  border-radius:50%;
 }
+.hub-ring:before,
+.hub-ring:after{
+  content:"";
+  position:absolute;
+  inset:68px;
+  border-radius:50%;
+  border:1.5px dashed rgba(22,119,255,.24);
+}
+.hub-ring:after{
+  inset:112px;
+  border-style:solid;
+  border-color:rgba(34,177,76,.22);
+}
+.center-node{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:188px;
+  height:188px;
+  border-radius:42px;
+  background:rgba(255,255,255,.90);
+  border:1px solid #e1ebf5;
+  box-shadow:0 28px 70px rgba(7,27,52,.12);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:2;
+}
+.center-node svg{width:74px;height:74px;margin-bottom:13px;filter:drop-shadow(0 15px 18px rgba(34,177,76,.16))}
+.center-node b{font-size:29px;font-weight:950;letter-spacing:-.8px;color:#071b34}.center-node b span{color:var(--green)}
+.center-node small{font-size:12px;font-weight:750;color:#536176;margin-top:6px}
+.dept-node{
+  position:absolute;
+  width:98px;
+  height:96px;
+  border-radius:24px;
+  background:rgba(255,255,255,.88);
+  border:1px solid #e3edf6;
+  box-shadow:0 18px 38px rgba(7,27,52,.09);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:6px;
+  z-index:3;
+}
+.dept-node i{font-style:normal;font-size:26px;line-height:1}.dept-node b{font-size:11px;line-height:1.18;color:#071b34;font-weight:950;text-transform:uppercase}
+.n1{left:201px;top:0}.n2{right:86px;top:63px}.n3{right:22px;top:190px}.n4{right:84px;bottom:62px}.n5{left:201px;bottom:0}.n6{left:85px;bottom:62px}.n7{left:22px;top:190px}.n8{left:84px;top:63px}.n9{left:14px;top:316px}.n10{right:14px;top:316px}
+.dot{
+  position:absolute;width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#22b14c,#1677ff);box-shadow:0 0 0 8px rgba(22,119,255,.06);z-index:2;
+}
+.d1{left:244px;top:119px}.d2{right:134px;top:158px}.d3{right:111px;top:251px}.d4{right:157px;bottom:141px}.d5{left:244px;bottom:119px}.d6{left:157px;bottom:141px}.d7{left:111px;top:251px}.d8{left:134px;top:158px}
+.stats-panel{
+  min-height:160px;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  align-items:center;
+  gap:0;
+  padding:24px 28px;
+  border:1px solid #dfe8f3;
+  border-radius:24px;
+  background:rgba(255,255,255,.86);
+  box-shadow:var(--soft-shadow);
+  backdrop-filter:blur(18px);
+}
+.stat{
+  text-align:center;
+  border-right:1px solid #dfe8f3;
+  min-height:102px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.stat:last-child{border-right:0}
+.stat i{font-style:normal;font-size:27px;display:block;margin-bottom:9px}.stat b{font-size:31px;color:#071b34;font-weight:950;letter-spacing:-1px}.stat span{display:block;font-size:12px;font-weight:950;margin-top:6px;color:#071b34;text-transform:uppercase}.stat small{font-size:12px;color:#607089;margin-top:8px;font-weight:650}
+.capabilities{
+  border:1px solid #dfe8f3;
+  border-radius:24px;
+  background:rgba(255,255,255,.78);
+  box-shadow:0 18px 46px rgba(7,27,52,.055);
+  padding:18px 20px 20px;
+}
+.capabilities h3{font-size:14px;color:#071b34;font-weight:950;margin-bottom:14px;text-transform:uppercase;letter-spacing:.3px}
+.cap-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.cap{
+  min-height:98px;
+  border:1px solid #e6edf5;
+  border-radius:17px;
+  background:rgba(255,255,255,.74);
+  padding:14px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.cap i{font-style:normal;font-size:22px}.cap b{font-size:12px;color:#071b34;font-weight:950;line-height:1.25}.cap span{font-size:10.8px;color:#5f6f86;line-height:1.35;font-weight:650}
+.tagline{
+  text-align:center;
+  font-size:16px;
+  font-weight:950;
+  letter-spacing:5px;
+  color:#071b34;
+}
+.tagline span{color:var(--green)}.tagline em{font-style:normal;color:var(--blue)}
+.login-side{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.login-card{
+  width:100%;
+  max-width:560px;
+  min-height:calc(100vh - 118px);
+  border:1px solid #dfe8f3;
+  border-radius:28px;
+  background:rgba(255,255,255,.86);
+  box-shadow:0 32px 90px rgba(7,27,52,.11);
+  backdrop-filter:blur(22px);
+  padding:46px 46px 34px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.login-head{text-align:center}.login-head svg{width:98px;height:98px;filter:drop-shadow(0 20px 22px rgba(34,177,76,.16))}.login-head h2{font-size:39px;margin-top:19px;font-weight:950;letter-spacing:-1px;color:#071b34}.login-head h2 span{color:var(--green)}.login-head p{font-size:17px;color:#536176;font-weight:650;margin-top:8px}.welcome{text-align:center;margin-top:30px}.welcome h3{font-size:28px;color:#071b34;font-weight:950}.welcome p{font-size:15px;color:#617086;margin-top:10px;font-weight:650}.line{width:56px;height:3px;background:var(--green);border-radius:999px;margin:18px auto 28px}.msg{display:none;margin-bottom:16px;padding:12px 14px;border-radius:12px;font-size:13px;font-weight:850}.msg.error{display:block;background:#fee2e2;color:#991b1b;border:1px solid #fecaca}.msg.success{display:block;background:#dcfce7;color:#166534;border:1px solid #bbf7d0}.group{margin-bottom:22px}.group label{display:block;margin-bottom:10px;font-size:14px;font-weight:950;color:#071b34}.input{position:relative}.input input{width:100%;height:58px;border:1px solid #d9e4ef;border-radius:13px;background:rgba(255,255,255,.72);padding:0 56px;font-size:15px;color:#071b34;font-weight:700;outline:none;transition:.22s}.input input:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(34,177,76,.12);background:#fff}.input span{position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:20px;color:#65758c}.eye{position:absolute;right:17px;top:50%;transform:translateY(-50%);border:0;background:transparent;font-size:18px;cursor:pointer;color:#65758c}.row{display:flex;justify-content:space-between;align-items:center;margin:4px 0 28px;font-size:14px;font-weight:850}.row label{display:flex;align-items:center;gap:9px}.row input{width:18px;height:18px;accent-color:var(--green)}.row a{color:#16943b;text-decoration:none;font-weight:950}.btn{width:100%;height:64px;border:0;border-radius:13px;background:linear-gradient(135deg,#22c55e,#07923f);box-shadow:0 20px 40px rgba(34,177,76,.27);color:#fff;font-size:20px;font-weight:950;letter-spacing:.6px;cursor:pointer;transition:.22s}.btn:hover{transform:translateY(-2px);box-shadow:0 26px 54px rgba(34,177,76,.36)}.eos-note{margin-top:42px;display:grid;grid-template-columns:72px 1fr;gap:18px;align-items:center}.cube{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#e9f6ff,#fff);border:1px solid #dfe8f3;display:grid;place-items:center;font-size:35px;box-shadow:0 14px 30px rgba(7,27,52,.07)}.eos-note b{display:block;font-size:16px;color:#071b34;font-weight:950}.eos-note p{margin-top:8px;font-size:15px;line-height:1.58;color:#536176;font-weight:600}.login-footer{margin-top:32px;border-top:1px solid #e2eaf3;padding-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.mini{display:flex;align-items:center;gap:8px;font-size:11px;color:#4f6178;font-weight:900}.mini i{font-style:normal;color:var(--green);font-size:18px}
+@media(max-width:1320px){.page{grid-template-columns:1fr;padding:26px}.login-card{min-height:auto;max-width:none}.content-grid{grid-template-columns:1fr}.hub-wrap{min-height:470px}.hub-ring{transform:scale(.92)}.stats-panel{grid-template-columns:repeat(3,1fr);row-gap:18px}.stat:nth-child(3){border-right:0}.cap-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.page{padding:18px;gap:18px}.brand-title b{font-size:32px}.logo-mark{width:58px;height:58px}.copy h1{font-size:34px}.content-grid{gap:0}.hub-wrap{min-height:380px}.hub-ring{transform:scale(.72)}.stats-panel{grid-template-columns:repeat(2,1fr);padding:18px}.stat{border-right:0;border-bottom:1px solid #e4ebf3}.stat:nth-child(5),.stat:nth-child(6){border-bottom:0}.cap-grid{grid-template-columns:1fr 1fr}.login-card{padding:34px 24px}.login-footer{grid-template-columns:1fr 1fr}.tagline{font-size:12px;letter-spacing:2px}}
+@media(max-width:520px){.hub-wrap{display:none}.stats-panel{grid-template-columns:1fr}.stat{border-bottom:1px solid #e4ebf3}.stat:last-child{border-bottom:0}.cap-grid{grid-template-columns:1fr}.row{align-items:flex-start;gap:12px;flex-direction:column}.login-footer{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <div class="page">
   <section class="left">
     <div class="brand">
-      <svg class="logo" viewBox="0 0 100 100">
-        <path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#22c55e" transform="translate(0 -8)"/>
-        <path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#1677ff" transform="translate(0 -3)"/>
+      <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1677ff"/><stop offset="1" stop-color="#22b14c"/></linearGradient></defs>
+        <path d="M50 4 88 26v44L50 92 12 70V26z" fill="url(#g1)"/>
+        <path d="M50 22 72 35v10H55v12h27v15L50 91 18 72V35z" fill="rgba(255,255,255,.94)"/>
+        <path d="M50 22 28 35v30l22 13 16-9V58H50V44h30v31L50 92 12 70V26z" fill="url(#g1)" opacity=".98"/>
       </svg>
-      <div>
-        <h1>GDNL <span>EMS</span></h1>
-        <p>Enterprise Management System</p>
+      <div class="brand-title"><b>GDNL <span>EOS</span></b><small>Enterprise Operating System</small></div>
+    </div>
+
+    <div class="content-grid">
+      <div class="copy">
+        <h1>Şirketinizi Yöneten <span>Akıllı</span> İşletim Sistemi.</h1>
+        <p>EOS, tüm departmanlarınızı, süreçlerinizi ve verilerinizi tek platformda birleştirir. Veriye dayalı kararlar almanızı sağlar.</p>
+        <div class="bullets">
+          <div class="bullet"><i>◈</i> Tek Platform</div>
+          <div class="bullet"><i>♧</i> Tüm Departmanlar</div>
+          <div class="bullet"><i>◎</i> Tek Yönetim Merkezi</div>
+        </div>
+      </div>
+
+      <div class="hub-wrap">
+        <div class="hub-ring">
+          <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div><div class="dot d5"></div><div class="dot d6"></div><div class="dot d7"></div><div class="dot d8"></div>
+          <div class="center-node">
+            <svg viewBox="0 0 100 100"><use href="#logo-symbol"/></svg>
+            <b>GDNL <span>EOS</span></b><small>Enterprise Operating System</small>
+          </div>
+          <div class="dept-node n1"><i style="color:#22b14c">🛡</i><b>Kalite</b></div>
+          <div class="dept-node n2"><i style="color:#1677ff">🏭</i><b>Üretim</b></div>
+          <div class="dept-node n3"><i style="color:#ff9f1c">📅</i><b>Planlama</b></div>
+          <div class="dept-node n4"><i style="color:#22b14c">🔧</i><b>Bakım</b></div>
+          <div class="dept-node n5"><i style="color:#ffb000">⚡</i><b>Enerji</b></div>
+          <div class="dept-node n6"><i style="color:#1677ff">🖥</i><b>Bilgi<br>Teknolojileri</b></div>
+          <div class="dept-node n7"><i style="color:#16a34a">📈</i><b>Finans</b></div>
+          <div class="dept-node n8"><i style="color:#7c3aed">🧪</i><b>Ar-Ge</b></div>
+          <div class="dept-node n9"><i style="color:#f59e0b">👥</i><b>İnsan<br>Kaynakları</b></div>
+          <div class="dept-node n10"><i style="color:#0ea5e9">🛒</i><b>Satın<br>Alma</b></div>
+        </div>
       </div>
     </div>
 
-    <div class="hero">
-      <h2>Yönet. Kontrol Et.<br>Geliştir. Kurumu <span>Güçlendir.</span></h2>
-      <p>Tüm departmanlarınızı tek platformda yönetin, süreçlerinizi optimize edin, geleceğe güvenle ilerleyin.</p>
+    <div class="stats-panel">
+      <div class="stat"><i style="color:#22b14c">▥</i><b id="statDepartments">0</b><span>Departman</span><small>Aktif</small></div>
+      <div class="stat"><i style="color:#1677ff">⬡</i><b id="statModules">0</b><span>Modül</span><small>Aktif</small></div>
+      <div class="stat"><i style="color:#7c3aed">▤</i><b id="statRecords">0</b><span>Kayıt</span><small>Toplam</small></div>
+      <div class="stat"><i style="color:#f59e0b">♧</i><b id="statUsers">0</b><span>Aktif Kullanıcı</span><small>Şu Anda</small></div>
+      <div class="stat"><i style="color:#16a34a">↗</i><b id="statUptime">0%</b><span>Sistem Uptime</span><small>Son 30 Gün</small></div>
+      <div class="stat"><i style="color:#1677ff">◉</i><b id="statSource">0</b><span>Veri Kaynağı</span><small>Tek Merkez</small></div>
     </div>
 
-    <div class="features">
-      <div class="feature"><i>▥</i><b>Verimlilik</b><span>Süreçlerinizi hızlandırın</span></div>
-      <div class="feature"><i>🛡</i><b>Güvenlik</b><span>Verileriniz güvende</span></div>
-      <div class="feature"><i>↗</i><b>Kontrol</b><span>Her an her yerden kontrol</span></div>
-      <div class="feature"><i>👥</i><b>İş Birliği</b><span>Ekibinizle güçlü iletişim</span></div>
+    <div class="capabilities">
+      <h3>EOS Yetenekleri</h3>
+      <div class="cap-grid">
+        <div class="cap"><i style="color:#22b14c">⌘</i><b>Süreç Otomasyonu</b><span>Tekrarlayan işleri otomatikleştir.</span></div>
+        <div class="cap"><i style="color:#1677ff">▧</i><b>Departman Entegrasyonu</b><span>Tüm ekipler aynı platformda.</span></div>
+        <div class="cap"><i style="color:#ef4444">◷</i><b>Gerçek Zamanlı Analiz</b><span>Anlık verilerle doğru karar alın.</span></div>
+        <div class="cap"><i style="color:#f59e0b">□</i><b>Doküman Yönetimi</b><span>Tüm dokümanlar güvende.</span></div>
+        <div class="cap"><i style="color:#7c3aed">▣</i><b>Rol Bazlı Yetkilendirme</b><span>Doğru kullanıcıya doğru erişim.</span></div>
+        <div class="cap"><i style="color:#8b5cf6">▥</i><b>Akıllı Raporlama</b><span>KPI ve raporlar tek ekranda.</span></div>
+      </div>
     </div>
+
+    <div class="tagline"><span>ONE</span> PLATFORM. ALL DEPARTMENTS. <span>ONE</span> <em>DECISION ENGINE.</em></div>
   </section>
 
-  <section class="login-wrap">
-    <div class="card">
-      <div class="login-logo">
-        <svg viewBox="0 0 100 100">
-          <path d="M50 7 86 28v23L68 40 50 30 25 45v30l25 15 25-15V62H52V45h39v41L50 109 9 86V34z" fill="#22c55e" transform="translate(0 -8)"/>
-          <path d="M50 7 9 31v24l19-11 22-13 22 13 19 11V31z" fill="#1677ff" transform="translate(0 -3)"/>
-        </svg>
-        <h2>GDNL <span>EMS</span></h2>
-        <p>Enterprise Management System</p>
+  <section class="login-side">
+    <div class="login-card">
+      <div class="login-head">
+        <svg viewBox="0 0 100 100"><use href="#logo-symbol"/></svg>
+        <h2>GDNL <span>EOS</span></h2>
+        <p>Enterprise Operating System</p>
       </div>
-
       <div class="welcome">
         <h3>Hoş Geldiniz!</h3>
         <p>Devam etmek için giriş yapın.</p>
         <div class="line"></div>
       </div>
-
       <div id="msg" class="msg"></div>
-
       <div class="group">
         <label>Kullanıcı Adı</label>
-        <div class="input">
-          <span>👤</span>
-          <input id="username" type="text" placeholder="Kullanıcı adınızı girin" autocomplete="username">
-        </div>
+        <div class="input"><span>👤</span><input id="username" type="text" placeholder="Kullanıcı adınızı giriniz" autocomplete="username"></div>
       </div>
-
       <div class="group">
         <label>Şifre</label>
-        <div class="input">
-          <span>🔒</span>
-          <input id="password" type="password" placeholder="Şifrenizi girin" autocomplete="current-password">
-          <button class="eye" type="button" onclick="togglePassword()">◉</button>
-        </div>
+        <div class="input"><span>🔒</span><input id="password" type="password" placeholder="Şifrenizi giriniz" autocomplete="current-password"><button class="eye" type="button" onclick="togglePassword()">◉</button></div>
       </div>
-
       <div class="row">
         <label><input id="remember" type="checkbox" checked> Beni Hatırla</label>
         <a href="#" onclick="forgot(event)">Şifremi Unuttum?</a>
       </div>
-
-      <button class="btn" onclick="login()">GİRİŞ YAP</button>
+      <button class="btn" onclick="login()">↪ GİRİŞ YAP</button>
+      <div class="eos-note">
+        <div class="cube">▦</div>
+        <div><b>Enterprise Operating System</b><p>Tüm departmanlarınızı tek platformda birleştirir, süreçlerinizi optimize eder, veriye dayalı kararlar almanızı sağlar.</p></div>
+      </div>
+      <div class="login-footer">
+        <div class="mini"><i>◈</i> TEK VERİ KAYNAĞI</div>
+        <div class="mini"><i>🛡</i> GÜVENLİ ALTYAPI</div>
+        <div class="mini"><i>↗</i> YÜKSEK PERFORMANS</div>
+        <div class="mini"><i>⌘</i> SÜREKLİ GELİŞİM</div>
       </div>
     </div>
   </section>
 </div>
 
+<svg width="0" height="0" style="position:absolute;visibility:hidden">
+  <defs>
+    <linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1677ff"/><stop offset="1" stop-color="#22b14c"/></linearGradient>
+    <symbol id="logo-symbol" viewBox="0 0 100 100">
+      <path d="M50 4 88 26v44L50 92 12 70V26z" fill="url(#logoGrad)"/>
+      <path d="M50 22 72 35v10H55v12h27v15L50 91 18 72V35z" fill="rgba(255,255,255,.94)"/>
+      <path d="M50 22 28 35v30l22 13 16-9V58H50V44h30v31L50 92 12 70V26z" fill="url(#logoGrad)" opacity=".98"/>
+    </symbol>
+  </defs>
+</svg>
+
 <script>
+
+function safeArrayFromLS(key){
+  try{
+    const value=JSON.parse(localStorage.getItem(key)||"[]");
+    if(Array.isArray(value))return value;
+    if(value&&typeof value==="object")return Object.values(value);
+    return [];
+  }catch(e){return []}
+}
+
+function safeObjectFromLS(key){
+  try{
+    const value=JSON.parse(localStorage.getItem(key)||"{}");
+    return value&&typeof value==="object"&&!Array.isArray(value)?value:{};
+  }catch(e){return {}}
+}
+
+const EOS_DEPARTMENTS=[
+  "Kalite","Üretim","Ar-Ge","Satınalma","Planlama","Tedarik Zinciri","Depo",
+  "İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Yönetim","Finans","Bakım","Enerji"
+];
+
+const EOS_MODULES=[
+  "dashboard.html","department-gateway.html","documents.html","new-document.html","revision.html","approval.html",
+  "distribution.html","archive.html","document-viewer.html","capa.html","risk-register.html","audit.html",
+  "training-management.html","supplier-management.html","customer-management.html","management-review.html",
+  "kpi-reports.html","action-center.html","notification-center.html","calibration-management.html",
+  "change-management.html","process-management.html","continuous-improvement.html","standards-compliance.html",
+  "legal-compliance.html","security-continuity-center.html","users.html","competency-matrix.html",
+  "company-assets-documents.html","apqp.html","fmea.html","control-plan.html","ppap.html","spc.html","msa.html"
+];
+
+const EOS_RECORD_KEYS=[
+  "gdnl_documents","gdnl_new_documents","gdnl_revisions","gdnl_approvals","gdnl_archive",
+  "gdnl_distribution","gdnl_distributions","gdnl_capa","gdnl_risks","gdnl_audits",
+  "gdnl_trainings","gdnl_suppliers","gdnl_customers","gdnl_management_reviews","gdnl_calibrations",
+  "gdnl_moc","gdnl_action_center_manual","gdnl_company_assets_documents","gdnl_standards_clauses",
+  "gdnl_legal_compliance","gdnl_competencies","gdnl_competency_assignments","gdnl_notifications",
+  "gdnl_kpi_reports","gdnl_processes","gdnl_users","gdnl_roles"
+];
+
+function formatTR(number){return Number(number||0).toLocaleString("tr-TR")}
+
+function countEOSRecords(){
+  return EOS_RECORD_KEYS.reduce((total,key)=>total+safeArrayFromLS(key).length,0);
+}
+
+function getUserCount(){
+  const keys=["gdnl_users","gdnl_eqms_users","gdnl_system_users"];
+  for(const key of keys){
+    const list=safeArrayFromLS(key);
+    if(list.length)return list.length;
+  }
+  return USERS.length;
+}
+
+function calculateSystemHealth(){
+  const docs=safeArrayFromLS("gdnl_documents").length+safeArrayFromLS("gdnl_new_documents").length;
+  const capa=safeArrayFromLS("gdnl_capa");
+  const risks=safeArrayFromLS("gdnl_risks");
+  const audits=safeArrayFromLS("gdnl_audits");
+  const lateCapa=capa.filter(x=>String(x.status||x.capaStatus||"").toLowerCase().includes("gecik")||String(x.dueStatus||"").toLowerCase().includes("late")).length;
+  const criticalRisks=risks.filter(x=>Number(x.initialScore||x.residualScore||x.score||0)>=500).length;
+  const openAudits=audits.filter(x=>!String(x.auditStatus||x.status||"").toLowerCase().includes("kapalı")&&!String(x.auditStatus||x.status||"").toLowerCase().includes("closed")).length;
+  if(!docs&&!capa.length&&!risks.length&&!audits.length)return "99.8%";
+  const penalty=Math.min(12,(lateCapa*1.3)+(criticalRisks*.9)+(openAudits*.5));
+  return (99.8-penalty).toFixed(1)+"%";
+}
+
+function detectDataSources(){
+  const hasLS=EOS_RECORD_KEYS.some(key=>localStorage.getItem(key));
+  const hasSession=localStorage.getItem("gdnl_ems_session")||localStorage.getItem("gdnl_qdms_session");
+  return (hasLS||hasSession)?1:0;
+}
+
+function loadEOSLoginStats(){
+  const statMap={
+    statDepartments:EOS_DEPARTMENTS.length,
+    statModules:EOS_MODULES.length,
+    statRecords:formatTR(countEOSRecords()),
+    statUsers:getUserCount(),
+    statUptime:calculateSystemHealth(),
+    statSource:detectDataSources()||1
+  };
+  Object.entries(statMap).forEach(([id,value])=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=value;
+  });
+}
+
 const USERS=[
   {
     username:"keremgudenli",
     password:"123456",
     name:"Kerem Güdenli",
     role:"Root Super Administrator",
+    department:"Yönetim",
     accessLevel:"FULL_SYSTEM_ACCESS",
     permissions:["*","root","admin","view","create","edit","delete","approve","export","import","audit","settings","users","roles","system","all_modules"],
     modules:["dashboard","quality","documents","audits","risks","actions","training","maintenance","production","purchasing","hr","environment","ohs","energy","isms","iatf","cop","reports","settings","users","roles","system"],
-    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Satınalma","İnsan Kaynakları","Bakım","Çevre ve İSG","Enerji","BGYS","IATF","COP"],
-    canViewAll:true,
-    canCreate:true,
-    canEdit:true,
-    canDelete:true,
-    canApprove:true,
-    canExport:true,
-    canImport:true,
-    canAudit:true,
-    canManageUsers:true,
-    canManageRoles:true,
-    canManageSystem:true,
-    canAccessSettings:true,
-    canAccessAllModules:true,
-    canOverrideWorkflow:true,
-    isRoot:true,
-    isSuperAdmin:true,
-    isFullAuthorized:true
+    departments:["Yönetim","Kalite","Ar-Ge","Üretim","Satınalma","Planlama","Tedarik","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"],
+    canViewAll:true,canCreate:true,canEdit:true,canDelete:true,canApprove:true,canExport:true,canImport:true,canAudit:true,canManageUsers:true,canManageRoles:true,canManageSystem:true,canAccessSettings:true,canAccessAllModules:true,canOverrideWorkflow:true,isRoot:true,isSuperAdmin:true,isFullAuthorized:true
   },
   {
     username:"demo",
     password:"demo123",
-    name:"Demo User",
-    role:"Demo User",
+    name:"Demo Kullanıcı",
+    role:"Kullanıcı",
+    department:"Kalite",
+    accessLevel:"LIMITED_ACCESS",
     permissions:["view"],
     departments:["Kalite"],
-    canViewAll:false,
-    canCreate:false,
-    canEdit:false,
-    canDelete:false,
-    canManageUsers:false,
-    canManageRoles:false,
-    canManageSystem:false
+    canViewAll:false,canCreate:false,canEdit:false,canDelete:false,canManageUsers:false,canManageRoles:false,canManageSystem:false,isRoot:false,isSuperAdmin:false,isFullAuthorized:false
   }
 ];
-
-function showMessage(text,type){
-  const msg=document.getElementById("msg");
-  msg.textContent=text;
-  msg.className="msg "+type;
-}
-
-function togglePassword(){
-  const p=document.getElementById("password");
-  p.type=p.type==="password"?"text":"password";
-}
-
-function forgot(e){
-  e.preventDefault();
-  showMessage("Şifre sıfırlama modülü daha sonra aktif edilecektir.","error");
-}
-
-
+function showMessage(text,type){const msg=document.getElementById("msg");msg.textContent=text;msg.className="msg "+type;}
+function togglePassword(){const p=document.getElementById("password");p.type=p.type==="password"?"text":"password";}
+function forgot(e){e.preventDefault();showMessage("Şifre sıfırlama modülü daha sonra aktif edilecektir.","error");}
 function login(){
   const username=document.getElementById("username").value.trim().toLowerCase();
   const password=document.getElementById("password").value.trim();
   const user=USERS.find(u=>u.username.toLowerCase()===username && u.password===password);
-
-  if(!user){
-    showMessage("Kullanıcı adı veya şifre hatalı.","error");
-    return;
-  }
-
+  if(!user){showMessage("Kullanıcı adı veya şifre hatalı.","error");return;}
   const session={
-    username:user.username,
-    name:user.name,
-    role:user.role,
-    accessLevel:user.accessLevel || "LIMITED_ACCESS",
-    permissions:user.permissions || [],
-    modules:user.modules || [],
-    departments:user.departments || [],
-    canViewAll:!!user.canViewAll,
-    canCreate:!!user.canCreate,
-    canEdit:!!user.canEdit,
-    canDelete:!!user.canDelete,
-    canApprove:!!user.canApprove,
-    canExport:!!user.canExport,
-    canImport:!!user.canImport,
-    canAudit:!!user.canAudit,
-    canManageUsers:!!user.canManageUsers,
-    canManageRoles:!!user.canManageRoles,
-    canManageSystem:!!user.canManageSystem,
-    canAccessSettings:!!user.canAccessSettings,
-    canAccessAllModules:!!user.canAccessAllModules,
-    canOverrideWorkflow:!!user.canOverrideWorkflow,
-    isRoot:!!user.isRoot,
-    isSuperAdmin:!!user.isSuperAdmin,
-    isFullAuthorized:!!user.isFullAuthorized,
-    loginAt:new Date().toISOString(),
-    system:"GDNL EMS"
+    username:user.username,name:user.name,role:user.role,department:user.department||"Kalite",accessLevel:user.accessLevel||"LIMITED_ACCESS",permissions:user.permissions||[],modules:user.modules||[],departments:user.departments||[],
+    canViewAll:!!user.canViewAll,canCreate:!!user.canCreate,canEdit:!!user.canEdit,canDelete:!!user.canDelete,canApprove:!!user.canApprove,canExport:!!user.canExport,canImport:!!user.canImport,canAudit:!!user.canAudit,canManageUsers:!!user.canManageUsers,canManageRoles:!!user.canManageRoles,canManageSystem:!!user.canManageSystem,canAccessSettings:!!user.canAccessSettings,canAccessAllModules:!!user.canAccessAllModules,canOverrideWorkflow:!!user.canOverrideWorkflow,isRoot:!!user.isRoot,isSuperAdmin:!!user.isSuperAdmin,isFullAuthorized:!!user.isFullAuthorized,
+    loginAt:new Date().toISOString(),system:"GDNL EOS"
   };
-
+  localStorage.removeItem("gdnl_selected_department");
+  localStorage.removeItem("gdnl_selected_department_label");
+  localStorage.removeItem("gdnl_department_modules");
   localStorage.setItem("gdnl_ems_session",JSON.stringify(session));
-  localStorage.setItem("gdnl_current_user_name",user.name);
-  localStorage.setItem("gdnl_current_user_role",user.role);
+  localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+  localStorage.setItem("gdnl_current_user_name",session.name);
+  localStorage.setItem("gdnl_current_user_role",session.role);
   localStorage.setItem("gdnl_current_access_level",session.accessLevel);
   localStorage.setItem("gdnl_current_permissions",JSON.stringify(session.permissions));
   localStorage.setItem("gdnl_current_modules",JSON.stringify(session.modules));
   localStorage.setItem("gdnl_is_root",String(session.isRoot));
   localStorage.setItem("gdnl_is_super_admin",String(session.isSuperAdmin));
   localStorage.setItem("gdnl_is_full_authorized",String(session.isFullAuthorized));
-
-  showMessage("Giriş başarılı. Panel hazırlanıyor...","success");
-
-  setTimeout(()=>{
-    window.location.href="department-gateway.html";
-},700);
+  showMessage("Giriş başarılı. Departman merkezi hazırlanıyor...","success");
+  setTimeout(()=>{window.location.href="department-gateway.html";},650);
 }
+loadEOSLoginStats();
 
-document.addEventListener("keydown",e=>{
-  if(e.key==="Enter")login();
-});
+document.addEventListener("keydown",e=>{if(e.key==="Enter")login();});
 </script>
-
 </body>
 </html>
