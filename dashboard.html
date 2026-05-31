@@ -691,6 +691,48 @@ tr:hover td{
   }
 }
 
+
+/* === GDNL EQMS DEPARTMENT GATEWAY FLOW BRIDGE === */
+.department-chip{
+  height:44px;
+  border:none;
+  border-radius:14px;
+  padding:0 18px;
+  background:linear-gradient(135deg,#eefaf2,#f4fbff);
+  color:#1f7d3d;
+  border:1px solid #bfe7ca;
+  font-weight:950;
+  box-shadow:0 10px 25px rgba(53,168,82,.10);
+  white-space:nowrap;
+}
+.department-switch{
+  height:44px;
+  border:none;
+  border-radius:14px;
+  padding:0 16px;
+  background:linear-gradient(135deg,#071b34,#0d2747);
+  color:#fff;
+  font-weight:950;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.department-switch:hover{filter:brightness(1.04);transform:translateY(-1px)}
+.module.department-locked{
+  filter:grayscale(.45);
+  opacity:.58;
+  cursor:not-allowed!important;
+  background:linear-gradient(135deg,#f8fafc,#eef2f7)!important;
+  border-color:#dfe6ee!important;
+  box-shadow:none!important;
+}
+.module.department-locked:hover{
+  transform:none!important;
+  box-shadow:none!important;
+}
+@media(max-width:850px){
+  .department-chip,.department-switch{display:none!important}
+}
+
 </style>
 </head>
 
@@ -1053,14 +1095,27 @@ style="width:auto;padding:0 22px;">
 </div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null");
+if(!session||!session.username){
+window.location.href="index.html";
+}
+if(!localStorage.getItem("gdnl_selected_department")){
+window.location.href="department-gateway.html";
+}
 if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 
+const selectedDepartment=localStorage.getItem("gdnl_selected_department")||session.department||"Genel";
+const selectedDepartmentModules=JSON.parse(localStorage.getItem("gdnl_department_modules")||"[]");
 document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
 
 function logout(){
 localStorage.removeItem("gdnl_qdms_session");
+localStorage.removeItem("gdnl_selected_department");
+localStorage.removeItem("gdnl_department_modules");
+localStorage.removeItem("gdnl_allowed_departments");
+localStorage.removeItem("gdnl_current_user_role");
+localStorage.removeItem("gdnl_current_user_name");
 window.location.href="index.html";
 }
 
@@ -1558,6 +1613,58 @@ runSearch();
 }
 });
 
+
+function initDepartmentGatewayFlow(){
+const profile=document.querySelector(".profile");
+if(profile&&!document.getElementById("departmentChip")){
+const chip=document.createElement("button");
+chip.id="departmentChip";
+chip.className="department-chip";
+chip.type="button";
+chip.textContent="Aktif Departman: "+selectedDepartment;
+chip.onclick=()=>{window.location.href="department-gateway.html"};
+profile.prepend(chip);
+
+const switchBtn=document.createElement("button");
+switchBtn.id="departmentSwitch";
+switchBtn.className="department-switch";
+switchBtn.type="button";
+switchBtn.textContent="Departman Değiştir";
+switchBtn.onclick=()=>{window.location.href="department-gateway.html"};
+profile.prepend(switchBtn);
+}
+
+const heroBadge=document.querySelector(".hero-badge");
+if(heroBadge&&!document.getElementById("departmentHeroBadge")){
+const deptSpan=document.createElement("div");
+deptSpan.id="departmentHeroBadge";
+deptSpan.style.marginTop="8px";
+deptSpan.style.fontSize="12px";
+deptSpan.style.opacity=".95";
+deptSpan.textContent="Workspace: "+selectedDepartment;
+heroBadge.appendChild(deptSpan);
+}
+}
+
+function applyDepartmentModuleAccess(){
+if(!selectedDepartmentModules||!selectedDepartmentModules.length)return;
+const role=session.role||"";
+document.querySelectorAll(".modules .module").forEach(link=>{
+const href=link.getAttribute("href")||"";
+if(href==="#")return;
+const allowed=selectedDepartmentModules.includes(href)||role==="Super Administrator"&&selectedDepartment==="Yönetim";
+if(!allowed){
+link.classList.add("department-locked");
+link.addEventListener("click",function(e){
+e.preventDefault();
+alert("Bu modül "+selectedDepartment+" departmanı çalışma alanında aktif değil. Departman Gateway üzerinden ilgili departmanı seçebilirsin.");
+});
+}
+});
+}
+
+initDepartmentGatewayFlow();
+applyDepartmentModuleAccess();
 renderDashboard();
 setInterval(renderDashboard,5000);
 
