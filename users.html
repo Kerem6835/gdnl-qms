@@ -622,72 +622,6 @@ const DEFAULT_EOS_USERS=[
     "updatedAt": "2026-05-31T00:00:00.000Z"
   },
   {
-    "id": "USR-DEMO-001",
-    "username": "demo",
-    "password": "demo123",
-    "fullName": "Demo Kullanıcı",
-    "name": "Demo Kullanıcı",
-    "department": "Kalite",
-    "role": "Kullanıcı",
-    "status": "Aktif",
-    "email": "demo@gdnl-eos.local",
-    "phone": "",
-    "mailEnabled": "Evet",
-    "smsEnabled": "Hayır",
-    "accessLevel": "DEPARTMENT_ACCESS",
-    "permissions": [
-      "view",
-      "download"
-    ],
-    "departments": [
-      "Kalite"
-    ],
-    "qualityAccess": {
-      "canViewDocuments": true,
-      "canDownloadDocuments": true,
-      "canCreateDocumentDraft": false,
-      "canRequestRevision": false,
-      "canRespondCAPA": false,
-      "canUploadEvidence": true,
-      "canApproveDocument": false,
-      "canPublishDocument": false,
-      "canDeleteDocument": false,
-      "canManageQualitySettings": false
-    },
-    "canViewOwnDepartment": true,
-    "canViewAll": false,
-    "canCreate": true,
-    "canEdit": true,
-    "canDelete": false,
-    "canApprove": false,
-    "canDownloadDocument": true,
-    "canCreateDocument": true,
-    "canApproveDocument": false,
-    "canManageUsers": false,
-    "canManageRoles": false,
-    "canManageSystem": false,
-    "canAccessAllModules": false,
-    "canOverrideWorkflow": false,
-    "isRoot": false,
-    "isSuperAdmin": false,
-    "isFullAuthorized": false,
-    "modules": [
-      "dashboard",
-      "department-gateway",
-      "documents",
-      "new-document",
-      "revision",
-      "distribution",
-      "document-viewer",
-      "capa",
-      "risk-register",
-      "action-center"
-    ],
-    "notes": "Standart departman kullanıcısı:\n- Kendi departmanına ait verileri görüntüler ve kendi sorumluluğundaki işleri yürütür\n- Kalite modülünde doküman görüntüler, indirir, doküman taslağı/yazım talebi oluşturur\n- Kendisine atanmış CAPA, aksiyon ve bildirimlere cevap verir\n- Onaylayamaz, silemez, sistem ayarı ve kullanıcı yönetimi yapamaz",
-    "createdAt": "2026-05-31T00:00:00.000Z",
-    "updatedAt": "2026-05-31T00:00:00.000Z"
-  },
-  {
     "id": "USR-KLT-001",
     "username": "kalite.user",
     "password": "Klt2026!",
@@ -1901,14 +1835,17 @@ function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.h
 
 function getUsers(){
   try{
-    return JSON.parse(localStorage.getItem("gdnl_users")) || [];
+    const value=JSON.parse(localStorage.getItem("gdnl_users") || "[]");
+    const list=Array.isArray(value) ? value : [];
+    return list.filter(u => String(u.username || "").toLowerCase() !== "demo");
   }catch(e){
     return [];
   }
 }
 
 function setUsers(items){
-  localStorage.setItem("gdnl_users", JSON.stringify(items));
+  const clean=(Array.isArray(items) ? items : []).filter(u => String(u.username || "").toLowerCase() !== "demo");
+  localStorage.setItem("gdnl_users", JSON.stringify(clean));
 }
 
 function getNotifications(){
@@ -1933,24 +1870,6 @@ function getEmailConfig(){
 
 function setEmailConfig(cfg){
   localStorage.setItem("gdnl_emailjs_config", JSON.stringify(cfg));
-}
-
-function formatDateTR(v){
-  if(!v) return "-";
-  const d = new Date(v);
-  if(isNaN(d)) return v;
-  return d.toLocaleDateString("tr-TR");
-}
-
-function statusClass(s){
-  if(s === "Aktif" || s === "Gönderildi" || s === "Okundu") return "green";
-  if(s === "Kuyrukta") return "orange";
-  if(s === "Pasif" || s === "Hatalı" || s === "Gecikti") return "red";
-  return "blue";
-}
-
-function setEmailConfig(cfg){
-  localStorage.setItem("emailjs_config", JSON.stringify(cfg));
 }
 
 function formatDateTR(v){
