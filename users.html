@@ -127,6 +127,55 @@ tr:hover td{background:#f7fbf8}
 .mobile-drawer-menu .menu-sub{margin-left:10px;padding-left:10px}
 .mobile-drawer-menu .menu-sub a{font-size:14px!important;padding:12px 13px!important}
 
+
+/* === ADMIN GUARD + MOBILE USER LIST FIX === */
+.admin-only-hidden{display:none!important}
+
+@media(max-width:850px){
+  #userListPanel{overflow:visible!important}
+  #userTable{width:100%;overflow:visible}
+  #userTable table,#userTable tbody,#userTable tr,#userTable td{display:block;width:100%}
+  #userTable thead{display:none}
+  #userTable tr{
+    background:rgba(255,255,255,.94);
+    border:1px solid #dfe9f5;
+    border-radius:20px;
+    padding:14px;
+    margin-bottom:14px;
+    box-shadow:0 12px 28px rgba(7,27,52,.06);
+    overflow:hidden;
+  }
+  #userTable td{
+    border-bottom:1px solid #edf2f7;
+    padding:11px 4px;
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+    align-items:flex-start;
+    word-break:break-word;
+  }
+  #userTable td:last-child{border-bottom:0;display:block}
+  #userTable td:before{
+    flex:0 0 105px;
+    color:#617086;
+    font-size:11px;
+    font-weight:950;
+    text-transform:uppercase;
+    letter-spacing:.2px;
+  }
+  #userTable td:nth-child(1):before{content:"Kullanıcı"}
+  #userTable td:nth-child(2):before{content:"Departman"}
+  #userTable td:nth-child(3):before{content:"Rol"}
+  #userTable td:nth-child(4):before{content:"Durum"}
+  #userTable td:nth-child(5):before{content:"Bildirim"}
+  #userTable td:nth-child(6):before{content:"İşlem";display:block;margin-bottom:10px}
+  #userTable .row-actions{display:grid;grid-template-columns:1fr;gap:8px}
+  #userTable .small-btn{width:100%;height:42px;font-size:12px}
+  .toolbar{width:100%;display:grid;grid-template-columns:1fr;gap:10px}
+  .toolbar select{width:100%;height:46px}
+}
+
 @media print{.sidebar,.topbar,.hero,.actions,.toolbar,.toast,.mobile-overlay,.mobile-drawer{display:none!important}.app{display:block}.main{padding:0;max-width:none}.panel,.card{box-shadow:none;border:1px solid #e2e8f0}}
 @media(max-width:1200px){.search{width:320px}.field.double{grid-column:1/-1}}
 @media(max-width:850px){
@@ -557,16 +606,77 @@ function escapeHTML(value){
   }[m]));
 }
 
+function readSessionJson(key){
+  try{
+    const raw = localStorage.getItem(key);
+    if(!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : null;
+  }catch(e){
+    return null;
+  }
+}
+
 function getSession(){
-  const a = JSON.parse(localStorage.getItem("gdnl_eos_session") || "null");
-  const b = JSON.parse(localStorage.getItem("gdnl_qdms_session") || "null");
-  return a || b || {name:"Kerem Güdenli", role:"Super Administrator"};
+  return readSessionJson("gdnl_ems_session") ||
+         readSessionJson("gdnl_eos_session") ||
+         readSessionJson("gdnl_qdms_session") ||
+         {};
+}
+
+function isSuperAdminSession(session = getSession()){
+  const role = fixTR(session.role || "");
+  const accessLevel = fixTR(session.accessLevel || "");
+  return session.isRoot === true ||
+         session.isSuperAdmin === true ||
+         session.isFullAuthorized === true ||
+         String(session.isRoot).toLowerCase() === "true" ||
+         String(session.isSuperAdmin).toLowerCase() === "true" ||
+         String(session.isFullAuthorized).toLowerCase() === "true" ||
+         role === "Root Super Administrator" ||
+         role === "Super Administrator" ||
+         role.includes("Root") ||
+         role.includes("Super") ||
+         accessLevel === "FULL_SYSTEM_ACCESS";
+}
+
+function removeUsersMenuForNonAdmin(){
+  if(isSuperAdminSession()) return;
+  document.querySelectorAll('a[href="users.html"]').forEach(link => link.remove());
+}
+
+function guardUsersPage(){
+  const session = getSession();
+  if(!session || !session.username){
+    window.location.href = "index.html";
+    return false;
+  }
+
+  if(!isSuperAdminSession(session)){
+    removeUsersMenuForNonAdmin();
+    ["userDefinitionPanel","userListPanel","emailEnginePanel"].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.add("admin-only-hidden");
+    });
+    showToast("Bu sayfaya sadece Super Administrator erişebilir");
+    setTimeout(() => { window.location.href = "dashboard.html"; }, 650);
+    return false;
+  }
+
+  return true;
+}
+
+function requireSuperAdminAction(){
+  if(isSuperAdminSession()) return true;
+  showToast("Bu işlem sadece Super Administrator yetkisindedir");
+  return false;
 }
 
 function setSessionUi(){
   const session = getSession();
   const chip = document.getElementById("userChip");
-  if(chip) chip.textContent = fixTR(session.name || session.fullName || "Kerem Güdenli");
+  if(chip) chip.textContent = fixTR(session.name || session.fullName || session.username || "GDNL Kullanıcı");
+  removeUsersMenuForNonAdmin();
   enforceAdminPanelVisibility();
 }
 
@@ -699,6 +809,7 @@ function getFormUser(){
 }
 
 async function saveUser(){
+  if(!requireSuperAdminAction()) return;
   const payload = getFormUser();
 
   if(!payload.fullName || !payload.username || !payload.password){
@@ -730,6 +841,7 @@ async function saveUser(){
 }
 
 function editUser(index){
+  if(!requireSuperAdminAction()) return;
   const u = users[index];
   if(!u) return;
 
@@ -751,6 +863,7 @@ function editUser(index){
 }
 
 async function deleteUser(index){
+  if(!requireSuperAdminAction()) return;
   const u = users[index];
   if(!u) return;
 
@@ -887,6 +1000,7 @@ async function sendTestMail(){
 }
 
 async function sendUserTestMail(index = editIndex){
+  if(!requireSuperAdminAction()) return;
   const u = index !== null && users[index] ? users[index] : null;
   if(!u || !u.email){
     showToast("Önce mail adresi olan bir kullanıcı seç");
@@ -904,10 +1018,9 @@ function sendQueuedNotifications(){
 }
 
 function enforceAdminPanelVisibility(){
-  const session = getSession();
-  const role = fixTR(session.role || "");
+  const isAdmin = isSuperAdminSession();
   const panel = document.getElementById("emailEnginePanel");
-  if(panel) panel.style.display = role.includes("Super") || role.includes("Root") ? "block" : "none";
+  if(panel) panel.style.display = isAdmin ? "block" : "none";
 }
 
 function toggleMenuGroup(btn){
@@ -950,9 +1063,11 @@ document.addEventListener("keydown", e => {
 });
 
 setSessionUi();
-loadEmailConfig();
-resetForm();
-loadUsers();
+if(guardUsersPage()){
+  loadEmailConfig();
+  resetForm();
+  loadUsers();
+}
 
 console.log("GDNL EQMS Users D1 Ready Loaded");
 </script>
