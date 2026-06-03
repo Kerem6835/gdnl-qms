@@ -12,7 +12,7 @@
 <meta property="og:title" content="GDNL EQMS | APQP Yönetim Merkezi">
 <meta property="og:description" content="Premium APQP süreç yönetimi, kullanıcı atama, PPAP yüzdelik ilerleme, faz kapısı, aksiyon ve PPAP aktarım ekranı.">
 <meta property="og:type" content="website">
-<title>GDNL EQMS | APQP Yönetim Merkezi</title>
+<title>GDNL EQMS | APQP Yönetim Merkezi - Harmonized</title>
 <style>
 :root{
 --navy:#071b34;--green:#35a852;--green2:#62d46f;--blue:#1597ff;--text:#0f1b2f;--muted:#5f6f86;--line:#dfe9f5;--soft:#f8fbff;--red:#ef4444;--orange:#f59e0b;--side:282px;
@@ -470,7 +470,7 @@ window.closeAction=id=>{let arr=getActions();let a=arr.find(x=>x.id===id);if(a)a
 function renderRevisions(){let arr=getRevisions();$("revisionList").innerHTML=arr.length?arr.map(r=>`<div class="rev-card"><b>${r.apqpNo} • ${r.rev}</b><small>Tarih: ${r.date||"-"} • Sebep: ${r.reason||"-"}</small></div>`).join(""):`<div class="empty">Revizyon geçmişi bulunmuyor.</div>`}
 
 function normalizeUser(u){return{id:u.id,username:u.username||"",name:u.fullName||u.fullname||u.name||u.username||"",position:u.role||"Kullanıcı",department:u.department||"",email:u.email||"",status:u.status||"Aktif"}}
-async function loadApiUsers(){try{let r=await fetch(API_BASE+"/users");let data=await r.json();window._gdnlUsers=Array.isArray(data)?data.map(normalizeUser):[];toast("Kullanıcı listesi yüklendi");}catch(e){window._gdnlUsers=[];toast("API /users okunamadı")}renderLeaderOptions();renderUserResults();stats()}
+async function loadApiUsers(){try{let r=await fetch(API_BASE+"/users",{method:"GET",cache:"no-store"});let data=await r.json();window._gdnlUsers=Array.isArray(data)?data.map(normalizeUser).filter(u=>String(u.status||"active").toLowerCase()!=="pasif"):[];toast("Kullanıcı listesi yüklendi");}catch(e){window._gdnlUsers=[];toast("API /users okunamadı")}renderLeaderOptions();renderUserResults();stats()}
 function renderLeaderOptions(){
   renderSelectedPerson("leader");
   renderSelectedPerson("preparedBy");
@@ -523,7 +523,20 @@ window.loadProject=id=>{let p=getProjects().find(x=>x.id===id);if(!p)return;["ap
 $("clearAll").onclick=()=>{if(confirm("Tüm APQP kayıtları silinsin mi?")){setLS("gdnl_apqp_projects",[]);nextNo()}}
 $("exportJson").onclick=()=>{let blob=new Blob([JSON.stringify({projects:getProjects(),team:getTeam(),outputs:getOutputStatus(),ppap:getPpapStatus(),actions:getActions(),gates:getGateMap(),revisions:getRevisions()},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gdnl-apqp-yedek.json";a.click()}
 $("searchBtn").onclick=renderProjects;$("globalSearch").oninput=renderProjects;
-function stats(){let arr=getProjects(),team=getTeam(),docs=currentPpapDocs(),ps=getPpapStatus(),done=docs.filter(d=>(ps[d.i]?.status||"Eksik")==="Tamamlandı").length,outPct=docs.length?Math.round(done/docs.length*100):0;$("stTotal").textContent=arr.length;$("stActive").textContent=arr.filter(p=>p.status==="Aktif").length;$("stActions").textContent=getActions().filter(a=>a.status==="Açık").length;$("stOutputs").textContent=outPct+"%";let docs=currentPpapDocs(),s=getPpapStatus(),ppapDone=docs.filter(d=>(s[d.i]||"Eksik")==="Tamamlandı").length,ppapPct=docs.length?Math.round(ppapDone/docs.length*100):0;$("stPpap").textContent=ppapPct+"%";let avg=arr.length?Math.round(arr.reduce((sum,p)=>{let idx=phaseData.findIndex(x=>x[0]===p.phase);return sum+(idx>=0?phaseData[idx][2]:20)},0)/arr.length):0;$("stProgress").textContent=avg+"%"}
+function stats(){
+  let arr=getProjects();
+  let docs=currentPpapDocs();
+  let ps=getPpapStatus();
+  let done=docs.filter(d=>(ps[d.i]?.status||"Eksik")==="Tamamlandı").length;
+  let pct=docs.length?Math.round(done/docs.length*100):0;
+  $("stTotal").textContent=arr.length;
+  $("stActive").textContent=arr.filter(p=>p.status==="Aktif").length;
+  $("stActions").textContent=getActions().filter(a=>a.status==="Açık").length;
+  $("stOutputs").textContent=pct+"%";
+  $("stPpap").textContent=pct+"%";
+  let avg=arr.length?Math.round(arr.reduce((sum,p)=>{let idx=phaseData.findIndex(x=>x[0]===p.phase);return sum+(idx>=0?phaseData[idx][2]:20)},0)/arr.length):0;
+  $("stProgress").textContent=avg+"%";
+}
 function restoreDraft(){let p=JSON.parse(localStorage.getItem("gdnl_apqp_draft")||"null");if(!p)return;Object.keys(p).forEach(k=>{if($(k))$(k).value=p[k]||""})}
 
 renderTeam();renderPhases();renderPpapReqs();renderApprovals();renderActions();renderRevisions();renderApprovedWorkflowList();renderProjects();nextNo();restoreDraft();stats();loadApiUsers();
