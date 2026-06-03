@@ -2,856 +2,531 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#35a852">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="GDNL EQMS APQP">
-<meta name="description" content="GDNL EQMS APQP Yönetim Merkezi - proje kartı, ekip, mail grubu, APQP faz akışı ve IATF 16949 hazırlık seti.">
+<meta name="description" content="GDNL EQMS APQP Yönetim Merkezi; IATF 16949 uyumlu APQP proje kartı, revizyon, ekip atama, APQP çıktıları, PPAP ilerleme bilgisi, faz kapısı, aksiyon, onay ve PPAP aktarım sistemi.">
+<meta name="keywords" content="GDNL EQMS, APQP, PPAP, IATF 16949, APQP faz kapısı, PPAP ilerleme, otomotiv kalite, FMEA, Control Plan, MSA, SPC">
+<meta name="author" content="GDNL EQMS">
+<meta property="og:title" content="GDNL EQMS | APQP Yönetim Merkezi">
+<meta property="og:description" content="Premium APQP süreç yönetimi, kullanıcı atama, PPAP yüzdelik ilerleme, faz kapısı, aksiyon ve PPAP aktarım ekranı.">
+<meta property="og:type" content="website">
 <title>GDNL EQMS | APQP Yönetim Merkezi</title>
-
 <style>
+:root{
+--navy:#071b34;--green:#35a852;--green2:#62d46f;--blue:#1597ff;--text:#0f1b2f;--muted:#5f6f86;--line:#dfe9f5;--soft:#f8fbff;--red:#ef4444;--orange:#f59e0b;--side:282px;
+--shadow:0 18px 45px rgba(7,27,52,.065)
+}
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-html,body{min-height:100%;overflow-x:hidden}
-body{background:radial-gradient(circle at 86% 8%,rgba(53,168,82,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef7f1 46%,#f8fbff 100%);color:#0f1b2f;font-weight:800}
-.app{display:grid;grid-template-columns:282px minmax(0,1fr);min-height:100vh;align-items:start}
-.sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06);min-height:100vh;position:sticky;top:0}
-.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}.logo span{color:#35a852}
-.menu{display:flex;flex-direction:column;gap:8px}
-.menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850;transition:.2s;border:1px solid transparent}
-.menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
-.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid #dfe9f5;padding-top:18px}
-.main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
-.topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px;gap:12px}
-.search-wrap{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
-.search{width:550px;max-width:100%;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
-.search:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12);background:#fff}
-.search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:#fff;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);transition:.2s}
-.search-btn:hover,.avatar:hover,.btn.primary:hover{filter:brightness(.99);transform:translateY(-1px)}
-.profile{display:flex;align-items:center;gap:10px;flex:0 0 auto}
-.avatar{width:auto!important;height:44px;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);padding:0 24px!important;transition:.2s;white-space:nowrap}
-.logout-btn{height:44px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;padding:0 18px;border-radius:14px;font-weight:950;cursor:pointer;transition:.2s;white-space:nowrap}.logout-btn:hover{background:#fecaca;transform:translateY(-1px)}
-.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf7ef 100%);color:#0f1b2f;border:1px solid #dbe8f7;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 20px 55px rgba(7,27,52,.065)}
-.hero h1{font-size:42px;font-weight:950;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;color:#081d35}
-.hero p{max-width:1120px;color:#4e6078;font-weight:650;line-height:1.7}
-.hero-badge{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;padding:16px 18px;border-radius:18px;font-weight:950;white-space:nowrap;box-shadow:0 14px 32px rgba(53,168,82,.22)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
-.card{background:rgba(255,255,255,.84);backdrop-filter:blur(20px);border:1px solid rgba(53,168,82,.12);border-radius:24px;padding:22px;box-shadow:0 10px 30px rgba(7,27,52,.05),0 2px 8px rgba(53,168,82,.05);position:relative;overflow:hidden}
-.card:before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,#35a852,#1597ff);opacity:.88}
-.card small{color:#617086;font-weight:900}.card h2{font-size:38px;font-weight:950;color:#1f7d3d;letter-spacing:-1px;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#536176}
-.panel{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px);margin-bottom:24px;min-width:0}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:950;color:#071b34;letter-spacing:-.3px}
-.panel p.help{color:#617086;line-height:1.6;font-size:14px;margin-top:-8px;margin-bottom:18px}
-.grid-2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);gap:24px}
-.form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}
-.field label{font-size:12px;font-weight:900;color:#617086}
-.field input,.field select,.field textarea{width:100%;max-width:100%;min-width:0;height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 13px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
-.field input[readonly]{background:#eef2f7;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.field textarea{height:96px;padding:12px;resize:none;line-height:1.55}
-.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}
-.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:950;cursor:pointer;transition:.2s}
-.btn.primary{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;box-shadow:0 14px 32px rgba(53,168,82,.22)}
-.btn.red{background:#fee2e2;color:#991b1b}.btn.dark{background:linear-gradient(135deg,#071b34,#0d2747);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.blue{background:#e8f7ee;color:#1f7d3d}
-.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:950}
-.status.blue{background:#e8f7ee;color:#1f7d3d}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e9eef5;color:#405166}
-.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:linear-gradient(135deg,#f8fbff,#fff)}
-.progress{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:10px}.bar{height:100%;background:linear-gradient(90deg,#35a852,#62d46f)}
-.phase-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-.phase{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:20px;padding:18px;position:relative;overflow:hidden}
-.phase:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#35a852,#1597ff)}
-.phase b{display:block;color:#071b34;font-size:15px;line-height:1.3}.phase small{display:block;margin-top:8px;color:#617086;line-height:1.45}
-.req-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.req{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:18px;padding:15px;min-height:96px;display:flex;justify-content:space-between;gap:12px}
-.req b{display:block;font-size:14px;color:#071b34;line-height:1.35}.req small{display:block;color:#617086;margin-top:6px;line-height:1.45}
-.team-list,.project-list{display:flex;flex-direction:column;gap:12px}
-.team-card,.project-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:18px;padding:14px}
-.team-card b,.project-card b{display:block;color:#071b34}.team-card small,.project-card small{display:block;color:#617086;margin-top:5px;line-height:1.45}
-.mail-box{border:1px dashed #bfe7ca;background:#f4fbf7;border-radius:18px;padding:15px;color:#1f7d3d;line-height:1.6;font-size:13px;word-break:break-word}
-.toast{position:fixed;right:24px;bottom:24px;background:linear-gradient(135deg,#071b34,#1f8f43);color:white;padding:15px 18px;border-radius:16px;font-weight:950;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
-.mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:white;font-size:22px;font-weight:950;cursor:pointer;box-shadow:0 12px 28px rgba(53,168,82,.22);flex:0 0 auto}
-.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}
-.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0;overflow:hidden}.mobile-drawer.active{left:0}.mobile-overlay.active{display:block}
-.mobile-drawer-head{height:86px;flex:0 0 86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#ffffff,#f0fbf4)}
-.mobile-drawer-logo{font-size:25px;font-weight:950;letter-spacing:-.5px;color:#0f172a}.mobile-drawer-logo span{color:#35a852}
-.mobile-close{width:42px;height:42px;border:1px solid #fecaca;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950;cursor:pointer}
-.mobile-drawer-menu{padding:16px 16px 92px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:8px;flex:1 1 auto;-webkit-overflow-scrolling:touch;max-height:calc(100dvh - 86px)}
-.mobile-drawer-menu a{text-decoration:none;color:#516177;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}
-.mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
-.mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
+html,body{width:100%;max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{background:radial-gradient(circle at 86% 7%,rgba(21,151,255,.10),transparent 31%),radial-gradient(circle at 15% 12%,rgba(53,168,82,.08),transparent 29%),linear-gradient(135deg,#fbfdff 0%,#eef5fc 46%,#f8fbff 100%);color:var(--text);font-weight:800}
+button,input,select,textarea{font:inherit}button{border:0;cursor:pointer}
+.app{display:grid;grid-template-columns:var(--side) minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-right:1px solid var(--line);box-shadow:18px 0 58px rgba(7,27,52,.06);padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;z-index:20}
+.sidebar::-webkit-scrollbar{width:0}
+.logo{font-size:30px;font-weight:950;letter-spacing:-.8px;text-decoration:none;color:var(--navy);display:block;margin-bottom:35px}.logo span,.drawer-logo span{color:var(--green)}
+.menu,.drawer-menu{display:flex;flex-direction:column;gap:8px}
+.menu a,.menu-group,.drawer-menu a{width:100%;text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:space-between;border:1px solid transparent;background:transparent;text-align:left;transition:.2s}
+.menu a:hover,.menu a.active,.menu-group:hover,.menu-group.open,.drawer-menu a:hover,.drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.menu-group span{transition:.2s}.menu-group.open span{transform:rotate(180deg)}
+.submenu{display:none;flex-direction:column;gap:6px;margin:2px 0 8px 12px;padding-left:10px;border-left:2px solid #dfe9f5}.submenu.open{display:flex}.submenu a{font-size:13px!important;padding:11px 12px!important;border-radius:12px!important}
+.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;margin-top:25px}
+.main{min-width:0;width:100%;padding:24px;overflow:hidden}
+.topbar{height:72px;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:0 22px;display:grid;grid-template-columns:minmax(280px,1fr) auto auto;gap:10px;align-items:center;box-shadow:var(--shadow);margin-bottom:24px}
+.search-wrap{display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:10px}.search{width:100%;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:850;color:var(--text)}
+.search:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(53,168,82,.12)}
+.btn{height:46px;padding:0 18px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;font-weight:950;box-shadow:0 14px 32px rgba(53,168,82,.22);display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.02)}
+.btn-soft{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border:1px solid #bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.btn-navy{background:#071b34;color:white;box-shadow:0 12px 28px rgba(7,27,52,.18)}
+.btn-red{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;box-shadow:none}
+.btn-orange{background:#ffedd5;color:#c2410c;border:1px solid #fed7aa;box-shadow:none}
+.btn-blue{background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;box-shadow:none}
+.profile{display:flex;gap:9px;justify-content:flex-end;align-items:center}.avatar{height:46px;min-width:132px;display:flex;align-items:center;justify-content:center;padding:0 14px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;font-weight:950;box-shadow:0 14px 32px rgba(53,168,82,.22);font-size:13px}.logout{height:46px;border-radius:14px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;font-weight:950;padding:0 14px}
+.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf3ff 100%);border:1px solid #dbe8f7;border-radius:30px;padding:30px 32px;margin-bottom:24px;box-shadow:0 20px 55px rgba(7,27,52,.065);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+.hero h1{font-size:42px;line-height:1.08;letter-spacing:-1.6px;color:#081d35;font-weight:950}.hero p{margin-top:12px;color:#4e6078;font-weight:750;line-height:1.65;max-width:1080px}.hero-badge{background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;border-radius:18px;padding:17px 20px;font-weight:950;box-shadow:0 14px 35px rgba(53,168,82,.22);white-space:nowrap}
+.cards{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-bottom:24px}.card,.panel{background:rgba(255,255,255,.94);border:1px solid #e0e8f0;border-radius:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px)}
+.card{padding:20px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--green),var(--blue))}
+.card small{display:block;color:#617086;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card h2{font-size:34px;color:#1f7d3d;font-weight:950;margin-top:10px;line-height:1}.card p{margin-top:7px;color:#617086;font-size:13px}
+.panel{padding:24px;margin-bottom:24px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}.panel h3{font-size:22px;font-weight:950;color:var(--navy);letter-spacing:-.5px}.panel p.help{color:#617086;line-height:1.6;font-size:14px;margin-top:-8px;margin-bottom:18px}
+.form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:12px;color:#536176;font-weight:950}.field input,.field select,.field textarea{width:100%;min-width:0;border:1px solid #d8e4ef;border-radius:14px;background:linear-gradient(135deg,#fff,#f8fbff);padding:0 14px;height:50px;color:var(--text);outline:none;font-weight:850}.field textarea{height:96px;padding-top:13px;resize:vertical}.span-2{grid-column:span 2}.span-4,.field.full{grid-column:1/-1}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.status,.pill{display:inline-flex;align-items:center;justify-content:center;min-height:28px;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:950;background:#e8f7ee;color:#1f7d3d}.orange{background:#fff1dc!important;color:#b45309!important}.blue{background:#e0f2fe!important;color:#0369a1!important}.red{background:#fee2e2!important;color:#991b1b!important}.green{background:#dcfce7!important;color:#15803d!important}
+.phase-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}.phase,.req,.team-chip,.project-card,.summary-card,.approve-card,.action-card,.rev-card,.ppap-card{border:1px solid #dfe9f5;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#fff);padding:15px;position:relative;overflow:hidden}
+.phase{min-height:180px;cursor:pointer;transition:.2s}.phase:hover,.phase.selected{transform:translateY(-1px);border-color:#bfe7ca;box-shadow:0 12px 24px rgba(53,168,82,.10);background:linear-gradient(135deg,#eefaf2,#fff)}.phase.locked{opacity:.55;filter:grayscale(.15)}
+.phase:before,.req:before,.approve-card:before,.rev-card:before,.ppap-card:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--blue))}
+.phase b,.req b,.team-chip b,.project-card b,.approve-card b,.action-card b,.rev-card b,.ppap-card b{display:block;color:#071b34;font-size:14px;line-height:1.35}.phase small,.req small,.team-chip small,.project-card small,.approve-card small,.action-card small,.rev-card small,.ppap-card small{display:block;color:#617086;margin-top:6px;line-height:1.45}.phase h2,.summary-card b{display:block;margin-top:14px;color:#1f7d3d;font-size:32px;font-weight:950}.progress{height:10px;background:#e8eef5;border-radius:999px;overflow:hidden;margin-top:14px}.bar{height:100%;background:linear-gradient(90deg,#1f8f43,#1597ff)}
+.req-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.req,.ppap-card{min-height:122px;cursor:pointer;transition:.2s}.req:hover,.ppap-card:hover{border-color:#bfe7ca;box-shadow:0 12px 24px rgba(53,168,82,.10)}
+.req-tag{position:absolute;top:12px;right:12px;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:950}.req-tag.z{background:#dcfce7;color:#15803d}.req-tag.o{background:#fff1dc;color:#b45309}.req-tag.m{background:#e0f2fe;color:#0369a1}
+.output-status,.doc-status{margin-top:12px;display:inline-flex;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:950}.output-status.wait,.doc-status.missing{background:#fee2e2;color:#991b1b}.output-status.work,.doc-status.work{background:#fff1dc;color:#b45309}.output-status.done,.doc-status.done{background:#dcfce7;color:#15803d}
+.assignment-shell{display:grid;grid-template-columns:360px minmax(0,1fr);gap:18px;align-items:start}.assignment-left{border:1px solid #dfe9f5;background:linear-gradient(135deg,#fff,#f8fbff);border-radius:22px;padding:18px}.team-mini-info{margin-top:12px;padding:12px 14px;border-radius:16px;background:#f4fbf7;color:#1f7d3d;border:1px dashed #bfe7ca;font-size:12px;line-height:1.5;font-weight:900}
+.user-results{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px;padding:14px;border:1px solid #dfe9f5;border-radius:22px;background:linear-gradient(135deg,#f8fbff,#fff)}
+.user-results.active{display:grid}
+.user-chip{width:100%;border:1px solid #dfe9f5;border-radius:18px;background:linear-gradient(135deg,#fff,#f8fbff);padding:14px;text-align:left;color:#0f1b2f;cursor:pointer;transition:.2s;min-height:74px}.user-chip:hover{border-color:#bfe7ca;background:linear-gradient(135deg,#eefaf2,#fff);box-shadow:0 10px 22px rgba(53,168,82,.10)}.user-chip b{display:block;font-size:14px;color:#071b34;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.user-chip small{display:block;margin-top:6px;color:#617086;font-size:12px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.selected-team-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.selected-chips{display:flex;flex-wrap:wrap;gap:10px;padding:14px;border:1px solid #dfe9f5;border-radius:22px;background:linear-gradient(135deg,#f8fbff,#fff);min-height:130px}.team-chip{min-width:220px;max-width:330px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}.team-chip .remove{width:38px;height:38px;border-radius:12px;background:#fee2e2;color:#991b1b;font-weight:950;border:1px solid #fecaca}.mail-box{border:1px dashed #bfe7ca;background:#f4fbf7;border-radius:18px;padding:15px;color:#1f7d3d;line-height:1.6;font-size:13px;word-break:break-word;margin-top:16px}.empty{padding:22px;border:1px dashed #cbd5e1;border-radius:18px;text-align:center;color:#64748b;background:#f8fafc;font-weight:950}
+.ppap-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:18px}.ppap-summary .summary-card{min-height:118px}.ppap-progress{height:18px;background:#e8eef5;border-radius:999px;overflow:hidden;margin:10px 0 8px}.ppap-progress-bar{height:100%;background:linear-gradient(90deg,#35a852,#1597ff);width:0%;transition:.3s}.ppap-label{font-weight:950;color:#1f7d3d}
+.approval-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}.approve-card{min-height:145px}.approve-card.approved{border-color:#86efac;background:#f0fdf4}.approve-card.rejected{border-color:#fecaca;background:#fff5f5}.action-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.action-card{min-height:132px}.rev-list,.project-list{display:flex;flex-direction:column;gap:12px}.project-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+.detail-box{display:none;margin-top:14px;border:1px solid #dfe9f5;border-radius:20px;padding:18px;background:linear-gradient(135deg,#fff,#f8fbff)}.detail-box.active{display:block}
+.owner-picker{position:relative}.owner-results{display:none;position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:50;max-height:240px;overflow:auto;padding:10px;border:1px solid #dfe9f5;border-radius:18px;background:#fff;box-shadow:0 20px 46px rgba(7,27,52,.12)}.owner-results.active{display:grid;gap:8px}.owner-item{width:100%;border:1px solid #dfe9f5;border-radius:14px;padding:11px 12px;background:linear-gradient(135deg,#fff,#f8fbff);text-align:left;color:#071b34;font-weight:950}.owner-item small{display:block;margin-top:4px;color:#617086;font-size:11px}.output-mini-team{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.output-mini-team span{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;background:#eefaf2;color:#1f7d3d;border:1px solid #bfe7ca;font-size:11px;font-weight:950}
+.mobile-menu-btn{display:none;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852);color:#fff;font-size:22px;font-weight:950}.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}.drawer{position:fixed;top:0;left:-90%;width:88%;max-width:360px;height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s;display:flex;flex-direction:column;border-right:1px solid #e2e8f0}.drawer.active{left:0}.overlay.active{display:block}.drawer-head{height:86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#fff,#f0fbf4)}.drawer-logo{font-size:25px;font-weight:950;color:#0f172a}.drawer-close{width:42px;height:42px;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950}.drawer-menu{padding:16px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:8px}.drawer-footer{padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:#fff}.toast{position:fixed;right:20px;bottom:20px;z-index:300;background:#071b34;color:white;border-radius:16px;padding:14px 16px;font-weight:950;box-shadow:0 20px 50px rgba(7,27,52,.28);display:none}
+@media(max-width:1500px){.cards{grid-template-columns:repeat(3,1fr)}.approval-grid{grid-template-columns:repeat(3,1fr)}.ppap-summary{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1360px){.phase-grid{grid-template-columns:repeat(3,1fr)}.req-grid{grid-template-columns:repeat(3,1fr)}.form-grid{grid-template-columns:repeat(3,1fr)}.action-grid{grid-template-columns:1fr}}
+@media(max-width:1180px){:root{--side:250px}.profile .avatar{display:none}.hero{grid-template-columns:1fr}.assignment-shell{grid-template-columns:1fr}.req-grid{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}.ppap-summary{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.app{display:block}.sidebar{display:none}.main{padding:14px}.topbar{position:sticky;top:10px;z-index:40;border-radius:22px;display:grid;grid-template-columns:52px minmax(0,1fr);padding:12px;height:auto}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.search-wrap{grid-template-columns:minmax(0,1fr) 58px}.search,.btn{height:52px}.search-wrap .btn{width:58px;padding:0}.profile{display:none}.hero{padding:22px;border-radius:24px}.hero h1{font-size:27px}.cards,.form-grid,.phase-grid,.req-grid,.approval-grid,.ppap-summary,.user-results{grid-template-columns:1fr!important}.project-card{grid-template-columns:1fr}.actions .btn,.actions button{width:100%}}
 
-/* === GDNL EQMS LOCKED ACCORDION MENU === */
-.menu-group,.mobile-menu-group{width:100%;border:none;outline:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;color:#22324a;background:linear-gradient(135deg,#ffffff,#f8fbff);border:1px solid #e0e8f0;border-radius:15px;padding:13px 14px;font-size:14px;font-weight:950;letter-spacing:-.2px;transition:.2s}
-.menu-group:hover,.menu-group.open,.mobile-menu-group:hover,.mobile-menu-group.open{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
-.menu-group::after,.mobile-menu-group::after{content:"›";font-size:20px;font-weight:950;transition:.2s}
-.menu-group.open::after,.mobile-menu-group.open::after{transform:rotate(90deg)}
-.submenu,.mobile-submenu{display:none;flex-direction:column;gap:6px;margin:4px 0 8px 10px;padding-left:10px;border-left:2px solid #dfe9f5}
-.submenu.open,.mobile-submenu.open{display:flex}
-.menu .submenu a,.mobile-drawer-menu .mobile-submenu a{padding:11px 13px;font-size:13px;border-radius:13px}
-.menu .submenu a.active,.mobile-drawer-menu .mobile-submenu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff)!important;color:#1f7d3d!important;border-color:#bfe7ca!important;box-shadow:0 10px 25px rgba(53,168,82,.10)!important}
-@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double{grid-column:1/-1}.search{width:320px}.phase-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.req-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-2{grid-template-columns:1fr}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid,.phase-grid,.req-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.actions .btn{width:100%}.team-card,.project-card{grid-template-columns:1fr}}
-
-/* === APQP PREMIUM SINGLE-ROW FLOW REVISION === */
-.grid-2{display:block!important}
-.form-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
-.field.full{grid-column:1/-1!important}
-.cards{grid-template-columns:repeat(5,minmax(0,1fr))!important}
-.team-picker-layout{
-  display:grid;
-  grid-template-columns:minmax(320px,.45fr) minmax(0,1fr);
-  gap:16px;
-  align-items:start;
+/* === FINAL UX FIX: no grey phases, search-pick people, level-driven APQP outputs === */
+.phase.locked{
+  opacity:1!important;
+  filter:none!important;
 }
-.user-pool{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;
-  max-height:260px;
-  overflow:auto;
-  padding:6px;
-  border:1px solid #dfe9f5;
-  border-radius:20px;
-  background:linear-gradient(135deg,#f8fbff,#ffffff);
-}
-.user-chip{
-  width:100%;
-  border:1px solid #dfe9f5;
-  border-radius:16px;
-  background:linear-gradient(135deg,#ffffff,#f8fbff);
-  padding:12px;
-  text-align:left;
-  color:#0f1b2f;
-  cursor:pointer;
-  transition:.2s;
-}
-.user-chip:hover{
-  border-color:#bfe7ca;
-  background:linear-gradient(135deg,#eefaf2,#ffffff);
-  transform:translateY(-1px);
-  box-shadow:0 10px 22px rgba(53,168,82,.10);
-}
-.user-chip.selected{
-  border-color:#35a852;
-  background:linear-gradient(135deg,#e8f7ee,#ffffff);
-}
-.user-chip b{
-  display:block;
-  font-size:13px;
-  color:#071b34;
-  line-height:1.3;
-}
-.user-chip small{
-  display:block;
-  margin-top:5px;
-  color:#617086;
-  font-size:11px;
-  line-height:1.4;
-  word-break:break-word;
-}
-.selected-team-head{
-  margin:18px 0 12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.selected-team-head h4{
-  color:#071b34;
-  font-size:16px;
-  font-weight:950;
-}
-.team-row-list{
-  display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px!important;
-}
-.team-card{
-  grid-template-columns:minmax(0,1fr) auto!important;
-}
-.mail-box{
-  margin-top:16px;
-}
-@media(max-width:1360px){
-  .cards{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-  .user-pool{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .team-row-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-}
-@media(max-width:1180px){
-  .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .team-picker-layout{grid-template-columns:1fr}
-}
-@media(max-width:850px){
-  .cards,.form-grid,.user-pool,.team-row-list{grid-template-columns:1fr!important}
-}
-
-
-/* === PPAP LEVEL AUTO REQUIREMENT ENGINE === */
-.ppap-control-row{
-  display:grid;
-  grid-template-columns:minmax(240px,.7fr) repeat(3,minmax(160px,1fr));
-  gap:14px;
-  align-items:end;
-  margin-bottom:16px;
-}
-.ppap-summary-card{
-  border:1px solid #dfe9f5;
-  border-radius:18px;
-  background:linear-gradient(135deg,#f8fbff,#ffffff);
-  padding:14px 16px;
-  min-height:72px;
-}
-.ppap-summary-card small{
-  display:block;
-  color:#617086;
-  font-weight:950;
-  font-size:12px;
-}
-.ppap-summary-card b{
-  display:block;
-  color:#1f7d3d;
-  font-size:24px;
-  margin-top:5px;
-  font-weight:950;
-}
-.ppap-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:10px 0 18px;
-}
-.ppap-doc-grid{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:12px;
-}
-.ppap-doc-card{
-  border:1px solid #dfe9f5;
-  border-radius:18px;
-  background:linear-gradient(135deg,#f8fbff,#ffffff);
-  padding:15px;
-  min-height:118px;
-  cursor:pointer;
-  transition:.2s;
+.person-picker{
   position:relative;
-  overflow:hidden;
 }
-.ppap-doc-card:hover{
-  transform:translateY(-1px);
-  border-color:#bfe7ca;
-  box-shadow:0 12px 24px rgba(53,168,82,.10);
-}
-.ppap-doc-card:before{
-  content:"";
+.person-results{
+  display:none;
   position:absolute;
   left:0;
   right:0;
-  top:0;
-  height:4px;
-  background:linear-gradient(90deg,#35a852,#1597ff);
+  top:calc(100% + 8px);
+  z-index:80;
+  max-height:240px;
+  overflow:auto;
+  padding:10px;
+  border:1px solid #dfe9f5;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 20px 46px rgba(7,27,52,.12);
 }
-.ppap-doc-card b{
-  display:block;
+.person-results.active{display:grid;gap:8px}
+.person-result{
+  width:100%;
+  border:1px solid #dfe9f5;
+  border-radius:14px;
+  padding:11px 12px;
+  background:linear-gradient(135deg,#fff,#f8fbff);
+  text-align:left;
   color:#071b34;
-  font-size:14px;
-  line-height:1.35;
-  padding-right:54px;
-}
-.ppap-doc-card small{
-  display:block;
-  color:#617086;
-  margin-top:7px;
-  line-height:1.45;
-  font-size:12px;
-}
-.ppap-tag{
-  position:absolute;
-  top:12px;
-  right:12px;
-  border-radius:999px;
-  padding:5px 8px;
-  font-size:10px;
   font-weight:950;
 }
-.ppap-tag.z{background:#dcfce7;color:#15803d}
-.ppap-tag.o{background:#fff1dc;color:#b45309}
-.ppap-tag.m{background:#e0f2fe;color:#0369a1}
-.ppap-status{
-  margin-top:12px;
+.person-result small{
+  display:block;
+  margin-top:4px;
+  color:#617086;
+  font-size:11px;
+}
+.selected-person-pill{
+  margin-top:8px;
   display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
   border-radius:999px;
-  padding:6px 10px;
+  background:#eefaf2;
+  color:#1f7d3d;
+  border:1px solid #bfe7ca;
   font-size:11px;
   font-weight:950;
 }
-.ppap-status.done{background:#dcfce7;color:#15803d}
-.ppap-status.progress{background:#fff1dc;color:#b45309}
-.ppap-status.missing{background:#fee2e2;color:#991b1b}
-.ppap-status.na{background:#e9eef5;color:#405166}
-@media(max-width:1360px){
-  .ppap-doc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.level-note{grid-column:1/-1;
+  padding:13px 15px;
+  border:1px dashed #bfe7ca;
+  border-radius:18px;
+  background:#f4fbf7;
+  color:#1f7d3d;
+  font-size:13px;
+  font-weight:950;
+  line-height:1.55;
+  margin-bottom:16px;
 }
-@media(max-width:1180px){
-  .ppap-control-row{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .ppap-doc-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.file-pill{
+  display:inline-flex;
+  margin-top:8px;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#e0f2fe;
+  color:#0369a1;
+  border:1px solid #bae6fd;
+  font-size:11px;
+  font-weight:950;
 }
-@media(max-width:850px){
-  .ppap-control-row,.ppap-doc-grid{grid-template-columns:1fr}
-  .ppap-actions .btn{width:100%}
+
+
+/* === FINAL STRUCTURE: PPAP as document/detail area, no APQP output section === */
+.ppap-card{
+  min-height:128px;
+}
+.ppap-card.locked{
+  border-color:#fecaca!important;
+  background:#fff7f7!important;
+}
+.ppap-card.ready{
+  border-color:#86efac!important;
+  background:#f0fdf4!important;
+}
+.approve-card{
+  transition:.2s;
+}
+.approve-card.current{
+  border-color:#35a852!important;
+  box-shadow:0 14px 30px rgba(53,168,82,.14)!important;
+  background:linear-gradient(135deg,#eefaf2,#fff)!important;
+}
+.approve-card.waiting{
+  opacity:.72;
+}
+.approve-card button{
+  margin-top:10px;
+}
+.workflow-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.workflow-item{
+  border:1px solid #dfe9f5;
+  border-radius:18px;
+  padding:15px;
+  background:linear-gradient(135deg,#f8fbff,#fff);
+}
+.workflow-item b{display:block;color:#071b34}
+.workflow-item small{display:block;color:#617086;margin-top:6px;line-height:1.45}
+.ppap-detail-note{
+  padding:12px 14px;
+  border:1px dashed #bfe7ca;
+  background:#f4fbf7;
+  color:#1f7d3d;
+  border-radius:16px;
+  font-size:12px;
+  font-weight:950;
+  margin-bottom:14px;
 }
 
 </style>
 </head>
-
 <body>
+<div class="overlay" id="overlay" onclick="closeMobileMenu()"></div>
+<aside class="drawer" id="drawer"><div class="drawer-head"><div class="drawer-logo">GDNL <span>EQMS</span></div><button class="drawer-close" onclick="closeMobileMenu()">×</button></div><nav class="drawer-menu" id="mobileMenu"></nav><div class="drawer-footer"><button class="logout" style="width:100%" onclick="logout()">Logout</button></div></aside>
 <div class="app">
-
-<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
-
-<aside class="mobile-drawer" id="mobileDrawer">
-  <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
-    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
-  </div>
-  <nav class="mobile-drawer-menu">
-<a href="dashboard.html">🏠 Dashboard</a>
-
-<button type="button" class="mobile-menu-group">📚 Doküman Yönetimi</button>
-<div class="mobile-submenu">
-  <a href="company-assets-documents.html">Firma Belgeleri</a>
-  <a href="documents.html">Doküman Yönetimi</a>
-  <a href="new-document.html">Yeni Doküman</a>
-  <a href="revision.html">Revizyon Yönetimi</a>
-  <a href="approval.html">Onay Yönetimi</a>
-  <a href="distribution.html">Dağıtım Yönetimi</a>
-  <a href="archive.html">Arşiv Yönetimi</a>
-  <a href="document-viewer.html">Doküman Görüntüleyici</a>
-</div>
-
-<button type="button" class="mobile-menu-group">⚙️ Kalite Yönetimi</button>
-<div class="mobile-submenu">
-  <a href="capa.html">8D / CAPA</a>
-  <a href="risk-register.html">Risk Yönetimi</a>
-  <a href="change-management.html">Değişiklik Yönetimi</a>
-  <a href="process-management.html">Süreç Yönetimi</a>
-  <a href="continuous-improvement.html">Sürekli İyileştirme</a>
-</div>
-
-<button type="button" class="mobile-menu-group">👥 Organizasyon Yönetimi</button>
-<div class="mobile-submenu">
-  <a href="training-management.html">Eğitim Yönetimi</a>
-  <a href="competency-matrix.html">Yetkinlik Matrisi</a>
-  <a href="users.html">Kullanıcılar</a>
-</div>
-
-<button type="button" class="mobile-menu-group">🏭 Paydaş Yönetimi</button>
-<div class="mobile-submenu">
-  <a href="supplier-management.html">Tedarikçi Yönetimi</a>
-  <a href="customer-management.html">Müşteri Yönetimi</a>
-</div>
-
-<button type="button" class="mobile-menu-group">📊 Performans Yönetimi</button>
-<div class="mobile-submenu">
-  <a href="kpi-reports.html">KPI & Raporlar</a>
-  <a href="management-review.html">YGG Yönetimi</a>
-  <a href="action-center.html">Action Center</a>
-  <a href="notification-center.html">Bildirim Merkezi</a>
-</div>
-
-<button type="button" class="mobile-menu-group">🔬 Teknik Yönetim</button>
-<div class="mobile-submenu">
-  <a href="calibration-management.html">Kalibrasyon Yönetimi</a>
-</div>
-
-<button type="button" class="mobile-menu-group">🔒 Uyum ve Güvenlik</button>
-<div class="mobile-submenu">
-  <a href="security-continuity.html">BGYS & İş Sürekliliği</a>
-  <a href="standards-compliance.html">Standart Uygunluk</a>
-  <a href="legal-compliance.html">Yasal Uyum</a>
-</div>
-
-<button type="button" class="mobile-menu-group open">🚗 IATF 16949</button>
-<div class="mobile-submenu open">
-  <a class="active" href="apqp.html">APQP</a>
-  <a href="fmea.html">FMEA</a>
-  <a href="control-plan.html">Control Plan</a>
-  <a href="ppap.html">PPAP</a>
-  <a href="spc.html">SPC</a>
-  <a href="msa.html">MSA</a>
-</div>
-  </nav>
-  <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
-  </div>
-</aside>
-
-<aside class="sidebar">
-<div>
-<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
-<nav class="menu">
-<a href="dashboard.html">🏠 Dashboard</a>
-
-<button type="button" class="menu-group">📚 Doküman Yönetimi</button>
-<div class="submenu">
-  <a href="company-assets-documents.html">Firma Belgeleri</a>
-  <a href="documents.html">Doküman Yönetimi</a>
-  <a href="new-document.html">Yeni Doküman</a>
-  <a href="revision.html">Revizyon Yönetimi</a>
-  <a href="approval.html">Onay Yönetimi</a>
-  <a href="distribution.html">Dağıtım Yönetimi</a>
-  <a href="archive.html">Arşiv Yönetimi</a>
-  <a href="document-viewer.html">Doküman Görüntüleyici</a>
-</div>
-
-<button type="button" class="menu-group">⚙️ Kalite Yönetimi</button>
-<div class="submenu">
-  <a href="capa.html">8D / CAPA</a>
-  <a href="risk-register.html">Risk Yönetimi</a>
-  <a href="change-management.html">Değişiklik Yönetimi</a>
-  <a href="process-management.html">Süreç Yönetimi</a>
-  <a href="continuous-improvement.html">Sürekli İyileştirme</a>
-</div>
-
-<button type="button" class="menu-group">👥 Organizasyon Yönetimi</button>
-<div class="submenu">
-  <a href="training-management.html">Eğitim Yönetimi</a>
-  <a href="competency-matrix.html">Yetkinlik Matrisi</a>
-  <a href="users.html">Kullanıcılar</a>
-</div>
-
-<button type="button" class="menu-group">🏭 Paydaş Yönetimi</button>
-<div class="submenu">
-  <a href="supplier-management.html">Tedarikçi Yönetimi</a>
-  <a href="customer-management.html">Müşteri Yönetimi</a>
-</div>
-
-<button type="button" class="menu-group">📊 Performans Yönetimi</button>
-<div class="submenu">
-  <a href="kpi-reports.html">KPI & Raporlar</a>
-  <a href="management-review.html">YGG Yönetimi</a>
-  <a href="action-center.html">Action Center</a>
-  <a href="notification-center.html">Bildirim Merkezi</a>
-</div>
-
-<button type="button" class="menu-group">🔬 Teknik Yönetim</button>
-<div class="submenu">
-  <a href="calibration-management.html">Kalibrasyon Yönetimi</a>
-</div>
-
-<button type="button" class="menu-group">🔒 Uyum ve Güvenlik</button>
-<div class="submenu">
-  <a href="security-continuity.html">BGYS & İş Sürekliliği</a>
-  <a href="standards-compliance.html">Standart Uygunluk</a>
-  <a href="legal-compliance.html">Yasal Uyum</a>
-</div>
-
-<button type="button" class="menu-group open">🚗 IATF 16949</button>
-<div class="submenu open">
-  <a class="active" href="apqp.html">APQP</a>
-  <a href="fmea.html">FMEA</a>
-  <a href="control-plan.html">Control Plan</a>
-  <a href="ppap.html">PPAP</a>
-  <a href="spc.html">SPC</a>
-  <a href="msa.html">MSA</a>
-</div>
-</nav>
-</div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>APQP Management<br>IATF 16949 Ready</div>
-</aside>
-
+<aside class="sidebar"><div><a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a><nav class="menu" id="sideMenu"></nav></div><div class="sidebar-footer">GDNL EQMS Enterprise<br>APQP Process<br>IATF 16949 Ready</div></aside>
 <main class="main">
+<header class="topbar"><button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button><div class="search-wrap"><input class="search" id="globalSearch" placeholder="APQP no, müşteri, proje, parça, ekip veya çıktı ara"><button class="btn" id="searchBtn">Ara</button></div><div class="profile"><div class="avatar" id="userName">Kerem Güdenli</div><button class="logout" onclick="logout()">Logout</button></div></header>
 
-<header class="topbar">
-<button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
-<div class="search-wrap">
-<input class="search" id="globalSearch" placeholder="Proje, müşteri, parça, faz, sorumlu, ekip veya mail ara">
-<button class="search-btn" onclick="runSearch()">Ara</button>
+<section class="hero"><div><h1>APQP Yönetim Merkezi</h1><p>Tam APQP modülü: proje kartı, revizyon geçmişi, ekip atama, çıktı detay formu, faz kapısı kilidi, aktif onay akışı, otomatik aksiyon, PPAP ilerleme bilgisi ve PPAP’e aktarım.</p></div><div class="hero-badge">IATF 16949 APQP: Full</div></section>
+
+<section class="cards"><div class="card"><small>Toplam APQP</small><h2 id="stTotal">0</h2><p>Tanımlı proje</p></div><div class="card"><small>Aktif Proje</small><h2 id="stActive">0</h2><p>Devam eden çalışma</p></div><div class="card"><small>APQP Faz</small><h2 id="stProgress">0%</h2><p>Faz olgunluğu</p></div><div class="card"><small>PPAP Doküman</small><h2 id="stOutputs">0%</h2><p>Tamamlanma</p></div><div class="card"><small>PPAP Paket</small><h2 id="stPpap">0%</h2><p>Bilgi ilerleme</p></div><div class="card"><small>Açık Aksiyon</small><h2 id="stActions">0</h2><p>Takip bekleyen</p></div></section>
+
+<section class="panel"><div class="panel-head"><h3>1. APQP Proje Kartı</h3><span class="pill blue">REVİZYONLU ANA KAYIT</span></div>
+<form id="apqpForm"><div class="form-grid">
+<div class="field"><label>APQP No</label><input id="apqpNo" readonly></div><div class="field"><label>APQP Revizyon</label><input id="apqpRev" value="R00"></div><div class="field"><label>Revizyon Tarihi</label><input type="date" id="revDate"></div><div class="field"><label>Revizyon Sebebi</label><input id="revReason" placeholder="İlk yayın / değişiklik nedeni"></div>
+<div class="field"><label>Planlanan PPAP No</label><input id="ppapNo" readonly></div><div class="field"><label>Planlanan PPAP Seviyesi</label><select id="ppapLevel"><option>Level 1</option><option>Level 2</option><option selected>Level 3</option><option>Level 4</option><option>Level 5</option></select></div><div class="field"><label>Müşteri</label><input id="customer" placeholder="Müşteri adı"></div><div class="field"><label>Proje / Araç</label><input id="projectName" placeholder="Proje / araç adı"></div>
+<div class="field"><label>Parça Adı</label><input id="partName" placeholder="Parça adı"></div><div class="field"><label>Parça No</label><input id="partNo" placeholder="Parça no"></div><div class="field"><label>OEM Parça No</label><input id="oemPartNo" placeholder="OEM parça no"></div><div class="field"><label>Teknik Resim No</label><input id="drawingNo" placeholder="Teknik resim no"></div>
+<div class="field"><label>Teknik Resim Rev.</label><input id="drawingRev" placeholder="Revizyon"></div><div class="field"><label>APQP Fazı</label><select id="phase"></select></div><div class="field"><label>Durum</label><select id="status"><option>Aktif</option><option>Beklemede</option><option>Tamamlandı</option><option>Riskli</option></select></div><div class="field"><label>Öncelik</label><select id="priority"><option>Normal</option><option>Kritik</option><option>Yüksek</option><option>Düşük</option></select></div>
+<div class="field person-picker"><label>Proje Lideri</label><input id="leaderSearch" placeholder="İsim yaz, seç" oninput="renderPersonResults('leader')"><input type="hidden" id="leader"><div class="person-results" id="leaderResults"></div><div id="leaderPill"></div></div><div class="field person-picker"><label>Hazırlayan</label><input id="preparedBySearch" placeholder="İsim yaz, seç" oninput="renderPersonResults('preparedBy')"><input type="hidden" id="preparedBy"><div class="person-results" id="preparedByResults"></div><div id="preparedByPill"></div></div><div class="field"><label>Başlangıç Tarihi</label><input type="date" id="startDate"></div><div class="field"><label>Hedef APQP Tarihi</label><input type="date" id="targetDate"></div>
+<div class="field span-4"><label>Kapsam / Açıklama</label><textarea id="scope" placeholder="Proje kapsamı, müşteri özel isteği, kritik notlar ve APQP kapsamı"></textarea></div>
+</div></form></section>
+
+<section class="panel"><div class="panel-head"><h3>2. Ekip Atama</h3><span class="pill blue">D1 /users</span></div><p class="help">Arama yapınca eşleşen kişiler görünür. Kişiye tıklayınca seçilen APQP rolüyle sağdaki ekibe atanır.</p>
+<div class="assignment-shell">
+<div class="assignment-left"><div class="field"><label>Kullanıcı Ara</label><input id="userSearch" placeholder="İsim yaz, listeden seç"></div><div class="form-grid" style="grid-template-columns:minmax(0,1fr) auto;margin-top:12px"><div class="field"><label>APQP Rolü</label><select id="teamRole"><option>APQP Lideri</option><option selected>APQP Üyesi</option><option>Onaylayıcı</option><option>Bilgilendirilecek</option></select></div><button class="btn btn-soft" type="button" id="clearUserSearch" style="align-self:end">Aramayı Temizle</button></div><div class="team-mini-info">Kaynak: users.html ile aynı Worker API /users</div><div class="user-results" id="userResults"></div></div>
+<div><div class="selected-team-head"><h4>Seçili APQP Ekibi</h4><span class="status green" id="selectedTeamCount">0 kişi</span></div><div class="selected-chips" id="teamList"></div><div class="mail-box" id="mailGroup">Mail grubu henüz oluşmadı.</div><div class="actions"><button class="btn btn-navy" type="button" id="copyMail">Mail Grubunu Kopyala</button><button class="btn btn-red" type="button" id="clearTeam">Ekibi Temizle</button></div></div>
+</div></section>
+
+<section class="panel"><div class="panel-head"><h3>3. APQP Faz Yönetimi</h3><span class="pill">5 FAZ</span></div><p class="help">Faz kapısı onaylanmadan bir sonraki faza geçiş kilitlenir.</p><div class="phase-grid" id="phaseGrid"></div></section>
+
+
+<section class="panel"><div class="panel-head"><h3>4. PPAP Paket Bilgisi, Dosya ve İlerleme</h3><span class="pill orange" id="ppapLevelBadge">LEVEL 3</span></div><p class="help">Bu bölüm bilgi amaçlıdır. Karartma yoktur. İşler tamamlandıkça PPAP yüzdesi otomatik hesaplanır. Doküman yükleme PPAP sayfasında yapılır.</p>
+<div class="ppap-summary">
+<div class="summary-card"><small>Seviye</small><b id="ppapLevelText">Level 3</b></div>
+<div class="summary-card"><small>Gerekli Doküman</small><b id="ppapRequiredCount">0</b></div>
+<div class="summary-card"><small>Tamamlanan</small><b id="ppapCompletedCount">0</b></div>
+<div class="summary-card"><small>Eksik</small><b id="ppapMissingCount">0</b></div>
+<div class="summary-card"><small>İlerleme</small><b id="ppapProgressText">0%</b></div>
 </div>
-<div class="profile">
-<div class="avatar" onclick="window.location.href='dashboard.html'">
-<span id="userName">Kerem Güdenli</span>
-</div>
-<button class="logout-btn" onclick="logout()">Logout</button>
-</div>
-</header>
+<div class="ppap-progress"><div class="ppap-progress-bar" id="ppapProgressBar"></div></div><div class="ppap-label">PPAP Tamamlanma Oranı: <span id="ppapProgressLabel">0%</span></div>
+<div style="height:18px"></div><div class="req-grid" id="ppapReqGrid"></div><div class="detail-box" id="ppapDetail"></div></section>
 
-<section class="hero">
-<div>
-<h1>APQP Yönetim Merkezi</h1>
-<p>Yeni ürün devreye alma akışını proje kartı, ekip üyeleri, mail grubu, faz kapıları ve APQP zorunlu içerikleriyle tek premium ekranda yönetin. Bu sayfa mevcut EQMS menü yapısına birebir bağlıdır.</p>
-</div>
-<div class="hero-badge">IATF 16949 Engine: Active</div>
-</section>
+<section class="panel"><div class="panel-head"><h3>5. Faz Kapısı ve Onay Akışı</h3><span class="pill green">AKTİF ONAY</span></div><div class="approval-grid" id="approvalGrid"></div><div class="actions"><button class="btn" type="button" id="approveGate">Faz Onayla</button><button class="btn btn-red" type="button" id="rejectGate">Fazı Reddet</button></div></section>
+
+<section class="panel"><div class="panel-head"><h3>6. Aksiyon Sistemi</h3><span class="pill red">OTOMATİK AKSİYON</span></div><div class="action-grid" id="actionGrid"></div><div class="actions"><button class="btn btn-orange" type="button" id="createAction">Aksiyon Oluştur</button><button class="btn btn-soft" type="button" id="autoAction">Eksiklerden Aksiyon Üret</button></div></section>
+
+<section class="panel"><div class="panel-head"><h3>7. Revizyon Geçmişi</h3><span class="pill blue">REVİZYON KAYDI</span></div><div class="rev-list" id="revisionList"></div></section>
 
 
-<section class="cards">
-<div class="card"><small>Toplam APQP</small><h2 id="stTotal">0</h2><p>Tanımlı proje</p></div>
-<div class="card"><small>Aktif Proje</small><h2 id="stActive">0</h2><p>Devam eden çalışmalar</p></div>
-<div class="card"><small>Ortalama İlerleme</small><h2 id="stProgress">0%</h2><p>Faz tamamlanma</p></div>
-<div class="card"><small>Ekip Üyesi</small><h2 id="stTeam">0</h2><p>Seçili proje takımı</p></div>
-<div class="card"><small>Geciken Aksiyon</small><h2 id="stLate">0</h2><p>Termin aşımı</p></div>
-</section>
+<section class="panel"><div class="panel-head"><h3>8. Tamamlanan Onay Akışı Listesi</h3><span class="pill green">KAPANAN SÜREÇLER</span></div><div class="workflow-list" id="approvedWorkflowList"></div></section>
 
-<section class="panel">
-<div class="panel-head"><h3>Yeni APQP Proje Kartı</h3><span class="status blue">ANA KAYIT</span></div>
-<p class="help">Proje kimliği, müşteri, parça, teknik resim, faz, sorumlu ve termin bilgileri tek satır mantığında temiz akışla yönetilir.</p>
-<form id="apqpForm">
-<div class="form-grid">
-<div class="field"><label>APQP No</label><input id="apqpNo" readonly></div>
-<div class="field"><label>Müşteri</label><input id="customer" placeholder="Müşteri adı"></div>
-<div class="field"><label>Proje / Araç</label><input id="projectName" placeholder="Proje / araç adı"></div>
-<div class="field"><label>Parça Adı</label><input id="partName" placeholder="Parça adı"></div>
-
-<div class="field"><label>Parça No</label><input id="partNo" placeholder="Parça no"></div>
-<div class="field"><label>OEM Parça No</label><input id="oemPartNo" placeholder="OEM parça no"></div>
-<div class="field"><label>Teknik Resim No</label><input id="drawingNo" placeholder="Teknik resim no"></div>
-<div class="field"><label>Teknik Resim Rev.</label><input id="drawingRev" placeholder="Revizyon"></div>
-
-<div class="field"><label>APQP Fazı</label><select id="phase"></select></div>
-<div class="field"><label>Durum</label><select id="status"><option>Aktif</option><option>Beklemede</option><option>Tamamlandı</option><option>Riskli</option></select></div>
-<div class="field"><label>Öncelik</label><select id="priority"><option>Normal</option><option>Kritik</option><option>Yüksek</option><option>Düşük</option></select></div>
-<div class="field"><label>Proje Lideri</label><input id="leader" placeholder="Ekip lideri"></div>
-
-<div class="field"><label>Hazırlayan</label><input id="preparedBy" placeholder="Hazırlayan"></div>
-<div class="field"><label>Başlangıç Tarihi</label><input type="date" id="startDate"></div>
-<div class="field"><label>Hedef APQP Tarihi</label><input type="date" id="targetDate"></div>
-<div class="field"><label>Müşteri Onay Tarihi</label><input type="date" id="approvalDate"></div>
-
-<div class="field full"><label>Kapsam / Açıklama</label><textarea id="scope" placeholder="Proje kapsamı, müşteri özel isteği, kritik notlar ve APQP kapsamı"></textarea></div>
-</div>
-<div class="actions">
-<button class="btn primary" type="submit">APQP Kaydet</button>
-<button class="btn green" type="button" id="saveDraft">Taslak Kaydet</button>
-<button class="btn dark" type="button" id="clearForm">Temizle</button>
-<button class="btn orange" type="button" onclick="window.print()">Yazdır / PDF</button>
-</div>
-</form>
-</section>
-
-
-<section class="panel">
-<div class="panel-head"><h3>PPAP Seviyesi ve Otomatik Zorunlu Dokümanlar</h3><span class="status orange" id="ppapLevelBadge">LEVEL 3</span></div>
-<p class="help">PPAP seviyesi seçildiğinde zorunlu, opsiyonel ve müşteri tanımlı dokümanlar otomatik açılır. Kartlara tıklayarak durum seçilir; tamamlanma oranı canlı hesaplanır.</p>
-
-<div class="ppap-control-row">
-<div class="field">
-<label>PPAP Seviyesi</label>
-<select id="ppapLevelSelect">
-<option value="1">Level 1</option>
-<option value="2">Level 2</option>
-<option value="3" selected>Level 3</option>
-<option value="4">Level 4</option>
-<option value="5">Level 5</option>
-</select>
-</div>
-<div class="ppap-summary-card">
-<small>Paket Durumu</small>
-<b id="ppapReadyText">Hazır Değil</b>
-</div>
-<div class="ppap-summary-card">
-<small>Tamamlanma</small>
-<b id="ppapCompletion">0%</b>
-</div>
-<div class="ppap-summary-card">
-<small>Gerekli Doküman</small>
-<b id="ppapRequiredCount">0</b>
-</div>
-</div>
-
-<div class="ppap-actions">
-<button class="btn green" type="button" onclick="markAllPPAP('Tamamlandı')">Tümünü Tamamlandı Yap</button>
-<button class="btn orange" type="button" onclick="markAllPPAP('Devam Ediyor')">Tümünü Devam Ediyor Yap</button>
-<button class="btn red" type="button" onclick="markAllPPAP('Eksik')">Tümünü Eksik Yap</button>
-</div>
-
-<div class="ppap-doc-grid" id="ppapDocGrid"></div>
-</section>
-
-<section class="panel">
-<div class="panel-head"><h3>Ekip Seçimi</h3><span class="status blue">USERS.HTML BAĞLI</span></div>
-<p class="help">Mail harici manuel alan kaldırıldı. Ekip üyeleri sadece kullanıcı havuzundan seçilir. Her üye isim + pozisyon + mail bilgisiyle APQP ekibine eklenir.</p>
-<div class="team-picker-layout">
-<div class="field">
-<label>Tüm Kullanıcılar İçinden Seç</label>
-<input id="userSearch" placeholder="İsim, pozisyon, departman veya mail ara">
-</div>
-<div class="user-pool" id="userPool"></div>
-</div>
-<div class="selected-team-head">
-<h4>Seçili APQP Ekibi</h4>
-<span class="status green" id="selectedTeamCount">0 kişi</span>
-</div>
-<div class="team-list team-row-list" id="teamList"></div>
-<div class="mail-box" id="mailGroup">Mail grubu henüz oluşmadı.</div>
-<div class="actions"><button class="btn dark" type="button" id="copyMail">Mail Grubunu Kopyala</button><button class="btn red" type="button" id="clearTeam">Ekibi Temizle</button></div>
-</section>
-
-<section class="panel">
-<div class="panel-head"><h3>APQP Faz Takibi</h3><span class="status green">5 FAZ</span></div>
-<div class="phase-grid" id="phaseGrid"></div>
-</section>
-
-<section class="panel">
-<div class="panel-head"><h3>APQP İçerik Seti</h3><span class="status orange">PPAP HARİÇ</span></div>
-<p class="help">APQP tarafında faz kapısı mantığıyla izlenecek temel içerikler tek satır dizilimli kart yapısıyla takip edilir.</p>
-<div class="req-grid" id="apqpSet"></div>
-</section>
-
-<section class="panel">
-<div class="panel-head"><h3>APQP Proje Listesi</h3><div class="actions" style="margin:0"><button class="btn green" id="exportJson" type="button">JSON Yedek Al</button><button class="btn red" id="clearAll" type="button">Tümünü Temizle</button></div></div>
-<div class="project-list" id="projectList"></div>
-</section>
-</main>
-</div>
-
-<div class="toast" id="toast">İşlem tamamlandı</div>
+<section class="panel"><div class="panel-head"><h3>9. Kayıt İşlemleri ve APQP Proje Listesi</h3><div class="actions" style="margin:0"><button class="btn" type="button" id="createApqp">APQP Oluştur</button><button class="btn btn-soft" id="saveDraft" type="button">Taslak Kaydet</button><button class="btn btn-orange" id="openRevision" type="button">Revizyon Aç</button><button class="btn btn-blue" id="transferPpap" type="button">PPAP’e Aktar</button><button class="btn btn-navy" id="exportJson" type="button">JSON Yedek</button><button class="btn btn-red" id="clearAll" type="button">Sil</button></div></div><div class="project-list" id="projectList"></div></section>
+</main></div><div class="toast" id="toast"></div>
 
 <script>
-function initGdnlAccordionMenus(){
-  document.querySelectorAll(".menu-group, .mobile-menu-group").forEach(btn=>{
-    if(btn.dataset.accordionBound==="1") return;
-    btn.dataset.accordionBound="1";
-    btn.addEventListener("click",()=>{
-      const submenu=btn.nextElementSibling;
-      const isMobile=btn.classList.contains("mobile-menu-group");
-      const groupSelector=isMobile?".mobile-menu-group":".menu-group";
-      const submenuSelector=isMobile?".mobile-submenu":".submenu";
-      document.querySelectorAll(groupSelector).forEach(other=>{
-        if(other!==btn) other.classList.remove("open");
-      });
-      document.querySelectorAll(submenuSelector).forEach(menu=>{
-        if(menu!==submenu) menu.classList.remove("open");
-      });
-      btn.classList.toggle("open");
-      if(submenu) submenu.classList.toggle("open");
-    });
-  });
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const $=id=>document.getElementById(id),today=new Date().toISOString().slice(0,10);
+const MENU_HTML=`<a href="dashboard.html">🏠 Dashboard</a><button class="menu-group" type="button">📚 Doküman Yönetimi <span>⌄</span></button><div class="submenu"><a href="company-assets-documents.html">Firma Belgeleri</a><a href="documents.html">Doküman Yönetimi</a><a href="new-document.html">Yeni Doküman</a><a href="revision.html">Revizyon Yönetimi</a><a href="approval.html">Onay Yönetimi</a><a href="distribution.html">Dağıtım Yönetimi</a><a href="archive.html">Arşiv Yönetimi</a><a href="document-viewer.html">Doküman Görüntüleyici</a></div><button class="menu-group" type="button">⚙️ Kalite Yönetimi <span>⌄</span></button><div class="submenu"><a href="capa.html">8D / CAPA</a><a href="risk-register.html">Risk Yönetimi</a><a href="change-management.html">Değişiklik Yönetimi</a><a href="process-management.html">Süreç Yönetimi</a><a href="continuous-improvement.html">Sürekli İyileştirme</a></div><button class="menu-group" type="button">👥 Organizasyon Yönetimi <span>⌄</span></button><div class="submenu"><a href="training-management.html">Eğitim Yönetimi</a><a href="competency-matrix.html">Yetkinlik Matrisi</a><a href="users.html">Kullanıcılar</a></div><button class="menu-group" type="button">🏭 Paydaş Yönetimi <span>⌄</span></button><div class="submenu"><a href="supplier-management.html">Tedarikçi Yönetimi</a><a href="customer-management.html">Müşteri Yönetimi</a></div><button class="menu-group" type="button">📊 Performans Yönetimi <span>⌄</span></button><div class="submenu"><a href="kpi-reports.html">KPI & Raporlar</a><a href="management-review.html">YGG Yönetimi</a><a href="action-center.html">Action Center</a><a href="notification-center.html">Bildirim Merkezi</a></div><button class="menu-group open" type="button">🚗 IATF 16949 <span>⌄</span></button><div class="submenu open"><a class="active" href="apqp.html">APQP</a><a href="ppap.html">PPAP</a></div>`;
+$("sideMenu").innerHTML=MENU_HTML;$("mobileMenu").innerHTML=MENU_HTML;
+function initMenu(){document.querySelectorAll(".menu-group").forEach(btn=>{btn.onclick=()=>{const p=btn.closest(".menu,.drawer-menu"),s=btn.nextElementSibling;p.querySelectorAll(".submenu").forEach(x=>{if(x!==s)x.classList.remove("open")});p.querySelectorAll(".menu-group").forEach(b=>{if(b!==btn)b.classList.remove("open")});s.classList.toggle("open");btn.classList.toggle("open",s.classList.contains("open"))}})}initMenu();
+function openMobileMenu(){$("drawer").classList.add("active");$("overlay").classList.add("active");document.body.style.overflow="hidden"}function closeMobileMenu(){$("drawer").classList.remove("active");$("overlay").classList.remove("active");document.body.style.overflow=""}function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");location.href="index.html"}function toast(t){$("toast").textContent=t;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2500)}
+let session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_ems_session")||"null")||{name:"Kerem Güdenli"};$("userName").textContent=session.name||session.username||"Kerem Güdenli";
+
+const phaseData=[["1. Faz 1 - Planlama","Kapsam, müşteri şartları, proje planı ve ekip atama.",20],["2. Faz 2 - Ürün Tasarımı","Tasarım girdileri, DFMEA ihtiyacı ve teknik doğrulama.",40],["3. Faz 3 - Proses Tasarımı","Proses akışı, PFMEA, Control Plan ve üretim hazırlığı.",60],["4. Faz 4 - Ürün/Proses Doğrulama","MSA, SPC, numune, test ve Run@Rate planları.",80],["5. Faz 5 - Seri Üretim & Geri Bildirim","Seri üretim geçişi, geri bildirim ve iyileştirme.",100]];
+const apqpOutputs=[["CSR / Müşteri Şartları","Müşteri özel şartları, teknik şartname ve yasal beklentiler."],["Özel Karakteristikler","Kritik karakteristikler, semboller ve kontrol bağlantıları."],["Teknik Resim & Şartname","Teknik resim revizyonu, toleranslar ve ürün gereklilikleri."],["DFMEA Planı","Tasarım sorumluluğu varsa DFMEA hazırlık ve risk planı."],["Proses Akış Şeması","Operasyon sırası, proses adımları ve kontrol noktaları."],["PFMEA Planı","Proses riskleri, önleyici kontroller ve aksiyon terminleri."],["Control Plan Planı","Kontrol metodu, frekans, reaksiyon planı ve sorumlular."],["Ölçüm Planı","Ölçülecek karakteristikler, metotlar ve ekipman hazırlığı."],["MSA Planı","Ölçüm sistemi analizi kapsamı ve cihaz/metot hazırlığı."],["SPC / CPK Planı","Yeterlilik takibi yapılacak proses ve karakteristikler."],["Test & Doğrulama Planı","Malzeme, performans, fonksiyon ve validasyon testleri."],["Run@Rate Planı","Kapasite doğrulama, çevrim süresi ve seri üretim hazırlığı."],["Seri Üretim Hazırlığı","Operatör, ekipman, ambalaj, lojistik ve üretim onayı."],["Faz Kapısı Onayı","Her faz sonunda eksik aksiyon ve risk kontrol onayı."]];
+const apqpOutputByLevel={
+  "Level 1":[0,13],
+  "Level 2":[0,2,13],
+  "Level 3":[0,1,2,4,5,6,7,8,9,10,12,13],
+  "Level 4":[0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+  "Level 5":[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+};
+function activeApqpOutputIndexes(){
+  return apqpOutputByLevel[$("ppapLevel").value]||apqpOutputByLevel["Level 3"];
 }
-document.addEventListener("DOMContentLoaded",initGdnlAccordionMenus);
-initGdnlAccordionMenus();
 
-const $=id=>document.getElementById(id);
-const today=new Date().toISOString().slice(0,10);
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||JSON.parse(localStorage.getItem("gdnl_ems_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-$("userName").textContent=session.name||"Kerem Güdenli";
-
-function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_eqms_session");localStorage.removeItem("gdnl_ems_session");window.location.href="index.html"}
-function openMobileMenu(){$("mobileDrawer").classList.add("active");$("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
-function closeMobileMenu(){$("mobileDrawer").classList.remove("active");$("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
-function showToast(msg){$("toast").textContent=msg;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2500)}
-function runSearch(){renderProjects()}
-
-const phaseData=[
-["1. Faz 1 - Planlama","Kapsam, müşteri şartları ve proje planı.",20],
-["2. Faz 2 - Ürün Tasarımı","Tasarım kayıtları, DFMEA ve teknik doğrulama.",40],
-["3. Faz 3 - Proses Tasarımı","PFMEA, proses akışı ve kontrol planı girdileri.",60],
-["4. Faz 4 - Ürün/Proses Doğrulama","MSA, SPC, numune ve test doğrulaması.",80],
-["5. Faz 5 - Geri Bildirim ve Seri Üretim","Kapasite, geri bildirim ve sürekli iyileştirme.",100]
-];
-
-const apqpItems=[
-["0 - Proje Başlatma","Proje no, kapsam, müşteri, teknik resim ve hedef tarih."],
-["1 - Müşteri Şartları","CSR, özel karakteristikler, kalite ve teslim şartları."],
-["2 - Ürün Güvence Planı","Risk seviyesi, kontrol yaklaşımı ve proje onay kapısı."],
-["3 - Teknik Resim & BOM","Resim revizyonu, ürün ağacı, malzeme ve özel karakteristik."],
-["4 - DFMEA Girdisi","Tasarım riskleri ve önleyici faaliyet alanları."],
-["5 - Proses Akış Şeması","Operasyon sırası, kontrol noktaları ve izlenebilirlik."],
-["6 - PFMEA Girdisi","Proses hata türleri, nedenleri, kontroller ve aksiyonlar."],
-["7 - Control Plan Girdisi","Ölçüm, frekans, reaksiyon planı ve kontrol metodu."],
-["8 - Ölçüsel Plan","Kritik ölçüler, ölçüm metodu ve kabul kriterleri."],
-["9 - MSA Planı","Ölçüm sistemi analizi planı ve sorumluları."],
-["10 - SPC / CPK Planı","Proses yeterlilik hedefleri, kritik proses parametreleri."],
-["11 - Numune Planı","İlk numune, zero seri ve müşteri sunum ön hazırlığı."],
-["12 - Test & Doğrulama","Malzeme, performans, fonksiyon ve dayanım testleri."],
-["13 - Ambalaj & Lojistik","Ambalaj onayı, etiketleme, sevkiyat ve FIFO şartları."],
-["14 - Run@Rate Hazırlık","Kapasite doğrulama, çevrim süresi ve seri üretim hazırlığı."],
-["15 - Faz Kapısı Onayı","Her faz sonunda tamamlanma kontrolü ve yönetim onayı."]
-];
-
+const ppapDocs=[["Kapak / Cover Page","Z","Z","Z","Z","Z"],["PPAP Belirleme & Kapsam","Z","Z","Z","Z","Z"],["Tasarım Kayıtları / Teknik Resim","-","-","Z","M","Z"],["ECN / Değişiklik Kayıtları","-","-","Z","M","Z"],["CSR – Müşteri Özel Şartları","-","-","Z","M","Z"],["DFMEA","-","-","M","M","Z"],["Proses Akış Şeması","-","-","Z","M","Z"],["PFMEA","-","-","Z","M","Z"],["Control Plan","-","-","Z","M","Z"],["Ölçüsel Sonuçlar","-","-","Z","M","Z"],["MSA","-","-","Z","M","Z"],["SPC / CPK","-","-","Z","M","Z"],["İlk Numune / Zero Seri","-","-","Z","M","Z"],["Master Sample","-","-","Z","M","Z"],["Kontrol Yardımcıları","-","-","O","M","Z"],["PSW – Parça Sunum Onayı","Z","Z","Z","Z","Z"],["Müşteri Mühendislik Onayı","-","-","O","M","Z"],["Malzeme Test Sonuçları","-","-","Z","M","Z"],["Performans Test Sonuçları","-","-","Z","M","Z"],["Yetkili Laboratuvar Dokümantasyonu","-","-","Z","M","Z"],["Görsel Onay Raporu / AAR","-","-","O","M","Z"],["Seri Üretim Numuneleri","-","-","Z","M","Z"],["Uygunluk Kayıtları","-","-","Z","M","Z"],["Run@Rate / Kapasite Doğrulama","-","-","O","M","Z"]];
+const approvals=["Oluşturan","Kalite Müdürü","Proje Lideri","Üretim Müdürü","Yönetim","PPAP'e Aktarım"];
 function getLS(k){try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}}
 function setLS(k,v){localStorage.setItem(k,JSON.stringify(v));renderProjects();stats()}
 function getProjects(){return getLS("gdnl_apqp_projects")}
 function getTeam(){return getLS("gdnl_apqp_team")}
 function setTeam(v){localStorage.setItem("gdnl_apqp_team",JSON.stringify(v));renderTeam();stats()}
-function nextNo(){let y=new Date().getFullYear();let n=String(getProjects().length+1).padStart(4,"0");$("apqpNo").value="APQP-"+y+"-"+n}
-function renderPhases(){
-$("phase").innerHTML=phaseData.map(x=>`<option>${x[0]}</option>`).join("");
-$("phaseGrid").innerHTML=phaseData.map(x=>`<div class="phase"><b>${x[0]}</b><small>${x[1]}</small><h2 style="margin-top:16px;color:#1f7d3d;font-size:32px">${x[2]}%</h2><div class="progress"><div class="bar" style="width:${x[2]}%"></div></div></div>`).join("");
+function getActions(){return getLS("gdnl_apqp_actions")}
+function setActions(v){localStorage.setItem("gdnl_apqp_actions",JSON.stringify(v));renderActions();stats()}
+function getRevisions(){return getLS("gdnl_apqp_revisions")}
+function setRevisions(v){localStorage.setItem("gdnl_apqp_revisions",JSON.stringify(v));renderRevisions()}
+function getOutputStatus(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_output_status")||"{}")}catch(e){return{}}}
+function setOutputStatus(v){localStorage.setItem("gdnl_apqp_output_status",JSON.stringify(v))}
+function getPpapStatus(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_ppap_status")||"{}")}catch(e){return{}}}
+function setPpapStatus(v){localStorage.setItem("gdnl_apqp_ppap_status",JSON.stringify(v))}
+function getGateMap(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_gate_status")||"{}")}catch(e){return{}}}
+function setGateMap(v){localStorage.setItem("gdnl_apqp_gate_status",JSON.stringify(v))}
+function getApprovalIndex(){return Number(localStorage.getItem("gdnl_apqp_approval_index")||"0")}
+function setApprovalIndex(v){localStorage.setItem("gdnl_apqp_approval_index",String(v))}
+function getApprovedWorkflows(){return getLS("gdnl_apqp_approved_workflows")}
+function setApprovedWorkflows(v){localStorage.setItem("gdnl_apqp_approved_workflows",JSON.stringify(v));renderApprovedWorkflowList()}
+function nextNo(){const y=new Date().getFullYear();let max=0;getProjects().forEach(p=>{let m=String(p.apqpNo||"").match(/APQP-(\\d{4})-(\\d+)/);if(m&&Number(m[1])===y)max=Math.max(max,Number(m[2]))});$("apqpNo").value="APQP-"+y+"-"+String(max+1).padStart(4,"0");$("ppapNo").value="PPAP-"+y+"-"+String(max+1).padStart(4,"0")}
+
+function currentPhaseIndex(){let idx=phaseData.findIndex(x=>x[0]===$("phase").value);return idx<0?0:idx}
+function canOpenPhase(i){if(i===0)return true;let g=getGateMap();return g[i-1]==="approved"}
+function selectPhase(i){
+  if(!canOpenPhase(i)) toast("Bilgi: Önceki faz kapısı henüz onaylı değil, yine de faz görüntülendi.");
+  $("phase").value=phaseData[i][0];
+  renderPhases();
+  stats();
 }
-function renderSet(){
-$("apqpSet").innerHTML=apqpItems.map((x,i)=>`<div class="req"><div><b>${x[0]}</b><small>${x[1]}</small></div><span class="status ${i<4?'green':'blue'}">${i<4?'Z':'APQP'}</span></div>`).join("");
+function renderPhases(){$("phase").innerHTML=phaseData.map(x=>`<option>${x[0]}</option>`).join("");let g=getGateMap();$("phaseGrid").innerHTML=phaseData.map((x,i)=>`<div class="phase ${$("phase").value===x[0]?'selected':''} ${!canOpenPhase(i)?'locked':''}" onclick="selectPhase(${i})"><b>${x[0]}</b><small>${x[1]}</small><h2>${x[2]}%</h2><div class="progress"><div class="bar" style="width:${x[2]}%"></div></div><small>${g[i]==="approved"?"Kapı: Onaylı":g[i]==="rejected"?"Kapı: Reddedildi":"Kapı: Beklemede"}</small></div>`).join("")}
+
+function outputStatusClass(s){return s==="Tamamlandı"?"done":s==="Devam Ediyor"?"work":"wait"}
+function renderApqpOutputs(){
+  let m=getOutputStatus(),idxs=activeApqpOutputIndexes();
+  const note=`<div class="level-note">${$("ppapLevel").value} seçili olduğu için APQP çıktıları bu seviyeye göre odaklı gösteriliyor. Level yükseldikçe ek çıktılar açılır.</div>`;
+  $("apqpOutputGrid").innerHTML=note+idxs.map((i)=>{
+    let x=apqpOutputs[i],rec=m[i]||{},s=rec.status||"Tamamlanmadı",cls=outputStatusClass(s);
+    return `<div class="req" onclick="openOutputDetail(${i})"><div><b>${i+1}. ${x[0]}</b><small>${x[1]}</small><span class="output-status ${cls}">${s}</span>${rec.fileName?`<span class="file-pill">${rec.fileName}</span>`:""}</div></div>`
+  }).join("");
 }
-function normalizeUser(u,i){return {id:u.id||u.userId||u.username||u.email||i,name:u.name||u.fullName||u.displayName||u.username||u.person||"İsimsiz Kullanıcı",position:u.position||u.role||u.title||u.jobTitle||u.departmentRole||"Pozisyon yok",email:u.email||u.mail||u.userEmail||""}}
-function loadUsers(){
-let keys=["gdnl_users","gdnl_eqms_users","gdnl_qdms_users","users","gdnl_user_list"];
-let all=[];
-keys.forEach(k=>{let v=getLS(k);if(Array.isArray(v))all=all.concat(v)});
-if(!all.length)all=[{name:"Kalite Müdürü",position:"APQP Onay",email:""},{name:"Proje Lideri",position:"APQP Lideri",email:""},{name:"Üretim Sorumlusu",position:"Üretim",email:""},{name:"Kalite Mühendisi",position:"Kalite",email:""}];
-let seen=new Set();
-return all.map(normalizeUser).filter(u=>{let key=(u.email||u.name+"-"+u.position).toLowerCase();if(seen.has(key))return false;seen.add(key);return true});
+function openOutputDetail(i){
+let m=getOutputStatus(),rec=m[i]||{status:"Tamamlanmadı",owners:[],due:"",note:"",evidence:"",fileName:""};
+$("outputDetail").classList.add("active");
+$("outputDetail").innerHTML=`<div class="panel-head"><h3>${i+1}. ${apqpOutputs[i][0]} Detayı</h3><span class="pill blue">DETAY FORM</span></div>
+<div class="form-grid">
+<div class="field"><label>Durum</label><select id="odStatus"><option ${rec.status==="Tamamlanmadı"?"selected":""}>Tamamlanmadı</option><option ${rec.status==="Devam Ediyor"?"selected":""}>Devam Ediyor</option><option ${rec.status==="Tamamlandı"?"selected":""}>Tamamlandı</option></select></div>
+<div class="field owner-picker"><label>Sorumlu Ara</label><input id="odOwnerSearch" placeholder="İsim yaz, seç" oninput="renderOwnerResults(${i})"><div class="owner-results" id="odOwnerResults"></div></div>
+<div class="field"><label>Termin</label><input type="date" id="odDue" value="${rec.due||""}"></div>
+<div class="field"><label>Kanıt / Referans</label><input id="odEvidence" value="${rec.evidence||""}" placeholder="Doküman no / bağlantı / kanıt"></div>
+<div class="field span-2"><label>Dosya Ekle</label><input type="file" id="odFile"></div>
+<div class="field span-2"><label>Mevcut Dosya</label><input id="odFileName" value="${rec.fileName||""}" placeholder="Dosya seçilmedi" readonly></div>
+<div class="field span-4"><label>Seçili Sorumlular</label><div class="output-mini-team" id="odOwnerList">${(rec.owners||[]).map((o,idx)=>`<span>${o.name} • ${o.position} <button type="button" onclick="removeOutputOwner(${i},${idx})">×</button></span>`).join("")||"<small>Henüz sorumlu seçilmedi.</small>"}</div></div>
+<div class="field span-4"><label>Açıklama</label><textarea id="odNote" placeholder="Açıklama, risk, not">${rec.note||""}</textarea></div>
+</div>
+<div class="actions"><button class="btn" onclick="saveOutputDetail(${i})">Tamam / Kaydet</button><button class="btn btn-orange" onclick="createActionFromOutput(${i})">Aksiyon Aç</button></div>`;
+$("odFile").onchange=()=>{$("odFileName").value=$("odFile").files[0]?.name||""};
+$("outputDetail").scrollIntoView({behavior:"smooth",block:"center"});
 }
-function renderUsers(){
-let users=loadUsers();
-$("userSelect").innerHTML=users.map((u,i)=>`<option value="${i}">${u.name} • ${u.position}${u.email?' • '+u.email:''}</option>`).join("");
-window._gdnlUsers=users;
+function getOutputOwners(i){let m=getOutputStatus(),rec=m[i]||{};return rec.owners||[]}
+function setOutputOwners(i,owners){let m=getOutputStatus(),rec=m[i]||{status:"Tamamlanmadı"};rec.owners=owners;m[i]=rec;setOutputStatus(m)}
+window.renderOwnerResults=i=>{let q=($("odOwnerSearch").value||"").trim().toLowerCase(),box=$("odOwnerResults");if(q.length<2){box.classList.remove("active");box.innerHTML="";return}let users=(window._gdnlUsers||[]).filter(u=>(u.name+" "+u.position+" "+u.department).toLowerCase().includes(q)).slice(0,8);box.classList.add("active");box.innerHTML=users.length?users.map((u,idx)=>`<button class="owner-item" type="button" onclick="addOutputOwner(${i},${idx})">${u.name}<small>${u.position}</small></button>`).join(""):`<button class="owner-item" type="button">Eşleşen kullanıcı yok</button>`}
+window.addOutputOwner=(i,idx)=>{let q=($("odOwnerSearch").value||"").trim().toLowerCase();let u=(window._gdnlUsers||[]).filter(x=>(x.name+" "+x.position+" "+x.department).toLowerCase().includes(q)).slice(0,8)[idx];if(!u)return;let owners=getOutputOwners(i);if(!owners.some(o=>sameUser(o,u)))owners.push(u);setOutputOwners(i,owners);openOutputDetail(i);toast("Sorumlu eklendi.")}
+window.removeOutputOwner=(i,idx)=>{let owners=getOutputOwners(i);owners.splice(idx,1);setOutputOwners(i,owners);openOutputDetail(i)}
+window.saveOutputDetail=i=>{let m=getOutputStatus(),rec=m[i]||{};rec.status=$("odStatus").value;rec.due=$("odDue").value;rec.evidence=$("odEvidence").value;rec.note=$("odNote").value;rec.fileName=$("odFileName").value;rec.owners=rec.owners||[];m[i]=rec;setOutputStatus(m);renderApqpOutputs();renderPpapReqs();stats();toast("APQP çıktı detayı kaydedildi.")}
+window.createActionFromOutput=i=>{let rec=(getOutputStatus()[i]||{}),arr=getActions(),owner=(rec.owners&&rec.owners[0])?rec.owners[0].name:"";arr.unshift({id:Date.now(),title:apqpOutputs[i][0]+" aksiyonu",owner,due:rec.due||"",status:"Açık",source:apqpOutputs[i][0]});setActions(arr);toast("Aksiyon oluşturuldu.")}
+
+function req(doc,l){return doc[Number(l)]||"-"}
+function currentPpapDocs(){let l=$("ppapLevel").value.replace("Level ","");return ppapDocs.map((d,i)=>({name:d[0],i,r:req(d,l)})).filter(x=>x.r!=="-")}
+function cyclePpapDoc(i){openPpapDetail(i)}
+function docCls(st){return st==="Tamamlandı"?"done":st==="Devam Ediyor"?"work":"missing"}
+function renderPpapReqs(){
+  let docs=currentPpapDocs(),s=getPpapStatus();
+  let completed=docs.filter(d=>(s[d.i]?.status||"Eksik")==="Tamamlandı").length;
+  let total=docs.length,missing=total-completed,percent=total?Math.round(completed/total*100):0;
+  $("ppapLevelBadge").textContent=$("ppapLevel").value.toUpperCase();
+  $("ppapLevelText").textContent=$("ppapLevel").value;
+  $("ppapRequiredCount").textContent=total;
+  $("ppapCompletedCount").textContent=completed;
+  $("ppapMissingCount").textContent=missing;
+  $("ppapProgressText").textContent=percent+"%";
+  $("ppapProgressLabel").textContent=percent+"%";
+  $("ppapProgressBar").style.width=percent+"%";
+  $("ppapReqGrid").innerHTML=docs.map(d=>{
+    let tc=d.r==="Z"?"z":d.r==="O"?"o":"m",rec=s[d.i]||{},st=rec.status||"Eksik";
+    return `<div class="ppap-card ${st==="Tamamlandı"?"ready":""}" onclick="openPpapDetail(${d.i})"><span class="req-tag ${tc}">${d.r}</span><div><b>${d.i} - ${d.name}</b><small>Dosya, revizyon, sorumlu ve durum bu karttan yönetilir.</small><span class="doc-status ${docCls(st)}">${st}</span>${rec.fileName?`<span class="file-pill">${rec.fileName}</span>`:""}</div></div>`;
+  }).join("");
 }
-function renderTeam(){
-let t=getTeam();
-$("teamList").innerHTML=t.length?t.map((u,i)=>`<div class="team-card"><div><b>${u.name}</b><small>${u.position}${u.email?' • '+u.email:''}</small></div><button class="btn red" onclick="removeTeam(${i})">Sil</button></div>`).join(""):'<div class="empty">Henüz ekip üyesi seçilmedi.</div>';
-let mails=t.map(x=>x.email).filter(Boolean);
-$("mailGroup").textContent=mails.length?mails.join("; "):"Mail grubu henüz oluşmadı veya seçilen üyelerde mail adresi yok.";
+function openPpapDetail(i){
+  let d=ppapDocs[i],s=getPpapStatus(),rec=s[i]||{status:"Eksik",owner:"",due:"",note:"",fileName:"",revision:"R00"};
+  $("ppapDetail").classList.add("active");
+  $("ppapDetail").innerHTML=`<div class="panel-head"><h3>${i} - ${d[0]} Detayı</h3><span class="pill blue">PPAP DOSYA KARTI</span></div>
+  <div class="ppap-detail-note">Bu alan PPAP dosya yönetimidir. Dosya eklendiğinde ve durum Tamamlandı seçildiğinde üstteki PPAP yüzdesi otomatik hesaplanır.</div>
+  <div class="form-grid">
+  <div class="field"><label>Durum</label><select id="pdStatus"><option ${rec.status==="Eksik"?"selected":""}>Eksik</option><option ${rec.status==="Devam Ediyor"?"selected":""}>Devam Ediyor</option><option ${rec.status==="Tamamlandı"?"selected":""}>Tamamlandı</option></select></div>
+  <div class="field owner-picker"><label>Sorumlu Ara</label><input id="pdOwnerSearch" placeholder="İsim yaz, seç" oninput="renderPpapOwnerResults(${i})"><input type="hidden" id="pdOwner" value="${rec.owner||""}"><div class="owner-results" id="pdOwnerResults"></div></div>
+  <div class="field"><label>Revizyon</label><input id="pdRevision" value="${rec.revision||"R00"}"></div>
+  <div class="field"><label>Termin</label><input type="date" id="pdDue" value="${rec.due||""}"></div>
+  <div class="field span-2"><label>Dosya Ekle</label><input type="file" id="pdFile"></div>
+  <div class="field span-2"><label>Mevcut Dosya</label><input id="pdFileName" value="${rec.fileName||""}" placeholder="Dosya seçilmedi" readonly></div>
+  <div class="field span-4"><label>Seçili Sorumlu</label><div id="pdOwnerPill">${rec.owner?`<div class="selected-person-pill">${rec.owner}</div>`:"<small>Henüz sorumlu seçilmedi.</small>"}</div></div>
+  <div class="field span-4"><label>Açıklama</label><textarea id="pdNote" placeholder="Doküman açıklaması, müşteri notu, revizyon notu">${rec.note||""}</textarea></div>
+  </div><div class="actions"><button class="btn" onclick="savePpapDetail(${i})">Tamam / Kaydet</button><button class="btn btn-orange" onclick="openRevisionFromPpap(${i})">Revizyon İste</button></div>`;
+  $("pdFile").onchange=()=>{$("pdFileName").value=$("pdFile").files[0]?.name||""};
+  $("ppapDetail").scrollIntoView({behavior:"smooth",block:"center"});
 }
-window.removeTeam=i=>{let t=getTeam();t.splice(i,1);setTeam(t)}
-$("addSelectedUser").onclick=()=>{
-let u=window._gdnlUsers[+$("userSelect").value];if(!u)return;
-let t=getTeam();
-if(t.some(x=>(x.email&&x.email===u.email)||x.name===u.name&&x.position===u.position)){showToast("Bu ekip üyesi zaten ekli.");return}
-t.push(u);setTeam(t);showToast("Ekip üyesi eklendi.");
+window.renderPpapOwnerResults=i=>{
+  let q=($("pdOwnerSearch").value||"").trim().toLowerCase(),box=$("pdOwnerResults");
+  if(q.length<2){box.classList.remove("active");box.innerHTML="";return}
+  let users=(window._gdnlUsers||[]).filter(u=>(u.name+" "+u.position+" "+u.department).toLowerCase().includes(q)).slice(0,8);
+  box.classList.add("active");
+  box.innerHTML=users.length?users.map((u,idx)=>`<button class="owner-item" type="button" onclick="pickPpapOwner(${idx})">${u.name}<small>${u.position}</small></button>`).join(""):`<button class="owner-item" type="button">Eşleşen kullanıcı yok</button>`;
 }
-$("addManualUser").onclick=()=>{
-let u={name:$("manualName").value.trim(),position:$("manualPosition").value.trim(),email:$("manualEmail").value.trim()};
-if(!u.name||!u.position){showToast("İsim ve pozisyon zorunlu.");return}
-let t=getTeam();t.push(u);setTeam(t);
-["manualName","manualPosition","manualEmail"].forEach(id=>$(id).value="");
-showToast("Manuel ekip üyesi eklendi.");
+window.pickPpapOwner=idx=>{
+  let q=($("pdOwnerSearch").value||"").trim().toLowerCase();
+  let u=(window._gdnlUsers||[]).filter(x=>(x.name+" "+x.position+" "+x.department).toLowerCase().includes(q)).slice(0,8)[idx];
+  if(!u)return;
+  $("pdOwner").value=u.name;
+  $("pdOwnerSearch").value="";
+  $("pdOwnerResults").classList.remove("active");
+  $("pdOwnerPill").innerHTML=`<div class="selected-person-pill">${u.name} • ${u.position}</div>`;
 }
-$("clearTeam").onclick=()=>{if(confirm("APQP ekibi temizlensin mi?"))setTeam([])}
-$("copyMail").onclick=async()=>{
-let mails=getTeam().map(x=>x.email).filter(Boolean).join("; ");
-if(!mails){showToast("Kopyalanacak mail yok.");return}
-await navigator.clipboard.writeText(mails);showToast("Mail grubu kopyalandı.");
+window.savePpapDetail=i=>{
+  let s=getPpapStatus();
+  s[i]={status:$("pdStatus").value,owner:$("pdOwner").value,due:$("pdDue").value,note:$("pdNote").value,fileName:$("pdFileName").value,revision:$("pdRevision").value};
+  setPpapStatus(s);
+  renderPpapReqs();
+  stats();
+  toast("PPAP dosya kartı kaydedildi.");
 }
-$("apqpForm").onsubmit=e=>{
-e.preventDefault();
-let p={id:Date.now(),apqpNo:$("apqpNo").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,oemPartNo:$("oemPartNo").value,drawingNo:$("drawingNo").value,drawingRev:$("drawingRev").value,phase:$("phase").value,status:$("status").value,priority:$("priority").value,leader:$("leader").value,preparedBy:$("preparedBy").value,startDate:$("startDate").value,targetDate:$("targetDate").value,approvalDate:$("approvalDate").value,scope:$("scope").value,team:getTeam(),mailGroup:getTeam().map(x=>x.email).filter(Boolean),createdAt:new Date().toISOString()};
-let arr=getProjects();arr.unshift(p);setLS("gdnl_apqp_projects",arr);nextNo();showToast("APQP projesi kaydedildi.");
+window.openRevisionFromPpap=i=>{
+  let arr=getRevisions(),d=ppapDocs[i];
+  arr.unshift({id:Date.now(),apqpNo:$("apqpNo").value,rev:$("apqpRev").value,date:today,reason:d[0]+" için revizyon istendi"});
+  setRevisions(arr);
+  toast("Revizyon isteği kaydedildi.");
 }
-$("saveDraft").onclick=()=>{
-let ids=["customer","projectName","partName","partNo","oemPartNo","drawingNo","drawingRev","phase","status","priority","leader","preparedBy","startDate","targetDate","approvalDate","scope"];
-let d={};ids.forEach(id=>d[id]=$(id).value);localStorage.setItem("gdnl_apqp_draft",JSON.stringify(d));showToast("Taslak kaydedildi.");
+function approvalReadyCheck(){
+  let docs=currentPpapDocs(),s=getPpapStatus();
+  let missing=docs.filter(d=>(s[d.i]?.status||"Eksik")!=="Tamamlandı");
+  let openActions=getActions().filter(a=>a.status==="Açık");
+  if(missing.length)return {ok:false,msg:"PPAP paketinde eksik doküman var. Onay süreci başlayamaz."};
+  if(openActions.length)return {ok:false,msg:"Açık aksiyon var. Aksiyon kapanmadan onay süreci tamamlanamaz."};
+  return {ok:true,msg:"Onaya hazır."};
 }
-$("clearForm").onclick=()=>{
-document.querySelectorAll("#apqpForm input:not(#apqpNo),#apqpForm textarea").forEach(x=>x.value="");
-$("status").value="Aktif";$("priority").value="Normal";nextNo();showToast("Form temizlendi.");
+function renderApprovals(){
+  let idx=getApprovalIndex(),check=approvalReadyCheck();
+  $("approvalGrid").innerHTML=approvals.map((a,i)=>{
+    let state=i<idx?"approved":i===idx?"current":"waiting";
+    return `<div class="approve-card ${state}"><b>${i+1}. ${a}</b><small>Durum: ${i<idx?"Onaylandı":i===idx?"Sırada":"Bekliyor"}</small><small>${i===idx?check.msg:""}</small>${i===idx?`<button class="btn" onclick="approveCurrentStep()">Onayla</button><button class="btn btn-orange" onclick="requestRevisionAtStep()">Revizyon İste</button><button class="btn btn-red" onclick="rejectCurrentStep()">Reddet</button>`:""}</div>`
+  }).join("");
 }
-function renderProjects(){
-let arr=getProjects();
-let q=($("globalSearch").value||"").toLowerCase();
-let filtered=arr.filter(p=>JSON.stringify(p).toLowerCase().includes(q));
-$("projectList").innerHTML=filtered.length?filtered.map(p=>`<div class="project-card"><div><b>${p.apqpNo} • ${p.customer||"Müşteri yok"} • ${p.partName||"Parça yok"}</b><small>${p.projectName||""} • ${p.phase||""} • ${p.status||""} • Ekip: ${(p.team||[]).length} • Mail: ${(p.mailGroup||[]).length}</small></div><div class="actions" style="margin:0"><button class="btn green" onclick="loadProject(${p.id})">Aç</button><button class="btn red" onclick="deleteProject(${p.id})">Sil</button></div></div>`).join(""):'<div class="empty">APQP kaydı bulunamadı.</div>';
+window.approveCurrentStep=()=>{
+  let check=approvalReadyCheck();
+  if(!check.ok){toast(check.msg);return}
+  let idx=getApprovalIndex();
+  if(idx>=approvals.length){toast("Onay akışı zaten tamamlandı.");return}
+  idx++;
+  setApprovalIndex(idx);
+  if(idx>=approvals.length){
+    let list=getApprovedWorkflows();
+    list.unshift({id:Date.now(),apqpNo:$("apqpNo").value,ppapNo:$("ppapNo").value,customer:$("customer").value,project:$("projectName").value,date:today,rev:$("apqpRev").value});
+    setApprovedWorkflows(list);
+    $("status").value="Tamamlandı";
+    toast("Onay akışı tamamlandı ve listeye eklendi.");
+  }else{
+    toast("Onaylandı, sonraki adıma geçildi.");
+  }
+  renderApprovals();
 }
+window.requestRevisionAtStep=()=>{
+  let idx=getApprovalIndex(),arr=getRevisions();
+  arr.unshift({id:Date.now(),apqpNo:$("apqpNo").value,rev:$("apqpRev").value,date:today,reason:approvals[idx]+" revizyon istedi"});
+  setRevisions(arr);
+  toast("Revizyon isteği açıldı.");
+}
+window.rejectCurrentStep=()=>{
+  let idx=getApprovalIndex(),arr=getActions();
+  arr.unshift({id:Date.now(),title:approvals[idx]+" tarafından ret edildi",owner:$("leader").value,due:$("targetDate").value,status:"Açık",source:"Onay Akışı"});
+  setActions(arr);
+  toast("Ret kaydı oluşturuldu, açık aksiyon açıldı.");
+}
+function renderApprovedWorkflowList(){
+  let list=getApprovedWorkflows();
+  $("approvedWorkflowList").innerHTML=list.length?list.map(x=>`<div class="workflow-item"><b>${x.apqpNo} • ${x.ppapNo} • ${x.customer||"Müşteri yok"}</b><small>${x.project||""} • ${x.rev||"R00"} • Tamamlanma: ${x.date}</small></div>`).join(""):`<div class="empty">Tamamlanan onay akışı bulunmuyor.</div>`;
+}
+function renderActions(){let arr=getActions();$("actionGrid").innerHTML=arr.length?arr.map(a=>`<div class="action-card"><b>${a.title}</b><small>Sorumlu: ${a.owner||"-"}</small><small>Termin: ${a.due||"-"}</small><small>Durum: ${a.status}</small><div class="actions"><button class="btn btn-soft" onclick="closeAction(${a.id})">Kapat</button><button class="btn btn-red" onclick="deleteAction(${a.id})">Sil</button></div></div>`).join(""):`<div class="empty">Açık aksiyon bulunmuyor.</div>`}
+window.closeAction=id=>{let arr=getActions();let a=arr.find(x=>x.id===id);if(a)a.status="Kapalı";setActions(arr)};window.deleteAction=id=>setActions(getActions().filter(a=>a.id!==id))
+function renderRevisions(){let arr=getRevisions();$("revisionList").innerHTML=arr.length?arr.map(r=>`<div class="rev-card"><b>${r.apqpNo} • ${r.rev}</b><small>Tarih: ${r.date||"-"} • Sebep: ${r.reason||"-"}</small></div>`).join(""):`<div class="empty">Revizyon geçmişi bulunmuyor.</div>`}
+
+function normalizeUser(u){return{id:u.id,username:u.username||"",name:u.fullName||u.fullname||u.name||u.username||"",position:u.role||"Kullanıcı",department:u.department||"",email:u.email||"",status:u.status||"Aktif"}}
+async function loadApiUsers(){try{let r=await fetch(API_BASE+"/users");let data=await r.json();window._gdnlUsers=Array.isArray(data)?data.map(normalizeUser):[];toast("Kullanıcı listesi yüklendi");}catch(e){window._gdnlUsers=[];toast("API /users okunamadı")}renderLeaderOptions();renderUserResults();stats()}
+function renderLeaderOptions(){
+  renderSelectedPerson("leader");
+  renderSelectedPerson("preparedBy");
+}
+function selectedPersonStoreKey(type){return "gdnl_apqp_"+type+"_person"}
+function getSelectedPerson(type){try{return JSON.parse(localStorage.getItem(selectedPersonStoreKey(type))||"null")}catch(e){return null}}
+function setSelectedPerson(type,u){localStorage.setItem(selectedPersonStoreKey(type),JSON.stringify(u));$(type).value=u.name;renderSelectedPerson(type)}
+function renderSelectedPerson(type){
+  let u=getSelectedPerson(type),pill=$(type+"Pill");
+  if(u){$(type).value=u.name;pill.innerHTML=`<div class="selected-person-pill">${u.name} • ${u.position}</div>`}
+  else{pill.innerHTML="";}
+}
+window.renderPersonResults=type=>{
+  let q=($(type+"Search").value||"").trim().toLowerCase(),box=$(type+"Results");
+  if(q.length<2){box.classList.remove("active");box.innerHTML="";return}
+  let users=(window._gdnlUsers||[]).filter(u=>(u.name+" "+u.position+" "+u.department).toLowerCase().includes(q)).slice(0,8);
+  box.classList.add("active");
+  box.innerHTML=users.length?users.map((u,i)=>`<button class="person-result" type="button" onclick="pickPerson('${type}',${i})">${u.name}<small>${u.position}</small></button>`).join(""):`<button class="person-result" type="button">Eşleşen kullanıcı yok</button>`;
+}
+window.pickPerson=(type,i)=>{
+  let q=($(type+"Search").value||"").trim().toLowerCase();
+  let u=(window._gdnlUsers||[]).filter(x=>(x.name+" "+x.position+" "+x.department).toLowerCase().includes(q)).slice(0,8)[i];
+  if(!u)return;
+  setSelectedPerson(type,u);
+  $(type+"Search").value="";
+  $(type+"Results").classList.remove("active");
+  $(type+"Results").innerHTML="";
+  toast((type==="leader"?"Proje lideri":"Hazırlayan")+" seçildi.");
+}
+function sameUser(a,b){return(a.id&&b.id&&String(a.id)===String(b.id))||(a.email&&b.email&&a.email===b.email)||(a.name===b.name&&a.position===b.position)}
+function filteredTeamSearch(){let q=($("userSearch").value||"").trim().toLowerCase();if(q.length<2)return[];return (window._gdnlUsers||[]).filter(u=>(u.name+" "+u.position+" "+u.department).toLowerCase().includes(q)).slice(0,8)}
+function renderUserResults(){let box=$("userResults"),users=filteredTeamSearch();if(!($("userSearch").value||"").trim()){box.classList.remove("active");box.innerHTML="";return}box.classList.add("active");box.innerHTML=users.length?users.map((u,i)=>`<button class="user-chip" type="button" onclick="addTeamUser(${i})"><b>${u.name}</b><small>${u.position}</small></button>`).join(""):`<div class="empty">Eşleşen kullanıcı yok.</div>`}
+window.addTeamUser=i=>{let u=filteredTeamSearch()[i];if(!u)return;let t=getTeam();if(!t.some(x=>sameUser(x,u)))t.push({...u,apqpRole:$("teamRole").value});setTeam(t);$("userSearch").value="";renderUserResults();toast("Ekip üyesi atandı.")}
+function renderTeam(){let t=getTeam();$("selectedTeamCount").textContent=t.length+" kişi";$("teamList").innerHTML=t.length?t.map((u,i)=>`<div class="team-chip"><div><b>${u.name}</b><small>${u.apqpRole||"APQP Üyesi"} • ${u.position}</small></div><button class="remove" onclick="removeTeam(${i})">×</button></div>`).join(""):`<div class="empty">Henüz ekip üyesi seçilmedi.</div>`;let mails=t.map(x=>x.email).filter(Boolean);$("mailGroup").textContent=mails.length?mails.join("; "):"Seçili ekip içinde mail adresi olan kullanıcı yok."}
+window.removeTeam=i=>{let t=getTeam();t.splice(i,1);setTeam(t);renderUserResults()};$("userSearch").oninput=renderUserResults;$("clearUserSearch").onclick=()=>{$("userSearch").value="";renderUserResults()};$("clearTeam").onclick=()=>{if(confirm("APQP ekibi temizlensin mi?")){setTeam([]);renderUserResults()}};$("copyMail").onclick=async()=>{let mails=getTeam().map(x=>x.email).filter(Boolean).join("; ");if(!mails){toast("Kopyalanacak mail yok.");return}await navigator.clipboard.writeText(mails);toast("Mail grubu kopyalandı.")};$("phase").onchange=renderPhases;$("ppapLevel").onchange=()=>{renderPpapReqs();renderApprovals();stats()};
+
+function buildRecord(){return {id:Date.now(),apqpNo:$("apqpNo").value,apqpRev:$("apqpRev").value,revDate:$("revDate").value,revReason:$("revReason").value,ppapNo:$("ppapNo").value,ppapLevel:$("ppapLevel").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,oemPartNo:$("oemPartNo").value,drawingNo:$("drawingNo").value,drawingRev:$("drawingRev").value,phase:$("phase").value,status:$("status").value,priority:$("priority").value,leader:$("leader").value,preparedBy:$("preparedBy").value,startDate:$("startDate").value,targetDate:$("targetDate").value,scope:$("scope").value,team:getTeam(),outputStatus:getOutputStatus(),ppapStatus:getPpapStatus(),actions:getActions(),gate:getGateMap(),approvalIndex:getApprovalIndex(),createdAt:new Date().toISOString()}}
+function createApqp(){let arr=getProjects();arr.unshift(buildRecord());setLS("gdnl_apqp_projects",arr);nextNo();setApprovalIndex(0);toast("APQP oluşturuldu.")}
+$("createApqp").onclick=createApqp;$("apqpForm").onsubmit=e=>{e.preventDefault();createApqp()}
+$("saveDraft").onclick=()=>{localStorage.setItem("gdnl_apqp_draft",JSON.stringify(buildRecord()));toast("Taslak kaydedildi.")}
+$("openRevision").onclick=()=>{let cur=$("apqpRev").value||"R00",n=Number(cur.replace(/\D/g,"")||0)+1,rev="R"+String(n).padStart(2,"0");$("apqpRev").value=rev;$("revDate").value=today;let arr=getRevisions();arr.unshift({id:Date.now(),apqpNo:$("apqpNo").value,rev,date:today,reason:$("revReason").value||"Revizyon açıldı"});setRevisions(arr);toast("Yeni revizyon açıldı.")}
+$("approveGate").onclick=()=>{let idx=currentPhaseIndex(),g=getGateMap();g[idx]="approved";g[idx+"date"]=today;setGateMap(g);renderPhases();renderApprovals();toast("Faz kapısı onaylandı.")}
+$("rejectGate").onclick=()=>{let idx=currentPhaseIndex(),g=getGateMap();g[idx]="rejected";g[idx+"date"]=today;setGateMap(g);renderPhases();renderApprovals();toast("Faz kapısı reddedildi.")}
+$("createAction").onclick=()=>{let arr=getActions();arr.unshift({id:Date.now(),title:"Manuel APQP aksiyonu",owner:$("leader").value,due:$("targetDate").value,status:"Açık",source:"Manuel"});setActions(arr);toast("Aksiyon oluşturuldu.")}
+$("autoAction").onclick=()=>{let m=getOutputStatus(),arr=getActions();apqpOutputs.forEach((x,i)=>{let s=(m[i]||{}).status||"Tamamlanmadı";if(s!=="Tamamlandı")arr.unshift({id:Date.now()+i,title:x[0]+" eksik",owner:((m[i]||{}).owners||[])[0]?.name||$("leader").value,due:(m[i]||{}).due||$("targetDate").value,status:"Açık",source:x[0]})});setActions(arr);toast("Eksik çıktılardan aksiyon üretildi.")}
+$("transferPpap").onclick=()=>{let package={ppapNo:$("ppapNo").value,apqpNo:$("apqpNo").value,level:$("ppapLevel").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,drawingRev:$("drawingRev").value,ppapStatus:getPpapStatus(),source:"APQP",createdAt:new Date().toISOString()};localStorage.setItem("gdnl_ppap_from_apqp",JSON.stringify(package));toast("PPAP modülüne aktarım paketi hazırlandı.")}
+function renderProjects(){let q=($("globalSearch").value||"").toLowerCase(),arr=getProjects().filter(p=>JSON.stringify(p).toLowerCase().includes(q));$("projectList").innerHTML=arr.length?arr.map(p=>`<div class="project-card"><div><b>${p.apqpNo} • ${p.apqpRev||"R00"} • ${p.customer||"Müşteri yok"} • ${p.partName||"Parça yok"}</b><small>${p.projectName||""} • ${p.phase||""} • ${p.ppapLevel||""} • ${p.status||""} • Ekip: ${(p.team||[]).length}</small></div><div class="actions" style="margin:0"><button class="btn btn-soft" onclick="loadProject(${p.id})">Aç</button><button class="btn btn-red" onclick="deleteProject(${p.id})">Sil</button></div></div>`).join(""):`<div class="empty">APQP kaydı bulunamadı.</div>`}
 window.deleteProject=id=>{setLS("gdnl_apqp_projects",getProjects().filter(p=>p.id!==id));nextNo()}
-window.loadProject=id=>{
-let p=getProjects().find(x=>x.id===id);if(!p)return;
-["customer","projectName","partName","partNo","oemPartNo","drawingNo","drawingRev","phase","status","priority","leader","preparedBy","startDate","targetDate","approvalDate","scope"].forEach(k=>{if($(k))$(k).value=p[k]||""});
-setTeam(p.team||[]);scrollTo({top:0,behavior:"smooth"});showToast("Proje karta yüklendi.");
-}
-function stats(){
-let arr=getProjects(),team=getTeam();
-$("stTotal").textContent=arr.length;
-$("stActive").textContent=arr.filter(p=>p.status==="Aktif").length;
-$("stTeam").textContent=team.length;
-let avg=arr.length?Math.round(arr.reduce((s,p)=>{let idx=phaseData.findIndex(x=>x[0]===p.phase);return s+(idx>=0?phaseData[idx][2]:20)},0)/arr.length):0;
-$("stProgress").textContent=avg+"%";
-$("stLate").textContent=arr.filter(p=>p.targetDate&&p.targetDate<today&&p.status!=="Tamamlandı").length;
-}
+window.loadProject=id=>{let p=getProjects().find(x=>x.id===id);if(!p)return;["apqpNo","apqpRev","revDate","revReason","ppapNo","ppapLevel","customer","projectName","partName","partNo","oemPartNo","drawingNo","drawingRev","phase","status","priority","leader","preparedBy","startDate","targetDate","scope"].forEach(k=>{if($(k))$(k).value=p[k]||""});setTeam(p.team||[]);setOutputStatus(p.outputStatus||{});setPpapStatus(p.ppapStatus||{});setActions(p.actions||[]);setGateMap(p.gate||{});setApprovalIndex(p.approvalIndex||0);renderPpapReqs();renderPhases();renderApprovals();renderActions();scrollTo({top:0,behavior:"smooth"});toast("Proje karta yüklendi.")}
 $("clearAll").onclick=()=>{if(confirm("Tüm APQP kayıtları silinsin mi?")){setLS("gdnl_apqp_projects",[]);nextNo()}}
-$("exportJson").onclick=()=>{let blob=new Blob([JSON.stringify({projects:getProjects(),team:getTeam()},null,2)],{type:"application/json"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gdnl-apqp-yedek.json";a.click()}
-$("globalSearch").oninput=renderProjects;
-function restoreDraft(){let d=JSON.parse(localStorage.getItem("gdnl_apqp_draft")||"null");if(!d)return;Object.keys(d).forEach(k=>{if($(k))$(k).value=d[k]})}
+$("exportJson").onclick=()=>{let blob=new Blob([JSON.stringify({projects:getProjects(),team:getTeam(),outputs:getOutputStatus(),ppap:getPpapStatus(),actions:getActions(),gates:getGateMap(),revisions:getRevisions()},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gdnl-apqp-yedek.json";a.click()}
+$("searchBtn").onclick=renderProjects;$("globalSearch").oninput=renderProjects;
+function stats(){let arr=getProjects(),team=getTeam(),docs=currentPpapDocs(),ps=getPpapStatus(),done=docs.filter(d=>(ps[d.i]?.status||"Eksik")==="Tamamlandı").length,outPct=docs.length?Math.round(done/docs.length*100):0;$("stTotal").textContent=arr.length;$("stActive").textContent=arr.filter(p=>p.status==="Aktif").length;$("stActions").textContent=getActions().filter(a=>a.status==="Açık").length;$("stOutputs").textContent=outPct+"%";let docs=currentPpapDocs(),s=getPpapStatus(),ppapDone=docs.filter(d=>(s[d.i]||"Eksik")==="Tamamlandı").length,ppapPct=docs.length?Math.round(ppapDone/docs.length*100):0;$("stPpap").textContent=ppapPct+"%";let avg=arr.length?Math.round(arr.reduce((sum,p)=>{let idx=phaseData.findIndex(x=>x[0]===p.phase);return sum+(idx>=0?phaseData[idx][2]:20)},0)/arr.length):0;$("stProgress").textContent=avg+"%"}
+function restoreDraft(){let p=JSON.parse(localStorage.getItem("gdnl_apqp_draft")||"null");if(!p)return;Object.keys(p).forEach(k=>{if($(k))$(k).value=p[k]||""})}
 
-const ppapDocs=[
-{no:0,name:"Kapak / Cover Page",desc:"PPAP paketinin tanıtım sayfası",l1:"Z",l2:"Z",l3:"Z",l4:"Z",l5:"Z"},
-{no:1,name:"PPAP Belirleme & Kapsam",desc:"Seviye ve kapsam belirleme",l1:"Z",l2:"Z",l3:"Z",l4:"Z",l5:"Z"},
-{no:2,name:"Tasarım Kayıtları / Teknik Resim",desc:"OEM onaylı tasarım kayıtları",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:3,name:"ECN / Değişiklik Kayıtları",desc:"Tasarım/proses değişiklikleri",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:4,name:"CSR – Müşteri Özel Şartları",desc:"Uygulanabilir müşteri şartları",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:5,name:"DFMEA",desc:"Tasarım risk analizi",l1:"-",l2:"-",l3:"M",l4:"M",l5:"Z"},
-{no:6,name:"Proses Akış Şeması",desc:"Üretim adımları",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:7,name:"PFMEA",desc:"Proses risk analizi",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:8,name:"Control Plan",desc:"Kontrol stratejisi",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:9,name:"Ölçüsel Sonuçlar",desc:"Dimensional results",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:10,name:"MSA",desc:"Ölçüm sistem analizi",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:11,name:"SPC / CPK",desc:"Proses yeterlilik çalışmaları",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:12,name:"İlk Numune / Zero Seri",desc:"İlk üretim doğrulaması",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:13,name:"Master Sample",desc:"Referans numune",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:14,name:"Kontrol Yardımcıları",desc:"Jig, fikstür vb.",l1:"-",l2:"-",l3:"O",l4:"M",l5:"Z"},
-{no:15,name:"PSW – Parça Sunum Onayı",desc:"Part Submission Warrant",l1:"Z",l2:"Z",l3:"Z",l4:"Z",l5:"Z"},
-{no:16,name:"Müşteri Mühendislik Onayı",desc:"Müşteri mühendislik onayı",l1:"-",l2:"-",l3:"O",l4:"M",l5:"Z"},
-{no:17,name:"Malzeme Test Sonuçları",desc:"Malzeme doğrulama testleri",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:18,name:"Performans Test Sonuçları",desc:"Fonksiyonel ve dayanım testleri",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:19,name:"Yetkili Laboratuvar Dokümantasyonu",desc:"Akredite laboratuvar belgeleri",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:20,name:"Görsel Onay Raporu / AAR",desc:"Görsel/parça onayı",l1:"-",l2:"-",l3:"O",l4:"M",l5:"Z"},
-{no:21,name:"Seri Üretim Numuneleri",desc:"Seri üretim numune kayıtları",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:22,name:"Uygunluk Kayıtları",desc:"CE / ECE / RoHS / REACH",l1:"-",l2:"-",l3:"Z",l4:"M",l5:"Z"},
-{no:23,name:"Run@Rate / Kapasite Doğrulama",desc:"Kapasite doğrulama",l1:"-",l2:"-",l3:"O",l4:"M",l5:"Z"}
-];
-
-function getPPAPStatusMap(){
-try{return JSON.parse(localStorage.getItem("gdnl_ppap_doc_status")||"{}")}catch(e){return{}}
-}
-function setPPAPStatusMap(v){
-localStorage.setItem("gdnl_ppap_doc_status",JSON.stringify(v));
-}
-function ppapReqFor(doc,level){
-return doc["l"+level]||"-";
-}
-function cyclePPAPStatus(no){
-const map=getPPAPStatusMap();
-const current=map[no]||"Eksik";
-map[no]=current==="Eksik"?"Devam Ediyor":current==="Devam Ediyor"?"Tamamlandı":"Eksik";
-setPPAPStatusMap(map);
-renderPPAPDocs();
-}
-function markAllPPAP(status){
-const level=document.getElementById("ppapLevelSelect")?.value||"3";
-const map=getPPAPStatusMap();
-ppapDocs.forEach(d=>{
-const req=ppapReqFor(d,level);
-if(req!=="-")map[d.no]=status;
-});
-setPPAPStatusMap(map);
-renderPPAPDocs();
-}
-function renderPPAPDocs(){
-const level=document.getElementById("ppapLevelSelect")?.value||"3";
-const badge=document.getElementById("ppapLevelBadge");
-if(badge)badge.textContent="LEVEL "+level;
-const map=getPPAPStatusMap();
-const visible=ppapDocs.filter(d=>ppapReqFor(d,level)!=="-");
-const required=visible.filter(d=>ppapReqFor(d,level)==="Z");
-const completed=required.filter(d=>(map[d.no]||"Eksik")==="Tamamlandı");
-const percent=required.length?Math.round((completed.length/required.length)*100):100;
-const grid=document.getElementById("ppapDocGrid");
-if(!grid)return;
-grid.innerHTML=visible.map(d=>{
-const req=ppapReqFor(d,level);
-const status=map[d.no]||"Eksik";
-const sClass=status==="Tamamlandı"?"done":status==="Devam Ediyor"?"progress":"missing";
-const tagClass=req==="Z"?"z":req==="O"?"o":"m";
-return `<div class="ppap-doc-card" onclick="cyclePPAPStatus(${d.no})">
-<span class="ppap-tag ${tagClass}">${req}</span>
-<b>${d.no} - ${d.name}</b>
-<small>${d.desc}</small>
-<span class="ppap-status ${sClass}">${status}</span>
-</div>`;
-}).join("");
-const countEl=document.getElementById("ppapRequiredCount");
-const compEl=document.getElementById("ppapCompletion");
-const readyEl=document.getElementById("ppapReadyText");
-if(countEl)countEl.textContent=required.length;
-if(compEl)compEl.textContent=percent+"%";
-if(readyEl){
-readyEl.textContent=percent===100?"Hazır":"Hazır Değil";
-readyEl.style.color=percent===100?"#15803d":"#b45309";
-}
-}
-const ppapLevelSelect=document.getElementById("ppapLevelSelect");
-if(ppapLevelSelect)ppapLevelSelect.onchange=renderPPAPDocs;
-
-renderUsers();renderTeam();renderPhases();renderSet();renderPPAPDocs();renderProjects();nextNo();restoreDraft();stats();
+renderTeam();renderPhases();renderPpapReqs();renderApprovals();renderActions();renderRevisions();renderApprovedWorkflowList();renderProjects();nextNo();restoreDraft();stats();loadApiUsers();
 </script>
 </body>
 </html>
