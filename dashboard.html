@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#35a852">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="GDNL EQMS APQP">
-<meta name="description" content="GDNL EQMS APQP Yönetim Merkezi - proje kartı, ekip, mail grubu, APQP faz akışı ve IATF 16949 hazırlık seti.">
-<title>GDNL EQMS | APQP Yönetim Merkezi</title>
+<meta name="apple-mobile-web-app-title" content="GDNL EQMS Dashboard">
+<meta name="description" content="GDNL EQMS Enterprise Dashboard - gateway sonrası ana komuta merkezi, modül yönlendirme, canlı kartlar ve IATF 16949 menü entegrasyonu.">
+<title>GDNL EQMS | Enterprise Dashboard</title>
 <style>
 :root{
 --navy:#071b34;--navy2:#0d2747;--green:#35a852;--green2:#62d46f;--blue:#1597ff;--text:#0f1b2f;--muted:#5f6f86;--line:#dfe9f5;--soft:#f6faff;--white:#fff;--red:#ef4444;--orange:#f59e0b;
@@ -19,13 +19,11 @@ html,body{width:100%;max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
 body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef5fc 46%,#f8fbff 100%);color:var(--text);font-weight:800}
 button,input,select,textarea{font:inherit}button{cursor:pointer;border:none}.app{display:grid;grid-template-columns:var(--side) minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-right:1px solid var(--line);box-shadow:18px 0 58px rgba(7,27,52,.06);padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;z-index:20}.sidebar::-webkit-scrollbar{width:0}.logo{font-size:30px;font-weight:950;letter-spacing:-.8px;text-decoration:none;color:var(--navy);display:block;margin-bottom:35px}.logo span,.drawer-logo span{color:var(--green)}
 .menu{display:flex;flex-direction:column;gap:8px}.menu a,.menu-group,.drawer-menu a{width:100%;text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:space-between;border:1px solid transparent;background:transparent;text-align:left;transition:.2s}.menu a:hover,.menu a.active,.menu-group:hover,.menu-group.open,.drawer-menu a:hover,.drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}.menu-group span{transition:.2s}.menu-group.open span{transform:rotate(180deg)}.submenu{display:none;flex-direction:column;gap:6px;margin:2px 0 8px 12px;padding-left:10px;border-left:2px solid #dfe9f5}.submenu.open{display:flex}.submenu a{font-size:13px!important;padding:11px 12px!important;border-radius:12px!important}
-/* IATF 16949 menü standardı: ana başlık kapalı gelir, tıklanınca sadece APQP ve PPAP açılır. */
-.menu .submenu a[href="apqp.html"],.drawer-menu .submenu a[href="apqp.html"]{font-weight:950}
-.menu .submenu a[href="ppap.html"],.drawer-menu .submenu a[href="ppap.html"]{font-weight:950}
-.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;margin-top:25px}.main{min-width:0;width:100%;padding:24px;overflow:hidden}.topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:0 22px;display:grid;grid-template-columns:minmax(280px,1fr) auto auto;gap:10px;align-items:center;box-shadow:var(--shadow);margin-bottom:24px}.search-wrap{display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:10px}.search{width:100%;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:850;color:var(--text)}.search:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(53,168,82,.12)}.btn{height:46px;padding:0 18px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;font-weight:950;box-shadow:0 14px 32px rgba(53,168,82,.22)}.btn:hover{transform:translateY(-1px);filter:brightness(1.02)}.btn-soft{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border:1px solid #bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}.btn-navy{background:#071b34;color:white;box-shadow:0 12px 28px rgba(7,27,52,.18)}.btn-red{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;box-shadow:none}.profile{display:flex;gap:9px;justify-content:flex-end;align-items:center}.avatar{height:46px;min-width:132px;display:flex;align-items:center;justify-content:center;padding:0 14px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;font-weight:950;box-shadow:0 14px 32px rgba(53,168,82,.22);font-size:13px}.logout{height:46px;border-radius:14px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;font-weight:950;padding:0 14px}.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf3ff 100%);border:1px solid #dbe8f7;border-radius:30px;padding:30px 32px;margin-bottom:24px;box-shadow:0 20px 55px rgba(7,27,52,.065);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}.hero h1{font-size:42px;line-height:1.08;letter-spacing:-1.6px;color:#081d35;font-weight:950}.hero p{margin-top:12px;color:#4e6078;font-weight:750;line-height:1.65;max-width:980px}.hero-badge{background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;border-radius:18px;padding:17px 20px;font-weight:950;box-shadow:0 14px 35px rgba(53,168,82,.22);white-space:nowrap}.cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-bottom:24px}.card,.panel{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px)}.card{padding:21px 22px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--green),var(--blue))}.card small{display:block;color:#617086;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card h2{font-size:38px;line-height:1.05;color:#1f7d3d;font-weight:950;margin-top:10px}.card p{margin-top:6px;color:#617086;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.panel{padding:24px;margin-bottom:24px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}.panel h3{font-size:22px;font-weight:950;color:var(--navy);letter-spacing:-.5px}.panel p.help{color:#617086;line-height:1.6;font-size:14px;margin-top:-8px;margin-bottom:18px}.grid-2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);gap:24px}.form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:12px;color:#536176;font-weight:950}.field input,.field select,.field textarea{width:100%;min-width:0;border:1px solid #d8e4ef;border-radius:14px;background:linear-gradient(135deg,#fff,#f8fbff);padding:0 14px;height:48px;color:var(--text);outline:none;font-weight:850}.field textarea{height:96px;padding-top:13px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(53,168,82,.11)}.span-2{grid-column:span 2}.span-4{grid-column:1/-1}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.pill{display:inline-flex;align-items:center;justify-content:center;min-height:28px;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:950;background:#e8f7ee;color:#1f7d3d}.pill.orange{background:#fff1dc;color:#b45309}.pill.blue{background:#e0f2fe;color:#0369a1}.pill.red{background:#fee2e2;color:#991b1b}.phase-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}.phase{border:1px solid #dfe9f5;border-radius:20px;background:linear-gradient(135deg,#f8fbff,#fff);padding:18px;position:relative;overflow:hidden}.phase:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--blue))}.phase b{display:block;color:#071b34;font-size:16px;line-height:1.25}.phase small{display:block;margin-top:8px;color:#617086;line-height:1.45}.progress{height:10px;background:#e8eef5;border-radius:999px;overflow:hidden;margin-top:14px}.bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#1f8f43,#1597ff)}.req-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.req{border:1px solid #dfe9f5;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#fff);padding:15px;min-height:96px;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}.req b{display:block;font-size:14px;color:#071b34;line-height:1.35}.req small{display:block;margin-top:6px;color:#617086;line-height:1.45}.team-list,.project-list{display:flex;flex-direction:column;gap:12px}.team-card,.project-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;border:1px solid #dfe9f5;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#fff);padding:14px}.team-card b,.project-card b{display:block;color:#071b34}.team-card small,.project-card small{display:block;color:#617086;margin-top:5px;line-height:1.45}.mail-box{border:1px dashed #bfe7ca;background:#f4fbf7;border-radius:18px;padding:15px;color:#1f7d3d;line-height:1.6;font-size:13px;word-break:break-word}.empty{padding:22px;border:1px dashed #cbd5e1;border-radius:18px;text-align:center;color:#64748b;background:#f8fafc;font-weight:950}.mobile-menu-btn{display:none;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852);color:#fff;font-size:22px;font-weight:950}.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}.drawer{position:fixed;top:0;left:-90%;width:88%;max-width:360px;height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s;display:flex;flex-direction:column;border-right:1px solid #e2e8f0}.drawer.active{left:0}.overlay.active{display:block}.drawer-head{height:86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#fff,#f0fbf4)}.drawer-logo{font-size:25px;font-weight:950;color:#0f172a}.drawer-close{width:42px;height:42px;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950}.drawer-menu{padding:16px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:8px}.drawer-footer{padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:#fff}.toast{position:fixed;right:20px;bottom:20px;z-index:300;background:#071b34;color:white;border-radius:16px;padding:14px 16px;font-weight:950;box-shadow:0 20px 50px rgba(7,27,52,.28);display:none}
-@media(max-width:1360px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.phase-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.req-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-2{grid-template-columns:1fr}.hero h1{font-size:34px}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.span-4{grid-column:1/-1}}
-@media(max-width:1180px){:root{--side:250px}.logo{font-size:26px}.sidebar{padding:22px 14px}.topbar{grid-template-columns:minmax(0,1fr) auto}.profile .avatar{display:none}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{grid-template-columns:1fr}.hero-badge{width:max-content}}
-@media(max-width:850px){.app{display:block}.sidebar{display:none}.main{padding:14px;overflow:visible}.topbar{position:sticky;top:10px;z-index:40;border-radius:22px;display:grid;grid-template-columns:52px minmax(0,1fr);padding:12px;height:auto;margin-bottom:16px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.search-wrap{grid-template-columns:minmax(0,1fr) 58px}.search,.btn{height:52px}.search{font-size:12px}.search-wrap .btn{width:58px;padding:0}.profile{display:none}.hero{padding:22px;border-radius:24px;margin-bottom:16px}.hero h1{font-size:27px}.hero p{font-size:14px;line-height:1.55}.hero-badge{width:100%;text-align:center}.cards,.phase-grid,.req-grid{grid-template-columns:1fr;gap:12px;margin-bottom:12px}.card,.panel{border-radius:22px}.card h2{font-size:34px}.panel{padding:18px;margin-bottom:14px}.form-grid{grid-template-columns:1fr}.span-2,.span-4{grid-column:auto}.team-card,.project-card{grid-template-columns:1fr}.actions .btn,.actions button{width:100%}}
+.menu .submenu a[href="apqp.html"],.drawer-menu .submenu a[href="apqp.html"],.menu .submenu a[href="ppap.html"],.drawer-menu .submenu a[href="ppap.html"]{font-weight:950}
+.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;margin-top:25px}.main{min-width:0;width:100%;padding:24px;overflow:hidden}.topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:0 22px;display:grid;grid-template-columns:minmax(280px,1fr) auto auto;gap:10px;align-items:center;box-shadow:var(--shadow);margin-bottom:24px}.search-wrap{display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:10px}.search{width:100%;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:850;color:var(--text)}.search:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(53,168,82,.12)}.btn{height:46px;padding:0 18px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;font-weight:950;box-shadow:0 14px 32px rgba(53,168,82,.22)}.btn:hover{transform:translateY(-1px);filter:brightness(1.02)}.btn-soft{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border:1px solid #bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}.btn-navy{background:#071b34;color:white;box-shadow:0 12px 28px rgba(7,27,52,.18)}.btn-red{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;box-shadow:none}.profile{display:flex;gap:9px;justify-content:flex-end;align-items:center}.avatar{height:46px;min-width:132px;display:flex;align-items:center;justify-content:center;padding:0 14px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;font-weight:950;box-shadow:0 14px 32px rgba(53,168,82,.22);font-size:13px}.logout{height:46px;border-radius:14px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;font-weight:950;padding:0 14px}.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf3ff 100%);border:1px solid #dbe8f7;border-radius:30px;padding:30px 32px;margin-bottom:24px;box-shadow:0 20px 55px rgba(7,27,52,.065);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}.hero h1{font-size:42px;line-height:1.08;letter-spacing:-1.6px;color:#081d35;font-weight:950}.hero p{margin-top:12px;color:#4e6078;font-weight:750;line-height:1.65;max-width:980px}.hero-badge{background:linear-gradient(135deg,#1f8f43,#35a852 52%,#62d46f);color:white;border-radius:18px;padding:17px 20px;font-weight:950;box-shadow:0 14px 35px rgba(53,168,82,.22);white-space:nowrap}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:24px}.card,.panel,.module,.quick-card{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px)}.card{padding:21px 22px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--green),var(--blue))}.card small{display:block;color:#617086;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card h2{font-size:38px;line-height:1.05;color:#1f7d3d;font-weight:950;margin-top:10px}.card p{margin-top:6px;color:#617086;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.panel{padding:24px;margin-bottom:24px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}.panel h3{font-size:22px;font-weight:950;color:var(--navy);letter-spacing:-.5px}.panel p.help{color:#617086;line-height:1.6;font-size:14px;margin-top:-8px;margin-bottom:18px}.grid-2{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:24px}.modules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.module{display:block;text-decoration:none;color:#0f1b2f;padding:18px;transition:.2s;min-height:126px}.module:hover{transform:translateY(-2px);border-color:#bfe7ca;box-shadow:0 14px 32px rgba(53,168,82,.12)}.module b{display:block;color:#071b34;font-size:15px;line-height:1.35}.module small{display:block;margin-top:8px;color:#617086;line-height:1.5}.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.quick-card{padding:17px}.quick-card b{display:block;font-size:32px;color:#1f7d3d}.quick-card small{display:block;color:#617086;margin-top:6px;line-height:1.45}.status{display:inline-flex;align-items:center;justify-content:center;min-height:28px;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:950;background:#e8f7ee;color:#1f7d3d}.status.orange{background:#fff1dc;color:#b45309}.status.blue{background:#e0f2fe;color:#0369a1}.status.red{background:#fee2e2;color:#991b1b}.activity{display:flex;flex-direction:column;gap:12px}.activity-item{border:1px solid #dfe9f5;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#fff);padding:15px}.activity-item b{display:block;color:#071b34}.activity-item small{display:block;margin-top:6px;color:#617086;line-height:1.55}.progress{height:10px;background:#e8eef5;border-radius:999px;overflow:hidden;margin-top:14px}.bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#1f8f43,#1597ff)}.empty{padding:22px;border:1px dashed #cbd5e1;border-radius:18px;text-align:center;color:#64748b;background:#f8fafc;font-weight:950}.mobile-menu-btn{display:none;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852);color:#fff;font-size:22px;font-weight:950}.overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}.drawer{position:fixed;top:0;left:-90%;width:88%;max-width:360px;height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s;display:flex;flex-direction:column;border-right:1px solid #e2e8f0}.drawer.active{left:0}.overlay.active{display:block}.drawer-head{height:86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#fff,#f0fbf4)}.drawer-logo{font-size:25px;font-weight:950;color:#0f172a}.drawer-close{width:42px;height:42px;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950}.drawer-menu{padding:16px;overflow:auto;flex:1;display:flex;flex-direction:column;gap:8px}.drawer-footer{padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:#fff}.toast{position:fixed;right:20px;bottom:20px;z-index:300;background:#071b34;color:white;border-radius:16px;padding:14px 16px;font-weight:950;box-shadow:0 20px 50px rgba(7,27,52,.28);display:none}
+@media(max-width:1360px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-2{grid-template-columns:1fr}.hero h1{font-size:34px}.modules{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1180px){:root{--side:250px}.logo{font-size:26px}.sidebar{padding:22px 14px}.topbar{grid-template-columns:minmax(0,1fr) auto}.profile .avatar{display:none}.hero{grid-template-columns:1fr}.hero-badge{width:max-content}}
+@media(max-width:850px){.app{display:block}.sidebar{display:none}.main{padding:14px;overflow:visible}.topbar{position:sticky;top:10px;z-index:40;border-radius:22px;display:grid;grid-template-columns:52px minmax(0,1fr);padding:12px;height:auto;margin-bottom:16px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.search-wrap{grid-template-columns:minmax(0,1fr) 58px}.search,.btn{height:52px}.search{font-size:12px}.search-wrap .btn{width:58px;padding:0}.profile{display:none}.hero{padding:22px;border-radius:24px;margin-bottom:16px}.hero h1{font-size:27px}.hero p{font-size:14px;line-height:1.55}.hero-badge{width:100%;text-align:center}.cards,.modules,.quick-grid{grid-template-columns:1fr;gap:12px;margin-bottom:12px}.card,.panel,.module{border-radius:22px}.card h2{font-size:34px}.panel{padding:18px;margin-bottom:14px}}
 </style>
 </head>
 <body>
@@ -42,14 +40,14 @@ button,input,select,textarea{font:inherit}button{cursor:pointer;border:none}.app
 <a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
 <nav class="menu" id="sideMenu"></nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>APQP Management<br>IATF 16949 Ready</div>
+<div class="sidebar-footer">GDNL EQMS Enterprise<br>Dashboard Active<br>Gateway Flow Ready</div>
 </aside>
 
 <main class="main">
 <header class="topbar">
 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
 <div class="search-wrap">
-<input class="search" id="globalSearch" placeholder="Proje, müşteri, parça, faz, sorumlu, ekip veya mail ara">
+<input class="search" id="globalSearch" placeholder="Modül, doküman, CAPA, APQP, PPAP, kullanıcı veya süreç ara">
 <button class="btn" id="searchBtn">Ara</button>
 </div>
 <div class="profile">
@@ -60,88 +58,59 @@ button,input,select,textarea{font:inherit}button{cursor:pointer;border:none}.app
 
 <section class="hero">
 <div>
-<h1>APQP Yönetim Merkezi</h1>
-<p>Yeni ürün devreye alma akışını proje kartı, ekip üyeleri, mail grubu, faz kapıları ve APQP zorunlu içerikleriyle tek premium ekranda yönetin. PPAP bu sürümde bilinçli olarak dışarıda bırakıldı.</p>
+<h1>GDNL EQMS Enterprise Dashboard</h1>
+<p>Gateway sonrası ana komuta merkezi burasıdır. Kullanıcı önce dashboard’a gelir; sonra sol menüden istediği modüle, IATF 16949 altında APQP/PPAP tarafına geçer. Bu sayfa hiçbir modüle otomatik yönlendirme yapmaz.</p>
 </div>
-<div class="hero-badge">IATF 16949 Motoru: Live</div>
+<div class="hero-badge">Dashboard Flow: Stable</div>
 </section>
 
 <section class="cards">
-<div class="card"><small>Toplam APQP</small><h2 id="stTotal">0</h2><p>Tanımlı proje</p></div>
-<div class="card"><small>Aktif Proje</small><h2 id="stActive">0</h2><p>Devam eden çalışmalar</p></div>
-<div class="card"><small>Ortalama İlerleme</small><h2 id="stProgress">0%</h2><p>Faz tamamlanma</p></div>
-<div class="card"><small>Ekip Üyesi</small><h2 id="stTeam">0</h2><p>Seçili proje takımı</p></div>
-<div class="card"><small>Geciken Aksiyon</small><h2 id="stLate">0</h2><p>Termin aşımı</p></div>
+<div class="card"><small>Aktif Modül</small><h2 id="stModules">0</h2><p>Sisteme bağlı sayfa</p></div>
+<div class="card"><small>Açık Aksiyon</small><h2 id="stActions">0</h2><p>Action center kayıtları</p></div>
+<div class="card"><small>APQP Proje</small><h2 id="stApqp">0</h2><p>IATF 16949 APQP kayıtları</p></div>
+<div class="card"><small>Sistem Sağlığı</small><h2 id="stHealth">100%</h2><p>Dashboard akış uygunluğu</p></div>
 </section>
 
 <section class="grid-2">
 <div>
 <section class="panel">
-<div class="panel-head"><h3>Yeni APQP Proje Kartı</h3><span class="pill">ANA KAYIT</span></div>
-<p class="help">Bu karttaki bilgiler APQP fazları, ekip atamaları, mail grubu ve sonraki kalite dokümanlarının üst bilgisinde kullanılacak ana proje verisidir.</p>
-<form id="apqpForm">
-<div class="form-grid">
-<div class="field"><label>APQP No</label><input id="apqpNo" readonly></div>
-<div class="field"><label>Müşteri</label><input id="customer" placeholder="Müşteri adı"></div>
-<div class="field"><label>Proje / Araç</label><input id="projectName" placeholder="Proje / araç adı"></div>
-<div class="field"><label>Parça Adı</label><input id="partName" placeholder="Parça adı"></div>
-<div class="field"><label>Parça No</label><input id="partNo" placeholder="Parça no"></div>
-<div class="field"><label>OEM Parça No</label><input id="oemPartNo" placeholder="OEM parça no"></div>
-<div class="field"><label>Teknik Resim No</label><input id="drawingNo" placeholder="Teknik resim no"></div>
-<div class="field"><label>Teknik Resim Rev.</label><input id="drawingRev" placeholder="Revizyon"></div>
-<div class="field"><label>APQP Fazı</label><select id="phase"></select></div>
-<div class="field"><label>Durum</label><select id="status"><option>Aktif</option><option>Beklemede</option><option>Tamamlandı</option><option>Riskli</option></select></div>
-<div class="field"><label>Öncelik</label><select id="priority"><option>Normal</option><option>Kritik</option><option>Yüksek</option><option>Düşük</option></select></div>
-<div class="field"><label>Proje Lideri</label><input id="leader" placeholder="Ekip lideri"></div>
-<div class="field"><label>Hazırlayan</label><input id="preparedBy" placeholder="Hazırlayan"></div>
-<div class="field"><label>Başlangıç Tarihi</label><input type="date" id="startDate"></div>
-<div class="field"><label>Hedef APQP Tarihi</label><input type="date" id="targetDate"></div>
-<div class="field"><label>Müşteri Onay Tarihi</label><input type="date" id="approvalDate"></div>
-<div class="field span-4"><label>Kapsam / Açıklama</label><textarea id="scope" placeholder="Proje kapsamı, müşteri özel isteği, kritik notlar ve APQP kapsamı"></textarea></div>
-</div>
-<div class="actions">
-<button class="btn" type="submit">APQP Kaydet</button>
-<button class="btn btn-soft" type="button" id="saveDraft">Taslak Kaydet</button>
-<button class="btn btn-navy" type="button" id="clearForm">Temizle</button>
-<button class="btn btn-soft" type="button" onclick="window.print()">Yazdır / PDF</button>
-</div>
-</form>
+<div class="panel-head"><h3>Modül Merkezi</h3><span class="status blue">GATEWAY SONRASI ANA EKRAN</span></div>
+<p class="help">Bu alan sadece yönlendirme merkezidir. APQP, PPAP veya başka modül bu dashboard’un içine gömülmez; her biri kendi HTML dosyasında açılır.</p>
+<div class="modules" id="moduleList"></div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>APQP Faz Takibi</h3><span class="pill">5 FAZ</span></div>
-<div class="phase-grid" id="phaseGrid"></div>
-</section>
-
-<section class="panel">
-<div class="panel-head"><h3>APQP İçerik Seti</h3><span class="pill orange">PPAP HARİÇ</span></div>
-<p class="help">Aşağıdaki içerikler APQP tarafında faz kapısı mantığıyla izlenir. Her kart ileride dosya yükleme veya dahili form tamamlama akışına bağlanabilir.</p>
-<div class="req-grid" id="apqpSet"></div>
+<div class="panel-head"><h3>IATF 16949 Hızlı Erişim</h3><span class="status">APQP / PPAP</span></div>
+<div class="modules">
+<a class="module" href="apqp.html"><b>🚗 APQP</b><small>Yeni ürün devreye alma, proje kartı, ekip, faz ve APQP içerik seti.</small></a>
+<a class="module" href="ppap.html"><b>📦 PPAP</b><small>PPAP paket seviyesi, müşteri sunum dosyası ve onay takip yapısı.</small></a>
+<a class="module" href="fmea.html"><b>🧠 FMEA</b><small>DFMEA/PFMEA risk analizi ve aksiyon bağlantısı.</small></a>
+<a class="module" href="control-plan.html"><b>🧾 Control Plan</b><small>Kontrol karakteristikleri, frekans, reaksiyon planı ve kayıt sistemi.</small></a>
+<a class="module" href="spc.html"><b>📈 SPC</b><small>Proses yeterlilik ve istatistiksel proses kontrol merkezi.</small></a>
+<a class="module" href="msa.html"><b>📐 MSA</b><small>Ölçüm sistemi analizi, GR&R ve ölçüm güvenilirliği.</small></a>
+</div>
 </section>
 </div>
 
 <div>
 <section class="panel">
-<div class="panel-head"><h3>Ekip & Mail Grubu</h3><span class="pill blue">USERS.HTML BAĞLI</span></div>
-<p class="help">Kullanıcılar localStorage üzerindeki users.html kayıtlarından çekilir. İsim + pozisyon + mail ile seçim yapılır; ayrıca manuel üye eklenebilir.</p>
-<div class="form-grid" style="grid-template-columns:1fr">
-<div class="field"><label>Users.html Kullanıcı Seç</label><select id="userSelect"></select></div>
-<div class="actions" style="margin-top:0"><button class="btn" type="button" id="addSelectedUser">Seçili Kullanıcıyı Ekle</button></div>
-<div class="field"><label>Manuel İsim</label><input id="manualName" placeholder="İsim soyisim"></div>
-<div class="field"><label>Manuel Pozisyon</label><input id="manualPosition" placeholder="Pozisyon / görev"></div>
-<div class="field"><label>Manuel E-Mail</label><input id="manualEmail" placeholder="mail@firma.com"></div>
-<div class="actions" style="margin-top:0"><button class="btn btn-soft" type="button" id="addManualUser">Manuel Üye Ekle</button></div>
+<div class="panel-head"><h3>Yönetici Özeti</h3><span class="status">LIVE</span></div>
+<div class="quick-grid">
+<div class="quick-card"><b id="qDocs">0</b><small>Doküman kaydı</small></div>
+<div class="quick-card"><b id="qCapa">0</b><small>CAPA / 8D kaydı</small></div>
+<div class="quick-card"><b id="qRisk">0</b><small>Risk kaydı</small></div>
+<div class="quick-card"><b id="qUsers">0</b><small>Kullanıcı kaydı</small></div>
 </div>
-<div style="height:16px"></div>
-<div class="team-list" id="teamList"></div>
-<div style="height:16px"></div>
-<div class="mail-box" id="mailGroup">Mail grubu henüz oluşmadı.</div>
-<div class="actions"><button class="btn btn-navy" type="button" id="copyMail">Mail Grubunu Kopyala</button><button class="btn btn-red" type="button" id="clearTeam">Ekibi Temizle</button></div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>APQP Proje Listesi</h3><div class="actions" style="margin:0"><button class="btn btn-soft" id="exportJson" type="button">JSON Yedek Al</button><button class="btn btn-red" id="clearAll" type="button">Tümünü Temizle</button></div></div>
-<div class="project-list" id="projectList"></div>
+<div class="panel-head"><h3>Akış Kontrolü</h3><span class="status orange">DOĞRU MANTIK</span></div>
+<div class="activity">
+<div class="activity-item"><b>1. Login</b><small>index.html üzerinden kullanıcı giriş yapar.</small><div class="progress"><div class="bar" style="width:100%"></div></div></div>
+<div class="activity-item"><b>2. Department Gateway</b><small>Departman seçimi yapılır; gateway sonrası dashboard açılır.</small><div class="progress"><div class="bar" style="width:100%"></div></div></div>
+<div class="activity-item"><b>3. Dashboard</b><small>Kullanıcı ana komuta merkezine gelir. APQP otomatik açılmaz.</small><div class="progress"><div class="bar" style="width:100%"></div></div></div>
+<div class="activity-item"><b>4. Sol Menü Seçimi</b><small>IATF 16949 tıklanırsa APQP/PPAP/FMEA/Control Plan/SPC/MSA alt sekmeleri açılır.</small><div class="progress"><div class="bar" style="width:100%"></div></div></div>
+</div>
 </section>
 </div>
 </section>
@@ -152,9 +121,9 @@ button,input,select,textarea{font:inherit}button{cursor:pointer;border:none}.app
 
 <script>
 const $=id=>document.getElementById(id);
-const today=new Date().toISOString().slice(0,10);
+
 const MENU_HTML=`
-<a href="dashboard.html">🏠 Dashboard</a>
+<a class="active" href="dashboard.html">🏠 Dashboard</a>
 <button class="menu-group" type="button">📚 Doküman Yönetimi <span>⌄</span></button>
 <div class="submenu">
 <a href="company-assets-documents.html">Firma Belgeleri</a><a href="documents.html">Doküman Yönetimi</a><a href="new-document.html">Yeni Doküman</a><a href="revision.html">Revizyon Yönetimi</a><a href="approval.html">Onay Yönetimi</a><a href="distribution.html">Dağıtım Yönetimi</a><a href="archive.html">Arşiv Yönetimi</a><a href="document-viewer.html">Doküman Görüntüleyici</a>
@@ -172,66 +141,71 @@ const MENU_HTML=`
 <button class="menu-group" type="button">🔬 Teknik Yönetim <span>⌄</span></button>
 <div class="submenu"><a href="calibration-management.html">Kalibrasyon Yönetimi</a></div>
 <button class="menu-group" type="button">🔒 Uyum ve Güvenlik <span>⌄</span></button>
-<div class="submenu"><a href="security-continuity-center.html">BGYS & İş Sürekliliği</a><a href="standards-compliance.html">Standart Uygunluk</a><a href="legal-compliance.html">Yasal Uyum</a></div>
-<button class="menu-group open" type="button">🚗 IATF 16949 <span>⌄</span></button>
-<div class="submenu open"><a class="active" href="apqp.html">APQP</a><a href="ppap.html">PPAP</a></div>`;
-$('sideMenu').innerHTML=MENU_HTML;$('mobileMenu').innerHTML=MENU_HTML;
-function initMenu(){document.querySelectorAll('.menu-group').forEach(btn=>{btn.onclick=()=>{const parent=btn.closest('.menu,.drawer-menu');const sub=btn.nextElementSibling;parent.querySelectorAll('.submenu').forEach(s=>{if(s!==sub)s.classList.remove('open')});parent.querySelectorAll('.menu-group').forEach(b=>{if(b!==btn)b.classList.remove('open')});sub.classList.toggle('open');btn.classList.toggle('open',sub.classList.contains('open'))}})}
+<div class="submenu"><a href="security-continuity.html">BGYS & İş Sürekliliği</a><a href="standards-compliance.html">Standart Uygunluk</a><a href="legal-compliance.html">Yasal Uyum</a></div>
+<button class="menu-group" type="button">🚗 IATF 16949 <span>⌄</span></button>
+<div class="submenu"><a href="apqp.html">APQP</a><a href="fmea.html">FMEA</a><a href="control-plan.html">Control Plan</a><a href="ppap.html">PPAP</a><a href="spc.html">SPC</a><a href="msa.html">MSA</a></div>`;
+
+$("sideMenu").innerHTML=MENU_HTML;
+$("mobileMenu").innerHTML=MENU_HTML;
+
+function initMenu(){
+document.querySelectorAll(".menu-group").forEach(btn=>{
+btn.onclick=()=>{
+const parent=btn.closest(".menu,.drawer-menu");
+const sub=btn.nextElementSibling;
+parent.querySelectorAll(".submenu").forEach(s=>{if(s!==sub)s.classList.remove("open")});
+parent.querySelectorAll(".menu-group").forEach(b=>{if(b!==btn)b.classList.remove("open")});
+sub.classList.toggle("open");
+btn.classList.toggle("open",sub.classList.contains("open"));
+};
+});
+}
 initMenu();
-function openMobileMenu(){$('drawer').classList.add('active');$('overlay').classList.add('active');document.body.style.overflow='hidden'}
-function closeMobileMenu(){$('drawer').classList.remove('active');$('overlay').classList.remove('active');document.body.style.overflow=''}
-function logout(){localStorage.removeItem('gdnl_qdms_session');localStorage.removeItem('gdnl_ems_session');location.href='index.html'}
-function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2500)}
-let session=JSON.parse(localStorage.getItem('gdnl_qdms_session')||localStorage.getItem('gdnl_ems_session')||'null')||{name:'Kerem Güdenli'};$('userName').textContent=session.name||session.username||'Kerem Güdenli';
-const phaseData=[['1. Faz 1 - Planlama','Kapsam, müşteri şartları ve proje planı.',20],['2. Faz 2 - Ürün Tasarımı','Tasarım kayıtları, DFMEA ve teknik doğrulama.',40],['3. Faz 3 - Proses Tasarımı','PFMEA, proses akışı ve kontrol planı girdileri.',60],['4. Faz 4 - Ürün/Proses Doğrulama','MSA, SPC, numune ve test doğrulaması.',80],['5. Faz 5 - Geri Bildirim ve Seri Üretim','Kapasite, geri bildirim ve sürekli iyileştirme.',100]];
-const apqpItems=[
-['0 - Proje Başlatma','Proje no, kapsam, müşteri, teknik resim ve hedef tarih.'],
-['1 - Müşteri Şartları','CSR, özel karakteristikler, kalite ve teslim şartları.'],
-['2 - Ürün Güvence Planı','Risk seviyesi, kontrol yaklaşımı ve proje onay kapısı.'],
-['3 - Teknik Resim & BOM','Resim revizyonu, ürün ağacı, malzeme ve özel karakteristik.'],
-['4 - DFMEA Girdisi','Tasarım riskleri ve önleyici faaliyet alanları.'],
-['5 - Proses Akış Şeması','Operasyon sırası, kontrol noktaları ve izlenebilirlik.'],
-['6 - PFMEA Girdisi','Proses hata türleri, nedenleri, kontroller ve aksiyonlar.'],
-['7 - Control Plan Girdisi','Ölçüm, frekans, reaksiyon planı ve kontrol metodu.'],
-['8 - Ölçüsel Plan','Kritik ölçüler, ölçüm metodu ve kabul kriterleri.'],
-['9 - MSA Planı','Ölçüm sistemi analizi planı ve sorumluları.'],
-['10 - SPC / CPK Planı','Proses yeterlilik hedefleri, kritik proses parametreleri.'],
-['11 - Numune Planı','İlk numune, zero seri ve müşteri sunum ön hazırlığı.'],
-['12 - Test & Doğrulama','Malzeme, performans, fonksiyon ve dayanım testleri.'],
-['13 - Ambalaj & Lojistik','Ambalaj onayı, etiketleme, sevkiyat ve FIFO şartları.'],
-['14 - Run@Rate Hazırlık','Kapasite doğrulama, çevrim süresi ve seri üretim hazırlığı.'],
-['15 - Faz Kapısı Onayı','Her faz sonunda tamamlanma kontrolü ve yönetim onayı.']
+
+function openMobileMenu(){$("drawer").classList.add("active");$("overlay").classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){$("drawer").classList.remove("active");$("overlay").classList.remove("active");document.body.style.overflow=""}
+function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");location.href="index.html"}
+function toast(t){$("toast").textContent=t;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2500)}
+function getLS(k){try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}}
+
+let session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_ems_session")||"null")||{name:"Kerem Güdenli"};
+$("userName").textContent=session.name||session.username||"Kerem Güdenli";
+
+const modules=[
+["📚 Doküman Yönetimi","documents.html","Master liste, kontrollü doküman, görüntüleme ve yaşam döngüsü."],
+["➕ Yeni Doküman","new-document.html","Yeni doküman açma, kodlama, yayın ve iş akışı başlangıcı."],
+["🔄 Revizyon Yönetimi","revision.html","Revizyon, etki analizi, onay ve yayın akışı."],
+["✅ Onay Yönetimi","approval.html","Elektronik onay, bekleyen imza ve karar akışı."],
+["📤 Dağıtım Yönetimi","distribution.html","Doküman dağıtım, okundu takibi ve bildirim sistemi."],
+["🛠️ 8D / CAPA","capa.html","Problem çözme, düzeltici faaliyet ve etkinlik kontrolü."],
+["⚠️ Risk Yönetimi","risk-register.html","Risk register, aksiyon, skor ve izlenebilirlik."],
+["🎓 Eğitim Yönetimi","training-management.html","Eğitim planı, yetkinlik, sınav ve kayıt yönetimi."],
+["🏭 Tedarikçi Yönetimi","supplier-management.html","Tedarikçi kartı, performans, SCAR ve uygunluk takibi."],
+["📊 KPI & Raporlar","kpi-reports.html","Performans göstergeleri ve yönetim raporları."],
+["🚗 APQP","apqp.html","IATF 16949 yeni ürün devreye alma akışı."],
+["📦 PPAP","ppap.html","Parça onay süreci ve müşteri sunum dosyası."]
 ];
-function getLS(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
-function setLS(k,v){localStorage.setItem(k,JSON.stringify(v));renderProjects();stats()}
-function getProjects(){return getLS('gdnl_apqp_projects')}
-function getTeam(){return getLS('gdnl_apqp_team')}
-function setTeam(v){localStorage.setItem('gdnl_apqp_team',JSON.stringify(v));renderTeam();stats()}
-function nextNo(){let y=new Date().getFullYear();let n=String(getProjects().length+1).padStart(4,'0');$('apqpNo').value='APQP-'+y+'-'+n}
-function renderPhases(){$('phase').innerHTML=phaseData.map(x=>`<option>${x[0]}</option>`).join('');$('phaseGrid').innerHTML=phaseData.map(x=>`<div class="phase"><b>${x[0]}</b><small>${x[1]}</small><h2 style="margin-top:18px;color:#1f7d3d;font-size:34px">${x[2]}%</h2><div class="progress"><div class="bar" style="width:${x[2]}%"></div></div></div>`).join('')}
-function renderSet(){$('apqpSet').innerHTML=apqpItems.map((x,i)=>`<div class="req"><div><b>${x[0]}</b><small>${x[1]}</small></div><span class="pill">${i<4?'Z':'APQP'}</span></div>`).join('')}
-function normalizeUser(u,i){return {id:u.id||u.userId||u.username||u.email||i,name:u.name||u.fullName||u.displayName||u.username||u.person||'İsimsiz Kullanıcı',position:u.position||u.role||u.title||u.jobTitle||u.departmentRole||'Pozisyon yok',email:u.email||u.mail||u.userEmail||''}}
-function loadUsers(){let keys=['gdnl_users','gdnl_eqms_users','gdnl_qdms_users','users','gdnl_user_list'];let all=[];keys.forEach(k=>{let v=getLS(k);if(Array.isArray(v))all=all.concat(v)});if(!all.length)all=[{name:'Kalite Müdürü',position:'APQP Onay',email:''},{name:'Proje Lideri',position:'APQP Lideri',email:''},{name:'Üretim Sorumlusu',position:'Üretim',email:''},{name:'Kalite Mühendisi',position:'Kalite',email:''}];let seen=new Set();return all.map(normalizeUser).filter(u=>{let key=(u.email||u.name+'-'+u.position).toLowerCase();if(seen.has(key))return false;seen.add(key);return true})}
-function renderUsers(){let users=loadUsers();$('userSelect').innerHTML=users.map((u,i)=>`<option value="${i}">${u.name} • ${u.position}${u.email?' • '+u.email:''}</option>`).join('');window._gdnlUsers=users}
-function renderTeam(){let t=getTeam();$('teamList').innerHTML=t.length?t.map((u,i)=>`<div class="team-card"><div><b>${u.name}</b><small>${u.position}${u.email?' • '+u.email:''}</small></div><button class="btn btn-red" onclick="removeTeam(${i})">Sil</button></div>`).join(''):'<div class="empty">Henüz ekip üyesi seçilmedi.</div>';let mails=t.map(x=>x.email).filter(Boolean);$('mailGroup').textContent=mails.length?mails.join('; '):'Mail grubu henüz oluşmadı veya seçilen üyelerde mail adresi yok.'}
-window.removeTeam=i=>{let t=getTeam();t.splice(i,1);setTeam(t)}
-$('addSelectedUser').onclick=()=>{let u=window._gdnlUsers[+$('userSelect').value];if(!u)return;let t=getTeam();if(t.some(x=>(x.email&&x.email===u.email)||x.name===u.name&&x.position===u.position)){toast('Bu ekip üyesi zaten ekli.');return}t.push(u);setTeam(t);toast('Ekip üyesi eklendi.')}
-$('addManualUser').onclick=()=>{let u={name:$('manualName').value.trim(),position:$('manualPosition').value.trim(),email:$('manualEmail').value.trim()};if(!u.name||!u.position){toast('İsim ve pozisyon zorunlu.');return}let t=getTeam();t.push(u);setTeam(t);['manualName','manualPosition','manualEmail'].forEach(id=>$(id).value='');toast('Manuel ekip üyesi eklendi.')}
-$('clearTeam').onclick=()=>{if(confirm('APQP ekibi temizlensin mi?'))setTeam([])}
-$('copyMail').onclick=async()=>{let mails=getTeam().map(x=>x.email).filter(Boolean).join('; ');if(!mails){toast('Kopyalanacak mail yok.');return}await navigator.clipboard.writeText(mails);toast('Mail grubu kopyalandı.')}
-$('apqpForm').onsubmit=e=>{e.preventDefault();let p={id:Date.now(),apqpNo:$('apqpNo').value,customer:$('customer').value,projectName:$('projectName').value,partName:$('partName').value,partNo:$('partNo').value,oemPartNo:$('oemPartNo').value,drawingNo:$('drawingNo').value,drawingRev:$('drawingRev').value,phase:$('phase').value,status:$('status').value,priority:$('priority').value,leader:$('leader').value,preparedBy:$('preparedBy').value,startDate:$('startDate').value,targetDate:$('targetDate').value,approvalDate:$('approvalDate').value,scope:$('scope').value,team:getTeam(),mailGroup:getTeam().map(x=>x.email).filter(Boolean),createdAt:new Date().toISOString()};let arr=getProjects();arr.unshift(p);setLS('gdnl_apqp_projects',arr);nextNo();toast('APQP projesi kaydedildi.')}
-$('saveDraft').onclick=()=>{let ids=['customer','projectName','partName','partNo','oemPartNo','drawingNo','drawingRev','phase','status','priority','leader','preparedBy','startDate','targetDate','approvalDate','scope'];let d={};ids.forEach(id=>d[id]=$(id).value);localStorage.setItem('gdnl_apqp_draft',JSON.stringify(d));toast('Taslak kaydedildi.')}
-$('clearForm').onclick=()=>{document.querySelectorAll('#apqpForm input:not(#apqpNo),#apqpForm textarea').forEach(x=>x.value='');$('status').value='Aktif';$('priority').value='Normal';nextNo();toast('Form temizlendi.')}
-function renderProjects(){let arr=getProjects();$('projectList').innerHTML=arr.length?arr.map(p=>`<div class="project-card"><div><b>${p.apqpNo} • ${p.customer||'Müşteri yok'} • ${p.partName||'Parça yok'}</b><small>${p.projectName||''} • ${p.phase||''} • ${p.status||''} • Ekip: ${(p.team||[]).length} • Mail: ${(p.mailGroup||[]).length}</small></div><div class="actions" style="margin:0"><button class="btn btn-soft" onclick="loadProject(${p.id})">Aç</button><button class="btn btn-red" onclick="deleteProject(${p.id})">Sil</button></div></div>`).join(''):'<div class="empty">APQP kaydı bulunamadı.</div>'}
-window.deleteProject=id=>{setLS('gdnl_apqp_projects',getProjects().filter(p=>p.id!==id));nextNo()}
-window.loadProject=id=>{let p=getProjects().find(x=>x.id===id);if(!p)return;['customer','projectName','partName','partNo','oemPartNo','drawingNo','drawingRev','phase','status','priority','leader','preparedBy','startDate','targetDate','approvalDate','scope'].forEach(k=>{if($(k))$(k).value=p[k]||''});setTeam(p.team||[]);scrollTo({top:0,behavior:'smooth'});toast('Proje karta yüklendi.')}
-function stats(){let arr=getProjects(),team=getTeam();$('stTotal').textContent=arr.length;$('stActive').textContent=arr.filter(p=>p.status==='Aktif').length;$('stTeam').textContent=team.length;let avg=arr.length?Math.round(arr.reduce((s,p)=>{let idx=phaseData.findIndex(x=>x[0]===p.phase);return s+(idx>=0?phaseData[idx][2]:20)},0)/arr.length):0;$('stProgress').textContent=avg+'%';$('stLate').textContent=arr.filter(p=>p.targetDate&&p.targetDate<today&&p.status!=='Tamamlandı').length}
-$('clearAll').onclick=()=>{if(confirm('Tüm APQP kayıtları silinsin mi?')){setLS('gdnl_apqp_projects',[]);nextNo()}}
-$('exportJson').onclick=()=>{let blob=new Blob([JSON.stringify({projects:getProjects(),team:getTeam()},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gdnl-apqp-yedek.json';a.click()}
-$('searchBtn').onclick=()=>{let q=$('globalSearch').value.toLowerCase();document.querySelectorAll('.project-card,.team-card,.req,.phase').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'grid':'none')}
-$('globalSearch').oninput=$('searchBtn').onclick;
-function restoreDraft(){let d=JSON.parse(localStorage.getItem('gdnl_apqp_draft')||'null');if(!d)return;Object.keys(d).forEach(k=>{if($(k))$(k).value=d[k]})}
-renderUsers();renderTeam();renderPhases();renderSet();renderProjects();nextNo();restoreDraft();stats();
+
+function renderModules(filter=""){
+const q=String(filter||"").toLowerCase();
+const list=modules.filter(m=>(m[0]+" "+m[1]+" "+m[2]).toLowerCase().includes(q));
+$("moduleList").innerHTML=list.length?list.map(m=>`<a class="module" href="${m[1]}"><b>${m[0]}</b><small>${m[2]}</small></a>`).join(""):`<div class="empty">Arama sonucuna uygun modül bulunamadı.</div>`;
+}
+
+function stats(){
+$("stModules").textContent=modules.length;
+$("stActions").textContent=getLS("gdnl_action_center").length+getLS("gdnl_action_center_manual").length;
+$("stApqp").textContent=getLS("gdnl_apqp_projects").length;
+$("qDocs").textContent=getLS("gdnl_documents").length+getLS("gdnl_new_documents").length;
+$("qCapa").textContent=getLS("gdnl_capa").length;
+$("qRisk").textContent=getLS("gdnl_risk_register").length+getLS("gdnl_risks").length;
+$("qUsers").textContent=getLS("gdnl_users").length+getLS("gdnl_eqms_users").length+getLS("users").length;
+}
+$("searchBtn").onclick=()=>renderModules($("globalSearch").value);
+$("globalSearch").oninput=()=>renderModules($("globalSearch").value);
+
+renderModules();
+stats();
 </script>
 </body>
 </html>
