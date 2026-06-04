@@ -73,6 +73,15 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 .mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
 .mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
+
+.user-picker-field{position:relative}
+.user-suggestions{display:none;position:absolute;left:0;right:0;top:74px;z-index:120;background:rgba(255,255,255,.98);border:1px solid #dfe9f5;border-radius:18px;padding:10px;box-shadow:0 18px 45px rgba(7,27,52,.16);max-height:260px;overflow:auto}
+.user-suggestions.active{display:flex;flex-direction:column;gap:8px}
+.user-suggestion{width:100%;border:1px solid #dfe9f5;border-radius:14px;background:linear-gradient(135deg,#fff,#f8fbff);padding:11px 12px;text-align:left;cursor:pointer;color:#071b34;font-weight:900;transition:.2s}
+.user-suggestion:hover{border-color:#bfe7ca;background:linear-gradient(135deg,#eefaf2,#fff);box-shadow:0 10px 22px rgba(53,168,82,.10)}
+.user-suggestion small{display:block;color:#617086;font-size:11px;font-weight:800;margin-top:4px;line-height:1.35}
+.selected-user-pill{margin-top:8px;display:inline-flex;align-items:center;gap:8px;min-height:30px;border-radius:999px;padding:6px 10px;background:#e9eef5;color:#405166;border:1px solid #dfe9f5;font-size:11px;font-weight:900}
+.selected-user-pill.active{background:#e8f7ee;color:#1f7d3d;border-color:#bfe7ca}
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.actions .btn{width:100%}}
 </style>
@@ -285,8 +294,8 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="field"><label>Kaynak Modül</label><select id="manualModule"><option>Manual</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>YGG</option><option>MOC</option><option>Customer</option><option>Supplier</option><option>Training</option><option>Calibration</option></select></div>
 <div class="field"><label>Kaynak No</label><input id="manualSourceNo" placeholder="CAPA-2026-0001 / RSK-..."></div>
 <div class="field"><label>Öncelik</label><select id="manualPriority"><option>Düşük</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div>
-<div class="field"><label>Sorumlu</label><select id="manualOwner"></select></div>
-<div class="field"><label>Departman</label><select id="manualDepartment"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Laboratuvar</option><option>Yönetim</option></select></div>
+<div class="field user-picker-field"><label>Sorumlu</label><input id="manualOwnerSearch" placeholder="İsim yaz, örn: Kerem" autocomplete="off" oninput="renderOwnerSuggestions()" onfocus="renderOwnerSuggestions()"><input id="manualOwner" type="hidden"><input id="manualOwnerId" type="hidden"><div class="user-suggestions" id="manualOwnerSuggestions"></div><div class="selected-user-pill" id="manualOwnerPill">Sorumlu seçilmedi</div></div>
+<div class="field"><label>Departman</label><input id="manualDepartment" readonly placeholder="Sorumlu seçilince otomatik gelir"></div>
 <div class="field"><label>Planlanan Tarih</label><input id="manualDueDate" type="date"></div>
 <div class="field"><label>Durum</label><select id="manualStatus"><option>Açık</option><option>Devam Ediyor</option><option>Kanıt Bekliyor</option><option>Onay Bekliyor</option><option>Kapalı</option><option>Gecikti</option><option>İptal</option></select></div>
 <div class="field full"><label>Aksiyon Başlığı</label><input id="manualTitle"></div>
@@ -362,13 +371,20 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator"};
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_ems_session")||"null")||{name:"Kerem Güdenli",role:"Super Administrator"};
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-userName.textContent=session.name||"User";userRole.textContent=session.role||"User";userAvatar.textContent=(session.name||"U").charAt(0).toUpperCase();
+if(typeof userName!=="undefined")userName.textContent=session.name||session.fullname||"User";
+if(typeof userRole!=="undefined")userRole.textContent=session.role||"User";
+if(typeof userAvatar!=="undefined")userAvatar.textContent=(session.name||session.fullname||"U").charAt(0).toUpperCase();
 
 let selectedActionId=null,uploadedEvidence=null;
+let cloudManualActions=[];
+let cloudUsers=[];
+let cloudFiles=[];
+let isCloudReady=false;
 
-function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
+function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");window.location.href="index.html"}
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
 function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function todayISO(){return new Date().toISOString().split("T")[0]}
@@ -377,25 +393,195 @@ function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(to
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function statusClass(s){if(["Kapalı","Tamamlandı","Onaylandı"].includes(s))return"green";if(["Devam Ediyor","Kanıt Bekliyor","Onay Bekliyor","Normal","Yüksek"].includes(s))return"orange";if(["Gecikti","Kritik","Reddedildi"].includes(s))return"red";if(["İptal","Düşük"].includes(s))return"gray";return"blue"}
+function uid(prefix="ID"){return prefix+"-"+Date.now()+"-"+Math.random().toString(16).slice(2,8)}
 
-function getManual(){return getLS("gdnl_action_center_manual")}
-function setManual(v){setLS("gdnl_action_center_manual",v)}
+async function apiFetch(path,options={}){
+  const res=await fetch(API_BASE+path,options);
+  const ct=res.headers.get("content-type")||"";
+  const data=ct.includes("application/json")?await res.json():await res.text();
+  if(!res.ok)throw new Error(typeof data==="string"?data:(data.message||data.detail||"API hatası"));
+  return data;
+}
+async function postJSON(path,payload){
+  return apiFetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+}
+async function putJSON(path,payload){
+  return apiFetch(path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+}
+async function writeAudit(action,module,relatedId,detail,oldValue="",newValue=""){
+  const payload={id:uid("LOG"),user_id:session.id||session.user_id||"",user_name:session.name||session.fullname||session.username||"",action,module,related_id:relatedId||"",old_value:oldValue,new_value:newValue,detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),user_agent:navigator.userAgent,created_at:new Date().toISOString()};
+  try{await postJSON("/audit-logs",payload)}catch(e){const l=getLS("gdnl_pending_audit_logs");l.unshift(payload);setLS("gdnl_pending_audit_logs",l)}
+}
+async function createCloudNotification(a,msg,userNameValue){
+  const payload={id:uid("NTF"),user_id:a.owner_id||"",user_name:userNameValue||a.owner||"",type:"ACTION",title:"Aksiyon Bildirimi",message:msg,module:"Action Center",related_id:a.id,status:"UNREAD",due_date:a.dueDate||a.due_date||"",created_at:new Date().toISOString()};
+  try{await postJSON("/notifications",payload)}catch(e){const n=getNotifications();n.unshift({notificationId:payload.id,type:"Mail + SMS",module:"Action Center",documentCode:a.sourceNo||a.related_id||"",documentName:a.title,mailGroups:(a.owner||"")+"; "+(a.department||"")+"; Kalite",smsGroups:a.owner||"",distributionPoints:(a.module||"Action Center")+" / "+(a.priority||"Normal"),message:msg,status:"Kuyrukta",createdAt:payload.created_at});setNotifications(n)}
+}
+async function createAssignmentForAction(a){
+  const payload={id:uid("ASN"),source_type:"ACTION",source_id:a.id,user_id:a.owner_id||"",user_name:a.owner||"",role:"Sorumlu",status:"Assigned",due_date:a.dueDate||"",created_at:new Date().toISOString()};
+  try{await postJSON("/assignments",payload)}catch(e){const q=getLS("gdnl_pending_assignments");q.unshift(payload);setLS("gdnl_pending_assignments",q)}
+}
+
+function getManual(){return cloudManualActions.length?cloudManualActions:getLS("gdnl_action_center_manual")}
+function setManual(v){cloudManualActions=v;setLS("gdnl_action_center_manual",v)}
 function getNotifications(){return getLS("gdnl_notifications")}
 function setNotifications(v){setLS("gdnl_notifications",v)}
 
-function generateManualNo(){manualActionNo.value="ACT-"+new Date().getFullYear()+"-"+String(getManual().length+1).padStart(4,"0")}
-function initUsers(){
-const users=getLS("gdnl_users").filter(u=>u.status!=="Pasif");
-manualOwner.innerHTML='<option value="">Seçiniz</option>';
-kanbanOwnerFilter.innerHTML='<option value="">Tüm Sorumlular</option>';
-users.forEach(u=>{manualOwner.innerHTML+=`<option value="${u.fullName}">${u.fullName} / ${u.department||"-"}</option>`;kanbanOwnerFilter.innerHTML+=`<option value="${u.fullName}">${u.fullName}</option>`});
-if(!users.length){manualOwner.innerHTML+='<option>Kerem Güdenli</option>';kanbanOwnerFilter.innerHTML+='<option>Kerem Güdenli</option>'}
+function mapDbAction(row){
+  const detail=parseActionDetail(row.description||"");
+  return {
+    id:row.id,
+    module:detail.module||row.module||"Manual",
+    sourceNo:detail.sourceNo||row.related_id||"-",
+    title:row.title||"Aksiyon",
+    description:detail.description||row.description||"",
+    owner:detail.owner||row.owner_name||row.created_by||"-",
+    owner_id:detail.owner_id||row.owner_id||"",
+    department:detail.department||"-",
+    dueDate:row.due_date||detail.dueDate||"",
+    actualDate:detail.actualDate||row.closed_at||"",
+    status:normalizeStatus(row.status),
+    priority:normalizePriority(row.priority),
+    completion:Number(detail.completion|| (row.status==="Kapalı"||row.status==="Closed"?100:0)),
+    evidence:detail.evidence||[],
+    createdAt:row.created_at||new Date().toISOString(),
+    createdBy:row.created_by||"",
+    cloud:true
+  }
+}
+function parseActionDetail(v){
+  if(!v)return{};
+  try{const o=JSON.parse(v);return o&&typeof o==="object"?o:{description:v}}catch(e){return{description:v}}
+}
+function serializeActionDetail(a){
+  return JSON.stringify({sourceNo:a.sourceNo||"",description:a.description||"",owner:a.owner||"",owner_id:a.owner_id||"",department:a.department||"",completion:a.completion||0,evidence:a.evidence||[],actualDate:a.actualDate||"",module:a.module||"Manual"});
+}
+async function loadCloudActions(){
+  try{
+    const data=await apiFetch("/actions?module=Action%20Center");
+    const rows=Array.isArray(data)?data:(data.actions||data.results||[]);
+    cloudManualActions=(rows||[]).map(mapDbAction);
+    isCloudReady=true;
+  }catch(e){
+    cloudManualActions=getLS("gdnl_action_center_manual");
+    isCloudReady=false;
+  }
+}
+async function loadCloudFiles(){
+  try{const data=await apiFetch("/files?module=ACTION_CENTER");cloudFiles=data.files||[]}catch(e){cloudFiles=[]}
+}
+async function saveActionToCloud(a){
+  const payload={id:a.id,module:"Action Center",related_id:a.sourceNo||a.id,title:a.title,description:serializeActionDetail(a),priority:a.priority,status:a.status,due_date:a.dueDate,created_by:session.name||session.fullname||session.username||"",created_at:a.createdAt||new Date().toISOString()};
+  try{
+    await postJSON("/actions",payload);
+    await writeAudit("CREATE_ACTION","Action Center",a.id,{title:a.title,owner:a.owner,dueDate:a.dueDate});
+    await createAssignmentForAction(a);
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+async function updateActionToCloud(a,actionName="UPDATE_ACTION"){
+  const payload={id:a.id,module:"Action Center",related_id:a.sourceNo||a.id,title:a.title,description:serializeActionDetail(a),priority:a.priority,status:a.status,due_date:a.dueDate,created_by:a.createdBy||session.name||""};
+  try{await putJSON(`/actions/${encodeURIComponent(a.id)}`,payload);await writeAudit(actionName,"Action Center",a.id,{status:a.status,title:a.title});return true}catch(e){return false}
+}
+async function uploadFileToR2(file,relatedId,meta={}){
+  const fd=new FormData();
+  fd.append("file",file);
+  fd.append("module",meta.module||"ACTION_CENTER");
+  fd.append("related_id",relatedId||"NO-REF");
+  fd.append("uploaded_by",session.name||session.fullname||session.username||"UNKNOWN");
+  const data=await apiFetch("/upload",{method:"POST",body:fd});
+  await writeAudit("UPLOAD_FILE","Action Center",relatedId,{fileName:file.name,r2Key:data.file?.r2_key});
+  return data.file||data;
 }
 
-function normalizeStatus(s){if(!s)return"Açık";if(["Tamamlandı","Kapalı"].includes(s))return"Kapalı";if(["In Progress","Devam Ediyor"].includes(s))return"Devam Ediyor";if(["Delayed","Gecikti"].includes(s))return"Gecikti";return s}
+function generateManualNo(){manualActionNo.value="ACT-"+new Date().getFullYear()+"-"+String(getManual().length+1).padStart(4,"0")}
+async function initUsers(){
+  try{
+    const data=await apiFetch("/users");
+    cloudUsers=(Array.isArray(data)?data:data.users||[]).filter(u=>String(u.status||"active").toLowerCase()!=="passive"&&u.status!=="Pasif");
+  }catch(e){
+    cloudUsers=getLS("gdnl_users").filter(u=>u.status!=="Pasif");
+  }
+  kanbanOwnerFilter.innerHTML='<option value="">Tüm Sorumlular</option>';
+  cloudUsers.forEach(u=>{
+    const full=getUserFullName(u);
+    if(full)kanbanOwnerFilter.innerHTML+=`<option value="${escapeAttr(full)}">${escapeHTML(full)}</option>`;
+  });
+  if(!cloudUsers.length){kanbanOwnerFilter.innerHTML+='<option>Kerem Güdenli</option>'}
+  clearOwnerSelection(false);
+}
+
+function getUserFullName(u){return (u.fullname||u.fullName||u.name||u.full_name||u.username||"").trim()}
+function getUserDepartment(u){return (u.department||u.department_name||u.dept||"").trim()}
+function getUserEmail(u){return (u.email||u.mail||"").trim()}
+function getUserRole(u){return (u.role||u.role_name||"").trim()}
+function escapeHTML(v){return String(v||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function escapeAttr(v){return escapeHTML(v)}
+function normalizeTR(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+
+function renderOwnerSuggestions(){
+  const box=document.getElementById("manualOwnerSuggestions");
+  const input=document.getElementById("manualOwnerSearch");
+  if(!box||!input)return;
+  const q=normalizeTR(input.value.trim());
+  if(q.length<1){box.classList.remove("active");box.innerHTML="";return}
+  const matches=cloudUsers.filter(u=>{
+    const hay=normalizeTR(`${getUserFullName(u)} ${getUserDepartment(u)} ${getUserRole(u)} ${getUserEmail(u)} ${u.username||""}`);
+    return hay.includes(q);
+  }).slice(0,12);
+  if(!matches.length){
+    box.innerHTML='<div class="empty" style="padding:12px;border-radius:14px">Kullanıcı bulunamadı</div>';
+    box.classList.add("active");
+    return;
+  }
+  box.innerHTML=matches.map((u,i)=>{
+    const full=getUserFullName(u)||"Kullanıcı";
+    const dep=getUserDepartment(u)||"Departman yok";
+    const role=getUserRole(u)||"Rol yok";
+    const email=getUserEmail(u)||"Mail yok";
+    return `<button type="button" class="user-suggestion" onclick="selectOwnerUser(${i})"><b>${escapeHTML(full)}</b><small>${escapeHTML(dep)} / ${escapeHTML(role)} / ${escapeHTML(email)}</small></button>`;
+  }).join("");
+  window.__ownerMatches=matches;
+  box.classList.add("active");
+}
+
+function selectOwnerUser(index){
+  const u=(window.__ownerMatches||[])[index];
+  if(!u)return;
+  const full=getUserFullName(u)||"Kullanıcı";
+  const dep=getUserDepartment(u)||"";
+  manualOwner.value=full;
+  manualOwnerId.value=u.id||u.user_id||"";
+  manualOwnerSearch.value=full;
+  manualDepartment.value=dep;
+  const pill=document.getElementById("manualOwnerPill");
+  if(pill){pill.classList.add("active");pill.innerHTML=`${escapeHTML(full)}${dep?" · "+escapeHTML(dep):""}`;}
+  const box=document.getElementById("manualOwnerSuggestions");
+  if(box){box.classList.remove("active");box.innerHTML="";}
+}
+
+function clearOwnerSelection(clearSearch=true){
+  if(typeof manualOwner!=="undefined")manualOwner.value="";
+  if(typeof manualOwnerId!=="undefined")manualOwnerId.value="";
+  if(typeof manualDepartment!=="undefined")manualDepartment.value="";
+  if(clearSearch&&typeof manualOwnerSearch!=="undefined")manualOwnerSearch.value="";
+  const pill=document.getElementById("manualOwnerPill");
+  if(pill){pill.classList.remove("active");pill.textContent="Sorumlu seçilmedi";}
+  const box=document.getElementById("manualOwnerSuggestions");
+  if(box){box.classList.remove("active");box.innerHTML="";}
+}
+
+document.addEventListener("click",function(e){
+  const field=document.querySelector(".user-picker-field");
+  const box=document.getElementById("manualOwnerSuggestions");
+  if(field&&box&&!field.contains(e.target))box.classList.remove("active");
+});
+
+function normalizeStatus(s){if(!s)return"Açık";if(["Tamamlandı","Kapalı","Closed"].includes(s))return"Kapalı";if(["Open"].includes(s))return"Açık";if(["In Progress","Devam Ediyor"].includes(s))return"Devam Ediyor";if(["Delayed","Gecikti"].includes(s))return"Gecikti";return s}
 function normalizePriority(p){return p||"Normal"}
-function makeAction({id,module,sourceNo,title,description,owner,department,dueDate,actualDate,status,priority,completion,evidence,createdAt,originKey,originIndex,originActionIndex}){
-return{id,module,sourceNo:sourceNo||"-",title:title||"Aksiyon",description:description||"",owner:owner||"-",department:department||"-",dueDate:dueDate||"",actualDate:actualDate||"",status:normalizeStatus(status),priority:normalizePriority(priority),completion:Number(completion||0),evidence:evidence||[],createdAt:createdAt||new Date().toISOString(),originKey,originIndex,originActionIndex};
+function makeAction({id,module,sourceNo,title,description,owner,owner_id,department,dueDate,actualDate,status,priority,completion,evidence,createdAt,originKey,originIndex,originActionIndex}){
+return{id,module,sourceNo:sourceNo||"-",title:title||"Aksiyon",description:description||"",owner:owner||"-",owner_id:owner_id||"",department:department||"-",dueDate:dueDate||"",actualDate:actualDate||"",status:normalizeStatus(status),priority:normalizePriority(priority),completion:Number(completion||0),evidence:evidence||[],createdAt:createdAt||new Date().toISOString(),originKey,originIndex,originActionIndex};
 }
 
 function collectActions(){
@@ -415,14 +601,16 @@ list.forEach(a=>{if(!["Kapalı","İptal"].includes(a.status)&&a.dueDate&&daysLef
 return list;
 }
 
-function saveManualAction(notify=false){
+async function saveManualAction(notify=false){
 if(!manualTitle.value.trim())return showToast("Aksiyon başlığı zorunlu");
 if(!manualOwner.value)return showToast("Sorumlu zorunlu");
-const items=getManual();
-const a={id:"MAN-"+Date.now(),module:manualModule.value,sourceNo:manualSourceNo.value.trim()||manualActionNo.value,title:manualTitle.value.trim(),description:manualDescription.value.trim(),owner:manualOwner.value,department:manualDepartment.value,dueDate:manualDueDate.value,status:manualStatus.value,priority:manualPriority.value,completion:manualStatus.value==="Kapalı"?100:0,evidence:[],createdAt:new Date().toISOString(),createdBy:session.name};
-items.unshift(a);setManual(items);if(notify)createNotification(a,"Aksiyon atandı: "+a.title);clearManualAction();renderAll();showToast("Aksiyon kaydedildi");
+const a={id:"MAN-"+Date.now(),module:manualModule.value,sourceNo:manualSourceNo.value.trim()||manualActionNo.value,title:manualTitle.value.trim(),description:manualDescription.value.trim(),owner:manualOwner.value,owner_id:manualOwnerId.value||"",department:manualDepartment.value,dueDate:manualDueDate.value,status:manualStatus.value,priority:manualPriority.value,completion:manualStatus.value==="Kapalı"?100:0,evidence:[],createdAt:new Date().toISOString(),createdBy:session.name};
+const items=getManual();items.unshift(a);setManual(items);
+const cloudOk=await saveActionToCloud(a);
+if(notify){await createCloudNotification(a,"Aksiyon atandı: "+a.title,a.owner)}
+clearManualAction();renderAll();showToast(cloudOk?"Aksiyon D1'e kaydedildi":"Aksiyon yerel kaydedildi; Worker actions endpoint bekleniyor");
 }
-function clearManualAction(){generateManualNo();manualModule.value="Manual";manualSourceNo.value="";manualPriority.value="Normal";manualOwner.value="";manualDepartment.value="Kalite";manualDueDate.value=addDays(todayISO(),7);manualStatus.value="Açık";manualTitle.value="";manualDescription.value=""}
+function clearManualAction(){generateManualNo();manualModule.value="Manual";manualSourceNo.value="";manualPriority.value="Normal";clearOwnerSelection();manualDueDate.value=addDays(todayISO(),7);manualStatus.value="Açık";manualTitle.value="";manualDescription.value=""}
 
 function filteredActions(){
 const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,pf=priorityFilter.value,src=sourceFilter.value,km=kanbanModuleFilter.value,ko=kanbanOwnerFilter.value;
@@ -454,21 +642,25 @@ function renderEvidencePreview(items){
 const ev=[];items.forEach(a=>(a.evidence||[]).forEach(e=>ev.push({...e,actionTitle:a.title,actionId:a.id})));
 if(!ev.length){evidencePreview.innerHTML='<div class="empty" style="margin-top:14px">Kanıt yok.</div>';return}
 let h='<table style="margin-top:14px"><thead><tr><th>Aksiyon</th><th>Tip</th><th>Kanıt</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';
-ev.slice(0,30).forEach(e=>h+=`<tr><td>${e.actionTitle}</td><td>${e.type}</td><td>${e.name}<br><small>${e.file.fileName}</small></td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td><td><button class="small-btn down" onclick="downloadEvidence('${e.actionId}','${e.id}')">İndir</button></td></tr>`);
+ev.slice(0,30).forEach(e=>h+=`<tr><td>${e.actionTitle}</td><td>${e.type}</td><td>${e.name}<br><small>${e.file.fileName}</small></td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td><td><button class="small-btn down" onclick="downloadEvidence('${e.actionId}','${e.id}')">Aç / İndir</button></td></tr>`);
 evidencePreview.innerHTML=h+"</tbody></table>";
 }
 
 evidenceFile.addEventListener("change",e=>handleEvidenceFile(e.target.files[0]));
-function handleEvidenceFile(file){if(!file)return;if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");evidenceFile.value="";return}const r=new FileReader();r.onload=ev=>{uploadedEvidence={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Kanıt hazırlandı")};r.readAsDataURL(file)}
-function addEvidence(){
+function handleEvidenceFile(file){if(!file)return;if(file.size>25*1024*1024){showToast("Dosya maksimum 25 MB olmalı");evidenceFile.value="";return}uploadedEvidence={rawFile:file,fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),uploadedAt:new Date().toISOString()};showToast("Kanıt dosyası seçildi")}
+async function addEvidence(){
 const id=evidenceActionSelect.value;if(!id)return showToast("Aksiyon seç");if(!evidenceName.value.trim())return showToast("Kanıt adı zorunlu");if(!uploadedEvidence)return showToast("Dosya seç");
-const ev={id:"EVD-"+Date.now(),type:evidenceType.value,name:evidenceName.value.trim(),status:evidenceStatus.value,description:evidenceDescription.value.trim(),file:uploadedEvidence,uploadedBy:session.name,createdAt:new Date().toISOString()};
-if(id.startsWith("MAN-")){const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].evidence=items[i].evidence||[];items[i].evidence.unshift(ev);items[i].status="Onay Bekliyor";setManual(items)}else{showToast("Bu kaynak aksiyonda kanıt merkezde görüntülenir; kaynak modül dosyasına yazma sadece manuelde aktif.");}
-clearEvidenceInputs();renderAll();showToast("Kanıt yüklendi");
+let r2File=null;
+try{r2File=await uploadFileToR2(uploadedEvidence.rawFile,id,{module:"ACTION_CENTER"})}catch(e){showToast("R2 yükleme başarısız: "+e.message);return}
+const ev={id:"EVD-"+Date.now(),type:evidenceType.value,name:evidenceName.value.trim(),status:evidenceStatus.value,description:evidenceDescription.value.trim(),file:{fileName:uploadedEvidence.fileName,fileType:uploadedEvidence.fileType,fileSize:uploadedEvidence.fileSize,fileSizeText:uploadedEvidence.fileSizeText,r2_key:r2File.r2_key,id:r2File.id,url:API_BASE+"/file/"+encodeURIComponent(r2File.r2_key)},uploadedBy:session.name,createdAt:new Date().toISOString()};
+if(id.startsWith("MAN-")){
+ const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].evidence=items[i].evidence||[];items[i].evidence.unshift(ev);items[i].status="Onay Bekliyor";items[i].completion=Math.max(items[i].completion||0,80);setManual(items);await updateActionToCloud(items[i],"UPLOAD_ACTION_EVIDENCE");await createCloudNotification(items[i],"Aksiyon kanıtı yüklendi: "+items[i].title,items[i].owner);
+}else{showToast("Kaynak aksiyonda kanıt R2'ye yüklendi; kaynak modül kapama kendi ekranından yapılır.");}
+clearEvidenceInputs();renderAll();showToast("Kanıt R2'ye yüklendi");
 }
-function approveSelectedEvidenceAction(){const id=evidenceActionSelect.value;if(!id)return showToast("Aksiyon seç");if(id.startsWith("MAN-")){const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].status="Onay Bekliyor";setManual(items);renderAll();showToast("Aksiyon onay bekliyor durumuna alındı")}else showToast("Kaynak modül aksiyonunu kendi modülünden kapatmalısın")}
+async function approveSelectedEvidenceAction(){const id=evidenceActionSelect.value;if(!id)return showToast("Aksiyon seç");if(id.startsWith("MAN-")){const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].status="Onay Bekliyor";setManual(items);await updateActionToCloud(items[i],"ACTION_WAITING_APPROVAL");renderAll();showToast("Aksiyon onay bekliyor durumuna alındı")}else showToast("Kaynak modül aksiyonunu kendi modülünden kapatmalısın")}
 function clearEvidenceInputs(){evidenceActionSelect.value="";evidenceType.value="Fotoğraf";evidenceName.value="";evidenceStatus.value="Yüklendi";evidenceDescription.value="";evidenceFile.value="";uploadedEvidence=null}
-function downloadEvidence(actionId,eid){const a=collectActions().find(x=>x.id===actionId);const e=a?.evidence?.find(x=>x.id===eid);if(!e)return;const link=document.createElement("a");link.href=e.file.fileData;link.download=e.file.fileName;link.click()}
+function downloadEvidence(actionId,eid){const a=collectActions().find(x=>x.id===actionId);const e=a?.evidence?.find(x=>x.id===eid);if(!e)return;if(e.file?.url){window.open(e.file.url,"_blank");return}if(e.file?.fileData){const link=document.createElement("a");link.href=e.file.fileData;link.download=e.file.fileName;link.click()}}
 
 function openAction(id){selectedActionId=id;const a=collectActions().find(x=>x.id===id);if(!a)return;drawerTitle.textContent=a.id+" / "+a.title;drawerStatus.textContent=a.status;drawerStatus.className="status "+statusClass(a.status);drawerContent.innerHTML=`<div class="info-box"><b>Modül:</b> ${a.module}
 <b>Kaynak No:</b> ${a.sourceNo}
@@ -482,45 +674,37 @@ function openAction(id){selectedActionId=id;const a=collectActions().find(x=>x.i
 <div class="info-box"><b>Açıklama:</b>
 ${a.description||"-"}</div>
 <div class="info-box"><b>Kanıtlar</b><br>${renderEvidenceTable(a)}</div>`;drawer.classList.add("active")}
-function renderEvidenceTable(a){if(!a.evidence||!a.evidence.length)return"Kanıt yok.";let h='<table><thead><tr><th>Tip</th><th>Ad</th><th>Durum</th></tr></thead><tbody>';a.evidence.forEach(e=>h+=`<tr><td>${e.type}</td><td>${e.name}</td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td></tr>`);return h+"</tbody></table>"}
-function moveCurrent(status){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden değiştirilmeli");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);items[i].status=status;items[i].completion=status==="Kapalı"?100:items[i].completion;setManual(items);renderAll();openAction(selectedActionId);showToast("Durum güncellendi")}
-function closeActionCurrent(){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden kapatılmalı");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);if(!(items[i].evidence||[]).length)return showToast("Kanıt yüklenmeden aksiyon kapatılamaz");items[i].status="Kapalı";items[i].completion=100;items[i].actualDate=todayISO();setManual(items);renderAll();openAction(selectedActionId);showToast("Aksiyon kapatıldı")}
+function renderEvidenceTable(a){if(!a.evidence||!a.evidence.length)return"Kanıt yok.";let h='<table><thead><tr><th>Tip</th><th>Ad</th><th>Durum</th><th>Dosya</th></tr></thead><tbody>';a.evidence.forEach(e=>h+=`<tr><td>${e.type}</td><td>${e.name}</td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td><td>${e.file?.url?`<button class="small-btn down" onclick="window.open('${e.file.url}','_blank')">Aç</button>`:"-"}</td></tr>`);return h+"</tbody></table>"}
+async function moveCurrent(status){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden değiştirilmeli");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);items[i].status=status;items[i].completion=status==="Kapalı"?100:items[i].completion;setManual(items);await updateActionToCloud(items[i],"UPDATE_ACTION_STATUS");renderAll();openAction(selectedActionId);showToast("Durum güncellendi")}
+async function closeActionCurrent(){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden kapatılmalı");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);if(!(items[i].evidence||[]).length)return showToast("Kanıt yüklenmeden aksiyon kapatılamaz");items[i].status="Kapalı";items[i].completion=100;items[i].actualDate=todayISO();setManual(items);await updateActionToCloud(items[i],"CLOSE_ACTION");renderAll();openAction(selectedActionId);showToast("Aksiyon kapatıldı")}
 function closeDrawer(){selectedActionId=null;drawer.classList.remove("active")}
-function notifyAction(id){const a=collectActions().find(x=>x.id===id);if(!a)return;createNotification(a,"Aksiyon bildirimi: "+a.title);showToast("Bildirim kuyruğu oluşturuldu")}
+async function notifyAction(id){const a=collectActions().find(x=>x.id===id);if(!a)return;await createCloudNotification(a,"Aksiyon bildirimi: "+a.title,a.owner);showToast("Bildirim kuyruğu oluşturuldu")}
 function notifyCurrent(){if(selectedActionId)notifyAction(selectedActionId)}
-function createNotification(a,msg){const n=getNotifications();n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Action Center",documentCode:a.sourceNo,documentName:a.title,mailGroups:a.owner+"; "+a.department+"; Kalite",smsGroups:a.owner,distributionPoints:a.module+" / "+a.priority,message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
+function createNotification(a,msg){return createCloudNotification(a,msg,a.owner)}
 function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
 
 function toggleMenuGroup(btn){
   const menu=btn.closest("nav");
   const submenu=btn.nextElementSibling;
   if(!menu||!submenu)return;
-  menu.querySelectorAll(".menu-group").forEach(b=>{
-    if(b!==btn){b.classList.remove("open","active-group");}
-  });
-  menu.querySelectorAll(".submenu").forEach(s=>{
-    if(s!==submenu)s.classList.remove("open");
-  });
-  btn.classList.toggle("open");
-  btn.classList.toggle("active-group");
-  submenu.classList.toggle("open");
+  menu.querySelectorAll(".menu-group").forEach(b=>{if(b!==btn){b.classList.remove("open","active-group");}});
+  menu.querySelectorAll(".submenu").forEach(s=>{if(s!==submenu)s.classList.remove("open");});
+  btn.classList.toggle("open");btn.classList.toggle("active-group");submenu.classList.toggle("open");
 }
-
-function openMobileMenu(){
-  const drawer=document.getElementById("mobileDrawer");
-  const overlay=document.getElementById("mobileOverlay");
-  if(drawer)drawer.classList.add("active");
-  if(overlay)overlay.classList.add("active");
-}
-function closeMobileMenu(){
-  const drawer=document.getElementById("mobileDrawer");
-  const overlay=document.getElementById("mobileOverlay");
-  if(drawer)drawer.classList.remove("active");
-  if(overlay)overlay.classList.remove("active");
-}
+function openMobileMenu(){const drawer=document.getElementById("mobileDrawer");const overlay=document.getElementById("mobileOverlay");if(drawer)drawer.classList.add("active");if(overlay)overlay.classList.add("active")}
+function closeMobileMenu(){const drawer=document.getElementById("mobileDrawer");const overlay=document.getElementById("mobileOverlay");if(drawer)drawer.classList.remove("active");if(overlay)overlay.classList.remove("active")}
 
 globalSearch.addEventListener("input",renderAll);
-initUsers();clearManualAction();clearEvidenceInputs();renderAll();setInterval(renderAll,5000);
+async function initPage(){
+  await initUsers();
+  await loadCloudActions();
+  await loadCloudFiles();
+  clearManualAction();clearEvidenceInputs();renderAll();
+  await writeAudit("OPEN_PAGE","Action Center","action-center.html","Action Center ekranı açıldı");
+  setInterval(async()=>{await loadCloudActions();renderAll()},15000);
+}
+initPage();
 </script>
+
 </body>
 </html>
