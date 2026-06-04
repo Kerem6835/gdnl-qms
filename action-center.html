@@ -336,7 +336,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Kanıt / Kapanış Dosyası Yükleme</h3><span class="status purple">EVIDENCE</span></div>
+<div class="panel-head"><h3>Kanıt / Kapanış Dosyası Yükleme</h3><span class="status purple">KANIT</span></div>
 <div class="box">
 <div class="subgrid">
 <div class="field"><label>Aksiyon Seç</label><select id="evidenceActionSelect"></select></div>
@@ -399,6 +399,11 @@ function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(to
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function statusClass(s){if(["Kapalı","Tamamlandı","Onaylandı"].includes(s))return"green";if(["Devam Ediyor","Kanıt Bekliyor","Onay Bekliyor","Normal","Yüksek"].includes(s))return"orange";if(["Gecikti","Kritik","Reddedildi","Revizyon İstendi"].includes(s))return"red";if(["İptal","Düşük"].includes(s))return"gray";return"blue"}
+function isDeletedAction(a){
+  const st=String(a?.status||"").trim().toLocaleLowerCase("tr-TR");
+  return st==="deleted"||st==="silindi"||st==="delete"||st==="removed"||st==="kaldırıldı"||st==="arsivlendi"||st==="arşivlendi";
+}
+
 function uid(prefix="ID"){return prefix+"-"+Date.now()+"-"+Math.random().toString(16).slice(2,8)}
 
 async function apiFetch(path,options={}){
@@ -607,8 +612,12 @@ getLS("gdnl_suppliers").forEach((s,si)=>(s.events||[]).filter(e=>!["Closed","Com
 getLS("gdnl_trainings").forEach((t,ti)=>(t.participants||[]).filter(p=>p.effectivenessResult==="Etkin Değil"||p.examResult==="Başarısız").forEach((p,pi)=>list.push(makeAction({id:"TRN-"+ti+"-"+pi,module:"Eğitim",sourceNo:t.trainingNo,title:"Eğitim etkinliği aksiyonu: "+t.trainingTitle,description:p.participantUser+" için tekrar eğitim / yetkinlik aksiyonu",owner:t.trainer||t.trainingOwner,department:t.department,dueDate:p.effectivenessDate,status:"Açık",priority:"Yüksek",completion:0,evidence:p.evidence||[],createdAt:p.createdAt,originKey:"gdnl_trainings",originIndex:ti,originActionIndex:pi}))));
 getLS("gdnl_calibrations").filter(d=>["Gecikti","Uygunsuz"].includes(d.calibrationStatus)).forEach((d,di)=>list.push(makeAction({id:"CAL-"+di,module:"Kalibrasyon",sourceNo:d.deviceNo,title:"Kalibrasyon aksiyonu: "+d.deviceName,description:"Cihaz kalibrasyon durumu: "+d.calibrationStatus,owner:d.deviceOwner,department:d.department,dueDate:d.nextCalibrationDate,status:d.calibrationStatus==="Gecikti"?"Gecikti":"Açık",priority:d.criticality,completion:0,evidence:d.evidence||[],createdAt:d.createdAt,originKey:"gdnl_calibrations",originIndex:di})));
 
-list.forEach(a=>{if(!["Kapalı","İptal"].includes(a.status)&&a.dueDate&&daysLeft(a.dueDate)<0)a.status="Gecikti"});
-return list;
+list.forEach(a=>{
+  if(!isDeletedAction(a)&&!["Kapalı","İptal"].includes(a.status)&&a.dueDate&&daysLeft(a.dueDate)<0){
+    a.status="Gecikti";
+  }
+});
+return list.filter(a=>!isDeletedAction(a));
 }
 
 async function saveManualAction(notify=false){
@@ -623,11 +632,15 @@ clearManualAction();renderAll();showToast(cloudOk?"Aksiyon D1'e kaydedildi":"Aks
 function clearManualAction(){generateManualNo();manualModule.value="Manuel";manualSourceNo.value="";manualPriority.value="Normal";manualActionType.value="Düzeltici Faaliyet";manualStage.value="Oluşturuldu";clearOwnerSelection();manualDueDate.value=addDays(todayISO(),7);manualStatus.value="Açık";manualTitle.value="";manualDescription.value=""}
 
 function filteredActions(){
-const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,pf=priorityFilter.value,src=sourceFilter.value,km=kanbanModuleFilter.value,ko=kanbanOwnerFilter.value;
-return collectActions().filter(a=>`${a.id} ${a.module} ${a.sourceNo} ${a.title} ${a.description} ${a.owner} ${a.department} ${a.status} ${a.priority}`.toLowerCase().includes(q)&&(!sf||a.status===sf)&&(!pf||a.priority===pf)&&(!src||a.module===src)&&(!km||a.module===km)&&(!ko||a.owner===ko));
+const q=String(globalSearch.value||"").toLowerCase(),sf=statusFilter.value,pf=priorityFilter.value,src=sourceFilter.value,km=kanbanModuleFilter.value,ko=kanbanOwnerFilter.value;
+return collectActions().filter(a=>{
+  if(isDeletedAction(a))return false;
+  const hay=`${a.id} ${a.module} ${a.sourceNo} ${a.title} ${a.description} ${a.owner} ${a.department} ${a.status} ${a.priority}`.toLowerCase();
+  return hay.includes(q)&&(!sf||a.status===sf)&&(!pf||a.priority===pf)&&(!src||a.module===src)&&(!km||a.module===km)&&(!ko||a.owner===ko);
+});
 }
 function renderAll(){
-const all=collectActions(),items=filteredActions();
+const all=collectActions().filter(a=>!isDeletedAction(a)),items=filteredActions().filter(a=>!isDeletedAction(a));
 updateCards(all);renderKanban(items);renderTable(items);initEvidenceSelect(all);renderEvidencePreview(all);
 }
 function updateCards(items){
