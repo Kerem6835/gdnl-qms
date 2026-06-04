@@ -417,11 +417,11 @@ async function createCloudNotification(a,msg,userNameValue){
   try{await postJSON("/notifications",payload)}catch(e){const n=getNotifications();n.unshift({notificationId:payload.id,type:"Mail + SMS",module:"Action Center",documentCode:a.sourceNo||a.related_id||"",documentName:a.title,mailGroups:(a.owner||"")+"; "+(a.department||"")+"; Kalite",smsGroups:a.owner||"",distributionPoints:(a.module||"Action Center")+" / "+(a.priority||"Normal"),message:msg,status:"Kuyrukta",createdAt:payload.created_at});setNotifications(n)}
 }
 async function createAssignmentForAction(a){
-  const payload={id:uid("ASN"),source_type:"ACTION",source_id:a.id,user_id:a.owner_id||"",user_name:a.owner||"",role:"Sorumlu",status:"Assigned",due_date:a.dueDate||"",created_at:new Date().toISOString()};
+  const payload={id:uid("ASN"),source_type:"ACTION",source_id:a.id,user_id:a.owner_id||"",user_name:a.owner||"",role:"Sorumlu",status:"Assigned",due_date:a.dueDate||"",title:"Yeni aksiyon atandı",message:(a.title||"Aksiyon")+" aksiyonu size atanmıştır.",created_by:session.name||session.fullname||session.username||"",created_at:new Date().toISOString()};
   try{await postJSON("/assignments",payload)}catch(e){const q=getLS("gdnl_pending_assignments");q.unshift(payload);setLS("gdnl_pending_assignments",q)}
 }
 
-function getManual(){return cloudManualActions.length?cloudManualActions:getLS("gdnl_action_center_manual")}
+function getManual(){return isCloudReady?cloudManualActions:getLS("gdnl_action_center_manual")}
 function setManual(v){cloudManualActions=v;setLS("gdnl_action_center_manual",v)}
 function getNotifications(){return getLS("gdnl_notifications")}
 function setNotifications(v){setLS("gdnl_notifications",v)}
