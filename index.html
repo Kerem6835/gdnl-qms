@@ -535,7 +535,7 @@ body:before{
       <div class="stat"><i style="color:#1677ff">⬡</i><b id="statModules">0</b><span>Modül</span><small>Aktif</small></div>
       <div class="stat"><i style="color:#7c3aed">▤</i><b id="statRecords">0</b><span>Kayıt</span><small>Toplam</small></div>
       <div class="stat"><i style="color:#f59e0b">♧</i><b id="statUsers">0</b><span>Aktif Kullanıcı</span><small>Şu Anda</small></div>
-      <div class="stat"><i style="color:#16a34a">↗</i><b id="statUptime">0%</b><span>Sistem Sürekliliği</span><small>Son 30 Gün</small></div>
+      <div class="stat"><i style="color:#16a34a">↗</i><b id="statUptime">0%</b><span>Sistem Uptime</span><small>Son 30 Gün</small></div>
       <div class="stat"><i style="color:#1677ff">◉</i><b id="statSource">0</b><span>Veri Kaynağı</span><small>Tek Merkez</small></div>
     </div>
 
@@ -576,7 +576,7 @@ body:before{
         <div class="input"><span>🔒</span><input id="password" type="password" placeholder="Şifrenizi giriniz" autocomplete="current-password"><button class="eye" type="button" onclick="togglePassword()">◉</button></div>
       </div>
       <div class="row">
-        <label><input id="remember" type="checkbox" checked> Beni Hatırla</label>
+        <label><input id="remember" type="checkbox"> Oturumu açık tut</label>
         <a href="#" onclick="forgot(event)">Şifremi Unuttum?</a>
       </div>
       <button class="btn" onclick="login()">↪ GİRİŞ YAP</button>
@@ -651,8 +651,23 @@ body:before{
 </svg>
 
 <script>
+"use strict";
+
+/*
+  GDNL EOS Cloud Ready Login
+  - Kritik veri tarayıcı tarafında saklanmaz.
+  - Kullanıcı, yetki, departman, rol ve oturum bilgileri D1 + Worker üzerinden gelir.
+  - Oturum, Worker tarafından HttpOnly/Secure cookie veya server-side session ile yönetilir.
+  - Bu sayfa sadece UI durumunu bellekte tutar; tarayıcı depolamasına kritik veri yazmaz.
+*/
 
 const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
+
+let gdnlRuntime = {
+  users: [],
+  departments: [],
+  currentReset: null
+};
 
 function repairTR(value){
   if(typeof value !== "string") return value;
@@ -673,306 +688,102 @@ function deepRepairTR(input){
   return repairTR(input);
 }
 
-function mapD1UserToEOS(row){
-  const fixed = deepRepairTR(row || {});
-  const role = fixed.role || "Kullanıcı";
-  const department = fixed.department || "Kalite";
-  const fullName = fixed.fullName || fixed.fullname || fixed.name || fixed.username || "GDNL Kullanıcı";
-  const isFull = role === "Super Administrator" || role === "Root Super Administrator" || role === "Kök Super Administrator" || fixed.accessLevel === "FULL_SYSTEM_ACCESS" || fixed.isRoot === true || fixed.isSuperAdmin === true || fixed.isFullAuthorized === true;
-
-  return normalizeLoginUser({
-    ...fixed,
-    fullName,
-    name: fullName,
-    username: String(fixed.username || "").trim().toLowerCase(),
-    password: String(fixed.password || ""),
-    email: String(fixed.email || "").trim().toLowerCase(),
-    role,
-    department,
-    status: fixed.status === "active" ? "Aktif" : (fixed.status || "Aktif"),
-    accessLevel: isFull ? "FULL_SYSTEM_ACCESS" : (fixed.accessLevel || "DEPARTMENT_ACCESS"),
-    modules: Array.isArray(fixed.modules) ? fixed.modules : ["dashboard","department-gateway","documents","new-document","revision","distribution","document-viewer","capa","risk-register","action-center"],
-    departments: Array.isArray(fixed.departments) ? fixed.departments : (isFull ? ["Yönetim","Kalite","Üretim","Ar-Ge","Satınalma","Planlama","Tedarik Zinciri","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"] : [department,"Kalite"]),
-    isRoot: isFull,
-    isSuperAdmin: isFull,
-    isFullAuthorized: isFull,
-    canViewAll: isFull,
-    canManageUsers: isFull,
-    canManageRoles: isFull,
-    canManageSystem: isFull,
-    canAccessAllModules: isFull,
-    canOverrideWorkflow: isFull,
-    canDelete: isFull,
-    canApprove: isFull
-  });
+function extractArray(payload){
+  const fixed = deepRepairTR(payload);
+  if(Array.isArray(fixed)) return fixed;
+  if(fixed && Array.isArray(fixed.data)) return fixed.data;
+  if(fixed && Array.isArray(fixed.rows)) return fixed.rows;
+  if(fixed && Array.isArray(fixed.items)) return fixed.items;
+  if(fixed && Array.isArray(fixed.results)) return fixed.results;
+  if(fixed && typeof fixed === "object") return Object.values(fixed).filter(v => v && typeof v === "object");
+  return [];
 }
 
 async function apiGet(path){
-  const res = await fetch(GDNL_API_BASE + path, { method:"GET", cache:"no-store" });
-  if(!res.ok) throw new Error("API HTTP " + res.status);
-  return await res.json();
-}
-
-async function apiPost(path,payload){
   const res = await fetch(GDNL_API_BASE + path, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(payload||{})
+    method: "GET",
+    cache: "no-store",
+    credentials: "include",
+    headers: { "Accept": "application/json" }
   });
-  if(!res.ok) throw new Error("API HTTP " + res.status);
-  return await res.json();
+  if(!res.ok) throw new Error("API hata kodu: " + res.status);
+  return deepRepairTR(await res.json());
 }
 
-function getClientMeta(){
-  return {
-    ip_address:"Tarayıcı üzerinden alınamaz",
-    user_agent:navigator.userAgent||"",
-    session_id:localStorage.getItem("gdnl_session_id")||("SES-"+Date.now()+"-"+Math.random().toString(16).slice(2))
-  };
-}
-
-function ensureSessionId(){
-  if(!localStorage.getItem("gdnl_session_id")) localStorage.setItem("gdnl_session_id",getClientMeta().session_id);
-}
-ensureSessionId();
-
-async function writeAuditLog(action,detail,user){
-  const meta=getClientMeta();
-  const payload={
-    module:"Giriş",
-    action,
-    detail,
-    user_id:user?.id||user?.username||"",
-    user_name:user?.name||user?.fullName||user?.username||"",
-    created_at:new Date().toISOString(),
-    ...meta
-  };
-  try{await apiPost("/audit-logs",payload)}catch(e){console.warn("Audit kaydı D1'e yazılamadı:",e)}
-}
-
-async function writeActivity(action,detail,user){
-  const payload={
-    module:"Giriş",
-    action,
-    detail,
-    user_id:user?.id||user?.username||"",
-    user_name:user?.name||user?.fullName||user?.username||"",
-    old_value:"",
-    new_value:detail||"",
-    changed_field:"session",
-    created_at:new Date().toISOString()
-  };
-  try{await apiPost("/activity-feed",payload)}catch(e){console.warn("Aktivite kaydı D1'e yazılamadı:",e)}
-}
-
-
-function safeArrayFromLS(key){
-  try{
-    const value=JSON.parse(localStorage.getItem(key)||"[]");
-    if(Array.isArray(value))return value;
-    if(value&&typeof value==="object")return Object.values(value);
-    return [];
-  }catch(e){return []}
-}
-
-function safeObjectFromLS(key){
-  try{
-    const value=JSON.parse(localStorage.getItem(key)||"{}");
-    return value&&typeof value==="object"&&!Array.isArray(value)?value:{};
-  }catch(e){return {}}
-}
-
-const EOS_DEPARTMENTS=[];
-
-const EOS_MODULES=[
-  "dashboard.html","department-gateway.html","documents.html","new-document.html","revision.html","approval.html",
-  "distribution.html","archive.html","document-viewer.html","capa.html","risk-register.html","audit.html",
-  "training-management.html","supplier-management.html","customer-management.html","management-review.html",
-  "kpi-reports.html","action-center.html","notification-center.html","calibration-management.html",
-  "change-management.html","process-management.html","continuous-improvement.html","standards-compliance.html",
-  "legal-compliance.html","security-continuity-center.html","users.html","competency-matrix.html",
-  "company-assets-documents.html","apqp.html","fmea.html","control-plan.html","ppap.html","spc.html","msa.html"
-];
-
-const EOS_RECORD_KEYS=[
-  "gdnl_documents","gdnl_new_documents","gdnl_revisions","gdnl_approvals","gdnl_archive",
-  "gdnl_distribution","gdnl_distributions","gdnl_capa","gdnl_risks","gdnl_audits",
-  "gdnl_trainings","gdnl_suppliers","gdnl_customers","gdnl_management_reviews","gdnl_calibrations",
-  "gdnl_moc","gdnl_action_center_manual","gdnl_company_assets_documents","gdnl_standards_clauses",
-  "gdnl_legal_compliance","gdnl_competencies","gdnl_competency_assignments","gdnl_notifications",
-  "gdnl_kpi_reports","gdnl_processes","gdnl_users","gdnl_roles"
-];
-
-
-/* GDNL EOS CLOUD USER STANDARD
-   Kullanıcılar artık hardcoded tutulmaz.
-   Giriş ve kullanıcı doğrulaması Cloudflare D1 /users ve POST /login üzerinden yürütülür.
-*/
-
-function bootstrapIndexUsers(){
-  console.log("GDNL EOS kullanıcı havuzu D1 /users üzerinden yönetilir.");
-}
-
-bootstrapIndexUsers();
-
-function formatTR(number){return Number(number||0).toLocaleString("tr-TR")}
-
-function countEOSRecords(){
-  return EOS_RECORD_KEYS.reduce((total,key)=>total+safeArrayFromLS(key).length,0);
-}
-
-function getUserCount(){
-  const list=safeArrayFromLS("gdnl_users").filter(u=>String(u.username||"").toLowerCase()!=="demo" && String(u.status||"Aktif")!=="Pasif");
-  return list.length;
-}
-
-function calculateSystemHealth(){
-  const docs=safeArrayFromLS("gdnl_documents").length+safeArrayFromLS("gdnl_new_documents").length;
-  const capa=safeArrayFromLS("gdnl_capa");
-  const risks=safeArrayFromLS("gdnl_risks");
-  const audits=safeArrayFromLS("gdnl_audits");
-  const lateCapa=capa.filter(x=>String(x.status||x.capaStatus||"").toLowerCase().includes("gecik")||String(x.dueStatus||"").toLowerCase().includes("late")).length;
-  const criticalRisks=risks.filter(x=>Number(x.initialScore||x.residualScore||x.score||0)>=500).length;
-  const openAudits=audits.filter(x=>!String(x.auditStatus||x.status||"").toLowerCase().includes("kapalı")&&!String(x.auditStatus||x.status||"").toLowerCase().includes("closed")).length;
-  if(!docs&&!capa.length&&!risks.length&&!audits.length)return "99.8%";
-  const penalty=Math.min(12,(lateCapa*1.3)+(criticalRisks*.9)+(openAudits*.5));
-  return (99.8-penalty).toFixed(1)+"%";
-}
-
-function detectDataSources(){
-  const hasLS=EOS_RECORD_KEYS.some(key=>localStorage.getItem(key));
-  const hasSession=localStorage.getItem("gdnl_ems_session")||localStorage.getItem("gdnl_qdms_session");
-  return (hasLS||hasSession)?1:0;
-}
-
-async function loadEOSLoginStats(){
-  let cloudUserCount = 0;
-  let cloudDepartmentCount = 0;
-  let cloudRecordCount = 0;
-
-  try{
-    const users = await apiGet("/users");
-    cloudUserCount = Array.isArray(users) ? users.filter(u => String(u.status || "Aktif").toLowerCase() !== "pasif").length : 0;
-  }catch(e){ cloudUserCount = 0; }
-
-  try{
-    const departments = await apiGet("/departments");
-    cloudDepartmentCount = Array.isArray(departments) ? departments.filter(d => String(d.status || "Aktif").toLowerCase() !== "pasif").length : 0;
-  }catch(e){ cloudDepartmentCount = 0; }
-
-  try{
-    const endpoints = ["/documents","/actions","/approvals","/notifications"];
-    const results = await Promise.allSettled(endpoints.map(apiGet));
-    results.forEach(r => {
-      if(r.status === "fulfilled" && Array.isArray(r.value)){
-        cloudRecordCount += r.value.filter(x => !isPassiveRecord(x)).length;
-      }
-    });
-  }catch(e){ cloudRecordCount = 0; }
-
-  const statMap={
-    statDepartments:cloudDepartmentCount,
-    statModules:EOS_MODULES.length,
-    statRecords:formatTR(cloudRecordCount),
-    statUsers:cloudUserCount,
-    statUptime:"99.9%",
-    statSource:1
-  };
-
-  Object.entries(statMap).forEach(([id,value])=>{
-    const el=document.getElementById(id);
-    if(el)el.textContent=value;
+async function apiPost(path, payload){
+  const res = await fetch(GDNL_API_BASE + path, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload || {})
   });
-}
-
-function isPassiveRecord(record){
-  const s = String(record?.status || "").toLowerCase();
-  return ["deleted","silindi","arşivlendi","iptal edildi","pasif"].some(x => s.includes(x));
-}
-
-let USERS=[];
-let resetState={username:"",code:""};
-
-function normalizeLoginUser(u){
-  const name=u.name||u.fullName||"";
-  const department=u.department||"Kalite";
-  const role=u.role||"Kullanıcı";
-  const isFull=role==="Super Administrator"||role==="Root Super Administrator"||role==="Kök Super Administrator"||u.accessLevel==="FULL_SYSTEM_ACCESS"||u.isRoot===true||u.isSuperAdmin===true||u.isFullAuthorized===true;
-  return {
-    ...u,
-    name,
-    fullName:name,
-    username:String(u.username||"").trim().toLowerCase(),
-    password:String(u.password||""),
-    department,
-    role,
-    email:String(u.email||"").trim().toLowerCase(),
-    status:u.status||"Aktif",
-    accessLevel:isFull?"FULL_SYSTEM_ACCESS":(u.accessLevel||"DEPARTMENT_ACCESS"),
-    permissions:Array.isArray(u.permissions)?u.permissions:(isFull?["*"]:["view","create","edit","download","quality_limited","own_department"]),
-    departments:Array.isArray(u.departments)&&u.departments.length?u.departments:(isFull?["Yönetim","Kalite","Üretim","Ar-Ge","Satınalma","Planlama","Tedarik Zinciri","Depo","İnsan Kaynakları","Laboratuvar","Bilgi Teknolojileri","Finans","Bakım","Enerji","BGYS","IATF","COP"]:[department,"Kalite"]),
-    canViewAll:isFull||!!u.canViewAll,
-    canCreate:u.canCreate!==false,
-    canEdit:u.canEdit!==false,
-    canDelete:isFull||!!u.canDelete,
-    canApprove:isFull||!!u.canApprove,
-    canExport:isFull||!!u.canExport,
-    canImport:isFull||!!u.canImport,
-    canAudit:isFull||!!u.canAudit,
-    canManageUsers:isFull||!!u.canManageUsers,
-    canManageRoles:isFull||!!u.canManageRoles,
-    canManageSystem:isFull||!!u.canManageSystem,
-    canAccessSettings:isFull||!!u.canAccessSettings,
-    canAccessAllModules:isFull||!!u.canAccessAllModules,
-    canOverrideWorkflow:isFull||!!u.canOverrideWorkflow,
-    isRoot:isFull||!!u.isRoot,
-    isSuperAdmin:isFull||!!u.isSuperAdmin,
-    isFullAuthorized:isFull||!!u.isFullAuthorized
-  };
-}
-
-async function readUsersForLogin(){
-  try{
-    const cloudUsers = await apiGet("/users");
-    return Array.isArray(cloudUsers)
-      ? cloudUsers.map(mapD1UserToEOS).filter(u => String(u.status || "Aktif").toLowerCase() !== "pasif")
-      : [];
-  }catch(e){
-    console.warn("D1 kullanıcı listesi alınamadı:", e);
-    return [];
+  const text = await res.text();
+  let data = {};
+  try { data = text ? JSON.parse(text) : {}; } catch(e){ data = { message: text }; }
+  data = deepRepairTR(data);
+  if(!res.ok){
+    throw new Error(data.message || data.error || ("API hata kodu: " + res.status));
   }
+  return data;
 }
 
-function saveUsersForLogin(){
-  console.warn("Kullanıcı kaydı localStorage üzerinde yapılmaz. D1 users tablosu kullanılmalıdır.");
+function normalizeUser(row){
+  const fixed = deepRepairTR(row || {});
+  const fullname = fixed.fullname || fixed.fullName || fixed.name || fixed.ad_soyad || fixed.username || "GDNL Kullanıcı";
+  return {
+    id: fixed.id || fixed.user_id || fixed.userId || "",
+    username: String(fixed.username || fixed.user_name || fixed.email || "").trim().toLowerCase(),
+    fullname,
+    name: fullname,
+    email: String(fixed.email || "").trim().toLowerCase(),
+    role: fixed.role || fixed.role_name || "Kullanıcı",
+    department: fixed.department || fixed.department_name || fixed.departmentName || "",
+    status: fixed.status || "Aktif",
+    raw: fixed
+  };
 }
 
-async function refreshLoginUsers(){
-  USERS = await readUsersForLogin();
-  return USERS;
+function isActiveUser(user){
+  const s = String(user.status || "").toLowerCase();
+  return !["pasif","inactive","disabled","silindi","deleted","arşivlendi","arsivlendi"].includes(s);
 }
 
-function showMessage(text,type){const msg=document.getElementById("msg");msg.textContent=text;msg.className="msg "+type;}
-function togglePassword(){const p=document.getElementById("password");p.type=p.type==="password"?"text":"password";}
-function forgot(e){
-  e.preventDefault();
-  openResetModal();
+function showMessage(message, type){
+  const msg = document.getElementById("msg");
+  msg.textContent = message;
+  msg.className = "msg " + (type === "success" ? "success" : "error");
 }
 
-function openResetModal(){
+function clearMessage(){
+  const msg = document.getElementById("msg");
+  msg.textContent = "";
+  msg.className = "msg";
+}
+
+function togglePassword(){
+  const input = document.getElementById("password");
+  input.type = input.type === "password" ? "text" : "password";
+}
+
+function forgot(event){
+  if(event) event.preventDefault();
+  clearMessage();
   document.getElementById("resetOverlay").classList.add("active");
   document.getElementById("resetStep1").classList.add("active");
   document.getElementById("resetStep2").classList.remove("active");
-  document.getElementById("resetUsername").value="";
-  document.getElementById("resetEmail").value="";
-  document.getElementById("resetCodeInput").value="";
-  document.getElementById("newPasswordInput").value="";
-  resetState={username:"",code:""};
-  setTimeout(()=>document.getElementById("resetUsername").focus(),80);
+  gdnlRuntime.currentReset = null;
 }
 
 function closeResetModal(){
   document.getElementById("resetOverlay").classList.remove("active");
+  document.getElementById("resetUsername").value = "";
+  document.getElementById("resetEmail").value = "";
+  document.getElementById("resetCodeInput").value = "";
+  document.getElementById("newPasswordInput").value = "";
+  gdnlRuntime.currentReset = null;
 }
 
 function backResetStep(){
@@ -981,167 +792,172 @@ function backResetStep(){
 }
 
 async function createResetCode(){
-  const username=document.getElementById("resetUsername").value.trim().toLowerCase();
-  const email=document.getElementById("resetEmail").value.trim();
-  const users = await refreshLoginUsers();
-  const user = users.find(u=>String(u.username||"").toLowerCase()===username);
+  const username = document.getElementById("resetUsername").value.trim().toLowerCase();
+  const email = document.getElementById("resetEmail").value.trim().toLowerCase();
 
   if(!username || !email){
-    showMessage("Şifre sıfırlama için kullanıcı adı ve kayıtlı e-posta giriniz.","error");
+    showMessage("Kullanıcı adı ve e-posta zorunludur.", "error");
     return;
   }
 
-  if(!user){
-    showMessage("Bu kullanıcı adı sistemde bulunamadı.","error");
-    return;
+  try{
+    const result = await apiPost("/password-reset/request", { username, email });
+    gdnlRuntime.currentReset = {
+      reset_id: result.reset_id || result.id || "",
+      username,
+      email
+    };
+    document.getElementById("resetCodeHint").textContent =
+      result.message || "Doğrulama kodu oluşturuldu. Kod kayıtlı e-posta adresine gönderilmelidir.";
+    document.getElementById("resetStep1").classList.remove("active");
+    document.getElementById("resetStep2").classList.add("active");
+    showMessage("Şifre sıfırlama kodu oluşturuldu.", "success");
+  }catch(error){
+    showMessage(error.message || "Şifre sıfırlama isteği oluşturulamadı.", "error");
   }
-
-  if(String(user.email||"").trim().toLowerCase()!==String(email||"").trim().toLowerCase()){
-    showMessage("Kullanıcı adı ile kayıtlı e-posta eşleşmiyor.","error");
-    return;
-  }
-
-  const code=String(Math.floor(100000+Math.random()*900000));
-  resetState={username:user.username,code};
-
-  const resetLog={
-    username:user.username,
-    name:user.name,
-    email,
-    code,
-    createdAt:new Date().toISOString(),
-    status:"KOD_OLUŞTURULDU"
-  };
-
-  try{await apiPost("/password-reset-requests", resetLog)}catch(e){console.warn("Şifre sıfırlama kaydı D1'e yazılamadı:", e)}
-
-  document.getElementById("resetStep1").classList.remove("active");
-  document.getElementById("resetStep2").classList.add("active");
-  document.getElementById("resetCodeHint").textContent="Doğrulama kodu oluşturuldu. Test kodu: "+code;
-  showMessage("Doğrulama kodu oluşturuldu.","success");
 }
 
 async function completePasswordReset(){
-  const code=document.getElementById("resetCodeInput").value.trim();
-  const newPassword=document.getElementById("newPasswordInput").value.trim();
+  const code = document.getElementById("resetCodeInput").value.trim();
+  const newPassword = document.getElementById("newPasswordInput").value.trim();
 
-  if(code!==resetState.code){
-    showMessage("Doğrulama kodu hatalı.","error");
+  if(!code || !newPassword){
+    showMessage("Doğrulama kodu ve yeni şifre zorunludur.", "error");
     return;
   }
 
-  if(newPassword.length<4){
-    showMessage("Yeni şifre en az 4 karakter olmalıdır.","error");
+  if(newPassword.length < 6){
+    showMessage("Yeni şifre en az 6 karakter olmalıdır.", "error");
     return;
   }
 
   try{
-    await apiPost("/password-reset-requests", {
-      username:resetState.username,
+    await apiPost("/password-reset/complete", {
+      reset_id: gdnlRuntime.currentReset?.reset_id || "",
+      username: gdnlRuntime.currentReset?.username || document.getElementById("resetUsername").value.trim().toLowerCase(),
+      email: gdnlRuntime.currentReset?.email || document.getElementById("resetEmail").value.trim().toLowerCase(),
       code,
-      new_password:newPassword,
-      action:"ŞİFRE_GÜNCELLENDİ",
-      updated_at:new Date().toISOString(),
-      status:"BAŞARILI"
+      new_password: newPassword
     });
-  }catch(e){
-    showMessage("Şifre güncelleme D1 üzerinde tamamlanamadı.","error");
-    return;
+    closeResetModal();
+    showMessage("Şifre başarıyla güncellendi. Yeni şifreyle giriş yapabilirsiniz.", "success");
+  }catch(error){
+    showMessage(error.message || "Şifre güncellenemedi.", "error");
   }
-
-  closeResetModal();
-  showMessage("Şifre başarıyla güncellendi. Yeni şifrenizle giriş yapabilirsiniz.","success");
 }
+
+async function writeAuditLog(action, detail){
+  try{
+    await apiPost("/audit-logs", {
+      module: "Giriş",
+      action,
+      detail,
+      created_at: new Date().toISOString(),
+      user_agent: navigator.userAgent,
+      session_id: "",
+      ip_address: ""
+    });
+  }catch(error){
+    /* Audit servisi anlık cevap vermezse giriş ekranı kırılmaz. */
+  }
+}
+
+async function loadCloudStats(){
+  const endpoints = [
+    { key: "departments", path: "/departments" },
+    { key: "users", path: "/users" },
+    { key: "documents", path: "/documents" },
+    { key: "actions", path: "/actions" },
+    { key: "approvals", path: "/approvals" },
+    { key: "notifications", path: "/notifications" }
+  ];
+
+  const settled = await Promise.allSettled(endpoints.map(item => apiGet(item.path)));
+  const data = {};
+
+  settled.forEach((result, index) => {
+    const key = endpoints[index].key;
+    data[key] = result.status === "fulfilled" ? extractArray(result.value) : [];
+  });
+
+  gdnlRuntime.users = data.users.map(normalizeUser).filter(isActiveUser);
+  gdnlRuntime.departments = data.departments;
+
+  const activeDepartmentCount = data.departments.filter(dep => {
+    const status = String(dep.status || "Aktif").toLowerCase();
+    return !["pasif","inactive","disabled","silindi","deleted"].includes(status);
+  }).length;
+
+  const totalRecordCount =
+    data.documents.length +
+    data.actions.length +
+    data.approvals.length +
+    data.notifications.length;
+
+  document.getElementById("statDepartments").textContent = activeDepartmentCount || 0;
+  document.getElementById("statModules").textContent = 35;
+  document.getElementById("statRecords").textContent = totalRecordCount || 0;
+  document.getElementById("statUsers").textContent = gdnlRuntime.users.length || 0;
+  document.getElementById("statUptime").textContent = "99%";
+  document.getElementById("statSource").textContent = "D1";
+}
+
 async function login(){
-  const username=document.getElementById("username").value.trim().toLowerCase();
-  const password=document.getElementById("password").value.trim();
+  clearMessage();
+
+  const username = document.getElementById("username").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+  const remember = document.getElementById("remember").checked;
 
   if(!username || !password){
-    showMessage("Kullanıcı adı ve şifre giriniz.","error");
+    showMessage("Kullanıcı adı ve şifre zorunludur.", "error");
     return;
   }
-
-  let user=null;
 
   try{
-    const data = await apiPost("/login", { username, password });
-    if(data && data.success && data.user){
-      user = mapD1UserToEOS(data.user);
+    const response = await apiPost("/login", {
+      username,
+      password,
+      remember,
+      client: "GDNL EOS",
+      login_at: new Date().toISOString(),
+      user_agent: navigator.userAgent
+    });
+
+    const user = normalizeUser(response.user || response.data || response);
+    if(!isActiveUser(user)){
+      showMessage("Kullanıcı pasif durumdadır. Sistem yöneticisiyle iletişime geçin.", "error");
+      await writeAuditLog("Başarısız giriş", "Pasif kullanıcı giriş denemesi: " + username);
+      return;
     }
-  }catch(err){
-    console.error("GDNL EOS API giriş hatası:", err);
-    await writeAuditLog("Başarısız giriş", "Cloud veritabanı bağlantısı veya kullanıcı doğrulaması başarısız", {username});
-    showMessage("Cloud veritabanı bağlantısı kurulamadı veya kullanıcı doğrulanamadı.","error");
-    return;
+
+    await writeAuditLog("Başarılı giriş", "Kullanıcı giriş yaptı: " + (user.fullname || username));
+
+    showMessage("Giriş başarılı. Departman merkezi açılıyor...", "success");
+    setTimeout(() => {
+      window.location.href = "department-gateway.html";
+    }, 650);
+  }catch(error){
+    await writeAuditLog("Başarısız giriş", "Hatalı giriş denemesi: " + username);
+    showMessage(error.message || "Giriş başarısız. Kullanıcı adı veya şifre hatalı.", "error");
   }
-
-  if(!user){
-    showMessage("Kullanıcı adı veya şifre hatalı.","error");
-    return;
-  }
-
-  const session={
-    username:user.username,
-    name:user.name,
-    role:user.role,
-    department:user.department||"Kalite",
-    accessLevel:user.accessLevel||"LIMITED_ACCESS",
-    permissions:user.permissions||[],
-    modules:user.modules||[],
-    departments:user.departments||[],
-    canViewAll:!!user.canViewAll,
-    canCreate:!!user.canCreate,
-    canEdit:!!user.canEdit,
-    canDelete:!!user.canDelete,
-    canApprove:!!user.canApprove,
-    canExport:!!user.canExport,
-    canImport:!!user.canImport,
-    canAudit:!!user.canAudit,
-    canManageUsers:!!user.canManageUsers,
-    canManageRoles:!!user.canManageRoles,
-    canManageSystem:!!user.canManageSystem,
-    canAccessSettings:!!user.canAccessSettings,
-    canAccessAllModules:!!user.canAccessAllModules,
-    canOverrideWorkflow:!!user.canOverrideWorkflow,
-    isRoot:!!user.isRoot,
-    isSuperAdmin:!!user.isSuperAdmin,
-    isFullAuthorized:!!user.isFullAuthorized,
-    loginAt:new Date().toISOString(),
-    system:"GDNL EOS",
-    source:"Cloudflare D1"
-  };
-
-  localStorage.removeItem("gdnl_selected_department");
-  localStorage.removeItem("gdnl_selected_department_label");
-  localStorage.removeItem("gdnl_department_modules");
-  localStorage.setItem("gdnl_ems_session",JSON.stringify(session));
-  localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-  localStorage.setItem("gdnl_current_user_name",session.name);
-  localStorage.setItem("gdnl_current_user_role",session.role);
-  localStorage.setItem("gdnl_current_access_level",session.accessLevel);
-  localStorage.setItem("gdnl_current_permissions",JSON.stringify(session.permissions));
-  localStorage.setItem("gdnl_current_modules",JSON.stringify(session.modules));
-  localStorage.setItem("gdnl_is_root",String(session.isRoot));
-  localStorage.setItem("gdnl_is_super_admin",String(session.isSuperAdmin));
-  localStorage.setItem("gdnl_is_full_authorized",String(session.isFullAuthorized));
-
-  await writeAuditLog("Başarılı giriş", "Kullanıcı D1 üzerinden doğrulandı", session);
-  await writeActivity("Oturum açıldı", "Departman merkezi yönlendirmesi hazırlandı", session);
-  showMessage("Giriş başarılı. Departman merkezi hazırlanıyor...","success");
-  setTimeout(()=>{window.location.href="department-gateway.html";},650);
 }
 
-loadEOSLoginStats();
+document.addEventListener("keydown", event => {
+  const resetActive = document.getElementById("resetOverlay").classList.contains("active");
+  if(event.key === "Enter" && !resetActive) login();
+  if(event.key === "Escape") closeResetModal();
+});
 
-document.addEventListener("keydown",e=>{if(e.key==="Enter"&&!document.getElementById("resetOverlay").classList.contains("active"))login();if(e.key==="Escape")closeResetModal();});
-/* === GDNL EOS CLOUD READY LOGIN STANDARDI ===
-Bu giriş ekranı ana veri kaynağı olarak Cloudflare D1 kullanır.
-Kullanıcı doğrulama POST /login üzerinden yapılır.
-Kullanıcı, rol, departman ve yetki bilgileri D1 users / roles / permissions yapısından alınır.
-Giriş kayıtları audit_logs ve activity_feed tablolarına yazılır.
-LocalStorage yalnızca oturum bilgisini tarayıcıda tutmak için kullanılır; kritik kullanıcı kaydı localStorage üzerinde yönetilmez.
-*/
-
+loadCloudStats().catch(() => {
+  document.getElementById("statDepartments").textContent = "0";
+  document.getElementById("statModules").textContent = "35";
+  document.getElementById("statRecords").textContent = "0";
+  document.getElementById("statUsers").textContent = "0";
+  document.getElementById("statUptime").textContent = "API";
+  document.getElementById("statSource").textContent = "D1";
+  showMessage("Cloud verileri şu an okunamadı. Giriş için Worker bağlantısını kontrol edin.", "error");
+});
 </script>
 </body>
 </html>
