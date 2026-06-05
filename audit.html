@@ -285,7 +285,6 @@ tr:hover td{background:#f7fbf8}
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP & PPAP</a>
-<a href="msa.html">MSA</a>
 </div>
 </nav>
 </div>
@@ -362,8 +361,8 @@ tr:hover td{background:#f7fbf8}
 <div class="field"><label>Kapanış Termin</label><input id="closureDue" type="date"></div>
 <div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>İK</option><option>Yönetim</option><option>Tüm Sistem</option></select></div>
 <div class="field"><label>Süreç</label><input id="processName" placeholder="Doküman Kontrol / Üretim / Satınalma"></div>
-<div class="field"><label>Baş Denetçi</label><select id="leadAuditor"></select></div>
-<div class="field"><label>Denetlenen Sorumlu</label><select id="auditeeOwner"></select></div>
+<div class="field cloud-autocomplete"><label>Baş Denetçi</label><input id="leadAuditor" autocomplete="off" placeholder="İsim yaz, D1 users içinden seç"><input id="leadAuditor_id" type="hidden"><input id="leadAuditor_department" type="hidden"><input id="leadAuditor_email" type="hidden"></div>
+<div class="field cloud-autocomplete"><label>Denetlenen Sorumlu</label><input id="auditeeOwner" autocomplete="off" placeholder="İsim yaz, departman otomatik gelsin"><input id="auditeeOwner_id" type="hidden"><input id="auditeeOwner_department" type="hidden"><input id="auditeeOwner_email" type="hidden"></div>
 <div class="field full"><label>Denetçi Ekibi</label><textarea id="auditTeam" placeholder="Denetçi adları, departman, rol"></textarea></div>
 <div class="field full"><label>Standart Kapsamı</label><select id="standardScope" multiple style="height:140px"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>IATF 16949</option><option>CoP</option><option>CE</option><option>UL</option><option>EMC</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option><option>Müşteri Özel Şartları</option></select></div>
 <div class="field full"><label>Kapsam</label><textarea id="auditScope"></textarea></div>
@@ -407,7 +406,7 @@ tr:hover td{background:#f7fbf8}
 <div class="field"><label>Tip</label><select id="fType"><option>Majör Uygunsuzluk</option><option>Minör Uygunsuzluk</option><option>İyileştirme Fırsatı</option><option>Gözlem</option><option>İyi Uygulama</option></select></div>
 <div class="field"><label>Standart</label><select id="fStandard"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>IATF 16949</option><option>CoP</option><option>CE</option><option>UL</option><option>EMC</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option></select></div>
 <div class="field"><label>Madde</label><input id="fClause"></div>
-<div class="field"><label>Sorumlu</label><select id="fOwner"></select></div>
+<div class="field cloud-autocomplete"><label>Sorumlu</label><input id="fOwner" autocomplete="off" placeholder="İsim yaz, D1 users içinden seç"><input id="fOwner_id" type="hidden"><input id="fOwner_department" type="hidden"><input id="fOwner_email" type="hidden"></div>
 <div class="field"><label>Termin</label><input id="fDueDate" type="date"></div>
 <div class="field"><label>Durum</label><select id="fStatus"><option>Açık</option><option>CAPA Açıldı</option><option>Aksiyon Bekliyor</option><option>Kapalı</option></select></div>
 <div class="field full"><label>Bulgu Açıklaması</label><textarea id="fDescription"></textarea></div>
@@ -545,9 +544,90 @@ async function restoreRecord(module,record_id){const r=await safeApi("/restore",
 function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
-function statusClass(s){if(["Kapalı","Uygun","İyi Uygulama","Aktif","Onaylandı"].includes(s))return"green";if(["Majör Uygunsuzluk","Gecikti","Kritik","Uygunsuz","Reddedildi"].includes(s))return"red";if(["Minör Uygunsuzluk","İyileştirme Fırsatı","CAPA Bekliyor","Aksiyon Bekliyor","Devam Ediyor","Raporlandı","İncelemede"].includes(s))return"orange";if(s==="Arşiv")return"gray";return"blue"}
+function statusClass(s){if(["Kapalı","Uygun","İyi Uygulama","Aktif","Onaylandı"].includes(s))return"green";if(["Majör Uygunsuzluk","Gecikti","Kritik","Uygunsuz","Reddedildi"].includes(s))return"red";if(["Minör Uygunsuzluk","İyileştirme Fırsatı","CAPA Bekliyor","Aksiyon Bekliyor","Devam Ediyor","Raporlandı","İncelemede"].includes(s))return"orange";if(["Arşiv","Arşivlendi"].includes(s))return"gray";return"blue"}
 async function generateAuditNo(){auditNo.value=await getNextNo("AUD","Denetim")}
-function initUserSelects(){const users=getUsers().filter(u=>!isPassiveStatus(u.status));["leadAuditor","auditeeOwner","fOwner"].forEach(id=>{const el=document.getElementById(id);if(!el)return;const current=el.value;el.innerHTML='<option value="">Seçiniz</option>';users.forEach(u=>{const name=u.fullname||u.fullName||u.name||u.username;const dep=u.department||u.department_name||"-";if(name)el.innerHTML+=`<option value="${name}" data-user-id="${u.id||""}" data-department="${dep}" data-email="${u.email||""}">${name} / ${dep} / ${u.role||"-"}</option>`});if(users.length===0)el.innerHTML+='<option>Kerem Güdenli</option>';if(current)el.value=current;})}
+function userDisplayName(u){return u.fullname||u.fullName||u.name||u.username||""}
+function userDepartment(u){return u.department||u.department_name||u.departmentName||""}
+function userEmail(u){return u.email||u.mail||""}
+function setHiddenUserFields(inputId,u){
+  const set=(suffix,val)=>{const el=document.getElementById(inputId+suffix);if(el)el.value=val||""};
+  set("_id",u?.id||"");
+  set("_department",userDepartment(u));
+  set("_email",userEmail(u));
+}
+function selectedUserPayload(inputId){
+  return {
+    name:document.getElementById(inputId)?.value||"",
+    id:document.getElementById(inputId+"_id")?.value||"",
+    department:document.getElementById(inputId+"_department")?.value||"",
+    email:document.getElementById(inputId+"_email")?.value||""
+  };
+}
+function setupUserAutocomplete(inputId,options={}){
+  const input=document.getElementById(inputId);
+  if(!input||input.dataset.userAutoReady==="1")return;
+  input.dataset.userAutoReady="1";
+  input.setAttribute("autocomplete","off");
+  const wrap=input.closest(".field")||input.parentElement;
+  if(wrap)wrap.classList.add("cloud-autocomplete");
+  const box=document.createElement("div");
+  box.className="cloud-suggest";
+  box.id=inputId+"_suggest";
+  input.insertAdjacentElement("afterend",box);
+
+  const pick=(u)=>{
+    const name=userDisplayName(u);
+    input.value=name;
+    setHiddenUserFields(inputId,u);
+    if(options.departmentTarget){
+      const depEl=document.getElementById(options.departmentTarget);
+      const dep=userDepartment(u);
+      if(depEl&&dep){
+        depEl.value=dep;
+        depEl.dispatchEvent(new Event("change",{bubbles:true}));
+      }
+    }
+    if(options.appendTo){
+      const target=document.getElementById(options.appendTo);
+      if(target){
+        const line=`${name} / ${userDepartment(u)||"-"} / ${u.role||"-"} / ${userEmail(u)||"-"}`;
+        const current=String(target.value||"").trim();
+        if(!current.includes(name))target.value=current?current+"\n"+line:line;
+      }
+    }
+    box.classList.remove("active");
+  };
+
+  const render=()=>{
+    const q=input.value.trim().toLowerCase();
+    const users=getUsers().filter(u=>!isPassiveStatus(u.status));
+    const filtered=users.filter(u=>{
+      const hay=`${userDisplayName(u)} ${userDepartment(u)} ${u.role||""} ${userEmail(u)}`.toLowerCase();
+      return !q||hay.includes(q);
+    }).slice(0,12);
+    if(!filtered.length){box.innerHTML='<button type="button"><small>D1 users içinde eşleşme bulunamadı.</small></button>';box.classList.add("active");return;}
+    box.innerHTML=filtered.map((u,i)=>`<button type="button" data-user-index="${i}">${escapeHTML(userDisplayName(u))}<small>${escapeHTML(userDepartment(u)||"-")} / ${escapeHTML(u.role||"-")} / ${escapeHTML(userEmail(u)||"-")}</small></button>`).join("");
+    box.querySelectorAll("button[data-user-index]").forEach(btn=>{
+      btn.onclick=()=>pick(filtered[Number(btn.dataset.userIndex)]);
+    });
+    box.classList.add("active");
+  };
+  input.addEventListener("input",()=>{setHiddenUserFields(inputId,{});render();});
+  input.addEventListener("focus",render);
+  document.addEventListener("click",(e)=>{if(!box.contains(e.target)&&e.target!==input)box.classList.remove("active");});
+}
+function initUserSelects(){
+  setupUserAutocomplete("leadAuditor",{appendTo:"auditTeam"});
+  setupUserAutocomplete("auditeeOwner",{departmentTarget:"department"});
+  setupUserAutocomplete("fOwner");
+  ["leadAuditor","auditeeOwner","fOwner"].forEach(id=>{
+    const input=document.getElementById(id);
+    if(input&&input.value){
+      const u=getUsers().find(x=>userDisplayName(x)===input.value);
+      if(u)setHiddenUserFields(id,u);
+    }
+  });
+}
 function initAuditSelects(){const audits=getAudits();eAuditSelect.innerHTML='<option value="">Denetim Seçiniz</option>';audits.forEach(a=>eAuditSelect.innerHTML+=`<option value="${a.auditNo}">${a.auditNo} / ${a.processName||"-"} / ${a.auditType||"-"}</option>`)}
 function selectedStandards(){return Array.from(standardScope.selectedOptions).map(o=>o.value)}
 function calculateAuditScore(q,f){let s=100;f.forEach(x=>{if(x.type==="Majör Uygunsuzluk")s-=20;if(x.type==="Minör Uygunsuzluk")s-=8;if(x.type==="İyileştirme Fırsatı")s-=2});return Math.max(0,s)}
@@ -556,7 +636,7 @@ function isAuditReady(a){return (a.findings||[]).filter(f=>f.status!=="Kapalı"&
 
 async function createAudit(notify=false){
 if(!auditNo.value) auditNo.value=await getNextNo("AUD","Denetim");
-const p={id:"AUDIT-"+Date.now(),auditNo:auditNo.value,auditType:auditType.value,auditStatus:auditStatus.value,auditCriticality:auditCriticality.value,auditStart:auditStart.value,auditEnd:auditEnd.value,reportDue:reportDue.value,closureDue:closureDue.value,department:department.value,processName:processName.value.trim(),leadAuditor:leadAuditor.value,auditeeOwner:auditeeOwner.value,auditTeam:auditTeam.value.trim(),standards:selectedStandards(),auditScope:auditScope.value.trim(),auditCriteria:auditCriteria.value.trim(),auditMethod:auditMethod.value.trim(),questions:questionRows,findings:findingRows,evidence:[],createdBy:currentUserName(),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),closedAt:"",auditScore:calculateAuditScore(questionRows,findingRows),auditTrail:[{action:"Denetim planı oluşturuldu",user:currentUserName(),date:new Date().toISOString()}]};
+const p={id:"AUDIT-"+Date.now(),auditNo:auditNo.value,auditType:auditType.value,auditStatus:auditStatus.value,auditCriticality:auditCriticality.value,auditStart:auditStart.value,auditEnd:auditEnd.value,reportDue:reportDue.value,closureDue:closureDue.value,department:department.value,processName:processName.value.trim(),leadAuditor:leadAuditor.value,leadAuditor_id:leadAuditor_id.value,leadAuditor_department:leadAuditor_department.value,leadAuditor_email:leadAuditor_email.value,auditeeOwner:auditeeOwner.value,auditeeOwner_id:auditeeOwner_id.value,auditeeOwner_department:auditeeOwner_department.value,auditeeOwner_email:auditeeOwner_email.value,auditTeam:auditTeam.value.trim(),standards:selectedStandards(),auditScope:auditScope.value.trim(),auditCriteria:auditCriteria.value.trim(),auditMethod:auditMethod.value.trim(),questions:questionRows,findings:findingRows,evidence:[],createdBy:currentUserName(),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),closedAt:"",auditScore:calculateAuditScore(questionRows,findingRows),auditTrail:[{action:"Denetim planı oluşturuldu",user:currentUserName(),date:new Date().toISOString()}]};
 if(!p.processName)return showToast("Süreç adı zorunlu");if(!p.leadAuditor)return showToast("Baş denetçi zorunlu");if(!p.auditStart||!p.auditEnd)return showToast("Tarih zorunlu");if(p.standards.length===0)return showToast("En az 1 standart seç");
 const items=getAudits();items.unshift(p);setAudits(items);await safeApi("/audits",{method:"POST",body:JSON.stringify(p)});await postAuditLog("Denetim planı oluşturuldu","Denetim",p.auditNo);await postActivity("Denetim planı oluşturuldu","Denetim",p.auditNo);await postAssignment("Denetim sorumluluğu",p.leadAuditor,p.auditNo,"Denetim");if(notify){createNotification(p,"Yeni denetim planı oluşturuldu.");await postNotification("Yeni denetim planı",p.auditNo+" için denetim planı oluşturuldu.",p.leadAuditor)}showToast("Denetim planı oluşturuldu");resetAuditForm();initAuditSelects();renderAudits()
 }
@@ -571,9 +651,9 @@ function archiveQuestion(i){if(!questionRows[i])return;questionRows[i].status="A
 function archiveFinding(i){if(!findingRows[i])return;findingRows[i].status="Arşivlendi";findingRows[i].archived_by=currentUserName();findingRows[i].archived_at=new Date().toISOString();postAuditLog("Bulgu arşivlendi","Denetim Bulgusu",findingRows[i].id);postActivity("Bulgu arşivlendi","Denetim Bulgusu",findingRows[i].id);renderFindingPreview();}
 function renderQuestionPreview(){const a=questionPreview;questionRows=activeOnly(questionRows);if(!questionRows.length){a.innerHTML='<div class="empty" style="margin-top:14px">Checklist sorusu yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Std</th><th>Madde</th><th>Soru</th><th>Risk</th><th>Sonuç</th><th>Aksiyon</th></tr></thead><tbody>';questionRows.forEach((q,i)=>h+=`<tr><td>${q.standard}</td><td>${q.clause}</td><td>${q.question}</td><td><span class="status ${statusClass(q.risk)}">${q.risk}</span></td><td><span class="status ${statusClass(q.result)}">${q.result}</span></td><td><button class="small-btn view" onclick="editQuestion(${i})">Düzenle</button><button class="small-btn rev" onclick="archiveQuestion(${i})">Arşivle</button></td></tr>`);a.innerHTML=h+"</tbody></table>"}
 
-function addOrUpdateFinding(capa=false){const f={id:editFindingIndex!==null?findingRows[editFindingIndex].id:"F-"+Date.now(),type:fType.value,standard:fStandard.value,clause:fClause.value.trim(),owner:fOwner.value,dueDate:fDueDate.value,status:capa?"CAPA Açıldı":fStatus.value,description:fDescription.value.trim(),action:fAction.value.trim(),capaNo:"",createdAt:new Date().toISOString()};if(!f.description)return showToast("Bulgu açıklaması zorunlu");if(!f.owner)return showToast("Sorumlu zorunlu");if(!f.dueDate)return showToast("Termin zorunlu");if(capa)f.capaNo=createCapaFromFinding(f);if(editFindingIndex!==null){findingRows[editFindingIndex]=f;editFindingIndex=null}else findingRows.push(f);clearFindingInputs();renderFindingPreview();showToast("Bulgu kaydedildi")}
-function editFinding(i){const f=findingRows[i];editFindingIndex=i;fType.value=f.type;fStandard.value=f.standard;fClause.value=f.clause;fOwner.value=f.owner;fDueDate.value=f.dueDate;fStatus.value=f.status;fDescription.value=f.description;fAction.value=f.action;fMode.textContent="BULGU DÜZENLE"}
-function clearFindingInputs(){editFindingIndex=null;fClause.value="";fOwner.value="";fDueDate.value=addDays(todayISO(),14);fStatus.value="Açık";fDescription.value="";fAction.value="";fMode.textContent="BULGU OLUŞTUR"}
+function addOrUpdateFinding(capa=false){const f={id:editFindingIndex!==null?findingRows[editFindingIndex].id:"F-"+Date.now(),type:fType.value,standard:fStandard.value,clause:fClause.value.trim(),owner:fOwner.value,owner_id:fOwner_id.value,owner_department:fOwner_department.value,owner_email:fOwner_email.value,dueDate:fDueDate.value,status:capa?"CAPA Açıldı":fStatus.value,description:fDescription.value.trim(),action:fAction.value.trim(),capaNo:"",createdAt:new Date().toISOString()};if(!f.description)return showToast("Bulgu açıklaması zorunlu");if(!f.owner)return showToast("Sorumlu zorunlu");if(!f.dueDate)return showToast("Termin zorunlu");if(capa)f.capaNo=createCapaFromFinding(f);if(editFindingIndex!==null){findingRows[editFindingIndex]=f;editFindingIndex=null}else findingRows.push(f);clearFindingInputs();renderFindingPreview();showToast("Bulgu kaydedildi")}
+function editFinding(i){const f=findingRows[i];editFindingIndex=i;fType.value=f.type;fStandard.value=f.standard;fClause.value=f.clause;fOwner.value=f.owner;fOwner_id.value=f.owner_id||"";fOwner_department.value=f.owner_department||"";fOwner_email.value=f.owner_email||"";fDueDate.value=f.dueDate;fStatus.value=f.status;fDescription.value=f.description;fAction.value=f.action;fMode.textContent="BULGU DÜZENLE"}
+function clearFindingInputs(){editFindingIndex=null;fClause.value="";fOwner.value="";fOwner_id.value="";fOwner_department.value="";fOwner_email.value="";fDueDate.value=addDays(todayISO(),14);fStatus.value="Açık";fDescription.value="";fAction.value="";fMode.textContent="BULGU OLUŞTUR"}
 function renderFindingPreview(){const a=findingPreview;findingRows=activeOnly(findingRows);if(!findingRows.length){a.innerHTML='<div class="empty" style="margin-top:14px">Bulgu yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Tip</th><th>Std</th><th>Madde</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>CAPA</th><th>Aksiyon</th></tr></thead><tbody>';findingRows.forEach((f,i)=>h+=`<tr><td><span class="status ${statusClass(f.type)}">${f.type}</span></td><td>${f.standard}</td><td>${f.clause}</td><td>${f.owner}</td><td>${formatDateTR(f.dueDate)}</td><td><span class="status ${statusClass(f.status)}">${f.status}</span></td><td>${f.capaNo||"-"}</td><td><button class="small-btn view" onclick="editFinding(${i})">Düzenle</button><button class="small-btn rev" onclick="archiveFinding(${i})">Arşivle</button></td></tr>`);a.innerHTML=h+"</tbody></table>"}
 
 function createCapaFromFinding(f){const c=getCapa(),y=new Date().getFullYear(),n=String(c.length+1).padStart(4,"0"),capaNo="CAPA-"+y+"-"+n,eightD="8D-"+y+"-"+n;c.unshift({id:"CAPA-"+Date.now(),eightDNo:eightD,capaNo,openDate:todayISO(),dueDate:f.dueDate,capaClass:f.type==="Majör Uygunsuzluk"?"Majör CAPA":"Minör CAPA",source:"İç Denetim",department:department.value,criticality:f.type==="Majör Uygunsuzluk"?"Yüksek":"Orta",status:"Açık",problemTitle:"Denetim Bulgusu: "+f.clause,leader:f.owner,problemDescription:f.description,correctiveAction:f.action,auditFindingId:f.id,auditReference:auditNo.value,tasks:[],actions:[],createdBy:currentUserName(),createdAt:new Date().toISOString(),auditTrail:[{action:"Denetim bulgusundan CAPA oluşturuldu",user:currentUserName(),date:new Date().toISOString()}]});setCapa(c);return capaNo}
