@@ -104,6 +104,13 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 .cloud-comment-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:10px}
 .cloud-comment-box textarea{min-height:70px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;background:#fff;resize:vertical;color:#0f1b2f;font-weight:900}
 
+.cloud-chip-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.cloud-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border-radius:999px;background:#eefaf2;color:#1f7d3d;border:1px solid #bfe7ca;font-size:11px;font-weight:950}
+.cloud-chip button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+.integration-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.integration-card{border:1px solid #e0e8f0;border-radius:18px;background:linear-gradient(135deg,#fff,#f8fbff);padding:14px;color:#536176;font-size:13px;font-weight:850}
+.integration-card b{display:block;color:#071b34;margin-bottom:7px}
+
 </style>
 </head>
 
@@ -139,6 +146,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
+<a href="audit.html">İç Denetim</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
@@ -156,7 +164,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
 <a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
@@ -165,6 +173,8 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
 <div class="submenu open">
 <a class="active" href="calibration-management.html">Kalibrasyon Yönetimi</a>
+<a href="maintenance.html">Bakım Yönetimi</a>
+<a href="equipment.html">Ekipman Yönetimi</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
@@ -214,6 +224,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
+<a href="audit.html">İç Denetim</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
@@ -231,7 +242,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
 <a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
@@ -240,6 +251,8 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
 <div class="submenu open">
 <a class="active" href="calibration-management.html">Kalibrasyon Yönetimi</a>
+<a href="maintenance.html">Bakım Yönetimi</a>
+<a href="equipment.html">Ekipman Yönetimi</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
@@ -376,6 +389,32 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div id="certificatePreview"></div>
 </div>
 </section>
+
+<section class="panel">
+<div class="panel-head"><h3>İç Denetim, CAPA, Risk ve YGG Entegrasyonu</h3><span class="status green">Bulut Bağlantısı</span></div>
+<div class="integration-grid">
+<div class="integration-card"><b>İç Denetim → CAPA</b>Uygunsuz kalibrasyon bulgularından CAPA kaydı açılır ve assignments, notifications, audit_logs ile izlenir.</div>
+<div class="integration-card"><b>İç Denetim → Risk</b>Geciken veya uygunsuz cihazlar risk kayıtlarıyla ilişkilendirilir.</div>
+<div class="integration-card"><b>İç Denetim → YGG</b>Kritik kalibrasyon riskleri YGG gündemine aktarılır.</div>
+<div class="integration-card"><b>İç Denetim → Aksiyon</b>Takip görevleri Aksiyon Merkezi ve assignments tablosuna bağlanır.</div>
+<div class="integration-card"><b>İç Denetim → Doküman</b>Sertifika, rapor ve kayıt dosyaları doküman yönetimiyle ilişkilendirilir.</div>
+<div class="integration-card"><b>İç Denetim → Eğitim</b>Kullanım hatası veya yetkinlik eksikliği eğitim kayıtlarına bağlanır.</div>
+<div class="integration-card"><b>İç Denetim → Değişiklik Yönetimi</b>Ölçüm yöntemi, cihaz veya periyot değişiklikleri değişiklik yönetimine aktarılır.</div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="createCapaFromCalibration()">CAPA Aç</button>
+<button class="btn orange" onclick="createRiskFromCalibration()">Risk Kaydı Aç</button>
+<button class="btn green" onclick="sendCalibrationToYgg()">YGG Gündemine Aktar</button>
+<button class="btn purple" onclick="createActionFromCalibration()">Aksiyon Oluştur</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yorumlar</h3><span class="status blue">Çoklu Kullanıcı</span></div>
+<div class="cloud-comment-panel">
+<div class="cloud-comment-box"><textarea id="calibrationCommentInput" placeholder="Kalibrasyon süreci için yorum yazın"></textarea><button class="btn primary" onclick="submitCalibrationComment()">Yorum Ekle</button></div>
+<div class="cloud-comment-list" id="calibrationCommentList"></div>
+</div>
 
 <section class="panel">
 <div class="panel-head">
@@ -559,8 +598,11 @@ document.addEventListener("click",e=>{
   });
 });
 
-const session=Veri.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-localStorage.setItem("gdnl_qdms_session",Veri.stringify(session));
+const session=(()=>{
+  try{return JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_eqms_session")||"null")||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};}
+  catch(e){return {name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};}
+})();
+localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 userName.textContent=session.name||"Kerem Güdenli";userRole.textContent=session.role||"Super Administrator";
 
 
@@ -632,7 +674,7 @@ if(!text){clearSearchResults();input.focus();renderDevices();return;}
 renderDevices();
 let results=[];
 getDevices().map(normalizeDevice).forEach(d=>{
-const fullText=Veri.stringify(d).toLowerCase();
+const fullText=JSON.stringify(d).toLowerCase();
 if(fullText.includes(text)){
 results.push({type:"record",module:"Kalibrasyon Yönetimi",title:d.deviceCode||d.deviceNo||"Cihaz",detail:`${d.deviceNo||""} ${d.deviceName||""} ${d.serialNo||""} ${d.location||""} ${d.deviceOwner||""} ${d.calibrationStatus||""} ${(d.certificates||[]).map(c=>c.certificateNo+" "+c.certificateType).join(" ")}`,deviceId:d.id});
 }
@@ -670,8 +712,8 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMobileMenu();})
 let selectedIndex=null,uploadedSertifika=null;
 
 function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
-function getLS(k){try{return Veri.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
-function setLS(k,v){localStorage.setItem(k,Veri.stringify(v))}
+function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
+function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function getDevices(){return (cloudDevices&&cloudDevices.length?cloudDevices:getLS("gdnl_calibrations")).filter(x=>!isPassiveRecord(x))}
 function setDevices(v){cloudDevices=(v||[]).filter(x=>!isPassiveRecord(x));setLS("gdnl_calibrations",cloudDevices)}
 function getUsers(){return (cloudUsers&&cloudUsers.length?cloudUsers:getLS("gdnl_users")).map(normalizeCloudUser)}
@@ -723,9 +765,12 @@ const p={id:"DEV-"+Date.now(),deviceNo:deviceNo.value,deviceCode:deviceCode.valu
 if(!p.deviceCode)return showToast("Cihaz kodu zorunlu");if(!p.deviceName)return showToast("Cihaz adı zorunlu");if(!p.deviceOwner)return showToast("Cihaz sorumlusu zorunlu");if(!p.nextKalibrasyonDate)return showToast("Sonraki kalibrasyon tarihi zorunlu");
 const items=getDevices();items.unshift(p);setDevices(items);
 await saveCloudRecord("/calibration-records",p,"Kalibrasyon","Kalibrasyon cihazı oluşturuldu");
-await assignmentCloud(p.id,"Kalibrasyon sorumluluğu: "+p.deviceCode,p.deviceOwner,p.department,p.nextCalibrationDate,"Kalibrasyon");
+await createWorkflowStep(p.id,"Kalibrasyon kaydı oluşturuldu","Açık");
+await writeWorkflowHistory(p.id,"Kalibrasyon kaydı oluşturuldu","",JSON.stringify(p));
+await createApprovalStep(p.id,"Kalibrasyon kaydı kontrol onayı",p.deviceOwner);
+await assignmentCloud(p.id,"Kalibrasyon sorumluluğu: "+p.deviceCode,p.deviceOwner,p.department,p.nextKalibrasyonDate,"Kalibrasyon");
 if(notify)createNotification(p,"Kalibrasyon cihazı kaydedildi: "+p.deviceCode);
-resetForm();renderDevices();showToast("Cihaz kaydedildi");
+resetForm();renderDevices();syncDashboardKpis();showToast("Cihaz kaydedildi");
 }
 
 function quarantineByForm(){usageStatus.value="Karantina";resultStatus.value="Uygunsuz";updateStatusFields();showToast("Form cihaz durumu karantina olarak işaretlendi")}
@@ -735,18 +780,21 @@ n.unshift(item);setNotifications(n);notifyCloud("Kalibrasyon Bildirimi",msg,d.de
 }
 
 certificateFile.addEventListener("change",e=>handleSertifika(e.target.files[0]));
+function certificateVersionNo(){return "V"+String((getDevices().find(d=>d.deviceNo===certDeviceSelect.value)?.certificates?.length||0)+1)}
 function handleSertifika(file){if(!file)return;if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");certificateFile.value="";return}const r=new FileReader();r.onload=ev=>{uploadedSertifika={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Sertifika hazırlandı")};r.readAsDataURL(file)}
-function addSertifika(){
+async function addSertifika(){
 if(!certDeviceSelect.value)return showToast("Cihaz seç");if(!certificateNo.value.trim())return showToast("Sertifika no zorunlu");if(!uploadedSertifika)return showToast("Dosya seç");
 const items=getDevices().map(normalizeDevice),idx=items.findIndex(d=>d.deviceNo===certDeviceSelect.value);if(idx<0)return;
-const c={id:"CERT-"+Date.now(),certificateNo:certificateNo.value.trim(),certificateType:certificateType.value,result:certificateResult.value,certificateDate:certificateDate.value,expiryDate:certificateExpiry.value,description:certificateDescription.value.trim(),file:uploadedSertifika,createdAt:new Date().toISOString()};
+const r2File=await uploadToR2(certificateFile.files[0],"Kalibrasyon",certDeviceSelect.value,currentUserName());
+const c={id:"CERT-"+Date.now(),certificateNo:certificateNo.value.trim(),certificateType:certificateType.value,result:certificateResult.value,certificateDate:certificateDate.value,expiryDate:certificateExpiry.value,description:certificateDescription.value.trim(),file:{...uploadedSertifika,...(r2File||{})},createdAt:new Date().toISOString(),version_no:certificateVersionNo()};
+await apiPost("/file-versions",{related_id:items[idx].id||items[idx].deviceNo,module:"Kalibrasyon",version_no:c.version_no,previous_version:(items[idx].certificates[0]?.version_no||""),uploaded_by:currentUserName(),uploaded_at:new Date().toISOString(),revision_reason:certificateDescription.value.trim()||"Kalibrasyon sertifikası yüklendi",file:c.file});
 items[idx].certificates.unshift(c);
 items[idx].lastKalibrasyonDate=certificateDate.value||items[idx].lastKalibrasyonDate;
 items[idx].nextKalibrasyonDate=certificateExpiry.value||items[idx].nextKalibrasyonDate;
 items[idx].resultStatus=certificateResult.value;
 items[idx].calibrationStatus=getStatusFromDate(items[idx].nextKalibrasyonDate,items[idx].resultStatus);
 items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Kalibrasyon sertifikası yüklendi: "+c.certificateNo});
-setDevices(items);createNotification(items[idx],"Kalibrasyon sertifikası yüklendi: "+c.certificateNo);clearSertifikaInputs();renderDevices();showToast("Sertifika cihaza bağlandı");
+setDevices(items);createNotification(items[idx],"Kalibrasyon sertifikası yüklendi: "+c.certificateNo);await logAuditCloud("Sertifika yüklendi","Kalibrasyon",items[idx].id||items[idx].deviceNo,c);await activityCloud("Sertifika yüklendi","Kalibrasyon",items[idx].id||items[idx].deviceNo,c);clearSertifikaInputs();renderDevices();syncDashboardKpis();showToast("Sertifika cihaza bağlandı");
 }
 function getStatusFromDate(date,result){const left=daysLeft(date);if(result==="Uygunsuz")return"Uygunsuz";if(left<0)return"Gecikti";if(left<=30)return"Yaklaşıyor";if(result==="Şartlı Uygun")return"Şartlı Uygun";return"Geçerli"}
 function clearSertifikaInputs(){certDeviceSelect.value="";certificateNo.value="";certificateType.value="Kalibrasyon Sertifikası";certificateResult.value="Uygun";certificateDate.value=todayISO();certificateExpiry.value=addMonths(todayISO(),12);certificateDescription.value="";certificateFile.value="";uploadedSertifika=null}
@@ -808,7 +856,95 @@ function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout
 globalSearch.addEventListener("input",renderDevices);
 globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch();});
 
-initUsers();resetForm();clearSertifikaInputs();renderDevices();
+
+
+/* Enterprise Cloud Ready genişletme katmanı */
+let cloudRoles=[],cloudPermissions=[],cloudRolePermissions=[],cloudComments=[];
+async function loadEnterpriseCloudData(){
+  const [roles,permissions,rolePermissions,comments]=await Promise.all([apiGet("/roles"),apiGet("/permissions"),apiGet("/role-permissions"),apiGet("/comments")]);
+  cloudRoles=Array.isArray(roles)?roles:(roles?.roles||roles?.results||[]);
+  cloudPermissions=Array.isArray(permissions)?permissions:(permissions?.permissions||permissions?.results||[]);
+  cloudRolePermissions=Array.isArray(rolePermissions)?rolePermissions:(rolePermissions?.role_permissions||rolePermissions?.results||[]);
+  cloudComments=(Array.isArray(comments)?comments:(comments?.comments||comments?.results||[])).filter(c=>String(c.module||"")==="Kalibrasyon");
+  renderCalibrationComments();
+}
+function hasPermission(permission){
+  if(currentUserRole()==="Super Administrator")return true;
+  const role=cloudRoles.find(r=>String(r.name||r.role||"")===currentUserRole());
+  if(!role)return true;
+  return cloudRolePermissions.some(rp=>String(rp.role_id||rp.role)===String(role.id||role.name)&&String(rp.permission||rp.permission_name||"")===permission);
+}
+function requirePermission(permission){
+  if(hasPermission(permission))return true;
+  showToast("Bu işlem için yetkiniz yok");
+  return false;
+}
+async function syncDashboardKpis(){
+  const items=getDevices();
+  const payload={module:"Kalibrasyon",open_actions:items.filter(x=>["Gecikti","Uygunsuz","Yaklaşıyor"].includes(x.calibrationStatus)).length,open_risks:items.filter(x=>x.riskRef).length,open_capa:items.filter(x=>x.capaRef).length,upcoming_due:items.filter(x=>Number(x.remainingDays)<=30&&Number(x.remainingDays)>=0).length,updated_by:currentUserName(),updated_at:new Date().toISOString()};
+  await apiPost("/kpi-results",payload);
+}
+async function signedFileAccess(fileRecord){
+  if(!fileRecord)return null;
+  const key=fileRecord.r2_key||fileRecord.key||fileRecord.fileName||"";
+  const signed=await apiGet("/file/"+encodeURIComponent(key)+"?signed=1");
+  return signed?.signed_url||signed?.temporary_token||signed?.url||fileRecord.url||null;
+}
+async function createApprovalStep(recordId,stepName,approver){
+  return apiPost("/approval-steps",{related_id:recordId,module:"Kalibrasyon",step_no:1,step_name:stepName,approver_id:approver?.id||"",approver_name:approver?.fullname||approver||"",approver_department:approver?.department||"",approval_type:"Sıralı",required:1,status:"Bekliyor",created_at:new Date().toISOString()});
+}
+async function createWorkflowStep(recordId,stepName,status="Açık"){
+  return apiPost("/workflow-steps",{related_id:recordId,module:"Kalibrasyon",step_no:1,step_name:stepName,previous_step:"",next_step:"",required:1,status,created_at:new Date().toISOString()});
+}
+async function writeWorkflowHistory(recordId,action,oldValue="",newValue=""){
+  return apiPost("/workflow-history",{related_id:recordId,module:"Kalibrasyon",action,old_value:oldValue,new_value:newValue,created_by:currentUserName(),created_at:new Date().toISOString()});
+}
+async function writeApprovalHistory(recordId,action,note=""){
+  return apiPost("/approval-history",{related_id:recordId,module:"Kalibrasyon",action,note,approved_by:currentUserName(),approved_at:new Date().toISOString(),signature_id:"SIG-"+Date.now(),signature_hash:btoa(unescape(encodeURIComponent(recordId+currentUserName()+Date.now()))),approval_token:"TOK-"+Date.now()});
+}
+async function submitCalibrationComment(){
+  const input=document.getElementById("calibrationCommentInput");
+  const text=(input?.value||"").trim();
+  if(!text)return showToast("Yorum boş olamaz");
+  const payload={id:"COM-"+Date.now(),module:"Kalibrasyon",related_id:selectedIndex!==null?(getDevices()[selectedIndex]?.id||getDevices()[selectedIndex]?.deviceNo||""):"GENEL",comment:text,user_id:session.id||"",user_name:currentUserName(),department:session.department||"",created_at:new Date().toISOString()};
+  await apiPost("/comments",payload);
+  cloudComments.unshift(payload);
+  input.value="";
+  await logAuditCloud("Yorum eklendi","Kalibrasyon",payload.related_id,payload);
+  await activityCloud("Yorum eklendi","Kalibrasyon",payload.related_id,payload);
+  renderCalibrationComments();
+  showToast("Yorum eklendi");
+}
+function renderCalibrationComments(){
+  const area=document.getElementById("calibrationCommentList");
+  if(!area)return;
+  const rows=(cloudComments||[]).slice(0,50);
+  area.innerHTML=rows.length?rows.map(c=>`<div class="cloud-comment-item"><b>${escapeHTML(c.user_name||c.created_by||"Kullanıcı")} · ${escapeHTML(formatDateTR(c.created_at))}</b>${escapeHTML(c.comment||c.description||"")}</div>`).join(""):'<div class="empty">Henüz yorum yok.</div>';
+}
+async function createCapaFromCalibration(){
+  if(!requirePermission("Oluşturma"))return;
+  const d=selectedIndex!==null?getDevices()[selectedIndex]:getDevices()[0];
+  if(!d)return showToast("CAPA açılacak cihaz bulunamadı");
+  const payload={id:"CAP-"+Date.now(),source_module:"Kalibrasyon",related_id:d.id||d.deviceNo,title:"Kalibrasyon uygunsuzluğu - "+(d.deviceCode||d.deviceNo),description:d.notes||d.technicalDescription||"Kalibrasyon bağlantılı CAPA",owner:d.deviceOwner,department:d.department,status:"Açık",created_by:currentUserName(),created_at:new Date().toISOString()};
+  await apiPost("/capas",payload);await assignmentCloud(payload.id,payload.title,d.deviceOwner,d.department,d.nextKalibrasyonDate,"CAPA");await notifyCloud("Kalibrasyon CAPA açıldı",payload.title,d.deviceOwner,"CAPA",payload.id);await logAuditCloud("CAPA bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);await activityCloud("CAPA bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);showToast("CAPA kaydı açıldı");
+}
+async function createRiskFromCalibration(){
+  const d=selectedIndex!==null?getDevices()[selectedIndex]:getDevices()[0];if(!d)return showToast("Risk açılacak cihaz bulunamadı");
+  const payload={id:"RSK-"+Date.now(),source_module:"Kalibrasyon",related_id:d.id||d.deviceNo,title:"Kalibrasyon riski - "+(d.deviceCode||d.deviceNo),risk_owner:d.deviceOwner,department:d.department,status:"Açık",created_by:currentUserName(),created_at:new Date().toISOString()};
+  await apiPost("/risks",payload);await logAuditCloud("Risk bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);await activityCloud("Risk bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);showToast("Risk kaydı açıldı");
+}
+async function sendCalibrationToYgg(){
+  const d=selectedIndex!==null?getDevices()[selectedIndex]:getDevices()[0];if(!d)return showToast("YGG aktarımı için cihaz bulunamadı");
+  const payload={id:"YGG-"+Date.now(),source_module:"Kalibrasyon",related_id:d.id||d.deviceNo,title:"YGG gündemi - Kalibrasyon",description:(d.deviceCode||d.deviceNo)+" için YGG gündemi",status:"Açık",created_by:currentUserName(),created_at:new Date().toISOString()};
+  await apiPost("/meeting-actions",payload);await logAuditCloud("YGG bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);await activityCloud("YGG bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);showToast("YGG gündemine aktarıldı");
+}
+async function createActionFromCalibration(){
+  const d=selectedIndex!==null?getDevices()[selectedIndex]:getDevices()[0];if(!d)return showToast("Aksiyon oluşturulacak cihaz bulunamadı");
+  const payload={id:"AKS-"+Date.now(),module:"Kalibrasyon",related_id:d.id||d.deviceNo,title:"Kalibrasyon aksiyonu - "+(d.deviceCode||d.deviceNo),description:d.notes||"Kalibrasyon takip aksiyonu",priority:d.criticality||"Normal",status:"Açık",due_date:d.nextKalibrasyonDate,created_by:currentUserName(),created_at:new Date().toISOString()};
+  await apiPost("/actions",payload);await assignmentCloud(payload.id,payload.title,d.deviceOwner,d.department,d.nextKalibrasyonDate,"Aksiyon");await notifyCloud("Kalibrasyon aksiyonu",payload.title,d.deviceOwner,"Aksiyon",payload.id);await logAuditCloud("Aksiyon bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);await activityCloud("Aksiyon bağlantısı","Kalibrasyon",d.id||d.deviceNo,payload);showToast("Aksiyon oluşturuldu");
+}
+
+loadCloudBaseData().then(()=>loadEnterpriseCloudData()).finally(()=>{initUsers();resetForm();clearSertifikaInputs();renderDevices();syncDashboardKpis();});
 console.log("GDNL EQMS Kalibrasyon Yönetimi yüklendi");
 </script>
 </body>
