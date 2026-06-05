@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Process Management</title>
+<title>GDNL EQMS | Süreç Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -135,6 +135,16 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
   padding-left:10px;
 }
 
+
+.user-select-wrap{position:relative}
+.user-autocomplete{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.14);z-index:120;display:none;max-height:260px;overflow:auto}
+.user-autocomplete.active{display:block}
+.user-option{padding:11px 12px;border-bottom:1px solid #eef2f7;cursor:pointer;font-size:12px;font-weight:900;color:#536176}
+.user-option:hover{background:#f7fbf8;color:#1f7d3d}
+.selected-users{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.user-chip-tag{display:inline-flex;align-items:center;gap:8px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950}
+.user-chip-tag button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+
 </style>
 </head>
 
@@ -187,7 +197,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 <button class="menu-group" type="button">🔬 Teknik Yönetim<span>▾</span></button>
@@ -204,14 +214,14 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -257,7 +267,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 <button class="menu-group" type="button">🔬 Teknik Yönetim<span>▾</span></button>
@@ -274,14 +284,14 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Process Management<br>ISO Process Approach</div>
+<div class="sidebar-footer">GDNL EQMS Kurumsal<br>Süreç Yönetimi<br>ISO Süreç Yaklaşımı</div>
 </aside>
 
 <main class="main">
@@ -292,22 +302,20 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <button class="search-btn" onclick="runSearch()">Ara</button>
 </div>
 <div class="profile">
-    <button class="user-chip" onclick="window.location.href='dashboard.html'">
-        Kerem Güdenli
-    </button>
+    <button class="user-chip" onclick="window.location.href='dashboard.html'"><span id="userName">GDNL Kullanıcısı</span></button>
 
     <button class="logout-btn" onclick="logout()">
-        Logout
+        Çıkış Yap
     </button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Process Management</h1>
+<h1>Süreç Yönetimi</h1>
 <p>Tek proses kaydıyla süreç sahibi, girdi/çıktı, KPI, risk, CAPA, audit, doküman, standart, yasal şart, eğitim, müşteri/tedarikçi etkisi ve YGG bağlantılarını yönet.</p>
 </div>
-<div class="hero-badge">Process Engine: <span>One Record</span></div>
+<div class="hero-badge">Süreç Motoru: <span>Tek Kayıt</span></div>
 
 </section>
 
@@ -338,16 +346,16 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Tek Süreç Kaydı</h3><span class="status blue">ONE PROCESS RECORD</span></div>
+<div class="panel-head"><h3>Tek Süreç Kaydı</h3><span class="status blue">TEK SÜREÇ KAYDI</span></div>
 
 <div class="form-grid">
 <div class="field"><label>Süreç No</label><input id="processNo" readonly></div>
 <div class="field"><label>Süreç Adı</label><input id="processName"></div>
 <div class="field"><label>Süreç Tipi</label><select id="processType"><option>Ana Süreç</option><option>Destek Süreç</option><option>Yönetim Süreci</option><option>Dış Kaynaklı Süreç</option><option>Kritik Operasyonel Süreç</option></select></div>
-<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Satış</option><option>İK</option><option>Bakım</option><option>Laboratuvar</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Yönetim</option></select></div>
+<div class="field"><label>Departman</label><select id="department"></select></div>
 
-<div class="field"><label>Süreç Sahibi</label><select id="processOwner"></select></div>
-<div class="field"><label>Vekil Sahip</label><select id="backupOwner"></select></div>
+<div class="field"><label>Süreç Sahibi</label><input id="processOwner" autocomplete="off"></div>
+<div class="field"><label>Vekil Sahip</label><input id="backupOwner" autocomplete="off"></div>
 <div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Durum</label><select id="processStatus"><option>Aktif</option><option>Pasif</option><option>Revizyon Bekliyor</option><option>İyileştirme Bekliyor</option><option>Kullanım Dışı</option><option>Arşiv</option></select></div>
 
@@ -366,15 +374,15 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="field full"><label>Bağlı Dokümanlar</label><input id="documentRefs" placeholder="PR.XXX, FR.XXX, talimat, form, prosedür"></div>
 <div class="field full"><label>Bağlı KPI'lar</label><input id="kpiRefs" placeholder="OTD, PPM, audit skoru, eğitim tamamlama, enerji tüketimi..."></div>
 <div class="field full"><label>Bağlı Riskler</label><input id="riskRefs" placeholder="RSK-2026-0001, proses riski, çevre/İSG/BGYS riski"></div>
-<div class="field full"><label>Bağlı CAPA / 8D / Aksiyon</label><input id="capaRefs" placeholder="CAPA-2026-0001, 8D, Action Center kayıtları"></div>
-<div class="field full"><label>Bağlı Audit</label><input id="auditRefs" placeholder="AUD-2026-0001, bulgu no, audit skoru"></div>
+<div class="field full"><label>Bağlı CAPA / 8D / Aksiyon</label><input id="capaRefs" placeholder="CAPA-2026-0001, 8D, Aksiyon Merkezi kayıtları"></div>
+<div class="field full"><label>Bağlı Denetim</label><input id="auditRefs" placeholder="AUD-2026-0001, bulgu no, audit skoru"></div>
 <div class="field full"><label>Bağlı Standart Maddeleri</label><input id="standardRefs" placeholder="ISO 9001 4.4, 9.1, 10.2 / IATF / CoP / EV"></div>
 <div class="field full"><label>Bağlı Yasal Şartlar</label><input id="legalRefs" placeholder="LEG-2026-0001, mevzuat, ruhsat, izin"></div>
 <div class="field full"><label>Bağlı Eğitim / Yetkinlik</label><input id="trainingRefs" placeholder="Eğitim no, yetkinlik matrisi, sertifika"></div>
 <div class="field full"><label>Bağlı YGG Girdisi</label><input id="yggRefs" placeholder="YGG-2026-0001, yönetim kararı"></div>
 
 <div class="field"><label>Aksiyon Gerekli mi?</label><select id="actionRequired"><option>Hayır</option><option>Evet</option></select></div>
-<div class="field"><label>Aksiyon Sorumlusu</label><select id="actionOwner"></select></div>
+<div class="field"><label>Aksiyon Sorumlusu</label><input id="actionOwner" autocomplete="off"></div>
 <div class="field"><label>Aksiyon Termin</label><input id="actionDueDate" type="date"></div>
 <div class="field"><label>Aksiyon Durumu</label><select id="actionStatus"><option>Yok</option><option>Açık</option><option>Devam Ediyor</option><option>Kanıt Bekliyor</option><option>Onay Bekliyor</option><option>Kapalı</option><option>Gecikti</option></select></div>
 <div class="field full"><label>Süreç İyileştirme / Aksiyon Notu</label><textarea id="actionDescription"></textarea></div>
@@ -393,7 +401,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="panel-head">
 <h3>Süreç Listesi</h3>
 <div class="toolbar">
-<select id="departmentFilter" onchange="renderProcesses()"><option value="">Tüm Departmanlar</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Satış</option><option>İK</option><option>Laboratuvar</option><option>Çevre</option><option>İSG</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Yönetim</option></select>
+<select id="departmentFilter" onchange="renderProcesses()"><option value="">Tüm Departmanlar</option></select>
 <select id="typeFilter" onchange="renderProcesses()"><option value="">Tüm Tipler</option><option>Ana Süreç</option><option>Destek Süreç</option><option>Yönetim Süreci</option><option>Dış Kaynaklı Süreç</option><option>Kritik Operasyonel Süreç</option></select>
 <select id="statusFilter" onchange="renderProcesses()"><option value="">Tüm Durumlar</option><option>Aktif</option><option>Pasif</option><option>Revizyon Bekliyor</option><option>İyileştirme Bekliyor</option><option>Kullanım Dışı</option><option>Arşiv</option></select>
 </div>
@@ -425,289 +433,505 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
+
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator"};
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-const userNameEl=document.getElementById("userName");
-const userRoleEl=document.getElementById("userRole");
-const userAvatarEl=document.getElementById("userAvatar");
-if(userNameEl)userNameEl.textContent=session.name||"User";
-if(userRoleEl)userRoleEl.textContent=session.role||"User";
-if(userAvatarEl)userAvatarEl.textContent=session.name||"Kerem Güdenli";
+const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const MODULE_NAME="PROCESS_MANAGEMENT";
+const state={
+  currentUser:null,
+  users:[],
+  departments:[],
+  processes:[],
+  notifications:[],
+  auditLogs:[],
+  activityFeed:[],
+  comments:[],
+  approvals:[],
+  approvalHistory:[],
+  workflowHistory:[],
+  files:[],
+  permissions:{},
+  selectedId:null
+};
 
-let selectedId=null;
-
-function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
-function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
-function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function getProcesses(){return getLS("gdnl_process_management")}
-function setProcesses(v){setLS("gdnl_process_management",v)}
-function getNotifications(){return getLS("gdnl_notifications")}
-function setNotifications(v){setLS("gdnl_notifications",v)}
+function getCookie(name){
+  return document.cookie.split(";").map(x=>x.trim()).find(x=>x.startsWith(name+"="))?.split("=").slice(1).join("=")||"";
+}
+function clearAuthCookie(){
+  document.cookie="gdnl_eos_token=; Max-Age=0; path=/; SameSite=Lax";
+  document.cookie="gdnl_eqms_token=; Max-Age=0; path=/; SameSite=Lax";
+}
+function authHeaders(json=true){
+  const token=decodeURIComponent(getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token")||"");
+  const h=json?{"Content-Type":"application/json"}:{};
+  if(token)h.Authorization="Bearer "+token;
+  return h;
+}
+async function apiRequest(path,opt={}){
+  const res=await fetch(GDNL_API_BASE+path,{
+    method:opt.method||"GET",
+    headers:{...authHeaders(opt.json!==false),...(opt.headers||{})},
+    body:opt.body?JSON.stringify(opt.body):opt.rawBody,
+    cache:"no-store"
+  });
+  if(!res.ok)throw new Error(path+" HTTP "+res.status);
+  const text=await res.text();
+  if(!text)return null;
+  try{return JSON.parse(text)}catch(e){return text}
+}
+async function safeGet(path){try{return await apiRequest(path)}catch(e){return null}}
+async function safePost(path,body){try{return await apiRequest(path,{method:"POST",body})}catch(e){return null}}
+function asArray(p){
+  if(Array.isArray(p))return p;
+  if(p&&Array.isArray(p.data))return p.data;
+  if(p&&Array.isArray(p.items))return p.items;
+  if(p&&Array.isArray(p.rows))return p.rows;
+  if(p&&Array.isArray(p.results))return p.results;
+  return [];
+}
+function passive(r){
+  const s=String(r?.status||r?.processStatus||r?.state||r?.record_status||"").toLowerCase();
+  return ["deleted","silindi","arşiv","arşivlendi","arsiv","arsivlendi","iptal","iptal edildi","cancelled","archived"].includes(s);
+}
+function activeOnly(rows){return asArray(rows).filter(x=>!passive(x))}
+function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function highlightText(value,keyword){
+  const safe=escapeHTML(value);
+  if(!keyword)return safe;
+  const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
+}
+function normalizeUser(u){
+  return {
+    id:u?.id||u?.user_id||u?.uid||"",
+    fullname:u?.fullname||u?.fullName||u?.name||u?.username||"GDNL Kullanıcısı",
+    email:u?.email||"",
+    role:u?.role||u?.role_name||"",
+    department:u?.department||u?.department_name||""
+  };
+}
+function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value}
+function showToast(m){const t=document.getElementById("toast");if(!t)return;t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split("T")[0]}
 function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(todayISO()))/(1000*60*60*24))}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
-function statusClass(s){if(["Aktif","Kapalı","Uygun"].includes(s))return"green";if(["Revizyon Bekliyor","İyileştirme Bekliyor","Devam Ediyor","Kanıt Bekliyor","Onay Bekliyor","Yüksek"].includes(s))return"orange";if(["Kullanım Dışı","Gecikti","Kritik"].includes(s))return"red";if(["Pasif","Arşiv","Yok","Düşük"].includes(s))return"gray";return"blue"}
-function generateNo(){processNo.value="PRS-"+new Date().getFullYear()+"-"+String(getProcesses().length+1).padStart(4,"0")}
-function initUsers(){
-const users=getLS("gdnl_users").filter(u=>u.status!=="Pasif");
-["processOwner","backupOwner","actionOwner"].forEach(id=>{
-const el=document.getElementById(id);el.innerHTML='<option value="">Seçiniz</option>';
-users.forEach(u=>el.innerHTML+=`<option value="${u.fullName}">${u.fullName} / ${u.department||"-"}</option>`);
-if(!users.length)el.innerHTML+='<option>Kerem Güdenli</option>';
-});
+function statusClass(s){
+  if(["Aktif","Kapalı","Uygun","Tamamlandı"].includes(s))return"green";
+  if(["Revizyon Bekliyor","İyileştirme Bekliyor","Devam Ediyor","Kanıt Bekliyor","Onay Bekliyor","Yüksek"].includes(s))return"orange";
+  if(["Kullanım Dışı","Gecikti","Kritik","Reddedildi"].includes(s))return"red";
+  if(["Pasif","Arşiv","Yok","Düşük"].includes(s))return"gray";
+  return"blue";
 }
-function saveProcess(notify=false){
-if(!processName.value.trim())return showToast("Süreç adı zorunlu");
-if(!processOwner.value)return showToast("Süreç sahibi zorunlu");
-const rec={
-id:"PRSID-"+Date.now(),
-processNo:processNo.value,
-processName:processName.value.trim(),
-processType:processType.value,
-department:department.value,
-processOwner:processOwner.value,
-backupOwner:backupOwner.value,
-criticality:criticality.value,
-processStatus:processStatus.value,
-lastReviewDate:lastReviewDate.value,
-nextReviewDate:nextReviewDate.value,
-performanceScore:Number(performanceScore.value||0),
-maturityLevel:maturityLevel.value,
-processPurpose:processPurpose.value.trim(),
-inputs:inputs.value.trim(),
-outputs:outputs.value.trim(),
-processCustomers:processCustomers.value.trim(),
-processSuppliers:processSuppliers.value.trim(),
-resources:resources.value.trim(),
-links:{
-documentRefs:documentRefs.value.trim(),
-kpiRefs:kpiRefs.value.trim(),
-riskRefs:riskRefs.value.trim(),
-capaRefs:capaRefs.value.trim(),
-auditRefs:auditRefs.value.trim(),
-standardRefs:standardRefs.value.trim(),
-legalRefs:legalRefs.value.trim(),
-trainingRefs:trainingRefs.value.trim(),
-yggRefs:yggRefs.value.trim()
-},
-action:{required:actionRequired.value,owner:actionOwner.value,dueDate:actionDueDate.value,status:actionStatus.value,description:actionDescription.value.trim()},
-createdBy:session.name,
-createdAt:new Date().toISOString(),
-timeline:[{date:new Date().toISOString(),user:session.name,action:"Süreç kaydı oluşturuldu"}]
-};
-const items=getProcesses();items.unshift(rec);setProcesses(items);
-if(notify)createNotification(rec,"Süreç kaydı oluşturuldu: "+rec.processName);
-resetForm();renderProcesses();showToast("Süreç kaydedildi");
+function can(permission){
+  const p=state.permissions||{};
+  if(p.is_admin||p["Yetki verme"])return true;
+  return p[permission]!==false;
+}
+async function loadBaseData(){
+  const [users,departments,processes,notifications,auditLogs,activityFeed,comments,approvals,approvalHistory,workflowHistory,files,roles,permissions,rolePermissions]=await Promise.all([
+    safeGet("/users"),
+    safeGet("/departments"),
+    safeGet("/processes"),
+    safeGet("/notifications"),
+    safeGet("/audit-logs"),
+    safeGet("/activity-feed"),
+    safeGet("/comments"),
+    safeGet("/approvals"),
+    safeGet("/approval-history"),
+    safeGet("/workflow-history"),
+    safeGet("/files"),
+    safeGet("/roles"),
+    safeGet("/permissions"),
+    safeGet("/role_permissions")
+  ]);
+  state.users=activeOnly(users).map(normalizeUser);
+  state.departments=activeOnly(departments).map(d=>({id:d.id||d.department_id||"",department_name:d.department_name||d.name||d.department||""})).filter(d=>d.department_name);
+  state.processes=activeOnly(processes);
+  state.notifications=activeOnly(notifications);
+  state.auditLogs=activeOnly(auditLogs);
+  state.activityFeed=activeOnly(activityFeed);
+  state.comments=activeOnly(comments);
+  state.approvals=activeOnly(approvals);
+  state.approvalHistory=activeOnly(approvalHistory);
+  state.workflowHistory=activeOnly(workflowHistory);
+  state.files=activeOnly(files);
+  state.currentUser=state.users[0]||{id:"",fullname:"GDNL Kullanıcısı",role:"",department:"",email:""};
+  setText("userName",state.currentUser.fullname||"GDNL Kullanıcısı");
+  renderDepartmentSelects();
+}
+function renderDepartmentSelects(){
+  const options='<option value="">Seçiniz</option>'+state.departments.map(d=>`<option value="${escapeHTML(d.department_name)}">${escapeHTML(d.department_name)}</option>`).join("");
+  ["department"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=options});
+  const filter=document.getElementById("departmentFilter");
+  if(filter)filter.innerHTML='<option value="">Tüm Departmanlar</option>'+state.departments.map(d=>`<option value="${escapeHTML(d.department_name)}">${escapeHTML(d.department_name)}</option>`).join("");
+}
+function searchUsers(term){
+  const q=String(term||"").toLowerCase();
+  return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,12);
+}
+function setupUserAutocomplete(inputId,{multiple=false,departmentTargetId=""}={}){
+  const input=document.getElementById(inputId);
+  if(!input||input.dataset.ready==="1")return;
+  input.dataset.ready="1";
+  const wrap=document.createElement("div");
+  wrap.className="user-select-wrap";
+  input.parentNode.insertBefore(wrap,input);
+  wrap.appendChild(input);
+  const list=document.createElement("div");
+  list.className="user-autocomplete";
+  wrap.appendChild(list);
+  const chips=document.createElement("div");
+  chips.className="selected-users";
+  if(multiple)wrap.appendChild(chips);
+  input.selectedUsers=[];
+  function renderChips(){
+    chips.innerHTML=(input.selectedUsers||[]).map((u,i)=>`<span class="user-chip-tag">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")}<button type="button" onclick="removeSelectedUser('${inputId}',${i})">×</button></span>`).join("");
+    input.dataset.users=JSON.stringify(input.selectedUsers||[]);
+  }
+  input.addEventListener("input",()=>{
+    const found=searchUsers(input.value);
+    list.innerHTML=found.map((u,i)=>`<div class="user-option" data-i="${i}">${escapeHTML(u.fullname)}<br><small>${escapeHTML(u.email)} · ${escapeHTML(u.role)} · ${escapeHTML(u.department)}</small></div>`).join("");
+    list.classList.toggle("active",found.length>0);
+    list.querySelectorAll(".user-option").forEach(el=>el.onclick=()=>{
+      const u=found[Number(el.dataset.i)];
+      if(multiple){
+        input.selectedUsers=[...(input.selectedUsers||[]),u].filter((x,pos,arr)=>arr.findIndex(y=>String(y.id)===String(x.id))===pos);
+        input.value="";
+        renderChips();
+      }else{
+        input.value=u.fullname;
+        input.dataset.userId=u.id;
+        input.dataset.email=u.email;
+        input.dataset.role=u.role;
+        input.dataset.department=u.department;
+      }
+      if(departmentTargetId&&document.getElementById(departmentTargetId))document.getElementById(departmentTargetId).value=u.department||"";
+      list.classList.remove("active");
+    });
+  });
+  document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.classList.remove("active")});
+}
+function removeSelectedUser(inputId,index){
+  const input=document.getElementById(inputId);if(!input)return;
+  input.selectedUsers=(input.selectedUsers||[]).filter((_,i)=>i!==index);
+  const chips=input.closest(".user-select-wrap")?.querySelector(".selected-users");
+  if(chips)chips.innerHTML=input.selectedUsers.map((u,i)=>`<span class="user-chip-tag">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")}<button type="button" onclick="removeSelectedUser('${inputId}',${i})">×</button></span>`).join("");
+  input.dataset.users=JSON.stringify(input.selectedUsers||[]);
+}
+async function getSequence(moduleName){
+  const seq=await safeGet("/sequence?module="+encodeURIComponent(moduleName));
+  return seq?.number||seq?.sequence||seq?.data?.number||seq?.next||"PRS-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6);
+}
+async function generateNo(){const el=document.getElementById("processNo");if(el)el.value=await getSequence(MODULE_NAME)}
+async function uploadToR2(file,metadata={}){
+  const form=new FormData();
+  form.append("file",file);
+  Object.entries(metadata).forEach(([k,v])=>form.append(k,v));
+  const res=await fetch(GDNL_API_BASE+"/upload",{method:"POST",headers:authHeaders(false),body:form,cache:"no-store"});
+  if(!res.ok)throw new Error("Dosya yüklenemedi");
+  return await res.json();
+}
+async function openSignedFile(r2Key){
+  const data=await safeGet("/file/"+encodeURIComponent(r2Key));
+  const url=data?.signed_url||data?.temporary_url||data?.url;
+  if(url)window.open(url,"_blank");
+  return data;
+}
+function collectPayload(){
+  const owner=document.getElementById("processOwner");
+  const backup=document.getElementById("backupOwner");
+  const actionOwner=document.getElementById("actionOwner");
+  return {
+    id:state.selectedId||"",
+    processNo:processNo.value,
+    processName:processName.value.trim(),
+    processType:processType.value,
+    department:department.value,
+    department_name:department.value,
+    processOwner:owner.value.trim(),
+    process_owner_id:owner.dataset.userId||"",
+    process_owner_email:owner.dataset.email||"",
+    processOwnerDepartment:owner.dataset.department||"",
+    backupOwner:backup.value.trim(),
+    backup_owner_id:backup.dataset.userId||"",
+    backup_owner_email:backup.dataset.email||"",
+    criticality:criticality.value,
+    processStatus:processStatus.value,
+    status:processStatus.value,
+    lastReviewDate:lastReviewDate.value,
+    nextReviewDate:nextReviewDate.value,
+    performanceScore:Number(performanceScore.value||0),
+    maturityLevel:maturityLevel.value,
+    processPurpose:processPurpose.value.trim(),
+    inputs:inputs.value.trim(),
+    outputs:outputs.value.trim(),
+    processCustomers:processCustomers.value.trim(),
+    processSuppliers:processSuppliers.value.trim(),
+    resources:resources.value.trim(),
+    links:{
+      documentRefs:documentRefs.value.trim(),
+      kpiRefs:kpiRefs.value.trim(),
+      riskRefs:riskRefs.value.trim(),
+      capaRefs:capaRefs.value.trim(),
+      auditRefs:auditRefs.value.trim(),
+      standardRefs:standardRefs.value.trim(),
+      legalRefs:legalRefs.value.trim(),
+      trainingRefs:trainingRefs.value.trim(),
+      yggRefs:yggRefs.value.trim()
+    },
+    action:{
+      required:actionRequired.value,
+      owner:actionOwner.value.trim(),
+      owner_id:actionOwner.dataset.userId||"",
+      owner_email:actionOwner.dataset.email||"",
+      dueDate:actionDueDate.value,
+      status:actionStatus.value,
+      description:actionDescription.value.trim()
+    },
+    archive_fields:{
+      closed_at:null,deleted_by:null,deleted_at:null,archived_by:null,archived_at:null,restored_by:null,restored_at:null,archive_reason:null,delete_reason:null
+    }
+  };
 }
 function normalize(r){
-r.timeline=r.timeline||[];r.links=r.links||{};r.action=r.action||{status:"Yok"};
-if(r.nextReviewDate&&daysLeft(r.nextReviewDate)<0&&r.processStatus==="Aktif")r.processStatus="Revizyon Bekliyor";
-if(r.action.dueDate&&daysLeft(r.action.dueDate)<0&&!["Kapalı","Yok"].includes(r.action.status))r.action.status="Gecikti";
-return r;
+  r.timeline=r.timeline||[];
+  r.links=r.links||{};
+  r.action=r.action||{status:"Yok"};
+  if(r.nextReviewDate&&daysLeft(r.nextReviewDate)<0&&r.processStatus==="Aktif")r.processStatus="Revizyon Bekliyor";
+  if(r.action.dueDate&&daysLeft(r.action.dueDate)<0&&!["Kapalı","Yok"].includes(r.action.status))r.action.status="Gecikti";
+  return r;
 }
-function renderProcesses(){
-let items=getProcesses().map(normalize);setProcesses(items);items=getProcesses().map(normalize);
-updateCards(items);
-const q=globalSearch.value.toLowerCase(),df=departmentFilter.value,tf=typeFilter.value,sf=statusFilter.value;
-const filtered=items.filter(r=>`${r.processNo} ${r.processName} ${r.processType} ${r.department} ${r.processOwner} ${r.criticality} ${r.processStatus} ${r.processPurpose} ${Object.values(r.links||{}).join(" ")}`.toLowerCase().includes(q)&&(!df||r.department===df)&&(!tf||r.processType===tf)&&(!sf||r.processStatus===sf));
-if(!filtered.length){processTable.innerHTML='<div class="empty">Süreç kaydı bulunamadı.</div>';return}
-let h='<table><thead><tr><th>No</th><th>Süreç</th><th>Tip</th><th>Departman</th><th>Sahip</th><th>Skor</th><th>Kritiklik</th><th>Durum</th><th>Bağlantı</th><th>Aksiyon</th></tr></thead><tbody>';
-filtered.forEach(r=>{
-const linkCount=Object.values(r.links||{}).filter(Boolean).length;
-h+=`<tr>
-<td>${r.processNo}</td>
-<td>${r.processName}<br><small>${r.maturityLevel}</small></td>
-<td>${r.processType}</td>
-<td>${r.department}</td>
-<td>${r.processOwner}<br><small>Vekil: ${r.backupOwner||"-"}</small></td>
-<td>${r.performanceScore}%<div class="progress"><div class="bar" style="width:${r.performanceScore}%"></div></div></td>
-<td><span class="status ${statusClass(r.criticality)}">${r.criticality}</span></td>
-<td><span class="status ${statusClass(r.processStatus)}">${r.processStatus}</span></td>
-<td>${linkCount} alan</td>
-<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer('${r.id}')">İncele</button><button class="small-btn warn" onclick="notifyProcess('${r.id}')">Bildir</button></div></td>
-</tr>`;
-});
-processTable.innerHTML=h+"</tbody></table>";
+async function writeAudit(action,record,oldValue=null,newValue=null,changedField=""){
+  const user=state.currentUser||{};
+  await safePost("/audit-logs",{module:"Süreç Yönetimi",action,record_no:record.processNo||record.id,user_id:user.id,user_name:user.fullname,ip_address:"",user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token")});
+  await safePost("/activity-feed",{module:"Süreç Yönetimi",action,record_no:record.processNo||record.id,description:record.processName||"",old_value:oldValue,new_value:newValue,changed_field:changedField,user_id:user.id,user_name:user.fullname});
 }
-function updateCards(items){
-totalProcesses.textContent=items.length;
-activeProcesses.textContent=items.filter(r=>r.processStatus==="Aktif").length;
-criticalProcesses.textContent=items.filter(r=>r.criticality==="Kritik").length;
-avgPerformance.textContent=items.length?Math.round(items.reduce((s,r)=>s+Number(r.performanceScore||0),0)/items.length)+"%":"0%";
-riskLinked.textContent=items.filter(r=>r.links?.riskRefs).length;
-capaLinked.textContent=items.filter(r=>r.links?.capaRefs).length;
-auditLinked.textContent=items.filter(r=>r.links?.auditRefs).length;
-yggLinked.textContent=items.filter(r=>r.links?.yggRefs).length;
+async function createNotification(r,msg){
+  const user=state.currentUser||{};
+  const n={
+    type:"Mail + SMS",
+    module:"Süreç Yönetimi",
+    documentCode:r.processNo,
+    documentName:r.processName,
+    mailGroups:[r.process_owner_email,r.action?.owner_email].filter(Boolean).join("; "),
+    smsGroups:"",
+    distributionPoints:(r.processType||"")+" / "+(r.department||""),
+    message:msg,
+    status:"Kuyrukta",
+    priority:r.criticality==="Kritik"?"Kritik":"Yüksek",
+    is_read:false,
+    read_by:null,
+    read_at:null,
+    created_by:user.fullname,
+    created_at:new Date().toISOString()
+  };
+  await safePost("/notifications",n);
 }
-function openDrawer(id){
-selectedId=id;
-const r=getProcesses().map(normalize).find(x=>x.id===id);if(!r)return;
-drawerTitle.textContent=r.processNo+" / "+r.processName;
-drawerStatus.textContent=r.processStatus;
-drawerStatus.className="status "+statusClass(r.processStatus);
-drawerContent.innerHTML=`<div class="info-box"><b>No:</b> ${r.processNo}
-<b>Süreç:</b> ${r.processName}
-<b>Tip:</b> ${r.processType}
-<b>Departman:</b> ${r.department}
-<b>Sahip:</b> ${r.processOwner}
-<b>Vekil:</b> ${r.backupOwner||"-"}
-<b>Kritiklik:</b> ${r.criticality}
-<b>Durum:</b> ${r.processStatus}
-<b>Skor:</b> ${r.performanceScore}%
-<b>Olgunluk:</b> ${r.maturityLevel}
-<b>Son Review:</b> ${formatDateTR(r.lastReviewDate)}
-<b>Sonraki Review:</b> ${formatDateTR(r.nextReviewDate)}</div>
-<div class="info-box"><b>Amaç:</b>
-${r.processPurpose||"-"}
-
-<b>Girdiler:</b>
-${r.inputs||"-"}
-
-<b>Çıktılar:</b>
-${r.outputs||"-"}
-
-<b>Müşteri:</b> ${r.processCustomers||"-"}
-<b>Tedarikçi:</b> ${r.processSuppliers||"-"}
-<b>Kaynaklar:</b> ${r.resources||"-"}</div>
-<div class="info-box"><b>Bağlantılar</b>
-Doküman: ${r.links.documentRefs||"-"}
-KPI: ${r.links.kpiRefs||"-"}
-Risk: ${r.links.riskRefs||"-"}
-CAPA/8D: ${r.links.capaRefs||"-"}
-Audit: ${r.links.auditRefs||"-"}
-Standart: ${r.links.standardRefs||"-"}
-Yasal: ${r.links.legalRefs||"-"}
-Eğitim/Yetkinlik: ${r.links.trainingRefs||"-"}
-YGG: ${r.links.yggRefs||"-"}</div>
-<div class="info-box"><b>Aksiyon</b>
-Gerekli: ${r.action.required}
-Sorumlu: ${r.action.owner||"-"}
-Termin: ${formatDateTR(r.action.dueDate)}
-Durum: ${r.action.status}
-Açıklama: ${r.action.description||"-"}</div>
-<div class="info-box"><b>Timeline</b>
-${(r.timeline||[]).map(t=>`${formatDateTR(t.date)} - ${t.user} - ${t.action}`).join("\\n")||"-"}</div>`;
-drawer.classList.add("active");
+async function saveProcess(notify=false){
+  if(!can("Oluşturma"))return showToast("Oluşturma yetkiniz yok");
+  if(!processName.value.trim())return showToast("Süreç adı zorunlu");
+  if(!processOwner.value.trim())return showToast("Süreç sahibi zorunlu");
+  const payload=collectPayload();
+  const user=state.currentUser||{};
+  payload.createdBy=user.fullname;
+  payload.createdById=user.id;
+  payload.createdAt=new Date().toISOString();
+  payload.timeline=[{date:new Date().toISOString(),user:user.fullname,action:"Süreç kaydı oluşturuldu"}];
+  const saved=await safePost("/processes",payload)||await safePost("/actions",{...payload,module:"Süreç Yönetimi"});
+  await safePost("/assignments",{module:"Süreç Yönetimi",record_no:payload.processNo,assigned_to_id:payload.action.owner_id||payload.process_owner_id,assigned_to_name:payload.action.owner||payload.processOwner,due_date:payload.action.dueDate,status:payload.action.status});
+  await writeAudit("Oluşturma",payload,null,payload,"record");
+  if(notify)await createNotification(payload,"Süreç kaydı oluşturuldu: "+payload.processName);
+  await loadBaseData();
+  await resetForm();
+  renderProcesses();
+  showToast(saved?"Süreç D1 üzerine kaydedildi":"Süreç API kaydı kontrol edilmeli");
 }
-function closeDrawer(){selectedId=null;drawer.classList.remove("active")}
-function updateRecord(id,changes,txt){const items=getProcesses().map(normalize);const i=items.findIndex(x=>x.id===id);if(i<0)return;items[i]={...items[i],...changes};items[i].timeline.unshift({date:new Date().toISOString(),user:session.name,action:txt});setProcesses(items);renderProcesses();if(selectedId)openDrawer(selectedId)}
-function makeCurrentActive(){if(!selectedId)return;updateRecord(selectedId,{processStatus:"Aktif"},"Süreç aktif yapıldı");showToast("Aktif yapıldı")}
-function makeCurrentImprove(){if(!selectedId)return;updateRecord(selectedId,{processStatus:"İyileştirme Bekliyor",action:{required:"Evet",status:"Açık",dueDate:addDays(todayISO(),30),description:"Süreç iyileştirme aksiyonu açıldı."}},"Süreç iyileştirme bekliyor yapıldı");showToast("İyileştirme bekliyor")}
-function makeCurrentPassive(){if(!selectedId)return;updateRecord(selectedId,{processStatus:"Pasif"},"Süreç pasif yapıldı");showToast("Pasif yapıldı")}
+async function updateRecord(id,changes,txt){
+  if(!can("Düzenleme"))return showToast("Düzenleme yetkiniz yok");
+  const items=state.processes.map(normalize);
+  const old=items.find(x=>String(x.id)===String(id));
+  const payload={...(old||{}),...changes,updated_at:new Date().toISOString()};
+  await safePost("/processes",payload);
+  await writeAudit(txt,payload,old,payload,"processStatus");
+  await loadBaseData();
+  renderProcesses();
+  if(state.selectedId)openDrawer(state.selectedId);
+}
+async function makeCurrentActive(){if(!state.selectedId)return;await updateRecord(state.selectedId,{processStatus:"Aktif",status:"Aktif"},"Süreç aktif yapıldı");showToast("Aktif yapıldı")}
+async function makeCurrentImprove(){if(!state.selectedId)return;await updateRecord(state.selectedId,{processStatus:"İyileştirme Bekliyor",status:"İyileştirme Bekliyor",action:{required:"Evet",status:"Açık",dueDate:addDays(todayISO(),30),description:"Süreç iyileştirme aksiyonu açıldı."}},"Süreç iyileştirme bekliyor yapıldı");showToast("İyileştirme bekliyor")}
+async function makeCurrentPassive(){if(!state.selectedId)return;await updateRecord(state.selectedId,{processStatus:"Pasif",status:"Pasif"},"Süreç pasif yapıldı");showToast("Pasif yapıldı")}
 function markProcessGood(){processStatus.value="Aktif";performanceScore.value=100;actionStatus.value="Yok";showToast("Form aktif/uygun seçildi")}
 function markProcessImprove(){processStatus.value="İyileştirme Bekliyor";actionRequired.value="Evet";actionStatus.value="Açık";actionDueDate.value=addDays(todayISO(),30);showToast("Form iyileştirme bekliyor seçildi")}
-function notifyCurrent(){if(selectedId)notifyProcess(selectedId)}
-function notifyProcess(id){const r=getProcesses().find(x=>x.id===id);if(!r)return;createNotification(r,"Süreç bildirimi: "+r.processName+" / "+r.processStatus);showToast("Bildirim oluşturuldu")}
-function createImproveNotifications(){getProcesses().filter(r=>["Revizyon Bekliyor","İyileştirme Bekliyor"].includes(r.processStatus)).forEach(r=>createNotification(r,"Süreç aksiyonu gerekli: "+r.processName));showToast("Bildirimler oluşturuldu")}
-function createNotification(r,msg){
-const n=getNotifications();
-n.unshift({notificationId:"NTF-"+Date.now()+Math.random(),type:"Mail + SMS",module:"Process Management",documentCode:r.processNo,documentName:r.processName,mailGroups:r.processOwner+"; "+r.department+"; Yönetim",smsGroups:r.processOwner,distributionPoints:r.processType+" / "+r.department,message:msg,status:"Kuyrukta",priority:r.criticality==="Kritik"?"Critical":"High",createdAt:new Date().toISOString(),createdBy:session.name});
-setNotifications(n);
+async function notifyCurrent(){if(state.selectedId)await notifyProcess(state.selectedId)}
+async function notifyProcess(id){const r=state.processes.find(x=>String(x.id)===String(id));if(!r)return;await createNotification(r,"Süreç bildirimi: "+r.processName+" / "+r.processStatus);await writeAudit("Bildirim Oluşturma",r,null,r,"notifications");showToast("Bildirim oluşturuldu")}
+async function createImproveNotifications(){for(const r of state.processes.filter(r=>["Revizyon Bekliyor","İyileştirme Bekliyor"].includes(r.processStatus))){await createNotification(r,"Süreç aksiyonu gerekli: "+r.processName)}showToast("Bildirimler oluşturuldu")}
+function updateCards(items){
+  totalProcesses.textContent=items.length;
+  activeProcesses.textContent=items.filter(r=>r.processStatus==="Aktif").length;
+  criticalProcesses.textContent=items.filter(r=>r.criticality==="Kritik").length;
+  avgPerformance.textContent=items.length?Math.round(items.reduce((s,r)=>s+Number(r.performanceScore||0),0)/items.length)+"%":"0%";
+  riskLinked.textContent=items.filter(r=>r.links?.riskRefs).length;
+  capaLinked.textContent=items.filter(r=>r.links?.capaRefs).length;
+  auditLinked.textContent=items.filter(r=>r.links?.auditRefs).length;
+  yggLinked.textContent=items.filter(r=>r.links?.yggRefs).length;
+}
+function renderProcesses(){
+  let items=state.processes.map(normalize).filter(x=>!passive(x));
+  updateCards(items);
+  const q=(globalSearch?.value||"").toLowerCase(),df=departmentFilter.value,tf=typeFilter.value,sf=statusFilter.value;
+  const filtered=items.filter(r=>`${r.processNo} ${r.processName} ${r.processType} ${r.department} ${r.processOwner} ${r.criticality} ${r.processStatus} ${r.processPurpose} ${Object.values(r.links||{}).join(" ")}`.toLowerCase().includes(q)&&(!df||r.department===df)&&(!tf||r.processType===tf)&&(!sf||r.processStatus===sf));
+  if(!filtered.length){processTable.innerHTML='<div class="empty">Süreç kaydı bulunamadı.</div>';return}
+  let h='<table><thead><tr><th>No</th><th>Süreç</th><th>Tip</th><th>Departman</th><th>Sahip</th><th>Skor</th><th>Kritiklik</th><th>Durum</th><th>Bağlantı</th><th>Aksiyon</th></tr></thead><tbody>';
+  filtered.forEach(r=>{
+    const linkCount=Object.values(r.links||{}).filter(Boolean).length;
+    h+=`<tr>
+<td>${escapeHTML(r.processNo)}</td>
+<td>${escapeHTML(r.processName)}<br><small>${escapeHTML(r.maturityLevel)}</small></td>
+<td>${escapeHTML(r.processType)}</td>
+<td>${escapeHTML(r.department)}</td>
+<td>${escapeHTML(r.processOwner)}<br><small>Vekil: ${escapeHTML(r.backupOwner||"-")}</small></td>
+<td>${Number(r.performanceScore||0)}%<div class="progress"><div class="bar" style="width:${Number(r.performanceScore||0)}%"></div></div></td>
+<td><span class="status ${statusClass(r.criticality)}">${escapeHTML(r.criticality)}</span></td>
+<td><span class="status ${statusClass(r.processStatus)}">${escapeHTML(r.processStatus)}</span></td>
+<td>${linkCount} alan</td>
+<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer('${escapeHTML(r.id)}')">İncele</button><button class="small-btn warn" onclick="notifyProcess('${escapeHTML(r.id)}')">Bildir</button></div></td>
+</tr>`;
+  });
+  processTable.innerHTML=h+"</tbody></table>";
+}
+function openDrawer(id){
+  state.selectedId=id;
+  const r=state.processes.map(normalize).find(x=>String(x.id)===String(id));if(!r)return;
+  drawerTitle.textContent=r.processNo+" / "+r.processName;
+  drawerStatus.textContent=r.processStatus;
+  drawerStatus.className="status "+statusClass(r.processStatus);
+  drawerContent.innerHTML=`<div class="info-box"><b>No:</b> ${escapeHTML(r.processNo)}
+<b>Süreç:</b> ${escapeHTML(r.processName)}
+<b>Tip:</b> ${escapeHTML(r.processType)}
+<b>Departman:</b> ${escapeHTML(r.department)}
+<b>Sahip:</b> ${escapeHTML(r.processOwner)}
+<b>Vekil:</b> ${escapeHTML(r.backupOwner||"-")}
+<b>Kritiklik:</b> ${escapeHTML(r.criticality)}
+<b>Durum:</b> ${escapeHTML(r.processStatus)}
+<b>Skor:</b> ${Number(r.performanceScore||0)}%
+<b>Olgunluk:</b> ${escapeHTML(r.maturityLevel)}
+<b>Son Gözden Geçirme:</b> ${formatDateTR(r.lastReviewDate)}
+<b>Sonraki Gözden Geçirme:</b> ${formatDateTR(r.nextReviewDate)}</div>
+<div class="info-box"><b>Amaç:</b>
+${escapeHTML(r.processPurpose||"-")}
+
+<b>Girdiler:</b>
+${escapeHTML(r.inputs||"-")}
+
+<b>Çıktılar:</b>
+${escapeHTML(r.outputs||"-")}
+
+<b>Müşteri:</b> ${escapeHTML(r.processCustomers||"-")}
+<b>Tedarikçi:</b> ${escapeHTML(r.processSuppliers||"-")}
+<b>Kaynaklar:</b> ${escapeHTML(r.resources||"-")}</div>
+<div class="info-box"><b>Bağlantılar</b>
+Doküman: ${escapeHTML(r.links.documentRefs||"-")}
+KPI: ${escapeHTML(r.links.kpiRefs||"-")}
+Risk: ${escapeHTML(r.links.riskRefs||"-")}
+CAPA/8D: ${escapeHTML(r.links.capaRefs||"-")}
+Audit: ${escapeHTML(r.links.auditRefs||"-")}
+Standart: ${escapeHTML(r.links.standardRefs||"-")}
+Yasal: ${escapeHTML(r.links.legalRefs||"-")}
+Eğitim/Yetkinlik: ${escapeHTML(r.links.trainingRefs||"-")}
+YGG: ${escapeHTML(r.links.yggRefs||"-")}</div>
+<div class="info-box"><b>Aksiyon</b>
+Gerekli: ${escapeHTML(r.action.required||"")}
+Sorumlu: ${escapeHTML(r.action.owner||"-")}
+Termin: ${formatDateTR(r.action.dueDate)}
+Durum: ${escapeHTML(r.action.status||"")}
+Açıklama: ${escapeHTML(r.action.description||"-")}</div>`;
+  drawer.classList.add("active");
+}
+function closeDrawer(){state.selectedId=null;drawer.classList.remove("active")}
+async function resetForm(){
+  await generateNo();
+  processName.value="";
+  processType.value="Ana Süreç";
+  department.value=state.currentUser?.department||"";
+  processOwner.value="";
+  backupOwner.value="";
+  criticality.value="Orta";
+  processStatus.value="Aktif";
+  lastReviewDate.value=todayISO();
+  nextReviewDate.value=addDays(todayISO(),365);
+  performanceScore.value=0;
+  maturityLevel.value="3 - Uygulanıyor";
+  processPurpose.value="";
+  inputs.value="";
+  outputs.value="";
+  processCustomers.value="";
+  processSuppliers.value="";
+  resources.value="";
+  documentRefs.value="";
+  kpiRefs.value="";
+  riskRefs.value="";
+  capaRefs.value="";
+  auditRefs.value="";
+  standardRefs.value="";
+  legalRefs.value="";
+  trainingRefs.value="";
+  yggRefs.value="";
+  actionRequired.value="Hayır";
+  actionOwner.value="";
+  actionDueDate.value=addDays(todayISO(),30);
+  actionStatus.value="Yok";
+  actionDescription.value="";
 }
 function exportCSV(){
-const rows=getProcesses().map(normalize);
-let csv="ProcessNo,Name,Type,Department,Owner,Criticality,Status,Score,Documents,KPI,Risk,CAPA,Audit,Standard,Legal,Training,YGG\n";
-rows.forEach(r=>csv+=`"${r.processNo}","${r.processName}","${r.processType}","${r.department}","${r.processOwner}","${r.criticality}","${r.processStatus}","${r.performanceScore}","${r.links.documentRefs}","${r.links.kpiRefs}","${r.links.riskRefs}","${r.links.capaRefs}","${r.links.auditRefs}","${r.links.standardRefs}","${r.links.legalRefs}","${r.links.trainingRefs}","${r.links.yggRefs}"\n`);
-const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="process_management.csv";a.click();URL.revokeObjectURL(url);
+  const rows=state.processes.map(normalize).filter(x=>!passive(x));
+  let csv="ProcessNo,Name,Type,Department,Owner,Criticality,Status,Score,Documents,KPI,Risk,CAPA,Audit,Standard,Legal,Training,YGG\n";
+  rows.forEach(r=>csv+=`"${r.processNo}","${r.processName}","${r.processType}","${r.department}","${r.processOwner}","${r.criticality}","${r.processStatus}","${r.performanceScore}","${r.links.documentRefs||""}","${r.links.kpiRefs||""}","${r.links.riskRefs||""}","${r.links.capaRefs||""}","${r.links.auditRefs||""}","${r.links.standardRefs||""}","${r.links.legalRefs||""}","${r.links.trainingRefs||""}","${r.links.yggRefs||""}"\n`);
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="surec_yonetimi.csv";a.click();URL.revokeObjectURL(url);
 }
-function resetForm(){
-generateNo();processName.value="";processType.value="Ana Süreç";department.value="Kalite";processOwner.value="";backupOwner.value="";criticality.value="Orta";processStatus.value="Aktif";lastReviewDate.value=todayISO();nextReviewDate.value=addDays(todayISO(),365);performanceScore.value=0;maturityLevel.value="3 - Uygulanıyor";processPurpose.value="";inputs.value="";outputs.value="";processCustomers.value="";processSuppliers.value="";resources.value="";documentRefs.value="";kpiRefs.value="";riskRefs.value="";capaRefs.value="";auditRefs.value="";standardRefs.value="";legalRefs.value="";trainingRefs.value="";yggRefs.value="";actionRequired.value="Hayır";actionOwner.value="";actionDueDate.value=addDays(todayISO(),30);actionStatus.value="Yok";actionDescription.value="";
-}
-function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
-globalSearch.addEventListener("input",renderProcesses);
-
-function openMobileMenu(){document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active");document.body.style.overflow="hidden"}
-function closeMobileMenu(){document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active");document.body.style.overflow=""}
-
-function escapeHTML(value){
-return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
-function runSearch(){
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-if(!text){clearSearchResults();input.focus();renderProcesses();return;}
-let results=[];
-getProcesses().map(normalize).forEach(r=>{
-const fullText=JSON.stringify(r).toLowerCase();
-if(fullText.includes(text)){
-results.push({type:"record",module:"Süreç Yönetimi",title:r.processNo+" / "+r.processName,detail:`${r.processType||""} ${r.department||""} ${r.processOwner||""} ${r.criticality||""} ${r.processStatus||""} ${Object.values(r.links||{}).join(" ")}`,id:r.id});
-}
-});
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
-renderProcesses();
-}
-function collectPageSearchResults(keyword){
-const results=[];const seen=new Set();
-document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});}
-}
-});
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
-});
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
-});
-return results;
+async function runSearch(){
+  const input=document.getElementById("globalSearch");
+  const text=input.value.trim().toLowerCase();
+  if(!text){clearSearchResults();input.focus();renderProcesses();return}
+  let results=[];
+  const cloud=await safeGet("/search?q="+encodeURIComponent(text));
+  results=asArray(cloud).filter(x=>!passive(x)).map(x=>({type:"page",module:x.module||"Arama",title:x.title||x.name||x.code||"Kayıt",detail:x.description||x.detail||"",go:x.url||x.page||"#"}));
+  state.processes.map(normalize).forEach(r=>{
+    const fullText=JSON.stringify(r).toLowerCase();
+    if(fullText.includes(text))results.push({type:"record",module:"Süreç Yönetimi",title:r.processNo+" / "+r.processName,detail:`${r.processType||""} ${r.department||""} ${r.processOwner||""} ${r.criticality||""} ${r.processStatus||""} ${Object.values(r.links||{}).join(" ")}`,id:r.id});
+  });
+  document.querySelectorAll(".menu a,.mobile-drawer-menu a").forEach(el=>{
+    const label=el.textContent.trim(),href=el.getAttribute("href")||"";
+    if((label+" "+href).toLowerCase().includes(text))results.push({type:"page",module:"Menü",title:label,detail:href,go:href||"#"});
+  });
+  renderSearchResults(text,results);
+  renderProcesses();
 }
 function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-if(!panel||!area)return;
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-if(!results.length){area.innerHTML='<div class="empty">Arama sonucu bulunamadı.</div>';return;}
-area.innerHTML=results.map((r,i)=>`<div class="result-card">
+  const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),count=document.getElementById("searchResultCount"),key=document.getElementById("searchKeyword");
+  if(!panel||!area)return;
+  panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";
+  if(!results.length){area.innerHTML='<div class="empty">Arama sonucu bulunamadı.</div>';return}
+  area.innerHTML=results.slice(0,80).map((r,i)=>`<div class="result-card">
 <div><span class="status blue">${escapeHTML(r.module||"Sonuç")}</span></div>
 <div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail||"",keyword)}</small></div>
 <button class="result-open" onclick="openSearchResult(${i})">Aç</button>
 </div>`).join("");
-window.__processSearchResults=results;
+  window.__processSearchResults=results.slice(0,80);
 }
 function openSearchResult(i){
-const r=(window.__processSearchResults||[])[i];if(!r)return;
-if(r.type==="record"&&r.id){openDrawer(r.id);return;}
-if(r.type==="page"&&r.go&&r.go!=="#"){window.location.href=r.go;return;}
-if(r.type==="scroll"&&r.selector){document.querySelector(r.selector)?.scrollIntoView({behavior:"smooth",block:"center"});}
+  const r=(window.__processSearchResults||[])[i];if(!r)return;
+  if(r.type==="record"&&r.id){openDrawer(r.id);return}
+  if(r.type==="page"&&r.go&&r.go!=="#"){window.location.href=r.go;return}
 }
 function clearSearchResults(){
-const panel=document.getElementById("searchResultsPanel");
-if(panel)panel.classList.remove("active");
-const area=document.getElementById("searchResultsArea");if(area)area.innerHTML="";
-window.__processSearchResults=[];
+  const panel=document.getElementById("searchResultsPanel");if(panel)panel.classList.remove("active");
+  const area=document.getElementById("searchResultsArea");if(area)area.innerHTML="";
+  window.__processSearchResults=[];
 }
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMobileMenu();clearSearchResults();}});
-
-initUsers();resetForm();renderProcesses();setInterval(renderProcesses,8000);
-</script>
-
-<script>
+function openMobileMenu(){document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active");document.body.style.overflow=""}
+function logout(){clearAuthCookie();window.location.href="index.html"}
 function initLockedAccordionMenu(){
   document.querySelectorAll(".menu-group").forEach(btn=>{
     btn.addEventListener("click",function(){
@@ -715,20 +939,28 @@ function initLockedAccordionMenu(){
       if(!submenu || !submenu.classList.contains("submenu")) return;
       const container=this.closest("nav");
       if(container){
-        container.querySelectorAll(".submenu").forEach(menu=>{
-          if(menu!==submenu) menu.classList.remove("open");
-        });
-        container.querySelectorAll(".menu-group").forEach(group=>{
-          if(group!==this) group.classList.remove("active-group");
-        });
+        container.querySelectorAll(".submenu").forEach(menu=>{if(menu!==submenu) menu.classList.remove("open")});
+        container.querySelectorAll(".menu-group").forEach(group=>{if(group!==this) group.classList.remove("active-group")});
       }
       submenu.classList.toggle("open");
       this.classList.toggle("active-group", submenu.classList.contains("open"));
     });
   });
 }
-document.addEventListener("DOMContentLoaded", initLockedAccordionMenu);
+async function boot(){
+  initLockedAccordionMenu();
+  await loadBaseData();
+  setupUserAutocomplete("processOwner",{departmentTargetId:"department"});
+  setupUserAutocomplete("backupOwner");
+  setupUserAutocomplete("actionOwner");
+  await resetForm();
+  renderProcesses();
+  globalSearch.addEventListener("input",renderProcesses);
+  globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMobileMenu();clearSearchResults()}});
+  setInterval(async()=>{await loadBaseData();renderProcesses()},30000);
+}
+boot();
 </script>
-
 </body>
 </html>
