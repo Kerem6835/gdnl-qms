@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Customer Management</title>
+<title>GDNL EQMS | Müşteri Yönetimi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 html,body{min-height:100%;overflow-x:hidden}
@@ -106,6 +106,19 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 .mobile-drawer-menu .menu-group{font-size:15px;padding:14px 15px}
 .mobile-drawer-menu .submenu{margin-left:10px;padding-left:10px}
 
+
+/* === GDNL CLOUD KİŞİ SEÇİMİ === */
+.gdnl-autocomplete-wrap{position:relative}
+.gdnl-user-suggestions{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.16);z-index:150;max-height:240px;overflow:auto;display:none}
+.gdnl-user-suggestions.active{display:block}
+.gdnl-user-option{padding:11px 13px;cursor:pointer;font-weight:850;color:#0f1b2f;border-bottom:1px solid #eef2f7}
+.gdnl-user-option:hover{background:#eefaf2;color:#1f7d3d}
+.gdnl-user-option small{display:block;color:#64748b;font-weight:750;margin-top:3px}
+.gdnl-user-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.gdnl-user-tag{display:inline-flex;align-items:center;gap:7px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950}
+.gdnl-user-tag button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+.gdnl-cloud-note{font-size:11px;color:#64748b;font-weight:850;margin-top:5px}
+
 </style>
 </head>
 
@@ -141,6 +154,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
+<a href="audit.html">İç Denetim</a>
 </div>
 
 <button class="menu-group" type="button">👥 Organizasyon Yönetimi</button>
@@ -160,7 +174,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -180,7 +194,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -188,7 +202,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
   
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -218,6 +232,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
+<a href="audit.html">İç Denetim</a>
 </div>
 
 <button class="menu-group" type="button">👥 Organizasyon Yönetimi</button>
@@ -237,7 +252,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -257,7 +272,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -265,7 +280,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Customer 360°<br>ISO 10002 / IATF Ready</div>
+<div class="sidebar-footer"></div>
 </aside>
 
 <main class="main">
@@ -278,16 +293,16 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="profile">
 <div class="avatar" id="userAvatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
 <span id="userRole" style="display:none">Super Administrator</span>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Customer Management Center</h1>
+<h1>Müşteri Yönetimi Center</h1>
 <p>Müşteri kartı, kişiler, CSR, şikayet, memnuniyet anketi, doküman yükleme, proje, iletişim geçmişi, risk, CAPA ve YGG bağlantısı tek 360° ekranda.</p>
 </div>
-<div class="hero-badge">Customer Engine: <span>ISO 10002 Active</span></div>
+<div class="hero-badge">Müşteri Motoru: <span>ISO 10002 Aktif</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -303,8 +318,8 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 
 
 <section class="cards">
-<div class="card"><small>Toplam Müşteri</small><h2 id="totalCustomers">0</h2><p>Master müşteri kayıtları</p></div>
-<div class="card"><small>Aktif Müşteri</small><h2 id="activeCustomers">0</h2><p>Aktif statüde</p></div>
+<div class="card"><small>Toplam Müşteri</small><h2 id="totalMüşteris">0</h2><p>Ana müşteri kayıtları</p></div>
+<div class="card"><small>Aktif Müşteri</small><h2 id="activeMüşteris">0</h2><p>Aktif statüde</p></div>
 <div class="card"><small>Açık Şikayet</small><h2 id="openComplaints">0</h2><p>ISO 10002 takip</p></div>
 <div class="card"><small>Ortalama Memnuniyet</small><h2 id="avgSurvey">0%</h2><p>Anket skoru</p></div>
 </section>
@@ -313,11 +328,11 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="card"><small>CSR Dokümanı</small><h2 id="csrCount">0</h2><p>Müşteri özel şartı</p></div>
 <div class="card"><small>Açık CAPA/Risk</small><h2 id="riskCapaCount">0</h2><p>Bağlantılı aksiyonlar</p></div>
 <div class="card"><small>Proje</small><h2 id="projectCount">0</h2><p>APQP/PPAP/SOP</p></div>
-<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mail/SMS kayıtları</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>E-Posta/SMS kayıtları</p></div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Müşteri Ana Kartı</h3><span class="status blue">CREATE MODE</span></div>
+<div class="panel-head"><h3>Müşteri Ana Kartı</h3><span class="status blue">KAYIT MODU</span></div>
 <div class="form-grid">
 <div class="field"><label>Müşteri No</label><input id="customerNo" readonly></div>
 <div class="field"><label>Müşteri Kodu</label><input id="customerCode"></div>
@@ -327,7 +342,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="field"><label>Şehir</label><input id="city"></div>
 <div class="field"><label>Web Sitesi</label><input id="website"></div>
 <div class="field"><label>Sektör</label><select id="sector"><option>Otomotiv</option><option>EV</option><option>Enerji</option><option>Endüstriyel</option><option>Savunma</option><option>Medikal</option><option>Elektronik</option><option>Diğer</option></select></div>
-<div class="field"><label>Müşteri Tipi</label><select id="customerType"><option>OEM</option><option>Tier 1</option><option>Tier 2</option><option>Distribütör</option><option>End Customer</option><option>Laboratuvar</option><option>Proje Müşterisi</option></select></div>
+<div class="field"><label>Müşteri Tipi</label><select id="customerType"><option>OEM</option><option>Tier 1</option><option>Tier 2</option><option>Distribütör</option><option>Son Müşteri</option><option>Laboratuvar</option><option>Proje Müşterisi</option></select></div>
 <div class="field"><label>Durum</label><select id="customerStatus"><option>Aktif</option><option>Pasif</option><option>Potansiyel</option><option>Bloklu</option><option>Kaybedildi</option></select></div>
 <div class="field"><label>Risk Seviyesi</label><select id="riskLevel"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Müşteri Sınıfı</label><input id="customerClass" readonly></div>
@@ -341,7 +356,7 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 <div class="subgrid">
 <div class="field"><label>PPM</label><input id="ppm" type="number" value="0" oninput="updateClass()"></div>
 <div class="field"><label>OTD %</label><input id="otd" type="number" value="100" oninput="updateClass()"></div>
-<div class="field"><label>Audit Skoru</label><input id="auditScore" type="number" value="100" oninput="updateClass()"></div>
+<div class="field"><label>Denetim Skoru</label><input id="auditScore" type="number" value="100" oninput="updateClass()"></div>
 <div class="field"><label>CSR Uygunluk %</label><input id="csrScore" type="number" value="100" oninput="updateClass()"></div>
 <div class="field"><label>Memnuniyet %</label><input id="satisfactionScore" type="number" value="100" oninput="updateClass()"></div>
 <div class="field"><label>Toplam Skor</label><input id="overallScore" readonly></div>
@@ -349,20 +364,20 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 </div>
 
 <div class="actions">
-<button class="btn primary" onclick="saveCustomer()">Müşteri Kaydet</button>
-<button class="btn orange" onclick="saveCustomer(true)">Kaydet + Bildirim</button>
+<button class="btn primary" onclick="saveMüşteri()">Müşteri Kaydet</button>
+<button class="btn orange" onclick="saveMüşteri(true)">Kaydet + Bildirim</button>
 <button class="btn dark" onclick="resetForm()">Temizle</button>
 </div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Kişi / Yetkili Ekle</h3><span class="status purple">CONTACTS</span></div>
+<div class="panel-head"><h3>Kişi / Yetkili Ekle</h3><span class="status purple">KİŞİLER</span></div>
 <div class="box">
 <div class="subgrid">
-<div class="field"><label>Ad Soyad</label><input id="contactName"></div>
+<div class="field"><label>Ad Soyad</label><input id="contactName" data-user-autocomplete="true" data-department-target="contactDepartment" placeholder="Kullanıcı yaz ve seç"></div>
 <div class="field"><label>Görev</label><input id="contactTitle"></div>
-<div class="field"><label>Departman</label><select id="contactDepartment"><option>Kalite</option><option>Satınalma</option><option>Teknik</option><option>Proje</option><option>Yönetim</option><option>Satış</option><option>Lojistik</option></select></div>
-<div class="field"><label>E-Mail</label><input id="contactEmail"></div>
+<div class="field"><label>Departman</label><input id="contactDepartment" readonly placeholder="Kişi seçilince otomatik dolar"></div>
+<div class="field"><label>E-Posta</label><input id="contactEmail"></div>
 <div class="field"><label>Telefon</label><input id="contactPhone"></div>
 <div class="field"><label>Rol</label><select id="contactRole"><option>Kalite Kontağı</option><option>Teknik Kontak</option><option>Satınalma Kontağı</option><option>Karar Verici</option><option>Bilgi Amaçlı</option></select></div>
 </div>
@@ -372,10 +387,10 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Şikayet / ISO 10002 Kaydı</h3><span class="status red">COMPLAINT</span></div>
+<div class="panel-head"><h3>Şikayet / ISO 10002 Kaydı</h3><span class="status red">ŞİKAYET</span></div>
 <div class="box">
 <div class="subgrid">
-<div class="field"><label>Müşteri Seç</label><select id="complaintCustomer"></select></div>
+<div class="field"><label>Müşteri Seç</label><select id="complaintMüşteri"></select></div>
 <div class="field"><label>Şikayet No</label><input id="complaintNo" readonly></div>
 <div class="field"><label>Tarih</label><input id="complaintDate" type="date"></div>
 <div class="field"><label>Ürün / Proje</label><input id="complaintProduct"></div>
@@ -394,10 +409,10 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Müşteri Memnuniyet Anketi</h3><span class="status green">SURVEY FULL CYCLE</span></div>
+<div class="panel-head"><h3>Müşteri Memnuniyet Anketi</h3><span class="status green">ANKET DÖNGÜSÜ</span></div>
 <div class="box">
 <div class="subgrid">
-<div class="field"><label>Müşteri Seç</label><select id="surveyCustomer"></select></div>
+<div class="field"><label>Müşteri Seç</label><select id="surveyMüşteri"></select></div>
 <div class="field"><label>Anket No</label><input id="surveyNo" readonly></div>
 <div class="field"><label>Yıl</label><input id="surveyYear" type="number" value="2026"></div>
 <div class="field"><label>Anket Durumu</label><select id="surveyStatus"><option>Planlandı</option><option>Gönderildi</option><option>Cevaplandı</option><option>Aksiyon Açıldı</option><option>Kapalı</option></select></div>
@@ -421,11 +436,11 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Müşteri Doküman Merkezi</h3><span class="status orange">DOCUMENT UPLOAD</span></div>
+<div class="panel-head"><h3>Müşteri Doküman Merkezi</h3><span class="status orange">DOKÜMAN YÜKLEME</span></div>
 <div class="box">
 <div class="subgrid">
-<div class="field"><label>Müşteri Seç</label><select id="docCustomer"></select></div>
-<div class="field"><label>Doküman Tipi</label><select id="docType"><option>CSR</option><option>NDA</option><option>Çerçeve Sözleşme</option><option>Satınalma Şartları</option><option>Teknik Şartname</option><option>Drawing</option><option>RFQ</option><option>PO</option><option>Audit Raporu</option><option>Şikayet Dosyası</option><option>8D Raporu</option><option>PPAP Dosyası</option><option>IMDS</option><option>CoP Dokümanı</option><option>EV Gereksinimleri</option><option>Diğer</option></select></div>
+<div class="field"><label>Müşteri Seç</label><select id="docMüşteri"></select></div>
+<div class="field"><label>Doküman Tipi</label><select id="docType"><option>CSR</option><option>NDA</option><option>Çerçeve Sözleşme</option><option>Satınalma Şartları</option><option>Teknik Şartname</option><option>Teknik Resim</option><option>Teklif Talebi</option><option>Satınalma Siparişi</option><option>Denetim Raporu</option><option>Şikayet Dosyası</option><option>8D Raporu</option><option>PPAP Dosyası</option><option>IMDS</option><option>CoP Dokümanı</option><option>EV Gereksinimleri</option><option>Diğer</option></select></div>
 <div class="field"><label>Doküman Adı</label><input id="docName"></div>
 <div class="field"><label>Revizyon</label><input id="docRevision" value="V1"></div>
 <div class="field"><label>Geçerlilik</label><input id="docExpiry" type="date"></div>
@@ -439,14 +454,14 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Proje / İletişim / Audit Kaydı</h3><span class="status purple">360° ACTIVITY</span></div>
+<div class="panel-head"><h3>Proje / İletişim / Denetim Kaydı</h3><span class="status purple">360° FAALİYET</span></div>
 <div class="box">
 <div class="subgrid">
-<div class="field"><label>Müşteri Seç</label><select id="activityCustomer"></select></div>
-<div class="field"><label>Kayıt Tipi</label><select id="activityType"><option>Proje</option><option>İletişim</option><option>Audit</option><option>Toplantı</option><option>Mail</option><option>RFQ</option><option>PPAP</option><option>APQP</option><option>CoP</option><option>EV</option></select></div>
+<div class="field"><label>Müşteri Seç</label><select id="activityMüşteri"></select></div>
+<div class="field"><label>Kayıt Tipi</label><select id="activityType"><option>Proje</option><option>İletişim</option><option>Denetim</option><option>Toplantı</option><option>E-Posta</option><option>Teklif Talebi</option><option>PPAP</option><option>APQP</option><option>CoP</option><option>EV</option></select></div>
 <div class="field"><label>Kayıt No</label><input id="activityNo" readonly></div>
 <div class="field"><label>Tarih</label><input id="activityDate" type="date"></div>
-<div class="field"><label>Sorumlu</label><input id="activityOwner"></div>
+<div class="field"><label>Sorumlu</label><input id="activityOwner" data-user-autocomplete="true" placeholder="Kullanıcı yaz ve seç"></div>
 <div class="field"><label>Durum</label><select id="activityStatus"><option>Açık</option><option>Devam Ediyor</option><option>Tamamlandı</option><option>Kapalı</option><option>Gecikti</option></select></div>
 <div class="field full"><label>Konu / Açıklama</label><textarea id="activityDescription" class="big"></textarea></div>
 </div>
@@ -455,13 +470,25 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 </div>
 </section>
 
+
+<section class="panel">
+<div class="panel-head"><h3>Yorumlar ve İzlenebilirlik</h3><span class="status green">CLOUD READY</span></div>
+<div class="form-grid">
+<div class="field"><label>İlgili Kayıt No</label><input id="commentRecordNo" placeholder="Müşteri / şikayet / doküman no"></div>
+<div class="field"><label>Yorum Yapan</label><input id="commentOwner" data-user-autocomplete="true" placeholder="Kullanıcı yaz ve seç"></div>
+<div class="field full"><label>Yorum</label><textarea id="commentText" placeholder="Yorum, karar, takip notu veya müşteri iletişim notu"></textarea></div>
+</div>
+<div class="actions"><button class="btn primary" onclick="addCloudComment()">Yorum Ekle</button></div>
+<div id="commentPreview" class="box"><div class="empty">Henüz yorum yok.</div></div>
+</section>
+
 <section class="panel">
 <div class="panel-head">
-<h3>Customer Master List</h3>
+<h3>Müşteri Master Listesi</h3>
 <div class="toolbar">
-<select id="statusFilter" onchange="renderCustomers()"><option value="">Tüm Durumlar</option><option>Aktif</option><option>Pasif</option><option>Potansiyel</option><option>Bloklu</option></select>
-<select id="typeFilter" onchange="renderCustomers()"><option value="">Tüm Tipler</option><option>OEM</option><option>Tier 1</option><option>Tier 2</option><option>Distribütör</option></select>
-<select id="riskFilter" onchange="renderCustomers()"><option value="">Tüm Riskler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
+<select id="statusFilter" onchange="renderMüşteris()"><option value="">Tüm Durumlar</option><option>Aktif</option><option>Pasif</option><option>Potansiyel</option><option>Bloklu</option></select>
+<select id="typeFilter" onchange="renderMüşteris()"><option value="">Tüm Tipler</option><option>OEM</option><option>Tier 1</option><option>Tier 2</option><option>Distribütör</option></select>
+<select id="riskFilter" onchange="renderMüşteris()"><option value="">Tüm Riskler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
 </div>
 </div>
 <div id="customerTable"></div>
@@ -471,12 +498,12 @@ box-shadow:0 10px 25px rgba(53,168,82,.10);
 
 <div class="drawer" id="drawer">
 <div class="drawer-head">
-<div><h3 id="drawerTitle">Customer 360°</h3><span class="status blue" id="drawerStatus">Aktif</span></div>
+<div><h3 id="drawerTitle">Müşteri 360°</h3><span class="status blue" id="drawerStatus">Aktif</span></div>
 <button class="close-btn" onclick="closeDrawer()">Kapat</button>
 </div>
 <div id="drawerContent"></div>
 <div class="actions">
-<button class="btn orange" onclick="notifyCurrent()">Mail/SMS Bildirim</button>
+<button class="btn orange" onclick="notifyCurrent()">E-Posta/SMS Bildirim</button>
 <button class="btn red" onclick="blockCurrent()">Blokla</button>
 <button class="btn green" onclick="activateCurrent()">Aktif Yap</button>
 <button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
@@ -512,7 +539,7 @@ function collectPageSearchResults(keyword){
 const results=[];const seen=new Set();
 document.querySelectorAll(".menu a").forEach(el=>{
 const label=el.textContent.trim(),href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
+if((label+" "+href).toDüşükerCase().includes(keyword)){
 const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});}
 }
 });
@@ -520,7 +547,7 @@ document.querySelectorAll(".card").forEach((el,index)=>{
 const title=(el.querySelector("small")?.textContent||"Kart").trim();
 const value=(el.querySelector("h2")?.textContent||"").trim();
 const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
+if((title+" "+value+" "+detail).toDüşükerCase().includes(keyword)){
 el.setAttribute("data-search-card",index);
 results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
 }
@@ -529,7 +556,7 @@ document.querySelectorAll(".panel").forEach((el,index)=>{
 if(el.id==="searchResultsPanel")return;
 const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
 const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
+if((title+" "+detail).toDüşükerCase().includes(keyword)){
 el.setAttribute("data-search-panel",index);
 results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
 }
@@ -538,12 +565,12 @@ return results;
 }
 function runSearch(){
 const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-if(!text){clearSearchResults();input.focus();renderCustomers();return;}
-renderCustomers();
+const text=input.value.trim().toDüşükerCase();
+if(!text){clearSearchResults();input.focus();renderMüşteris();return;}
+renderMüşteris();
 let results=[];
-getCustomers().map(normalize).forEach(c=>{
-const fullText=JSON.stringify(c).toLowerCase();
+getMüşteris().map(normalize).forEach(c=>{
+const fullText=JSON.stringify(c).toDüşükerCase();
 if(fullText.includes(text)){
 results.push({type:"record",module:"Müşteri Yönetimi",title:c.customerName||c.customerNo||"Müşteri",detail:`${c.customerNo||""} ${c.customerCode||""} ${c.customerType||""} ${c.customerStatus||""} ${c.riskLevel||""} ${(c.contacts||[]).map(x=>x.name+" "+x.email).join(" ")} ${(c.documents||[]).map(x=>x.docName+" "+x.docType).join(" ")} ${(c.complaints||[]).map(x=>x.complaintNo+" "+x.description).join(" ")}`,customerId:c.id});
 }
@@ -568,14 +595,14 @@ const r=(window.__gdnlSearchResults||[])[i];if(!r)return;
 if(r.type==="page"&&r.go){window.location.href=r.go;return;}
 if(r.type==="scroll"&&r.selector){document.querySelector(r.selector)?.scrollIntoView({behavior:"smooth",block:"center"});return;}
 if(r.type==="record"){
-const items=getCustomers().map(normalize);const idx=items.findIndex(x=>x.id===r.customerId);
+const items=getMüşteris().map(normalize);const idx=items.findIndex(x=>x.id===r.customerId);
 if(idx>=0)openDrawer(idx);
 }
 }
 function clearSearchResults(){
 const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),input=document.getElementById("globalSearch");
 if(panel)panel.classList.remove("active");if(area)area.innerHTML="";if(input)input.value="";window.__gdnlSearchResults=[];
-renderCustomers();
+renderMüşteris();
 }
 
 let contacts=[],uploadedDoc=null,selectedIndex=null;
@@ -583,8 +610,8 @@ let contacts=[],uploadedDoc=null,selectedIndex=null;
 function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
 function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function getCustomers(){return getLS("gdnl_customers")}
-function setCustomers(v){setLS("gdnl_customers",v)}
+function getMüşteris(){return getLS("gdnl_customers")}
+function setMüşteris(v){setLS("gdnl_customers",v)}
 function getNotifications(){return getLS("gdnl_notifications")}
 function setNotifications(v){setLS("gdnl_notifications",v)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
@@ -592,47 +619,47 @@ function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toIS
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function statusClass(s){if(["Aktif","Kapalı","Tamamlandı","Cevaplandı","Onaylandı"].includes(s))return"green";if(["Açık","İncelemede","Devam Ediyor","Gönderildi","Aksiyon Açıldı","Potansiyel"].includes(s))return"orange";if(["Bloklu","Gecikti","Kritik","Kaybedildi","Süresi Doldu"].includes(s))return"red";return"blue"}
-function generateCustomerNo(){customerNo.value="CUS-"+new Date().getFullYear()+"-"+String(getCustomers().length+1).padStart(4,"0")}
+function generateMüşteriNo(){customerNo.value="CUS-"+new Date().getFullYear()+"-"+String(getMüşteris().length+1).padStart(4,"0")}
 function generateNos(){complaintNo.value="CMP-"+new Date().getFullYear()+"-"+Date.now().toString().slice(-5);surveyNo.value="SRV-"+new Date().getFullYear()+"-"+Date.now().toString().slice(-5);activityNo.value="ACT-"+new Date().getFullYear()+"-"+Date.now().toString().slice(-5)}
 function updateClass(){const score=Math.round((Number(otd.value||0)*.25+Number(auditScore.value||0)*.2+Number(csrScore.value||0)*.2+Number(satisfactionScore.value||0)*.25+(Number(ppm.value||0)<=50?100:Math.max(0,100-Number(ppm.value||0)/10))*.1));overallScore.value=score;customerClass.value=score>=90?"A":score>=75?"B":score>=60?"C":"D"}
 function calcSurvey(){surveyTotal.value=Math.round((Number(qQuality.value)+Number(qDelivery.value)+Number(qTech.value)+Number(qComm.value)+Number(qDoc.value))/5)+"%"}
 
-function saveCustomer(notify=false){
+function saveMüşteri(notify=false){
 updateClass();
 const c={id:"CUSID-"+Date.now(),customerNo:customerNo.value,customerCode:customerCode.value.trim(),customerName:customerName.value.trim(),taxNo:taxNo.value.trim(),country:country.value.trim(),city:city.value.trim(),website:website.value.trim(),sector:sector.value,customerType:customerType.value,customerStatus:customerStatus.value,riskLevel:riskLevel.value,customerClass:customerClass.value,address:address.value.trim(),firstRegisterDate:firstRegisterDate.value,lastReviewDate:lastReviewDate.value,customerScope:customerScope.value.trim(),ppm:Number(ppm.value||0),otd:Number(otd.value||0),auditScore:Number(auditScore.value||0),csrScore:Number(csrScore.value||0),satisfactionScore:Number(satisfactionScore.value||0),overallScore:Number(overallScore.value||0),contacts:contacts,complaints:[],surveys:[],documents:[],activities:[],createdAt:new Date().toISOString(),createdBy:session.name,timeline:[{date:new Date().toISOString(),user:session.name,action:"Müşteri kaydı oluşturuldu"}]};
 if(!c.customerName)return showToast("Firma ünvanı zorunlu");
-const items=getCustomers();items.unshift(c);setCustomers(items);if(notify)createNotification(c,"Müşteri kaydı oluşturuldu: "+c.customerName);resetForm();renderCustomers();showToast("Müşteri kaydedildi");
+const items=getMüşteris();items.unshift(c);setMüşteris(items);if(notify)createNotification(c,"Müşteri kaydı oluşturuldu: "+c.customerName);resetForm();renderMüşteris();showToast("Müşteri kaydedildi");
 }
 
 function addContact(){if(!contactName.value.trim())return showToast("Kişi adı zorunlu");contacts.push({id:"CON-"+Date.now(),name:contactName.value.trim(),title:contactTitle.value.trim(),department:contactDepartment.value,email:contactEmail.value.trim(),phone:contactPhone.value.trim(),role:contactRole.value});clearContact();renderContacts();showToast("Kişi eklendi")}
 function clearContact(){contactName.value="";contactTitle.value="";contactDepartment.value="Kalite";contactEmail.value="";contactPhone.value="";contactRole.value="Kalite Kontağı"}
 function renderContacts(){if(!contacts.length){contactPreview.innerHTML='<div class="empty" style="margin-top:14px">Kişi yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Ad</th><th>Görev</th><th>Departman</th><th>Mail</th><th>Rol</th><th>Aksiyon</th></tr></thead><tbody>';contacts.forEach((p,i)=>h+=`<tr><td>${p.name}</td><td>${p.title}</td><td>${p.department}</td><td>${p.email}</td><td>${p.role}</td><td><button class="small-btn delete" onclick="contacts.splice(${i},1);renderContacts()">Sil</button></td></tr>`);contactPreview.innerHTML=h+"</tbody></table>"}
 
-function addComplaint(notify=false){const idx=findCustomerIndex(complaintCustomer.value);if(idx<0)return showToast("Müşteri seç");const items=getCustomers();const cm={id:"CMPID-"+Date.now(),complaintNo:complaintNo.value,date:complaintDate.value,product:complaintProduct.value.trim(),type:complaintType.value,severity:complaintSeverity.value,status:complaintStatus.value,dueDate:complaintDue.value,capaRef:complaintCapaRef.value.trim(),riskRef:complaintRiskRef.value.trim(),description:complaintDescription.value.trim(),response:complaintResponse.value.trim(),createdAt:new Date().toISOString()};items[idx].complaints.unshift(cm);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Şikayet kaydı açıldı: "+cm.complaintNo});setCustomers(items);if(notify)createNotification(items[idx],"Müşteri şikayeti kaydedildi: "+cm.complaintNo);clearComplaint();renderCustomers();showToast("Şikayet kaydedildi")}
-function clearComplaint(){complaintCustomer.value="";generateNos();complaintDate.value=todayISO();complaintProduct.value="";complaintType.value="Kalite";complaintSeverity.value="Orta";complaintStatus.value="Açık";complaintDue.value=addDays(todayISO(),14);complaintCapaRef.value="";complaintRiskRef.value="";complaintDescription.value="";complaintResponse.value=""}
+function addComplaint(notify=false){const idx=findMüşteriIndex(complaintMüşteri.value);if(idx<0)return showToast("Müşteri seç");const items=getMüşteris();const cm={id:"CMPID-"+Date.now(),complaintNo:complaintNo.value,date:complaintDate.value,product:complaintProduct.value.trim(),type:complaintType.value,severity:complaintSeverity.value,status:complaintStatus.value,dueDate:complaintDue.value,capaRef:complaintCapaRef.value.trim(),riskRef:complaintRiskRef.value.trim(),description:complaintDescription.value.trim(),response:complaintResponse.value.trim(),createdAt:new Date().toISOString()};items[idx].complaints.unshift(cm);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Şikayet kaydı açıldı: "+cm.complaintNo});setMüşteris(items);if(notify)createNotification(items[idx],"Müşteri şikayeti kaydedildi: "+cm.complaintNo);clearComplaint();renderMüşteris();showToast("Şikayet kaydedildi")}
+function clearComplaint(){complaintMüşteri.value="";generateNos();complaintDate.value=todayISO();complaintProduct.value="";complaintType.value="Kalite";complaintSeverity.value="Orta";complaintStatus.value="Açık";complaintDue.value=addDays(todayISO(),14);complaintCapaRef.value="";complaintRiskRef.value="";complaintDescription.value="";complaintResponse.value=""}
 
-function addSurvey(notify=false){const idx=findCustomerIndex(surveyCustomer.value);if(idx<0)return showToast("Müşteri seç");calcSurvey();const items=getCustomers();const s={id:"SRVID-"+Date.now(),surveyNo:surveyNo.value,year:surveyYear.value,status:surveyStatus.value,quality:Number(qQuality.value),delivery:Number(qDelivery.value),tech:Number(qTech.value),comm:Number(qComm.value),doc:Number(qDoc.value),total:Number(surveyTotal.value.replace("%","")),questions:surveyQuestions.value,comment:surveyComment.value,createdAt:new Date().toISOString()};items[idx].surveys.unshift(s);items[idx].satisfactionScore=s.total;items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Memnuniyet anketi kaydedildi: "+s.surveyNo});setCustomers(items);if(notify)createNotification(items[idx],"Müşteri memnuniyet anketi gönderim kuyruğu: "+s.surveyNo);clearSurvey();renderCustomers();showToast("Anket kaydedildi")}
-function clearSurvey(){surveyCustomer.value="";generateNos();surveyYear.value=2026;surveyStatus.value="Planlandı";qQuality.value=100;qDelivery.value=100;qTech.value=100;qComm.value=100;qDoc.value=100;calcSurvey();surveyComment.value=""}
+function addSurvey(notify=false){const idx=findMüşteriIndex(surveyMüşteri.value);if(idx<0)return showToast("Müşteri seç");calcSurvey();const items=getMüşteris();const s={id:"SRVID-"+Date.now(),surveyNo:surveyNo.value,year:surveyYear.value,status:surveyStatus.value,quality:Number(qQuality.value),delivery:Number(qDelivery.value),tech:Number(qTech.value),comm:Number(qComm.value),doc:Number(qDoc.value),total:Number(surveyTotal.value.replace("%","")),questions:surveyQuestions.value,comment:surveyComment.value,createdAt:new Date().toISOString()};items[idx].surveys.unshift(s);items[idx].satisfactionScore=s.total;items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Memnuniyet anketi kaydedildi: "+s.surveyNo});setMüşteris(items);if(notify)createNotification(items[idx],"Müşteri memnuniyet anketi gönderim kuyruğu: "+s.surveyNo);clearSurvey();renderMüşteris();showToast("Anket kaydedildi")}
+function clearSurvey(){surveyMüşteri.value="";generateNos();surveyYear.value=2026;surveyStatus.value="Planlandı";qQuality.value=100;qDelivery.value=100;qTech.value=100;qComm.value=100;qDoc.value=100;calcSurvey();surveyComment.value=""}
 
 docFile.addEventListener("change",e=>handleFile(e.target.files[0]));
 function handleFile(file){if(!file)return;if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");docFile.value="";return}const r=new FileReader();r.onload=ev=>{uploadedDoc={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Dosya hazırlandı")};r.readAsDataURL(file)}
-function addDocument(){const idx=findCustomerIndex(docCustomer.value);if(idx<0)return showToast("Müşteri seç");if(!docName.value.trim())return showToast("Doküman adı zorunlu");if(!uploadedDoc)return showToast("Dosya seç");const items=getCustomers();const d={id:"CDOC-"+Date.now(),docNo:"CUS-DOC-"+new Date().getFullYear()+"-"+String(items[idx].documents.length+1).padStart(4,"0"),docType:docType.value,docName:docName.value.trim(),revision:docRevision.value.trim(),expiryDate:docExpiry.value,status:docStatus.value,description:docDescription.value.trim(),file:uploadedDoc,createdAt:new Date().toISOString()};items[idx].documents.unshift(d);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Müşteri dokümanı yüklendi: "+d.docNo});setCustomers(items);clearDocument();renderCustomers();showToast("Doküman yüklendi")}
-function clearDocument(){docCustomer.value="";docType.value="CSR";docName.value="";docRevision.value="V1";docExpiry.value=addDays(todayISO(),365);docStatus.value="Aktif";docDescription.value="";docFile.value="";uploadedDoc=null}
+function addDocument(){const idx=findMüşteriIndex(docMüşteri.value);if(idx<0)return showToast("Müşteri seç");if(!docName.value.trim())return showToast("Doküman adı zorunlu");if(!uploadedDoc)return showToast("Dosya seç");const items=getMüşteris();const d={id:"CDOC-"+Date.now(),docNo:"CUS-DOC-"+new Date().getFullYear()+"-"+String(items[idx].documents.length+1).padStart(4,"0"),docType:docType.value,docName:docName.value.trim(),revision:docRevision.value.trim(),expiryDate:docExpiry.value,status:docStatus.value,description:docDescription.value.trim(),file:uploadedDoc,createdAt:new Date().toISOString()};items[idx].documents.unshift(d);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Müşteri dokümanı yüklendi: "+d.docNo});setMüşteris(items);clearDocument();renderMüşteris();showToast("Doküman yüklendi")}
+function clearDocument(){docMüşteri.value="";docType.value="CSR";docName.value="";docRevision.value="V1";docExpiry.value=addDays(todayISO(),365);docStatus.value="Aktif";docDescription.value="";docFile.value="";uploadedDoc=null}
 
-function addActivity(){const idx=findCustomerIndex(activityCustomer.value);if(idx<0)return showToast("Müşteri seç");const items=getCustomers();const a={id:"ACTID-"+Date.now(),activityNo:activityNo.value,activityType:activityType.value,date:activityDate.value,owner:activityOwner.value.trim(),status:activityStatus.value,description:activityDescription.value.trim(),createdAt:new Date().toISOString()};items[idx].activities.unshift(a);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:activityType.value+" kaydı eklendi: "+a.activityNo});setCustomers(items);clearActivity();renderCustomers();showToast("Kayıt eklendi")}
-function clearActivity(){activityCustomer.value="";generateNos();activityType.value="Proje";activityDate.value=todayISO();activityOwner.value=session.name;activityStatus.value="Açık";activityDescription.value=""}
+function addActivity(){const idx=findMüşteriIndex(activityMüşteri.value);if(idx<0)return showToast("Müşteri seç");const items=getMüşteris();const a={id:"ACTID-"+Date.now(),activityNo:activityNo.value,activityType:activityType.value,date:activityDate.value,owner:activityOwner.value.trim(),status:activityStatus.value,description:activityDescription.value.trim(),createdAt:new Date().toISOString()};items[idx].activities.unshift(a);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name,action:activityType.value+" kaydı eklendi: "+a.activityNo});setMüşteris(items);clearActivity();renderMüşteris();showToast("Kayıt eklendi")}
+function clearActivity(){activityMüşteri.value="";generateNos();activityType.value="Proje";activityDate.value=todayISO();activityOwner.value=session.name;activityStatus.value="Açık";activityDescription.value=""}
 
-function findCustomerIndex(no){return getCustomers().findIndex(c=>c.customerNo===no)}
-function createNotification(c,msg){const n=getNotifications();const mails=(c.contacts||[]).map(x=>x.email).filter(Boolean).join("; ");n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Customer",documentCode:c.customerNo,documentName:c.customerName,mailGroups:mails||c.customerName,smsGroups:(c.contacts||[]).map(x=>x.phone).filter(Boolean).join("; "),distributionPoints:c.customerType+" / "+c.riskLevel,message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
+function findMüşteriIndex(no){return getMüşteris().findIndex(c=>c.customerNo===no)}
+function createNotification(c,msg){const n=getNotifications();const mails=(c.contacts||[]).map(x=>x.email).filter(Boolean).join("; ");n.unshift({notificationId:"NTF-"+Date.now(),type:"E-Posta + SMS",module:"Müşteri",documentCode:c.customerNo,documentName:c.customerName,mailGroups:mails||c.customerName,smsGroups:(c.contacts||[]).map(x=>x.phone).filter(Boolean).join("; "),distributionPoints:c.customerType+" / "+c.riskLevel,message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
 
-function initSelects(){const items=getCustomers();["complaintCustomer","surveyCustomer","docCustomer","activityCustomer"].forEach(id=>{const el=document.getElementById(id);el.innerHTML='<option value="">Müşteri Seçiniz</option>';items.forEach(c=>el.innerHTML+=`<option value="${c.customerNo}">${c.customerNo} / ${c.customerName}</option>`)})}
+function initSelects(){const items=getMüşteris();["complaintMüşteri","surveyMüşteri","docMüşteri","activityMüşteri"].forEach(id=>{const el=document.getElementById(id);el.innerHTML='<option value="">Müşteri Seçiniz</option>';items.forEach(c=>el.innerHTML+=`<option value="${c.customerNo}">${c.customerNo} / ${c.customerName}</option>`)})}
 function normalize(c){c.contacts=c.contacts||[];c.complaints=c.complaints||[];c.surveys=c.surveys||[];c.documents=c.documents||[];c.activities=c.activities||[];c.timeline=c.timeline||[];return c}
-function renderCustomers(){const items=getCustomers().map(normalize);initSelects();renderSubPreviews(items);updateCards(items);const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,rf=riskFilter.value;const filtered=items.filter(c=>`${c.customerNo} ${c.customerName} ${c.customerCode} ${c.country} ${c.customerType} ${c.customerStatus} ${c.riskLevel} ${(c.contacts||[]).map(x=>x.name+" "+x.email).join(" ")} ${(c.documents||[]).map(x=>x.docName+" "+x.docType).join(" ")} ${(c.complaints||[]).map(x=>x.description).join(" ")}`.toLowerCase().includes(q)&&(!sf||c.customerStatus===sf)&&(!tf||c.customerType===tf)&&(!rf||c.riskLevel===rf));if(!filtered.length){customerTable.innerHTML='<div class="empty">Müşteri kaydı bulunamadı.</div>';return}let h='<table><thead><tr><th>No</th><th>Müşteri</th><th>Tip</th><th>Risk</th><th>Sınıf</th><th>Şikayet</th><th>Anket</th><th>Doküman</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';filtered.forEach(c=>{const i=items.findIndex(x=>x.id===c.id);const lastSurvey=c.surveys[0]?.total||c.satisfactionScore||0;h+=`<tr><td>${c.customerNo}</td><td>${c.customerName}<br><small>${c.country} / ${c.city}</small></td><td>${c.customerType}</td><td><span class="status ${statusClass(c.riskLevel)}">${c.riskLevel}</span></td><td>${c.customerClass}</td><td>${c.complaints.length}</td><td>${lastSurvey}%</td><td>${c.documents.length}</td><td><span class="status ${statusClass(c.customerStatus)}">${c.customerStatus}</span></td><td><button class="small-btn view" onclick="openDrawer(${i})">360°</button><button class="small-btn alert" onclick="notifyCustomer(${i})">Bildir</button></td></tr>`});customerTable.innerHTML=h+"</tbody></table>"}
-function updateCards(items){let complaints=[],surveys=[],docs=[],acts=[];items.forEach(c=>{complaints=complaints.concat(c.complaints);surveys=surveys.concat(c.surveys);docs=docs.concat(c.documents);acts=acts.concat(c.activities)});totalCustomers.textContent=items.length;activeCustomers.textContent=items.filter(c=>c.customerStatus==="Aktif").length;openComplaints.textContent=complaints.filter(c=>c.status!=="Kapalı").length;avgSurvey.textContent=(surveys.length?Math.round(surveys.reduce((a,b)=>a+b.total,0)/surveys.length):0)+"%";csrCount.textContent=docs.filter(d=>d.docType==="CSR").length;riskCapaCount.textContent=complaints.filter(c=>c.riskRef||c.capaRef).length;projectCount.textContent=acts.filter(a=>a.activityType==="Proje").length;notificationCount.textContent=getNotifications().filter(n=>n.module==="Customer").length}
+function renderMüşteris(){const items=getMüşteris().map(normalize);initSelects();renderSubPreviews(items);updateCards(items);const q=globalSearch.value.toDüşükerCase(),sf=statusFilter.value,tf=typeFilter.value,rf=riskFilter.value;const filtered=items.filter(c=>`${c.customerNo} ${c.customerName} ${c.customerCode} ${c.country} ${c.customerType} ${c.customerStatus} ${c.riskLevel} ${(c.contacts||[]).map(x=>x.name+" "+x.email).join(" ")} ${(c.documents||[]).map(x=>x.docName+" "+x.docType).join(" ")} ${(c.complaints||[]).map(x=>x.description).join(" ")}`.toDüşükerCase().includes(q)&&(!sf||c.customerStatus===sf)&&(!tf||c.customerType===tf)&&(!rf||c.riskLevel===rf));if(!filtered.length){customerTable.innerHTML='<div class="empty">Müşteri kaydı bulunamadı.</div>';return}let h='<table><thead><tr><th>No</th><th>Müşteri</th><th>Tip</th><th>Risk</th><th>Sınıf</th><th>Şikayet</th><th>Anket</th><th>Doküman</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';filtered.forEach(c=>{const i=items.findIndex(x=>x.id===c.id);const lastSurvey=c.surveys[0]?.total||c.satisfactionScore||0;h+=`<tr><td>${c.customerNo}</td><td>${c.customerName}<br><small>${c.country} / ${c.city}</small></td><td>${c.customerType}</td><td><span class="status ${statusClass(c.riskLevel)}">${c.riskLevel}</span></td><td>${c.customerClass}</td><td>${c.complaints.length}</td><td>${lastSurvey}%</td><td>${c.documents.length}</td><td><span class="status ${statusClass(c.customerStatus)}">${c.customerStatus}</span></td><td><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyMüşteri(${i})">Bildir</button></td></tr>`});customerTable.innerHTML=h+"</tbody></table>"}
+function updateCards(items){let complaints=[],surveys=[],docs=[],acts=[];items.forEach(c=>{complaints=complaints.concat(c.complaints);surveys=surveys.concat(c.surveys);docs=docs.concat(c.documents);acts=acts.concat(c.activities)});totalMüşteris.textContent=items.length;activeMüşteris.textContent=items.filter(c=>c.customerStatus==="Aktif").length;openComplaints.textContent=complaints.filter(c=>c.status!=="Kapalı").length;avgSurvey.textContent=(surveys.length?Math.round(surveys.reduce((a,b)=>a+b.total,0)/surveys.length):0)+"%";csrCount.textContent=docs.filter(d=>d.docType==="CSR").length;riskCapaCount.textContent=complaints.filter(c=>c.riskRef||c.capaRef).length;projectCount.textContent=acts.filter(a=>a.activityType==="Proje").length;notificationCount.textContent=getNotifications().filter(n=>n.module==="Müşteri").length}
 function renderSubPreviews(items){complaintPreview.innerHTML=makeMiniTable(items.flatMap(c=>c.complaints.map(x=>({...x,customer:c.customerName}))),["complaintNo","customer","status"],"Şikayet yok.");surveyPreview.innerHTML=makeMiniTable(items.flatMap(c=>c.surveys.map(x=>({...x,customer:c.customerName}))),["surveyNo","customer","total"],"Anket yok.");documentPreview.innerHTML=makeMiniTable(items.flatMap(c=>c.documents.map(x=>({...x,customer:c.customerName}))),["docNo","customer","docType"],"Doküman yok.");activityPreview.innerHTML=makeMiniTable(items.flatMap(c=>c.activities.map(x=>({...x,customer:c.customerName}))),["activityNo","customer","activityType"],"Kayıt yok.")}
 function makeMiniTable(rows,keys,empty){if(!rows.length)return`<div class="empty" style="margin-top:14px">${empty}</div>`;let h='<table style="margin-top:14px"><tbody>';rows.slice(0,10).forEach(r=>h+=`<tr>${keys.map(k=>`<td>${r[k]||"-"}</td>`).join("")}</tr>`);return h+"</tbody></table>"}
 
-function openDrawer(i){selectedIndex=i;const c=normalize(getCustomers()[i]);drawerTitle.textContent=c.customerNo+" / "+c.customerName;drawerStatus.textContent=c.customerStatus;drawerStatus.className="status "+statusClass(c.customerStatus);drawerContent.innerHTML=`<div class="info-box"><b>Müşteri:</b> ${c.customerName}
+function openDrawer(i){selectedIndex=i;const c=normalize(getMüşteris()[i]);drawerTitle.textContent=c.customerNo+" / "+c.customerName;drawerStatus.textContent=c.customerStatus;drawerStatus.className="status "+statusClass(c.customerStatus);drawerContent.innerHTML=`<div class="info-box"><b>Müşteri:</b> ${c.customerName}
 <b>Tip:</b> ${c.customerType}
 <b>Sektör:</b> ${c.sector}
 <b>Durum:</b> ${c.customerStatus}
@@ -652,17 +679,17 @@ function tableComplaints(a){if(!a.length)return"Şikayet yok.";return"<table><tb
 function tableSurveys(a){if(!a.length)return"Anket yok.";return"<table><tbody>"+a.map(x=>`<tr><td>${x.surveyNo}</td><td>${x.year}</td><td>${x.total}%</td></tr>`).join("")+"</tbody></table>"}
 function tableDocs(a){if(!a.length)return"Doküman yok.";return"<table><tbody>"+a.map(x=>`<tr><td>${x.docNo}</td><td>${x.docType}</td><td>${x.docName}</td></tr>`).join("")+"</tbody></table>"}
 function tableActivities(a){if(!a.length)return"Kayıt yok.";return"<table><tbody>"+a.map(x=>`<tr><td>${x.activityNo}</td><td>${x.activityType}</td><td>${x.status}</td></tr>`).join("")+"</tbody></table>"}
-function notifyCustomer(i){createNotification(getCustomers()[i],"Müşteri bildirimi oluşturuldu.");showToast("Bildirim kuyruğu oluşturuldu")}
-function notifyCurrent(){if(selectedIndex!==null)notifyCustomer(selectedIndex)}
-function blockCurrent(){if(selectedIndex===null)return;const items=getCustomers();items[selectedIndex].customerStatus="Bloklu";items[selectedIndex].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Müşteri bloklandı"});setCustomers(items);renderCustomers();openDrawer(selectedIndex)}
-function activateCurrent(){if(selectedIndex===null)return;const items=getCustomers();items[selectedIndex].customerStatus="Aktif";items[selectedIndex].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Müşteri aktif yapıldı"});setCustomers(items);renderCustomers();openDrawer(selectedIndex)}
+function notifyMüşteri(i){createNotification(getMüşteris()[i],"Müşteri bildirimi oluşturuldu.");showToast("Bildirim kuyruğu oluşturuldu")}
+function notifyCurrent(){if(selectedIndex!==null)notifyMüşteri(selectedIndex)}
+function blockCurrent(){if(selectedIndex===null)return;const items=getMüşteris();items[selectedIndex].customerStatus="Bloklu";items[selectedIndex].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Müşteri bloklandı"});setMüşteris(items);renderMüşteris();openDrawer(selectedIndex)}
+function activateCurrent(){if(selectedIndex===null)return;const items=getMüşteris();items[selectedIndex].customerStatus="Aktif";items[selectedIndex].timeline.unshift({date:new Date().toISOString(),user:session.name,action:"Müşteri aktif yapıldı"});setMüşteris(items);renderMüşteris();openDrawer(selectedIndex)}
 function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
 
-function resetForm(){generateCustomerNo();generateNos();customerCode.value="";customerName.value="";taxNo.value="";country.value="";city.value="";website.value="";sector.value="Otomotiv";customerType.value="OEM";customerStatus.value="Aktif";riskLevel.value="Orta";address.value="";firstRegisterDate.value=todayISO();lastReviewDate.value=todayISO();customerScope.value="";ppm.value=0;otd.value=100;auditScore.value=100;csrScore.value=100;satisfactionScore.value=100;contacts=[];updateClass();renderContacts();clearContact();clearComplaint();clearSurvey();clearDocument();clearActivity()}
+function resetForm(){generateMüşteriNo();generateNos();customerCode.value="";customerName.value="";taxNo.value="";country.value="";city.value="";website.value="";sector.value="Otomotiv";customerType.value="OEM";customerStatus.value="Aktif";riskLevel.value="Orta";address.value="";firstRegisterDate.value=todayISO();lastReviewDate.value=todayISO();customerScope.value="";ppm.value=0;otd.value=100;auditScore.value=100;csrScore.value=100;satisfactionScore.value=100;contacts=[];updateClass();renderContacts();clearContact();clearComplaint();clearSurvey();clearDocument();clearActivity()}
 function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
-globalSearch.addEventListener("input",renderCustomers);
+globalSearch.addEventListener("input",renderMüşteris);
 globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch();});
-resetForm();renderCustomers();calcSurvey();
+resetForm();renderMüşteris();calcSurvey();
 
 function initAccordionMenu(){
   document.querySelectorAll(".menu-group").forEach(btn=>{
@@ -682,9 +709,324 @@ function initAccordionMenu(){
     });
   });
 }
-document.addEventListener("DOMContentLoaded",initAccordionMenu);
+document.addEventListener("DOMContentYüklendi",initAccordionMenu);
 
-console.log("GDNL QDMS Customer Management Loaded");
+
+
+/* === GDNL EOS / GDNL EQMS ENTERPRISE CLOUD READY KATMANI === */
+const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
+const GDNL_MODULE_NAME = "Müşteri Yönetimi";
+const GDNL_MODULE_CODE = "CUSTOMER";
+let cloudUsers = [];
+let cloudDepartments = [];
+let gdnlCloudReady = false;
+let gdnlComments = [];
+let gdnlLastSequence = "";
+
+function gdnlIsPassiveStatus(value){
+  return ["Silindi","Deleted","Arşivlendi","İptal Edildi","Arşiv","İptal","Kaybedildi"].includes(String(value||""));
+}
+function gdnlHeaders(json=true){return json?{"Content-Type":"application/json"}:{}}
+async function gdnlFetch(path, options={}){
+  try{
+    const res = await fetch(GDNL_API_BASE + path, options);
+    if(!res.ok) throw new Error(path+" hata: "+res.status);
+    const ct=res.headers.get("content-type")||"";
+    return ct.includes("application/json") ? await res.json() : await res.text();
+  }catch(err){
+    console.warn("Cloud bağlantısı fallback modunda:", path, err.message);
+    return null;
+  }
+}
+function gdnlArray(data){
+  if(Array.isArray(data)) return data;
+  if(Array.isArray(data?.data)) return data.data;
+  if(Array.isArray(data?.rows)) return data.rows;
+  if(Array.isArray(data?.result)) return data.result;
+  return [];
+}
+function gdnlCurrentUser(){
+  return {id:session.user_id||session.id||"", fullname:session.fullname||session.name||"", role:session.role||"", department:session.department||"", email:session.email||""};
+}
+async function gdnlLoadCloudMasterData(){
+  const users = await gdnlFetch("/users");
+  cloudUsers = gdnlArray(users).map(u=>({
+    id:u.id||u.user_id||u.userId||"",
+    fullname:u.fullname||u.fullName||u.name||u.username||"",
+    role:u.role||u.role_name||u.title||"",
+    department:u.department||u.department_name||u.dept||"",
+    email:u.email||u.mail||""
+  })).filter(u=>u.fullname && !gdnlIsPassiveStatus(u.status));
+
+  const deps = await gdnlFetch("/departments");
+  cloudDepartments = gdnlArray(deps).map(d=>d.department_name||d.name||d.department||"").filter(Boolean);
+  gdnlCloudReady = cloudUsers.length>0 || cloudDepartments.length>0;
+  gdnlBindUserAutocomplete();
+  gdnlPopulateDepartmentFilters();
+}
+function gdnlPopulateDepartmentFilters(){
+  const ids=["contactDepartment"];
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el && el.tagName==="SELECT"){
+      const current=el.value;
+      el.innerHTML='<option value="">Departman seçiniz</option>'+cloudDepartments.map(d=>`<option>${escapeHTML(d)}</option>`).join("");
+      if(current) el.value=current;
+    }
+  });
+}
+function gdnlBindUserAutocomplete(){
+  document.querySelectorAll('[data-user-autocomplete="true"]').forEach(input=>{
+    if(input.dataset.gdnlBound==="1")return;
+    input.dataset.gdnlBound="1";
+    const wrap=document.createElement("div");
+    wrap.className="gdnl-autocomplete-wrap";
+    input.parentNode.insertBefore(wrap,input);
+    wrap.appendChild(input);
+    const box=document.createElement("div");
+    box.className="gdnl-user-suggestions";
+    wrap.appendChild(box);
+    const multi=input.dataset.multi==="true";
+    if(multi){
+      const tags=document.createElement("div");
+      tags.className="gdnl-user-tags";
+      tags.id=input.id+"Tags";
+      wrap.appendChild(tags);
+      input.dataset.selectedUsers="[]";
+    }
+    input.addEventListener("input",()=>gdnlRenderUserSuggestions(input,box,multi));
+    input.addEventListener("focus",()=>gdnlRenderUserSuggestions(input,box,multi));
+    document.addEventListener("click",e=>{if(!wrap.contains(e.target))box.classList.remove("active")});
+  });
+}
+function gdnlRenderUserSuggestions(input,box,multi){
+  const q=input.value.trim().toDüşükerCase();
+  const list=cloudUsers.filter(u=>{
+    const text=[u.fullname,u.email,u.role,u.department].join(" ").toDüşükerCase();
+    return !q || text.includes(q);
+  }).slice(0,12);
+  if(!list.length){box.innerHTML='<div class="gdnl-user-option">Kullanıcı bulunamadı<small>D1 users tablosunu kontrol et</small></div>';box.classList.add("active");return;}
+  box.innerHTML=list.map((u,i)=>`<div class="gdnl-user-option" data-index="${i}">${escapeHTML(u.fullname)}<small>${escapeHTML(u.department||"Departman yok")} · ${escapeHTML(u.role||"Rol yok")} · ${escapeHTML(u.email||"")}</small></div>`).join("");
+  box.querySelectorAll(".gdnl-user-option").forEach((el,i)=>el.onclick=()=>gdnlSelectUser(input,box,list[i],multi));
+  box.classList.add("active");
+}
+function gdnlSelectUser(input,box,user,multi){
+  if(multi){
+    const arr=JSON.parse(input.dataset.selectedUsers||"[]");
+    if(!arr.some(x=>String(x.id)===String(user.id)))arr.push(user);
+    input.dataset.selectedUsers=JSON.stringify(arr);
+    input.value="";
+    gdnlRenderUserTags(input);
+  }else{
+    input.value=user.fullname;
+    input.dataset.userId=user.id||"";
+    input.dataset.userEmail=user.email||"";
+    input.dataset.userRole=user.role||"";
+    input.dataset.userDepartment=user.department||"";
+    const depTarget=input.dataset.departmentTarget;
+    if(depTarget && document.getElementById(depTarget)) document.getElementById(depTarget).value=user.department||"";
+  }
+  box.classList.remove("active");
+}
+function gdnlRenderUserTags(input){
+  const tags=document.getElementById(input.id+"Tags");
+  if(!tags)return;
+  const arr=JSON.parse(input.dataset.selectedUsers||"[]");
+  tags.innerHTML=arr.map((u,i)=>`<span class="gdnl-user-tag">${escapeHTML(u.fullname)} <small>${escapeHTML(u.department||"")}</small><button type="button" onclick="gdnlRemoveUserTag('${input.id}',${i})">×</button></span>`).join("");
+}
+function gdnlRemoveUserTag(inputId,index){
+  const input=document.getElementById(inputId); if(!input)return;
+  const arr=JSON.parse(input.dataset.selectedUsers||"[]");
+  arr.splice(index,1); input.dataset.selectedUsers=JSON.stringify(arr); gdnlRenderUserTags(input);
+}
+function gdnlUserPayload(inputId){
+  const el=document.getElementById(inputId);
+  if(!el)return null;
+  return {id:el.dataset.userId||"", fullname:el.value||"", role:el.dataset.userRole||"", department:el.dataset.userDepartment||"", email:el.dataset.userEmail||""};
+}
+async function gdnlNextSequence(moduleCode=GDNL_MODULE_CODE){
+  const seq=await gdnlFetch(`/sequence?module=${encodeURIComponent(moduleCode)}`);
+  const no=seq?.number||seq?.sequence||seq?.value||seq?.data?.number;
+  if(no){gdnlLastSequence=no;return no;}
+  const year=new Date().getFullYear();
+  const max=Math.max(0,...getCustomers().map(c=>Number(String(c.customerNo||"").match(/(\d+)$/)?.[1]||0)));
+  return "CUS-"+year+"-"+String(max+1).padStart(4,"0");
+}
+async function generateCustomerNo(){
+  customerNo.value = await gdnlNextSequence("CUSTOMER");
+}
+async function gdnlUploadFile(file,module,relatedId){
+  if(!file)return null;
+  const fd=new FormData();
+  fd.append("file",file);
+  fd.append("module",module||GDNL_MODULE_NAME);
+  fd.append("related_id",relatedId||"");
+  fd.append("uploaded_by",session.name||"");
+  const data=await gdnlFetch("/upload",{method:"POST",body:fd});
+  if(data){
+    return {
+      fileName:data.fileName||data.filename||file.name,
+      fileType:data.fileType||data.mime_type||file.type,
+      fileSize:data.fileSize||file.size,
+      fileSizeText:formatFileSize(data.fileSize||file.size),
+      r2_key:data.r2_key||data.key||"",
+      url:data.signed_url||data.url||data.file_url||"",
+      temporary_token:data.temporary_token||"",
+      uploadedAt:new Date().toISOString(),
+      storage:"R2"
+    };
+  }
+  return null;
+}
+async function gdnlAudit(action,recordNo,oldValue=null,newValue=null){
+  const payload={module:GDNL_MODULE_NAME,record_no:recordNo||"",action,old_value:oldValue,new_value:newValue,user:session.name||"",user_id:session.id||session.user_id||"",ip_address:"client",user_agent:navigator.userAgent,session_id:session.session_id||"",created_at:new Date().toISOString()};
+  await gdnlFetch("/audit-logs",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify(payload)});
+}
+async function gdnlActivity(action,recordNo,description,oldValue=null,newValue=null,changedField=""){
+  const payload={module:GDNL_MODULE_NAME,record_no:recordNo||"",action,description,user:session.name||"",old_value:oldValue,new_value:newValue,changed_field:changedField,created_at:new Date().toISOString()};
+  await gdnlFetch("/activity-feed",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify(payload)});
+}
+async function gdnlNotify(userOrText,title,message,recordNo){
+  const payload={module:GDNL_MODULE_NAME,record_no:recordNo||"",title:title||"Müşteri Yönetimi Bildirimi",message:message||"",recipient:userOrText||"",status:"Kuyrukta",is_read:false,read_by:"",read_at:"",created_by:session.name||"",created_at:new Date().toISOString()};
+  await gdnlFetch("/notifications",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify(payload)});
+}
+async function gdnlAssignment(user,title,recordNo,dueDate=""){
+  const payload={module:GDNL_MODULE_NAME,record_no:recordNo||"",title:title||"Müşteri Yönetimi Görevi",assigned_to_id:user?.id||"",assigned_to:user?.fullname||user||"",department:user?.department||"",due_date:dueDate,status:"Açık",created_by:session.name||"",created_at:new Date().toISOString()};
+  await gdnlFetch("/assignments",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify(payload)});
+}
+async function addCloudComment(){
+  const recordNo=document.getElementById("commentRecordNo")?.value.trim();
+  const text=document.getElementById("commentText")?.value.trim();
+  const owner=gdnlUserPayload("commentOwner")||gdnlCurrentUser();
+  if(!recordNo||!text){showToast("Kayıt no ve yorum zorunlu");return;}
+  const payload={module:GDNL_MODULE_NAME,record_no:recordNo,comment:text,user_id:owner.id||"",user_name:owner.fullname||session.name||"",department:owner.department||"",created_at:new Date().toISOString()};
+  await gdnlFetch("/comments",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify(payload)});
+  gdnlComments.unshift(payload); renderCloudComments();
+  await gdnlAudit("Yorum eklendi",recordNo,null,text);
+  await gdnlActivity("Yorum",recordNo,"Müşteri yönetimi yorum kaydı eklendi",null,text,"comment");
+  document.getElementById("commentText").value="";
+  showToast("Yorum kaydedildi");
+}
+function renderCloudComments(){
+  const area=document.getElementById("commentPreview"); if(!area)return;
+  if(!gdnlComments.length){area.innerHTML='<div class="empty">Henüz yorum yok.</div>';return;}
+  area.innerHTML='<table><thead><tr><th>Kayıt</th><th>Kullanıcı</th><th>Yorum</th><th>Tarih</th></tr></thead><tbody>'+gdnlComments.slice(0,20).map(c=>`<tr><td>${escapeHTML(c.record_no)}</td><td>${escapeHTML(c.user_name)}<br><small>${escapeHTML(c.department)}</small></td><td>${escapeHTML(c.comment)}</td><td>${formatDateTR(c.created_at)}</td></tr>`).join('')+'</tbody></table>';
+}
+async function gdnlLoadCustomersFromCloud(){
+  const data=await gdnlFetch("/customers");
+  const rows=gdnlArray(data).filter(x=>!gdnlIsPassiveStatus(x.status||x.customerStatus));
+  if(rows.length){
+    const mapped=rows.map(x=>normalize({
+      id:x.id||x.customer_id||("CUSID-"+Date.now()+Math.random()),
+      customerNo:x.customer_no||x.customerNo||x.record_no||x.no||"",
+      customerCode:x.customer_code||x.customerCode||"",
+      customerName:x.customer_name||x.customerName||x.name||"",
+      taxNo:x.tax_no||x.taxNo||"",
+      country:x.country||"",
+      city:x.city||"",
+      website:x.website||"",
+      sector:x.sector||"",
+      customerType:x.customer_type||x.customerType||"",
+      customerStatus:x.status||x.customerStatus||"Aktif",
+      riskLevel:x.risk_level||x.riskLevel||"Orta",
+      customerClass:x.customer_class||x.customerClass||"",
+      address:x.address||"",
+      firstRegisterDate:x.first_register_date||x.firstRegisterDate||"",
+      lastReviewDate:x.last_review_date||x.lastReviewDate||"",
+      customerScope:x.customer_scope||x.customerScope||"",
+      contacts:x.contacts? (typeof x.contacts==="string"?JSON.parse(x.contacts||"[]"):x.contacts):[],
+      complaints:x.complaints? (typeof x.complaints==="string"?JSON.parse(x.complaints||"[]"):x.complaints):[],
+      surveys:x.surveys? (typeof x.surveys==="string"?JSON.parse(x.surveys||"[]"):x.surveys):[],
+      documents:x.documents? (typeof x.documents==="string"?JSON.parse(x.documents||"[]"):x.documents):[],
+      activities:x.activities? (typeof x.activities==="string"?JSON.parse(x.activities||"[]"):x.activities):[],
+      timeline:x.timeline? (typeof x.timeline==="string"?JSON.parse(x.timeline||"[]"):x.timeline):[],
+      createdAt:x.created_at||x.createdAt||"",
+      createdBy:x.created_by||x.createdBy||""
+    }));
+    setCustomers(mapped); renderCustomers();
+  }
+}
+const __oldSetCustomers=setCustomers;
+function setCustomers(v){
+  const clean=(v||[]).filter(c=>!gdnlIsPassiveStatus(c.customerStatus||c.status));
+  localStorage.setItem("gdnl_customers",JSON.stringify(clean));
+}
+async function gdnlPostCustomer(c,action="Kaydet"){
+  const payload={...c,module:GDNL_MODULE_NAME,created_by:session.name||"",updated_by:session.name||""};
+  await gdnlFetch("/customers",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify(payload)});
+  await gdnlAudit(action,c.customerNo,null,payload);
+  await gdnlActivity(action,c.customerNo,`Müşteri kaydı ${action.toDüşükerCase()}`,null,payload,"customer");
+}
+const __originalSaveCustomer = saveCustomer;
+saveCustomer = async function(notify=false){
+  const beforeCount=getCustomers().length;
+  await __originalSaveCustomer(notify);
+  const created=getCustomers()[0];
+  if(created && getCustomers().length>=beforeCount){
+    await gdnlPostCustomer(created,"Müşteri oluşturuldu");
+    const owner=contacts?.[0]?.name || created.customerName;
+    await gdnlAssignment(owner,"Müşteri takip görevi",created.customerNo,created.lastReviewDate);
+    if(notify) await gdnlNotify(owner,"Müşteri kaydı",`${created.customerName} müşteri kaydı oluşturuldu`,created.customerNo);
+  }
+}
+const __originalAddDocument = addDocument;
+addDocument = async function(){
+  const file=document.getElementById("docFile")?.files?.[0];
+  const selectedCustomer=docCustomer.value;
+  const cloudFile=file?await gdnlUploadFile(file,"Müşteri Dokümanı",selectedCustomer):null;
+  if(cloudFile) uploadedDoc=cloudFile;
+  __originalAddDocument();
+  await gdnlAudit("Dosya yüklendi",selectedCustomer,null,cloudFile);
+  await gdnlActivity("Dosya",selectedCustomer,"Müşteri dokümanı R2 üzerine yüklendi",null,cloudFile,"file");
+}
+const __originalAddComplaint = addComplaint;
+addComplaint = async function(notify=false){
+  const customerNo=complaintCustomer.value;
+  __originalAddComplaint(notify);
+  await gdnlAudit("Şikayet kaydı",customerNo,null,{complaintNo:complaintNo.value});
+  await gdnlActivity("Şikayet",customerNo,"Müşteri şikayeti kaydı oluşturuldu",null,{complaintNo:complaintNo.value},"complaint");
+  if(complaintCapaRef.value) await gdnlFetch("/actions",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify({module:GDNL_MODULE_NAME,related_module:"CAPA",related_id:complaintCapaRef.value,title:"Müşteri şikayeti CAPA bağlantısı",created_by:session.name})});
+  if(complaintRiskRef.value) await gdnlFetch("/actions",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify({module:GDNL_MODULE_NAME,related_module:"Risk",related_id:complaintRiskRef.value,title:"Müşteri şikayeti risk bağlantısı",created_by:session.name})});
+}
+const __originalAddActivity = addActivity;
+addActivity = async function(){
+  const owner=gdnlUserPayload("activityOwner");
+  __originalAddActivity();
+  if(owner?.fullname) await gdnlAssignment(owner,"Müşteri faaliyet sorumluluğu",activityNo.value,"");
+  await gdnlAudit("Faaliyet kaydı",activityCustomer.value,null,{activityNo:activityNo.value});
+}
+function softArchiveCustomer(index,reason="Kullanıcı arşivledi"){
+  const items=getCustomers(); const c=items[index]; if(!c)return;
+  if(!(c.createdBy===session.name || session.role==="Super Administrator")){showToast("Bu kaydı arşivleme yetkin yok");return;}
+  c.customerStatus="Arşivlendi"; c.status="Arşivlendi"; c.archived_by=session.name; c.archived_at=new Date().toISOString(); c.archive_reason=reason;
+  setCustomers(items); renderCustomers();
+  gdnlFetch("/archive",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify({module:GDNL_MODULE_NAME,record_no:c.customerNo,reason,archived_by:session.name})});
+  gdnlAudit("Arşivleme",c.customerNo,null,c); gdnlActivity("Arşivleme",c.customerNo,"Müşteri kaydı arşivlendi",null,c,"status");
+}
+async function restoreCustomer(recordNo){
+  await gdnlFetch("/restore",{method:"POST",headers:gdnlHeaders(),body:JSON.stringify({module:GDNL_MODULE_NAME,record_no:recordNo,restored_by:session.name,restored_at:new Date().toISOString()})});
+  await gdnlAudit("Geri yükleme",recordNo,null,{status:"Aktif"});
+  await gdnlActivity("Geri yükleme",recordNo,"Müşteri kaydı arşivden geri yüklendi",null,{status:"Aktif"},"status");
+  await gdnlLoadCustomersFromCloud();
+}
+async function gdnlSearchCloud(q){
+  const data=await gdnlFetch(`/search?q=${encodeURIComponent(q)}&module=${encodeURIComponent(GDNL_MODULE_NAME)}`);
+  return gdnlArray(data).filter(r=>!gdnlIsPassiveStatus(r.status));
+}
+function gdnlSyncDashboardKpi(){
+  const items=getCustomers().map(normalize);
+  const kpi={module:GDNL_MODULE_NAME,total:items.length,open_complaints:items.flatMap(x=>x.complaints||[]).filter(c=>c.status!=="Kapalı").length,high_risk:items.filter(x=>["Yüksek","Kritik"].includes(x.riskLevel)).length,updated_at:new Date().toISOString()};
+  localStorage.setItem("gdnl_dashboard_customer_kpi",JSON.stringify(kpi));
+}
+const __renderCustomers=renderCustomers;
+renderCustomers=function(){__renderCustomers();gdnlSyncDashboardKpi();}
+window.addEventListener("DOMContentYüklendi",async()=>{
+  await gdnlLoadCloudMasterData();
+  await gdnlLoadCustomersFromCloud();
+  renderCloudComments();
+});
+
+console.log("GDNL EQMS Müşteri Yönetimi Cloud Ready yüklendi");
 </script>
 </body>
 </html>
