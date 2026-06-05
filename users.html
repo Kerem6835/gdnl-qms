@@ -2051,5 +2051,31 @@ window.switchTab = function(name){
 };
 </script>
 
+
+
+<!-- GDNL EOS Cloud Ready Backend Integration Contract
+Backend Package:
+- Worker: gdnl-eos-api
+- D1 Binding: DB
+- R2 Binding: EQMS_FILES
+- Auth: JWT + HttpOnly Cookie
+Frontend fetch standard:
+fetch(API_BASE + endpoint, { credentials: "include", ...options })
+No localStorage/sessionStorage session usage is allowed.
+-->
+<script>
+window.GDNL_EOS_API_BASE = window.GDNL_EOS_API_BASE || "https://gdnl-eos-api.keremgudenli.workers.dev";
+async function gdnlApi(endpoint, options = {}){
+  const res = await fetch(window.GDNL_EOS_API_BASE + endpoint, {
+    credentials: "include",
+    ...options,
+    headers: options.body instanceof FormData ? (options.headers || {}) : {"Content-Type":"application/json", ...(options.headers || {})}
+  });
+  const data = await res.json().catch(()=>null);
+  if(!res.ok || (data && data.success === false)) throw new Error(data?.error?.message || "GDNL EOS API hatası");
+  return data?.data ?? data;
+}
+</script>
+
 </body>
 </html>
