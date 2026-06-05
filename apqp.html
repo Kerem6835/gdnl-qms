@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#35a852">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="description" content="GDNL EQMS APQP & PPAP Yönetim Merkezi; IATF 16949 uyumlu APQP proje kartı, faz yönetimi, ekip atama, PPAP ilerleme, faz kapısı, aksiyon ve onay akışı.">
-<meta name="keywords" content="GDNL EQMS,APQP,PPAP,IATF 16949,FMEA,Control Plan,MSA,SPC,otomotiv kalite">
-<meta property="og:title" content="GDNL EQMS | APQP & PPAP">
-<meta property="og:description" content="Premium APQP süreç yönetimi, PPAP ilerleme, faz kapısı, aksiyon ve onay akışı.">
+<meta name="description" content="GDNL EQMS APQP ve PPAP Yönetim Merkezi; IATF 16949 uyumlu APQP proje kartı, faz yönetimi, ekip atama, PPAP ilerleme, faz kapısı, aksiyon ve onay akışı.">
+<meta name="keywords" content="GDNL EQMS,APQP,PPAP,IATF 16949,FMEA,Kontrol Planı,MSA,SPC,otomotiv kalite">
+<meta property="og:title" content="GDNL EQMS | APQP ve PPAP">
+<meta property="og:description" content="Gelişmiş APQP süreç yönetimi, PPAP ilerleme, faz kapısı, aksiyon ve onay akışı.">
 <meta property="og:type" content="website">
-<title>GDNL EQMS | APQP & PPAP</title>
+<title>GDNL EQMS | APQP ve PPAP</title>
 <style>
 
 :root{
@@ -672,6 +672,13 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
   .span-2,.span-3,.span-4{grid-column:auto}
 }
 
+.cloud-comment-panel{margin-top:14px;border:1px solid #dfe9f5;border-radius:18px;padding:14px;background:linear-gradient(135deg,#fff,#f8fbff)}
+.cloud-comment-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.cloud-comment-item{border:1px solid #dfe9f5;border-radius:14px;padding:11px;background:#fff;color:#536176;font-size:12px;font-weight:850}
+.cloud-comment-item b{display:block;color:#071b34;margin-bottom:4px}
+.cloud-comment-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:10px}
+.cloud-comment-box textarea{min-height:70px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;background:#fff;resize:vertical;color:#0f1b2f;font-weight:900}
+
 </style>
 </head>
 <body>
@@ -728,14 +735,14 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
           <option>DFMEA Hazırlama / Güncelleme</option>
           <option>Proses Akış Şeması Hazırlama</option>
           <option>PFMEA Hazırlama / Güncelleme</option>
-          <option>Control Plan Hazırlama / Güncelleme</option>
+          <option>Kontrol Planı Hazırlama / Güncelleme</option>
           <option>MSA Analizi</option>
           <option>SPC / CPK Çalışması</option>
           <option>Test & Doğrulama</option>
-          <option>Run@Rate Planlama</option>
+          <option>Seri Üretim Hız Testi Planlama</option>
           <option>Numune Onayı</option>
           <option>Seri Üretim Hazırlığı</option>
-          <option>Lessons Learned</option>
+          <option>Öğrenilen Dersler</option>
           <option>Faz Kapısı Onayı</option>
           <option>PPAP Doküman Hazırlama</option>
           <option>Risk Analizi</option>
@@ -839,7 +846,7 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
   </div>
   <nav class="drawer-menu" id="mobileMenu" aria-label="Mobil menü"></nav>
   <div class="drawer-footer">
-    <button class="logout-btn" style="width:100%" onclick="logout()">Logout</button>
+    <button class="logout-btn" style="width:100%" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
  
@@ -852,7 +859,7 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
       <a href="dashboard.html" class="logo" aria-label="GDNL EQMS Ana Sayfa">GDNL <span>EQMS</span></a>
       <nav class="menu" id="sideMenu" aria-label="Navigasyon menüsü"></nav>
     </div>
-    <div class="sidebar-footer">GDNL EQMS Enterprise<br>APQP Process · IATF 16949 Ready</div>
+    <div class="sidebar-footer" style="display:none"></div>
   </aside>
  
   <!-- Ana içerik -->
@@ -867,17 +874,17 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
       </div>
       <div class="profile-bar">
         <div class="avatar" id="userName" aria-live="polite">—</div>
-        <button class="logout-btn" onclick="logout()">Logout</button>
+        <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
       </div>
     </header>
  
     <!-- Hero -->
     <section class="hero" aria-label="Sayfa başlığı">
       <div>
-        <h1>APQP & PPAP</h1>
+        <h1>APQP ve PPAP</h1>
         <p>Tam APQP modülü: proje kartı, faz yönetimi, ekip atama, görev takibi, PPAP paket bilgisi, faz kapısı kilidi, aktif onay akışı, otomatik aksiyon ve revizyon geçmişi. Her aşama tamamlanmadan bir sonrakine geçilemez.</p>
       </div>
-      <div class="hero-badge">IATF 16949<br>APQP: Full</div>
+      <div class="hero-badge">IATF 16949<br>APQP: Tam</div>
     </section>
  
     <!-- İstatistik kartları -->
@@ -904,10 +911,10 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
           <div class="field"><label for="revReason">Revizyon Sebebi</label><input id="revReason" placeholder="İlk yayın / değişiklik nedeni"></div>
  
           <div class="field"><label for="ppapNo">Planlanan PPAP No</label><input id="ppapNo" readonly aria-readonly="true"></div>
-          <div class="field"><label for="ppapLevel">PPAP Seviyesi</label>
-            <select id="ppapLevel">
-              <option>Level 1</option><option>Level 2</option><option selected>Level 3</option>
-              <option>Level 4</option><option>Level 5</option>
+          <div class="field"><label for="ppapSeviye">PPAP Seviyesi</label>
+            <select id="ppapSeviye">
+              <option>Seviye 1</option><option>Seviye 2</option><option selected>Seviye 3</option>
+              <option>Seviye 4</option><option>Seviye 5</option>
             </select>
           </div>
           <div class="field"><label for="customer">Müşteri</label><input id="customer" placeholder="Müşteri adı"></div>
@@ -1014,11 +1021,11 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
     <section class="panel" aria-labelledby="panelTitle4">
       <div class="panel-head">
         <h3 id="panelTitle4">4. PPAP Paket Bilgisi, Dosya ve İlerleme</h3>
-        <span class="pill pill-orange" id="ppapLevelBadge">LEVEL 3</span>
+        <span class="pill pill-orange" id="ppapSeviyeBadge">SEVİYE 3</span>
       </div>
       <p class="help">Dosya yüklenmeden ve durum "Tamamlandı" seçilmeden kart kaydedilemez. Seçilen PPAP seviyesine göre zorunlu dokümanlar listelenir. İlerleme otomatik hesaplanır.</p>
       <div class="ppap-summary-grid">
-        <div class="summary-card"><div style="font-size:13px;color:#6b7280;margin-bottom:8px">Seviye</div><div style="font-size:28px;font-weight:700;color:#16a34a" id="ppapLevelText">Level 3</div></div>
+        <div class="summary-card"><div style="font-size:13px;color:#6b7280;margin-bottom:8px">Seviye</div><div style="font-size:28px;font-weight:700;color:#16a34a" id="ppapSeviyeText">Seviye 3</div></div>
         <div class="summary-card"><div style="font-size:13px;color:#6b7280;margin-bottom:8px">Gerekli Doküman</div><div style="font-size:36px;font-weight:700;color:#16a34a" id="ppapRequiredCount">0</div></div>
         <div class="summary-card"><div style="font-size:13px;color:#6b7280;margin-bottom:8px">Tamamlanan</div><div style="font-size:36px;font-weight:700;color:#16a34a" id="ppapCompletedCount">0</div></div>
         <div class="summary-card"><div style="font-size:13px;color:#6b7280;margin-bottom:8px">Eksik</div><div style="font-size:36px;font-weight:700;color:#16a34a" id="ppapMissingCount">0</div></div>
@@ -1091,11 +1098,27 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
           <button class="btn" type="button" id="createApqp">✅ APQP Oluştur</button>
           <button class="btn btn-soft" id="saveDraft" type="button">💾 Taslak Kaydet</button>
           <button class="btn btn-blue" id="transferPpap" type="button">📦 PPAP Paketini Hazırla</button>
-          <button class="btn btn-navy" id="exportJson" type="button">⬇ JSON Yedek</button>
-          <button class="btn btn-red" id="clearAll" type="button">🗑 Tümünü Sil</button>
+          <button class="btn btn-navy" id="exportJson" type="button">⬇ Veri Yedeği</button>
+          <button class="btn btn-red" id="clearAll" type="button">🗄 Tümünü Arşivle</button>
         </div>
       </div>
       <div class="project-list" id="projectList"></div>
+    </section>
+
+    <!-- 10. Yorumlar -->
+    <section class="panel" aria-labelledby="panelTitle10">
+      <div class="panel-head">
+        <h3 id="panelTitle10">10. Yorumlar</h3>
+        <span class="pill pill-blue">ÇOKLU KULLANICI</span>
+      </div>
+      <p class="help">Bu modüldeki notlar D1 comments tablosuna yazılır. Her kullanıcı aynı kayıt altında sınırsız yorum yapabilir.</p>
+      <div class="cloud-comment-panel">
+        <div class="cloud-comment-box">
+          <textarea id="apqpCommentInput" placeholder="APQP veya PPAP süreci için yorum yazın"></textarea>
+          <button class="btn" type="button" onclick="submitApqpComment()">Yorum Ekle</button>
+        </div>
+        <div class="cloud-comment-list" id="apqpCommentList"></div>
+      </div>
     </section>
  
   </main>
@@ -1116,19 +1139,19 @@ const MENU_HTML=`
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">📚 Doküman Yönetimi</span><span class="mg-arrow">⌄</span></button>
 <div class="submenu"><a href="company-assets-documents.html">Firma Belgeleri</a><a href="documents.html">Doküman Yönetimi</a><a href="new-document.html">Yeni Doküman</a><a href="revision.html">Revizyon Yönetimi</a><a href="approval.html">Onay Yönetimi</a><a href="distribution.html">Dağıtım Yönetimi</a><a href="archive.html">Arşiv Yönetimi</a><a href="document-viewer.html">Doküman Görüntüleyici</a></div>
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">⚙️ Kalite Yönetimi</span><span class="mg-arrow">⌄</span></button>
-<div class="submenu"><a href="capa.html">8D / CAPA</a><a href="risk-register.html">Risk Yönetimi</a><a href="change-management.html">Değişiklik Yönetimi</a><a href="process-management.html">Süreç Yönetimi</a><a href="continuous-improvement.html">Sürekli İyileştirme</a></div>
+<div class="submenu"><a href="capa.html">8D ve CAPA</a><a href="risk-register.html">Risk Yönetimi</a><a href="change-management.html">Değişiklik Yönetimi</a><a href="process-management.html">Süreç Yönetimi</a><a href="continuous-improvement.html">Sürekli İyileştirme</a></div>
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">👥 Organizasyon Yönetimi</span><span class="mg-arrow">⌄</span></button>
 <div class="submenu"><a href="training-management.html">Eğitim Yönetimi</a><a href="competency-matrix.html">Yetkinlik Matrisi</a><a href="users.html">Kullanıcılar</a></div>
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">🏭 Paydaş Yönetimi</span><span class="mg-arrow">⌄</span></button>
 <div class="submenu"><a href="supplier-management.html">Tedarikçi Yönetimi</a><a href="customer-management.html">Müşteri Yönetimi</a></div>
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">📊 Performans Yönetimi</span><span class="mg-arrow">⌄</span></button>
-<div class="submenu"><a href="kpi-reports.html">KPI & Raporlar</a><a href="management-review.html">YGG Yönetimi</a><a href="action-center.html">Action Center</a><a href="notification-center.html">Bildirim Merkezi</a></div>
+<div class="submenu"><a href="kpi-reports.html">KPI ve Raporlar</a><a href="management-review.html">YGG Yönetimi</a><a href="action-center.html">Aksiyon Merkezi</a><a href="notification-center.html">Bildirim Merkezi</a></div>
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">🔧 Teknik Yönetim</span><span class="mg-arrow">⌄</span></button>
 <div class="submenu"><a href="calibration.html">Kalibrasyon</a><a href="maintenance.html">Bakım Yönetimi</a><a href="equipment.html">Ekipman Yönetimi</a></div>
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">🔒 Uyum ve Güvenlik</span><span class="mg-arrow">⌄</span></button>
 <div class="submenu"><a href="legal-compliance.html">Yasal Uyum</a><a href="information-security.html">Bilgi Güvenliği</a><a href="audit-management.html">Denetim Yönetimi</a></div>
 <button class="menu-group open" type="button" aria-expanded="true"><span class="mg-left">🚗 IATF 16949</span><span class="mg-arrow">⌄</span></button>
-<div class="submenu open"><a class="active" href="apqp-ppap-project-management.html" aria-current="page">APQP & PPAP</a></div>`;
+<div class="submenu open"><a class="active" href="apqp-ppap-project-management.html" aria-current="page">APQP ve PPAP</a></div>`;
  
 $("sideMenu").innerHTML=MENU_HTML;
 $("mobileMenu").innerHTML=MENU_HTML;
@@ -1170,17 +1193,17 @@ const phaseData=[
    tasks:["Müşteri Özel Şartları (CSR)","Proje Zaman Planı","Risk Analizi (Başlangıç)","Ekip Kurulumu","Proje Kapsamı Belgesi"]},
   {label:"2. Ürün Tasarımı ve Geliştirme",desc:"Tasarım girdileri, DFMEA, teknik resim ve doğrulama planı.",pct:40,
    tasks:["DFMEA","Teknik Resim ve Şartname","Tasarım Doğrulama Planı","Özel Karakteristikler","Malzeme ve Fonksiyon Analizi"]},
-  {label:"3. Proses Tasarımı ve Geliştirme",desc:"Proses akış şeması, PFMEA, Control Plan ve üretim hazırlığı.",pct:60,
-   tasks:["Proses Akış Şeması","PFMEA","Control Plan","İş Talimatları","Ölçüm Planı","Teçhizat ve Kalıp Listesi"]},
-  {label:"4. Ürün ve Proses Doğrulama",desc:"MSA, SPC/CPK, numune onayı, Run@Rate ve PPAP hazırlığı.",pct:80,
-   tasks:["MSA Çalışması","SPC / CPK Analizi","Numune Onayı","Run@Rate","İlk Numune Test Sonuçları","PPAP Dosya Hazırlığı"]},
+  {label:"3. Proses Tasarımı ve Geliştirme",desc:"Proses akış şeması, PFMEA, Kontrol Planı ve üretim hazırlığı.",pct:60,
+   tasks:["Proses Akış Şeması","PFMEA","Kontrol Planı","İş Talimatları","Ölçüm Planı","Teçhizat ve Kalıp Listesi"]},
+  {label:"4. Ürün ve Proses Doğrulama",desc:"MSA, SPC/CPK, numune onayı, Seri Üretim Hız Testi ve PPAP hazırlığı.",pct:80,
+   tasks:["MSA Çalışması","SPC / CPK Analizi","Numune Onayı","Seri Üretim Hız Testi","İlk Numune Test Sonuçları","PPAP Dosya Hazırlığı"]},
   {label:"5. Geri Bildirim ve Düzeltici Faaliyet",desc:"Seri üretim geçişi, lessons learned ve sürekli iyileştirme.",pct:100,
-   tasks:["Seri Üretim Onayı","Lessons Learned","Açık Aksiyon Kapatma","Müşteri Geri Bildirim","Faz Kapanış Raporu"]}
+   tasks:["Seri Üretim Onayı","Öğrenilen Dersler","Açık Aksiyon Kapatma","Müşteri Geri Bildirim","Faz Kapanış Raporu"]}
 ];
  
 /* ── PPAP doküman matrisi ── */
 const ppapDocs=[
-  ["Kapak / Cover Page","Z","Z","Z","Z","Z"],
+  ["Kapak / Kapak Sayfası","Z","Z","Z","Z","Z"],
   ["PPAP Belirleme & Kapsam","Z","Z","Z","Z","Z"],
   ["Tasarım Kayıtları / Teknik Resim","-","-","Z","M","Z"],
   ["ECN / Değişiklik Kayıtları","-","-","Z","M","Z"],
@@ -1188,12 +1211,12 @@ const ppapDocs=[
   ["DFMEA","-","-","M","M","Z"],
   ["Proses Akış Şeması","-","-","Z","M","Z"],
   ["PFMEA","-","-","Z","M","Z"],
-  ["Control Plan","-","-","Z","M","Z"],
+  ["Kontrol Planı","-","-","Z","M","Z"],
   ["Ölçüsel Sonuçlar","-","-","Z","M","Z"],
   ["MSA","-","-","Z","M","Z"],
   ["SPC / CPK","-","-","Z","M","Z"],
-  ["İlk Numune / Zero Seri","-","-","Z","M","Z"],
-  ["Master Sample","-","-","Z","M","Z"],
+  ["İlk Numune / Sıfır Seri","-","-","Z","M","Z"],
+  ["Referans Numune","-","-","Z","M","Z"],
   ["Kontrol Yardımcıları","-","-","O","M","Z"],
   ["PSW – Parça Sunum Onayı","Z","Z","Z","Z","Z"],
   ["Müşteri Mühendislik Onayı","-","-","O","M","Z"],
@@ -1203,7 +1226,7 @@ const ppapDocs=[
   ["Görsel Onay Raporu / AAR","-","-","O","M","Z"],
   ["Seri Üretim Numuneleri","-","-","Z","M","Z"],
   ["Uygunluk Kayıtları","-","-","Z","M","Z"],
-  ["Run@Rate / Kapasite Doğrulama","-","-","O","M","Z"]
+  ["Seri Üretim Hız Testi / Kapasite Doğrulama","-","-","O","M","Z"]
 ];
  
 /* ── Onay adımları ── */
@@ -1216,16 +1239,26 @@ const approvalSteps=[
   {name:"PPAP Aktarım",desc:"PPAP paketi nihai transfer"}
 ];
  
-/* ── LocalStorage yardımcıları ── */
+/* ── Cloud veri yardımcıları: D1 ana kaynak, localStorage sadece geçici yedek ── */
+const CLOUD={ready:false,projects:[],archives:[],actions:[],revisions:[],comments:[],files:[],sequence:{}};
+const PASSIVE_STATUS=["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","iptal"];
+function nowISO(){return new Date().toISOString()}
+function normTR(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim()}
+function isPassiveStatus(v){return PASSIVE_STATUS.includes(normTR(v))}
+function activeRecords(arr){return (arr||[]).filter(x=>!isPassiveStatus(x.status))}
+function safeArray(v){return Array.isArray(v)?v:[]}
 function getLS(k){try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}}
-function setLS(k,v){localStorage.setItem(k,JSON.stringify(v));renderProjects();updateStats()}
-function getProjects(){return getLS("gdnl_apqp_projects")}
+function setLS(k,v){localStorage.setItem(k,JSON.stringify(v));syncKnownCollection(k,v);renderProjects();updateStats()}
+function syncKnownCollection(k,v){if(k==="gdnl_apqp_projects")CLOUD.projects=safeArray(v);if(k==="gdnl_apqp_actions")CLOUD.actions=safeArray(v);if(k==="gdnl_apqp_revisions")CLOUD.revisions=safeArray(v)}
+function getProjects(){return activeRecords(CLOUD.projects.length?CLOUD.projects:getLS("gdnl_apqp_projects"))}
+function getAllProjects(){return CLOUD.projects.length?CLOUD.projects:getLS("gdnl_apqp_projects")}
+function getArchives(){return CLOUD.archives.length?CLOUD.archives:getLS("gdnl_archive")}
 function getTeam(){return getLS("gdnl_apqp_team")}
 function setTeam(v){localStorage.setItem("gdnl_apqp_team",JSON.stringify(v));renderTeam();updateStats()}
-function getActions(){return getLS("gdnl_apqp_actions")}
-function setActions(v){localStorage.setItem("gdnl_apqp_actions",JSON.stringify(v));renderActions();updateStats()}
-function getRevisions(){return getLS("gdnl_apqp_revisions")}
-function setRevisions(v){localStorage.setItem("gdnl_apqp_revisions",JSON.stringify(v));renderRevisions();updateStats()}
+function getActions(){return activeRecords(CLOUD.actions.length?CLOUD.actions:getLS("gdnl_apqp_actions"))}
+function setActions(v){CLOUD.actions=safeArray(v);localStorage.setItem("gdnl_apqp_actions",JSON.stringify(v));renderActions();updateStats()}
+function getRevisions(){return activeRecords(CLOUD.revisions.length?CLOUD.revisions:getLS("gdnl_apqp_revisions"))}
+function setRevisions(v){CLOUD.revisions=safeArray(v);localStorage.setItem("gdnl_apqp_revisions",JSON.stringify(v));renderRevisions();updateStats()}
 function getPpapStatus(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_ppap_status")||"{}")}catch(e){return{}}}
 function setPpapStatus(v){localStorage.setItem("gdnl_apqp_ppap_status",JSON.stringify(v))}
 function getGateMap(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_gate_status")||"{}")}catch(e){return{}}}
@@ -1236,18 +1269,51 @@ function getApprovedWorkflows(){return getLS("gdnl_apqp_approved_workflows")}
 function setApprovedWorkflows(v){localStorage.setItem("gdnl_apqp_approved_workflows",JSON.stringify(v));renderApprovedWorkflowList()}
 function getTaskStatus(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_task_status")||"{}")}catch(e){return{}}}
 function setTaskStatus(v){localStorage.setItem("gdnl_apqp_task_status",JSON.stringify(v))}
- 
+async function apiFetch(path,options={}){const res=await fetch(API_BASE+path,options);const ct=res.headers.get("content-type")||"";const data=ct.includes("application/json")?await res.json():await res.text();if(!res.ok)throw new Error(typeof data==="string"?data:(data.message||data.detail||"API hatası"));return data}
+function postJSON(path,payload){return apiFetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})}
+function putJSON(path,payload){return apiFetch(path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})}
+async function tryMany(list,payload){let last=null;for(const x of list){try{return await (x.method==="PUT"?putJSON(x.path,payload):postJSON(x.path,payload))}catch(e){last=e}}throw last||new Error("API bağlantısı kurulamadı")}
+function getUserId(){return String(session.id||session.user_id||session.username||session.name||"")}
+function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kullanıcı"}
+function isSuperAdmin(){return String(session.role||"").toLowerCase().includes("super")||String(session.role||"").toLowerCase().includes("admin")}
+async function writeAudit(action,module,relatedId,detail,oldValue="",newValue=""){const payload={id:"LOG-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),action,module,related_id:relatedId||"",detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),old_value:oldValue,new_value:newValue,user_agent:navigator.userAgent,created_at:nowISO()};try{await postJSON("/audit-logs",payload)}catch(e){const q=getLS("gdnl_pending_audit_logs");q.unshift(payload);localStorage.setItem("gdnl_pending_audit_logs",JSON.stringify(q))}}
+async function writeActivity(type,module,relatedId,title,description=""){const payload={id:"ACT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),activity_type:type,module,related_id:relatedId||"",title:title||type,description:description||"",created_at:nowISO()};try{await postJSON("/activity-feed",payload)}catch(e){const q=getLS("gdnl_pending_activity_feed");q.unshift(payload);localStorage.setItem("gdnl_pending_activity_feed",JSON.stringify(q))}}
+async function notifyUsers(title,message,relatedId,userNames=[]){const users=(userNames||[]).length?userNames:[""];for(const user_name of users){const payload={id:"NTF-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:"",user_name,type:"APQP",title,message,module:"APQP ve PPAP",related_id:relatedId||"",status:"UNREAD",created_at:nowISO()};try{await postJSON("/notifications",payload)}catch(e){}}}
+async function addAssignment(sourceId,title,user,role="Sorumlu",due=""){const payload={id:"ASN-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),source_type:"APQP",source_id:sourceId||$("apqpNo")?.value||"",user_id:user.id||user.user_id||"",user_name:user.name||user.fullname||user.fullName||"",role,status:"Atandı",due_date:due,title,message:title,created_by:getUserName(),created_at:nowISO()};try{await postJSON("/assignments",payload)}catch(e){}}
+async function addComment(relatedId,comment){const payload={id:"CMT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),module:"APQP ve PPAP",related_id:relatedId||$("apqpNo")?.value||"",user_id:getUserId(),user_name:getUserName(),comment,created_at:nowISO()};try{await postJSON("/comments",payload)}catch(e){const q=getLS("gdnl_apqp_comments");q.unshift(payload);localStorage.setItem("gdnl_apqp_comments",JSON.stringify(q))}CLOUD.comments.unshift(payload);renderApqpComments()}
+async function uploadFileToR2(file,relatedId){const fd=new FormData();fd.append("file",file);fd.append("module","APQP_PPAP");fd.append("related_id",relatedId||$("apqpNo")?.value||"REFERANS-YOK");fd.append("uploaded_by",getUserName());const data=await apiFetch("/upload",{method:"POST",body:fd});const f=data.file||data;await writeAudit("DOSYA_YUKLE","APQP ve PPAP",relatedId,{fileName:file.name,r2_key:f.r2_key});return f}
+async function saveApqpToCloud(record){const payload={...record,id:record.id||record.apqpNo,apqp_no:record.apqpNo,ppap_no:record.ppapNo,module:"APQP ve PPAP",title:record.projectName||record.apqpNo,status:record.status||"Aktif",description:JSON.stringify(record),created_by:record.createdBy||getUserName(),updated_by:getUserName(),updated_at:nowISO()};return tryMany([{path:"/apqp-projects",method:"POST"},{path:"/projects",method:"POST"}],payload)}
+async function updateApqpToCloud(record){const payload={...record,id:record.id||record.apqpNo,apqp_no:record.apqpNo,ppap_no:record.ppapNo,module:"APQP ve PPAP",title:record.projectName||record.apqpNo,status:record.status||"Aktif",description:JSON.stringify(record),updated_by:getUserName(),updated_at:nowISO()};try{return await putJSON(`/apqp-projects/${encodeURIComponent(record.id||record.apqpNo)}`,payload)}catch(e){try{return await putJSON(`/projects/${encodeURIComponent(record.id||record.apqpNo)}`,payload)}catch(e2){return saveApqpToCloud(record)}}}
+function mapCloudProject(row){if(row.apqpNo||row.ppapNo)return row;let d={};try{d=JSON.parse(row.description||"{}")}catch(e){}return {...d,id:d.id||row.id,apqpNo:d.apqpNo||row.apqp_no||row.id,ppapNo:d.ppapNo||row.ppap_no||"",projectName:d.projectName||row.title||"",status:row.status||d.status||"Aktif",createdAt:row.created_at||d.createdAt,updatedAt:row.updated_at||d.updatedAt}}
+function mapCloudArchive(row){if(row.archiveNo||row.original_id)return row;let d={};try{d=JSON.parse(row.description||"{}")}catch(e){}return {...d,id:d.id||row.id,archiveNo:d.archiveNo||row.id,sourceId:d.sourceId||row.related_id||row.original_id,status:row.status||d.status||"Arşivlendi",module:row.module||d.module||"APQP ve PPAP",createdAt:row.created_at||d.createdAt,archived_at:row.archived_at||d.archived_at}}
+async function loadCloudModuleData(){try{const a=await apiFetch("/apqp-projects");CLOUD.projects=(a.apqp_projects||a.projects||a.results||a||[]).map(mapCloudProject);localStorage.setItem("gdnl_apqp_projects",JSON.stringify(CLOUD.projects));CLOUD.ready=true}catch(e){try{const p=await apiFetch("/projects");CLOUD.projects=(p.projects||p.results||p||[]).filter(x=>String(x.module||"").includes("APQP")).map(mapCloudProject);localStorage.setItem("gdnl_apqp_projects",JSON.stringify(CLOUD.projects));CLOUD.ready=true}catch(e2){CLOUD.projects=getLS("gdnl_apqp_projects")}}
+try{const ar=await apiFetch("/archive?module=APQP_PPAP");CLOUD.archives=(ar.archive||ar.archives||ar.results||ar||[]).map(mapCloudArchive);localStorage.setItem("gdnl_archive",JSON.stringify(CLOUD.archives))}catch(e){CLOUD.archives=getLS("gdnl_archive")}
+try{const c=await apiFetch("/comments?module=APQP_PPAP");CLOUD.comments=c.comments||c.results||[]}catch(e){CLOUD.comments=getLS("gdnl_apqp_comments")}
+renderProjects();renderApqpComments();nextNo();updateStats()}
+async function archiveRecord(record,reason="Kullanıcı tarafından arşivlendi"){if(!isSuperAdmin()&&String(record.createdBy||record.preparedBy||"")!==getUserName()){toast("⛔ Bu kaydı arşivleme yetkiniz yok.");return false}const old=JSON.stringify(record);record.status="Arşivlendi";record.archived_by=getUserName();record.archived_at=nowISO();record.archiveReason=reason;record.updatedAt=nowISO();await updateApqpToCloud(record);const archiveItem={id:"ARS-"+Date.now(),archiveNo:"ARS-"+Date.now(),module:"APQP ve PPAP",recordType:"APQP Projesi",sourceId:record.id||record.apqpNo,apqpNo:record.apqpNo,ppapNo:record.ppapNo,documentCode:record.apqpNo,documentName:record.projectName,status:"Arşivlendi",reason,archived_by:getUserName(),archived_at:nowISO(),sourceRecord:record,createdAt:nowISO()};CLOUD.archives.unshift(archiveItem);localStorage.setItem("gdnl_archive",JSON.stringify(CLOUD.archives));try{await postJSON("/archive",archiveItem)}catch(e){}await writeAudit("ARSIVLE","APQP ve PPAP",record.apqpNo,reason,old,JSON.stringify(record));await writeActivity("ARSIVLE","APQP ve PPAP",record.apqpNo,"APQP kaydı arşivlendi",reason);await notifyUsers("APQP kaydı arşivlendi",`${record.apqpNo} arşive alındı.`,record.apqpNo);return true}
+async function restoreRecord(archiveItem){const rec=archiveItem.sourceRecord||archiveItem;rec.status=rec.previous_status||"Aktif";rec.restored_by=getUserName();rec.restored_at=nowISO();rec.updatedAt=nowISO();await updateApqpToCloud(rec);await writeAudit("GERI_YUKLE","APQP ve PPAP",rec.apqpNo,"Arşivden geri yüklendi");await writeActivity("GERI_YUKLE","APQP ve PPAP",rec.apqpNo,"APQP kaydı geri yüklendi");return rec}
+
 /* ── Gecikme kontrolü ── */
 function isOverdue(due){if(!due)return false;return new Date(due)<new Date(today)}
  
 /* ── APQP No ── */
-function nextNo(){
-  const y=new Date().getFullYear();let max=0;
-  getProjects().forEach(p=>{let m=String(p.apqpNo||"").match(/APQP-(\d{4})-(\d+)/);if(m&&Number(m[1])===y)max=Math.max(max,Number(m[2]))});
-  $("apqpNo").value="APQP-"+y+"-"+String(max+1).padStart(4,"0");
-  $("ppapNo").value="PPAP-"+y+"-"+String(max+1).padStart(4,"0");
+function readSeqNo(value){
+  const v=String(value||"");
+  let m=v.match(/(?:APQ|PPP)-(\d{1,})$/);if(m)return Number(m[1]);
+  m=v.match(/(?:APQP|PPAP)-\d{4}-(\d{1,})$/);if(m)return Number(m[1]);
+  return 0;
 }
- 
+function nextNo(){
+  let maxApq=0,maxPpp=0;
+  [...getAllProjects(),...getArchives()].forEach(p=>{
+    maxApq=Math.max(maxApq,readSeqNo(p.apqpNo||p.documentCode||p.sourceId));
+    maxPpp=Math.max(maxPpp,readSeqNo(p.ppapNo));
+  });
+  $("apqpNo").value="APQ-"+String(maxApq+1).padStart(6,"0");
+  $("ppapNo").value="PPP-"+String(maxPpp+1).padStart(6,"0");
+  try{apiFetch("/sequence?module=APQP_PPAP").then(r=>{const n=Number(r.next||r.next_number||0);if(n>maxApq){$("apqpNo").value="APQ-"+String(n).padStart(6,"0");$("ppapNo").value="PPP-"+String(n).padStart(6,"0")}}).catch(()=>{})}catch(e){}
+}
+
 /* ── Faz geçiş kuralı ── */
 function currentPhaseIndex(){let idx=phaseData.findIndex(x=>x.label===$("phaseSelect").value);return idx<0?0:idx}
 function phaseHasOpenActions(i){
@@ -1375,15 +1441,20 @@ function renderTkOwnerPills(){
 }
 window.removeTkOwner=i=>{_tkOwners.splice(i,1);renderTkOwnerPills()};
 $("tkFile").onchange=()=>{$("tkFileName").value=$("tkFile").files[0]?.name||""};
-function submitTaskModal(){
+async function submitTaskModal(){
   let pi=Number($("tkPhaseIdx").value),ti=Number($("tkTaskIdx").value);
   let status=$("tkStatus").value,due=$("tkDue").value;
   if(!due){toast("⛔ Termin tarihi zorunlu.");return}
   if(_tkOwners.length===0){toast("⛔ En az 1 sorumlu seçin.");return}
   if(status==="Tamamlandı"&&!$("tkFileName").value){toast("⛔ Tamamlandı seçildi ama dosya yüklenmedi.",4000);return}
   let ts=getTaskStatus();
-  ts[pi+"-"+ti]={status,due,owners:_tkOwners.map(u=>u.name),fileName:$("tkFileName").value||ts[pi+"-"+ti]?.fileName||"",note:$("tkNote").value};
+  let fileMeta=null;
+  if($("tkFile").files[0]){try{fileMeta=await uploadFileToR2($("tkFile").files[0],$("apqpNo").value+"-FAZ"+(pi+1)+"-GOREV"+(ti+1))}catch(e){toast("⛔ Dosya R2 yükleme hatası: "+e.message);return}}
+  ts[pi+"-"+ti]={status,due,owners:_tkOwners.map(u=>u.name),fileName:fileMeta?.file_name||fileMeta?.fileName||$("tkFileName").value||ts[pi+"-"+ti]?.fileName||"",fileUrl:fileMeta?.r2_key?API_BASE+"/file/"+encodeURIComponent(fileMeta.r2_key):(ts[pi+"-"+ti]?.fileUrl||""),note:$("tkNote").value,updatedBy:getUserName(),updatedAt:nowISO()};
   setTaskStatus(ts);
+  for(const u of _tkOwners){await addAssignment($("apqpNo").value,phaseData[pi].tasks[ti],u,"Görev Sorumlusu",due)}
+  await writeAudit("GOREV_GUNCELLE","APQP ve PPAP",$("apqpNo").value,{faz:pi+1,gorev:phaseData[pi].tasks[ti],status,due});
+  await writeActivity("GOREV_GUNCELLE","APQP ve PPAP",$("apqpNo").value,"APQP görevi güncellendi",phaseData[pi].tasks[ti]);
   closeTaskModal();
   renderPhases();
   if($("phaseDetail").classList.contains("active"))renderPhaseDetail(pi);
@@ -1398,7 +1469,7 @@ window.reqRevFromTask=()=>{
 /* ── PPAP Doküman ── */
 function reqCode(doc,l){return doc[Number(l)]||"-"}
 function currentPpapDocs(){
-  let l=$("ppapLevel").value.replace("Level ","");
+  let l=$("ppapSeviye").value.replace("Seviye ","");
   return ppapDocs.map((d,i)=>({name:d[0],i,r:reqCode(d,l)})).filter(x=>x.r!=="-");
 }
 function docCls(st){return st==="Tamamlandı"?"doc-done":st==="Devam Ediyor"?"doc-work":"doc-missing"}
@@ -1406,8 +1477,8 @@ function renderPpapReqs(){
   let docs=currentPpapDocs(),s=getPpapStatus();
   let completed=docs.filter(d=>(s[d.i]?.status||"Eksik")==="Tamamlandı").length;
   let total=docs.length,missing=total-completed,percent=total?Math.round(completed/total*100):0;
-  $("ppapLevelBadge").textContent=$("ppapLevel").value.toUpperCase();
-  $("ppapLevelText").textContent=$("ppapLevel").value;
+  $("ppapSeviyeBadge").textContent=$("ppapSeviye").value.toUpperCase();
+  $("ppapSeviyeText").textContent=$("ppapSeviye").value;
   $("ppapRequiredCount").textContent=total;
   $("ppapCompletedCount").textContent=completed;
   $("ppapMissingCount").textContent=missing;
@@ -1475,7 +1546,7 @@ window.savePpapDetail=i=>{
 };
  
 /* ── Onay akışı ── */
-function approvalReadyCheck(){
+function approvalHazırCheck(){
   let docs=currentPpapDocs(),s=getPpapStatus();
   let missingDocs=docs.filter(d=>(s[d.i]?.status||"Eksik")!=="Tamamlandı");
   if(missingDocs.length)return{ok:false,msg:`PPAP paketinde ${missingDocs.length} eksik doküman var.`};
@@ -1484,7 +1555,7 @@ function approvalReadyCheck(){
   return{ok:true,msg:"Onaya hazır."};
 }
 function renderApprovals(){
-  let idx=getApprovalIndex(),check=approvalReadyCheck();
+  let idx=getApprovalIndex(),check=approvalHazırCheck();
   $("approvalGrid").innerHTML=approvalSteps.map((a,i)=>{
     let state=i<idx?"approved":i===idx?"current":"waiting";
     return `<div class="approve-card ${state}" role="region" aria-label="${a.name}">
@@ -1500,7 +1571,7 @@ function renderApprovals(){
   }).join("");
 }
 window.approveCurrentStep=()=>{
-  let check=approvalReadyCheck();
+  let check=approvalHazırCheck();
   if(!check.ok){toast("⛔ "+check.msg,4500);return}
   let idx=getApprovalIndex();
   if(idx>=approvalSteps.length){toast("Onay akışı zaten tamamlandı.");return}
@@ -1547,14 +1618,14 @@ window.pickRevOwner=idx=>{
   $("revModalOwnerPills").innerHTML=_revOwners.map((u,i)=>`<div class="assignee-pill">${u.name}<button type="button" onclick="removeRevOwner(${i})">×</button></div>`).join("");
 };
 window.removeRevOwner=i=>{_revOwners.splice(i,1);$("revModalOwnerPills").innerHTML=_revOwners.map((u,j)=>`<div class="assignee-pill">${u.name}<button type="button" onclick="removeRevOwner(${j})">×</button></div>`).join("")};
-function submitRevModal(){
+async function submitRevModal(){
   let reason=($("revModalReason").value||"").trim(),due=$("revModalDue").value;
   if(!reason){toast("⛔ Revizyon sebebi zorunlu.");return}
   if(!due){toast("⛔ Termin tarihi zorunlu.");return}
   if(_revOwners.length===0){toast("⛔ En az 1 sorumlu seçin.");return}
   let arr=getRevisions();
   arr.unshift({id:Date.now(),apqpNo:$("apqpNo").value,rev:$("apqpRev").value,date:today,reason,source:$("revModalSource").value,step:$("revModalStep").value,due,owners:_revOwners.map(u=>u.name),status:"Beklemede"});
-  setRevisions(arr);closeRevModal();toast("📝 Revizyon talebi oluşturuldu.");
+  setRevisions(arr);await writeAudit("REVIZYON_TALEBI","APQP ve PPAP",$("apqpNo").value,{reason,due,owners:_revOwners.map(u=>u.name)});await writeActivity("REVIZYON_TALEBI","APQP ve PPAP",$("apqpNo").value,"Revizyon talebi oluşturuldu",reason);for(const u of _revOwners){await addAssignment($("apqpNo").value,"Revizyon talebi",u,"Revizyon Sorumlusu",due)}await notifyUsers("Revizyon talebi",reason,$("apqpNo").value,_revOwners.map(u=>u.name));closeRevModal();toast("📝 Revizyon talebi oluşturuldu.");
 }
  
 /* ── Aksiyon Modal ── */
@@ -1583,14 +1654,21 @@ window.pickActOwner=idx=>{
   $("actOwnerPills").innerHTML=_actOwners.map((u,i)=>`<div class="assignee-pill">${u.name} · ${u.position}<button type="button" onclick="removeActOwner(${i})">×</button></div>`).join("");
 };
 window.removeActOwner=i=>{_actOwners.splice(i,1);$("actOwnerPills").innerHTML=_actOwners.map((u,j)=>`<div class="assignee-pill">${u.name} · ${u.position}<button type="button" onclick="removeActOwner(${j})">×</button></div>`).join("")};
-function submitActionModal(){
+async function submitActionModal(){
   let task=$("actTask").value,due=$("actDue").value;
   if(!task){toast("⛔ Görev seçin.");return}
   if(_actOwners.length===0){toast("⛔ En az 1 sorumlu seçin.");return}
   if(!due){toast("⛔ Termin tarihi zorunlu.");return}
   let arr=getActions();
-  arr.unshift({id:Date.now(),title:task,desc:$("actDesc").value,assignees:_actOwners,due,phase:$("actPhase").value,priority:$("actPriority").value,status:"Açık",source:"Manuel"});
-  setActions(arr);closeActionModal();toast("✅ Aksiyon oluşturuldu.");
+  const newAction={id:Date.now(),title:task,desc:$("actDesc").value,assignees:_actOwners,due,phase:$("actPhase").value,priority:$("actPriority").value,status:"Açık",source:"Manuel",createdBy:getUserName(),createdAt:nowISO()};
+  arr.unshift(newAction);
+  setActions(arr);
+  try{await postJSON("/actions",{...newAction,module:"APQP ve PPAP",related_id:$("apqpNo").value,created_by:getUserName(),description:JSON.stringify(newAction)})}catch(e){}
+  for(const u of _actOwners){await addAssignment($("apqpNo").value,task,u,"Aksiyon Sorumlusu",due)}
+  await writeAudit("AKSIYON_OLUSTUR","APQP ve PPAP",$("apqpNo").value,newAction);
+  await writeActivity("AKSIYON_OLUSTUR","APQP ve PPAP",$("apqpNo").value,"Aksiyon oluşturuldu",task);
+  await notifyUsers("APQP aksiyonu atandı",task,$("apqpNo").value,_actOwners.map(u=>u.name));
+  closeActionModal();toast("✅ Aksiyon oluşturuldu.");
 }
  
 /* ── Aksiyon render ── */
@@ -1611,13 +1689,13 @@ function renderActions(){
       <div class="actions" style="margin-top:8px">
         ${a.status==="Açık"?`<button class="btn btn-soft btn-sm" onclick="closeAction(${a.id})">✅ Kapat</button>`:""}
         <button class="btn btn-orange btn-sm" onclick="openRevModal('${a.title.replace(/'/g,"\\'")} revizyonu','Aksiyon','')">📝 Rev.</button>
-        <button class="btn btn-red btn-sm" onclick="deleteAction(${a.id})">Sil</button>
+        <button class="btn btn-red btn-sm" onclick="deleteAction(${a.id})">Arşivle</button>
       </div>
     </div>`;
   }).join(""):`<div class="empty-state" style="grid-column:1/-1">Açık aksiyon bulunmuyor.</div>`;
 }
 window.closeAction=id=>{let arr=getActions();let a=arr.find(x=>x.id===id);if(a)a.status="Kapalı";setActions(arr);renderPhases()};
-window.deleteAction=id=>setActions(getActions().filter(a=>a.id!==id));
+window.deleteAction=async id=>{let arr=getActions();let a=arr.find(x=>x.id===id);if(!a)return;if(!confirm("Aksiyon arşivlensin mi?"))return;a.status="Arşivlendi";a.archived_by=getUserName();a.archived_at=nowISO();setActions(arr);await writeAudit("AKSIYON_ARSIVLE","APQP ve PPAP",$("apqpNo").value,a);await writeActivity("AKSIYON_ARSIVLE","APQP ve PPAP",$("apqpNo").value,"Aksiyon arşivlendi",a.title);renderActions();};
  
 /* ── Revizyon render ── */
 function renderRevisions(){
@@ -1635,13 +1713,13 @@ function renderRevisions(){
       </div>
       <div class="actions" style="margin-top:8px">
         ${r.status==="Beklemede"?`<button class="btn btn-soft btn-sm" onclick="closeRevision(${r.id})">✅ Tamamlandı</button>`:""}
-        <button class="btn btn-red btn-sm" onclick="deleteRevision(${r.id})">Sil</button>
+        <button class="btn btn-red btn-sm" onclick="deleteRevision(${r.id})">Arşivle</button>
       </div>
     </div>`;
   }).join(""):`<div class="empty-state">Revizyon geçmişi bulunmuyor.</div>`;
 }
 window.closeRevision=id=>{let arr=getRevisions();let r=arr.find(x=>x.id===id);if(r)r.status="Tamamlandı";setRevisions(arr)};
-window.deleteRevision=id=>setRevisions(getRevisions().filter(r=>r.id!==id));
+window.deleteRevision=async id=>{let arr=getRevisions();let r=arr.find(x=>x.id===id);if(!r)return;if(!confirm("Revizyon kaydı arşivlensin mi?"))return;r.status="Arşivlendi";r.archived_by=getUserName();r.archived_at=nowISO();setRevisions(arr);await writeAudit("REVIZYON_ARSIVLE","APQP ve PPAP",$("apqpNo").value,r);await writeActivity("REVIZYON_ARSIVLE","APQP ve PPAP",$("apqpNo").value,"Revizyon kaydı arşivlendi",r.reason);renderRevisions();};
  
 /* ── Ekip ── */
 /* ── D1 USERS ENGINE — users.html ile aynı kaynak, tüm alanlarda ortak kişi havuzu ── */
@@ -1821,7 +1899,7 @@ function renderApprovedWorkflowList(){
  
 /* ── Proje kayıt / yükleme ── */
 function buildRecord(){
-  return{id:Date.now(),apqpNo:$("apqpNo").value,apqpRev:$("apqpRev").value,revDate:$("revDate").value,revReason:$("revReason").value,ppapNo:$("ppapNo").value,ppapLevel:$("ppapLevel").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,oemPartNo:$("oemPartNo").value,drawingNo:$("drawingNo").value,drawingRev:$("drawingRev").value,phase:$("phaseSelect").value,status:$("statusField").value,priority:$("priority").value,leader:$("leader").value,preparedBy:$("preparedBy").value,startDate:$("startDate").value,targetDate:$("targetDate").value,scope:$("scope").value,team:getTeam(),ppapStatus:getPpapStatus(),actions:getActions(),gate:getGateMap(),approvalIndex:getApprovalIndex(),revisions:getRevisions(),taskStatus:getTaskStatus(),createdAt:new Date().toISOString()};
+  return{id:Date.now(),createdBy:getUserName(),created_by:getUserName(),department:getSelectedPerson("leader")?.department||"",apqpNo:$("apqpNo").value,apqpRev:$("apqpRev").value,revDate:$("revDate").value,revReason:$("revReason").value,ppapNo:$("ppapNo").value,ppapSeviye:$("ppapSeviye").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,oemPartNo:$("oemPartNo").value,drawingNo:$("drawingNo").value,drawingRev:$("drawingRev").value,phase:$("phaseSelect").value,status:$("statusField").value,priority:$("priority").value,leader:$("leader").value,preparedBy:$("preparedBy").value,startDate:$("startDate").value,targetDate:$("targetDate").value,scope:$("scope").value,team:getTeam(),ppapStatus:getPpapStatus(),actions:getActions(),gate:getGateMap(),approvalIndex:getApprovalIndex(),revisions:getRevisions(),taskStatus:getTaskStatus(),createdAt:new Date().toISOString()};
 }
 function clearFormData(){
   ["apqpRev","revDate","revReason","customer","projectName","partName","partNo","oemPartNo","drawingNo","drawingRev","scope","startDate","targetDate","leader","preparedBy"].forEach(k=>{if($(k))$(k).value=k==="apqpRev"?"R00":""});
@@ -1829,14 +1907,16 @@ function clearFormData(){
   renderTeam();renderPhases();renderPpapReqs();renderApprovals();renderActions();renderRevisions();
   $("phaseDetail").classList.remove("active");$("ppapDetail").classList.remove("active");
 }
-$("createApqp").onclick=()=>{
+$("createApqp").onclick=async()=>{
   if(!$("customer").value){toast("⛔ Müşteri alanı zorunlu.");return}
   if(!$("projectName").value){toast("⛔ Proje adı zorunlu.");return}
-  let arr=getProjects();arr.unshift(buildRecord());setLS("gdnl_apqp_projects",arr);
+  const record=buildRecord();
+  let arr=getAllProjects();arr.unshift(record);setLS("gdnl_apqp_projects",arr);
+  try{await saveApqpToCloud(record);await writeAudit("APQP_OLUSTUR","APQP ve PPAP",record.apqpNo,record);await writeActivity("APQP_OLUSTUR","APQP ve PPAP",record.apqpNo,"APQP oluşturuldu",record.projectName);await notifyUsers("APQP oluşturuldu",record.apqpNo+" oluşturuldu.",record.apqpNo)}catch(e){toast("⚠ Cloud kaydı başarısız, geçici yedek tutuldu: "+e.message,5000)}
   clearFormData();nextNo();setApprovalIndex(0);toast("✅ APQP oluşturuldu.");
 };
 $("apqpForm").onsubmit=e=>{e.preventDefault();$("createApqp").click()};
-$("saveDraft").onclick=()=>{localStorage.setItem("gdnl_apqp_draft",JSON.stringify(buildRecord()));toast("💾 Taslak kaydedildi.")};
+$("saveDraft").onclick=async()=>{localStorage.setItem("gdnl_apqp_draft",JSON.stringify(buildRecord()));await writeAudit("TASLAK_KAYDET","APQP ve PPAP",$("apqpNo").value,buildRecord());toast("💾 Taslak kaydedildi.")};
  
 $("openRevision").onclick=()=>{
   let cur=$("apqpRev").value||"R00",n=Number(cur.replace(/\D/g,"")||0)+1,rev="R"+String(n).padStart(2,"0");
@@ -1845,18 +1925,18 @@ $("openRevision").onclick=()=>{
   arr.unshift({id:Date.now(),apqpNo:$("apqpNo").value,rev,date:today,reason:$("revReason").value||"Revizyon versiyonu artırıldı",source:"Proje Kartı",step:"",due:"",owners:[$("leader").value||"Proje Lideri"],status:"Beklemede"});
   setRevisions(arr);toast("📝 Yeni revizyon versiyonu: "+rev);
 };
-$("approveGate").onclick=()=>{
+$("approveGate").onclick=async()=>{
   let idx=currentPhaseIndex(),g=getGateMap();
   if(phaseHasOpenActions(idx)){toast("⛔ Bu faza açık aksiyonlar var. Kapatmadan onaylanamaz.",4000);return}
   if(phaseHasPendingRevisions()){toast("⛔ Bekleyen revizyon talebi var. Kapatmadan onaylanamaz.",4000);return}
   // Tüm görevler tamamlandı mı?
   let ts=getTaskStatus(),incomplete=phaseData[idx].tasks.filter((_,ti)=>(ts[idx+"-"+ti]?.status||"")==="Tamamlandı"?false:true);
   if(incomplete.length){toast(`⛔ ${incomplete.length} görev henüz tamamlanmadı.`,4000);return}
-  g[idx]="approved";g[idx+"date"]=today;setGateMap(g);renderPhases();renderApprovals();toast("✅ Faz kapısı onaylandı.");
+  g[idx]="approved";g[idx+"date"]=today;setGateMap(g);await writeAudit("FAZ_ONAYLA","APQP ve PPAP",$("apqpNo").value,{phase:idx+1,user:getUserName(),date:nowISO()});await writeActivity("FAZ_ONAYLA","APQP ve PPAP",$("apqpNo").value,"Faz kapısı onaylandı","Faz "+(idx+1));renderPhases();renderApprovals();toast("✅ Faz kapısı onaylandı.");
 };
-$("rejectGate").onclick=()=>{
+$("rejectGate").onclick=async()=>{
   let idx=currentPhaseIndex(),g=getGateMap();
-  g[idx]="rejected";g[idx+"date"]=today;setGateMap(g);renderPhases();renderApprovals();toast("❌ Faz kapısı reddedildi.");
+  g[idx]="rejected";g[idx+"date"]=today;setGateMap(g);await writeAudit("FAZ_RED","APQP ve PPAP",$("apqpNo").value,{phase:idx+1,user:getUserName(),date:nowISO()});await writeActivity("FAZ_RED","APQP ve PPAP",$("apqpNo").value,"Faz kapısı reddedildi","Faz "+(idx+1));renderPhases();renderApprovals();toast("❌ Faz kapısı reddedildi.");
 };
 $("createAction").onclick=openActionModal;
 $("autoAction").onclick=()=>{
@@ -1868,17 +1948,17 @@ $("autoAction").onclick=()=>{
   });
   setActions(arr);toast("⚡ Eksik PPAP dokümanlarından aksiyon üretildi.");
 };
-$("transferPpap").onclick=()=>{
-  localStorage.setItem("gdnl_ppap_from_apqp",JSON.stringify({ppapNo:$("ppapNo").value,apqpNo:$("apqpNo").value,level:$("ppapLevel").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,drawingRev:$("drawingRev").value,ppapStatus:getPpapStatus(),source:"APQP",createdAt:new Date().toISOString()}));
-  toast("📦 PPAP paketi hazırlandı.");
+$("transferPpap").onclick=async()=>{
+  localStorage.setItem("gdnl_ppap_from_apqp",JSON.stringify({ppapNo:$("ppapNo").value,apqpNo:$("apqpNo").value,level:$("ppapSeviye").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,drawingRev:$("drawingRev").value,ppapStatus:getPpapStatus(),source:"APQP",createdAt:new Date().toISOString()}));
+  await writeAudit("PPAP_AKTAR","APQP ve PPAP",$("apqpNo").value,{ppapNo:$("ppapNo").value});await writeActivity("PPAP_AKTAR","APQP ve PPAP",$("apqpNo").value,"PPAP paketi hazırlandı",$("ppapNo").value);toast("📦 PPAP paketi hazırlandı.");
 };
-$("clearAll").onclick=()=>{if(confirm("Tüm APQP kayıtları silinsin mi?")){setLS("gdnl_apqp_projects",[]);clearFormData();nextNo()}};
+$("clearAll").onclick=async()=>{if(confirm("Tüm APQP kayıtları arşive alınsın mı? Fiziksel silme yapılmaz.")){let arr=getAllProjects();for(const p of arr.filter(x=>!isPassiveStatus(x.status))){await archiveRecord(p,"Toplu arşivleme")}CLOUD.projects=arr;localStorage.setItem("gdnl_apqp_projects",JSON.stringify(arr));clearFormData();nextNo();renderProjects();toast("Arşivleme tamamlandı.")}};
 $("exportJson").onclick=()=>{
   let blob=new Blob([JSON.stringify({projects:getProjects(),team:getTeam(),ppap:getPpapStatus(),actions:getActions(),gates:getGateMap(),revisions:getRevisions(),tasks:getTaskStatus()},null,2)],{type:"application/json"}),a=document.createElement("a");
   a.href=URL.createObjectURL(blob);a.download="gdnl-apqp-"+new Date().toISOString().slice(0,10)+".json";a.click();
 };
 $("searchBtn").onclick=renderProjects;$("globalSearch").oninput=renderProjects;
-$("ppapLevel").onchange=()=>{renderPpapReqs();renderApprovals();updateStats()};
+$("ppapSeviye").onchange=()=>{renderPpapReqs();renderApprovals();updateStats()};
 $("phaseSelect").onchange=renderPhases;
  
 /* ── Proje listesi ── */
@@ -1886,17 +1966,17 @@ function renderProjects(){
   let q=($("globalSearch").value||"").toLowerCase(),arr=getProjects().filter(p=>JSON.stringify(p).toLowerCase().includes(q));
   $("projectList").innerHTML=arr.length?arr.map(p=>`<div class="project-card">
     <div><b>${p.apqpNo} · ${p.apqpRev||"R00"} · ${p.customer||"Müşteri yok"} · ${p.partName||"Parça yok"}</b>
-    <small>${p.projectName||""} · ${p.phase||""} · ${p.ppapLevel||""} · ${p.status||""} · Ekip: ${(p.team||[]).length}</small></div>
+    <small>${p.projectName||""} · ${p.phase||""} · ${p.ppapSeviye||""} · ${p.status||""} · Ekip: ${(p.team||[]).length}</small></div>
     <div class="actions" style="margin:0;gap:6px">
       <button class="btn btn-soft btn-sm" onclick="loadProject(${p.id})">Aç</button>
-      <button class="btn btn-red btn-sm" onclick="deleteProject(${p.id})">Sil</button>
+      <button class="btn btn-red btn-sm" onclick="deleteProject(${p.id})">Arşivle</button>
     </div>
   </div>`).join(""):`<div class="empty-state">APQP kaydı bulunamadı.</div>`;
 }
-window.deleteProject=id=>{setLS("gdnl_apqp_projects",getProjects().filter(p=>p.id!==id));nextNo()};
+window.deleteProject=async id=>{let all=getAllProjects();let p=all.find(x=>String(x.id)===String(id));if(!p)return;if(!confirm("Bu APQP kaydı Arşiv Merkezi’ne alınsın mı?"))return;const ok=await archiveRecord(p,"Kullanıcı tarafından arşive alındı");if(ok){localStorage.setItem("gdnl_apqp_projects",JSON.stringify(all));renderProjects();nextNo();toast("APQP kaydı arşive alındı.")}};
 window.loadProject=id=>{
   let p=getProjects().find(x=>x.id===id);if(!p)return;
-  ["apqpNo","apqpRev","revDate","revReason","ppapNo","ppapLevel","customer","projectName","partName","partNo","oemPartNo","drawingNo","drawingRev","phase","status","priority","leader","preparedBy","startDate","targetDate","scope"].forEach(k=>{
+  ["apqpNo","apqpRev","revDate","revReason","ppapNo","ppapSeviye","customer","projectName","partName","partNo","oemPartNo","drawingNo","drawingRev","phase","status","priority","leader","preparedBy","startDate","targetDate","scope"].forEach(k=>{
     let el=k==="phase"?$("phaseSelect"):k==="status"?$("statusField"):$(k);
     if(el)el.value=p[k]||"";
   });
@@ -1923,11 +2003,25 @@ function updateStats(){
   $("stProgress").textContent=avg+"%";
 }
  
+
+/* ── Yorumlar ── */
+function renderApqpComments(){
+  const list=(CLOUD.comments&&CLOUD.comments.length?CLOUD.comments:getLS("gdnl_apqp_comments"));
+  const box=$("apqpCommentList"); if(!box)return;
+  box.innerHTML=list.length?list.slice(0,50).map(c=>`<div class="cloud-comment-item"><b>${c.user_name||c.user||"Kullanıcı"}</b><small>${new Date(c.created_at||c.createdAt||nowISO()).toLocaleString("tr-TR")}</small><div>${String(c.comment||"").replaceAll("<","&lt;").replaceAll(">","&gt;")}</div></div>`).join(""):`<div class="empty-state">Henüz yorum yok.</div>`;
+}
+async function submitApqpComment(){
+  const input=$("apqpCommentInput"); const text=(input?.value||"").trim();
+  if(text.length<2){toast("Yorum alanı boş bırakılamaz.");return}
+  await addComment($("apqpNo")?.value||"APQP",text);
+  input.value=""; toast("Yorum eklendi.");
+}
+
 /* ── BAŞLANGIÇ ── */
 /* Kayıtlar artık sayfa açılışında silinmez; sadece kullanıcı isteyince temizlenir. */
 renderTeam();renderPhases();renderPpapReqs();renderApprovals();renderActions();
-renderRevisions();renderApprovedWorkflowList();renderProjects();nextNo();updateStats();
-loadApiUsers();
+renderRevisions();renderApprovedWorkflowList();renderProjects();renderApqpComments();nextNo();updateStats();
+loadApiUsers().then(loadCloudModuleData).catch(()=>loadCloudModuleData());
 </script>
 </body>
 </html>
