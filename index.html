@@ -657,9 +657,14 @@ let resetState = { username:"", requestId:"" };
 
 function repairTR(value){
   if(typeof value !== "string") return value;
-  const map = {"Ã¼":"ü","Ãœ":"Ü","Ã¶":"ö","Ã–":"Ö","Ã§":"ç","Ã‡":"Ç","ÄŸ":"ğ","Äž":"Ğ","Ä±":"ı","Ä°":"İ","ÅŸ":"ş","Åž":"Ş","â€“":"–","â€”":"—","â€˜":"‘","â€™":"’","â€œ":"“","â€ ":"”"};
+  const map = {
+    "Ã¼":"ü","Ãœ":"Ü","Ã¶":"ö","Ã–":"Ö","Ã§":"ç","Ã‡":"Ç",
+    "ÄŸ":"ğ","Äž":"Ğ","Ä±":"ı","Ä°":"İ","ÅŸ":"ş","Åž":"Ş",
+    "â€“":"–","â€”":"—","â€˜":"‘","â€™":"’","â€œ":"“","â€ ":"”"
+  };
   return Object.entries(map).reduce((txt,[bad,good]) => txt.split(bad).join(good), value);
 }
+
 function deepRepairTR(input){
   if(Array.isArray(input)) return input.map(deepRepairTR);
   if(input && typeof input === "object"){
@@ -669,6 +674,7 @@ function deepRepairTR(input){
   }
   return repairTR(input);
 }
+
 function normalizeApiList(payload, key){
   const fixed = deepRepairTR(payload);
   if(Array.isArray(fixed)) return fixed;
@@ -677,56 +683,74 @@ function normalizeApiList(payload, key){
   if(fixed && Array.isArray(fixed.items)) return fixed.items;
   return [];
 }
+
 async function apiRequest(path, options={}){
   const headers = Object.assign({"Accept":"application/json"}, options.headers || {});
   if(options.body && !(options.body instanceof FormData)) headers["Content-Type"] = "application/json";
+
   const res = await fetch(GDNL_API_BASE + path, {
     ...options,
     headers,
     cache:"no-store",
     credentials:"include"
   });
+
   const text = await res.text();
   let data = null;
   try{ data = text ? JSON.parse(text) : null; }catch(e){ data = { raw:text }; }
   data = deepRepairTR(data);
+
   if(!res.ok || data?.success === false){
     const msg = data?.error?.message || data?.message || data?.error || ("API HTTP " + res.status);
     throw new Error(msg);
   }
+
   return Object.prototype.hasOwnProperty.call(data || {}, "data") ? data.data : data;
 }
+
 const apiGet = path => apiRequest(path, { method:"GET" });
 const apiPost = (path, body) => apiRequest(path, { method:"POST", body:JSON.stringify(body || {}) });
+
 function getClientContext(){
   return {
     user_agent: navigator.userAgent,
     session_id: "WEB-" + Date.now() + "-" + Math.random().toString(16).slice(2)
   };
 }
+
 function isActiveStatus(status){
   const s = String(status || "active").toLowerCase();
   return !["pasif","passive","deleted","silindi","arşivlendi","arsivlendi","inactive","archived"].includes(s);
 }
+
 function formatTR(number){ return Number(number || 0).toLocaleString("tr-TR"); }
 function setText(id, value){ const el = document.getElementById(id); if(el) el.textContent = value; }
+
 function showMessage(text, type){
   const msg = document.getElementById("msg");
   if(!msg) return;
   msg.textContent = text;
   msg.className = "msg " + type;
 }
+
 function togglePassword(){
   const p = document.getElementById("password");
   p.type = p.type === "password" ? "text" : "password";
 }
+
 function mapD1UserToEOS(row){
   const fixed = deepRepairTR(row || {});
   const role = fixed.role || fixed.role_name || "KULLANICI";
   const department = fixed.department || fixed.department_name || "";
   const fullName = fixed.fullName || fixed.fullname || fixed.name || fixed.username || "GDNL Kullanıcı";
   const username = String(fixed.username || fixed.email || "").trim().toLowerCase();
-  const isFull = role === "SUPER_ADMIN" || role === "Super Administrator" || fixed.accessLevel === "FULL_SYSTEM_ACCESS" || fixed.isRoot === true || fixed.isSuperAdmin === true;
+  const isFull =
+    role === "SUPER_ADMIN" ||
+    role === "Super Administrator" ||
+    fixed.accessLevel === "FULL_SYSTEM_ACCESS" ||
+    fixed.isRoot === true ||
+    fixed.isSuperAdmin === true;
+
   return {
     ...fixed,
     username,
@@ -741,6 +765,13 @@ function mapD1UserToEOS(row){
     isFullAuthorized: isFull
   };
 }
+
+function resolveLandingPage(user){
+  const role = String(user.role || "").toUpperCase();
+  if(role === "SUPER_ADMIN") return "users.html";
+  return "department-gateway.html";
+}
+
 async function loadEOSLoginStats(){
   setText("statDepartments", "...");
   setText("statUsers", "...");
@@ -748,16 +779,28 @@ async function loadEOSLoginStats(){
   setText("statSource", "D1");
   setText("statModules", "35");
   setText("statUptime", "99.8%");
+
   try{
     const [departmentsPayload, usersPayload, kpiPayload] = await Promise.all([
       apiGet("/departments"),
       apiGet("/users"),
       apiGet("/dashboard/kpi").catch(() => ({}))
     ]);
+
     const departments = normalizeApiList(departmentsPayload, "departments").filter(d => isActiveStatus(d.status));
     const users = normalizeApiList(usersPayload, "users").filter(u => isActiveStatus(u.status));
     const kpi = kpiPayload || {};
-    const totalRecords = Number(kpi.open_actions || 0) + Number(kpi.open_capa || 0) + Number(kpi.open_risks || 0) + Number(kpi.open_audits || 0) + Number(kpi.open_revisions || 0) + Number(kpi.pending_approvals || 0) + Number(kpi.pending_tasks || 0) + Number(kpi.upcoming_deadlines || 0);
+
+    const totalRecords =
+      Number(kpi.open_actions || 0) +
+      Number(kpi.open_capa || 0) +
+      Number(kpi.open_risks || 0) +
+      Number(kpi.open_audits || 0) +
+      Number(kpi.open_revisions || 0) +
+      Number(kpi.pending_approvals || 0) +
+      Number(kpi.pending_tasks || 0) +
+      Number(kpi.upcoming_deadlines || 0);
+
     setText("statDepartments", formatTR(departments.length));
     setText("statUsers", formatTR(users.length));
     setText("statRecords", formatTR(totalRecords));
@@ -771,19 +814,25 @@ async function loadEOSLoginStats(){
     showMessage("Cloudflare Worker / D1 bağlantısı kontrol edilmeli.", "error");
   }
 }
+
 async function checkExistingSession(){
   try{
-    const me = await apiGet("/me");
-    if(me && (me.user || me.id || me.fullname || me.username)){
+    const mePayload = await apiGet("/me");
+    const user = mapD1UserToEOS(mePayload.user || mePayload);
+    if(user && user.username){
       showMessage("Aktif oturum bulundu. Yönlendiriliyorsunuz...", "success");
-      setTimeout(() => { window.location.href = "department-gateway.html"; }, 500);
+      setTimeout(() => { window.location.href = resolveLandingPage(user); }, 500);
     }
-  }catch(e){ /* oturum yoksa login ekranı kalır */ }
+  }catch(e){
+    /* Oturum yoksa login ekranı kalır */
+  }
 }
+
 function forgot(e){
   e.preventDefault();
   openResetModal();
 }
+
 function openResetModal(){
   document.getElementById("resetOverlay").classList.add("active");
   document.getElementById("resetStep1").classList.add("active");
@@ -795,34 +844,72 @@ function openResetModal(){
   resetState = { username:"", requestId:"" };
   setTimeout(() => document.getElementById("resetUsername").focus(), 80);
 }
-function closeResetModal(){ document.getElementById("resetOverlay").classList.remove("active"); }
+
+function closeResetModal(){
+  document.getElementById("resetOverlay").classList.remove("active");
+}
+
 function backResetStep(){
   document.getElementById("resetStep2").classList.remove("active");
   document.getElementById("resetStep1").classList.add("active");
 }
+
 async function createResetCode(){
   const username = document.getElementById("resetUsername").value.trim().toLowerCase();
   const email = document.getElementById("resetEmail").value.trim().toLowerCase();
-  if(!username || !email){ showMessage("Şifre sıfırlama için kullanıcı adı ve kayıtlı e-posta giriniz.", "error"); return; }
+
+  if(!username || !email){
+    showMessage("Şifre sıfırlama için kullanıcı adı ve kayıtlı e-posta giriniz.", "error");
+    return;
+  }
+
   try{
-    const payload = await apiPost("/password-reset-requests", { username, email, ...getClientContext() });
-    resetState = { username, requestId: payload.id || payload.request_id || "" };
+    const payload = await apiPost("/password-reset-requests", {
+      username,
+      email,
+      ...getClientContext()
+    });
+
+    resetState = {
+      username,
+      requestId: payload.id || payload.request_id || ""
+    };
+
     document.getElementById("resetStep1").classList.remove("active");
     document.getElementById("resetStep2").classList.add("active");
-    document.getElementById("resetCodeHint").textContent = payload.code ? "Test kodu: " + payload.code : "Doğrulama kodu kayıtlı e-posta adresine gönderilecektir.";
+    document.getElementById("resetCodeHint").textContent =
+      payload.code ? "Test kodu: " + payload.code : "Doğrulama kodu kayıtlı e-posta adresine gönderilecektir.";
+
     showMessage("Doğrulama kodu oluşturuldu.", "success");
   }catch(err){
     console.error("Şifre sıfırlama kodu hatası:", err);
     showMessage("Kod oluşturulamadı. Kullanıcı adı/e-posta veya Worker endpointini kontrol edin.", "error");
   }
 }
+
 async function completePasswordReset(){
   const code = document.getElementById("resetCodeInput").value.trim();
   const newPassword = document.getElementById("newPasswordInput").value.trim();
-  if(!code){ showMessage("Doğrulama kodu giriniz.", "error"); return; }
-  if(newPassword.length < 4){ showMessage("Yeni şifre en az 4 karakter olmalıdır.", "error"); return; }
+
+  if(!code){
+    showMessage("Doğrulama kodu giriniz.", "error");
+    return;
+  }
+
+  if(newPassword.length < 4){
+    showMessage("Yeni şifre en az 4 karakter olmalıdır.", "error");
+    return;
+  }
+
   try{
-    await apiPost("/password-reset-requests/complete", { username: resetState.username, code, new_password: newPassword, request_id: resetState.requestId, ...getClientContext() });
+    await apiPost("/password-reset-requests/complete", {
+      username: resetState.username,
+      code,
+      new_password: newPassword,
+      request_id: resetState.requestId,
+      ...getClientContext()
+    });
+
     closeResetModal();
     showMessage("Şifre başarıyla güncellendi.", "success");
   }catch(err){
@@ -830,30 +917,54 @@ async function completePasswordReset(){
     showMessage("Şifre güncellenemedi. Doğrulama kodunu kontrol edin.", "error");
   }
 }
+
 async function login(){
   const username = document.getElementById("username").value.trim().toLowerCase();
   const password = document.getElementById("password").value.trim();
   const remember = document.getElementById("remember").checked;
-  if(!username || !password){ showMessage("Kullanıcı adı ve şifre giriniz.", "error"); return; }
+
+  if(!username || !password){
+    showMessage("Kullanıcı adı ve şifre giriniz.", "error");
+    return;
+  }
+
   try{
-    const payload = await apiPost("/login", { username, password, remember, ...getClientContext() });
-    const apiUser = payload.user || payload.data?.user || payload.data || payload;
-    const user = mapD1UserToEOS(apiUser);
-    if(!user.username){ showMessage("Kullanıcı kaydı eksik geldi. Users tablosunu kontrol edin.", "error"); return; }
-    // JWT burada saklanmaz. Worker /login cevabı Set-Cookie: HttpOnly ile oturum açmalıdır.
-    const me = await apiGet("/me");
-    if(!me){ showMessage("GET /me doğrulaması başarısız.", "error"); return; }
-    showMessage("Giriş başarılı. Departman merkezi hazırlanıyor...", "success");
-    setTimeout(() => { window.location.href = "department-gateway.html"; }, 650);
+    const payload = await apiPost("/login", {
+      username,
+      password,
+      remember,
+      ...getClientContext()
+    });
+
+    /*
+      ÖNEMLİ:
+      JWT burada localStorage/sessionStorage/cookie içine yazılmaz.
+      Worker /login cevabında Set-Cookie: HttpOnly; Secure; SameSite=Lax üretmelidir.
+      Frontend sadece credentials: "include" ile GET /me doğrulaması yapar.
+    */
+
+    const mePayload = await apiGet("/me");
+    const user = mapD1UserToEOS(mePayload.user || mePayload || payload.user || payload);
+
+    if(!user.username){
+      showMessage("GET /me doğrulaması başarısız. Worker cookie/session kontrol edilmeli.", "error");
+      return;
+    }
+
+    showMessage("Giriş başarılı. Yönlendiriliyorsunuz...", "success");
+    setTimeout(() => { window.location.href = resolveLandingPage(user); }, 650);
   }catch(err){
     console.error("GDNL EOS API giriş hatası:", err);
-    const msg = err && err.message && !err.message.includes("Failed to fetch") ? err.message : "Cloud veritabanı bağlantısı kurulamadı. Worker API veya CORS ayarını kontrol edin.";
+    const msg = err && err.message && !err.message.includes("Failed to fetch")
+      ? err.message
+      : "Cloud veritabanı bağlantısı kurulamadı. Worker API veya CORS ayarını kontrol edin.";
     showMessage(msg, "error");
   }
 }
 
 loadEOSLoginStats();
 checkExistingSession();
+
 document.addEventListener("keydown", e => {
   if(e.key === "Enter" && !document.getElementById("resetOverlay").classList.contains("active")) login();
   if(e.key === "Escape") closeResetModal();
