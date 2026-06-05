@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Enterprise Users Management</title>
+<title>GDNL EQMS | Kullanıcı Yönetimi</title>
 <style>
 
   :root {
@@ -1227,59 +1227,745 @@ body{background:radial-gradient(circle at 86% 8%,rgba(53,168,82,.10),transparent
 .single-tab-link{cursor:pointer}.mobile-drawer{background:rgba(255,255,255,.98)!important;color:#0f1b2f!important}.mobile-drawer-head{background:linear-gradient(135deg,#ffffff,#f0fbf4)!important}.mobile-drawer-logo{color:#0f172a!important}.mobile-drawer-logo span{color:#35a852!important}
 @media(max-width:850px){.app{display:block!important}.sidebar{display:none!important}.main{padding:14px!important}.topbar{height:auto!important;min-height:78px!important;padding:12px!important;position:sticky!important;top:10px!important;border-radius:22px!important;display:grid!important;grid-template-columns:52px minmax(0,1fr)!important}.hero{display:block!important;padding:22px!important;border-radius:24px!important}.hero h1{font-size:27px!important}.hero-badge{margin-top:16px;width:100%!important;text-align:center!important}.kpi-grid{grid-template-columns:1fr!important}.form-row,.dept-grid{grid-template-columns:1fr!important}.table-wrap,.card-block{overflow-x:auto!important}table{min-width:720px!important}}
 
+
+
+/* === GDNL EQMS DASHBOARD TEMPLATE LOCKED OVERRIDE - USERS PAGE === */
+
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:linear-gradient(135deg,#f8fbff,#eef4fb 45%,#edf7ff);color:#0f172a}
+.app{display:grid;grid-template-columns:282px 1fr;min-height:100vh}
+.sidebar{background:rgba(255,255,255,.86);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e2e8f0;box-shadow:18px 0 60px rgba(15,23,42,.06)}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px;text-decoration:none;color:#0f172a;display:block;letter-spacing:-.6px}
+.logo span{color:#1597ff}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#475569;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s;border:1px solid transparent}
+.menu a:hover,.menu a.active{background:linear-gradient(135deg,#e0f2fe,#f0f9ff);color:#0369a1;border-color:#bae6fd;box-shadow:0 10px 25px rgba(14,165,233,.10)}
+
+.menu-group{width:100%;border:1px solid transparent;background:transparent;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:900;text-align:left;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.menu-group:hover,.menu-group.active-group{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.menu-group .chev{font-size:12px;transition:.2s;color:inherit}
+.menu-group.open .chev{transform:rotate(90deg)}
+.submenu{display:none;flex-direction:column;gap:6px;margin:0 0 6px 12px;padding:6px 0 6px 12px;border-left:2px solid #dbeafe}
+.submenu.open{display:flex}
+.submenu a{font-size:13px;padding:11px 12px;border-radius:12px;font-weight:850}
+.submenu a:before{content:"";width:6px;height:6px;border-radius:99px;background:#b8c7d9;display:inline-block;margin-right:8px;vertical-align:middle}
+.submenu a.active:before{background:#35a852}
+.mobile-drawer-menu .menu-group{font-size:15px;padding:14px 15px;border-radius:15px}
+.mobile-drawer-menu .submenu{margin-left:12px;padding-left:12px;border-left:2px solid #dbeafe;gap:6px}
+.mobile-drawer-menu .submenu a{font-size:14px;padding:12px 12px;border-radius:13px}
+
+.sidebar-footer{font-size:12px;color:#64748b;line-height:1.6;border-top:1px solid #e2e8f0;padding-top:18px}
+.main{padding:24px;max-width:1780px;margin:auto;width:100%}
+.topbar{height:72px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border:1px solid #e2e8f0;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(15,23,42,.07);margin-bottom:24px}
+.search-wrap{display:flex;align-items:center;gap:10px}
+.search{width:550px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);color:#fff;font-weight:900;cursor:pointer}
+.search-btn:hover{opacity:.92}
+.profile{display:flex;align-items:center;gap:14px}
+.avatar{width:auto!important;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer;box-shadow:0 12px 28px rgba(14,165,255,.22);padding:0 22px!important}
+.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.hero{background:linear-gradient(135deg,#ffffff,#eff6ff 58%,#dbeafe);color:#0f172a;border:1px solid #dbeafe;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 20px 55px rgba(15,23,42,.08)}
+.hero h1{font-size:38px;margin-bottom:10px;color:#082f49}
+.hero p{max-width:1120px;color:#475569;line-height:1.7}
+.hero-badge{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white;padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap;box-shadow:0 14px 35px rgba(14,165,255,.22)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{background:rgba(255,255,255,.92);border:1px solid #e2e8f0;border-radius:24px;padding:22px;box-shadow:0 14px 38px rgba(15,23,42,.06)}
+.card small{color:#64748b;font-weight:900}
+.card h2{font-size:34px;color:#0757e8;margin-top:10px}
+.card p{margin-top:6px;font-size:13px;color:#64748b}
+.panel{background:rgba(255,255,255,.92);border:1px solid #e2e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(15,23,42,.06);margin-bottom:24px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.panel h3{font-size:19px;font-weight:900;color:#0f172a}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field.double{grid-column:span 2}
+.field label{font-size:12px;font-weight:900;color:#64748b}
+.field input,.field select,.field textarea{width:100%;min-width:0;height:44px;border:1px solid #dbe3ef;border-radius:14px;padding:0 13px;background:#f8fafc;outline:none;font-weight:800;color:#0f172a}
+.field input:focus,.field select:focus,.field textarea:focus,.search:focus{border-color:#0ea5ff;box-shadow:0 0 0 4px rgba(14,165,255,.12);background:#fff}
+.field textarea{height:96px;padding:12px;resize:none}
+.field textarea.big{height:150px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.toolbar{margin-top:0}
+.toolbar select{height:42px;border:1px solid #dbe3ef;border-radius:13px;padding:0 12px;background:#f8fafc;font-weight:800;outline:none}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white}
+.btn.dark{background:#0f172a;color:white}
+.btn.green{background:#dcfce7;color:#15803d}
+.btn.orange{background:#ffedd5;color:#c2410c}
+.btn.red{background:#fee2e2;color:#991b1b}
+.btn.purple{background:#ede9fe;color:#6d28d9}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#dbeafe;color:#1d4ed8}
+.status.green{background:#dcfce7;color:#15803d}
+.status.orange{background:#ffedd5;color:#c2410c}
+.status.red{background:#fee2e2;color:#b91c1c}
+.status.gray{background:#e2e8f0;color:#334155}
+.status.purple{background:#ede9fe;color:#6d28d9}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
+.small-btn.view{background:#dbeafe;color:#1d4ed8}
+.small-btn.down{background:#dcfce7;color:#15803d}
+.small-btn.warn{background:#ffedd5;color:#c2410c}
+.small-btn.fail{background:#fee2e2;color:#991b1b}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
+.box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:20px;padding:16px;margin-top:14px}
+.subgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(1160px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:rgba(255,255,255,.98);border:1px solid #e2e8f0;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.28);z-index:80;padding:24px}
+.drawer.active{display:block}
+.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.drawer h3{font-size:22px;margin-bottom:8px;color:#0f172a}
+.close-btn{border:none;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}
+.info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#334155;line-height:1.65;white-space:pre-wrap}
+.toast{position:fixed;right:24px;bottom:24px;background:#061225;color:white;padding:15px 18px;border-radius:16px;font-weight:900;display:none;z-index:99}
+.mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white;font-size:22px;font-weight:950;cursor:pointer;box-shadow:0 12px 28px rgba(14,165,255,.22);flex:0 0 auto}
+.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}
+.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100vh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0}
+.mobile-drawer.active{left:0}
+.mobile-overlay.active{display:block}
+.mobile-drawer-head{height:86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#ffffff,#f0f9ff)}
+.mobile-drawer-logo{font-size:25px;font-weight:950;letter-spacing:-.5px;color:#0f172a}
+.mobile-drawer-logo span{color:#1597ff}
+.mobile-close{width:42px;height:42px;border:none;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950;cursor:pointer}
+.mobile-drawer-menu{padding:16px 16px 10px;overflow:auto;display:flex;flex-direction:column;gap:8px;flex:1;-webkit-overflow-scrolling:touch}
+.mobile-drawer-menu a{text-decoration:none;color:#475569;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}
+.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#e0f2fe,#f0f9ff);color:#0369a1;border-color:#bae6fd}
+.mobile-drawer-footer{padding:14px 16px calc(18px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:#fff;position:sticky;bottom:0;box-shadow:0 -12px 28px rgba(15,23,42,.08);z-index:2}
+.mobile-logout{width:100%;height:52px;border:none;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
+@media(max-width:850px){
+.app{grid-template-columns:1fr}
+.sidebar{display:none}
+.main{padding:18px}
+.mobile-menu-btn{display:flex;align-items:center;justify-content:center}
+.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}
+.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}
+.search{width:100%;height:48px;font-size:12px;padding:0 13px}
+.search-btn{height:48px;padding:0 12px}
+.avatar{display:none!important}
+.logout-btn{display:none}
+.cards{grid-template-columns:1fr}
+.hero{flex-direction:column;align-items:flex-start;padding:26px 24px}
+.hero h1{font-size:28px}
+.hero p{font-size:16px}
+.hero-badge{width:100%;text-align:center}
+.panel{overflow:auto}
+.field.double{grid-column:1/-1}
+.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px)}
+}
+
+
+.search-results-panel{
+display:none;
+border:1px solid #bae6fd;
+background:rgba(255,255,255,.94);
+}
+
+.search-results-panel.active{
+display:block;
+}
+
+.search-summary{
+display:flex;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+font-size:13px;
+font-weight:900;
+color:#475569;
+}
+
+.search-keyword{
+background:#e0f2fe;
+color:#0369a1;
+border-radius:999px;
+padding:7px 12px;
+font-weight:950;
+}
+
+.result-card{
+background:linear-gradient(135deg,#f8fafc,#ffffff);
+border:1px solid #e2e8f0;
+border-radius:18px;
+padding:15px;
+margin-bottom:12px;
+display:grid;
+grid-template-columns:160px minmax(0,1fr) 130px;
+gap:14px;
+align-items:center;
+}
+
+.result-card b{
+display:block;
+font-size:14px;
+margin-bottom:6px;
+color:#0f172a;
+}
+
+.result-card small{
+display:block;
+font-size:12px;
+color:#64748b;
+line-height:1.55;
+font-weight:800;
+}
+
+.result-card mark{
+background:#fef3c7;
+color:#92400e;
+padding:1px 3px;
+border-radius:4px;
+}
+
+.result-open{
+height:38px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#0757e8,#0ea5ff);
+color:white;
+font-weight:900;
+cursor:pointer;
+}
+
+@media(max-width:850px){
+.result-card{grid-template-columns:1fr;gap:10px}
+.result-open{width:100%}
+}
+
+
+
+
+/* === GDNL EQMS HYBRID 10/10 THEME === */
+:root{
+  --eqms-navy:#071b34;
+  --eqms-navy-2:#0d2747;
+  --eqms-blue:#0757e8;
+  --eqms-sky:#1597ff;
+  --eqms-green:#35a852;
+  --eqms-green-2:#48c463;
+  --eqms-green-soft:#eefaf2;
+  --eqms-bg:#f6faff;
+  --eqms-line:#dfe9f5;
+  --eqms-text:#0f1b2f;
+  --eqms-muted:#5f6f86;
+}
+
+body{
+  background:
+    radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparent 30%),
+    radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),
+    linear-gradient(135deg,#fbfdff 0%,#eef5fc 46%,#f8fbff 100%)!important;
+  color:var(--eqms-text)!important;
+}
+
+.sidebar{
+  background:rgba(255,255,255,.92)!important;
+  backdrop-filter:blur(18px)!important;
+  border-right:1px solid var(--eqms-line)!important;
+  box-shadow:18px 0 58px rgba(7,27,52,.06)!important;
+}
+
+.logo{
+  color:var(--eqms-navy)!important;
+  letter-spacing:-.8px!important;
+}
+.logo span,
+.mobile-drawer-logo span{
+  color:var(--eqms-green)!important;
+}
+
+.menu a,
+.mobile-drawer-menu a{
+  color:#516177!important;
+  border:1px solid transparent!important;
+}
+
+.menu a:hover,
+.menu a.active,
+.mobile-drawer-menu a:hover,
+.mobile-drawer-menu a.active{
+  background:linear-gradient(135deg,#eefaf2,#f4fbff)!important;
+  color:#1f7d3d!important;
+  border-color:#bfe7ca!important;
+  box-shadow:0 10px 25px rgba(53,168,82,.10)!important;
+}
+
+.sidebar-footer{
+  color:#66758a!important;
+  border-top:1px solid var(--eqms-line)!important;
+}
+
+.topbar{
+  background:rgba(255,255,255,.93)!important;
+  border:1px solid var(--eqms-line)!important;
+  box-shadow:0 18px 45px rgba(7,27,52,.065)!important;
+}
+
+.search,
+.field input,
+.field select,
+.field textarea,
+.toolbar select{
+  background:linear-gradient(135deg,#ffffff,#f8fbff)!important;
+  border:1px solid #d8e4ef!important;
+  color:var(--eqms-text)!important;
+}
+
+.search:focus,
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--eqms-green)!important;
+  box-shadow:0 0 0 4px rgba(53,168,82,.12)!important;
+  background:#ffffff!important;
+}
+
+.search-btn,
+.avatar,
+.btn.primary,
+.result-open,
+.mobile-menu-btn,
+.hero-badge{
+  background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%)!important;
+  color:#fff!important;
+  box-shadow:0 14px 32px rgba(53,168,82,.22)!important;
+}
+
+.search-btn:hover,
+.avatar:hover,
+.btn.primary:hover,
+.result-open:hover{
+  opacity:1!important;
+  filter:brightness(.99);
+  transform:translateY(-1px);
+}
+
+.logout-btn,
+.mobile-logout,
+.close-btn{
+  background:#fee2e2!important;
+  color:#991b1b!important;
+  border:1px solid #fecaca!important;
+}
+
+.hero{
+  background:
+    radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),
+    linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf3ff 100%)!important;
+  color:var(--eqms-text)!important;
+  border:1px solid #dbe8f7!important;
+  box-shadow:0 20px 55px rgba(7,27,52,.065)!important;
+}
+
+.hero h1{
+  font-size:42px!important;
+  font-weight:950!important;
+  letter-spacing:-1.5px!important;
+  line-height:1.1!important;
+  color:#081d35!important;
+}
+
+.hero p{
+  color:#4e6078!important;
+  font-weight:650!important;
+}
+
+.card{
+  background:rgba(255,255,255,.84)!important;
+  backdrop-filter:blur(20px)!important;
+  border:1px solid rgba(53,168,82,.12)!important;
+  box-shadow:
+    0 10px 30px rgba(7,27,52,.05),
+    0 2px 8px rgba(53,168,82,.05)!important;
+  position:relative!important;
+  overflow:hidden!important;
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  right:0;
+  height:4px;
+  background:linear-gradient(90deg,var(--eqms-green),var(--eqms-sky));
+  opacity:.88;
+}
+
+.card small,
+.field label,
+th,
+.result-card small,
+.info-box{
+  color:#617086!important;
+}
+
+.card h2,
+.quick b{
+  font-size:40px!important;
+  font-weight:950!important;
+  color:#1f7d3d!important;
+  letter-spacing:-1px!important;
+}
+
+.card p,
+td{
+  color:#536176!important;
+}
+
+.panel,
+.drawer{
+  background:rgba(255,255,255,.93)!important;
+  border:1px solid #e0e8f0!important;
+  box-shadow:0 14px 38px rgba(7,27,52,.055)!important;
+  backdrop-filter:blur(14px)!important;
+}
+
+.panel h3{
+  color:var(--eqms-navy)!important;
+  letter-spacing:-.3px!important;
+}
+
+.link{
+  color:#1f8f43!important;
+}
+
+.btn.dark{
+  background:linear-gradient(135deg,#071b34,#0d2747)!important;
+  color:white!important;
+}
+
+.btn.green,
+.status.green,
+.small-btn.down{
+  background:#dcfce7!important;
+  color:#15803d!important;
+}
+
+.btn.orange,
+.status.orange,
+.small-btn.warn{
+  background:#ffedd5!important;
+  color:#c2410c!important;
+}
+
+.btn.red,
+.status.red,
+.small-btn.fail{
+  background:#fee2e2!important;
+  color:#b91c1c!important;
+}
+
+.status.blue,
+.small-btn.view{
+  background:#e8f7ee!important;
+  color:#1f7d3d!important;
+}
+
+.status.gray{
+  background:#e9eef5!important;
+  color:#405166!important;
+}
+
+.status.purple,
+.btn.purple{
+  background:#ede9fe!important;
+  color:#6d28d9!important;
+}
+
+table{
+  border-radius:18px!important;
+  overflow:hidden!important;
+}
+
+th{
+  background:linear-gradient(135deg,#f8fbff,#f1f8f4)!important;
+  border-bottom:1px solid #e1eaf3!important;
+}
+
+td{
+  border-bottom:1px solid #edf2f7!important;
+}
+
+tr:hover td{
+  background:#f7fbf8!important;
+}
+
+.empty,
+.box,
+.info-box,
+.result-card,
+.module,
+.quick div,
+.activity-item,
+.compliance-item{
+  background:linear-gradient(135deg,#f8fbff,#ffffff)!important;
+  border:1px solid #e0e8f0!important;
+}
+
+.module:hover{
+  box-shadow:0 14px 28px rgba(53,168,82,.10)!important;
+  border-color:#c7ebd2!important;
+}
+
+.result-card mark{
+  background:#dcfce7!important;
+  color:#166534!important;
+}
+
+.search-results-panel.active{
+  border-color:#c7ebd2!important;
+}
+
+.search-keyword{
+  background:#e8f7ee!important;
+  color:#1f7d3d!important;
+}
+
+.progress{
+  background:#e8eef5!important;
+}
+
+.bar{
+  background:linear-gradient(90deg,#1f8f43,#46b85f)!important;
+}
+
+.toast{
+  background:linear-gradient(135deg,#071b34,#1f8f43)!important;
+}
+
+.mobile-drawer{
+  background:rgba(255,255,255,.98)!important;
+}
+
+.mobile-drawer-head{
+  background:linear-gradient(135deg,#ffffff,#f0fbf4)!important;
+}
+
+.mobile-close{
+  background:#fee2e2!important;
+  color:#991b1b!important;
+}
+
+@media(max-width:850px){
+  .topbar{
+    background:rgba(255,255,255,.96)!important;
+  }
+  .hero{
+    border-radius:26px!important;
+  }
+  .hero h1{
+    font-size:30px!important;
+  }
+  .card,
+  .panel{
+    border-radius:22px!important;
+  }
+}
+
+
+/* Cloud Ready kullanıcı seçimi ve yorum katmanı */
+.autocomplete-box{position:relative}
+.autocomplete-list{position:absolute;z-index:150;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.16);max-height:240px;overflow:auto;display:none}
+.autocomplete-list.active{display:block}
+.autocomplete-item{padding:11px 13px;font-weight:850;color:#334155;cursor:pointer;border-bottom:1px solid #eef2f7}
+.autocomplete-item:hover{background:#eefaf2;color:#1f7d3d}
+.autocomplete-item small{display:block;margin-top:4px;color:#64748b;font-weight:800;font-size:11px}
+.selected-users{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.user-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #bfe7ca;background:#eefaf2;color:#1f7d3d;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
+.user-chip button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+.comment-box{background:linear-gradient(135deg,#f8fbff,#fff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;margin-top:12px}
+.comment-item{border-bottom:1px solid #edf2f7;padding:10px 0;font-size:13px;color:#536176;font-weight:800}
+.comment-input{width:100%;min-height:82px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;font-weight:800;resize:vertical}
+
+
+
+/* Users page active state correction */
 </style>
 </head>
 <body>
 <div class="app">
+
 <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
 <aside class="mobile-drawer" id="mobileDrawer">
-  <div class="mobile-drawer-head"><div class="mobile-drawer-logo">GDNL <span>EQMS</span></div><button class="mobile-close" onclick="closeMobileMenu()">×</button></div>
-  <nav class="mobile-drawer-menu">
-    <a class="active single-tab-link nav-item" onclick="switchTab('dashboard');closeMobileMenu();return false;">🏠 Dashboard</a>
-    <button class="menu-group open" type="button">👥 Organizasyon Yönetimi <span>⌄</span></button>
-    <div class="submenu open">
-      <a class="single-tab-link nav-item" onclick="switchTab('users');closeMobileMenu();return false;">Kullanıcılar</a>
-      <a class="single-tab-link nav-item" onclick="switchTab('departments');closeMobileMenu();return false;">Departmanlar</a>
-      <a class="single-tab-link nav-item" onclick="switchTab('roles');closeMobileMenu();return false;">Roller & Yetkiler</a>
-    </div>
-    <button class="menu-group" type="button">📊 Sistem İzleme <span>⌄</span></button>
-    <div class="submenu">
-      <a class="single-tab-link nav-item" onclick="switchTab('audit');closeMobileMenu();return false;">Audit Log</a>
-      <a class="single-tab-link nav-item" onclick="switchTab('notifications');closeMobileMenu();return false;">Bildirimler</a>
-    </div>
-  </nav>
-  <div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Çıkış Yap</button></div>
-</aside>
-<aside class="sidebar">
-  <div>
-    <a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
-    <nav class="menu">
-      <a class="active single-tab-link nav-item" onclick="switchTab('dashboard');return false;">🏠 Dashboard</a>
-      <button class="menu-group open" type="button">👥 Organizasyon Yönetimi <span>⌄</span></button>
-      <div class="submenu open">
-        <a class="single-tab-link nav-item" onclick="switchTab('users');return false;">Kullanıcılar</a>
-        <a class="single-tab-link nav-item" onclick="switchTab('departments');return false;">Departmanlar</a>
-        <a class="single-tab-link nav-item" onclick="switchTab('roles');return false;">Roller & Yetkiler</a>
-      </div>
-      <button class="menu-group" type="button">📊 Sistem İzleme <span>⌄</span></button>
-      <div class="submenu">
-        <a class="single-tab-link nav-item" onclick="switchTab('audit');return false;">Audit Log</a>
-        <a class="single-tab-link nav-item" onclick="switchTab('notifications');return false;">Bildirimler</a>
-      </div>
-    </nav>
+  <div class="mobile-drawer-head">
+    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
-  <div class="sidebar-footer">GDNL EOS Cloud Ready<br>Users Management<br>D1/R2 · RBAC · Audit Ready</div>
+  <nav class="mobile-drawer-menu">
+
+
+<a href="dashboard.html">🏠 Dashboard</a>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📚 Doküman Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="company-assets-documents.html">Firma Belgeleri</a>
+<a href="documents.html">Doküman Yönetimi</a>
+<a href="new-document.html">Yeni Doküman</a>
+<a href="revision-management.html">Revizyon Yönetimi</a>
+<a href="approval.html">Onay Yönetimi</a>
+<a href="distribution.html">Dağıtım Yönetimi</a>
+<a href="archive.html">Arşiv Yönetimi</a>
+<a href="document-viewer.html">Doküman Görüntüleyici</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="capa.html">8D / CAPA</a>
+<a href="audit.html">İç Denetim</a>
+<a href="risk-register.html">Risk Yönetimi</a>
+<a href="change-management.html">Değişiklik Yönetimi</a>
+<a href="process-management.html">Süreç Yönetimi</a>
+<a href="continuous-improvement.html">Sürekli İyileştirme</a>
+</div>
+
+<button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
+<div class="submenu open">
+<a href="training-management.html">Eğitim Yönetimi</a>
+<a href="competency-matrix.html">Yetkinlik Matrisi</a>
+<a class="active" href="users.html">Kullanıcılar</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🏭 Paydaş Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="supplier-management.html">Tedarikçi Yönetimi</a>
+<a href="customer-management.html">Müşteri Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="management-review.html">YGG Yönetimi</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
+<a href="notification-center.html">Bildirim Merkezi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
+<div class="submenu">
+<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
+<div class="submenu">
+<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
+<a href="standard-compliance.html">Standart Uygunluk</a>
+<a href="legal-compliance.html">Yasal Uyum</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
+<div class="submenu">
+<a href="apqp.html">APQP</a>
+<a href="fmea.html">FMEA</a>
+<a href="control-plan.html">Kontrol Planı</a>
+<a href="ppap.html">PPAP</a>
+<a href="spc.html">SPC</a>
+<a href="msa.html">MSA</a>
+</div>
+
+
+  </nav>
+  <div class="mobile-drawer-footer">
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
+  </div>
 </aside>
+
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<nav class="menu">
+
+
+<a href="dashboard.html">🏠 Dashboard</a>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📚 Doküman Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="company-assets-documents.html">Firma Belgeleri</a>
+<a href="documents.html">Doküman Yönetimi</a>
+<a href="new-document.html">Yeni Doküman</a>
+<a href="revision-management.html">Revizyon Yönetimi</a>
+<a href="approval.html">Onay Yönetimi</a>
+<a href="distribution.html">Dağıtım Yönetimi</a>
+<a href="archive.html">Arşiv Yönetimi</a>
+<a href="document-viewer.html">Doküman Görüntüleyici</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="capa.html">8D / CAPA</a>
+<a href="audit.html">İç Denetim</a>
+<a href="risk-register.html">Risk Yönetimi</a>
+<a href="change-management.html">Değişiklik Yönetimi</a>
+<a href="process-management.html">Süreç Yönetimi</a>
+<a href="continuous-improvement.html">Sürekli İyileştirme</a>
+</div>
+
+<button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
+<div class="submenu open">
+<a href="training-management.html">Eğitim Yönetimi</a>
+<a href="competency-matrix.html">Yetkinlik Matrisi</a>
+<a class="active" href="users.html">Kullanıcılar</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🏭 Paydaş Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="supplier-management.html">Tedarikçi Yönetimi</a>
+<a href="customer-management.html">Müşteri Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="management-review.html">YGG Yönetimi</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
+<a href="notification-center.html">Bildirim Merkezi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
+<div class="submenu">
+<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
+<div class="submenu">
+<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
+<a href="standard-compliance.html">Standart Uygunluk</a>
+<a href="legal-compliance.html">Yasal Uyum</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
+<div class="submenu">
+<a href="apqp.html">APQP</a>
+<a href="fmea.html">FMEA</a>
+<a href="control-plan.html">Kontrol Planı</a>
+<a href="ppap.html">PPAP</a>
+<a href="spc.html">SPC</a>
+<a href="msa.html">MSA</a>
+</div>
+
+
+</nav>
+</div>
+<div class="sidebar-footer" style="display:none"></div>
+</aside>
+
 <main class="main">
 <header class="topbar">
-  <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
-  <div class="search-wrap">
-    <input class="search" id="globalSearch" placeholder="GET /search — kullanıcı, departman, rol, onay, workflow ara">
-    <button class="search-btn" onclick="runSearch()">Ara</button>
-  </div>
-  <button class="department-switch" type="button" onclick="window.location.href='department-gateway.html'">Departman Değiştir</button>
-  <div class="department-chip">Aktif Departman: <span id="activeDepartmentName">Yönetim</span></div>
-  <div class="profile"><div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div><button class="logout-btn" onclick="logout()">Çıkış Yap</button></div>
+<button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
+<div class="search-wrap">
+<input class="search" id="globalSearch" placeholder="Kullanıcı, departman, rol, mail, onay, workflow veya durum ara">
+<button class="search-btn" onclick="runSearch()">Ara</button>
+</div>
+<div class="profile">
+<div class="avatar" onclick="window.location.href='dashboard.html'">
+<span id="userName">Kerem Güdenli</span>
+</div>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+</div>
 </header>
 <section class="hero">
   <div><h1>Enterprise Users Management</h1><p>JWT + HttpOnly Cookie, Cloudflare D1/R2, RBAC, approval, workflow, audit log, activity feed, notification ve soft delete mimarisiyle GDNL EOS kullanıcı yönetim merkezi.</p></div>
