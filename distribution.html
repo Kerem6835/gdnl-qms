@@ -319,7 +319,7 @@ padding:11px 13px!important;
 <header class="topbar">
 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
 <div class="search-wrap">
-<input class="search" id="globalSearch" placeholder="Workflow, doküman, departman, mail, SMS veya durum ara">
+<input class="search" id="globalSearch" placeholder="İş akışı, doküman, departman, e-posta, SMS veya durum ara">
 <button class="search-btn" onclick="runSearch()">Ara</button>
 </div>
 <div class="profile">
@@ -414,6 +414,18 @@ let cloudDocuments=[];
 let cloudNotifications=[];
 let cloudArchive=[];
 let cloudReady=false;
+const session={
+  id:"",
+  user_id:"",
+  username:"keremgudenli",
+  name:"Kerem Güdenli",
+  fullname:"Kerem Güdenli",
+  role:"Root Super Administrator",
+  department:"Yönetim",
+  email:"keremgudenli@gmail.com",
+  session_id:"",
+  loginAt:new Date().toISOString()
+};
 
 async function apiRequest(path,options={}){
   const url=path.startsWith("http")?path:GDNL_API_BASE+path;
@@ -431,6 +443,17 @@ function normalizeApiList(data){
   if(Array.isArray(data?.data))return data.data;
   if(Array.isArray(data?.results))return data.results;
   if(Array.isArray(data?.items))return data.items;
+  if(Array.isArray(data?.rows))return data.rows;
+  if(Array.isArray(data?.users))return data.users;
+  if(Array.isArray(data?.departments))return data.departments;
+  if(Array.isArray(data?.actions))return data.actions;
+  if(Array.isArray(data?.assignments))return data.assignments;
+  if(Array.isArray(data?.notifications))return data.notifications;
+  if(Array.isArray(data?.documents))return data.documents;
+  if(Array.isArray(data?.comments))return data.comments;
+  if(Array.isArray(data?.approvals))return data.approvals;
+  if(Array.isArray(data?.archive))return data.archive;
+  if(Array.isArray(data?.files))return data.files;
   return [];
 }
 function currentUser(){
@@ -583,8 +606,23 @@ async function loadCloudData(){
     apiGet("/notifications",[]),
     apiGet("/archive",[])
   ]);
-  cloudUsers=normalizeApiList(users);
-  cloudDepartments=normalizeApiList(deps);
+  cloudUsers=normalizeApiList(users).filter(x=>!isPassiveRecord(x));
+  cloudDepartments=normalizeApiList(deps).filter(x=>!isPassiveRecord(x));
+  const activeUser=cloudUsers.find(u=>
+    String(u.username||"").toLowerCase()==="keremgudenli" ||
+    String(u.email||"").toLowerCase()==="keremgudenli@gmail.com" ||
+    String(u.fullname||u.name||"").toLocaleLowerCase("tr-TR")==="kerem güdenli"
+  ) || cloudUsers[0] || null;
+  if(activeUser){
+    session.id=activeUser.id||activeUser.user_id||session.id;
+    session.user_id=activeUser.user_id||activeUser.id||session.user_id;
+    session.username=activeUser.username||session.username;
+    session.name=activeUser.fullname||activeUser.name||session.name;
+    session.fullname=activeUser.fullname||activeUser.name||session.fullname;
+    session.role=activeUser.role||session.role;
+    session.department=activeUser.department||session.department;
+    session.email=activeUser.email||session.email;
+  }
   cloudDağıtıms=activeOnly(normalizeApiList(distributions).filter(x=>{
     const moduleText=String(x.module||x.module_name||x.source_module||"").toLowerCase();
     return !moduleText || moduleText.includes("dağıt") || moduleText.includes("distribution") || moduleText.includes("doküman");
@@ -647,11 +685,7 @@ function setupUserAutocomplete(inputId,hiddenId,departmentId,multiple=false){
   document.addEventListener("click",e=>{if(!wrap.contains(e.target))sug.classList.remove("active")});
 }
 
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-
-document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+document.getElementById("userName").textContent=session.name||session.fullname||"Kerem Güdenli";
 
 
 function runSearch(){
@@ -808,7 +842,7 @@ setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
 return;
 }
 
-if(r.store)localStorage.setItem(r.store,r.selected||"");
+if(r.store)window.gdnlSelectedRecord=r.selected||"";
 
 if(r.module==="Dağıtım Yönetimi"){
 const items=getDağıtım().map(normalizeDağıtım);
@@ -833,9 +867,8 @@ renderDağıtıms();
 
 let selectedIndex=null;
 
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-localStorage.removeItem("gdnl_eqms_session");
+async function logout(){
+await writeAudit("Oturum Kapatma",session.fullname||session.name,{});
 window.location.href="index.html";
 }
 
@@ -854,17 +887,14 @@ document.body.style.overflow="";
 document.addEventListener("keydown",function(e){
 if(e.key==="Escape")closeMobileMenu();
 });
-function getDocuments(){return cloudReady&&cloudDocuments.length?cloudDocuments:(JSON.parse(localStorage.getItem("gdnl_documents"))||[])}
-function getDağıtım(){return cloudReady&&cloudDağıtıms.length?cloudDağıtıms:(JSON.parse(localStorage.getItem("gdnl_distribution"))||[])}
+function getDocuments(){return activeOnly(cloudDocuments||[])}
+function getDağıtım(){return activeOnly(cloudDağıtıms||[])}
 function setDağıtım(items){
   cloudDağıtıms=activeOnly((items||[]).map(normalizeDağıtım));
-  localStorage.setItem("gdnl_distribution",JSON.stringify(cloudDağıtıms));
-  localStorage.setItem("gdnl_distributions",JSON.stringify(cloudDağıtıms));
 }
-function getNotifications(){return cloudReady&&cloudNotifications.length?cloudNotifications:(JSON.parse(localStorage.getItem("gdnl_notifications"))||[])}
+function getNotifications(){return activeOnly(cloudNotifications||[])}
 function setNotifications(items){
-  cloudNotifications=items||[];
-  localStorage.setItem("gdnl_notifications",JSON.stringify(items||[]));
+  cloudNotifications=activeOnly(items||[]);
 }
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
@@ -899,17 +929,12 @@ updatedAt:x.updatedAt||new Date().toISOString()
 }
 
 function migrateDağıtım(){
-let main=getDağıtım();
-let old=JSON.parse(localStorage.getItem("gdnl_distributions"))||[];
-let merged=[...main,...old];
-
 const unique=[];
-merged.map(normalizeDağıtım).forEach(item=>{
-if(!unique.some(x=>x.distributionId===item.distributionId||x.workflowId&&x.workflowId===item.workflowId&&x.documentCode===item.documentCode)){
-unique.push(item);
-}
+getDağıtım().map(normalizeDağıtım).forEach(item=>{
+  if(!unique.some(x=>x.distributionId===item.distributionId||x.workflowId&&x.workflowId===item.workflowId&&x.documentCode===item.documentCode)){
+    unique.push(item);
+  }
 });
-
 setDağıtım(unique);
 }
 
@@ -958,7 +983,7 @@ document.getElementById("drawerStatus").textContent=item.status;
 document.getElementById("drawerStatus").className="status "+statusClass(item.status);
 
 let html="";
-html+=`<div class="info-box"><b>Workflow:</b> ${item.workflowId||"-"}<br><b>Revizyon:</b> ${item.rev}<br><b>Bildirim Tipi:</b> ${item.notificationType}<br><b>Son Okuma Tarihi:</b> ${formatDateTR(item.dueDate)}</div>`;
+html+=`<div class="info-box"><b>İş Akışı:</b> ${item.workflowId||"-"}<br><b>Revizyon:</b> ${item.rev}<br><b>Bildirim Tipi:</b> ${item.notificationType}<br><b>Son Okuma Tarihi:</b> ${formatDateTR(item.dueDate)}</div>`;
 html+=`<div class="info-box"><b>Dağıtım Noktaları:</b><br>${item.distributionPoints||"-"}<br><br><b>E-posta:</b> ${item.mailGroups||"-"}<br><b>SMS:</b> ${item.smsGroups||"-"}</div>`;
 
 html+=`<div class="info-box"><b>Okuma Takibi</b><br>`;
@@ -1077,8 +1102,8 @@ writeActivity("Bildirim",item.distributionId||item.workflowId,message,null,paylo
 function openDocument(){
 if(selectedIndex===null)return;
 const item=getDağıtım().map(normalizeDağıtım)[selectedIndex];
-localStorage.setItem("gdnl_selected_document_code",item.documentCode);
-window.location.href="document-viewer.html";
+const code=encodeURIComponent(item.documentCode||"");
+window.location.href="document-viewer.html?document_code="+code;
 }
 
 function autoDelayCheck(){
@@ -1113,7 +1138,7 @@ return;
 let html=`<table>
 <thead>
 <tr>
-<th>Workflow</th>
+<th>İş Akışı</th>
 <th>Doküman</th>
 <th>Rev.</th>
 <th>Bildirim</th>
