@@ -767,8 +767,11 @@ function mapD1UserToEOS(row){
 }
 
 function resolveLandingPage(user){
-  const role = String(user.role || "").toUpperCase();
-  if(role === "SUPER_ADMIN") return "users.html";
+  /*
+    GDNL EOS doğru akış:
+    Login → Departman Merkezi → Dashboard / ilgili modül
+    SUPER_ADMIN dahil hiçbir kullanıcı login sonrası direkt users.html sayfasına gönderilmez.
+  */
   return "department-gateway.html";
 }
 
