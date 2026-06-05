@@ -774,14 +774,18 @@ function normalizeDepartment(row){
 }
 
 function isSuperAdmin(user = state.currentUser || state.session || {}){
-  const role = String(user.role || "").toLocaleLowerCase("tr-TR");
+  const role = String(user.role || "").trim().toLocaleLowerCase("tr-TR");
   const perms = Array.isArray(user.permissions) ? user.permissions : [];
+
   return user.isRoot === true ||
     user.isSuperAdmin === true ||
     user.isFullAuthorized === true ||
     user.canAccessAllModules === true ||
     user.accessLevel === "FULL_SYSTEM_ACCESS" ||
     perms.includes("*") ||
+    role === "super_admin" ||
+    role.includes("super_admin") ||
+    role.includes("super admin") ||
     role.includes("super administrator") ||
     role.includes("root") ||
     role.includes("süper yönetici");
@@ -804,14 +808,28 @@ function findBestCloudUser(users){
 }
 
 async function loadCloudSession(users){
-  const sessionResponse = await apiGet("/session", null) || await apiGet("/me", null);
-  const sessionUser = sessionResponse?.user || sessionResponse?.session || sessionResponse?.data || sessionResponse;
-  if(sessionUser && typeof sessionUser === "object" && Object.keys(sessionUser).length){
-    const normalized = normalizeUser(sessionUser);
-    const cloudMatch = users.find(u => String(u.id) === String(normalized.id) || String(u.username) === String(normalized.username) || String(u.email) === String(normalized.email));
-    return cloudMatch || normalized;
+  /*
+    KRİTİK DÜZELTME:
+    Eski sürüm /session boş gelirse users listesinden ilk SUPER_ADMIN veya ilk kullanıcıyı seçiyordu.
+    Bu nedenle login Kerem ile yapılmasına rağmen başka kullanıcı ekrana basılabiliyordu.
+
+    Yeni kural:
+    - Oturum kullanıcısı yalnızca GET /me üzerinden alınır.
+    - /me yoksa fallback kullanıcı seçilmez.
+    - Kullanıcı login ekranına yönlendirilir.
+  */
+  const meResponse = await apiGet("/me", null);
+  const meUser = unwrapMeUser(meResponse);
+
+  if(!meUser || typeof meUser !== "object" || !meUser.username){
+    showToast("Oturum bulunamadı. Lütfen tekrar giriş yapın.");
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 900);
+    return null;
   }
-  return findBestCloudUser(users);
+
+  return normalizeUser(meUser);
 }
 
 function hasPermission(permission){
@@ -886,6 +904,15 @@ function initials(name){
 
 function render(){
   const currentUser = state.currentUser || {};
+
+  if(!currentUser.username){
+    document.getElementById("userName").textContent = "Oturum Yok";
+    document.getElementById("userRole").textContent = "Giriş Gerekli";
+    document.getElementById("avatar").textContent = "!";
+    document.getElementById("departmentGrid").innerHTML = '<div class="dept-card locked" style="grid-column:1/-1"><div class="dept-top"><div class="dept-icon">!</div><div class="state">🔒</div></div><h3>Oturum doğrulanamadı</h3><span class="badge">Tekrar giriş yapınız</span><div class="open-dot">!</div></div>';
+    return;
+  }
+
   document.getElementById("userName").textContent = currentUser.fullname || currentUser.name || "Kullanıcı";
   document.getElementById("userRole").textContent = normalizeRole(currentUser.role || "Kullanıcı");
   document.getElementById("avatar").textContent = initials(currentUser.fullname || currentUser.name);
@@ -1066,6 +1093,11 @@ function escapeJS(value){
 async function boot(){
   showToast("D1 departman ve kullanıcı verileri yükleniyor...");
   await loadCloudData();
+
+  if(!state.currentUser || !state.currentUser.username){
+    render();
+    return;
+  }
 
   if(!state.users.length){
     showToast("D1 /users boş döndü. Kullanıcı kayıtları kontrol edilmeli.");
