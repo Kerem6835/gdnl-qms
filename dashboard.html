@@ -1144,804 +1144,700 @@ style="width:auto;padding:0 22px;">
 </div>
 
 <script>
-let session=
-  JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null") ||
-  JSON.parse(localStorage.getItem("gdnl_ems_session")||"null");
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const GDNL_MODULE_NAME="Dashboard";
 
-if(!session||!session.username){
-window.location.href="index.html";
-}
+let gdnlUsers=[];
+let gdnlDepartments=[];
+let gdnlDocuments=[];
+let gdnlRevisions=[];
+let gdnlApprovals=[];
+let gdnlApprovalHistory=[];
+let gdnlWorkflowHistory=[];
+let gdnlArchive=[];
+let gdnlDistribution=[];
+let gdnlCapa=[];
+let gdnlRisks=[];
+let gdnlAudits=[];
+let gdnlTrainings=[];
+let gdnlSuppliers=[];
+let gdnlCustomers=[];
+let gdnlNotifications=[];
+let gdnlAssignments=[];
+let gdnlActivity=[];
+let gdnlComments=[];
+let gdnlFiles=[];
+let gdnlCurrentUser=null;
+let gdnlCurrentDepartment="-";
+let gdnlSearchResults=[];
 
-const isFullAccess =
-  session.isRoot === true ||
-  session.isSuperAdmin === true ||
-  session.isFullAuthorized === true ||
-  session.accessLevel === "FULL_SYSTEM_ACCESS" ||
-  (session.permissions || []).includes("*") ||
-  String(session.role || "").toLowerCase().includes("super administrator") ||
-  String(session.role || "").toLowerCase().includes("root");
-
-if(isFullAccess){
-  session.name = session.name || "Kerem Güdenli";
-  session.role = "Root Super Administrator";
-  session.department = session.department || "Yönetim";
-  session.accessLevel = "FULL_SYSTEM_ACCESS";
-  session.permissions = session.permissions && session.permissions.length ? session.permissions : ["*"];
-  session.isRoot = true;
-  session.isSuperAdmin = true;
-  session.isFullAuthorized = true;
-
-  if(!localStorage.getItem("gdnl_selected_department")){
-    localStorage.setItem("gdnl_selected_department","Yönetim");
-    localStorage.setItem("gdnl_selected_department_label","Yönetim");
+function gdnlArrayFromPayload(payload,path=""){
+  if(Array.isArray(payload))return payload;
+  if(!payload||typeof payload!=="object")return [];
+  const pathKey=String(path||"").replace("/","").replaceAll("-","_");
+  const candidates=[
+    pathKey,
+    pathKey.replaceAll("_",""),
+    "items","data","results","rows","records","list",
+    "users","departments","documents","revisions","approvals","approval_history",
+    "workflow_history","archive","files","comments","actions","assignments",
+    "notifications","audit_logs","activity_feed","capas","capa_actions","risks",
+    "risk_actions","trainings","suppliers","customers","audits","distribution",
+    "distributions","kpi_results","kpi_definitions"
+  ];
+  for(const key of candidates){
+    if(Array.isArray(payload[key]))return payload[key];
   }
-}else{
-  if(!localStorage.getItem("gdnl_selected_department")){
-    window.location.href="department-gateway.html";
+  for(const value of Object.values(payload)){
+    if(Array.isArray(value))return value;
   }
-}
-
-if(!session.name||session.name==="Kerem Admin"||session.name==="Demo Kullanıcı")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-localStorage.setItem("gdnl_ems_session",JSON.stringify(session));
-localStorage.setItem("gdnl_current_user_name",session.name);
-localStorage.setItem("gdnl_current_user_role",session.role);
-
-const selectedDepartment=localStorage.getItem("gdnl_selected_department")||session.department||"Genel";
-const selectedDepartmentModüls=isFullAccess ? [] : JSON.parse(localStorage.getItem("gdnl_department_modules")||"[]");
-document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
-const depNameEl=document.getElementById("activeDepartmentName");
-const heroDepNameEl=document.getElementById("heroDepartmentName");
-if(depNameEl)depNameEl.textContent=selectedDepartment;
-if(heroDepNameEl)heroDepNameEl.textContent=selectedDepartment;
-
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-localStorage.removeItem("gdnl_selected_department");
-localStorage.removeItem("gdnl_department_modules");
-localStorage.removeItem("gdnl_allowed_departments");
-localStorage.removeItem("gdnl_current_user_role");
-localStorage.removeItem("gdnl_current_user_name");
-window.location.href="index.html";
-}
-
-function openMobileMenu(){
-document.getElementById("mobileDrawer").classList.add("active");
-document.getElementById("mobileOverlay").classList.add("active");
-document.body.style.overflow="hidden";
-}
-
-function closeMobileMenu(){
-document.getElementById("mobileDrawer").classList.remove("active");
-document.getElementById("mobileOverlay").classList.remove("active");
-document.body.style.overflow="";
-}
-
-document.addEventListener("keydown",function(e){
-if(e.key==="Escape")closeMobileMenu();
-});
-
-function runSearch(){
-
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-
-if(!text){
-clearSearchResults();
-input.focus();
-return;
-}
-
-const pools=[
-{label:"Doküman Yönetimi",key:"gdnl_documents",go:"documents.html",store:"gdnl_selected_document_code",pick:x=>x.code||x.documentCode||x.id||"",title:x=>x.documentName||x.name||x.title||x.code||x.documentCode||"Doküman",detail:x=>`${x.code||x.documentCode||""} ${x.department||""} ${x.category||""} ${x.status||""}`},
-{label:"Yeni Doküman",key:"gdnl_new_documents",go:"new-document.html",store:"gdnl_selected_new_document",pick:x=>x.code||x.documentCode||x.id||"",title:x=>x.documentName||x.name||x.title||"Yeni Doküman",detail:x=>`${x.code||x.documentCode||""} ${x.department||""} ${x.status||""}`},
-{label:"Revizyon Yönetimi",key:"gdnl_revisions",go:"revision.html",store:"gdnl_selected_revision",pick:x=>x.revisionNo||x.id||"",title:x=>x.documentName||x.revisionNo||"Revizyon",detail:x=>`${x.documentCode||""} ${x.oldRev||""} → ${x.newRev||""} ${x.status||""}`},
-{label:"Onay Yönetimi",key:"gdnl_approvals",go:"approval.html",store:"gdnl_selected_approval",pick:x=>x.workflowId||x.approvalNo||x.id||"",title:x=>x.documentName||x.workflowId||"Onay",detail:x=>`${x.documentCode||""} ${x.currentStep||""} ${x.status||""}`},
-{label:"Arşiv Yönetimi",key:"gdnl_archive",go:"archive.html",store:"gdnl_selected_archive",pick:x=>x.archiveNo||x.documentCode||x.id||"",title:x=>x.documentName||x.archiveNo||"Arşiv",detail:x=>`${x.documentCode||""} ${x.reason||""} ${x.status||""}`},
-{label:"Dağıtım Yönetimi",key:"gdnl_distribution",go:"distribution.html",store:"gdnl_selected_distribution",pick:x=>x.distributionId||x.distributionNo||x.workflowId||"",title:x=>x.documentName||x.workflowId||"Dağıtım",detail:x=>`${x.documentCode||""} ${x.notificationType||""} ${x.status||""}`},
-{label:"Dağıtım Yönetimi",key:"gdnl_distributions",go:"distribution.html",store:"gdnl_selected_distribution",pick:x=>x.distributionId||x.distributionNo||x.workflowId||"",title:x=>x.documentName||x.workflowId||"Dağıtım",detail:x=>`${x.documentCode||""} ${x.notificationType||""} ${x.status||""}`},
-{label:"8D / CAPA",key:"gdnl_capa",go:"capa.html",store:"gdnl_selected_capa",pick:x=>x.eightDNo||x.capaNo||x.id||"",title:x=>x.problemTitle||x.eightDNo||x.capaNo||"CAPA",detail:x=>`${x.source||""} ${x.department||""} ${x.status||""} ${x.capaClass||""}`},
-{label:"Risk Yönetimi",key:"gdnl_risks",go:"risk-register.html",store:"gdnl_selected_risk",pick:x=>x.riskNo||x.id||"",title:x=>x.riskTitle||x.riskNo||"Risk",detail:x=>`${x.department||""} ${x.initialScore||""} ${x.residualScore||""} ${x.riskStatus||""}`},
-{label:"İç Denetim",key:"gdnl_audits",go:"audit.html",store:"gdnl_selected_audit",pick:x=>x.auditNo||x.id||"",title:x=>x.auditTitle||x.auditNo||"Denetim",detail:x=>`${x.auditType||""} ${x.department||""} ${x.auditStatus||""}`},
-{label:"Eğitim Yönetimi",key:"gdnl_trainings",go:"training-management.html",store:"gdnl_selected_training",pick:x=>x.trainingNo||x.id||"",title:x=>x.trainingTitle||x.trainingNo||"Eğitim",detail:x=>`${x.department||""} ${x.trainer||""} ${x.trainingStatus||""}`},
-{label:"Tedarikçi Yönetimi",key:"gdnl_suppliers",go:"supplier-management.html",store:"gdnl_selected_supplier",pick:x=>x.supplierNo||x.id||"",title:x=>x.supplierName||x.supplierNo||"Tedarikçi",detail:x=>`${x.supplierType||""} ${x.approvalStatus||""} ${x.criticality||""}`},
-{label:"Müşteri Yönetimi",key:"gdnl_customers",go:"customer-management.html",store:"gdnl_selected_customer",pick:x=>x.customerNo||x.id||"",title:x=>x.customerName||x.customerNo||"Müşteri",detail:x=>`${x.sector||""} ${x.status||""}`},
-{label:"YGG Yönetimi",key:"gdnl_management_reviews",go:"management-review.html",store:"gdnl_selected_ygg",pick:x=>x.reviewNo||x.id||"",title:x=>x.reviewTitle||x.reviewNo||"YGG",detail:x=>`${x.reviewType||""} ${x.reviewStatus||""}`},
-{label:"Kalibrasyon Yönetimi",key:"gdnl_calibrations",go:"calibration-management.html",store:"gdnl_selected_calibration",pick:x=>x.deviceNo||x.id||"",title:x=>x.deviceName||x.deviceNo||"Kalibrasyon",detail:x=>`${x.department||""} ${x.calibrationStatus||""}`},
-{label:"Değişiklik Yönetimi",key:"gdnl_moc",go:"change-management.html",store:"gdnl_selected_moc",pick:x=>x.mocNo||x.id||"",title:x=>x.changeTitle||x.mocNo||"MOC",detail:x=>`${x.changeType||""} ${x.department||""} ${x.mocStatus||""}`},
-{label:"Aksiyon Merkezi",key:"gdnl_action_center_manual",go:"action-center.html",store:"gdnl_selected_action",pick:x=>x.id||x.sourceNo||"",title:x=>x.title||x.sourceNo||"Aksiyon",detail:x=>`${x.module||""} ${x.owner||""} ${x.status||""} ${x.priority||""}`},
-{label:"Firma Belgeleri",key:"gdnl_company_assets_documents",go:"company-assets-documents.html",store:"gdnl_selected_company_asset",pick:x=>x.assetNo||x.id||"",title:x=>x.assetName||x.assetNo||"Firma Belgesi",detail:x=>`${x.assetType||""} ${x.owner||""} ${x.assetStatus||""}`},
-{label:"Standart Uygunluk",key:"gdnl_standards_clauses",go:"standards-compliance.html",store:"gdnl_selected_clause",pick:x=>x.clauseRecordNo||x.id||"",title:x=>`${x.standardName||""} ${x.clauseNo||""} ${x.clauseTitle||""}`,detail:x=>`${x.department||""} ${x.complianceStatus||""} ${x.auditReadiness||""}`},
-{label:"Yasal Uyum",key:"gdnl_legal_compliance",go:"legal-compliance.html",store:"gdnl_selected_legal",pick:x=>x.legalNo||x.id||"",title:x=>x.legalName||x.legalNo||"Yasal Şart",detail:x=>`${x.legalType||""} ${x.owner||""} ${x.complianceStatus||""}`},
-{label:"Yetkinlik Matrisi",key:"gdnl_competencies",go:"competency-matrix.html",store:"gdnl_selected_competency",pick:x=>x.competencyNo||x.id||"",title:x=>x.competencyName||x.competencyNo||"Yetkinlik",detail:x=>`${x.competencyCategory||""} ${x.standardRef||""}`},
-{label:"Yetkinlik Matrisi",key:"gdnl_competency_assignments",go:"competency-matrix.html",store:"gdnl_selected_competency_assignment",pick:x=>x.id||"",title:x=>`${x.person||""} / ${x.competencyName||""}`,detail:x=>`${x.department||""} ${x.status||""} ${x.effectivenessResult||""}`},
-{label:"Bildirim Merkezi",key:"gdnl_notifications",go:"notification-center.html",store:"gdnl_selected_notification",pick:x=>x.notificationId||x.id||"",title:x=>x.documentName||x.notificationId||"Bildirim",detail:x=>`${x.module||""} ${x.type||""} ${x.status||""} ${x.message||""}`},
-{label:"KPI & Raporlar",key:"gdnl_kpi_reports",go:"kpi-reports.html",store:"gdnl_selected_kpi",pick:x=>x.kpiNo||x.id||"",title:x=>x.kpiName||x.kpiNo||"KPI",detail:x=>`${x.department||""} ${x.status||""} ${x.period||""}`},
-{label:"Süreç Yönetimi",key:"gdnl_processes",go:"process-management.html",store:"gdnl_selected_process",pick:x=>x.processNo||x.id||"",title:x=>x.processName||x.processNo||"Süreç",detail:x=>`${x.owner||""} ${x.department||""} ${x.status||""}`}
-];
-
-let results=[];
-
-pools.forEach(p=>{
-const list=getLS(p.key);
-list.forEach(item=>{
-const fullText=JSON.stringify(item).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"record",
-module:p.label,
-go:p.go,
-store:p.store,
-selected:p.pick(item),
-title:p.title(item),
-detail:p.detail(item),
-status:item.status||item.riskStatus||item.auditStatus||item.trainingStatus||item.approvalStatus||item.mocStatus||item.assetStatus||item.complianceStatus||"",
-raw:item
-});
-}
-});
-});
-
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
-
-}
-
-function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
-
-document.querySelectorAll(".menu a").forEach((el,index)=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-const text=(label+" "+href).toLowerCase();
-if(text.includes(keyword)){
-const key="menu-"+href+"-"+label;
-if(!seen.has(key)){
-seen.add(key);
-results.push({type:"page",module:"Sol Menü",title:label,detail:href||"Dashboard menü başlığı",go:href||"#",selector:null,selected:""});
-}
-}
-});
-
-document.querySelectorAll(".module").forEach((el,index)=>{
-const title=(el.querySelector("h4")?.textContent||el.textContent||"Modül").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-const href=el.getAttribute("href")||"";
-const text=(title+" "+detail+" "+href).toLowerCase();
-if(text.includes(keyword)){
-const key="module-"+href+"-"+title;
-if(!seen.has(key)){
-seen.add(key);
-results.push({type:"page",module:"Modül Merkezi",title:title,detail:detail||href,go:href||"#",selector:null,selected:""});
-}
-}
-});
-
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Dashboard Kartı").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-const text=(title+" "+value+" "+detail).toLowerCase();
-if(text.includes(keyword)){
-const selector=`.card:nth-of-type(${index+1})`;
-results.push({type:"scroll",module:"Dashboard Kartı",title:title+" / "+value,detail:detail,go:"#",selector:selector,selected:""});
-}
-});
-
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-const text=(title+" "+detail).toLowerCase();
-if(text.includes(keyword)){
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,go:"#",selector:`.panel[data-search-panel="${index}"]`,selected:""});
-el.setAttribute("data-search-panel",index);
-}
-});
-
-return results;
-}
-
-
-function escapeHTML(value){
-return String(value||"")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
-}
-
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
-
-function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-
-if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı. Sistem uyarı vermez; arama paneli burada açık kalır.</div>`;
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-return;
-}
-
-area.innerHTML=results.slice(0,80).map((r,index)=>`
-<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module)}</span></div>
-<div>
-<b>${highlightText(r.title,keyword)}</b>
-<small>${highlightText(r.detail,keyword)}</small>
-</div>
-<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-</div>
-`).join("");
-
-window.gdnlSearchResults=results.slice(0,80);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];
-if(!r)return;
-
-if(r.type==="scroll"&&r.selector){
-const target=document.querySelector(r.selector);
-if(target){
-target.scrollIntoView({behavior:"smooth",block:"center"});
-target.style.outline="3px solid #0ea5ff";
-target.style.outlineOffset="4px";
-setTimeout(()=>{target.style.outline="";target.style.outlineOffset="";},2200);
-}
-return;
-}
-
-localStorage.setItem("gdnl_global_search_text",document.getElementById("globalSearch").value.trim());
-if(r.store)localStorage.setItem(r.store,r.selected||"");
-if(r.go&&r.go!=="#")window.location.href=r.go;
-}
-
-
-function clearSearchResults(){
-document.getElementById("globalSearch").value="";
-document.getElementById("searchResultsPanel").classList.remove("active");
-document.getElementById("searchResultsArea").innerHTML="";
-}
-
-function getLS(key){
-try{return JSON.parse(localStorage.getItem(key))||[]}catch(e){return[]}
-}
-
-function getDağıtıms(){
-const main=getLS("gdnl_distribution");
-const legacy=getLS("gdnl_distributions");
-const merged=[...main,...legacy];
-const unique=[];
-merged.forEach(x=>{
-const id=x.distributionId||x.distributionNo||((x.workflowId||"")+"-"+(x.documentCode||""));
-if(!unique.some(u=>(u.distributionId||u.distributionNo||((u.workflowId||"")+"-"+(u.documentCode||"")))===id)){
-unique.push(x);
-}
-});
-return unique;
-}
-
-function todayISO(){return new Date().toISOString().split("T")[0]}
-function daysBetween(a,b){if(!a||!b)return null;const d1=new Date(a);const d2=new Date(b);if(isNaN(d1)||isNaN(d2))return null;return Math.ceil((d2-d1)/(1000*60*60*24))}
-
-function statusClass(status){
-if(status==="Yayında"||status==="Yayınlandı"||status==="Onaylandı"||status==="Okundu"||status==="Arşivlendi"||status==="Geri Alındı"||status==="Kapalı"||status==="Tamamlandı"||status==="Etkili")return"green";
-if(status==="Revizyon"||status==="Onayda"||status==="Onay Bekliyor"||status==="Bekliyor"||status==="Devam Ediyor"||status==="Gönderildi"||status==="Kısmi Okundu"||status==="İncelemede"||status==="İş Akışı Başlatıldı"||status==="Dağıtım Bekliyor"||status==="Aksiyon Bekliyor"||status==="Etkinlik Kontrolü")return"orange";
-if(status==="Pasif"||status==="Obsolete"||status==="Reddedildi"||status==="Revizyon İstendi"||status==="Gecikti"||status==="Kilitli"||status==="Kritik"||status==="Etkisiz")return"red";
-return"blue";
-}
-
-function formatDateTR(value){
-if(!value)return"-";
-const d=new Date(value);
-if(isNaN(d))return value;
-return d.toLocaleDateString("tr-TR");
-}
-
-function isPendingRevizyon(r){return ["İncelemede","Onay Bekliyor"].includes(r.status)}
-function isPendingOnay(a){return ["Bekliyor","Devam Ediyor"].includes(a.status)}
-function isUnreadDağıtım(d){return ["Dağıtım Bekliyor","Gönderildi","Kısmi Okundu","Gecikti"].includes(d.status)}
-function isDelayedDağıtım(d){return d.status==="Gecikti"}
-
-function normalizeCapa(x){
-if(!Array.isArray(x.actions))x.actions=[];
-return x;
-}
-
-function getCapaStats(capas){
-let allActions=[];
-capas.forEach(c=>{allActions=allActions.concat((c.actions||[]))});
-
-const open=capas.filter(x=>x.status!=="Kapalı"&&x.status!=="Reddedildi").length;
-const late=capas.filter(x=>x.status==="Gecikti").length;
-const closed=capas.filter(x=>x.status==="Kapalı").length;
-const lateActions=allActions.filter(a=>a.status==="Gecikti").length;
-const openActions=allActions.filter(a=>a.status!=="Tamamlandı").length;
-const completedActions=allActions.filter(a=>a.status==="Tamamlandı").length;
-const effectivenessOk=capas.filter(x=>x.effectivenessResult==="Etkili").length;
-
-const actionScore=allActions.length>0?Math.round((completedActions/allActions.length)*100):0;
-const closeScore=capas.length>0?Math.round((closed/capas.length)*100):0;
-const effScore=capas.length>0?Math.round((effectivenessOk/capas.length)*100):0;
-const capaScore=capas.length>0?Math.round((actionScore+closeScore+effScore)/3):0;
-
-return{allActions,open,late,closed,lateActions,openActions,completedActions,effectivenessOk,capaScore};
-}
-
-function normalizeList(key){return getLS(key).map(x=>x||{})}
-function getExtendedStats(){
-const risks=normalizeList("gdnl_risks");
-const audits=normalizeList("gdnl_audits");
-const trainings=normalizeList("gdnl_trainings");
-const suppliers=normalizeList("gdnl_suppliers");
-const openRisks=risks.filter(r=>!["Kapalı","İptal"].includes(r.riskStatus)).length;
-const criticalRisks=risks.filter(r=>Number(r.initialScore||0)>=500||Number(r.residualScore||0)>=500||["Kritik","Acil Aksiyon"].includes(r.initialLevel)||["Kritik","Acil Aksiyon"].includes(r.residualLevel)).length;
-const openDenetims=audits.filter(a=>!["Kapalı","İptal"].includes(a.auditStatus)).length;
-const auditFindings=audits.reduce((s,a)=>s+((a.findings||[]).length),0);
-const openTrainings=trainings.filter(t=>!["Kapalı","İptal"].includes(t.trainingStatus)).length;
-const lateTrainings=trainings.filter(t=>t.trainingStatus==="Gecikti").length;
-const supplierScar=suppliers.reduce((s,sp)=>s+((sp.events||[]).filter(e=>e.eventType==="SCAR"&&!["Kapalı","Tamamlandı","İptal Edildi"].includes(e.status)).length),0);
-const supplierAlerts=suppliers.filter(sp=>["Bloklu","Uygun Değil","Şartlı Onaylı","Geliştirme Tedarikçisi"].includes(sp.approvalStatus)||["Yüksek","Kritik"].includes(sp.criticality)).length;
-return{risks,audits,trainings,suppliers,openRisks,criticalRisks,openDenetims,auditFindings,openTrainings,lateTrainings,supplierScar,supplierAlerts};
-}
-function renderUygunlukCenter(stats,health){
-const standards=["ISO 9001","ISO 14001","ISO 45001","ISO 50001","ISO 10002","ISO 17025","ISO 27001","IATF 16949","CoP","EV"];
-const riskLoad=stats.criticalRisks+stats.openDenetims+stats.lateTrainings+stats.supplierAlerts;
-const level=riskLoad>8||health<60?"Riskli":riskLoad>3||health<80?"Kısmen Uygun":"Uygun";
-const cls=level==="Uygun"?"green":level==="Kısmen Uygun"?"orange":"red";
-const area=document.getElementById("complianceGrid");
-if(!area)return;
-area.innerHTML=standards.map(s=>`<div class="compliance-item"><b>${s}</b><span class="status ${cls}">${level}</span></div>`).join("");
-}
-
-
-function calculateSağlık(data){
-let score=100;
-if(data.docs.length<1)score-=25;
-if(data.publishedDocs<1&&data.docs.length>0)score-=10;
-if(data.pendingRevizyons>0)score-=8;
-if(data.pendingOnays>0)score-=10;
-if(data.unread>0)score-=8;
-if(data.delayed>0)score-=12;
-if(data.obsolete>0)score-=5;
-if(data.lateCapa>0)score-=12;
-if(data.lateCapaActions>0)score-=8;
-if(score<35)score=35;
-if(score>100)score=100;
-return score;
-}
-
-function renderTable(areaId,headers,rows,emptyText){
-const area=document.getElementById(areaId);
-if(rows.length===0){
-area.innerHTML=`<div class="empty">${emptyText}</div>`;
-return;
-}
-let html="<table><thead><tr>";
-headers.forEach(h=>html+=`<th>${h}</th>`);
-html+="</tr></thead><tbody>";
-rows.forEach(r=>{
-html+="<tr>";
-r.forEach(c=>html+=`<td>${c}</td>`);
-html+="</tr>";
-});
-html+="</tbody></table>";
-area.innerHTML=html;
-}
-
-function renderDashboard(){
-const docs=getLS("gdnl_documents");
-const revisions=getLS("gdnl_revisions");
-const approvals=getLS("gdnl_approvals");
-const archive=getLS("gdnl_archive");
-const distributions=getDağıtıms();
-const capas=getLS("gdnl_capa").map(normalizeCapa);
-const ext=getExtendedStats();
-
-const publishedDocs=docs.filter(x=>x.status==="Yayında").length;
-const obsolete=docs.filter(x=>x.status==="Pasif"||x.status==="Obsolete").length;
-const pendingRevizyons=revisions.filter(isPendingRevizyon).length;
-const pendingOnays=approvals.filter(isPendingOnay).length;
-const unread=distributions.filter(isUnreadDağıtım).length;
-const delayed=distributions.filter(isDelayedDağıtım).length;
-const capaStats=getCapaStats(capas);
-
-const data={docs,publishedDocs,pendingRevizyons,pendingOnays,unread,delayed,obsolete,lateCapa:capaStats.late,lateCapaActions:capaStats.lateActions};
-const health=calculateSağlık(data);
-
-document.getElementById("documentCount").textContent=docs.length;
-document.getElementById("publishedDocCount").textContent=publishedDocs;
-document.getElementById("pendingRevizyonCount").textContent=pendingRevizyons;
-document.getElementById("pendingOnayCount").textContent=pendingOnays;
-document.getElementById("archiveCount").textContent=archive.length;
-document.getElementById("distributionCount").textContent=distributions.length;
-document.getElementById("unreadCount").textContent=unread;
-document.getElementById("health").textContent=health+"%";
-document.getElementById("complianceScore").textContent=health+"%";
-
-document.getElementById("capaCount").textContent=capas.length;
-document.getElementById("openCapaCount").textContent=capaStats.open;
-document.getElementById("lateCapaCount").textContent=capaStats.late;
-document.getElementById("lateCapaActionCount").textContent=capaStats.lateActions;
-
-document.getElementById("openRiskCount").textContent=ext.openRisks;
-document.getElementById("criticalRiskCount").textContent=ext.criticalRisks;
-document.getElementById("openDenetimCount").textContent=ext.openDenetims;
-document.getElementById("auditFindingCount").textContent=ext.auditFindings;
-document.getElementById("openTrainingCount").textContent=ext.openTrainings;
-document.getElementById("lateTrainingCount").textContent=ext.lateTrainings;
-document.getElementById("supplierCount").textContent=ext.suppliers.length;
-document.getElementById("supplierScarCount").textContent=ext.supplierScar;
-
-document.getElementById("qRevizyon").textContent=pendingRevizyons;
-document.getElementById("qOnay").textContent=pendingOnays;
-document.getElementById("qUnread").textContent=unread;
-document.getElementById("qCapaLate").textContent=capaStats.late+capaStats.lateActions;
-document.getElementById("qRiskKritik").textContent=ext.criticalRisks;
-document.getElementById("qDenetimAçık").textContent=ext.openDenetims;
-document.getElementById("qTrainingLate").textContent=ext.lateTrainings;
-document.getElementById("qTedarikçiAlert").textContent=ext.supplierAlerts;
-
-const docScore=docs.length>0?Math.round((publishedDocs/docs.length)*100):0;
-const completedRevizyons=revisions.filter(x=>x.status==="İş Akışı Başlatıldı"||x.status==="Onaylandı"||x.status==="Yayınlandı").length;
-const revScore=revisions.length>0?Math.round((completedRevizyons/revisions.length)*100):0;
-const distScore=distributions.length>0?Math.round((distributions.filter(x=>x.status==="Okundu").length/distributions.length)*100):0;
-
-document.getElementById("docBar").style.width=docScore+"%";
-document.getElementById("revBar").style.width=revScore+"%";
-document.getElementById("distBar").style.width=distScore+"%";
-document.getElementById("capaBar").style.width=capaStats.capaScore+"%";
-
-renderTable("revisionTable",
-["Revizyon No","Doküman","Geçiş","Durum","Tarih"],
-revisions.slice(0,6).map(r=>[
-r.revisionNo||"-",
-(r.documentCode||"-")+"<br><small>"+(r.documentName||"-")+"</small>",
-(r.oldRev||"-")+" → "+(r.newRev||"-"),
-`<span class="status ${statusClass(r.status)}">${r.status||"-"}</span>`,
-formatDateTR(r.requestDate||r.createdAt)
-]),
-"Revizyon kaydı bulunamadı."
-);
-
-renderTable("approvalTable",
-["İş Akışı","Doküman","Adım","Durum","Tarih"],
-approvals.slice(0,6).map(a=>[
-a.workflowId||a.approvalNo||"-",
-(a.documentCode||"-")+"<br><small>"+(a.documentName||"-")+"</small>",
-a.currentStep||"-",
-`<span class="status ${statusClass(a.status)}">${a.status||"-"}</span>`,
-formatDateTR(a.updatedAt||a.createdAt)
-]),
-"Onay kaydı bulunamadı."
-);
-
-renderTable("capaTable",
-["8D No","Problem","Sınıf","Aksiyon","Durum","Termin"],
-capas.slice(0,6).map(c=>{
-const total=(c.actions||[]).length;
-const done=(c.actions||[]).filter(a=>a.status==="Tamamlandı").length;
-return[
-c.eightDNo||"-",
-(c.problemTitle||"-")+"<br><small>"+(c.source||"-")+" / "+(c.department||"-")+"</small>",
-c.capaClass||"-",
-done+"/"+total,
-`<span class="status ${statusClass(c.status)}">${c.status||"-"}</span>`,
-formatDateTR(c.dueDate)
-];
-}),
-"8D / CAPA kaydı bulunamadı."
-);
-
-renderTable("distributionTable",
-["İş Akışı","Doküman","Bildirim","Durum","Son Tarih"],
-distributions.slice(0,5).map(d=>[
-d.workflowId||d.distributionNo||"-",
-(d.documentCode||"-")+"<br><small>"+(d.documentName||"-")+"</small>",
-d.notificationType||"-",
-`<span class="status ${statusClass(d.status)}">${d.status||"-"}</span>`,
-formatDateTR(d.dueDate||d.updatedAt)
-]),
-"Dağıtım kaydı bulunamadı."
-);
-
-renderUygunlukCenter(ext,health);
-renderKritikAlerts({pendingRevizyons,pendingOnays,unread,delayed,obsolete,docs,lateCapa:capaStats.late,lateCapaActions:capaStats.lateActions,criticalRisks:ext.criticalRisks,openDenetims:ext.openDenetims,lateTrainings:ext.lateTrainings,supplierAlerts:ext.supplierAlerts});
-}
-
-function renderKritikAlerts(data){
-const alerts=[];
-if(data.delayed>0)alerts.push({level:"Kritik",text:data.delayed+" geciken dağıtım var.",cls:"red"});
-if(data.lateCapa>0)alerts.push({level:"Kritik",text:data.lateCapa+" geciken 8D/CAPA var.",cls:"red"});
-if(data.lateCapaActions>0)alerts.push({level:"Kritik",text:data.lateCapaActions+" geciken CAPA aksiyonu var.",cls:"red"});
-if(data.criticalRisks>0)alerts.push({level:"Kritik",text:data.criticalRisks+" kritik risk var.",cls:"red"});
-if(data.openDenetims>0)alerts.push({level:"Uyarı",text:data.openDenetims+" açık denetim var.",cls:"orange"});
-if(data.lateTrainings>0)alerts.push({level:"Uyarı",text:data.lateTrainings+" geciken eğitim var.",cls:"orange"});
-if(data.supplierAlerts>0)alerts.push({level:"Uyarı",text:data.supplierAlerts+" tedarikçi uyarısı var.",cls:"orange"});
-if(data.pendingOnays>0)alerts.push({level:"Uyarı",text:data.pendingOnays+" onay bekleyen kayıt var.",cls:"orange"});
-if(data.pendingRevizyons>0)alerts.push({level:"Uyarı",text:data.pendingRevizyons+" revizyon süreci açık.",cls:"orange"});
-if(data.obsolete>0)alerts.push({level:"Bilgi",text:data.obsolete+" pasif / obsolete doküman var.",cls:"blue"});
-if(data.docs.length===0)alerts.push({level:"Bilgi",text:"Master doküman listesi boş. Yeni doküman oluşturabilirsin.",cls:"blue"});
-
-document.getElementById("criticalCount").textContent=alerts.length+" Bildirim";
-const area=document.getElementById("criticalAlerts");
-
-if(alerts.length===0){
-area.innerHTML=`<div class="activity-item"><strong><span class="status green">Temiz</span> Sistem Stabil</strong><span>Bekleyen kritik aksiyon görünmüyor.</span></div>`;
-return;
-}
-
-area.innerHTML="";
-alerts.slice(0,6).forEach(a=>{
-area.innerHTML+=`<div class="activity-item"><strong><span class="status ${a.cls}">${a.level}</span> Sistem Bildirimi</strong><span>${a.text}</span></div>`;
-});
-}
-
-document.getElementById("globalSearch").addEventListener("keydown",function(e){
-if(e.key==="Enter"){
-e.preventDefault();
-runSearch();
-}
-});
-
-
-function initDepartmentGatewayFlow(){
-const injectedSwitch=document.getElementById("departmentSwitch");
-const injectedChip=document.getElementById("departmentChip");
-if(injectedSwitch)injectedSwitch.remove();
-if(injectedChip)injectedChip.remove();
-
-document.querySelectorAll(".topbar .department-switch").forEach((btn,index)=>{
-  if(index>0)btn.remove();
-});
-
-document.querySelectorAll(".topbar .department-chip").forEach((chip,index)=>{
-  if(index>0)chip.remove();
-});
-
-const oldHeroDept=document.getElementById("departmentHeroBadge");
-if(oldHeroDept)oldHeroDept.remove();
-}
-function applyDepartmentModülAccess(){
-if(isFullAccess){
-  document.querySelectorAll(".modules .module").forEach(link=>{
-    link.classList.remove("department-locked");
-    link.style.pointerEvents="";
-    link.style.opacity="";
-    link.style.filter="";
-  });
-  return;
-}
-if(!selectedDepartmentModüls||!selectedDepartmentModüls.length)return;
-const role=session.role||"";
-document.querySelectorAll(".modules .module").forEach(link=>{
-const href=link.getAttribute("href")||"";
-if(href==="#")return;
-const allowed=selectedDepartmentModüls.includes(href)||role==="Super Administrator"&&selectedDepartment==="Yönetim";
-if(!allowed){
-link.classList.add("department-locked");
-link.addEventListener("click",function(e){
-e.preventDefault();
-alert("Bu modül "+selectedDepartment+" departmanı çalışma alanında aktif değil. Departman Gateway üzerinden ilgili departmanı seçebilirsin.");
-});
-}
-});
-}
-
-initDepartmentGatewayFlow();
-applyDepartmentModülAccess();
-renderDashboard();
-setInterval(renderDashboard,5000);
-
-console.log("GDNL EQMS Kurumsal Dashboard");
-
-
-function initLockedAccordionMenu(){
-  document.querySelectorAll(".menu-group").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const parent=btn.closest(".menu,.mobile-drawer-menu");
-      const submenu=btn.nextElementSibling;
-      if(!submenu)return;
-      parent.querySelectorAll(".submenu").forEach(menu=>{if(menu!==submenu)menu.classList.remove("open")});
-      parent.querySelectorAll(".menu-group").forEach(group=>{if(group!==btn)group.classList.remove("open")});
-      submenu.classList.toggle("open");
-      btn.classList.toggle("open",submenu.classList.contains("open"));
-      if(submenu.classList.contains("open") && parent.classList.contains("mobile-drawer-menu")){
-        setTimeout(()=>submenu.scrollIntoView({behavior:"smooth",block:"nearest"}),80);
-      }
-    });
-  });
-}
-document.addEventListener("DOMContentLoaded",initLockedAccordionMenu);
-
-
-/* === GDNL EOS / GDNL EQMS CLOUD READY ENTERPRISE ADAPTER === */
-const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
-const GDNL_MODULE_NAME = "DASHBOARD";
-const GDNL_ARCHIVE_STATUSES = ["Silindi","Deleted","Arşivlendi","İptal Edildi","Pasif"];
-window.gdnlCloudCache = window.gdnlCloudCache || {users:[],departments:[],dashboard:{},search:[]};
-
-async function gdnlApi(path, options={}){
-  const headers = options.body instanceof FormData ? (options.headers||{}) : {"Content-Type":"application/json", ...(options.headers||{})};
-  const response = await fetch(GDNL_API_BASE + path, {...options, headers});
-  if(!response.ok) throw new Error("API hatası: " + response.status);
-  const type = response.headers.get("content-type") || "";
-  return type.includes("application/json") ? response.json() : response.text();
-}
-
-function gdnlAktifUser(){
-  try{return JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null") || JSON.parse(localStorage.getItem("gdnl_ems_session")||"null") || {name:"Sistem",role:"Kullanıcı",department:"Yönetim"};}
-  catch(e){return {name:"Sistem",role:"Kullanıcı",department:"Yönetim"};}
-}
-
-function gdnlIsArchived(record){
-  const s = String(record?.status || record?.record_status || record?.customerStatus || record?.auditStatus || record?.riskStatus || "");
-  return GDNL_ARCHIVE_STATUSES.includes(s);
-}
-
-function gdnlNormalizeList(payload){
-  if(Array.isArray(payload)) return payload.filter(x=>!gdnlIsArchived(x));
-  if(Array.isArray(payload?.data)) return payload.data.filter(x=>!gdnlIsArchived(x));
-  if(Array.isArray(payload?.results)) return payload.results.filter(x=>!gdnlIsArchived(x));
-  if(Array.isArray(payload?.items)) return payload.items.filter(x=>!gdnlIsArchived(x));
   return [];
 }
 
-async function gdnlLoadUsers(){
-  try{window.gdnlCloudCache.users = gdnlNormalizeList(await gdnlApi("/users"));}
-  catch(e){window.gdnlCloudCache.users = JSON.parse(localStorage.getItem("gdnl_users")||"[]");}
-  return window.gdnlCloudCache.users;
-}
-
-async function gdnlLoadDepartments(){
-  try{window.gdnlCloudCache.departments = gdnlNormalizeList(await gdnlApi("/departments"));}
-  catch(e){window.gdnlCloudCache.departments = JSON.parse(localStorage.getItem("gdnl_departments")||"[]");}
-  return window.gdnlCloudCache.departments;
-}
-
-function gdnlFindUsers(keyword){
-  const q = String(keyword||"").toLowerCase();
-  return (window.gdnlCloudCache.users||[]).filter(u => `${u.fullname||u.fullName||u.name||""} ${u.email||""} ${u.role||""} ${u.department||""}`.toLowerCase().includes(q)).slice(0,12);
-}
-
-function gdnlSetupUserAutocomplete(inputId, departmentId=null, hiddenId=null, multi=false){
-  const input=document.getElementById(inputId);
-  if(!input || input.dataset.gdnlUserAutocomplete==="1") return;
-  input.dataset.gdnlUserAutocomplete="1";
-  input.setAttribute("autocomplete","off");
-  const box=document.createElement("div");
-  box.className="user-suggest-box";
-  document.body.appendChild(box);
-  const selected=[];
-  const render=()=>{
-    const rect=input.getBoundingClientRect();
-    box.style.left=(rect.left+window.scrollX)+"px";
-    box.style.top=(rect.bottom+window.scrollY+6)+"px";
-    box.style.width=Math.max(rect.width,280)+"px";
-    const users=gdnlFindUsers(input.value);
-    if(!input.value || !users.length){box.style.display="none";return;}
-    box.innerHTML=users.map((u,i)=>`<div class="user-suggest-item" data-i="${i}"><b>${u.fullname||u.fullName||u.name||""}</b><br><small>${u.department||"-"} / ${u.role||"-"} / ${u.email||"-"}</small></div>`).join("");
-    box.style.display="block";
-    box.querySelectorAll(".user-suggest-item").forEach(item=>{
-      item.onclick=()=>{
-        const u=users[Number(item.dataset.i)];
-        const name=u.fullname||u.fullName||u.name||"";
-        if(multi){
-          if(!selected.some(x=>String(x.id)===String(u.id))) selected.push(u);
-          input.value="";
-          let holder=document.getElementById(inputId+"Chips");
-          if(!holder){holder=document.createElement("div");holder.id=inputId+"Chips";input.insertAdjacentElement("afterend",holder);}
-          holder.innerHTML=selected.map((x,idx)=>`<span class="user-chip">${x.fullname||x.fullName||x.name} <small>${x.department||""}</small><button type="button" data-remove="${idx}">×</button></span>`).join("");
-          holder.querySelectorAll("button[data-remove]").forEach(btn=>btn.onclick=()=>{selected.splice(Number(btn.dataset.remove),1);holder.innerHTML="";selected.forEach((x,idx)=>holder.innerHTML+=`<span class="user-chip">${x.fullname||x.fullName||x.name} <small>${x.department||""}</small><button type="button" data-remove="${idx}">×</button></span>`);});
-          input.dataset.selectedUsers=JSON.stringify(selected.map(x=>({id:x.id,fullname:x.fullname||x.fullName||x.name,role:x.role,department:x.department,email:x.email})));
-        }else{
-          input.value=name;
-          input.dataset.userId=u.id||"";
-          input.dataset.userEmail=u.email||"";
-          input.dataset.userRole=u.role||"";
-          input.dataset.userDepartment=u.department||"";
-          if(hiddenId && document.getElementById(hiddenId)) document.getElementById(hiddenId).value=u.id||"";
-          if(departmentId && document.getElementById(departmentId)) document.getElementById(departmentId).value=u.department||"";
-        }
-        box.style.display="none";
-      };
-    });
-  };
-  input.addEventListener("input",render);
-  input.addEventListener("focus",render);
-  document.addEventListener("click",e=>{if(e.target!==input && !box.contains(e.target)) box.style.display="none";});
-}
-
-async function gdnlUploadFile(file,module,relatedId){
-  const user=gdnlAktifUser();
-  const form=new FormData();
-  form.append("file",file);
-  form.append("module",module||GDNL_MODULE_NAME);
-  form.append("related_id",relatedId||"");
-  form.append("uploaded_by",user.name||user.fullname||"Sistem");
-  const uploaded=await gdnlApi("/upload",{method:"POST",body:form});
-  await gdnlCreateAudit("Dosya yüklendi",module,relatedId,{fileName:file.name});
-  return uploaded;
-}
-
-async function gdnlCreateAudit(action,module,relatedId,extra={}){
-  const user=gdnlAktifUser();
-  const payload={module:module||GDNL_MODULE_NAME,related_id:relatedId||"",action,created_by:user.name||user.fullname||"Sistem",user_id:user.id||"",ip_address:"client",user_agent:navigator.userAgent,session_id:localStorage.getItem("gdnl_session_id")||"",detail:JSON.stringify(extra)};
-  try{await gdnlApi("/audit-logs",{method:"POST",body:JSON.stringify(payload)});}catch(e){}
-}
-
-async function gdnlCreateActivity(action,module,relatedId,extra={}){
-  const user=gdnlAktifUser();
-  const payload={module:module||GDNL_MODULE_NAME,related_id:relatedId||"",action,created_by:user.name||user.fullname||"Sistem",old_value:extra.old_value||"",new_value:extra.new_value||"",changed_field:extra.changed_field||"",description:extra.description||action};
-  try{await gdnlApi("/activity-feed",{method:"POST",body:JSON.stringify(payload)});}catch(e){}
-}
-
-async function gdnlCreateNotification(title,message,relatedId,assignedTo=""){
-  const user=gdnlAktifUser();
-  const payload={module:GDNL_MODULE_NAME,related_id:relatedId||"",title,message,status:"Okunmadı",is_read:0,read_by:"",read_at:"",created_by:user.name||"Sistem",assigned_to:assignedTo};
-  try{await gdnlApi("/notifications",{method:"POST",body:JSON.stringify(payload)});}catch(e){}
-}
-
-async function gdnlCreateAssignment(title,assignedUser,relatedId,dueDate=""){
-  const user=gdnlAktifUser();
-  const payload={module:GDNL_MODULE_NAME,related_id:relatedId||"",title,assigned_to:assignedUser?.fullname||assignedUser?.fullName||assignedUser?.name||assignedUser||"",assigned_to_id:assignedUser?.id||"",department:assignedUser?.department||"",due_date:dueDate,status:"Açık",created_by:user.name||"Sistem"};
-  try{await gdnlApi("/assignments",{method:"POST",body:JSON.stringify(payload)});}catch(e){}
-}
-
-async function gdnlNextSequence(moduleName){
-  try{const r=await gdnlApi(`/sequence?module=${encodeURIComponent(moduleName||GDNL_MODULE_NAME)}`); return r.sequence||r.no||r.value||r.number;}
-  catch(e){return `${moduleName||GDNL_MODULE_NAME}-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;}
-}
-
-async function gdnlGlobalSearch(keyword){
+async function gdnlApiGet(path){
   try{
-    const payload=await gdnlApi(`/search?q=${encodeURIComponent(keyword)}`);
-    return gdnlNormalizeList(payload).filter(x=>!gdnlIsArchived(x));
-  }catch(e){return [];}
+    const response=await fetch(API_BASE+path,{
+      method:"GET",
+      mode:"cors",
+      cache:"no-store",
+      headers:{"Accept":"application/json"}
+    });
+    if(!response.ok)throw new Error(path+" yanıt vermedi: "+response.status);
+    const payload=await response.json();
+    return gdnlArrayFromPayload(payload,path);
+  }catch(error){
+    console.warn("D1 bağlantı uyarısı:",path,error);
+    return [];
+  }
 }
 
-const gdnlOriginalRunSearch = typeof runSearch === "function" ? runSearch : null;
-runSearch = async function(){
-  const input=document.getElementById("globalSearch");
-  const text=input.value.trim();
-  if(!text){clearSearchResults();input.focus();return;}
-  const cloudResults=await gdnlGlobalSearch(text);
-  if(cloudResults.length){
-    const results=cloudResults.map(r=>({type:"record",module:r.module||"Global Arama",title:r.title||r.name||r.record_no||r.id||"Kayıt",detail:r.description||r.detail||r.status||"D1 kaydı",go:r.url||"#",selected:r.id||r.record_no||""}));
-    renderSearchResults(text.toLowerCase(),results);
-    await gdnlCreateAudit("Global arama yapıldı",GDNL_MODULE_NAME,text,{source:"D1",result_count:results.length});
+async function gdnlApiPost(path,payload){
+  try{
+    const response=await fetch(API_BASE+path,{
+      method:"POST",
+      mode:"cors",
+      cache:"no-store",
+      headers:{
+        "Accept":"application/json",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(payload||{})
+    });
+    if(!response.ok)throw new Error(path+" kayıt oluşturamadı: "+response.status);
+    return await response.json().catch(()=>({success:true}));
+  }catch(error){
+    console.warn("D1 kayıt uyarısı:",path,error);
+    return null;
+  }
+}
+
+function gdnlActiveOnly(list){
+  const passive=["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","cancelled","archived"];
+  return (Array.isArray(list)?list:[]).filter(item=>{
+    const status=String(item.status||item.document_status||item.workflow_status||item.riskStatus||item.auditStatus||item.trainingStatus||item.approvalStatus||"").trim().toLowerCase();
+    return !passive.includes(status);
+  });
+}
+
+function gdnlText(value){
+  return String(value??"").trim();
+}
+
+function gdnlLower(value){
+  return gdnlText(value).toLocaleLowerCase("tr-TR");
+}
+
+function escapeHTML(value){
+  return String(value??"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function highlightText(value,keyword){
+  const safe=escapeHTML(value);
+  if(!keyword)return safe;
+  const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return safe.replace(new RegExp(escaped,"gi"),match=>`<mark>${match}</mark>`);
+}
+
+function formatDateTR(value){
+  if(!value)return "-";
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return escapeHTML(value);
+  return date.toLocaleDateString("tr-TR");
+}
+
+function isOpenStatus(value){
+  const s=gdnlLower(value);
+  return !["kapalı","kapandi","kapandı","tamamlandı","tamamlandi","closed","done","yayınlandı","yayinlandi","onaylandı","onaylandi"].includes(s);
+}
+
+function isLate(item){
+  const raw=item.due_date||item.dueDate||item.target_date||item.targetDate||item.planned_date||item.trainingDate||item.deadline;
+  if(!raw)return false;
+  const date=new Date(raw);
+  if(Number.isNaN(date.getTime()))return false;
+  return date.getTime()<Date.now() && isOpenStatus(item.status||item.capaStatus||item.trainingStatus||item.actionStatus);
+}
+
+function setText(id,value){
+  const el=document.getElementById(id);
+  if(el)el.textContent=value;
+}
+
+function setBar(id,value){
+  const el=document.getElementById(id);
+  if(el)el.style.width=Math.max(0,Math.min(100,Number(value)||0))+"%";
+}
+
+function statusClass(status){
+  const s=gdnlLower(status);
+  if(["yayında","yayinlandi","yayınlandı","aktif","onaylandı","onaylandi","tamamlandı","tamamlandi"].includes(s))return"green";
+  if(["bekliyor","onayda","revizyon","devam ediyor","açık","acik","gönderildi"].includes(s))return"orange";
+  if(["gecikti","reddedildi","kritik","kapalı değil"].includes(s))return"red";
+  return"blue";
+}
+
+function getUserDisplayName(user){
+  return user?.fullname||user?.fullName||user?.name||user?.username||"Kullanıcı";
+}
+
+function getUserRole(user){
+  return user?.role||user?.role_name||user?.title||"Kullanıcı";
+}
+
+function getUserDepartment(user){
+  return user?.department||user?.department_name||user?.departmentName||"Yönetim";
+}
+
+function selectCurrentUser(){
+  const activeUsers=gdnlActiveOnly(gdnlUsers);
+  const root=activeUsers.find(u=>gdnlLower(u.role).includes("root")||gdnlLower(u.role).includes("super administrator")||gdnlLower(u.username).includes("keremgudenli"));
+  gdnlCurrentUser=root||activeUsers[0]||null;
+  gdnlCurrentDepartment=getUserDepartment(gdnlCurrentUser);
+  if((!gdnlCurrentDepartment||gdnlCurrentDepartment==="-")&&gdnlDepartments.length){
+    gdnlCurrentDepartment=gdnlDepartments[0].department_name||gdnlDepartments[0].name||"Yönetim";
+  }
+  setText("userName",getUserDisplayName(gdnlCurrentUser));
+  setText("activeDepartmentName",gdnlCurrentDepartment||"-");
+  setText("heroDepartmentName",gdnlCurrentDepartment||"-");
+}
+
+async function gdnlCreateAudit(action,detail,oldValue="",newValue="",field="Dashboard"){
+  await gdnlApiPost("/audit-logs",{
+    module:GDNL_MODULE_NAME,
+    action,
+    detail,
+    old_value:oldValue,
+    new_value:newValue,
+    changed_field:field,
+    user_id:gdnlCurrentUser?.id||"",
+    user_name:getUserDisplayName(gdnlCurrentUser),
+    department:gdnlCurrentDepartment,
+    ip_address:"istemci",
+    user_agent:navigator.userAgent,
+    session_id:"tarayıcı-oturumu",
+    created_at:new Date().toISOString()
+  });
+}
+
+async function gdnlCreateActivity(action,detail){
+  await gdnlApiPost("/activity-feed",{
+    module:GDNL_MODULE_NAME,
+    action,
+    description:detail,
+    user_id:gdnlCurrentUser?.id||"",
+    user_name:getUserDisplayName(gdnlCurrentUser),
+    department:gdnlCurrentDepartment,
+    created_at:new Date().toISOString()
+  });
+}
+
+async function gdnlCreateNotification(message,type="Bilgi"){
+  await gdnlApiPost("/notifications",{
+    module:GDNL_MODULE_NAME,
+    type,
+    message,
+    status:"Okunmadı",
+    is_read:false,
+    read_by:"",
+    read_at:"",
+    user_id:gdnlCurrentUser?.id||"",
+    user_name:getUserDisplayName(gdnlCurrentUser),
+    created_at:new Date().toISOString()
+  });
+}
+
+async function gdnlLoadCloudData(){
+  const [
+    users,departments,documents,revisions,approvals,approvalHistory,workflowHistory,
+    archive,distributionA,distributionB,capa,risks,audits,trainings,suppliers,
+    customers,notifications,assignments,activity,comments,files
+  ]=await Promise.all([
+    gdnlApiGet("/users"),
+    gdnlApiGet("/departments"),
+    gdnlApiGet("/documents"),
+    gdnlApiGet("/revisions"),
+    gdnlApiGet("/approvals"),
+    gdnlApiGet("/approval-history"),
+    gdnlApiGet("/workflow-history"),
+    gdnlApiGet("/archive"),
+    gdnlApiGet("/distribution"),
+    gdnlApiGet("/documents/distribution"),
+    gdnlApiGet("/capas"),
+    gdnlApiGet("/risks"),
+    gdnlApiGet("/audit-logs"),
+    gdnlApiGet("/trainings"),
+    gdnlApiGet("/suppliers"),
+    gdnlApiGet("/customers"),
+    gdnlApiGet("/notifications"),
+    gdnlApiGet("/assignments"),
+    gdnlApiGet("/activity-feed"),
+    gdnlApiGet("/comments"),
+    gdnlApiGet("/files")
+  ]);
+
+  gdnlUsers=users;
+  gdnlDepartments=departments;
+  gdnlDocuments=gdnlActiveOnly(documents);
+  gdnlRevisions=gdnlActiveOnly(revisions);
+  gdnlApprovals=gdnlActiveOnly(approvals);
+  gdnlApprovalHistory=approvalHistory;
+  gdnlWorkflowHistory=workflowHistory;
+  gdnlArchive=archive;
+  gdnlDistribution=gdnlActiveOnly(distributionB.length?distributionB:distributionA);
+  gdnlCapa=gdnlActiveOnly(capa);
+  gdnlRisks=gdnlActiveOnly(risks);
+  gdnlAudits=gdnlActiveOnly(audits);
+  gdnlTrainings=gdnlActiveOnly(trainings);
+  gdnlSuppliers=gdnlActiveOnly(suppliers);
+  gdnlCustomers=gdnlActiveOnly(customers);
+  gdnlNotifications=gdnlActiveOnly(notifications);
+  gdnlAssignments=gdnlActiveOnly(assignments);
+  gdnlActivity=activity;
+  gdnlComments=comments;
+  gdnlFiles=files;
+  selectCurrentUser();
+}
+
+function renderDashboardMetrics(){
+  const docs=gdnlDocuments;
+  const revisions=gdnlRevisions;
+  const approvals=gdnlApprovals;
+  const distribution=gdnlDistribution;
+  const capa=gdnlCapa;
+  const risks=gdnlRisks;
+  const audits=gdnlAudits;
+  const trainings=gdnlTrainings;
+  const suppliers=gdnlSuppliers;
+
+  const publishedDocs=docs.filter(d=>["yayında","yayinlandi","yayınlandı","aktif"].includes(gdnlLower(d.status||d.document_status))).length;
+  const pendingRevisions=revisions.filter(r=>isOpenStatus(r.status||r.revisionStatus)).length;
+  const pendingApprovals=approvals.filter(a=>isOpenStatus(a.status||a.approvalStatus)).length;
+  const unreadDistribution=distribution.filter(d=>gdnlLower(d.status).includes("okunmadı")||gdnlLower(d.status).includes("gecikti")||d.is_read===false).length;
+  const openCapa=capa.filter(c=>isOpenStatus(c.status||c.capaStatus)).length;
+  const lateCapa=capa.filter(isLate).length;
+  const lateCapaActions=gdnlAssignments.filter(isLate).length;
+  const openRisks=risks.filter(r=>isOpenStatus(r.status||r.riskStatus)).length;
+  const criticalRisks=risks.filter(r=>Number(r.initialScore||r.residualScore||r.score||0)>=500||gdnlLower(r.criticality).includes("kritik")).length;
+  const openAudits=audits.filter(a=>isOpenStatus(a.status||a.auditStatus)).length;
+  const auditFindingCount=audits.reduce((sum,a)=>sum+Number(a.finding_count||a.findingCount||a.findings||0),0);
+  const openTrainings=trainings.filter(t=>isOpenStatus(t.status||t.trainingStatus)).length;
+  const lateTrainings=trainings.filter(isLate).length;
+  const supplierAlert=suppliers.filter(s=>gdnlLower(s.status||s.approvalStatus).includes("askı")||gdnlLower(s.criticality).includes("kritik")).length;
+
+  const docScore=docs.length?Math.round((publishedDocs/docs.length)*100):0;
+  const revScore=revisions.length?Math.max(0,100-Math.round((pendingRevisions/revisions.length)*100)):100;
+  const distScore=distribution.length?Math.max(0,100-Math.round((unreadDistribution/distribution.length)*100)):100;
+  const capaScore=capa.length?Math.max(0,100-Math.round((lateCapa/capa.length)*100)):100;
+  const compliance=Math.round((docScore+revScore+distScore+capaScore)/4);
+
+  setText("documentCount",docs.length);
+  setText("pendingRevizyonCount",pendingRevisions);
+  setText("pendingOnayCount",pendingApprovals);
+  setText("complianceScore",compliance+"%");
+  setText("publishedDocCount",publishedDocs);
+  setText("archiveCount",gdnlArchive.length);
+  setText("distributionCount",distribution.length);
+  setText("unreadCount",unreadDistribution);
+  setText("capaCount",capa.length);
+  setText("openCapaCount",openCapa);
+  setText("lateCapaCount",lateCapa);
+  setText("lateCapaActionCount",lateCapaActions);
+  setText("openRiskCount",openRisks);
+  setText("criticalRiskCount",criticalRisks);
+  setText("openDenetimCount",openAudits);
+  setText("auditFindingCount",auditFindingCount);
+  setText("openTrainingCount",openTrainings);
+  setText("lateTrainingCount",lateTrainings);
+  setText("supplierCount",suppliers.length);
+  setText("supplierScarCount",supplierAlert);
+
+  setText("qRevizyon",pendingRevisions);
+  setText("qOnay",pendingApprovals);
+  setText("qUnread",unreadDistribution);
+  setText("qCapaLate",lateCapa);
+  setText("qRiskKritik",criticalRisks);
+  setText("qDenetimAçık",openAudits);
+  setText("qTrainingLate",lateTrainings);
+  setText("qTedarikçiAlert",supplierAlert);
+  setText("health",compliance+"%");
+
+  setBar("docBar",docScore);
+  setBar("revBar",revScore);
+  setBar("distBar",distScore);
+  setBar("capaBar",capaScore);
+
+  renderCriticalAlerts({pendingRevisions,pendingApprovals,unreadDistribution,lateCapa,criticalRisks,openAudits,lateTrainings,supplierAlert});
+}
+
+function renderTable(targetId,items,columns,emptyText){
+  const target=document.getElementById(targetId);
+  if(!target)return;
+  if(!items.length){
+    target.innerHTML=`<div class="empty">${escapeHTML(emptyText||"Kayıt bulunamadı.")}</div>`;
     return;
   }
-  if(gdnlOriginalRunSearch) gdnlOriginalRunSearch();
-  await gdnlCreateAudit("Global arama yapıldı",GDNL_MODULE_NAME,text,{source:"local_fallback"});
-};
+  const head=columns.map(c=>`<th>${escapeHTML(c.label)}</th>`).join("");
+  const body=items.slice(0,8).map(item=>{
+    return "<tr>"+columns.map(c=>{
+      const value=typeof c.value==="function"?c.value(item):item[c.value];
+      return `<td>${value??"-"}</td>`;
+    }).join("")+"</tr>";
+  }).join("");
+  target.innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+}
+
+function renderRecentTables(){
+  renderTable("revisionTable",gdnlRevisions,[{
+    label:"No",value:x=>escapeHTML(x.revisionNo||x.revision_no||x.id||"-")
+  },{
+    label:"Doküman",value:x=>escapeHTML(x.documentName||x.document_name||x.title||"-")
+  },{
+    label:"Durum",value:x=>`<span class="status ${statusClass(x.status)}">${escapeHTML(x.status||"-")}</span>`
+  },{
+    label:"Tarih",value:x=>formatDateTR(x.created_at||x.requestDate||x.date)
+  }],"Revizyon kaydı bulunamadı.");
+
+  renderTable("approvalTable",gdnlApprovals,[{
+    label:"No",value:x=>escapeHTML(x.workflowId||x.approvalNo||x.id||"-")
+  },{
+    label:"Doküman",value:x=>escapeHTML(x.documentName||x.document_name||x.title||"-")
+  },{
+    label:"Durum",value:x=>`<span class="status ${statusClass(x.status)}">${escapeHTML(x.status||"-")}</span>`
+  },{
+    label:"Onaycı",value:x=>escapeHTML(x.approver_name||x.approverName||x.currentApprover||"-")
+  }],"Onay kaydı bulunamadı.");
+
+  renderTable("capaTable",gdnlCapa,[{
+    label:"No",value:x=>escapeHTML(x.eightDNo||x.capaNo||x.id||"-")
+  },{
+    label:"Konu",value:x=>escapeHTML(x.problemTitle||x.title||x.description||"-")
+  },{
+    label:"Durum",value:x=>`<span class="status ${statusClass(x.status||x.capaStatus)}">${escapeHTML(x.status||x.capaStatus||"-")}</span>`
+  },{
+    label:"Sorumlu",value:x=>escapeHTML(x.owner||x.responsible||x.assigned_to||"-")
+  }],"8D / CAPA kaydı bulunamadı.");
+
+  renderTable("distributionTable",gdnlDistribution,[{
+    label:"No",value:x=>escapeHTML(x.distributionId||x.distributionNo||x.id||"-")
+  },{
+    label:"Doküman",value:x=>escapeHTML(x.documentName||x.document_name||x.title||"-")
+  },{
+    label:"Durum",value:x=>`<span class="status ${statusClass(x.status)}">${escapeHTML(x.status||"-")}</span>`
+  },{
+    label:"Tarih",value:x=>formatDateTR(x.created_at||x.sent_at||x.date)
+  }],"Dağıtım kaydı bulunamadı.");
+}
+
+function renderCompliance(){
+  const standards=[
+    ["ISO 9001","Kalite Yönetimi"],
+    ["ISO 14001","Çevre Yönetimi"],
+    ["ISO 45001","İSG Yönetimi"],
+    ["ISO 27001","Bilgi Güvenliği"],
+    ["IATF 16949","Otomotiv Kalite"],
+    ["CoP","Üretim Uygunluğu"],
+    ["APQP","İleri Kalite Planlama"],
+    ["PPAP","Parça Onay Süreci"]
+  ];
+  const area=document.getElementById("complianceGrid");
+  if(!area)return;
+  area.innerHTML=standards.map(([code,name])=>`
+    <div class="compliance-item">
+      <b>${escapeHTML(code)}</b>
+      <span class="status green">${escapeHTML(name)}</span>
+    </div>
+  `).join("");
+}
+
+function renderCriticalAlerts(values){
+  const alerts=[];
+  if(values.pendingApprovals>0)alerts.push(["Bekleyen Onay",values.pendingApprovals+" kayıt onay bekliyor.","orange"]);
+  if(values.lateCapa>0)alerts.push(["Geciken 8D / CAPA",values.lateCapa+" kayıt termin aşımında.","red"]);
+  if(values.criticalRisks>0)alerts.push(["Kritik Risk",values.criticalRisks+" kritik risk izleniyor.","red"]);
+  if(values.unreadDistribution>0)alerts.push(["Okunmayan Dağıtım",values.unreadDistribution+" dağıtım okunmamış/gecikmiş.","orange"]);
+  if(values.lateTrainings>0)alerts.push(["Geciken Eğitim",values.lateTrainings+" eğitim termin aşımında.","red"]);
+  const area=document.getElementById("criticalAlerts");
+  const count=document.getElementById("criticalCount");
+  if(count)count.textContent=alerts.length+" Bildirim";
+  if(!area)return;
+  if(!alerts.length){
+    area.innerHTML='<div class="empty">Kritik bildirim bulunmuyor.</div>';
+    return;
+  }
+  area.innerHTML=alerts.map(([title,desc,color])=>`
+    <div class="activity-item">
+      <strong>${escapeHTML(title)} <span class="status ${color}">${color==="red"?"Kritik":"Takip"}</span></strong>
+      <span>${escapeHTML(desc)}</span>
+    </div>
+  `).join("");
+}
+
+async function runSearch(){
+  const input=document.getElementById("globalSearch");
+  const keyword=gdnlLower(input.value);
+  if(!keyword){
+    clearSearchResults();
+    input.focus();
+    return;
+  }
+
+  let results=[];
+  try{
+    const response=await fetch(API_BASE+"/search?q="+encodeURIComponent(keyword),{
+      method:"GET",
+      mode:"cors",
+      cache:"no-store",
+      headers:{"Accept":"application/json"}
+    });
+    if(response.ok){
+      const payload=await response.json();
+      results=gdnlArrayFromPayload(payload,"/search").map(x=>({
+        type:"page",
+        module:x.module||x.module_name||"Arama",
+        title:x.title||x.name||x.documentName||x.record_no||"Kayıt",
+        detail:x.description||x.detail||x.status||"",
+        go:x.url||x.href||moduleToUrl(x.module||""),
+        selected:x.record_no||x.id||""
+      }));
+    }
+  }catch(error){
+    console.warn("Global arama servisi geçici olarak kullanılamadı:",error);
+  }
+
+  if(!results.length){
+    results=collectCloudSearchResults(keyword).concat(collectPageSearchResults(keyword));
+  }
+
+  results=results.filter(r=>!["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","archived"].includes(gdnlLower(r.status)));
+  renderSearchResults(keyword,results);
+  await gdnlCreateActivity("Arama","Dashboard araması yapıldı: "+keyword);
+}
+
+function moduleToUrl(moduleName){
+  const key=gdnlLower(moduleName);
+  if(key.includes("capa"))return"capa.html";
+  if(key.includes("risk"))return"risk-register.html";
+  if(key.includes("denetim"))return"audit.html";
+  if(key.includes("ygg"))return"management-review.html";
+  if(key.includes("doküman")||key.includes("dokuman"))return"documents.html";
+  if(key.includes("eğitim")||key.includes("egitim"))return"training-management.html";
+  if(key.includes("tedarikçi")||key.includes("tedarikci"))return"supplier-management.html";
+  if(key.includes("müşteri")||key.includes("musteri"))return"customer-management.html";
+  if(key.includes("onay"))return"approval.html";
+  if(key.includes("arşiv")||key.includes("arsiv"))return"archive.html";
+  return"dashboard.html";
+}
+
+function collectCloudSearchResults(keyword){
+  const pools=[
+    ["Doküman Yönetimi",gdnlDocuments,"documents.html",x=>x.code||x.documentCode||x.id,x=>x.documentName||x.name||x.title||x.code||"Doküman"],
+    ["Revizyon Yönetimi",gdnlRevisions,"revision.html",x=>x.revisionNo||x.id,x=>x.documentName||x.revisionNo||"Revizyon"],
+    ["Onay Yönetimi",gdnlApprovals,"approval.html",x=>x.workflowId||x.approvalNo||x.id,x=>x.documentName||x.workflowId||"Onay"],
+    ["Dağıtım Yönetimi",gdnlDistribution,"distribution.html",x=>x.distributionId||x.distributionNo||x.id,x=>x.documentName||x.workflowId||"Dağıtım"],
+    ["8D / CAPA",gdnlCapa,"capa.html",x=>x.eightDNo||x.capaNo||x.id,x=>x.problemTitle||x.title||x.eightDNo||"CAPA"],
+    ["Risk Yönetimi",gdnlRisks,"risk-register.html",x=>x.riskNo||x.id,x=>x.riskTitle||x.riskNo||"Risk"],
+    ["İç Denetim",gdnlAudits,"audit.html",x=>x.auditNo||x.id,x=>x.auditTitle||x.auditNo||"Denetim"],
+    ["Eğitim Yönetimi",gdnlTrainings,"training-management.html",x=>x.trainingNo||x.id,x=>x.trainingTitle||x.trainingNo||"Eğitim"],
+    ["Tedarikçi Yönetimi",gdnlSuppliers,"supplier-management.html",x=>x.supplierNo||x.id,x=>x.supplierName||x.supplierNo||"Tedarikçi"],
+    ["Müşteri Yönetimi",gdnlCustomers,"customer-management.html",x=>x.customerNo||x.id,x=>x.customerName||x.customerNo||"Müşteri"],
+    ["Bildirim Merkezi",gdnlNotifications,"notification-center.html",x=>x.notificationId||x.id,x=>x.message||x.title||"Bildirim"]
+  ];
+  const out=[];
+  pools.forEach(([module,list,go,pick,title])=>{
+    list.forEach(item=>{
+      const full=gdnlLower(JSON.stringify(item));
+      if(full.includes(keyword)){
+        out.push({
+          type:"page",
+          module,
+          go,
+          selected:pick(item)||"",
+          title:title(item),
+          detail:[item.code,item.documentCode,item.department,item.status,item.description,item.owner,item.assigned_to].filter(Boolean).join(" "),
+          status:item.status||item.riskStatus||item.auditStatus||item.trainingStatus||"",
+          raw:item
+        });
+      }
+    });
+  });
+  return out;
+}
+
+function collectPageSearchResults(keyword){
+  const results=[];
+  const seen=new Set();
+
+  document.querySelectorAll(".menu a,.mobile-drawer-menu a").forEach(el=>{
+    const label=el.textContent.trim();
+    const href=el.getAttribute("href")||"";
+    const text=gdnlLower(label+" "+href);
+    if(text.includes(keyword)){
+      const key="menu-"+href+"-"+label;
+      if(!seen.has(key)){
+        seen.add(key);
+        results.push({type:"page",module:"Menü",title:label,detail:href||"Menü bağlantısı",go:href||"#"});
+      }
+    }
+  });
+
+  document.querySelectorAll(".module").forEach(el=>{
+    const title=(el.querySelector("h4")?.textContent||el.textContent||"Modül").trim();
+    const detail=(el.querySelector("p")?.textContent||"").trim();
+    const href=el.getAttribute("href")||"";
+    if(gdnlLower(title+" "+detail+" "+href).includes(keyword)){
+      results.push({type:"page",module:"Modül Merkezi",title,detail:detail||href,go:href||"#"});
+    }
+  });
+
+  document.querySelectorAll(".card").forEach((el,index)=>{
+    const title=(el.querySelector("small")?.textContent||"Dashboard Kartı").trim();
+    const value=(el.querySelector("h2")?.textContent||"").trim();
+    const detail=(el.querySelector("p")?.textContent||"").trim();
+    if(gdnlLower(title+" "+value+" "+detail).includes(keyword)){
+      el.setAttribute("data-search-card",index);
+      results.push({type:"scroll",module:"Dashboard Kartı",title:title+" / "+value,detail,selector:`.card[data-search-card="${index}"]`});
+    }
+  });
+
+  document.querySelectorAll(".panel").forEach((el,index)=>{
+    if(el.id==="searchResultsPanel")return;
+    const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
+    const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+    if(gdnlLower(title+" "+detail).includes(keyword)){
+      el.setAttribute("data-search-panel",index);
+      results.push({type:"scroll",module:"Sayfa Paneli",title,detail,selector:`.panel[data-search-panel="${index}"]`});
+    }
+  });
+
+  return results;
+}
+
+function renderSearchResults(keyword,results){
+  const panel=document.getElementById("searchResultsPanel");
+  const area=document.getElementById("searchResultsArea");
+  const count=document.getElementById("searchResultCount");
+  const key=document.getElementById("searchKeyword");
+
+  gdnlSearchResults=results.slice(0,80);
+  panel.classList.add("active");
+  key.textContent=keyword;
+  count.textContent=gdnlSearchResults.length+" sonuç";
+
+  if(!gdnlSearchResults.length){
+    area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
+    panel.scrollIntoView({behavior:"smooth",block:"start"});
+    return;
+  }
+
+  area.innerHTML=gdnlSearchResults.map((r,index)=>`
+    <div class="result-card">
+      <div><span class="status blue">${escapeHTML(r.module)}</span></div>
+      <div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
+      <button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
+    </div>
+  `).join("");
+  panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function openSearchResult(index){
+  const result=gdnlSearchResults[index];
+  if(!result)return;
+  if(result.type==="scroll"&&result.selector){
+    const target=document.querySelector(result.selector);
+    if(target){
+      target.scrollIntoView({behavior:"smooth",block:"center"});
+      target.style.outline="3px solid #35a852";
+      target.style.outlineOffset="4px";
+      setTimeout(()=>{target.style.outline="";target.style.outlineOffset="";},2200);
+    }
+    return;
+  }
+  if(result.go&&result.go!=="#"){
+    const glue=result.go.includes("?")?"&":"?";
+    window.location.href=result.selected?result.go+glue+"selected="+encodeURIComponent(result.selected):result.go;
+  }
+}
+
+function clearSearchResults(){
+  document.getElementById("globalSearch").value="";
+  document.getElementById("searchResultsPanel").classList.remove("active");
+  document.getElementById("searchResultsArea").innerHTML="";
+}
+
+function openMobileMenu(){
+  document.getElementById("mobileDrawer").classList.add("active");
+  document.getElementById("mobileOverlay").classList.add("active");
+  document.body.style.overflow="hidden";
+}
+
+function closeMobileMenu(){
+  document.getElementById("mobileDrawer").classList.remove("active");
+  document.getElementById("mobileOverlay").classList.remove("active");
+  document.body.style.overflow="";
+}
+
+function logout(){
+  window.location.href="index.html?logout=1";
+}
+
+document.addEventListener("keydown",function(event){
+  if(event.key==="Escape")closeMobileMenu();
+});
+
+document.getElementById("globalSearch").addEventListener("keydown",function(event){
+  if(event.key==="Enter"){
+    event.preventDefault();
+    runSearch();
+  }
+});
+
+document.getElementById("globalSearch").addEventListener("input",function(){
+  if(!this.value.trim())clearSearchResults();
+});
+
+document.querySelectorAll(".menu-group").forEach(btn=>{
+  btn.addEventListener("click",function(){
+    const submenu=this.nextElementSibling;
+    this.classList.toggle("open");
+    if(submenu)submenu.classList.toggle("open");
+  });
+});
 
 async function gdnlCloudBootstrap(){
-  await Promise.all([gdnlLoadUsers(),gdnlLoadDepartments()]);
-  document.querySelectorAll('input[id*="owner"],input[id*="responsible"],input[id*="leader"],input[id*="assessor"],input[id*="approver"],input[id*="auditor"],input[id*="user"],input[id*="person"],input[id*="prepared"],input[id*="verified"],input[id*="approved"],input[id*="assigned"]').forEach(el=>{
-    gdnlSetupUserAutocomplete(el.id,null,null,el.hasAttribute("multiple")||el.dataset.multi==="true");
-  });
-  document.querySelectorAll('.sidebar-footer').forEach(el=>{el.innerHTML='GDNL EQMS<br>Kurumsal Dashboard<br><span class="cloud-ready-badge">Cloud Hazır</span>';});
-  await gdnlCreateActivity("Dashboard açıldı",GDNL_MODULE_NAME,"dashboard",{description:"Dashboard D1/R2 cloud-ready modda yüklendi"});
+  await gdnlLoadCloudData();
+  renderDashboardMetrics();
+  renderRecentTables();
+  renderCompliance();
+  await gdnlCreateAudit("Görüntüleme","Dashboard açıldı");
+  await gdnlCreateActivity("Görüntüleme","Dashboard D1/R2 cloud-ready modda yüklendi");
 }
 
 gdnlCloudBootstrap();
-
 </script>
 
 </body>
