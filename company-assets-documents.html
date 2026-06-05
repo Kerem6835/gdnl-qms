@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Company Asset Documents</title>
+<title>GDNL EQMS | Firma Belge ve Varlık Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -541,6 +541,21 @@ tr:hover td{
   }
 }
 
+
+/* Cloud Ready kullanıcı seçimi ve yorum katmanı */
+.autocomplete-box{position:relative}
+.autocomplete-list{position:absolute;z-index:150;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.16);max-height:240px;overflow:auto;display:none}
+.autocomplete-list.active{display:block}
+.autocomplete-item{padding:11px 13px;font-weight:850;color:#334155;cursor:pointer;border-bottom:1px solid #eef2f7}
+.autocomplete-item:hover{background:#eefaf2;color:#1f7d3d}
+.autocomplete-item small{display:block;margin-top:4px;color:#64748b;font-weight:800;font-size:11px}
+.selected-users{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.user-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #bfe7ca;background:#eefaf2;color:#1f7d3d;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
+.user-chip button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+.comment-box{background:linear-gradient(135deg,#f8fbff,#fff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;margin-top:12px}
+.comment-item{border-bottom:1px solid #edf2f7;padding:10px 0;font-size:13px;color:#536176;font-weight:800}
+.comment-input{width:100%;min-height:82px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;font-weight:800;resize:vertical}
+
 </style>
 </head>
 
@@ -574,6 +589,7 @@ tr:hover td{
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
 <a href="capa.html">8D / CAPA</a>
+<a href="audit.html">İç Denetim</a>
 <a href="risk-register.html">Risk Yönetimi</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
@@ -597,7 +613,7 @@ tr:hover td{
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -617,7 +633,7 @@ tr:hover td{
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -626,7 +642,7 @@ tr:hover td{
 
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -653,6 +669,7 @@ tr:hover td{
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
 <a href="capa.html">8D / CAPA</a>
+<a href="audit.html">İç Denetim</a>
 <a href="risk-register.html">Risk Yönetimi</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
@@ -676,7 +693,7 @@ tr:hover td{
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -696,7 +713,7 @@ tr:hover td{
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -705,7 +722,7 @@ tr:hover td{
 
 </nav>
 </div>
-<div class="sidebar-footer">Enterprise Asset Documents Certificate</div>
+<div class="sidebar-footer" style="display:none"></div>
 </aside>
 
 <main class="main">
@@ -719,7 +736,7 @@ tr:hover td{
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName">Kerem Güdenli</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
@@ -728,7 +745,7 @@ tr:hover td{
 <h1>Kurumsal Varlık Belgeleri Merkezi</h1>
 <p>Firmanın sahip olduğu sertifika, belge, patent, marka, ruhsat, lisans, izin, sigorta, akreditasyon, sözleşme ve kurumsal varlık dokümanlarını geçerlilik, sorumlu, dosya, yenileme ve bildirim takibiyle yönetin.</p>
 </div>
-<div class="hero-badge">Varlık Belgeleme Motoru: <span>Live</span></div>
+<div class="hero-badge">Varlık Belgeleme Motoru: <span>Aktif</span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -777,12 +794,12 @@ tr:hover td{
 <div class="field"><label>Yenileme Hatırlatma</label><select id="reminderDays"><option value="30">30 Gün</option><option value="60" selected>60 Gün</option><option value="90">90 Gün</option><option value="180">180 Gün</option></select></div>
 <div class="field"><label>Kalan Gün</label><input id="remainingDays" readonly></div>
 
-<div class="field"><label>Sorumlu</label><select id="owner"></select></div>
-<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Yönetim</option><option>İK</option><option>Satınalma</option><option>Finans</option><option>Hukuk</option><option>İSG</option><option>Çevre</option><option>Enerji</option><option>Bilgi Güvenliği</option><option>Ar-Ge</option><option>Satış</option></select></div>
+<div class="field autocomplete-box"><label>Sorumlu</label><input id="owner" placeholder="İsim, e-posta, rol veya departman yaz" autocomplete="off"><input id="ownerId" type="hidden"><div class="autocomplete-list" id="ownerList"></div></div>
+<div class="field"><label>Departman</label><input id="department" placeholder="Sorumlu seçilince otomatik dolar" readonly></div>
 <div class="field"><label>Durum</label><select id="assetStatus"><option>Aktif</option><option>Pasif</option><option>Yenileme Bekliyor</option><option>Süresi Yaklaşıyor</option><option>Süresi Doldu</option><option>Kullanım Dışı</option><option>Askıda</option><option>İptal</option><option>Arşiv</option></select></div>
 <div class="field"><label>Gizlilik</label><select id="confidentiality"><option>Genel</option><option>İç Kullanım</option><option>Gizli</option><option>Çok Gizli</option></select></div>
 
-<div class="field"><label>Bağlı Standart</label><select id="standardRef"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>ISO 17025</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option><option>CE / UL / EMC</option><option>Yasal Uyum</option><option>Fikri Mülkiyet</option><option>Diğer</option></select></div>
+<div class="field"><label>Bağlı Standart</label><select id="standardRef"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>ISO 17025</option><option>IATF 16949</option><option>CoP</option><option>EV Sektörü</option><option>CE / UL / EMC</option><option>Yasal Uyum</option><option>Fikri Mülkiyet</option><option>Diğer</option></select></div>
 <div class="field"><label>Bağlı Lokasyon</label><input id="location" placeholder="Merkez / Fabrika / Laboratuvar / Ürün ailesi"></div>
 <div class="field"><label>Yenileme Gerekli mi?</label><select id="renewalRequired"><option>Evet</option><option>Hayır</option></select></div>
 <div class="field"><label>Orijinal Belge Nerede?</label><input id="originalLocation" placeholder="Arşiv dolabı / kasa / dijital klasör"></div>
@@ -830,6 +847,12 @@ tr:hover td{
 <button class="close-btn" onclick="closeDrawer()">Kapat</button>
 </div>
 <div id="drawerContent"></div>
+<div class="comment-box" id="commentPanel" style="display:none">
+<h4>Yorumlar</h4>
+<div id="commentList"></div>
+<textarea class="comment-input" id="commentText" placeholder="Yorum yaz"></textarea>
+<div class="actions"><button class="btn primary" onclick="addCommentToCurrent()">Yorum Ekle</button></div>
+</div>
 <div class="actions">
 <button class="btn green" onclick="activateCurrent()">Aktif Yap</button>
 <button class="btn orange" onclick="renewCurrent()">Yenileme Bekliyor Yap</button>
@@ -851,7 +874,37 @@ if(userNameEl) userNameEl.textContent=session.name||"Kerem Güdenli";
 
 
 let uploadedFile=null,selectedId=null;
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+let cloudUsers=[];
+let cloudDepartments=[];
+let cloudAssets=[];
+let cloudNotifications=[];
+let cloudComments=[];
+let cloudReady=false;
 
+
+
+function normalizeUser(u){return {id:u.id||u.user_id||"",fullname:u.fullname||u.fullName||u.name||u.username||"",email:u.email||"",role:u.role||"",department:u.department||u.department_name||"",status:u.status||"Aktif"}}
+function isPassiveRecord(v){const s=String(v?.status||v?.assetStatus||"").toLowerCase();return ["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","arşiv","arsiv"].includes(s)}
+async function apiRequest(path,options={}){try{const headers=options.body instanceof FormData?{}:{"Content-Type":"application/json"};const res=await fetch(API_BASE+path,{...options,headers:{...headers,...(options.headers||{})}});const text=await res.text();let data={};try{data=text?JSON.parse(text):{}}catch(e){data={raw:text}}if(!res.ok)throw new Error(data.message||data.detail||("HTTP "+res.status));return data}catch(err){console.warn("Cloud API uyarısı:",path,err.message);return null}}
+const apiGet=p=>apiRequest(p);
+const apiPost=(p,b)=>apiRequest(p,{method:"POST",body:JSON.stringify(b||{})});
+const apiPut=(p,b)=>apiRequest(p,{method:"PUT",body:JSON.stringify(b||{})});
+function currentUser(){return {id:session.id||"1",name:session.name||"Kerem Güdenli",role:session.role||"Super Administrator",department:session.department||"Kalite",email:session.email||""}}
+function currentUserName(){return currentUser().name}
+function canArchiveRecord(record){return currentUser().role==="Super Administrator"||String(record?.createdBy||record?.created_by||"")===currentUserName()}
+async function logAuditCloud(action,module,recordId,detail,oldValue,newValue){await apiPost("/audit-logs",{module,related_id:recordId,action,detail:JSON.stringify(detail||{}),old_value:oldValue?JSON.stringify(oldValue):"",new_value:newValue?JSON.stringify(newValue):"",ip_address:"browser",user_agent:navigator.userAgent,session_id:sessionStorage.getItem("gdnl_session_id")||"",created_by:currentUserName(),created_at:new Date().toISOString()})}
+async function activityCloud(action,module,recordId,detail,oldValue,newValue,changedField){await apiPost("/activity-feed",{module,related_id:recordId,action,description:typeof detail==="string"?detail:JSON.stringify(detail||{}),old_value:oldValue?JSON.stringify(oldValue):"",new_value:newValue?JSON.stringify(newValue):"",changed_field:changedField||"",created_by:currentUserName(),created_at:new Date().toISOString()})}
+async function notifyCloud(title,message,userName,module,recordId){await apiPost("/notifications",{title,message,user_name:userName||"",module,related_id:recordId,status:"Okunmadı",is_read:0,read_by:"",read_at:"",created_by:currentUserName(),created_at:new Date().toISOString()})}
+async function assignmentCloud(recordId,title,owner,department,dueDate,module){await apiPost("/assignments",{related_id:recordId,title,assigned_to:owner,department,due_date:dueDate,module,status:"Açık",created_by:currentUserName(),created_at:new Date().toISOString()})}
+async function uploadToR2(file,module,relatedId){if(!file)return null;const fd=new FormData();fd.append("file",file);fd.append("module",module);fd.append("related_id",relatedId||"");fd.append("uploaded_by",currentUserName());const data=await apiRequest("/upload",{method:"POST",body:fd});if(!data)return null;await logAuditCloud("Dosya yükleme",module,relatedId,data);await activityCloud("Dosya yükleme",module,relatedId,data);return data}
+async function nextSequence(prefix,moduleName,fallbackCount){const data=await apiGet("/sequence?module="+encodeURIComponent(moduleName)+"&prefix="+encodeURIComponent(prefix));const raw=data?.number||data?.sequence||data?.next;if(raw)return raw;let max=0;[...getAssets()].forEach(x=>{[x.assetNo,x.id].forEach(v=>{const m=String(v||"").match(new RegExp(prefix+"[-]?(?:\\d{4})?[-]?(\\d+)$","i"));if(m)max=Math.max(max,Number(m[1]||0));});});max=Math.max(max,Number(fallbackCount||0));return prefix+"-"+new Date().getFullYear()+"-"+String(max+1).padStart(4,"0")}
+async function loadCloudBaseData(){const users=await apiGet("/users");cloudUsers=(Array.isArray(users)?users:(users?.users||users?.results||[])).map(normalizeUser).filter(u=>!['pasif','passive','inactive'].includes(String(u.status).toLowerCase()));const deps=await apiGet("/departments");cloudDepartments=Array.isArray(deps)?deps:(deps?.departments||deps?.results||[]);const nots=await apiGet("/notifications");cloudNotifications=Array.isArray(nots)?nots:(nots?.notifications||nots?.results||[]);const docs=await apiGet("/documents");const arr=Array.isArray(docs)?docs:(docs?.documents||docs?.results||[]);const filtered=arr.filter(x=>String(x.module||x.category||x.document_type||"").toLowerCase().includes("firma")||String(x.assetNo||x.asset_no||"").startsWith("CAD"));if(filtered.length)cloudAssets=filtered.map(normalizeAsset).filter(x=>!isPassiveRecord(x));cloudReady=true}
+function setupSingleUserAutocomplete(inputId,listId,hiddenId,departmentId){const input=document.getElementById(inputId),list=document.getElementById(listId);if(!input||!list)return;input.addEventListener("input",()=>{const q=input.value.trim().toLowerCase();if(!q){list.classList.remove("active");list.innerHTML="";return;}const users=(cloudUsers.length?cloudUsers:getLS("gdnl_users").map(normalizeUser)).filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,10);if(!users.length){list.classList.remove("active");list.innerHTML="";return;}list.innerHTML=users.map((u,i)=>`<div class="autocomplete-item" data-i="${i}"><b>${escapeHTML(u.fullname)}</b><small>${escapeHTML(u.department||"-")} / ${escapeHTML(u.role||"-")} / ${escapeHTML(u.email||"-")}</small></div>`).join("");list.__users=users;list.classList.add("active")});list.addEventListener("click",e=>{const item=e.target.closest(".autocomplete-item");if(!item)return;const u=list.__users[Number(item.dataset.i)];if(!u)return;input.value=u.fullname;const h=document.getElementById(hiddenId);if(h)h.value=u.id;const dep=document.getElementById(departmentId);if(dep)dep.value=u.department||"";list.classList.remove("active");list.innerHTML=""})}
+document.addEventListener("click",e=>{document.querySelectorAll(".autocomplete-list.active").forEach(l=>{if(!l.contains(e.target)&&!l.previousElementSibling?.contains(e.target))l.classList.remove("active")})});
+async function archiveAsset(id,reason="Kullanıcı tarafından arşivlendi"){const a=getAssets().find(x=>x.id===id||x.assetNo===id);if(!a)return;if(!canArchiveRecord(a))return showToast("Bu kaydı arşivleme yetkiniz yok");const updated={...a,assetStatus:"Arşivlendi",status:"Arşivlendi",archived_by:currentUserName(),archived_at:new Date().toISOString(),archive_reason:reason};await apiPost("/archive",{module:"Firma Belgeleri",record_id:a.id||a.assetNo,record:updated,archived_by:currentUserName(),archive_reason:reason});await logAuditCloud("Arşivleme","Firma Belgeleri",a.id||a.assetNo,{archive_reason:reason},a,updated);await activityCloud("Arşivleme","Firma Belgeleri",a.id||a.assetNo,"Firma belge kaydı arşivlendi",a,updated,"assetStatus");setAssets(getAssets().filter(x=>(x.id||x.assetNo)!==(a.id||a.assetNo)));renderAssets();showToast("Kayıt arşive alındı")}
+async function addCommentToCurrent(){if(!selectedId)return;const text=document.getElementById("commentText")?.value.trim();if(!text)return showToast("Yorum yaz");const c={module:"Firma Belgeleri",related_id:selectedId,comment:text,created_by:currentUserName(),created_at:new Date().toISOString()};cloudComments.unshift(c);await apiPost("/comments",c);await activityCloud("Yorum","Firma Belgeleri",selectedId,text);document.getElementById("commentText").value="";renderComments(selectedId);showToast("Yorum eklendi")}
+function renderComments(id){const panel=document.getElementById("commentPanel"),list=document.getElementById("commentList");if(!panel||!list)return;panel.style.display="block";const rows=cloudComments.filter(c=>String(c.related_id)===String(id)).slice(0,50);list.innerHTML=rows.length?rows.map(c=>`<div class="comment-item"><b>${escapeHTML(c.created_by||"-")} / ${formatDateTR(c.created_at)}</b>${escapeHTML(c.comment||"")}</div>`).join(""):'<div class="empty">Henüz yorum yok.</div>'}
 
 function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
 
@@ -929,7 +982,7 @@ title:x=>x.riskTitle||x.riskNo||"Risk",
 detail:x=>`${x.department||""} ${x.initialScore||""} ${x.residualScore||""} ${x.riskStatus||""}`
 },
 {
-label:"Action Center",
+label:"Aksiyon Merkezi",
 key:"gdnl_action_center_manual",
 go:"action-center.html",
 store:"gdnl_selected_action",
@@ -1106,30 +1159,28 @@ renderAssets();
 
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
 function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function getAssets(){return getLS("gdnl_company_assets_documents")}
-function setAssets(v){setLS("gdnl_company_assets_documents",v)}
-function getNotifications(){return getLS("gdnl_notifications")}
-function setNotifications(v){setLS("gdnl_notifications",v)}
+function getAssets(){return (cloudAssets&&cloudAssets.length?cloudAssets:getLS("gdnl_company_assets_documents")).filter(x=>!isPassiveRecord(x))}
+function setAssets(v){cloudAssets=Array.isArray(v)?v.filter(x=>!isPassiveRecord(x)):[];setLS("gdnl_company_assets_documents",cloudAssets)}
+function getNotifications(){return cloudNotifications&&cloudNotifications.length?cloudNotifications:getLS("gdnl_notifications")}
+function setNotifications(v){cloudNotifications=Array.isArray(v)?v:[];setLS("gdnl_notifications",cloudNotifications)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(todayISO()))/(1000*60*60*24))}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function statusClass(s){if(["Aktif","Onaylandı"].includes(s))return"green";if(["Yenileme Bekliyor","Süresi Yaklaşıyor","Askıda","Yüksek"].includes(s))return"orange";if(["Süresi Doldu","Kullanım Dışı","İptal","Kritik"].includes(s))return"red";if(["Pasif","Arşiv","Düşük"].includes(s))return"gray";return"blue"}
-function generateAssetNo(){assetNo.value="CAD-"+new Date().getFullYear()+"-"+String(getAssets().length+1).padStart(4,"0")}
+function generateAssetNo(){assetNo.value="CAD-"+new Date().getFullYear()+"-"+String(getAssets().length+1).padStart(4,"0");nextSequence("CAD","Firma Belgeleri",getAssets().length).then(no=>{if(no)assetNo.value=no})}
 function initUsers(){
-const users=getLS("gdnl_users").filter(u=>u.status!=="Pasif");
-owner.innerHTML='<option value="">Seçiniz</option>';
-users.forEach(u=>owner.innerHTML+=`<option value="${u.fullName}">${u.fullName} / ${u.department||"-"}</option>`);
-if(!users.length)owner.innerHTML+='<option>Kerem Güdenli</option>';
+const users=cloudUsers.length?cloudUsers:getLS("gdnl_users").map(normalizeUser).filter(u=>u.status!=="Pasif");
+setupSingleUserAutocomplete("owner","ownerList","ownerId","department");
+if(!owner.value && session.name){owner.value=session.name;department.value=session.department||"Kalite";}
 }
 
 assetFile.addEventListener("change",e=>handleFile(e.target.files[0]));
 function handleFile(file){
 if(!file)return;
-if(file.size>6*1024*1024){showToast("Dosya maksimum 6 MB olmalı");assetFile.value="";return}
-const r=new FileReader();
-r.onload=ev=>{uploadedFile={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Dosya hazırlandı")};
-r.readAsDataURL(file);
+if(file.size>25*1024*1024){showToast("Dosya maksimum 25 MB olmalı");assetFile.value="";return}
+uploadedFile={rawFile:file,fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),uploadedAt:new Date().toISOString()};
+showToast("Dosya R2 yükleme için hazırlandı");
 }
 
 function updateCalculatedStatus(){
@@ -1143,7 +1194,7 @@ else if(!["Pasif","Kullanım Dışı","Askıda","İptal","Arşiv"].includes(asse
 }
 reminderDays.addEventListener("change",updateCalculatedStatus);
 
-function saveAsset(notify=false){
+async function saveAsset(notify=false){
 updateCalculatedStatus();
 if(!assetName.value.trim())return showToast("Belge / varlık adı zorunlu");
 if(!owner.value)return showToast("Sorumlu zorunlu");
@@ -1174,13 +1225,23 @@ riskRef:riskRef.value.trim(),
 actionRef:actionRef.value.trim(),
 description:description.value.trim(),
 renewalNote:renewalNote.value.trim(),
-file:uploadedFile,
+file:null,
 createdBy:session.name,
 createdAt:new Date().toISOString(),
 updatedAt:"",
 timeline:[{date:new Date().toISOString(),user:session.name,action:"Firma belge/varlık kaydı oluşturuldu"}]
 };
+if(uploadedFile&&uploadedFile.rawFile){
+  const uploaded=await uploadToR2(uploadedFile.rawFile,"Firma Belgeleri",a.assetNo);
+  a.file=uploaded||uploadedFile;
+}else{
+  a.file=uploadedFile;
+}
 const items=getAssets();items.unshift(a);setAssets(items);
+await apiPost("/documents",{...a,module:"Firma Belgeleri",document_code:a.assetNo,document_name:a.assetName,status:a.assetStatus});
+await assignmentCloud(a.id,"Firma belge sorumluluğu: "+a.assetName,a.owner,a.department,a.expiryDate,"Firma Belgeleri");
+await logAuditCloud("Oluşturma","Firma Belgeleri",a.assetNo,a);
+await activityCloud("Oluşturma","Firma Belgeleri",a.assetNo,"Firma belge kaydı oluşturuldu");
 if(notify)createNotification(a,"Firma belge/varlık kaydı oluşturuldu: "+a.assetName);
 resetForm();renderAssets();showToast("Kayıt oluşturuldu");
 }
@@ -1189,6 +1250,7 @@ function markPassiveFromForm(){assetStatus.value="Kullanım Dışı";showToast("
 
 function normalize(a){
 a.timeline=a.timeline||[];
+if(isPassiveRecord(a))return a;
 if(a.expiryDate&&!["Pasif","Kullanım Dışı","Askıda","İptal","Arşiv"].includes(a.assetStatus)){
 const left=daysLeft(a.expiryDate);
 a.remainingDays=left;
@@ -1233,7 +1295,7 @@ expiredAssets.textContent=items.filter(a=>a.assetStatus==="Süresi Doldu").lengt
 renewalAssets.textContent=items.filter(a=>a.renewalRequired==="Evet"&&["Süresi Yaklaşıyor","Süresi Doldu","Yenileme Bekliyor"].includes(a.assetStatus)).length;
 criticalAssets.textContent=items.filter(a=>a.criticality==="Kritik").length;
 fileAssets.textContent=items.filter(a=>a.file).length;
-notificationCount.textContent=getNotifications().filter(n=>n.module==="Company Assets").length;
+notificationCount.textContent=getNotifications().filter(n=>n.module==="Firma Belgeleri").length;
 }
 
 function openDrawer(id){
@@ -1274,13 +1336,19 @@ ${a.file?a.file.fileName+" / "+a.file.fileSizeText:"Dosya yok"}</div>
 <div class="info-box"><b>Timeline</b>
 ${(a.timeline||[]).map(t=>`${formatDateTR(t.date)} - ${t.user} - ${t.action}`).join("\\n")||"-"}</div>`;
 drawer.classList.add("active");
+renderComments(id);
 }
 function closeDrawer(){selectedId=null;drawer.classList.remove("active")}
-function updateAsset(id,changes,action){
+async function updateAsset(id,changes,action){
 const items=getAssets().map(normalize);const i=items.findIndex(a=>a.id===id);if(i<0)return;
+const oldValue={...items[i]};
 items[i]={...items[i],...changes,updatedAt:new Date().toISOString()};
 items[i].timeline.unshift({date:new Date().toISOString(),user:session.name,action});
-setAssets(items);renderAssets();if(selectedId)openDrawer(selectedId);
+setAssets(items);
+await apiPut("/documents/"+encodeURIComponent(items[i].id||items[i].assetNo),{...items[i],module:"Firma Belgeleri",document_code:items[i].assetNo,document_name:items[i].assetName,status:items[i].assetStatus});
+await logAuditCloud(action,"Firma Belgeleri",items[i].assetNo,changes,oldValue,items[i]);
+await activityCloud(action,"Firma Belgeleri",items[i].assetNo,action,oldValue,items[i],Object.keys(changes).join(","));
+renderAssets();if(selectedId)openDrawer(selectedId);
 }
 function activateCurrent(){if(!selectedId)return;updateAsset(selectedId,{assetStatus:"Aktif"},"Belge aktif yapıldı");showToast("Aktif yapıldı")}
 function renewCurrent(){if(!selectedId)return;updateAsset(selectedId,{assetStatus:"Yenileme Bekliyor"},"Belge yenileme bekliyor yapıldı");showToast("Yenileme bekliyor")}
@@ -1288,21 +1356,21 @@ function passiveCurrent(){if(!selectedId)return;updateAsset(selectedId,{assetSta
 function notifyCurrent(){if(selectedId)notifyAsset(selectedId)}
 function notifyAsset(id){const a=getAssets().find(x=>x.id===id);if(!a)return;createNotification(a,"Firma belge/varlık bildirimi: "+a.assetName+" / Durum: "+a.assetStatus);showToast("Bildirim kuyruğu oluşturuldu")}
 function createRenewalNotifications(){getAssets().map(normalize).filter(a=>["Süresi Yaklaşıyor","Süresi Doldu","Yenileme Bekliyor"].includes(a.assetStatus)).forEach(a=>createNotification(a,"Yenileme takibi gerekli: "+a.assetName));showToast("Yenileme bildirimleri oluşturuldu")}
-function createNotification(a,msg){
+async function createNotification(a,msg){
 const n=getNotifications();
-n.unshift({notificationId:"NTF-"+Date.now()+Math.random(),type:"Mail + SMS",module:"Company Assets",documentCode:a.assetNo,documentName:a.assetName,mailGroups:a.owner+"; "+a.department+"; Kalite; Yönetim",smsGroups:a.owner,distributionPoints:a.assetType+" / "+a.category,message:msg,status:"Kuyrukta",priority:a.criticality==="Kritik"?"Critical":"High",createdAt:new Date().toISOString(),createdBy:session.name,auditTrail:[{action:"Firma belge bildirimi oluşturuldu",user:session.name,date:new Date().toISOString()}]});
-setNotifications(n);renderAssets();
+n.unshift({notificationId:"NTF-"+Date.now()+Math.random(),type:"Mail + SMS",module:"Firma Belgeleri",documentCode:a.assetNo,documentName:a.assetName,mailGroups:a.owner+"; "+a.department+"; Kalite; Yönetim",smsGroups:a.owner,distributionPoints:a.assetType+" / "+a.category,message:msg,status:"Kuyrukta",priority:a.criticality==="Kritik"?"Kritik":"Yüksek",is_read:0,read_by:"",read_at:"",createdAt:new Date().toISOString(),createdBy:session.name,auditTrail:[{action:"Firma belge bildirimi oluşturuldu",user:session.name,date:new Date().toISOString()}]});
+setNotifications(n);await notifyCloud("Firma Belge Bildirimi",msg,a.owner,"Firma Belgeleri",a.assetNo);renderAssets();
 }
-function downloadFile(id){const a=getAssets().find(x=>x.id===id);if(!a||!a.file)return;const link=document.createElement("a");link.href=a.file.fileData;link.download=a.file.fileName;link.click()}
+function downloadFile(id){const a=getAssets().find(x=>x.id===id);if(!a||!a.file)return;const link=document.createElement("a");link.href=a.file.signed_url||a.file.url||a.file.fileData||(""+API_BASE+"/file/"+encodeURIComponent(a.file.r2_key||""));link.download=a.file.fileName||a.file.name||"dosya";link.click()}
 function exportCSV(){
 const rows=getAssets().map(normalize);
-let csv="AssetNo,Type,Category,Name,DocumentNo,Revision,Authority,Region,IssueDate,ExpiryDate,RemainingDays,Owner,Department,Status,Criticality,Standard,Location\n";
+let csv="KayitNo,Tip,Kategori,Ad,BelgeNo,Revizyon,Kurum,Bolge,AlinanTarih,Gecerlilik,KalanGun,Sorumlu,Departman,Durum,Kritiklik,Standart,Lokasyon\n";
 rows.forEach(a=>csv+=`"${a.assetNo}","${a.assetType}","${a.category}","${a.assetName}","${a.documentNumber}","${a.revision}","${a.issuingAuthority}","${a.region}","${a.issueDate}","${a.expiryDate}","${a.expiryDate?daysLeft(a.expiryDate):'Süresiz'}","${a.owner}","${a.department}","${a.assetStatus}","${a.criticality}","${a.standardRef}","${a.location}"\n`);
 const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a");
-link.href=url;link.download="company_assets_documents.csv";link.click();URL.revokeObjectURL(url);
+link.href=url;link.download="firma_belge_varlik_kayitlari.csv";link.click();URL.revokeObjectURL(url);
 }
 function resetForm(){
-generateAssetNo();assetType.value="Sertifika";category.value="Kalite";criticality.value="Orta";assetName.value="";documentNumber.value="";revision.value="V1";issuingAuthority.value="";region.value="TR";issueDate.value=todayISO();expiryDate.value="";reminderDays.value="60";remainingDays.value="Süresiz";owner.value="";department.value="Kalite";assetStatus.value="Aktif";confidentiality.value="İç Kullanım";standardRef.value="ISO 9001";location.value="";renewalRequired.value="Evet";originalLocation.value="";riskRef.value="";actionRef.value="";description.value="";renewalNote.value="";assetFile.value="";uploadedFile=null;
+generateAssetNo();assetType.value="Sertifika";category.value="Kalite";criticality.value="Orta";assetName.value="";documentNumber.value="";revision.value="V1";issuingAuthority.value="";region.value="TR";issueDate.value=todayISO();expiryDate.value="";reminderDays.value="60";remainingDays.value="Süresiz";owner.value="";if(document.getElementById("ownerId"))ownerId.value="";department.value="";assetStatus.value="Aktif";confidentiality.value="İç Kullanım";standardRef.value="ISO 9001";location.value="";renewalRequired.value="Evet";originalLocation.value="";riskRef.value="";actionRef.value="";description.value="";renewalNote.value="";assetFile.value="";uploadedFile=null;
 }
 function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
 
@@ -1321,7 +1389,7 @@ globalSearch.addEventListener("keydown",function(e){
 });
 
 initUsers();resetForm();renderAssets();setInterval(renderAssets,8000);
-console.log("GDNL QDMS Company Asset Documents Loaded");
+console.log("GDNL EQMS Firma Belge ve Varlık Yönetimi Cloud Ready");
 
 </script>
 </body>
