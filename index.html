@@ -652,12 +652,8 @@ body:before{
 
 <script>
 const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
-const GDNL_COOKIE_NAME = "gdnl_eos_session";
-const SYSTEM_SOURCE = "Cloudflare D1";
-
-let cloudUsers = [];
-let cloudDepartments = [];
-let resetState = { username:"", code:"", requestId:"" };
+const SYSTEM_SOURCE = "Cloudflare D1 + R2";
+let resetState = { username:"", requestId:"" };
 
 function repairTR(value){
   if(typeof value !== "string") return value;
@@ -679,85 +675,44 @@ function normalizeApiList(payload, key){
   if(fixed && Array.isArray(fixed[key])) return fixed[key];
   if(fixed && Array.isArray(fixed.data)) return fixed.data;
   if(fixed && Array.isArray(fixed.items)) return fixed.items;
-  if(fixed && typeof fixed === "object") return Object.values(fixed).filter(v => v && typeof v === "object");
   return [];
 }
 async function apiRequest(path, options={}){
   const headers = Object.assign({"Accept":"application/json"}, options.headers || {});
   if(options.body && !(options.body instanceof FormData)) headers["Content-Type"] = "application/json";
-  const res = await fetch(GDNL_API_BASE + path, { ...options, headers, cache:"no-store", credentials:"omit" });
-  let data = null;
+  const res = await fetch(GDNL_API_BASE + path, {
+    ...options,
+    headers,
+    cache:"no-store",
+    credentials:"include"
+  });
   const text = await res.text();
+  let data = null;
   try{ data = text ? JSON.parse(text) : null; }catch(e){ data = { raw:text }; }
-  if(!res.ok) throw new Error((data && (data.message || data.error)) || "API HTTP " + res.status);
-  return deepRepairTR(data);
+  data = deepRepairTR(data);
+  if(!res.ok || data?.success === false){
+    const msg = data?.error?.message || data?.message || data?.error || ("API HTTP " + res.status);
+    throw new Error(msg);
+  }
+  return Object.prototype.hasOwnProperty.call(data || {}, "data") ? data.data : data;
 }
-async function apiGet(path){ return apiRequest(path, { method:"GET" }); }
-async function apiPost(path, body){ return apiRequest(path, { method:"POST", body: JSON.stringify(body || {}) }); }
-
-function setSecureCookie(name, value, maxAgeSeconds){
-  const encoded = encodeURIComponent(JSON.stringify(value || {}));
-  const secure = location.protocol === "https:" ? "; Secure" : "";
-  document.cookie = `${name}=${encoded}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax${secure}`;
-}
-function clearCookie(name){ document.cookie = `${name}=; Path=/; Max-Age=0; SameSite=Lax`; }
-function setSessionCookie(session){ setSecureCookie(GDNL_COOKIE_NAME, session, 60 * 60 * 10); }
+const apiGet = path => apiRequest(path, { method:"GET" });
+const apiPost = (path, body) => apiRequest(path, { method:"POST", body:JSON.stringify(body || {}) });
 function getClientContext(){
   return {
     user_agent: navigator.userAgent,
-    ip_address: "client",
     session_id: "WEB-" + Date.now() + "-" + Math.random().toString(16).slice(2)
   };
 }
 function isActiveStatus(status){
   const s = String(status || "active").toLowerCase();
-  return !["pasif","passive","deleted","silindi","arşivlendi","arsivlendi","iptal edildi","inactive"].includes(s);
-}
-function mapD1UserToEOS(row){
-  const fixed = deepRepairTR(row || {});
-  const role = fixed.role || "Kullanıcı";
-  const department = fixed.department || fixed.department_name || "";
-  const fullName = fixed.fullName || fixed.fullname || fixed.name || fixed.username || "GDNL Kullanıcı";
-  const username = String(fixed.username || "").trim().toLowerCase();
-  const email = String(fixed.email || "").trim().toLowerCase();
-  const isFull = role === "Super Administrator" || role === "Root Super Administrator" || fixed.accessLevel === "FULL_SYSTEM_ACCESS" || fixed.isRoot === true || fixed.isSuperAdmin === true || fixed.isFullAuthorized === true;
-  return {
-    ...fixed,
-    id: fixed.id,
-    username,
-    email,
-    fullName,
-    name: fullName,
-    role,
-    department,
-    status: fixed.status === "active" ? "Aktif" : (fixed.status || "Aktif"),
-    accessLevel: isFull ? "FULL_SYSTEM_ACCESS" : (fixed.accessLevel || "DEPARTMENT_ACCESS"),
-    permissions: Array.isArray(fixed.permissions) ? fixed.permissions : (isFull ? ["*"] : ["view","create","edit","download","own_department"]),
-    modules: Array.isArray(fixed.modules) ? fixed.modules : [],
-    departments: Array.isArray(fixed.departments) ? fixed.departments : (department ? [department] : []),
-    canViewAll: isFull || !!fixed.canViewAll,
-    canCreate: fixed.canCreate !== false,
-    canEdit: fixed.canEdit !== false,
-    canDelete: isFull || !!fixed.canDelete,
-    canApprove: isFull || !!fixed.canApprove,
-    canExport: isFull || !!fixed.canExport,
-    canImport: isFull || !!fixed.canImport,
-    canAudit: isFull || !!fixed.canAudit,
-    canManageUsers: isFull || !!fixed.canManageUsers,
-    canManageRoles: isFull || !!fixed.canManageRoles,
-    canManageSystem: isFull || !!fixed.canManageSystem,
-    canAccessSettings: isFull || !!fixed.canAccessSettings,
-    canAccessAllModules: isFull || !!fixed.canAccessAllModules,
-    canOverrideWorkflow: isFull || !!fixed.canOverrideWorkflow,
-    isRoot: isFull || !!fixed.isRoot,
-    isSuperAdmin: isFull || !!fixed.isSuperAdmin,
-    isFullAuthorized: isFull || !!fixed.isFullAuthorized
-  };
+  return !["pasif","passive","deleted","silindi","arşivlendi","arsivlendi","inactive","archived"].includes(s);
 }
 function formatTR(number){ return Number(number || 0).toLocaleString("tr-TR"); }
 function setText(id, value){ const el = document.getElementById(id); if(el) el.textContent = value; }
 function showMessage(text, type){
   const msg = document.getElementById("msg");
+  if(!msg) return;
   msg.textContent = text;
   msg.className = "msg " + type;
 }
@@ -765,22 +720,26 @@ function togglePassword(){
   const p = document.getElementById("password");
   p.type = p.type === "password" ? "text" : "password";
 }
-
-async function loadCloudUsers(){
-  const payload = await apiGet("/users");
-  cloudUsers = normalizeApiList(payload, "users").map(mapD1UserToEOS).filter(u => u.username && isActiveStatus(u.status));
-  return cloudUsers;
-}
-async function loadCloudDepartments(){
-  const payload = await apiGet("/departments");
-  cloudDepartments = normalizeApiList(payload, "departments").filter(d => isActiveStatus(d.status));
-  return cloudDepartments;
-}
-async function countEndpoint(path, key){
-  try{
-    const payload = await apiGet(path);
-    return normalizeApiList(payload, key).filter(item => isActiveStatus(item.status)).length;
-  }catch(e){ return 0; }
+function mapD1UserToEOS(row){
+  const fixed = deepRepairTR(row || {});
+  const role = fixed.role || fixed.role_name || "KULLANICI";
+  const department = fixed.department || fixed.department_name || "";
+  const fullName = fixed.fullName || fixed.fullname || fixed.name || fixed.username || "GDNL Kullanıcı";
+  const username = String(fixed.username || fixed.email || "").trim().toLowerCase();
+  const isFull = role === "SUPER_ADMIN" || role === "Super Administrator" || fixed.accessLevel === "FULL_SYSTEM_ACCESS" || fixed.isRoot === true || fixed.isSuperAdmin === true;
+  return {
+    ...fixed,
+    username,
+    fullName,
+    name: fullName,
+    role,
+    department,
+    accessLevel: isFull ? "FULL_SYSTEM_ACCESS" : (fixed.accessLevel || "DEPARTMENT_ACCESS"),
+    permissions: Array.isArray(fixed.permissions) ? fixed.permissions : (isFull ? ["*"] : []),
+    isRoot: isFull,
+    isSuperAdmin: isFull,
+    isFullAuthorized: isFull
+  };
 }
 async function loadEOSLoginStats(){
   setText("statDepartments", "...");
@@ -790,33 +749,37 @@ async function loadEOSLoginStats(){
   setText("statModules", "35");
   setText("statUptime", "99.8%");
   try{
-    const [departments, users] = await Promise.all([loadCloudDepartments(), loadCloudUsers()]);
-    const recordCounts = await Promise.all([
-      countEndpoint("/actions", "actions"),
-      countEndpoint("/assignments", "assignments"),
-      countEndpoint("/notifications", "notifications"),
-      countEndpoint("/audit-logs", "audit_logs"),
-      countEndpoint("/activity-feed", "activity_feed"),
-      countEndpoint("/files", "files"),
-      countEndpoint("/documents", "documents"),
-      countEndpoint("/approvals", "approvals"),
-      countEndpoint("/comments", "comments")
+    const [departmentsPayload, usersPayload, kpiPayload] = await Promise.all([
+      apiGet("/departments"),
+      apiGet("/users"),
+      apiGet("/dashboard/kpi").catch(() => ({}))
     ]);
-    const totalRecords = recordCounts.reduce((a,b) => a + Number(b || 0), 0);
+    const departments = normalizeApiList(departmentsPayload, "departments").filter(d => isActiveStatus(d.status));
+    const users = normalizeApiList(usersPayload, "users").filter(u => isActiveStatus(u.status));
+    const kpi = kpiPayload || {};
+    const totalRecords = Number(kpi.open_actions || 0) + Number(kpi.open_capa || 0) + Number(kpi.open_risks || 0) + Number(kpi.open_audits || 0) + Number(kpi.open_revisions || 0) + Number(kpi.pending_approvals || 0) + Number(kpi.pending_tasks || 0) + Number(kpi.upcoming_deadlines || 0);
     setText("statDepartments", formatTR(departments.length));
     setText("statUsers", formatTR(users.length));
     setText("statRecords", formatTR(totalRecords));
-    setText("statSource", "D1");
+    setText("statSource", "D1/R2");
   }catch(err){
     console.error("GDNL EOS cloud istatistik hatası:", err);
-    setText("statDepartments", "API");
+    setText("statDepartments", "D1");
     setText("statUsers", "API");
     setText("statRecords", "API");
     setText("statSource", "D1");
-    showMessage("Cloud veritabanı bağlantısı kurulamadı. Worker API veya CORS ayarını kontrol edin.", "error");
+    showMessage("Cloudflare Worker / D1 bağlantısı kontrol edilmeli.", "error");
   }
 }
-
+async function checkExistingSession(){
+  try{
+    const me = await apiGet("/me");
+    if(me && (me.user || me.id || me.fullname || me.username)){
+      showMessage("Aktif oturum bulundu. Yönlendiriliyorsunuz...", "success");
+      setTimeout(() => { window.location.href = "department-gateway.html"; }, 500);
+    }
+  }catch(e){ /* oturum yoksa login ekranı kalır */ }
+}
 function forgot(e){
   e.preventDefault();
   openResetModal();
@@ -829,7 +792,7 @@ function openResetModal(){
   document.getElementById("resetEmail").value = "";
   document.getElementById("resetCodeInput").value = "";
   document.getElementById("newPasswordInput").value = "";
-  resetState = { username:"", code:"", requestId:"" };
+  resetState = { username:"", requestId:"" };
   setTimeout(() => document.getElementById("resetUsername").focus(), 80);
 }
 function closeResetModal(){ document.getElementById("resetOverlay").classList.remove("active"); }
@@ -843,16 +806,14 @@ async function createResetCode(){
   if(!username || !email){ showMessage("Şifre sıfırlama için kullanıcı adı ve kayıtlı e-posta giriniz.", "error"); return; }
   try{
     const payload = await apiPost("/password-reset-requests", { username, email, ...getClientContext() });
-    const code = payload.code || payload.reset_code || "";
-    resetState = { username, code, requestId: payload.id || payload.request_id || "" };
+    resetState = { username, requestId: payload.id || payload.request_id || "" };
     document.getElementById("resetStep1").classList.remove("active");
     document.getElementById("resetStep2").classList.add("active");
-    document.getElementById("resetCodeHint").textContent = code ? "Doğrulama kodu oluşturuldu. Test kodu: " + code : "Doğrulama kodu oluşturuldu. Kod kayıtlı e-posta adresine gönderilecektir.";
-    await writeAudit("Şifre sıfırlama kodu oluşturuldu", "Güvenlik", username, null, null);
+    document.getElementById("resetCodeHint").textContent = payload.code ? "Test kodu: " + payload.code : "Doğrulama kodu kayıtlı e-posta adresine gönderilecektir.";
     showMessage("Doğrulama kodu oluşturuldu.", "success");
   }catch(err){
     console.error("Şifre sıfırlama kodu hatası:", err);
-    showMessage("Şifre sıfırlama kodu oluşturulamadı. Kullanıcı adı ve e-posta bilgisini kontrol edin.", "error");
+    showMessage("Kod oluşturulamadı. Kullanıcı adı/e-posta veya Worker endpointini kontrol edin.", "error");
   }
 }
 async function completePasswordReset(){
@@ -862,42 +823,13 @@ async function completePasswordReset(){
   if(newPassword.length < 4){ showMessage("Yeni şifre en az 4 karakter olmalıdır.", "error"); return; }
   try{
     await apiPost("/password-reset-requests/complete", { username: resetState.username, code, new_password: newPassword, request_id: resetState.requestId, ...getClientContext() });
-    await writeAudit("Şifre güncellendi", "Güvenlik", resetState.username, null, null);
     closeResetModal();
-    showMessage("Şifre başarıyla güncellendi. Yeni şifrenizle giriş yapabilirsiniz.", "success");
+    showMessage("Şifre başarıyla güncellendi.", "success");
   }catch(err){
     console.error("Şifre güncelleme hatası:", err);
     showMessage("Şifre güncellenemedi. Doğrulama kodunu kontrol edin.", "error");
   }
 }
-async function writeAudit(action, module, recordNo, oldValue, newValue){
-  try{
-    await apiPost("/audit-logs", {
-      module,
-      action,
-      record_no: recordNo || "LOGIN",
-      old_value: oldValue || null,
-      new_value: newValue || null,
-      changed_field: action,
-      created_at: new Date().toISOString(),
-      ...getClientContext()
-    });
-  }catch(e){ console.warn("Audit kaydı oluşturulamadı:", e.message); }
-}
-async function writeActivity(action, module, recordNo, oldValue, newValue){
-  try{
-    await apiPost("/activity-feed", {
-      module,
-      action,
-      record_no: recordNo || "LOGIN",
-      old_value: oldValue || null,
-      new_value: newValue || null,
-      changed_field: action,
-      created_at: new Date().toISOString()
-    });
-  }catch(e){ console.warn("Aktivite kaydı oluşturulamadı:", e.message); }
-}
-
 async function login(){
   const username = document.getElementById("username").value.trim().toLowerCase();
   const password = document.getElementById("password").value.trim();
@@ -905,62 +837,23 @@ async function login(){
   if(!username || !password){ showMessage("Kullanıcı adı ve şifre giriniz.", "error"); return; }
   try{
     const payload = await apiPost("/login", { username, password, remember, ...getClientContext() });
-    const apiUser = payload.user || payload.data || payload;
-    if(!payload || payload.success === false || !apiUser){
-      showMessage("Kullanıcı adı veya şifre hatalı.", "error");
-      return;
-    }
+    const apiUser = payload.user || payload.data?.user || payload.data || payload;
     const user = mapD1UserToEOS(apiUser);
     if(!user.username){ showMessage("Kullanıcı kaydı eksik geldi. Users tablosunu kontrol edin.", "error"); return; }
-    const session = {
-      token: payload.token || payload.session_token || payload.sessionId || "",
-      session_id: payload.session_id || payload.sessionId || getClientContext().session_id,
-      username: user.username,
-      user_id: user.id,
-      name: user.name,
-      fullname: user.fullName,
-      email: user.email,
-      role: user.role,
-      department: user.department,
-      accessLevel: user.accessLevel,
-      permissions: user.permissions,
-      modules: user.modules,
-      departments: user.departments,
-      canViewAll: !!user.canViewAll,
-      canCreate: !!user.canCreate,
-      canEdit: !!user.canEdit,
-      canDelete: !!user.canDelete,
-      canApprove: !!user.canApprove,
-      canExport: !!user.canExport,
-      canImport: !!user.canImport,
-      canAudit: !!user.canAudit,
-      canManageUsers: !!user.canManageUsers,
-      canManageRoles: !!user.canManageRoles,
-      canManageSystem: !!user.canManageSystem,
-      canAccessSettings: !!user.canAccessSettings,
-      canAccessAllModules: !!user.canAccessAllModules,
-      canOverrideWorkflow: !!user.canOverrideWorkflow,
-      isRoot: !!user.isRoot,
-      isSuperAdmin: !!user.isSuperAdmin,
-      isFullAuthorized: !!user.isFullAuthorized,
-      loginAt: new Date().toISOString(),
-      system: "GDNL EOS",
-      source: SYSTEM_SOURCE
-    };
-    setSessionCookie(session);
-    await writeAudit("Giriş yapıldı", "Güvenlik", user.username, null, user.role);
-    await writeActivity("Giriş yapıldı", "Güvenlik", user.username, null, user.department);
+    // JWT burada saklanmaz. Worker /login cevabı Set-Cookie: HttpOnly ile oturum açmalıdır.
+    const me = await apiGet("/me");
+    if(!me){ showMessage("GET /me doğrulaması başarısız.", "error"); return; }
     showMessage("Giriş başarılı. Departman merkezi hazırlanıyor...", "success");
     setTimeout(() => { window.location.href = "department-gateway.html"; }, 650);
   }catch(err){
     console.error("GDNL EOS API giriş hatası:", err);
-    clearCookie(GDNL_COOKIE_NAME);
     const msg = err && err.message && !err.message.includes("Failed to fetch") ? err.message : "Cloud veritabanı bağlantısı kurulamadı. Worker API veya CORS ayarını kontrol edin.";
     showMessage(msg, "error");
   }
 }
 
 loadEOSLoginStats();
+checkExistingSession();
 document.addEventListener("keydown", e => {
   if(e.key === "Enter" && !document.getElementById("resetOverlay").classList.contains("active")) login();
   if(e.key === "Escape") closeResetModal();
