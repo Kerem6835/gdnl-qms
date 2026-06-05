@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Doküman Master Listesi</title>
+<title>GDNL EQMS | Doküman Master Listeesi</title>
 
 <style>
 
@@ -196,6 +196,9 @@ font-size:14px!important;
 padding:12px 14px!important;
 }
 
+
+/* === GDNL EQMS CLOUD READY KATMANI === */
+.autocomplete-wrap{position:relative}.autocomplete-list{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);z-index:50;display:none;max-height:240px;overflow:auto}.autocomplete-list.active{display:block}.autocomplete-item{padding:10px 12px;font-size:12px;font-weight:900;color:#536176;cursor:pointer;border-bottom:1px solid #eef2f7}.autocomplete-item:hover{background:#f7fbf8;color:#1f7d3d}.cloud-note{font-size:11px;font-weight:900;color:#1f7d3d;background:#e8f7ee;border:1px solid #bfe7ca;border-radius:999px;padding:6px 10px;display:inline-flex}.soft-hidden{display:none!important}
 </style>
 </head>
 
@@ -230,6 +233,7 @@ padding:12px 14px!important;
 <div class="submenu" data-submenu="quality">
   <a href="capa.html">8D / CAPA</a>
   <a href="risk-register.html">Risk Yönetimi</a>
+  <a href="audit.html">İç Denetim</a>
   <a href="change-management.html">Değişiklik Yönetimi</a>
   <a href="process-management.html">Süreç Yönetimi</a>
   <a href="continuous-improvement.html">Sürekli İyileştirme</a>
@@ -252,7 +256,7 @@ padding:12px 14px!important;
 <div class="submenu" data-submenu="performance">
   <a href="kpi-reports.html">KPI & Raporlar</a>
   <a href="management-review.html">YGG Yönetimi</a>
-  <a href="action-center.html">Action Center</a>
+  <a href="action-center.html">Aksiyon Merkezi</a>
   <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -272,14 +276,14 @@ padding:12px 14px!important;
 <div class="submenu" data-submenu="iatf">
   <a href="apqp.html">APQP</a>
   <a href="fmea.html">FMEA</a>
-  <a href="control-plan.html">Control Plan</a>
+  <a href="control-plan.html">Kontrol Planı</a>
   <a href="ppap.html">PPAP</a>
   <a href="spc.html">SPC</a>
   <a href="msa.html">MSA</a>
 </div>
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -308,6 +312,7 @@ padding:12px 14px!important;
 <div class="submenu" data-submenu="quality">
   <a href="capa.html">8D / CAPA</a>
   <a href="risk-register.html">Risk Yönetimi</a>
+  <a href="audit.html">İç Denetim</a>
   <a href="change-management.html">Değişiklik Yönetimi</a>
   <a href="process-management.html">Süreç Yönetimi</a>
   <a href="continuous-improvement.html">Sürekli İyileştirme</a>
@@ -330,7 +335,7 @@ padding:12px 14px!important;
 <div class="submenu" data-submenu="performance">
   <a href="kpi-reports.html">KPI & Raporlar</a>
   <a href="management-review.html">YGG Yönetimi</a>
-  <a href="action-center.html">Action Center</a>
+  <a href="action-center.html">Aksiyon Merkezi</a>
   <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -350,14 +355,14 @@ padding:12px 14px!important;
 <div class="submenu" data-submenu="iatf">
   <a href="apqp.html">APQP</a>
   <a href="fmea.html">FMEA</a>
-  <a href="control-plan.html">Control Plan</a>
+  <a href="control-plan.html">Kontrol Planı</a>
   <a href="ppap.html">PPAP</a>
   <a href="spc.html">SPC</a>
   <a href="msa.html">MSA</a>
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Document Master List<br>Live Controlled View</div>
+<div class="sidebar-footer">GDNL EQMS Enterprise<br>Doküman Master Listeesi<br>Canlı Kontrollü Görünüm</div>
 </aside>
 
 <main class="main">
@@ -372,16 +377,16 @@ padding:12px 14px!important;
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName">Kerem Güdenli</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Document Master List</h1>
-<p>Bu ekran sadece doküman master listesidir. Doküman oluşturma, dosya yükleme ve workflow başlatma işlemleri New Document ekranından yapılır.</p>
+<h1>Doküman Master Listeesi</h1>
+<p>Bu ekran sadece doküman master listesidir. Doküman oluşturma, dosya yükleme ve iş akışı başlatma işlemleri Yeni Doküman ekranından yapılır.</p>
 </div>
-<div class="hero-badge">Live Status: <span id="liveStatus">Active</span></div>
+<div class="hero-badge">Canlı Durum: <span id="liveStatus">Aktif</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -411,19 +416,19 @@ padding:12px 14px!important;
 </div>
 
 <div class="panel-head">
-<h3>Doküman Master Listesi</h3>
+<h3>Doküman Master Listeesi</h3>
 <div class="toolbar">
-<select id="typeFilter" onchange="renderDocuments()">
+<select id="typeFilter" onchange="renderDokümans()">
 <option value="">Tüm Tipler</option>
 <option value="PR">PR</option><option value="TL">TL</option><option value="FR">FR</option><option value="LS">LS</option><option value="POL">POL</option><option value="AS">AS</option><option value="KEK">KEK</option><option value="OEK">OEK</option><option value="KP">KP</option><option value="GT">GT</option><option value="PL">PL</option><option value="KLV">KLV</option>
 </select>
 
-<select id="statusFilter" onchange="renderDocuments()">
+<select id="statusFilter" onchange="renderDokümans()">
 <option value="">Tüm Durumlar</option>
-<option>Taslak</option><option>Onayda</option><option>Yayında</option><option>Revizyon</option><option>Pasif</option><option>Obsolete</option>
+<option>Taslak</option><option>Onayda</option><option>Yayında</option><option>Revizyon</option><option>Pasif</option><option>Arşivlendi</option><option>Silindi</option><option>İptal Edildi</option>
 </select>
 
-<select id="ownerFilter" onchange="renderDocuments()">
+<select id="ownerFilter" onchange="renderDokümans()">
 <option value="">Tüm Sahipler</option>
 <option>Kalite</option><option>YGG</option><option>Sistem</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Bakım</option><option>Bilgi Güvenliği</option><option>Yönetim</option>
 </select>
@@ -461,6 +466,45 @@ localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 
 document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
 
+
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const CLOUD_MODULE="DOCUMENTS";
+let cloudDokümans=[];
+let cloudArchive=[];
+let cloudUsers=[];
+let cloudDepartments=[];
+let cloudReady=false;
+let cloudSessionId=session.session_id||session.sessionId||localStorage.getItem("gdnl_session_id")||"";
+
+function activeUserName(){return session.fullname||session.name||session.username||"Sistem"}
+function activeUserId(){return session.id||session.user_id||session.username||""}
+function isDeletedStatus(status){return ["Deleted","Silindi","Arşivlendi","İptal Edildi"].includes(String(status||""))}
+async function apiGet(path,fallback=[]){try{const r=await fetch(API_BASE+path,{headers:{"Accept":"application/json"}});if(!r.ok)throw new Error(path);const data=await r.json();return Array.isArray(data)?data:(data.data||data.items||data.results||fallback)}catch(e){return fallback}}
+async function apiPost(path,payload){try{const r=await fetch(API_BASE+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});return await r.json().catch(()=>({ok:r.ok}))}catch(e){return {ok:false,error:String(e)}}}
+async function apiPut(path,payload){try{const r=await fetch(API_BASE+path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});return await r.json().catch(()=>({ok:r.ok}))}catch(e){return {ok:false,error:String(e)}}}
+async function writeAudit(action,recordNo,oldValue,newValue){return apiPost("/audit-logs",{module:"Doküman Yönetimi",action,record_no:recordNo,user_id:activeUserId(),user_name:activeUserName(),ip_address:"client",user_agent:navigator.userAgent,session_id:cloudSessionId,old_value:oldValue||null,new_value:newValue||null,created_at:new Date().toISOString()})}
+async function writeActivity(action,recordNo,description,oldValue,newValue){return apiPost("/activity-feed",{module:"Doküman Yönetimi",action,record_no:recordNo,description,user_id:activeUserId(),user_name:activeUserName(),old_value:oldValue||null,new_value:newValue||null,changed_field:"documents",created_at:new Date().toISOString()})}
+async function writeNotification(title,message,recordNo){return apiPost("/notifications",{module:"Doküman Yönetimi",record_no:recordNo,title,message,is_read:false,read_by:null,read_at:null,created_by:activeUserName(),created_at:new Date().toISOString()})}
+async function syncDashboardKPI(){return apiPost("/activity-feed",{module:"Dashboard",action:"KPI Senkronizasyonu",record_no:"DOCUMENTS",description:"Doküman master liste sayaçları güncellendi.",user_name:activeUserName(),created_at:new Date().toISOString()})}
+async function getNextSequence(module){const data=await apiGet(`/sequence?module=${encodeURIComponent(module)}`,null);if(data&&data.next)return data.next;if(data&&data.sequence)return data.sequence;return null}
+async function loadCloudCore(){
+  const [users,deps,docs,archive]=await Promise.all([apiGet("/users",[]),apiGet("/departments",[]),apiGet("/documents",[]),apiGet("/archive",[])]);
+  cloudUsers=users;cloudDepartments=deps;
+  cloudDokümans=(docs||[]).map(normalizeDoküman).filter(d=>!isDeletedStatus(d.status));
+  cloudArchive=(archive||[]).filter(a=>isDeletedStatus(a.status)||a.status==="Arşivlendi"||a.type||a.archiveNo);
+  cloudReady=cloudDokümans.length>0||cloudUsers.length>0||cloudDepartments.length>0;
+}
+function searchUsers(term){const q=String(term||"").toLowerCase();return cloudUsers.filter(u=>`${u.fullname||u.name||""} ${u.email||""} ${u.role||""} ${u.department||""}`.toLowerCase().includes(q)).slice(0,10)}
+function userDepartment(user){return user.department||user.department_name||cloudDepartments.find(d=>String(d.id)===String(user.department_id))?.department_name||""}
+function setupPersonAutocomplete(inputId,deptId,multiple=false){
+  const input=document.getElementById(inputId);if(!input)return;
+  const wrap=document.createElement("div");wrap.className="autocomplete-wrap";input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);
+  const list=document.createElement("div");list.className="autocomplete-list";wrap.appendChild(list);
+  input.addEventListener("input",()=>{const users=searchUsers(input.value);list.innerHTML=users.map((u,i)=>`<div class="autocomplete-item" data-i="${i}">${escapeHTML(u.fullname||u.name||u.email)}<br><small>${escapeHTML(userDepartment(u))} / ${escapeHTML(u.role||"")}</small></div>`).join("");list.classList.toggle("active",users.length>0);list.querySelectorAll(".autocomplete-item").forEach(el=>el.onclick=()=>{const u=users[Number(el.dataset.i)];input.value=u.fullname||u.name||u.email;input.dataset.userId=u.id||u.user_id||"";input.dataset.email=u.email||"";input.dataset.role=u.role||"";input.dataset.department=userDepartment(u);if(deptId&&document.getElementById(deptId))document.getElementById(deptId).value=userDepartment(u);list.classList.remove("active")})});
+  document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.classList.remove("active")});
+}
+async function uploadFileToR2(file,relatedId){const fd=new FormData();fd.append("file",file);fd.append("module","Doküman Yönetimi");fd.append("related_id",relatedId);fd.append("uploaded_by",activeUserName());const r=await fetch(API_BASE+"/upload",{method:"POST",body:fd});return await r.json()}
+
 const typeNames={PR:"Prosedür",TL:"Talimat",FR:"Form",LS:"Liste",POL:"Politika",AS:"Akış Şeması",KEK:"Kalite El Kitabı",OEK:"Operasyonel El Kitabı",KP:"Kontrol Planı",GT:"Görev Tanımı",PL:"Plan",KLV:"Kılavuz"};
 
 function logout(){
@@ -486,8 +530,8 @@ if(e.key==="Escape")closeMobileMenu();
 function runSearch(){
 const input=document.getElementById("globalSearch");
 const text=input.value.trim().toLowerCase();
-if(!text){clearSearchResults();input.focus();renderDocuments();return}
-const docs=getDocuments().map(normalizeDocument);
+if(!text){clearSearchResults();input.focus();renderDokümans();return}
+const docs=getDokümans().map(normalizeDoküman);
 let results=[];
 docs.forEach(d=>{
 const fullText=JSON.stringify(d).toLowerCase();
@@ -519,36 +563,40 @@ function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)r
 function renderSearchResults(keyword,results){
 const panel=document.getElementById("searchResultsPanel");const area=document.getElementById("searchResultsArea");const count=document.getElementById("searchResultCount");const key=document.getElementById("searchKeyword");
 panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";
-if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}
+if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoGörünüm({behavior:"smooth",block:"start"});return}
 area.innerHTML=results.slice(0,80).map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");
-window.gdnlSearchResults=results.slice(0,80);panel.scrollIntoView({behavior:"smooth",block:"start"});
+window.gdnlSearchResults=results.slice(0,80);panel.scrollIntoGörünüm({behavior:"smooth",block:"start"});
 }
 function openSearchResult(index){
 const r=(window.gdnlSearchResults||[])[index];if(!r)return;
-if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}
+if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoGörünüm({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}
 if(r.store)localStorage.setItem(r.store,r.selected||"");if(r.go&&r.go!=="#")window.location.href=r.go;
 }
 function clearSearchResults(){
 document.getElementById("globalSearch").value="";
 document.getElementById("searchResultsPanel").classList.remove("active");
 document.getElementById("searchResultsArea").innerHTML="";
-renderDocuments();
+renderDokümans();
 }
 
-function getDocuments(){
-return JSON.parse(localStorage.getItem("gdnl_documents"))||[];
+function getDokümans(){
+return cloudReady?cloudDokümans:(JSON.parse(localStorage.getItem("gdnl_documents"))||[]);
 }
 
-function setDocuments(docs){
-localStorage.setItem("gdnl_documents",JSON.stringify(docs));
+async function setDokümans(docs){
+cloudDokümans=docs.map(normalizeDoküman).filter(d=>!isDeletedStatus(d.status));
+localStorage.setItem("gdnl_documents",JSON.stringify(cloudDokümans));
+return apiPost("/documents",{items:cloudDokümans,module:"Doküman Yönetimi",updated_by:activeUserName(),updated_at:new Date().toISOString()});
 }
 
 function getArchive(){
-return JSON.parse(localStorage.getItem("gdnl_archive"))||[];
+return cloudReady?cloudArchive:(JSON.parse(localStorage.getItem("gdnl_archive"))||[]);
 }
 
-function setArchive(items){
+async function setArchive(items){
+cloudArchive=items;
 localStorage.setItem("gdnl_archive",JSON.stringify(items));
+return apiPost("/archive",{items:items,module:"Doküman Yönetimi",updated_by:activeUserName(),updated_at:new Date().toISOString()});
 }
 
 function todayISO(){
@@ -576,7 +624,7 @@ if(p.length===3)return p[2]+"-"+p[1].padStart(2,"0")+"-"+p[0].padStart(2,"0");
 return v;
 }
 
-function normalizeDocument(doc){
+function normalizeDoküman(doc){
 const type=doc.docType||getTypeFromCode(doc.code)||"PR";
 return{
 systemId:doc.systemId||"DOC-"+Date.now()+"-"+Math.random().toString(16).slice(2),
@@ -612,84 +660,101 @@ source:doc.source||"documents"
 };
 }
 
-function migrateDocuments(){
-const docs=getDocuments().map(normalizeDocument);
-setDocuments(docs);
+function migrateDokümans(){
+const docs=getDokümans().map(normalizeDoküman);
+setDokümans(docs);
 }
 
 function statusClass(status){
 if(status==="Yayında"||status==="Yayınlandı")return"green";
 if(status==="Onayda"||status==="Revizyon"||status==="Taslak")return"orange";
-if(status==="Pasif"||status==="Obsolete")return"red";
+if(status==="Pasif"||status==="Arşivlendi")return"red";
 return"blue";
 }
 
-function viewDocument(index){
-const docs=getDocuments().map(normalizeDocument);
+function viewDoküman(index){
+const docs=getDokümans().map(normalizeDoküman);
 const doc=docs[index];
 localStorage.setItem("gdnl_selected_document_code",doc.code);
 window.location.href="document-viewer.html";
 }
 
 function startRevision(index){
-const docs=getDocuments().map(normalizeDocument);
+const docs=getDokümans().map(normalizeDoküman);
 const doc=docs[index];
 localStorage.setItem("gdnl_revision_target_code",doc.code);
 window.location.href="revision.html";
 }
 
 function viewWorkflow(index){
-const docs=getDocuments().map(normalizeDocument);
+const docs=getDokümans().map(normalizeDoküman);
 const doc=docs[index];
 localStorage.setItem("gdnl_workflow_target_code",doc.code);
 window.location.href="approval.html";
 }
 
-function archiveDocument(index){
-const docs=getDocuments().map(normalizeDocument);
+async function archiveDoküman(index){
+const docs=getDokümans().map(normalizeDoküman);
 const doc=docs[index];
-
-if(!confirm(doc.code+" arşive alınsın mı?"))return;
+if(!doc)return;
+const reason=prompt(doc.code+" arşiv sebebini yazınız:","Doküman master listeden arşive alındı.")||"Doküman master listeden arşive alındı.";
+const oldValue={...doc};
+doc.status="Arşivlendi";
+doc.closed_at=new Date().toISOString();
+doc.archived_by=activeUserName();
+doc.archived_at=new Date().toISOString();
+doc.archive_reason=reason;
+doc.updatedAt=new Date().toISOString();
+doc.updatedBy=activeUserName();
 
 const archive=getArchive();
+const seq=await getNextSequence("ARCHIVE");
 archive.unshift({
-archiveNo:"ARC-"+new Date().getFullYear()+"-"+String(archive.length+1).padStart(3,"0"),
-type:"Obsolete Doküman",
-status:"Obsolete",
+archiveNo:seq||"ARS-"+new Date().getFullYear()+"-"+String(archive.length+1).padStart(3,"0"),
+type:"Arşivlenmiş Doküman",
+status:"Arşivlendi",
 documentCode:doc.code,
 documentName:doc.name,
 oldRev:doc.rev||"-",
 newRev:"-",
-archivedBy:session.name||"System",
+archivedBy:activeUserName(),
+archived_by:activeUserName(),
+archived_at:new Date().toISOString(),
 archiveDate:todayISO(),
 restoreAvailable:"Evet",
-reason:"Doküman master listeden arşive alındı.",
+archive_reason:reason,
+reason:reason,
 detail:doc.description||doc.documentContent||"",
-sourceDocument:doc,
+sourceDoküman:doc,
 createdAt:new Date().toISOString(),
 updatedAt:new Date().toISOString()
 });
 
-docs.splice(index,1);
-setDocuments(docs);
-setArchive(archive);
-renderDocuments();
+docs[index]=doc;
+await setDokümans(docs);
+await setArchive(archive);
+await writeAudit("Arşivleme",doc.code,oldValue,doc);
+await writeActivity("Arşivleme",doc.code,"Doküman aktif listeden arşive alındı.",oldValue,doc);
+await writeNotification("Doküman arşivlendi",`${doc.code} arşive alındı.`,doc.code);
+await syncDashboardKPI();
+renderDokümans();
 showToast("Doküman arşive alındı");
 }
 
-function renderDocuments(){
-const docs=getDocuments().map(normalizeDocument);
+function renderDokümans(){
+const docs=getDokümans().map(normalizeDoküman);
 const q=document.getElementById("globalSearch").value.toLowerCase();
 const typeFilter=document.getElementById("typeFilter").value;
 const statusFilter=document.getElementById("statusFilter").value;
 const ownerFilter=document.getElementById("ownerFilter").value;
 
-const filtered=docs.filter(d=>{
+const activeDocs=docs.filter(d=>!isDeletedStatus(d.status));
+const filtered=activeDocs.filter(d=>{
 const text=`${d.docType} ${d.docTypeName} ${d.code} ${d.name} ${d.rev} ${d.owner} ${d.status} ${d.workflowStatus} ${d.standard} ${d.references} ${d.distributionPoints} ${d.relatedDepartments}`.toLowerCase();
 return text.includes(q)&&(!typeFilter||d.docType===typeFilter)&&(!statusFilter||d.status===statusFilter)&&(!ownerFilter||d.owner===ownerFilter);
 });
 
-updateCards(docs);
+updateCards(activeDocs);
 
 const area=document.getElementById("tableArea");
 
@@ -707,7 +772,7 @@ let html=`<table>
 <th>Tip</th>
 <th>Rev.</th>
 <th>Durum</th>
-<th>Workflow</th>
+<th>İş Akışı</th>
 <th>Sahip</th>
 <th>Standart</th>
 <th>Dosya</th>
@@ -734,10 +799,10 @@ html+=`<tr>
 <td>${formatDateTR(d.updatedAt||d.date)}</td>
 <td>
 <div class="row-actions">
-<button class="small-btn view" onclick="viewDocument(${index})">Görüntüle</button>
+<button class="small-btn view" onclick="viewDoküman(${index})">Görüntüle</button>
 <button class="small-btn rev" onclick="startRevision(${index})">Revizyon</button>
-<button class="small-btn flow" onclick="viewWorkflow(${index})">Workflow</button>
-<button class="small-btn archive" onclick="archiveDocument(${index})">Arşiv</button>
+<button class="small-btn flow" onclick="viewWorkflow(${index})">İş Akışı</button>
+<button class="small-btn archive" onclick="archiveDoküman(${index})">Arşiv</button>
 </div>
 </td>
 </tr>`;
@@ -763,14 +828,19 @@ setTimeout(()=>toast.style.display="none",2500);
 }
 
 document.getElementById("globalSearch").addEventListener("input",function(){
-if(!this.value.trim()){clearSearchResults()}else{renderDocuments()}
+if(!this.value.trim()){clearSearchResults()}else{renderDokümans()}
 });
 document.getElementById("globalSearch").addEventListener("keydown",function(e){
 if(e.key==="Enter"){e.preventDefault();runSearch()}
 });
 
-migrateDocuments();
-renderDocuments();
+async function initCloudReady(){
+await loadCloudCore();
+if(!cloudReady){migrateDokümans();}
+renderDokümans();
+await writeActivity("Sayfa Açılışı","DOCUMENTS","Doküman Master Listeesi cloud ready açıldı.");
+}
+initCloudReady();
 </script>
 
 </body>
