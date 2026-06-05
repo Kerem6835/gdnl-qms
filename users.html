@@ -510,15 +510,36 @@ async function apiRequest(path, options = {}){
 
 async function bootstrap(){
   try{
-    currentUser = await apiRequest("/me");
-    const role = currentUser?.role || currentUser?.role_name || "";
-    const name = currentUser?.fullname || currentUser?.fullName || currentUser?.name || "Kerem Güdenli";
+    const mePayload = await apiRequest("/me");
+
+    /*
+      Worker /me standard response:
+      {
+        success: true,
+        data: {
+          user: {
+            username,
+            fullname,
+            role: "SUPER_ADMIN"
+          }
+        }
+      }
+
+      Eski sürüm direkt currentUser.role aradığı için {user:{...}} yapısında role undefined kalıyordu.
+      Bu nedenle SUPER_ADMIN olmasına rağmen "Yetkisiz erişim" ekranı basıyordu.
+    */
+    currentUser = mePayload?.user || mePayload?.data?.user || mePayload;
+
+    const role = String(currentUser?.role || currentUser?.role_name || "").trim().toUpperCase();
+    const name = currentUser?.fullname || currentUser?.fullName || currentUser?.name || currentUser?.username || "Kerem Güdenli";
 
     if(role !== "SUPER_ADMIN"){
       showToast("Bu sayfaya sadece SUPER_ADMIN erişebilir");
       document.body.innerHTML = "<div style='padding:40px;font-family:Inter,Arial,sans-serif'><h2>Yetkisiz erişim</h2><p>Bu modül sadece SUPER_ADMIN için açılır.</p></div>";
       return;
     }
+
+    console.log("GDNL EOS /me currentUser:", currentUser);
 
     document.getElementById("userChip").textContent = name;
     document.getElementById("superAdminName").textContent = name;
