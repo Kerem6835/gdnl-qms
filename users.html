@@ -442,7 +442,6 @@ tr:hover td{background:#f7fbf8}
 </div>
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
-
 <script>
 const API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
 
@@ -455,16 +454,7 @@ let editKullanıcıId = null;
 
 function fixTR(value){
   if(value === null || value === undefined) return "";
-  return String(value)
-    .replaceAll("Ã¼","ü").replaceAll("Ãœ","Ü")
-    .replaceAll("Ä±","ı").replaceAll("Ä°","İ")
-    .replaceAll("ÅŸ","ş").replaceAll("Åž","Ş")
-    .replaceAll("Ã¶","ö").replaceAll("Ã–","Ö")
-    .replaceAll("Ã§","ç").replaceAll("Ã‡","Ç")
-    .replaceAll("ÄŸ","ğ").replaceAll("Äž","Ğ")
-    .replaceAll("â€“","–").replaceAll("â€”","—")
-    .replaceAll("â€˜","'").replaceAll("â€™","'")
-    .replaceAll("â€œ",'"').replaceAll("â€",'"');
+  return String(value);
 }
 
 function escapeHTML(value){
@@ -511,35 +501,15 @@ async function apiRequest(path, options = {}){
 async function bootstrap(){
   try{
     const mePayload = await apiRequest("/me");
-
-    /*
-      Worker /me standard response:
-      {
-        success: true,
-        data: {
-          user: {
-            username,
-            fullname,
-            role: "SUPER_ADMIN"
-          }
-        }
-      }
-
-      Eski sürüm direkt currentKullanıcı.role aradığı için {user:{...}} yapısında role undefined kalıyordu.
-      Bu nedenle SUPER_ADMIN olmasına rağmen "Yetkisiz erişim" ekranı basıyordu.
-    */
     currentKullanıcı = mePayload?.user || mePayload?.data?.user || mePayload;
 
     const role = String(currentKullanıcı?.role || currentKullanıcı?.role_name || "").trim().toUpperCase();
     const name = currentKullanıcı?.fullname || currentKullanıcı?.fullName || currentKullanıcı?.name || currentKullanıcı?.username || "Kerem Güdenli";
 
     if(role !== "SUPER_ADMIN"){
-      showToast("Bu sayfaya sadece SUPER_ADMIN erişebilir");
       document.body.innerHTML = "<div style='padding:40px;font-family:Inter,Arial,sans-serif'><h2>Yetkisiz erişim</h2><p>Bu modül sadece SUPER_ADMIN için açılır.</p></div>";
       return;
     }
-
-    console.log("GDNL EOS /me currentKullanıcı:", currentKullanıcı);
 
     document.getElementById("userChip").textContent = name;
     document.getElementById("superAdminName").textContent = name;
@@ -549,35 +519,32 @@ async function bootstrap(){
     bindAutocomplete();
   }catch(err){
     console.error(err);
-    showToast("Oturum doğrulanamadı. POST /login ve GET /me kontrol et.");
+    showToast("Oturum doğrulanamadı. Lütfen tekrar giriş yapın.");
   }
 }
 
 async function loadDepartmanlar(){
-  try{
-    departments = extractData(await apiRequest("/departments"));
-  }catch(e){
-    departments = [];
-    showToast("Departmanlar alınamadı");
-  }
+  try{ departments = extractData(await apiRequest("/departments")); }
+  catch(e){ departments = []; showToast("Departmanlar alınamadı"); }
   fillDepartmentSelects();
   renderDepartmanlar();
 }
 
 async function loadRols(){
-  try{
-    roles = extractData(await apiRequest("/roles"));
-  }catch(e){
-    roles = [];
-    showToast("Roller alınamadı");
-  }
+  try{ roles = extractData(await apiRequest("/roles")); }
+  catch(e){ roles = []; showToast("Roller alınamadı"); }
   fillRolSelects();
   renderRols();
   loadYetkiler();
 }
 
-function getDepartmentName(d){ return fixTR(d.name || d.department || d.title || d.fullname || ""); }
-function getRolName(r){ return fixTR(r.name || r.role || r.code || r.title || ""); }
+function getDepartmentName(d){
+  return fixTR(d.name || d.department_name || d.department || d.title || "");
+}
+
+function getRolName(r){
+  return fixTR(r.name || r.role_name || r.role || r.code || r.title || "");
+}
 
 function fillDepartmentSelects(){
   const selects = [document.getElementById("department"), document.getElementById("departmentFilter")];
@@ -616,11 +583,12 @@ function fillRolSelects(){
 }
 
 async function loadKullanıcıs(){
-  const query = new URLAramaParams();
+  const query = new URLSearchParams();
   const q = document.getElementById("globalArama")?.value || "";
   const dep = document.getElementById("departmentFilter")?.value || "";
   const role = document.getElementById("roleFilter")?.value || "";
   const status = document.getElementById("statusFilter")?.value || "";
+
   if(q) query.set("q", q);
   if(dep) query.set("department", dep);
   if(role) query.set("role", role);
@@ -632,6 +600,7 @@ async function loadKullanıcıs(){
     users = [];
     showToast("Kullanıcılar alınamadı");
   }
+
   renderKullanıcıs();
   updateCards();
 }
@@ -661,7 +630,16 @@ function renderKullanıcıs(){
 
   table.innerHTML = `
     <table>
-      <thead><tr><th>ID</th><th>Kullanıcı</th><th>Departman</th><th>Rol</th><th>Durum</th><th>İşlem</th></tr></thead>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Kullanıcı</th>
+          <th>Departman</th>
+          <th>Rol</th>
+          <th>Durum</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
       <tbody>
         ${rows.map(u => `
           <tr>
@@ -670,11 +648,13 @@ function renderKullanıcıs(){
             <td>${escapeHTML(u.department)}</td>
             <td>${escapeHTML(u.role)}</td>
             <td><span class="status ${u.status === "active" ? "green" : u.status === "archived" ? "orange" : "red"}">${escapeHTML(u.status)}</span></td>
-            <td><div class="row-actions">
-              <button class="small-btn edit" onclick="editKullanıcı('${escapeHTML(u.id)}')">Düzenle</button>
-              <button class="small-btn delete" onclick="archiveKullanıcı('${escapeHTML(u.id)}')">Pasifleştir</button>
-              <button class="small-btn mail" onclick="restoreKullanıcı('${escapeHTML(u.id)}')">Geri Yükle</button>
-            </div></td>
+            <td>
+              <div class="row-actions">
+                <button class="small-btn edit" onclick="editKullanıcı('${escapeHTML(u.id)}')">Düzenle</button>
+                <button class="small-btn delete" onclick="archiveKullanıcı('${escapeHTML(u.id)}')">Pasifleştir</button>
+                <button class="small-btn mail" onclick="restoreKullanıcı('${escapeHTML(u.id)}')">Geri Yükle</button>
+              </div>
+            </td>
           </tr>`).join("")}
       </tbody>
     </table>`;
@@ -700,6 +680,7 @@ function getFormPayload(){
 
 async function saveKullanıcı(){
   const payload = getFormPayload();
+
   if(!payload.username || !payload.password || !payload.fullname || !payload.email || !payload.department || !payload.role){
     showToast("Kullanıcı adı, şifre, ad soyad, e-posta, departman ve rol zorunlu");
     return;
@@ -720,6 +701,7 @@ async function saveKullanıcı(){
 function editKullanıcı(id){
   const u = users.map(normalizeKullanıcıRow).find(x => String(x.id) === String(id));
   if(!u) return;
+
   editKullanıcıId = u.id;
   document.getElementById("modeBadge").textContent = "DÜZENLEME MODU";
   document.getElementById("username").value = u.username;
@@ -760,6 +742,7 @@ function resetForm(){
   editKullanıcıId = null;
   document.getElementById("modeBadge").textContent = "KAYIT MODU";
   ["username","password","fullname","email"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("password").value = "123456";
   document.getElementById("department").value = "";
   document.getElementById("role").value = "";
   document.getElementById("status").value = "active";
@@ -768,6 +751,7 @@ function resetForm(){
 function bindAutocomplete(){
   const input = document.getElementById("userAutocomplete");
   let timer = null;
+
   input.addEventListener("input", () => {
     clearTimeout(timer);
     timer = setTimeout(() => autocompleteKullanıcıs(input.value.trim()), 260);
@@ -776,6 +760,7 @@ function bindAutocomplete(){
 
 async function autocompleteKullanıcıs(q){
   const list = document.getElementById("userAutocompleteList");
+
   if(!q){
     list.classList.remove("active");
     list.innerHTML = "";
@@ -784,17 +769,20 @@ async function autocompleteKullanıcıs(q){
 
   const result = extractData(await apiRequest("/users?q=" + encodeURIComponent(q)));
   const rows = result.map(normalizeKullanıcıRow);
+
   list.innerHTML = rows.length ? rows.map(u => `
     <div class="autocomplete-item" onclick="selectAutocompleteKullanıcı('${escapeHTML(u.id)}')">
       ${escapeHTML(u.fullname)}
       <small>${escapeHTML(u.email)} · ${escapeHTML(u.department)} · ${escapeHTML(u.role)}</small>
     </div>`).join("") : '<div class="autocomplete-item">Sonuç bulunamadı</div>';
+
   list.classList.add("active");
 }
 
 async function selectAutocompleteKullanıcı(id){
   const u = normalizeKullanıcıRow(await apiRequest("/users/" + id));
   selectedKullanıcı = u;
+
   document.getElementById("selectedKullanıcıId").value = u.id;
   document.getElementById("selectedFullname").value = u.fullname;
   document.getElementById("selectedEmail").value = u.email;
@@ -805,13 +793,20 @@ async function selectAutocompleteKullanıcı(id){
 
 async function runGlobalArama(){
   const q = document.getElementById("globalArama").value.trim();
-  if(!q){ clearAramaResults(); await loadKullanıcıs(); return; }
+
+  if(!q){
+    clearAramaResults();
+    await loadKullanıcıs();
+    return;
+  }
 
   const results = await apiRequest("/search?q=" + encodeURIComponent(q));
   const list = Array.isArray(results) ? results : (results.items || []);
+
   document.getElementById("searchResultsPanel").classList.add("active");
   document.getElementById("searchKeyword").textContent = q;
   document.getElementById("searchResultCount").textContent = `${list.length} sonuç`;
+
   document.getElementById("searchResultsArea").innerHTML = list.length ? list.map(item => `
     <div class="result-card">
       <div><b>${escapeHTML(item.type || "Kayıt")}</b><small>${escapeHTML(item.id || "")}</small></div>
@@ -832,13 +827,23 @@ function clearAramaResults(){
 
 function renderDepartmanlar(){
   const el = document.getElementById("departmentsTable");
-  if(!departments.length){ el.innerHTML = '<div class="empty">Departman bulunamadı.</div>'; return; }
+
+  if(!departments.length){
+    el.innerHTML = '<div class="empty">Departman bulunamadı.</div>';
+    return;
+  }
+
   el.innerHTML = `<table><thead><tr><th>ID</th><th>Departman</th><th>Durum</th></tr></thead><tbody>${departments.map(d => `<tr><td>${escapeHTML(d.id || "")}</td><td>${escapeHTML(getDepartmentName(d))}</td><td><span class="status green">${escapeHTML(d.status || "active")}</span></td></tr>`).join("")}</tbody></table>`;
 }
 
 function renderRols(){
   const el = document.getElementById("rolesTable");
-  if(!roles.length){ el.innerHTML = '<div class="empty">Rol bulunamadı.</div>'; return; }
+
+  if(!roles.length){
+    el.innerHTML = '<div class="empty">Rol bulunamadı.</div>';
+    return;
+  }
+
   el.innerHTML = `<table><thead><tr><th>ID</th><th>Rol</th><th>Açıklama</th></tr></thead><tbody>${roles.map(r => `<tr><td>${escapeHTML(r.id || "")}</td><td>${escapeHTML(getRolName(r))}</td><td>${escapeHTML(r.description || "-")}</td></tr>`).join("")}</tbody></table>`;
 }
 
@@ -846,6 +851,7 @@ async function loadYetkiler(){
   try{
     const data = extractData(await apiRequest("/permissions"));
     const el = document.getElementById("permissionsTable");
+
     el.innerHTML = data.length ? `<table><thead><tr><th>Yetki</th><th>Kod</th><th>Modül</th></tr></thead><tbody>${data.map(p => `<tr><td>${escapeHTML(p.name || p.permission || p.code)}</td><td>${escapeHTML(p.code || p.permission_code || "")}</td><td>${escapeHTML(p.module || "users")}</td></tr>`).join("")}</tbody></table>` : '<div class="empty">Yetki kaydı bulunamadı.</div>';
   }catch(e){
     document.getElementById("permissionsTable").innerHTML = '<div class="empty">Yetkiler endpointi bekleniyor.</div>';
@@ -855,6 +861,7 @@ async function loadYetkiler(){
 async function loadDashboardKpi(){
   try{
     const kpi = await apiRequest("/dashboard/kpi");
+
     document.getElementById("pendingApprovals").textContent = kpi.pending_approvals || 0;
     document.getElementById("kpiAçıkActions").textContent = kpi.open_actions || 0;
     document.getElementById("kpiAçıkCapa").textContent = kpi.open_capa || 0;
@@ -867,7 +874,7 @@ async function loadSystemStreams(){
   try{
     const audit = extractData(await apiRequest("/audit-logs"));
     document.getElementById("auditLogArea").className = "";
-    document.getElementById("auditLogArea").innerHTML = audit.slice(0,10).map(a => `<div class="audit-line"><b>${escapeHTML(a.action || a.event || "Audit")}</b> · ${escapeHTML(a.ip_address || "-")} · ${escapeHTML(a.session_id || "-")}</div>`).join("");
+    document.getElementById("auditLogArea").innerHTML = audit.slice(0,10).map(a => `<div class="audit-line"><b>${escapeHTML(a.action || a.event || "Denetim")}</b> · ${escapeHTML(a.ip_address || "-")} · ${escapeHTML(a.session_id || "-")}</div>`).join("");
   }catch(e){}
 
   try{
@@ -885,11 +892,17 @@ async function loadSystemStreams(){
 
 async function uploadFile(){
   const input = document.getElementById("fileInput");
-  if(!input.files.length){ showToast("Dosya seç"); return; }
+
+  if(!input.files.length){
+    showToast("Dosya seç");
+    return;
+  }
+
   const fd = new FormData();
   fd.append("file", input.files[0]);
-  const result = await apiRequest("/upload", {method:"POST", body:fd});
-  showToast(result.imzalı_url || result.geçici_token ? "Dosya R2’ye yüklendi" : "Yükleme tamamlandı");
+
+  await apiRequest("/upload", {method:"POST", body:fd});
+  showToast("Dosya R2’ye yüklendi");
 }
 
 function openRolCreate(){ createRol(); }
@@ -900,9 +913,11 @@ function showModule(moduleName){
   document.querySelectorAll('.module-panel').forEach(panel => {
     panel.classList.toggle('active', panel.dataset.module === moduleName);
   });
+
   document.querySelectorAll('[data-module-link]').forEach(link => {
     link.classList.toggle('active', link.dataset.moduleLink === moduleName);
   });
+
   clearAramaResults();
   window.scrollTo({top:0, behavior:'smooth'});
 }
@@ -910,6 +925,7 @@ function showModule(moduleName){
 async function createRol(){
   const name = prompt('Yeni rol kodu / adı');
   if(!name) return;
+
   const description = prompt('Rol açıklaması') || '';
   await apiRequest('/roles', {method:'POST', body:JSON.stringify({name, description})});
   showToast('Rol oluşturuldu');
@@ -919,6 +935,7 @@ async function createRol(){
 async function archiveRolPrompt(){
   const id = prompt('Pasifleştirilecek rol ID');
   if(!id) return;
+
   await apiRequest(`/roles/${id}/archive`, {method:'PATCH', body:JSON.stringify({archive_reason:'Rol pasifleştirme'})});
   showToast('Rol pasifleştirildi');
   await loadRols();
@@ -927,6 +944,7 @@ async function archiveRolPrompt(){
 async function createDepartment(){
   const name = prompt('Yeni departman adı');
   if(!name) return;
+
   await apiRequest('/departments', {method:'POST', body:JSON.stringify({name})});
   showToast('Departman oluşturuldu');
   await loadDepartmanlar();
@@ -955,8 +973,10 @@ function closeMobileMenu(){
 function showToast(message){
   const toast = document.getElementById("toast");
   if(!toast) return;
+
   toast.textContent = message;
   toast.style.display = "block";
+
   clearTimeout(window.__toastTimer);
   window.__toastTimer = setTimeout(() => toast.style.display = "none", 2400);
 }
@@ -976,9 +996,10 @@ document.addEventListener("keydown", e => {
 
 bootstrap();
 
-console.log("GDNL EOS Kurumsal Kullanıcı Yönetimi Bulut Uyumlu | mevcut D1 kullanıcı şeması uyumlu");
+console.log("GDNL EOS Kurumsal Kullanıcı Yönetimi | D1/R2 bulut uyumlu");
 
 </script>
+ 
 
 </body>
 </html>
