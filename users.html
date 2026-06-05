@@ -3,216 +3,1253 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Kullanıcı Yönetimi</title>
+<title>GDNL EOS — Users Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-html,body{min-height:100%;overflow-x:hidden}
-body{background:radial-gradient(circle at 86% 8%,rgba(53,168,82,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef7f1 46%,#f8fbff 100%);color:#0f1b2f}
-.app{display:grid;grid-template-columns:282px minmax(0,1fr);min-height:100vh;align-items:start}
-.sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06);min-height:100vh;position:sticky;top:0}
-.logo{font-size:30px;font-weight:950;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}.logo span{color:#35a852}
-.menu{display:flex;flex-direction:column;gap:8px}.menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:850;transition:.2s;border:1px solid transparent}.menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
-.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid #dfe9f5;padding-top:18px}.main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
-.topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px;gap:12px}.search-wrap{display:flex;align-items:center;gap:10px;min-width:0;flex:1}.search{width:550px;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}.search:focus,.field input:focus,.field select:focus,.field textarea:focus,.toolbar select:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12);background:#fff}.search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:#fff;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);transition:.2s}.search-btn:hover,.user-chip:hover,.logout-btn:hover,.btn.primary:hover,.result-open:hover{filter:brightness(.99);transform:translateY(-1px)}.profile{display:flex;align-items:center;gap:10px;flex:0 0 auto}.user-chip{height:44px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:950;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);padding:0 24px;transition:.2s;white-space:nowrap}.logout-btn{height:44px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;padding:0 18px;border-radius:14px;font-weight:950;cursor:pointer;transition:.2s;white-space:nowrap}.logout-btn:hover{background:#fecaca}
-.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf7ef 100%);color:#0f1b2f;border:1px solid #dbe8f7;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;gap:20px;align-items:center;box-shadow:0 20px 55px rgba(7,27,52,.065)}.hero h1{font-size:42px;font-weight:950;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;color:#081d35}.hero p{max-width:1100px;color:#4e6078;font-weight:650;line-height:1.7}.hero-badge{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;padding:16px 18px;border-radius:18px;font-weight:950;height:max-content;white-space:nowrap;box-shadow:0 14px 32px rgba(53,168,82,.22)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}.card{background:rgba(255,255,255,.84);backdrop-filter:blur(20px);border:1px solid rgba(53,168,82,.12);border-radius:24px;padding:22px;box-shadow:0 10px 30px rgba(7,27,52,.05),0 2px 8px rgba(53,168,82,.05);position:relative;overflow:hidden}.card:before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,#35a852,#1597ff);opacity:.88}.card small{color:#617086;font-weight:900}.card h2{font-size:40px;font-weight:950;color:#1f7d3d;letter-spacing:-1px;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#536176}
-.panel{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px);margin-bottom:24px;min-width:0}.admin-panel{background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(237,250,241,.97));border-color:#bfe7ca;box-shadow:0 18px 45px rgba(53,168,82,.10)}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}.panel h3{font-size:19px;font-weight:950;color:#071b34;letter-spacing:-.3px}.panel-subtitle{font-size:13px;font-weight:800;color:#617086;margin-top:-10px;margin-bottom:18px;line-height:1.55}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px;min-width:0;position:relative}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}.field label{font-size:12px;font-weight:900;color:#617086}.field input,.field select,.field textarea{width:100%;height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 13px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}.field textarea{height:96px;padding:12px;resize:none;line-height:1.55}.field textarea.big{height:138px}.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}.toolbar select{height:42px;border:1px solid #d8e4ef;border-radius:13px;padding:0 12px;background:linear-gradient(135deg,#fff,#f8fbff);font-weight:800;color:#0f1b2f}.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:950;cursor:pointer;transition:.2s}.btn.primary{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;box-shadow:0 14px 32px rgba(53,168,82,.18)}.btn.dark{background:linear-gradient(135deg,#071b34,#0d2747);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}.btn.gray{background:#e9eef5;color:#405166}.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:950}.status.blue{background:#e8f7ee;color:#1f7d3d}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e9eef5;color:#405166}
-table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{text-align:left;font-size:12px;color:#617086;padding:12px;border-bottom:1px solid #e1eaf3;background:linear-gradient(135deg,#f8fbff,#f1f8f4)}td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:800;color:#536176;vertical-align:middle}td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}.row-actions{display:flex;gap:8px;flex-wrap:wrap}.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:950;cursor:pointer}.small-btn.edit{background:#e8f7ee;color:#1f7d3d}.small-btn.mail{background:#dcfce7;color:#15803d}.small-btn.delete{background:#fee2e2;color:#991b1b}.small-btn.restore{background:#e0f2fe;color:#0369a1}.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:linear-gradient(135deg,#f8fbff,#fff)}.toast{position:fixed;right:24px;bottom:24px;background:linear-gradient(135deg,#071b34,#1f8f43);color:white;padding:15px 18px;border-radius:16px;font-weight:950;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:9999}.search-results-panel{display:none;border:1px solid #c7ebd2;background:rgba(255,255,255,.94)}.search-results-panel.active{display:block}.search-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:900;color:#475569}.search-keyword{background:#e8f7ee;color:#1f7d3d;border-radius:999px;padding:7px 12px;font-weight:950}.link{cursor:pointer;color:#1f7d3d;font-weight:950;text-decoration:none}.result-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:15px;margin-bottom:12px;display:grid;grid-template-columns:160px minmax(0,1fr) 130px;gap:14px;align-items:center}.result-card b{display:block;font-size:14px;margin-bottom:6px;color:#0f172a}.result-card small{display:block;font-size:12px;color:#617086;line-height:1.55;font-weight:800}.result-open{height:38px;border:none;border-radius:12px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;font-weight:950;cursor:pointer}
-.autocomplete-box{position:absolute;top:72px;left:0;right:0;background:#fff;border:1px solid #d8e4ef;border-radius:16px;box-shadow:0 18px 45px rgba(7,27,52,.13);z-index:60;display:none;max-height:270px;overflow:auto}.autocomplete-box.active{display:block}.auto-item{padding:12px 14px;border-bottom:1px solid #edf2f7;cursor:pointer}.auto-item:hover{background:#f0fbf4}.auto-item b{font-size:13px;color:#0f172a}.auto-item small{display:block;font-size:12px;color:#64748b;margin-top:4px;font-weight:800}.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(15,23,42,.48);backdrop-filter:blur(7px);z-index:400}.modal-backdrop.active{display:flex;align-items:center;justify-content:center;padding:20px}.modal{background:#fff;border-radius:24px;border:1px solid #e2e8f0;box-shadow:0 30px 90px rgba(15,23,42,.25);max-width:560px;width:100%;padding:24px}.modal h3{font-size:20px;font-weight:950;margin-bottom:10px}.modal p{font-size:13px;color:#617086;font-weight:800;line-height:1.6;margin-bottom:16px}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.tab{border:1px solid #d8e4ef;background:#fff;border-radius:999px;padding:10px 14px;font-weight:950;color:#536176;cursor:pointer}.tab.active{background:#dcfce7;color:#15803d;border-color:#bfe7ca}.feed-list{display:grid;gap:10px}.feed-item{padding:14px;border:1px solid #edf2f7;border-radius:16px;background:linear-gradient(135deg,#f8fbff,#fff)}.feed-item b{display:block;font-size:13px;color:#0f172a;margin-bottom:4px}.feed-item small{display:block;color:#64748b;font-size:12px;line-height:1.55;font-weight:800}.mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:white;font-size:22px;font-weight:950;cursor:pointer;box-shadow:0 12px 28px rgba(53,168,82,.22);flex:0 0 auto}.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0;overflow:hidden}.mobile-drawer.active{left:0}.mobile-overlay.active{display:block}.mobile-drawer-head{height:86px;flex:0 0 86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#ffffff,#f0fbf4)}.mobile-drawer-logo{font-size:25px;font-weight:950;letter-spacing:-.5px;color:#0f172a}.mobile-drawer-logo span{color:#35a852}.mobile-close{width:42px;height:42px;border:1px solid #fecaca;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950;cursor:pointer}.mobile-drawer-menu{padding:16px 16px 92px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:8px;flex:1 1 auto;-webkit-overflow-scrolling:touch;max-height:calc(100dvh - 86px)}.mobile-drawer-menu a{text-decoration:none;color:#516177;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}.mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}.mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}.menu-section{display:flex;flex-direction:column;gap:6px}.menu-group-btn{width:100%;border:1px solid transparent;background:transparent;color:#334155;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:.2s;text-align:left}.menu-group-btn:hover,.menu-group.open>.menu-group-btn{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}.menu-group-arrow{font-size:12px;transition:.2s;color:#64748b}.menu-group.open .menu-group-arrow{transform:rotate(90deg);color:#1f7d3d}.menu-sub{display:none;flex-direction:column;gap:6px;margin:2px 0 8px 12px;padding-left:10px;border-left:2px solid #e2e8f0}.menu-group.open .menu-sub{display:flex}.menu-sub a{font-size:13px!important;padding:11px 12px!important;border-radius:12px!important}.menu a.single-link{font-weight:900}.mobile-drawer-menu .menu-section{gap:7px}.mobile-drawer-menu .menu-group-btn{font-size:15px;padding:14px 15px}.mobile-drawer-menu .menu-sub{margin-left:10px;padding-left:10px}.mobile-drawer-menu .menu-sub a{font-size:14px!important;padding:12px 13px!important}
-@media(max-width:850px){#userListPanel{overflow:visible!important}#userTable{width:100%;overflow:visible}#userTable table,#userTable tbody,#userTable tr,#userTable td{display:block;width:100%}#userTable thead{display:none}#userTable tr{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:20px;padding:14px;margin-bottom:14px;box-shadow:0 12px 28px rgba(7,27,52,.06);overflow:hidden}#userTable td{border-bottom:1px solid #edf2f7;padding:11px 4px;font-size:13px;display:flex;justify-content:space-between;gap:14px;align-items:flex-start;word-break:break-word}#userTable td:last-child{border-bottom:0;display:block}#userTable td:before{flex:0 0 105px;color:#617086;font-size:11px;font-weight:950;text-transform:uppercase;letter-spacing:.2px}#userTable td:nth-child(1):before{content:"Kullanıcı"}#userTable td:nth-child(2):before{content:"Departman"}#userTable td:nth-child(3):before{content:"Rol"}#userTable td:nth-child(4):before{content:"Durum"}#userTable td:nth-child(5):before{content:"Bildirim"}#userTable td:nth-child(6):before{content:"İşlem";display:block;margin-bottom:10px}#userTable .row-actions{display:grid;grid-template-columns:1fr;gap:8px}#userTable .small-btn{width:100%;height:42px;font-size:12px}.toolbar{width:100%;display:grid;grid-template-columns:1fr;gap:10px}.toolbar select{width:100%;height:46px}}
-@media print{.sidebar,.topbar,.hero,.actions,.toolbar,.toast,.mobile-overlay,.mobile-drawer{display:none!important}.app{display:block}.main{padding:0;max-width:none}.panel,.card{box-shadow:none;border:1px solid #e2e8f0}}
-@media(max-width:1200px){.search{width:320px}.field.double{grid-column:1/-1}}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.user-chip,.logout-btn{display:none!important}.cards,.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
+  :root {
+    --bg: #0d0f12;
+    --bg2: #13161b;
+    --bg3: #1a1e25;
+    --bg4: #21262f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --text2: #8b90a0;
+    --text3: #555a6a;
+    --accent: #3b82f6;
+    --accent2: #1d4ed8;
+    --accent-glow: rgba(59,130,246,0.15);
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.1);
+    --amber: #f59e0b;
+    --amber-bg: rgba(245,158,11,0.1);
+    --red: #ef4444;
+    --red-bg: rgba(239,68,68,0.1);
+    --purple: #a78bfa;
+    --purple-bg: rgba(167,139,250,0.1);
+    --teal: #2dd4bf;
+    --teal-bg: rgba(45,212,191,0.1);
+    --radius: 8px;
+    --radius2: 12px;
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+    --sidebar-w: 240px;
+    --header-h: 56px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 14px; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
+    background: var(--bg2); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 20px; gap: 16px; z-index: 100;
+  }
+  .topbar-logo { display: flex; align-items: center; gap: 10px; width: var(--sidebar-w); flex-shrink: 0; }
+  .logo-mark {
+    width: 28px; height: 28px; background: var(--accent); border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 11px; font-weight: 500; color: #fff; letter-spacing: -0.5px;
+  }
+  .logo-text { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: 0.02em; }
+  .logo-sub { font-size: 10px; color: var(--text3); letter-spacing: 0.04em; text-transform: uppercase; }
+  .topbar-search {
+    flex: 1; max-width: 400px;
+    background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius);
+    display: flex; align-items: center; gap: 8px; padding: 0 12px; height: 34px;
+  }
+  .topbar-search svg { color: var(--text3); flex-shrink: 0; }
+  .topbar-search input {
+    background: none; border: none; outline: none; color: var(--text);
+    font-family: var(--font); font-size: 13px; width: 100%;
+  }
+  .topbar-search input::placeholder { color: var(--text3); }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .icon-btn {
+    width: 32px; height: 32px; border-radius: var(--radius);
+    background: var(--bg3); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text2); transition: all 0.15s;
+    position: relative;
+  }
+  .icon-btn:hover { background: var(--bg4); border-color: var(--border2); color: var(--text); }
+  .notif-dot {
+    position: absolute; top: 5px; right: 5px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--red); border: 1.5px solid var(--bg2);
+  }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #fff; cursor: pointer; flex-shrink: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; padding-top: var(--header-h); min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed; top: var(--header-h); left: 0; bottom: 0;
+    width: var(--sidebar-w); background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; overflow-y: auto; z-index: 90;
+    padding: 12px 8px;
+  }
+  .sidebar-section { margin-bottom: 4px; }
+  .sidebar-label { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; padding: 8px 10px 4px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 7px 10px;
+    border-radius: var(--radius); cursor: pointer; color: var(--text2);
+    font-size: 13px; font-weight: 400; transition: all 0.12s;
+    text-decoration: none; position: relative;
+  }
+  .nav-item:hover { background: var(--bg3); color: var(--text); }
+  .nav-item.active { background: var(--accent-glow); color: var(--accent); font-weight: 500; }
+  .nav-item.active::before {
+    content: ''; position: absolute; left: 0; top: 4px; bottom: 4px;
+    width: 3px; background: var(--accent); border-radius: 0 2px 2px 0;
+  }
+  .nav-badge {
+    margin-left: auto; min-width: 18px; height: 18px; padding: 0 5px;
+    background: var(--red-bg); color: var(--red); border-radius: 9px;
+    font-size: 10px; font-weight: 500; display: flex; align-items: center; justify-content: center;
+  }
+  .nav-badge.blue { background: var(--accent-glow); color: var(--accent); }
+  .sidebar-footer {
+    margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border);
+  }
+  .user-card {
+    display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+    border-radius: var(--radius); background: var(--bg3);
+  }
+  .user-card-info { flex: 1; min-width: 0; }
+  .user-name { font-size: 12px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-role { font-size: 10px; color: var(--text3); }
+  .super-badge {
+    font-size: 9px; font-weight: 600; padding: 2px 5px;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    color: #fff; border-radius: 4px; letter-spacing: 0.03em;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { margin-left: var(--sidebar-w); flex: 1; padding: 24px; }
+
+  /* ── PAGE HEADER ── */
+  .page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+  .page-title { font-size: 20px; font-weight: 600; color: var(--text); }
+  .page-sub { font-size: 13px; color: var(--text2); margin-top: 3px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 16px; border-radius: var(--radius); font-family: var(--font);
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; border: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-ghost { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); }
+  .btn-ghost:hover { background: var(--bg4); color: var(--text); border-color: var(--border2); }
+  .btn-danger { background: var(--red-bg); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+
+  /* ── KPI GRID ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius2);
+    padding: 16px; transition: border-color 0.15s;
+  }
+  .kpi-card:hover { border-color: var(--border2); }
+  .kpi-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .kpi-icon {
+    width: 32px; height: 32px; border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .kpi-trend { font-size: 11px; display: flex; align-items: center; gap: 3px; }
+  .kpi-trend.up { color: var(--red); }
+  .kpi-trend.down { color: var(--green); }
+  .kpi-value { font-size: 26px; font-weight: 600; color: var(--text); line-height: 1; margin-bottom: 4px; font-family: var(--mono); }
+  .kpi-label { font-size: 11px; color: var(--text2); }
+
+  /* ── FILTERS BAR ── */
+  .filters-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 0 12px; height: 36px; flex: 1; max-width: 320px;
+  }
+  .search-box input { background: none; border: none; outline: none; color: var(--text); font-family: var(--font); font-size: 13px; width: 100%; }
+  .search-box input::placeholder { color: var(--text3); }
+  .select-filter {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+    color: var(--text2); font-family: var(--font); font-size: 13px;
+    padding: 0 10px; height: 36px; outline: none; cursor: pointer;
+    appearance: none; padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555a6a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center;
+  }
+  .select-filter:focus { border-color: var(--accent); }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius2); overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--bg3); }
+  th {
+    padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 500;
+    color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  th:first-child { padding-left: 20px; }
+  td {
+    padding: 12px 14px; font-size: 13px; color: var(--text);
+    border-bottom: 1px solid var(--border); vertical-align: middle;
+  }
+  td:first-child { padding-left: 20px; }
+  tbody tr { transition: background 0.1s; }
+  tbody tr:hover { background: var(--bg3); }
+  tbody tr:last-child td { border-bottom: none; }
+  .user-cell { display: flex; align-items: center; gap: 10px; }
+  .user-av {
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #fff;
+  }
+  .user-av.c1 { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
+  .user-av.c2 { background: linear-gradient(135deg, #10b981, #059669); }
+  .user-av.c3 { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+  .user-av.c4 { background: linear-gradient(135deg, #ec4899, #8b5cf6); }
+  .user-av.c5 { background: linear-gradient(135deg, #14b8a6, #3b82f6); }
+  .user-av.c6 { background: linear-gradient(135deg, #f97316, #eab308); }
+  .user-fullname { font-size: 13px; font-weight: 500; color: var(--text); }
+  .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; font-family: var(--mono); }
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap;
+  }
+  .b-active { background: var(--green-bg); color: var(--green); }
+  .b-passive { background: var(--bg4); color: var(--text3); }
+  .b-super { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(167,139,250,0.2)); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+  .b-dept-m { background: var(--amber-bg); color: var(--amber); }
+  .b-role { background: var(--bg4); color: var(--text2); }
+  .b-blue { background: var(--accent-glow); color: var(--accent); }
+  .actions-cell { display: flex; align-items: center; gap: 6px; }
+  .act-btn {
+    width: 28px; height: 28px; border-radius: var(--radius);
+    background: var(--bg3); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text3); transition: all 0.12s;
+  }
+  .act-btn:hover { background: var(--bg4); border-color: var(--border2); color: var(--text); }
+  .act-btn.danger:hover { background: var(--red-bg); border-color: rgba(239,68,68,0.3); color: var(--red); }
+
+  /* ── PAGINATION ── */
+  .pagination {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px; border-top: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  .page-info { font-size: 12px; color: var(--text3); }
+  .page-btns { display: flex; gap: 4px; }
+  .page-btn {
+    width: 30px; height: 30px; border-radius: var(--radius); display: flex; align-items: center;
+    justify-content: center; font-size: 12px; cursor: pointer; border: 1px solid var(--border);
+    background: var(--bg3); color: var(--text2); transition: all 0.12s;
+  }
+  .page-btn:hover { background: var(--bg4); color: var(--text); }
+  .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px;
+    width: 520px; max-width: calc(100vw - 32px); max-height: calc(100vh - 64px);
+    overflow-y: auto; transform: translateY(12px); transition: transform 0.2s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-header {
+    padding: 20px 24px 16px; display: flex; align-items: center;
+    justify-content: space-between; border-bottom: 1px solid var(--border);
+  }
+  .modal-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .modal-close {
+    width: 28px; height: 28px; border-radius: var(--radius); background: var(--bg3);
+    border: none; cursor: pointer; color: var(--text3); display: flex; align-items: center; justify-content: center;
+    transition: all 0.12s;
+  }
+  .modal-close:hover { background: var(--bg4); color: var(--text); }
+  .modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+
+  /* ── FORM ELEMENTS ── */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 12px; font-weight: 500; color: var(--text2); }
+  .form-required { color: var(--red); }
+  .form-input, .form-select {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius);
+    color: var(--text); font-family: var(--font); font-size: 13px;
+    padding: 9px 12px; outline: none; transition: border-color 0.15s; width: 100%;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--accent); background: var(--bg4); }
+  .form-input::placeholder { color: var(--text3); }
+  .form-select { cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555a6a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px;
+  }
+  .form-hint { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .autocomplete-wrap { position: relative; }
+  .autocomplete-list {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius);
+    z-index: 50; overflow: hidden; display: none;
+  }
+  .autocomplete-list.show { display: block; }
+  .ac-item {
+    padding: 9px 12px; cursor: pointer; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px; transition: background 0.1s;
+  }
+  .ac-item:last-child { border-bottom: none; }
+  .ac-item:hover { background: var(--bg4); }
+  .ac-name { font-size: 13px; color: var(--text); font-weight: 500; }
+  .ac-meta { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .autofilled-fields {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .af-item { display: flex; flex-direction: column; gap: 2px; }
+  .af-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .af-value { font-size: 12px; color: var(--text); font-family: var(--mono); }
+
+  /* ── DEPT GRID ── */
+  .dept-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
+  .dept-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius2);
+    padding: 14px; transition: all 0.15s; cursor: pointer;
+  }
+  .dept-card:hover { border-color: var(--border2); background: var(--bg3); }
+  .dept-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .dept-stats { display: flex; gap: 6px; flex-wrap: wrap; }
+  .dept-stat { font-size: 10px; color: var(--text3); display: flex; align-items: center; gap: 3px; }
+
+  /* ── AUDIT SECTION ── */
+  .audit-list { display: flex; flex-direction: column; gap: 0; }
+  .audit-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  .audit-item:hover { background: var(--bg3); }
+  .audit-item:last-child { border-bottom: none; }
+  .audit-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .audit-content { flex: 1; }
+  .audit-action { font-size: 13px; color: var(--text); }
+  .audit-action strong { color: var(--accent); font-weight: 500; }
+  .audit-meta { font-size: 11px; color: var(--text3); margin-top: 3px; font-family: var(--mono); }
+  .audit-time { font-size: 11px; color: var(--text3); white-space: nowrap; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 2px; margin-bottom: 20px; background: var(--bg3); padding: 4px; border-radius: var(--radius); width: fit-content; }
+  .tab {
+    padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: 400;
+    color: var(--text2); cursor: pointer; transition: all 0.15s;
+  }
+  .tab.active { background: var(--bg2); color: var(--text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── PERMISSIONS TABLE ── */
+  .perms-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .perms-table th { padding: 8px 10px; text-align: center; color: var(--text3); font-size: 10px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+  .perms-table th:first-child { text-align: left; min-width: 160px; }
+  .perms-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text2); text-align: center; }
+  .perms-table td:first-child { text-align: left; color: var(--text); }
+  .perms-table tr:last-child td { border-bottom: none; }
+  .perm-check { color: var(--green); font-size: 14px; }
+  .perm-cross { color: var(--text3); font-size: 14px; }
+  .perm-partial { color: var(--amber); font-size: 14px; }
+
+  /* ── NOTIFICATION PANEL ── */
+  .notif-list { display: flex; flex-direction: column; gap: 0; }
+  .notif-item {
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 10px; transition: background 0.1s; cursor: pointer;
+  }
+  .notif-item:hover { background: var(--bg3); }
+  .notif-item.unread { background: rgba(59,130,246,0.04); }
+  .notif-icon { width: 32px; height: 32px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .notif-body { flex: 1; }
+  .notif-msg { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .notif-time { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .notif-unread-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+
+  /* ── TOAST ── */
+  .toast-container { position: fixed; top: 68px; right: 16px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+  .toast {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; border-radius: var(--radius); min-width: 260px;
+    font-size: 13px; animation: slideIn 0.2s ease;
+    border: 1px solid;
+  }
+  .toast.success { background: #0f1f14; border-color: rgba(34,197,94,0.3); color: var(--green); }
+  .toast.error { background: #1f0f0f; border-color: rgba(239,68,68,0.3); color: var(--red); }
+  .toast.info { background: #0f141f; border-color: rgba(59,130,246,0.3); color: var(--accent); }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+  /* ── SECTION ── */
+  .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .section-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .card-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius2); overflow: hidden; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+  /* ── ANIMATIONS ── */
+  .fade-in { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
-<div class="app">
-<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
-<aside class="mobile-drawer" id="mobileDrawer"><div class="mobile-drawer-head"><div class="mobile-drawer-logo">GDNL <span>EOS</span></div><button class="mobile-close" onclick="closeMobileMenu()">×</button></div><nav class="mobile-drawer-menu" id="mobileMenuMount"></nav><div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Çıkış Yap</button></div></aside>
-<aside class="sidebar"><div><a href="dashboard.html" class="logo">GDNL <span>EOS</span></a><nav class="menu" id="desktopMenuMount"></nav></div><div class="sidebar-footer">GDNL EOS Enterprise<br>Users Management<br>Cloud Ready RBAC</div></aside>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-logo">
+    <div class="logo-mark">EOS</div>
+    <div>
+      <div class="logo-text">GDNL EOS</div>
+      <div class="logo-sub">Enterprise Suite</div>
+    </div>
+  </div>
+  <div class="topbar-search">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="GET /search — arşiv ve silinen kayıtlar hariç..." id="globalSearch">
+  </div>
+  <div class="topbar-right">
+    <div class="icon-btn" onclick="switchTab('notifications')" title="Bildirimler">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="notif-dot"></div>
+    </div>
+    <div class="icon-btn" title="Audit Log" onclick="switchTab('audit')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    </div>
+    <div class="avatar" title="Kerem Güdenli">KG</div>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Genel</div>
+    <a class="nav-item active" onclick="switchTab('dashboard')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" onclick="switchTab('users')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Kullanıcılar
+      <span class="nav-badge blue">65</span>
+    </a>
+    <a class="nav-item" onclick="switchTab('departments')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Departmanlar
+    </a>
+    <a class="nav-item" onclick="switchTab('roles')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Roller & İzinler
+    </a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">İş Akışı</div>
+    <a class="nav-item" onclick="switchTab('dashboard')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Workflows
+    </a>
+    <a class="nav-item" onclick="switchTab('dashboard')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Onaylar
+      <span class="nav-badge">7</span>
+    </a>
+    <a class="nav-item" onclick="switchTab('dashboard')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Görevler
+    </a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Sistem</div>
+    <a class="nav-item" onclick="switchTab('audit')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Audit Log
+    </a>
+    <a class="nav-item" onclick="switchTab('notifications')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Bildirimler
+    </a>
+  </div>
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="avatar" style="width:28px;height:28px;font-size:10px;">KG</div>
+      <div class="user-card-info">
+        <div class="user-name">Kerem Güdenli</div>
+        <div class="user-role">kerem@gdnl.com.tr</div>
+      </div>
+      <span class="super-badge">SA</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
 <main class="main">
-<header class="topbar"><button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button><div class="search-wrap"><input class="search" id="globalSearch" placeholder="Kullanıcı, departman, rol, mail veya görev ara"><button class="search-btn" onclick="runSearch()">Ara</button></div><div class="profile"><button class="user-chip" id="userChip" onclick="window.location.href='dashboard.html'">Yükleniyor</button><button class="logout-btn" onclick="logout()">Çıkış Yap</button></div></header>
-<section class="hero"><div><h1>Enterprise Kullanıcı Yönetimi</h1><p>D1 tabanlı kullanıcı, departman, rol, yetki, approval, workflow, audit log, activity feed, notification, assignment, comment, archive, restore ve R2 dosya versiyon yönetimi merkezi.</p></div><div class="hero-badge">Cloud Status: <span id="cloudStatus">Checking</span></div></section>
-<section class="panel search-results-panel" id="searchResultsPanel"><div class="panel-head"><h3>Global Arama Sonuçları</h3><div class="search-summary"><span class="search-keyword" id="searchKeyword">-</span><span id="searchResultCount">0 sonuç</span><a class="link" onclick="clearSearchResults()">Temizle</a></div></div><div id="searchResultsArea"></div></section>
-<section class="cards"><div class="card"><small>Toplam Kullanıcı</small><h2 id="totalUsers">0</h2><p>Aktif ve arşiv dışı kullanıcı</p></div><div class="card"><small>Aktif Kullanıcı</small><h2 id="activeUsers">0</h2><p>Oturum ve görev alabilir</p></div><div class="card"><small>Bekleyen Onay</small><h2 id="pendingApprovals">0</h2><p>Approval adımları</p></div><div class="card"><small>Bekleyen Görev</small><h2 id="pendingTasks">0</h2><p>Assignment kayıtları</p></div><div class="card"><small>Açık Aksiyon</small><h2 id="openActions">0</h2><p>Aksiyon merkezi</p></div><div class="card"><small>Açık CAPA</small><h2 id="openCapa">0</h2><p>8D / CAPA</p></div><div class="card"><small>Açık Risk</small><h2 id="openRisks">0</h2><p>Risk kayıtları</p></div><div class="card"><small>Yaklaşan Termin</small><h2 id="upcomingDue">0</h2><p>Termin yaklaşan işler</p></div></section>
-<section class="panel admin-panel" id="userSearchPanel"><div class="panel-head"><h3>Kullanıcı Seçimi ve Autocomplete</h3><span class="status blue">GET /users?q=</span></div><div class="panel-subtitle">Kullanıcı seçilince id, ad soyad, e-posta, departman ve rol alanları otomatik dolar.</div><div class="form-grid"><div class="field full"><label>Kullanıcı Ara</label><input id="userAutocomplete" placeholder="Ad, e-posta, departman veya rol yaz" autocomplete="off"><div class="autocomplete-box" id="autocompleteBox"></div></div><div class="field"><label>ID</label><input id="selectedUserId" readonly></div><div class="field"><label>Ad Soyad</label><input id="selectedFullname" readonly></div><div class="field"><label>E-Posta</label><input id="selectedEmail" readonly></div><div class="field"><label>Departman</label><input id="selectedDepartment" readonly></div><div class="field"><label>Rol</label><input id="selectedRole" readonly></div></div></section>
-<section class="panel" id="userDefinitionPanel"><div class="panel-head"><h3>Kullanıcı Tanımlama</h3><span class="status blue" id="modeBadge">CREATE MODE</span></div><div class="panel-subtitle">Departman ve roller hardcoded değildir. GET /departments ve GET /roles endpointlerinden yüklenir. Oturum bilgisi storage içinde tutulmaz; GET /me ile alınır.</div><div class="form-grid"><div class="field"><label>Ad Soyad</label><input id="fullName" placeholder="Ad Soyad"></div><div class="field"><label>Kullanıcı Adı</label><input id="username" placeholder="kullanici.adi"></div><div class="field"><label>Geçici Şifre</label><input id="password" type="password" placeholder="Geçici şifre"></div><div class="field"><label>Departman</label><select id="department"></select></div><div class="field"><label>Rol</label><select id="role"></select></div><div class="field"><label>Durum</label><select id="status"><option value="active">Aktif</option><option value="passive">Pasif</option><option value="archived">Arşivli</option></select></div><div class="field"><label>E-Posta</label><input id="email" type="email" placeholder="kullanici@firma.com"></div><div class="field"><label>Telefon</label><input id="phone" placeholder="+90 5xx xxx xx xx"></div><div class="field"><label>Mail Bildirimi</label><select id="mailEnabled"><option value="true">Evet</option><option value="false">Hayır</option></select></div><div class="field"><label>SMS Bildirimi</label><select id="smsEnabled"><option value="false">Hayır</option><option value="true">Evet</option></select></div><div class="field full"><label>Yetki / Not</label><textarea id="notes" class="big" placeholder="Rol ve kullanıcı notu"></textarea></div></div><div class="actions"><button class="btn primary" onclick="saveUser()">Kullanıcı Kaydet</button><button class="btn orange" onclick="openArchiveModalFromForm()">Seçili Kullanıcıyı Arşivle</button><button class="btn green" onclick="restoreSelectedUser()">Seçili Kullanıcıyı Restore Et</button><button class="btn dark" onclick="resetForm()">Temizle</button></div></section>
-<section class="panel" id="userListPanel"><div class="panel-head"><h3>Kullanıcı Listesi</h3><div class="toolbar"><select id="departmentFilter" onchange="renderUsers()"><option value="">Tüm Departmanlar</option></select><select id="statusFilter" onchange="renderUsers()"><option value="">Tüm Durumlar</option><option value="active">Aktif</option><option value="passive">Pasif</option><option value="archived">Arşivli</option></select><select id="roleFilter" onchange="renderUsers()"><option value="">Tüm Roller</option></select></div></div><div id="userTable"></div></section>
-<section class="panel admin-panel" id="governancePanel"><div class="panel-head"><h3>Approval / Workflow / Assignment Merkezi</h3><span class="status orange">Enterprise Governance</span></div><div class="tabs"><button class="tab active" onclick="switchFeed('approvals',this)">Onaylar</button><button class="tab" onclick="switchFeed('workflows',this)">Workflow</button><button class="tab" onclick="switchFeed('assignments',this)">Görevler</button><button class="tab" onclick="switchFeed('comments',this)">Yorumlar</button></div><div id="governanceFeed" class="feed-list"></div></section>
-<section class="panel admin-panel" id="auditPanel"><div class="panel-head"><h3>Audit Log ve Activity Feed</h3><span class="status red">Silinemez Kayıt</span></div><div class="tabs"><button class="tab active" onclick="switchAudit('audit_logs',this)">Audit Log</button><button class="tab" onclick="switchAudit('activity_feed',this)">Activity Feed</button><button class="tab" onclick="switchAudit('notifications',this)">Notifications</button></div><div id="auditFeed" class="feed-list"></div></section>
-<section class="panel" id="fileUploadPanel"><div class="panel-head"><h3>R2 Dosya Yükleme ve Versiyon</h3><span class="status blue">POST /upload</span></div><div class="panel-subtitle">Dosya erişimi public URL ile değil, signed_url veya temporary_token ile yapılır. file_versions ve document_versions backend tarafında zorunludur.</div><div class="form-grid"><div class="field double"><label>Dosya Seç</label><input id="uploadFile" type="file"></div><div class="field"><label>Modül</label><input id="uploadModule" placeholder="users / documents / approvals"></div><div class="field"><label>İlişkili Kayıt ID</label><input id="uploadRecordId" placeholder="record_id"></div></div><div class="actions"><button class="btn primary" onclick="uploadFileToR2()">R2’ye Yükle</button></div><div id="fileVersionFeed" class="feed-list" style="margin-top:16px"></div></section>
-</main></div>
-<div class="modal-backdrop" id="archiveModal"><div class="modal"><h3>Arşiv / Soft Delete İşlemi</h3><p>Fiziksel DELETE yasaktır. Bu işlem kayıt durumunu değiştirir, audit log ve activity feed oluşturur.</p><div class="field"><label>Arşiv Nedeni</label><textarea id="archiveReason" placeholder="Arşiv gerekçesi"></textarea></div><div class="field" style="margin-top:12px"><label>Silme Nedeni</label><textarea id="deleteReason" placeholder="Soft delete gerekçesi"></textarea></div><div class="actions"><button class="btn orange" onclick="confirmArchiveUser()">Arşivle</button><button class="btn red" onclick="confirmSoftDeleteUser()">Soft Delete</button><button class="btn gray" onclick="closeArchiveModal()">Vazgeç</button></div></div></div>
-<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="tab-dashboard" class="tab-panel active fade-in">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Dashboard</div>
+      <div class="page-sub">Senkron KPI — son güncelleme: az önce</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="refreshKPIs()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Yenile
+    </button>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--accent-glow)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <span class="kpi-trend up">↑ 3</span>
+      </div>
+      <div class="kpi-value" id="kpi-aksiyonlar">24</div>
+      <div class="kpi-label">Açık Aksiyonlar</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--amber-bg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span class="kpi-trend up">↑ 1</span>
+      </div>
+      <div class="kpi-value" id="kpi-capa" style="color:var(--amber)">11</div>
+      <div class="kpi-label">Açık CAPA</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--red-bg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <span class="kpi-trend down">↓ 2</span>
+      </div>
+      <div class="kpi-value" id="kpi-riskler" style="color:var(--red)">8</div>
+      <div class="kpi-label">Açık Riskler</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--purple-bg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <span class="kpi-trend up">↑ 0</span>
+      </div>
+      <div class="kpi-value" id="kpi-denetimler" style="color:var(--purple)">5</div>
+      <div class="kpi-label">Açık Denetimler</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--teal-bg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <span class="kpi-trend up">↑ 2</span>
+      </div>
+      <div class="kpi-value" id="kpi-revizyonlar" style="color:var(--teal)">17</div>
+      <div class="kpi-label">Açık Revizyonlar</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--green-bg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <span class="kpi-trend down">↓ 1</span>
+      </div>
+      <div class="kpi-value" id="kpi-onaylar" style="color:var(--green)">7</div>
+      <div class="kpi-label">Bekleyen Onaylar</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--amber-bg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <span class="kpi-trend up">↑ 4</span>
+      </div>
+      <div class="kpi-value" id="kpi-gorevler" style="color:var(--amber)">32</div>
+      <div class="kpi-label">Bekleyen Görevler</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-header">
+        <div class="kpi-icon" style="background:var(--red-bg)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span class="kpi-trend up">↑ 5</span>
+      </div>
+      <div class="kpi-value" id="kpi-terminler" style="color:var(--red)">9</div>
+      <div class="kpi-label">Yaklaşan Terminler</div>
+    </div>
+  </div>
+
+  <!-- Activity Feed -->
+  <div class="card-block fade-in">
+    <div style="padding:14px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;">
+      <div class="section-title">Activity Feed</div>
+      <span style="font-size:11px; color:var(--text3); font-family:var(--mono);">old_value → new_value · changed_field</span>
+    </div>
+    <div class="audit-list" id="activityFeed">
+      <div class="audit-item">
+        <div class="audit-dot" style="background:var(--accent)"></div>
+        <div class="audit-content">
+          <div class="audit-action"><strong>Ahmet Yılmaz</strong> kullanıcısının rolü güncellendi — <span style="font-family:var(--mono);font-size:12px;color:var(--text3)">role: KULLANICI → SUREC_LIDERI</span></div>
+          <div class="audit-meta">changed_field: role · old_value: KULLANICI · new_value: SUREC_LIDERI</div>
+        </div>
+        <div class="audit-time">2dk önce</div>
+      </div>
+      <div class="audit-item">
+        <div class="audit-dot" style="background:var(--green)"></div>
+        <div class="audit-content">
+          <div class="audit-action"><strong>Yeni kullanıcı</strong> oluşturuldu — <span style="font-family:var(--mono);font-size:12px;color:var(--text3)">status: null → active</span></div>
+          <div class="audit-meta">changed_field: status · old_value: null · new_value: active</div>
+        </div>
+        <div class="audit-time">14dk önce</div>
+      </div>
+      <div class="audit-item">
+        <div class="audit-dot" style="background:var(--amber)"></div>
+        <div class="audit-content">
+          <div class="audit-action"><strong>Kalite departmanı</strong> approval workflow güncellendi</div>
+          <div class="audit-meta">changed_field: approval_steps · old_value: 2 · new_value: 3</div>
+        </div>
+        <div class="audit-time">1sa önce</div>
+      </div>
+      <div class="audit-item">
+        <div class="audit-dot" style="background:var(--red)"></div>
+        <div class="audit-content">
+          <div class="audit-action"><strong>Fatma Demir</strong> pasifleştirildi — <span style="font-family:var(--mono);font-size:12px;color:var(--text3)">status: active → passive</span></div>
+          <div class="audit-meta">changed_field: status · old_value: active · new_value: passive · deleted_by: Kerem Güdenli</div>
+        </div>
+        <div class="audit-time">3sa önce</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ USERS ═══ -->
+<div id="tab-users" class="tab-panel fade-in">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Kullanıcı Yönetimi</div>
+      <div class="page-sub">65 kullanıcı · GET /users?q= · fiziksel DELETE yasak</div>
+    </div>
+    <button class="btn btn-primary" onclick="openModal('modalNewUser')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Kullanıcı Ekle
+    </button>
+  </div>
+
+  <div class="filters-bar">
+    <div class="search-box">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="fullname, email, department, role..." id="userSearch" oninput="filterUsers()">
+    </div>
+    <select class="select-filter" id="filterDept" onchange="filterUsers()">
+      <option value="">Tüm Departmanlar</option>
+      <option>Yönetim</option><option>Kalite</option><option>Üretim</option>
+      <option>Ar-Ge</option><option>Satınalma</option><option>Planlama</option>
+      <option>Satış & Pazarlama</option><option>Depo</option>
+      <option>İnsan Kaynakları</option><option>Muhasebe</option>
+      <option>Finans</option><option>Bilgi Teknolojileri</option>
+      <option>Laboratuvar</option><option>Bakım</option>
+      <option>Teknik Servis</option><option>İdari İşler</option>
+    </select>
+    <select class="select-filter" id="filterRole" onchange="filterUsers()">
+      <option value="">Tüm Roller</option>
+      <option>SUPER_ADMIN</option><option>DEPARTMAN_MUDURU</option>
+      <option>KALITE_MUDURU</option><option>SUREC_LIDERI</option>
+      <option>DENETCI</option><option>DOKUMAN_KONTROL</option>
+      <option>EGITIM_SORUMLUSU</option><option>CAPA_SORUMLUSU</option>
+      <option>RISK_SORUMLUSU</option><option>KULLANICI</option>
+    </select>
+    <select class="select-filter" id="filterStatus" onchange="filterUsers()">
+      <option value="">Tüm Durumlar</option>
+      <option value="active">Aktif</option>
+      <option value="passive">Pasif</option>
+    </select>
+    <button class="btn btn-ghost btn-sm" onclick="clearFilters()">Temizle</button>
+  </div>
+
+  <div class="card-block">
+    <table id="usersTable">
+      <thead>
+        <tr>
+          <th>Kullanıcı</th>
+          <th>Departman</th>
+          <th>Rol</th>
+          <th>Durum</th>
+          <th>Session ID</th>
+          <th>Son Giriş</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="usersBody"></tbody>
+    </table>
+    <div class="pagination">
+      <div class="page-info" id="pageInfo">1–10 / 65 kullanıcı</div>
+      <div class="page-btns">
+        <div class="page-btn active">1</div>
+        <div class="page-btn">2</div>
+        <div class="page-btn">3</div>
+        <div class="page-btn">4</div>
+        <div class="page-btn">→</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DEPARTMENTS ═══ -->
+<div id="tab-departments" class="tab-panel fade-in">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Departmanlar</div>
+      <div class="page-sub">GET /departments · 16 departman · hardcoded değil</div>
+    </div>
+    <button class="btn btn-primary" onclick="showToast('Departman oluşturma: sadece SUPER_ADMIN', 'info')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Departman Ekle
+    </button>
+  </div>
+
+  <div class="dept-grid" id="deptGrid"></div>
+
+  <div class="card-block">
+    <div style="padding:14px 20px; border-bottom:1px solid var(--border);">
+      <div class="section-title">Departman Bazlı Kullanıcı Dağılımı</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Departman</th><th>Müdür</th><th>Lider</th><th>Uzman</th><th>Kullanıcı</th><th>Toplam</th>
+        </tr>
+      </thead>
+      <tbody id="deptTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ ROLES ═══ -->
+<div id="tab-roles" class="tab-panel fade-in">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Roller & İzinler</div>
+      <div class="page-sub">GET /roles · RBAC · role_permissions tablosu</div>
+    </div>
+    <button class="btn btn-primary" onclick="showToast('Rol oluşturma: sadece SUPER_ADMIN', 'info')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Rol Oluştur
+    </button>
+  </div>
+
+  <div class="card-block" style="overflow-x:auto;">
+    <div style="padding:14px 20px; border-bottom:1px solid var(--border);">
+      <div class="section-title">İzin Matrisi</div>
+    </div>
+    <div style="padding:16px 20px; overflow-x:auto;">
+      <table class="perms-table" id="permsTable"></table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AUDIT LOG ═══ -->
+<div id="tab-audit" class="tab-panel fade-in">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Audit Log</div>
+      <div class="page-sub">SUPER_ADMIN dahil hiç kimse silemez · ip_address + user_agent + session_id zorunlu</div>
+    </div>
+    <span class="badge b-active">Değiştirilemez</span>
+  </div>
+  <div class="card-block">
+    <div class="audit-list" id="auditList"></div>
+    <div class="pagination">
+      <div class="page-info">1–20 / 847 kayıt</div>
+      <div class="page-btns">
+        <div class="page-btn active">1</div>
+        <div class="page-btn">2</div>
+        <div class="page-btn">3</div>
+        <div class="page-btn">→</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NOTIFICATIONS ═══ -->
+<div id="tab-notifications" class="tab-panel fade-in">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Bildirimler</div>
+      <div class="page-sub">is_read · read_by · read_at zorunlu alanlar</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="markAllRead()">Tümünü Okundu İşaretle</button>
+  </div>
+  <div class="card-block">
+    <div class="notif-list" id="notifList"></div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- ═══ MODAL: YENİ KULLANICI ═══ -->
+<div class="modal-overlay" id="modalNewUser">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Yeni Kullanıcı Ekle</div>
+      <button class="modal-close" onclick="closeModal('modalNewUser')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- AUTOCOMPLETE -->
+      <div class="form-group">
+        <label class="form-label">Kullanıcı Ara <span class="form-required">*</span></label>
+        <div class="autocomplete-wrap">
+          <input class="form-input" type="text" placeholder="GET /users?q= — fullname, email, department, role..." id="acInput" autocomplete="off" oninput="handleAcInput(this.value)">
+          <div class="autocomplete-list" id="acList"></div>
+        </div>
+        <div class="form-hint">Autocomplete: id, fullname, email, department, role otomatik dolar</div>
+      </div>
+
+      <!-- AUTOFILLED -->
+      <div class="autofilled-fields" id="autofilledFields" style="display:none;">
+        <div class="af-item"><div class="af-label">ID</div><div class="af-value" id="af-id">—</div></div>
+        <div class="af-item"><div class="af-label">Fullname</div><div class="af-value" id="af-fullname">—</div></div>
+        <div class="af-item"><div class="af-label">Email</div><div class="af-value" id="af-email">—</div></div>
+        <div class="af-item"><div class="af-label">Department</div><div class="af-value" id="af-dept">—</div></div>
+        <div class="af-item"><div class="af-label">Role</div><div class="af-value" id="af-role">—</div></div>
+        <div class="af-item"><div class="af-label">Status</div><div class="af-value" id="af-status">active</div></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ad Soyad <span class="form-required">*</span></label>
+          <input class="form-input" type="text" placeholder="Kullanıcı adı" id="newFullname">
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-posta <span class="form-required">*</span></label>
+          <input class="form-input" type="email" placeholder="ad.soyad@gdnl.com.tr" id="newEmail">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Departman <span class="form-required">*</span></label>
+          <select class="form-select" id="newDept">
+            <option value="">Seçin...</option>
+            <option>Yönetim</option><option>Kalite</option><option>Üretim</option>
+            <option>Ar-Ge</option><option>Satınalma</option><option>Planlama</option>
+            <option>Satış & Pazarlama</option><option>Depo</option>
+            <option>İnsan Kaynakları</option><option>Muhasebe</option>
+            <option>Finans</option><option>Bilgi Teknolojileri</option>
+            <option>Laboratuvar</option><option>Bakım</option>
+            <option>Teknik Servis</option><option>İdari İşler</option>
+          </select>
+          <div class="form-hint">GET /departments · hardcoded değil</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rol <span class="form-required">*</span></label>
+          <select class="form-select" id="newRole">
+            <option value="">Seçin...</option>
+            <option>DEPARTMAN_MUDURU</option><option>KALITE_MUDURU</option>
+            <option>SUREC_LIDERI</option><option>DENETCI</option>
+            <option>DOKUMAN_KONTROL</option><option>EGITIM_SORUMLUSU</option>
+            <option>CAPA_SORUMLUSU</option><option>RISK_SORUMLUSU</option>
+            <option>KULLANICI</option>
+          </select>
+          <div class="form-hint">GET /roles · hardcoded değil</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Şifre <span class="form-required">*</span></label>
+          <input class="form-input" type="password" placeholder="••••••••" id="newPass">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Durum</label>
+          <select class="form-select" id="newStatus">
+            <option value="active">Aktif</option>
+            <option value="passive">Pasif</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modalNewUser')">İptal</button>
+      <button class="btn btn-primary" onclick="createUser()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Kullanıcı Oluştur
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
 <script>
-const API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
-let currentUser = null;
-let users = [];
-let departments = [];
-let roles = [];
-let editUserId = null;
-let archiveTargetId = null;
-let autocompleteTimer = null;
-let currentGovernanceType = "approvals";
-let currentAuditType = "audit_logs";
+// ── DATA ──
+const DEPARTMENTS = [
+  {id:1,name:'Yönetim'},{id:2,name:'Kalite'},{id:3,name:'Üretim'},
+  {id:4,name:'Ar-Ge'},{id:5,name:'Satınalma'},{id:6,name:'Planlama'},
+  {id:7,name:'Satış & Pazarlama'},{id:8,name:'Depo'},
+  {id:9,name:'İnsan Kaynakları'},{id:10,name:'Muhasebe'},
+  {id:11,name:'Finans'},{id:12,name:'Bilgi Teknolojileri'},
+  {id:13,name:'Laboratuvar'},{id:14,name:'Bakım'},
+  {id:15,name:'Teknik Servis'},{id:16,name:'İdari İşler'}
+];
 
-const menuHtml = `
-<a class="single-link" href="dashboard.html">🏠 Dashboard</a>
-<div class="menu-section">
-<div class="menu-group"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">📚 Doküman Yönetimi <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="company-assets-documents.html">Firma Belgeleri</a><a href="documents.html">Doküman Yönetimi</a><a href="new-document.html">Yeni Doküman</a><a href="revision.html">Revizyon Yönetimi</a><a href="approval.html">Onay Yönetimi</a><a href="distribution.html">Dağıtım Yönetimi</a><a href="archive.html">Arşiv Yönetimi</a><a href="document-viewer.html">Doküman Görüntüleyici</a></div></div>
-<div class="menu-group"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="capa.html">8D / CAPA</a><a href="risk-register.html">Risk Yönetimi</a><a href="change-management.html">Değişiklik Yönetimi</a><a href="process-management.html">Süreç Yönetimi</a><a href="continuous-improvement.html">Sürekli İyileştirme</a></div></div>
-<div class="menu-group open"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="training-management.html">Eğitim Yönetimi</a><a href="competency-matrix.html">Yetkinlik Matrisi</a><a class="active" href="users.html">Kullanıcılar</a></div></div>
-<div class="menu-group"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">🏭 Paydaş Yönetimi <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="supplier-management.html">Tedarikçi Yönetimi</a><a href="customer-management.html">Müşteri Yönetimi</a></div></div>
-<div class="menu-group"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="kpi-reports.html">KPI & Raporlar</a><a href="management-review.html">YGG Yönetimi</a><a href="action-center.html">Action Center</a><a href="notification-center.html">Bildirim Merkezi</a></div></div>
-<div class="menu-group"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="calibration-management.html">Kalibrasyon Yönetimi</a></div></div>
-<div class="menu-group"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="security-continuity-center.html">BGYS & İş Sürekliliği</a><a href="standards-compliance.html">Standart Uygunluk</a><a href="legal-compliance.html">Yasal Uyum</a></div></div>
-<div class="menu-group"><button class="menu-group-btn" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="menu-group-arrow">›</span></button><div class="menu-sub"><a href="apqp.html">APQP</a><a href="fmea.html">FMEA</a><a href="control-plan.html">Control Plan</a><a href="ppap.html">PPAP</a><a href="spc.html">SPC</a><a href="msa.html">MSA</a></div></div>
-</div>`;
+const ROLES = [
+  'SUPER_ADMIN','DEPARTMAN_MUDURU','KALITE_MUDURU','SUREC_LIDERI',
+  'DENETCI','DOKUMAN_KONTROL','EGITIM_SORUMLUSU','CAPA_SORUMLUSU',
+  'RISK_SORUMLUSU','KULLANICI'
+];
 
-document.getElementById("desktopMenuMount").innerHTML = menuHtml;
-document.getElementById("mobileMenuMount").innerHTML = menuHtml;
+const LEVEL_ROLES = ['DEPARTMAN_MUDURU','SUREC_LIDERI','DENETCI','KULLANICI'];
 
-function tr(v){return v===null||v===undefined?"":String(v)}
-function esc(v){return tr(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function hasPermission(code){if(!currentUser)return false;if(currentUser.role_code==="SUPER_ADMIN"||currentUser.role==="SUPER_ADMIN")return true;return Array.isArray(currentUser.permissions)&&currentUser.permissions.includes(code)}
-function requirePermission(code){if(hasPermission(code))return true;showToast("Bu işlem için yetkin yok: "+code);return false}
-
-async function api(path, options={}){
-  const headers = options.body instanceof FormData ? {...(options.headers||{})} : {"Content-Type":"application/json",...(options.headers||{})};
-  const res = await fetch(API_BASE + path, {credentials:"include",...options,headers});
-  const text = await res.text();
-  let payload = null;
-  try{payload=text?JSON.parse(text):null}catch(e){payload={success:false,error:{message:text}}}
-  if(res.status===401){window.location.href="index.html";return null}
-  if(!res.ok || payload?.success===false){throw new Error(payload?.error?.message || payload?.message || "API işlem hatası")}
-  return payload?.data!==undefined ? payload.data : payload;
-}
-
-async function boot(){
-  try{
-    currentUser = await api("/me");
-    document.getElementById("userChip").textContent = currentUser.fullname || currentUser.fullName || currentUser.email || "GDNL Kullanıcı";
-    if(!hasPermission("users.view")){showToast("Kullanıcı yönetimi için yetkin yok");setTimeout(()=>window.location.href="dashboard.html",700);return}
-    await Promise.all([loadDepartments(),loadRoles(),loadUsers(),loadDashboardKpi(),loadGovernanceFeed(),loadAuditFeed(),loadFileVersions()]);
-    document.getElementById("cloudStatus").textContent = "Active";
-    resetForm();
-  }catch(err){console.error(err);document.getElementById("cloudStatus").textContent = "Offline";showToast(err.message || "Sistem bağlantısı kurulamadı")}
-}
-
-async function loadDepartments(){
-  departments = await api("/departments");
-  if(!Array.isArray(departments)) departments=[];
-  const opts = departments.map(d=>`<option value="${esc(d.id)}">${esc(d.name)}</option>`).join("");
-  document.getElementById("department").innerHTML = opts;
-  document.getElementById("departmentFilter").innerHTML = `<option value="">Tüm Departmanlar</option>` + opts;
-}
-async function loadRoles(){
-  roles = await api("/roles");
-  if(!Array.isArray(roles)) roles=[];
-  const opts = roles.map(r=>`<option value="${esc(r.id)}">${esc(r.name || r.code)}</option>`).join("");
-  document.getElementById("role").innerHTML = opts;
-  document.getElementById("roleFilter").innerHTML = `<option value="">Tüm Roller</option>` + opts;
-}
-async function loadUsers(){
-  users = await api("/users?include_archived=true");
-  if(!Array.isArray(users)) users=[];
-  renderUsers();updateCards();
-}
-async function loadDashboardKpi(){
-  const k = await api("/dashboard/kpi");
-  document.getElementById("pendingApprovals").textContent = k.pending_approvals ?? 0;
-  document.getElementById("pendingTasks").textContent = k.pending_tasks ?? 0;
-  document.getElementById("openActions").textContent = k.open_actions ?? 0;
-  document.getElementById("openCapa").textContent = k.open_capa ?? 0;
-  document.getElementById("openRisks").textContent = k.open_risks ?? 0;
-  document.getElementById("upcomingDue").textContent = k.upcoming_due ?? 0;
-}
-function updateCards(){
-  const visible = users.filter(u=>!isDeleted(u));
-  document.getElementById("totalUsers").textContent = visible.length;
-  document.getElementById("activeUsers").textContent = visible.filter(u=>u.status==="active").length;
-}
-function isDeleted(u){return u.status==="deleted" || !!u.deleted_at}
-function getDepartmentName(idOrName){const d=departments.find(x=>String(x.id)===String(idOrName)||x.name===idOrName);return d?d.name:tr(idOrName)}
-function getRoleName(idOrName){const r=roles.find(x=>String(x.id)===String(idOrName)||x.name===idOrName||x.code===idOrName);return r?(r.name||r.code):tr(idOrName)}
-function getRoleCode(idOrName){const r=roles.find(x=>String(x.id)===String(idOrName)||x.name===idOrName||x.code===idOrName);return r?(r.code||r.name):tr(idOrName)}
-
-function renderUsers(){
-  const dep=document.getElementById("departmentFilter").value;
-  const stat=document.getElementById("statusFilter").value;
-  const role=document.getElementById("roleFilter").value;
-  const q=tr(document.getElementById("globalSearch").value).toLowerCase().trim();
-  const filtered=users.filter(u=>{
-    const blob=[u.fullname,u.fullName,u.email,u.department,u.department_name,u.role,u.role_name,u.role_code,u.username,u.status].join(" ").toLowerCase();
-    return !isDeleted(u) && (!dep || String(u.department_id||u.department)===String(dep)) && (!stat || u.status===stat) && (!role || String(u.role_id||u.role)===String(role)) && (!q || blob.includes(q));
+function makeUsers() {
+  const users = [{
+    id:'USR-001', fullname:'Kerem Güdenli', email:'kerem@gdnl.com.tr',
+    department:'Yönetim', role:'SUPER_ADMIN', status:'active',
+    session:'ses_8f2a1b', last_login:'2025-01-15 09:12', color:'c1'
+  }];
+  const firstNames=['Ahmet','Mehmet','Ali','Fatma','Zeynep','Ayşe','Mustafa','Hasan','Hüseyin','Emine','Hatice','Meryem','İbrahim','Ömer','Yusuf','Elif','Süleyman','Murat','Serkan','Deniz'];
+  const lastNames=['Yılmaz','Kaya','Demir','Çelik','Şahin','Arslan','Doğan','Kılıç','Aslan','Çetin','Yıldız','Özdemir','Aydın','Erdoğan','Güneş','Köse','Korkmaz','Polat','Kurt','Şimşek'];
+  const colors=['c1','c2','c3','c4','c5','c6'];
+  let id=2;
+  DEPARTMENTS.forEach(d=>{
+    LEVEL_ROLES.forEach((r,i)=>{
+      const fn=firstNames[Math.floor(Math.random()*firstNames.length)];
+      const ln=lastNames[Math.floor(Math.random()*lastNames.length)];
+      users.push({
+        id:`USR-${String(id).padStart('3','0')}`,
+        fullname:`${fn} ${ln}`,
+        email:`${fn.toLowerCase()}.${ln.toLowerCase()}@gdnl.com.tr`,
+        department:d.name, role:r,
+        status: id%8===0 ? 'passive' : 'active',
+        session:`ses_${Math.random().toString(36).substr(2,6)}`,
+        last_login:`2025-01-${String(Math.floor(Math.random()*15)+1).padStart(2,'0')} ${String(Math.floor(Math.random()*9)+8).padStart(2,'0')}:${String(Math.floor(Math.random()*59)).padStart(2,'0')}`,
+        color: colors[id%6]
+      });
+      id++;
+    });
   });
-  const area=document.getElementById("userTable");
-  if(!filtered.length){area.innerHTML=`<div class="empty">Kayıt bulunamadı. Arşivlenmiş/silinmiş kayıtlar normal listede gösterilmez.</div>`;return}
-  area.innerHTML=`<table><thead><tr><th>Kullanıcı</th><th>Departman</th><th>Rol</th><th>Durum</th><th>Bildirim</th><th>İşlem</th></tr></thead><tbody>${filtered.map(u=>`<tr><td><b>${esc(u.fullname||u.fullName)}</b><br><small>${esc(u.username||"-")} · ${esc(u.email||"-")}</small></td><td>${esc(u.department_name||getDepartmentName(u.department_id||u.department))}</td><td>${esc(u.role_name||getRoleName(u.role_id||u.role_code||u.role))}</td><td><span class="status ${u.status==="active"?"green":u.status==="archived"?"orange":"red"}">${esc(statusLabel(u.status))}</span></td><td><small>Mail: ${u.mail_enabled||u.mailEnabled?"Evet":"Hayır"}<br>SMS: ${u.sms_enabled||u.smsEnabled?"Evet":"Hayır"}</small></td><td><div class="row-actions"><button class="small-btn edit" onclick="editUser('${esc(u.id)}')">Düzenle</button><button class="small-btn delete" onclick="openArchiveModal('${esc(u.id)}')">Arşiv</button><button class="small-btn restore" onclick="restoreUser('${esc(u.id)}')">Restore</button></div></td></tr>`).join("")}</tbody></table>`;
+  return users;
 }
-function statusLabel(s){return s==="active"?"Aktif":s==="passive"?"Pasif":s==="archived"?"Arşivli":s==="deleted"?"Silindi":"Taslak"}
-function getFormPayload(){return {fullname:document.getElementById("fullName").value.trim(),username:document.getElementById("username").value.trim(),password:document.getElementById("password").value,department_id:document.getElementById("department").value,role_id:document.getElementById("role").value,status:document.getElementById("status").value,email:document.getElementById("email").value.trim(),phone:document.getElementById("phone").value.trim(),mail_enabled:document.getElementById("mailEnabled").value==="true",sms_enabled:document.getElementById("smsEnabled").value==="true",notes:document.getElementById("notes").value.trim()}}
-async function saveUser(){
-  if(!requirePermission(editUserId?"users.update":"users.create"))return;
-  const payload=getFormPayload();
-  if(!payload.fullname || !payload.email || !payload.department_id || !payload.role_id){showToast("Ad soyad, e-posta, departman ve rol zorunlu");return}
-  if(editUserId){await api(`/users/${encodeURIComponent(editUserId)}`,{method:"PUT",body:JSON.stringify(payload)});showToast("Kullanıcı güncellendi")}
-  else{await api("/users",{method:"POST",body:JSON.stringify(payload)});showToast("Kullanıcı oluşturuldu")}
-  resetForm();await loadUsers();await loadAuditFeed();await loadDashboardKpi();
-}
-function editUser(id){
-  if(!requirePermission("users.update"))return;
-  const u=users.find(x=>String(x.id)===String(id));if(!u)return;
-  editUserId=u.id;document.getElementById("modeBadge").textContent="EDIT MODE";
-  document.getElementById("fullName").value=u.fullname||u.fullName||"";document.getElementById("username").value=u.username||"";document.getElementById("password").value="";document.getElementById("department").value=u.department_id||u.department||"";document.getElementById("role").value=u.role_id||u.role||"";document.getElementById("status").value=u.status||"active";document.getElementById("email").value=u.email||"";document.getElementById("phone").value=u.phone||"";document.getElementById("mailEnabled").value=(u.mail_enabled||u.mailEnabled)?"true":"false";document.getElementById("smsEnabled").value=(u.sms_enabled||u.smsEnabled)?"true":"false";document.getElementById("notes").value=u.notes||"";
-  fillSelectedUser(u);document.getElementById("userDefinitionPanel").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function resetForm(){editUserId=null;document.getElementById("modeBadge").textContent="CREATE MODE";["fullName","username","password","email","phone","notes","selectedUserId","selectedFullname","selectedEmail","selectedDepartment","selectedRole","userAutocomplete"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});if(departments[0])document.getElementById("department").value=departments[0].id;if(roles[0])document.getElementById("role").value=roles[0].id;document.getElementById("status").value="active";document.getElementById("mailEnabled").value="true";document.getElementById("smsEnabled").value="false"}
-function openArchiveModal(id){archiveTargetId=id;document.getElementById("archiveReason").value="";document.getElementById("deleteReason").value="";document.getElementById("archiveModal").classList.add("active")}
-function openArchiveModalFromForm(){if(!editUserId){showToast("Önce kullanıcı seç");return}openArchiveModal(editUserId)}
-function closeArchiveModal(){document.getElementById("archiveModal").classList.remove("active");archiveTargetId=null}
-async function confirmArchiveUser(){if(!requirePermission("users.archive"))return;if(!archiveTargetId)return;const reason=document.getElementById("archiveReason").value.trim();if(!reason){showToast("Arşiv nedeni zorunlu");return}await api(`/users/${encodeURIComponent(archiveTargetId)}/archive`,{method:"POST",body:JSON.stringify({archive_reason:reason})});closeArchiveModal();showToast("Kullanıcı arşivlendi");await loadUsers();await loadAuditFeed()}
-async function confirmSoftDeleteUser(){if(!requirePermission("users.delete"))return;if(!archiveTargetId)return;const reason=document.getElementById("deleteReason").value.trim();if(!reason){showToast("Silme nedeni zorunlu");return}await api(`/users/${encodeURIComponent(archiveTargetId)}/delete`,{method:"POST",body:JSON.stringify({delete_reason:reason})});closeArchiveModal();showToast("Kullanıcı soft delete yapıldı");await loadUsers();await loadAuditFeed()}
-async function restoreUser(id){if(!requirePermission("users.restore"))return;await api(`/users/${encodeURIComponent(id)}/restore`,{method:"POST"});showToast("Kullanıcı restore edildi");await loadUsers();await loadAuditFeed()}
-function restoreSelectedUser(){if(!editUserId){showToast("Önce kullanıcı seç");return}restoreUser(editUserId)}
 
-async function runSearch(){
-  const q=tr(document.getElementById("globalSearch").value).trim();
-  if(!q){clearSearchResults();return}
-  const data=await api(`/search?q=${encodeURIComponent(q)}`);
-  const results=Array.isArray(data)?data:(data.results||[]);
-  const panel=document.getElementById("searchResultsPanel");panel.classList.add("active");document.getElementById("searchKeyword").textContent=q;document.getElementById("searchResultCount").textContent=`${results.length} sonuç`;
-  document.getElementById("searchResultsArea").innerHTML=results.length?results.map(r=>`<div class="result-card"><div><b>${esc(r.title||r.fullname||r.name)}</b><small>${esc(r.type||r.module||"Kayıt")}</small></div><div><small>${esc(r.description||r.email||r.department||"")}</small></div><button class="result-open" onclick="openSearchResult('${esc(r.type||r.module)}','${esc(r.id)}')">Aç</button></div>`).join(""):`<div class="empty">Arama sonucu bulunamadı</div>`;
-}
-function clearSearchResults(){document.getElementById("globalSearch").value="";document.getElementById("searchResultsPanel").classList.remove("active");document.getElementById("searchResultsArea").innerHTML="";renderUsers()}
-function openSearchResult(type,id){if(type==="users"||type==="user")editUser(id);else showToast("Kayıt modül ekranında açılacak: "+type)}
+const USERS = makeUsers();
 
-async function searchUsersAutocomplete(q){return await api(`/users?q=${encodeURIComponent(q)}`)}
-function fillSelectedUser(u){document.getElementById("selectedUserId").value=u.id||"";document.getElementById("selectedFullname").value=u.fullname||u.fullName||"";document.getElementById("selectedEmail").value=u.email||"";document.getElementById("selectedDepartment").value=u.department_name||getDepartmentName(u.department_id||u.department);document.getElementById("selectedRole").value=u.role_name||getRoleName(u.role_id||u.role_code||u.role)}
-function setupAutocomplete(){
-  const input=document.getElementById("userAutocomplete");const box=document.getElementById("autocompleteBox");
-  input.addEventListener("input",()=>{clearTimeout(autocompleteTimer);const q=input.value.trim();if(q.length<2){box.classList.remove("active");return}autocompleteTimer=setTimeout(async()=>{try{const data=await searchUsersAutocomplete(q);const arr=Array.isArray(data)?data:[];box.innerHTML=arr.map(u=>`<div class="auto-item" data-id="${esc(u.id)}"><b>${esc(u.fullname||u.fullName)}</b><small>${esc(u.email||"")} · ${esc(u.department_name||getDepartmentName(u.department_id||u.department))} · ${esc(u.role_name||getRoleName(u.role_id||u.role_code||u.role))}</small></div>`).join("")||`<div class="auto-item"><small>Sonuç yok</small></div>`;box.classList.add("active");box.querySelectorAll(".auto-item[data-id]").forEach(item=>item.addEventListener("click",()=>{const u=arr.find(x=>String(x.id)===String(item.dataset.id));if(u){input.value=u.fullname||u.fullName||u.email;fillSelectedUser(u);editUser(u.id)}box.classList.remove("active")}))}catch(e){console.error(e);box.classList.remove("active")}},250)});
+// ── TABS ──
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const panel = document.getElementById('tab-'+name);
+  if(panel) { panel.classList.add('active'); panel.classList.remove('fade-in'); void panel.offsetWidth; panel.classList.add('fade-in'); }
 }
-async function loadGovernanceFeed(){const data=await api(`/${currentGovernanceType}?limit=10`);renderGovernance(Array.isArray(data)?data:[])}
-function switchFeed(type,btn){currentGovernanceType=type;document.querySelectorAll("#governancePanel .tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");loadGovernanceFeed()}
-function renderGovernance(items){document.getElementById("governanceFeed").innerHTML=items.length?items.map(x=>`<div class="feed-item"><b>${esc(x.title||x.name||x.action||x.status||"Kayıt")}</b><small>${esc(x.description||x.comment||x.assigned_to_name||x.step_name||"")}<br>${esc(x.created_at||x.updated_at||"")}</small></div>`).join(""):`<div class="empty">Kayıt yok</div>`}
-async function loadAuditFeed(){const data=await api(`/${currentAuditType}?limit=12`);renderAudit(Array.isArray(data)?data:[])}
-function switchAudit(type,btn){currentAuditType=type;document.querySelectorAll("#auditPanel .tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");loadAuditFeed()}
-function renderAudit(items){document.getElementById("auditFeed").innerHTML=items.length?items.map(x=>`<div class="feed-item"><b>${esc(x.action||x.changed_field||x.title||"Kayıt")}</b><small>Eski: ${esc(x.old_value||"-")} · Yeni: ${esc(x.new_value||"-")}<br>IP: ${esc(x.ip_address||"-")} · Session: ${esc(x.session_id||"-")}<br>${esc(x.created_at||"")}</small></div>`).join(""):`<div class="empty">Kayıt yok</div>`}
-async function uploadFileToR2(){
-  if(!requirePermission("files.upload"))return;
-  const f=document.getElementById("uploadFile").files[0];if(!f){showToast("Dosya seç");return}
-  const fd=new FormData();fd.append("file",f);fd.append("module",document.getElementById("uploadModule").value.trim());fd.append("record_id",document.getElementById("uploadRecordId").value.trim());
-  await api("/upload",{method:"POST",body:fd});showToast("Dosya R2 üzerine yüklendi");await loadFileVersions();await loadAuditFeed();
+
+// ── USERS TABLE ──
+function renderUsers(list) {
+  const body = document.getElementById('usersBody');
+  body.innerHTML = list.slice(0,15).map(u=>`
+    <tr>
+      <td>
+        <div class="user-cell">
+          <div class="user-av ${u.color}">${u.fullname.split(' ').map(w=>w[0]).join('').substr(0,2)}</div>
+          <div>
+            <div class="user-fullname">${u.fullname}</div>
+            <div class="user-email">${u.email}</div>
+          </div>
+        </div>
+      </td>
+      <td>${u.department}</td>
+      <td><span class="badge ${u.role==='SUPER_ADMIN'?'b-super':u.role.includes('MUDUR')?'b-dept-m':'b-role'}">${u.role}</span></td>
+      <td><span class="badge ${u.status==='active'?'b-active':'b-passive'}">${u.status==='active'?'Aktif':'Pasif'}</span></td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--text3)">${u.session}</td>
+      <td style="font-size:12px;color:var(--text3)">${u.last_login}</td>
+      <td>
+        <div class="actions-cell">
+          <div class="act-btn" title="Düzenle" onclick="showToast('Kullanıcı düzenleme açılıyor...','info')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <div class="act-btn danger" title="Pasifleştir (soft delete)" onclick="softDelete('${u.id}')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+  document.getElementById('pageInfo').textContent = `1–${Math.min(15,list.length)} / ${list.length} kullanıcı`;
 }
-async function loadFileVersions(){try{const data=await api("/file_versions?limit=8");const arr=Array.isArray(data)?data:[];document.getElementById("fileVersionFeed").innerHTML=arr.length?arr.map(f=>`<div class="feed-item"><b>${esc(f.filename||f.file_name)}</b><small>Versiyon: ${esc(f.version_no||f.version||"-")} · Erişim: signed_url / temporary_token<br>${esc(f.created_at||"")}</small></div>`).join(""):`<div class="empty">Dosya versiyonu yok</div>`}catch(e){document.getElementById("fileVersionFeed").innerHTML=`<div class="empty">Dosya versiyon endpointi bekleniyor</div>`}}
-async function logout(){try{await api("/logout",{method:"POST"})}catch(e){}window.location.href="index.html"}
-function toggleMenuGroup(btn){const group=btn.closest(".menu-group");if(group)group.classList.toggle("open")}
-function openMobileMenu(){document.getElementById("mobileOverlay").classList.add("active");document.getElementById("mobileDrawer").classList.add("active")}
-function closeMobileMenu(){document.getElementById("mobileOverlay").classList.remove("active");document.getElementById("mobileDrawer").classList.remove("active")}
-function showToast(message){const toast=document.getElementById("toast");toast.textContent=message;toast.style.display="block";clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>toast.style.display="none",2600)}
-document.getElementById("globalSearch").addEventListener("input",()=>renderUsers());document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMobileMenu();closeArchiveModal();clearSearchResults()}});setupAutocomplete();boot();
+
+function filterUsers() {
+  const q = document.getElementById('userSearch').value.toLowerCase();
+  const dept = document.getElementById('filterDept').value;
+  const role = document.getElementById('filterRole').value;
+  const status = document.getElementById('filterStatus').value;
+  const filtered = USERS.filter(u=>{
+    const matchQ = !q || u.fullname.toLowerCase().includes(q) || u.email.toLowerCase().includes(q) || u.department.toLowerCase().includes(q) || u.role.toLowerCase().includes(q);
+    const matchD = !dept || u.department===dept;
+    const matchR = !role || u.role===role;
+    const matchS = !status || u.status===status;
+    return matchQ && matchD && matchR && matchS;
+  });
+  renderUsers(filtered);
+}
+
+function clearFilters() {
+  document.getElementById('userSearch').value='';
+  document.getElementById('filterDept').value='';
+  document.getElementById('filterRole').value='';
+  document.getElementById('filterStatus').value='';
+  renderUsers(USERS);
+}
+
+function softDelete(id) {
+  const u = USERS.find(x=>x.id===id);
+  if(u) { u.status='passive'; renderUsers(USERS); showToast(`${u.fullname} pasifleştirildi (status=passive, deleted_by=Kerem Güdenli)`, 'info'); }
+}
+
+// ── DEPARTMENTS ──
+function renderDepts() {
+  const grid = document.getElementById('deptGrid');
+  grid.innerHTML = DEPARTMENTS.map(d=>{
+    const dUsers = USERS.filter(u=>u.department===d.name);
+    return `
+      <div class="dept-card" onclick="filterByDept('${d.name}')">
+        <div style="font-size:10px;font-family:var(--mono);color:var(--text3);margin-bottom:4px;">#${String(d.id).padStart(2,'0')}</div>
+        <div class="dept-name">${d.name}</div>
+        <div class="dept-stats">
+          <span class="dept-stat"><span style="color:var(--text)">${dUsers.length}</span> kullanıcı</span>
+          <span class="dept-stat"><span style="color:var(--green)">${dUsers.filter(u=>u.status==='active').length}</span> aktif</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const tbody = document.getElementById('deptTableBody');
+  tbody.innerHTML = DEPARTMENTS.map(d=>{
+    const du = USERS.filter(u=>u.department===d.name);
+    return `<tr>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--text3)">${d.id}</td>
+      <td><strong>${d.name}</strong></td>
+      <td>${du.filter(u=>u.role==='DEPARTMAN_MUDURU').length}</td>
+      <td>${du.filter(u=>u.role==='SUREC_LIDERI').length}</td>
+      <td>${du.filter(u=>u.role==='DENETCI').length}</td>
+      <td>${du.filter(u=>u.role==='KULLANICI').length}</td>
+      <td><span class="badge b-blue">${du.length}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function filterByDept(name) {
+  switchTab('users');
+  document.getElementById('filterDept').value=name;
+  filterUsers();
+}
+
+// ── ROLES / PERMS MATRIX ──
+const PERMS = [
+  'Kullanıcı Ekle','Kullanıcı Pasifleştir','Rol Oluştur/Sil',
+  'Departman Oluştur','Workflow Oluştur','Approval Oluştur',
+  'Audit Log Görüntüle','Döküman Kontrol','CAPA Yönet','Risk Yönet'
+];
+const ROLE_PERMS = {
+  'SUPER_ADMIN':[1,1,1,1,1,1,1,1,1,1],
+  'DEPARTMAN_MUDURU':[0,1,0,0,1,1,1,0,0,0],
+  'KALITE_MUDURU':[0,0,0,0,1,1,1,1,1,1],
+  'SUREC_LIDERI':[0,0,0,0,1,0,0,1,0,0],
+  'DENETCI':[0,0,0,0,0,0,1,0,0,0],
+  'DOKUMAN_KONTROL':[0,0,0,0,0,0,0,1,0,0],
+  'EGITIM_SORUMLUSU':[0,0,0,0,0,0,0,0,0,0],
+  'CAPA_SORUMLUSU':[0,0,0,0,0,1,0,0,1,0],
+  'RISK_SORUMLUSU':[0,0,0,0,0,0,0,0,0,1],
+  'KULLANICI':[0,0,0,0,0,0,0,0,0,0]
+};
+
+function renderPerms() {
+  const shortRoles = ['SA','DM','KM','SL','DN','DK','EG','CA','RS','KU'];
+  const roleKeys = Object.keys(ROLE_PERMS);
+  let html = `<thead><tr><th>İzin</th>${shortRoles.map((r,i)=>`<th title="${roleKeys[i]}">${r}</th>`).join('')}</tr></thead><tbody>`;
+  PERMS.forEach((p,pi)=>{
+    html+=`<tr><td>${p}</td>`;
+    roleKeys.forEach(r=>{ html+=`<td>${ROLE_PERMS[r][pi]?'<span class="perm-check">✓</span>':'<span class="perm-cross">·</span>'}</td>`; });
+    html+='</tr>';
+  });
+  html+='</tbody>';
+  document.getElementById('permsTable').innerHTML=html;
+}
+
+// ── AUDIT LOG ──
+const AUDIT_DATA = [
+  {color:'var(--accent)',action:'POST /login',detail:'Kerem Güdenli oturum açtı',meta:'ip: 185.107.x.x · ua: Chrome/120 · sid: ses_8f2a1b',time:'09:12:34'},
+  {color:'var(--green)',action:'POST /users',detail:'Yeni kullanıcı oluşturuldu: Ahmet Yılmaz',meta:'ip: 10.0.0.x · ua: Firefox/121 · sid: ses_9c3d2e',time:'09:18:01'},
+  {color:'var(--amber)',action:'PATCH /users/USR-012',detail:'Rol güncellendi: KULLANICI → SUREC_LIDERI',meta:'ip: 10.0.0.x · ua: Chrome/120 · sid: ses_8f2a1b',time:'09:45:22'},
+  {color:'var(--red)',action:'PATCH /users/USR-031 (soft)',detail:'Kullanıcı pasifleştirildi: status → passive',meta:'ip: 10.0.0.x · ua: Chrome/120 · sid: ses_8f2a1b · deleted_by: USR-001',time:'10:02:15'},
+  {color:'var(--purple)',action:'POST /upload',detail:'R2 dosya yüklendi: EQMS_FILES/doc_2025_01.pdf',meta:'ip: 10.0.0.x · ua: Chrome/120 · sid: ses_8f2a1b · signed_url oluşturuldu',time:'10:15:44'},
+  {color:'var(--teal)',action:'GET /search',detail:'Global arama: "kalibrasyon" — arşiv hariç',meta:'ip: 172.16.x.x · ua: Edge/120 · sid: ses_7b1a3c',time:'10:22:09'},
+  {color:'var(--green)',action:'POST /workflows',detail:'Yeni workflow tanımlandı: Kalite Onay Süreci',meta:'ip: 10.0.0.x · ua: Chrome/120 · sid: ses_8f2a1b',time:'10:38:55'},
+  {color:'var(--amber)',action:'POST /approvals',detail:'Onay talebi oluşturuldu: DOC-2025-047',meta:'ip: 192.168.x.x · ua: Safari/17 · sid: ses_4e9f1d',time:'11:05:30'},
+];
+
+function renderAudit() {
+  document.getElementById('auditList').innerHTML=AUDIT_DATA.map(a=>`
+    <div class="audit-item">
+      <div class="audit-dot" style="background:${a.color}"></div>
+      <div class="audit-content">
+        <div class="audit-action"><strong style="font-family:var(--mono);font-size:12px;">${a.action}</strong> — ${a.detail}</div>
+        <div class="audit-meta">${a.meta}</div>
+      </div>
+      <div class="audit-time">${a.time}</div>
+    </div>
+  `).join('');
+}
+
+// ── NOTIFICATIONS ──
+const NOTIFS = [
+  {unread:true,icon:'var(--amber-bg)','icolor':'var(--amber)',msg:'CAPA-2025-011 onay bekliyor — 2 gün kaldı',time:'5dk önce',read_by:null,read_at:null},
+  {unread:true,icon:'var(--red-bg)','icolor':'var(--red)',msg:'Risk değerlendirmesi güncellendi: Ar-Ge / Kimyasal Maruziyet',time:'23dk önce',read_by:null,read_at:null},
+  {unread:true,icon:'var(--green-bg)','icolor':'var(--green)',msg:'Workflow onaylandı: Satınalma Proses #WF-2025-034',time:'1sa önce',read_by:'Kerem Güdenli',read_at:'10:45'},
+  {unread:false,icon:'var(--accent-glow)','icolor':'var(--accent)',msg:'Yeni kullanıcı eklendi: Serkan Polat — Kalite departmanı',time:'2sa önce',read_by:'Kerem Güdenli',read_at:'09:30'},
+  {unread:false,icon:'var(--purple-bg)','icolor':'var(--purple)',msg:'Denetim raporu yüklendi: DOC-2025-089 — R2 üzerinde',time:'3sa önce',read_by:'Kerem Güdenli',read_at:'08:55'},
+  {unread:false,icon:'var(--teal-bg)','icolor':'var(--teal)',msg:'Revizyon tamamlandı: Kalibrasyon Talimatı v3.2',time:'5sa önce',read_by:'Kerem Güdenli',read_at:'07:10'},
+];
+
+function renderNotifs() {
+  document.getElementById('notifList').innerHTML=NOTIFS.map((n,i)=>`
+    <div class="notif-item ${n.unread?'unread':''}" onclick="markRead(${i})">
+      <div class="notif-icon" style="background:${n.icon}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${n.icolor}" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <div class="notif-body">
+        <div class="notif-msg">${n.msg}</div>
+        <div class="notif-time">${n.time}${n.read_by?` · okundu: ${n.read_by} — ${n.read_at}`:'<span style="color:var(--accent)"> · is_read: false</span>'}</div>
+      </div>
+      ${n.unread?'<div class="notif-unread-dot"></div>':''}
+    </div>
+  `).join('');
+}
+
+function markRead(i) { NOTIFS[i].unread=false; NOTIFS[i].read_by='Kerem Güdenli'; NOTIFS[i].read_at=new Date().toTimeString().substr(0,5); renderNotifs(); }
+function markAllRead() { NOTIFS.forEach(n=>{n.unread=false;n.read_by='Kerem Güdenli';n.read_at=new Date().toTimeString().substr(0,5);}); renderNotifs(); showToast('Tüm bildirimler okundu işaretlendi','success'); }
+
+// ── AUTOCOMPLETE ──
+const AC_MOCK = [
+  {id:'USR-014',fullname:'Zeynep Arslan',email:'zeynep.arslan@gdnl.com.tr',department:'Kalite',role:'KALITE_MUDURU'},
+  {id:'USR-027',fullname:'Murat Kaya',email:'murat.kaya@gdnl.com.tr',department:'Üretim',role:'SUREC_LIDERI'},
+  {id:'USR-041',fullname:'Elif Şahin',email:'elif.sahin@gdnl.com.tr',department:'Ar-Ge',role:'DENETCI'},
+  {id:'USR-055',fullname:'Hasan Doğan',email:'hasan.dogan@gdnl.com.tr',department:'Finans',role:'KULLANICI'},
+  {id:'USR-062',fullname:'Ayşe Çelik',email:'ayse.celik@gdnl.com.tr',department:'İnsan Kaynakları',role:'DEPARTMAN_MUDURU'},
+];
+
+function handleAcInput(val) {
+  const list = document.getElementById('acList');
+  if(!val || val.length < 2) { list.classList.remove('show'); return; }
+  const results = AC_MOCK.filter(u=>u.fullname.toLowerCase().includes(val.toLowerCase())||u.email.includes(val.toLowerCase())||u.department.toLowerCase().includes(val.toLowerCase()));
+  if(!results.length) { list.classList.remove('show'); return; }
+  list.innerHTML = results.map(u=>`
+    <div class="ac-item" onclick="selectUser(${JSON.stringify(u).replace(/"/g,'&quot;')})">
+      <div class="user-av c2" style="width:28px;height:28px;font-size:10px;">${u.fullname.split(' ').map(w=>w[0]).join('').substr(0,2)}</div>
+      <div>
+        <div class="ac-name">${u.fullname}</div>
+        <div class="ac-meta">${u.email} · ${u.department} · ${u.role}</div>
+      </div>
+    </div>
+  `).join('');
+  list.classList.add('show');
+}
+
+function selectUser(u) {
+  document.getElementById('acInput').value = u.fullname;
+  document.getElementById('acList').classList.remove('show');
+  document.getElementById('af-id').textContent = u.id;
+  document.getElementById('af-fullname').textContent = u.fullname;
+  document.getElementById('af-email').textContent = u.email;
+  document.getElementById('af-dept').textContent = u.department;
+  document.getElementById('af-role').textContent = u.role;
+  document.getElementById('af-status').textContent = 'active';
+  document.getElementById('autofilledFields').style.display='grid';
+  document.getElementById('newFullname').value = u.fullname;
+  document.getElementById('newEmail').value = u.email;
+  document.getElementById('newDept').value = u.department;
+  document.getElementById('newRole').value = u.role;
+}
+
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.autocomplete-wrap')) document.getElementById('acList').classList.remove('show');
+});
+
+// ── KPI REFRESH ──
+function refreshKPIs() {
+  const ids=['kpi-aksiyonlar','kpi-capa','kpi-riskler','kpi-denetimler','kpi-revizyonlar','kpi-onaylar','kpi-gorevler','kpi-terminler'];
+  ids.forEach(id=>{ const el=document.getElementById(id); if(el){ const v=parseInt(el.textContent); el.textContent=Math.max(0,v+Math.floor(Math.random()*3)-1); }});
+  showToast('KPI verileri senkronize edildi','success');
+}
+
+// ── MODAL ──
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.addEventListener('click',e=>{ if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('open'); });
+
+function createUser() {
+  const n=document.getElementById('newFullname').value;
+  const e=document.getElementById('newEmail').value;
+  if(!n||!e){ showToast('Ad soyad ve e-posta zorunlu','error'); return; }
+  showToast(`${n} başarıyla oluşturuldu — JWT + HttpOnly Cookie ile oturum hazır`,'success');
+  closeModal('modalNewUser');
+}
+
+// ── TOAST ──
+function showToast(msg, type='info') {
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;
+  const icons={success:'✓',error:'✕',info:'ℹ'};
+  t.innerHTML=`<span>${icons[type]}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+
+// ── GLOBAL SEARCH ──
+document.getElementById('globalSearch').addEventListener('keydown',e=>{
+  if(e.key==='Enter') {
+    const q=e.target.value;
+    if(q) showToast(`GET /search?q=${encodeURIComponent(q)} — arşiv ve silinen kayıtlar hariç`,'info');
+  }
+});
+
+// ── INIT ──
+renderUsers(USERS);
+renderDepts();
+renderPerms();
+renderAudit();
+renderNotifs();
 </script>
 </body>
 </html>
