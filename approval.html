@@ -105,6 +105,13 @@ tr:hover td{background:#f7fbf8}
 .comment-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}.comment-item{background:#fff;border:1px solid #e0e8f0;border-radius:16px;padding:12px;box-shadow:0 8px 20px rgba(7,27,52,.045)}.comment-item b{display:block;color:#071b34;font-size:12px;margin-bottom:4px}.comment-item small{display:block;color:#64748b;font-weight:800;margin-bottom:6px}.comment-item p{color:#536176;font-size:13px;font-weight:750;line-height:1.55}.comment-box{margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:10px}.comment-box textarea{height:70px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f;resize:none}.evidence-box{margin-top:14px;border:1px solid #e0e8f0;border-radius:18px;padding:13px;background:linear-gradient(135deg,#f8fbff,#ffffff)}.evidence-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.soft-delete-note{font-size:12px;font-weight:900;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:14px;padding:10px;margin-top:10px}
 
 .autocomplete-wrap{position:relative}.user-hint{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.14);z-index:120;display:none;max-height:220px;overflow:auto}.user-hint.active{display:block}.user-hint button{width:100%;border:none;background:#fff;text-align:left;padding:11px 13px;cursor:pointer;font-weight:850;color:#0f1b2f;border-bottom:1px solid #edf2f7}.user-hint button:hover{background:#eefaf2;color:#1f7d3d}.user-hint small{display:block;color:#64748b;font-weight:800;margin-top:3px}.readonly-field{background:#eef5fc!important;color:#475569!important}.cloud-mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.cloud-chip{font-size:11px;font-weight:950;border-radius:999px;padding:6px 9px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca}
+
+.audit-integration-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.integration-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;box-shadow:0 8px 22px rgba(7,27,52,.045)}
+.integration-card b{display:block;color:#071b34;font-size:13px;margin-bottom:6px}
+.integration-card small{display:block;color:#64748b;font-weight:800;line-height:1.5}
+@media(max-width:850px){.audit-integration-grid{grid-template-columns:1fr}}
+
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
 
@@ -144,7 +151,7 @@ tr:hover td{background:#f7fbf8}
 <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
 <a href="process-management.html">🧩 Süreç Yönetimi</a>
 <a href="continuous-improvement.html">💡 Sürekli İyileştirme</a>
-<a href="audit.html">İç Denetim</a>
+<a href="audit.html">🧾 İç Denetim</a>
 </div>
 
 <button type="button" class="menu-group">👥 Organizasyon Yönetimi</button>
@@ -217,7 +224,7 @@ tr:hover td{background:#f7fbf8}
 <a href="change-management.html">🔁 Değişiklik Yönetimi</a>
 <a href="process-management.html">🧩 Süreç Yönetimi</a>
 <a href="continuous-improvement.html">💡 Sürekli İyileştirme</a>
-<a href="audit.html">İç Denetim</a>
+<a href="audit.html">🧾 İç Denetim</a>
 </div>
 
 <button type="button" class="menu-group">👥 Organizasyon Yönetimi</button>
@@ -302,6 +309,73 @@ tr:hover td{background:#f7fbf8}
 <div class="card"><small>Bekleyen</small><h2 id="pendingApprovals">0</h2><p>İmza bekleyen</p></div>
 <div class="card"><small>Tamamlanan</small><h2 id="approvedApprovals">0</h2><p>Yayınlanan / tamamlanan</p></div>
 <div class="card"><small>Reddedilen</small><h2 id="rejectedApprovals">0</h2><p>Red / revizyon isteği</p></div>
+</section>
+
+
+<section class="panel" id="auditIntegrationPanel">
+<div class="panel-head">
+<h3>İç Denetim Entegrasyonu</h3>
+<span class="status blue">DENETİM BAĞLANTISI</span>
+</div>
+<p style="color:#617086;font-weight:800;line-height:1.6;margin-bottom:16px">Onay sürecini iç denetim, bulgu, CAPA, risk ve YGG akışıyla ilişkilendir. Sorumlu kişi D1 users tablosundan seçilir; departman otomatik dolar.</p>
+<div class="form-grid">
+<div class="field">
+<label>Denetim Kaynağı</label>
+<select id="auditSource">
+<option>İç Denetim</option>
+<option>Müşteri Denetimi</option>
+<option>Tedarikçi Denetimi</option>
+<option>Süreç Denetimi</option>
+<option>Ürün Denetimi</option>
+<option>Sistem Denetimi</option>
+</select>
+</div>
+<div class="field">
+<label>İlgili Denetim No</label>
+<input id="relatedAuditNo" placeholder="Denetim no yaz veya seç">
+</div>
+<div class="field">
+<label>Bulgu No</label>
+<input id="relatedFindingNo" placeholder="Bulgu no / uygunsuzluk no">
+</div>
+<div class="field autocomplete-wrap">
+<label>Sorumlu</label>
+<input id="integrationResponsibleInput" placeholder="Sorumlu adı yaz" autocomplete="off" oninput="showUserSuggestions(this.value,'integrationResponsible')" onblur="setTimeout(()=>hideUserSuggestions('integrationResponsible'),180)">
+<input type="hidden" id="integrationResponsibleUserId">
+<div class="user-hint" id="integrationResponsibleSuggestions"></div>
+</div>
+<div class="field">
+<label>Sorumlu Departmanı</label>
+<input id="integrationResponsibleDepartment" class="readonly-field" placeholder="Kullanıcı seçilince otomatik dolar" readonly>
+</div>
+<div class="field">
+<label>Bağlantı Durumu</label>
+<select id="auditIntegrationStatus">
+<option>Bağlantı Bekliyor</option>
+<option>Bağlandı</option>
+<option>CAPA Açıldı</option>
+<option>Risk Kaydı Açıldı</option>
+<option>YGG Gündemine Alındı</option>
+</select>
+</div>
+<div class="field full">
+<label>Entegrasyon Notu</label>
+<textarea id="auditIntegrationNote" placeholder="İç denetim, CAPA, risk veya YGG bağlantı notu yaz"></textarea>
+</div>
+</div>
+<div class="audit-integration-grid" id="auditIntegrationCards" style="margin-top:14px">
+<div class="integration-card"><b>İç Denetim</b><small>Onay sürecini audit.html üzerindeki ilgili denetim kaydına bağlar.</small></div>
+<div class="integration-card"><b>CAPA</b><small>Denetim bulgusundan düzeltici faaliyet başlatır.</small></div>
+<div class="integration-card"><b>Risk</b><small>Onay veya denetim kaynaklı riski risk yönetimine aktarır.</small></div>
+<div class="integration-card"><b>YGG</b><small>Kritik konuyu yönetimin gözden geçirmesi gündemine taşır.</small></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="saveAuditIntegration()">Denetim Bağlantısını Kaydet</button>
+<button class="btn dark" onclick="openRelatedAudit()">İç Denetimi Aç</button>
+<button class="btn orange" onclick="createCapaFromApproval()">CAPA Aç</button>
+<button class="btn orange" onclick="createRiskFromApproval()">Risk Kaydı Aç</button>
+<button class="btn green" onclick="addYggAgendaFromApproval()">YGG Gündemine Ekle</button>
+</div>
 </section>
 
 <section class="panel">
@@ -393,6 +467,7 @@ let cloudApprovals=[];
 let cloudDocuments=[];
 let cloudUsers=[];
 let cloudFiles=[];
+let cloudAudits=[];
 let selectedUsers={};
 
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
@@ -519,6 +594,7 @@ async function loadCloudData(){
   try{const data=await apiFetch("/approvals");cloudApprovals=(data.approvals||data.results||data||[]).map(mapCloudApproval).map(normalizeApproval);cloudReady=true;setLS("gdnl_approvals",cloudApprovals)}catch(e){cloudApprovals=getLS("gdnl_approvals").map(normalizeApproval);cloudReady=false}
   try{const data=await apiFetch("/documents");cloudDocuments=(data.documents||data.results||data||[]);setLS("gdnl_documents",cloudDocuments)}catch(e){cloudDocuments=getLS("gdnl_documents")}
   try{const data=await apiFetch("/files?module=ONAY_YONETIMI");cloudFiles=data.files||[]}catch(e){cloudFiles=[]}
+  try{const data=await apiFetch("/audits");cloudAudits=Array.isArray(data)?data:(data.audits||data.results||[])}catch(e){cloudAudits=getLS("gdnl_audits")}
   migrateApprovals();renderApprovals();
 }
 function mapCloudApproval(row){
@@ -562,6 +638,7 @@ steps:Array.isArray(a.steps)?a.steps:[
 history:a.history||[],
 comments:a.comments||[],
 evidence:a.evidence||[],
+auditIntegration:a.auditIntegration||a.audit_integration||{},
 createdAt:a.createdAt||a.created_at||nowISO(),
 updatedAt:a.updatedAt||a.updated_at||nowISO(),
 deletedAt:a.deletedAt||"",deletedBy:a.deletedBy||""
@@ -603,10 +680,12 @@ document.getElementById("drawerTitle").textContent=(a.workflowId||"Onay Süreci"
 document.getElementById("drawerStatus").textContent=a.status;document.getElementById("drawerStatus").className="status "+statusClass(a.status);
 document.getElementById("signatureInput").value="";document.getElementById("actionNote").value="";document.getElementById("rejectReason").value="";
 const activeIdx=getCurrentStepIndex(a);const activeApprover=activeIdx!==-1?a.steps[activeIdx].approver:"";const activeUser=findUserByText(activeApprover);selectedUsers.activeApprover=activeUser||null;document.getElementById("activeApproverInput").value=activeApprover||"";document.getElementById("activeApproverUserId").value=activeUser?(activeUser.id||""):"";document.getElementById("activeApproverDepartment").value=activeUser?(activeUser.department||""):"";
+fillAuditIntegrationFields(a);
 let html="";
 html+=`<div class="step active"><b>Doküman:</b> ${escapeHTML(a.documentCode)} - ${escapeHTML(a.documentName)}<br><b>Revizyon:</b> ${escapeHTML(a.rev)}<br><b>Mevcut Adım:</b> ${escapeHTML(a.currentStep)}</div>`;
 a.steps.forEach(s=>{let cls="step";if(s.status==="Onaylandı")cls+=" ok";else if(s.status==="Bekliyor")cls+=" active";else if(s.status==="Reddedildi"||s.status==="Revizyon İstendi")cls+=" red";html+=`<div class="${cls}"><b>${escapeHTML(s.step)}</b><br>Onaycı: ${escapeHTML(s.approver||"-")}<br>Durum: ${escapeHTML(s.status)}<br>Tarih: ${escapeHTML(s.date||"-")}${s.department?`<br>Departman: ${escapeHTML(s.department)}`:""}${s.signedBy?`<br>İmza: ${escapeHTML(s.signedBy)}`:""}</div>`});
 html+=`<div class="step"><b>Dağıtım:</b><br>${escapeHTML(doc&&doc.distributionPoints?doc.distributionPoints:"Dağıtım noktası girilmemiş")}<br><br><b>E-posta:</b> ${escapeHTML(doc&&doc.mailGroups?doc.mailGroups:"-")}<br><b>SMS:</b> ${escapeHTML(doc&&doc.smsGroups?doc.smsGroups:"-")}</div>`;
+if(a.auditIntegration&&Object.keys(a.auditIntegration).length){const ai=a.auditIntegration;html+=`<div class="step"><b>İç Denetim Entegrasyonu:</b><br>Kaynak: ${escapeHTML(ai.auditSource||"-")}<br>Denetim No: ${escapeHTML(ai.relatedAuditNo||"-")}<br>Bulgu No: ${escapeHTML(ai.relatedFindingNo||"-")}<br>Sorumlu: ${escapeHTML(ai.responsibleName||"-")}<br>Departman: ${escapeHTML(ai.responsibleDepartment||"-")}<br>Durum: ${escapeHTML(ai.status||"-")}<br>Not: ${escapeHTML(ai.note||"-")}</div>`}
 if(a.history&&a.history.length){html+=`<div class="step"><b>Geçmiş:</b><br>${a.history.map(h=>`${escapeHTML(h.date)} - ${escapeHTML(h.action)} - ${escapeHTML(h.user)} - ${escapeHTML(h.note||"")}`).join("<br>")}</div>`}
 html+=renderComments(a);
 html+=renderEvidence(a);
@@ -646,10 +725,114 @@ async function finalPublish(a){const docs=getDocuments();const index=docs.findIn
 function createDistributionQueue(doc,a){const dist=getDistribution();const exists=dist.some(x=>x.documentCode===doc.code&&x.workflowId===a.workflowId);if(exists)return;dist.unshift({distributionId:"DST-"+Date.now(),workflowId:a.workflowId,documentCode:doc.code,documentName:doc.name,rev:doc.rev,status:"Dağıtım Bekliyor",distributionPoints:doc.distributionPoints||"",mailGroups:doc.mailGroups||"",smsGroups:doc.smsGroups||"",notificationType:doc.notificationType||"E-posta + SMS",readTracking:[],createdBy:getUserName(),createdAt:nowISO(),updatedAt:nowISO()});setDistribution(dist)}
 async function rejectCurrent(){if(selectedApprovalIndex===null)return;const reason=document.getElementById("rejectReason").value.trim();if(reason.length<5){showToast("Red gerekçesi zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);const old=JSON.stringify(a);if(idx!==-1){a.steps[idx].status="Reddedildi";a.steps[idx].date=todayISO();a.steps[idx].signedUser=getUserName()}a.status="Reddedildi";a.history.unshift({action:"Reddedildi",step:a.currentStep,user:getUserName(),note:reason,date:nowISO()});a.updatedAt=nowISO();updateDocumentWorkflow(a.documentCode,"Revizyon","Reddedildi");await createNotification(a,"Onay süreci reddedildi: "+reason);replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Reddedildi",a.currentStep,reason);await writeAudit("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,reason,old,JSON.stringify(a));await writeActivity("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay süreci reddedildi",reason);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Onay süreci reddedildi")}
 async function requestRevision(){if(selectedApprovalIndex===null)return;const reason=document.getElementById("rejectReason").value.trim();if(reason.length<5){showToast("Revizyon gerekçesi zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);const old=JSON.stringify(a);if(idx!==-1){a.steps[idx].status="Revizyon İstendi";a.steps[idx].date=todayISO();a.steps[idx].signedUser=getUserName()}a.status="Revizyon İstendi";a.history.unshift({action:"Revizyon İstendi",step:a.currentStep,user:getUserName(),note:reason,date:nowISO()});a.updatedAt=nowISO();updateDocumentWorkflow(a.documentCode,"Revizyon","Revizyon İstendi");await createNotification(a,"Revizyon istendi: "+reason);replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Revizyon İstendi",a.currentStep,reason);await writeAudit("REQUEST_REVISION","Onay Yönetimi",a.approvalId,reason,old,JSON.stringify(a));await writeActivity("REQUEST_REVISION","Onay Yönetimi",a.approvalId,"Revizyon istendi",reason);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Revizyon istendi")}
+
+function getCurrentApprovalForIntegration(){
+  if(selectedApprovalIndex!==null){
+    const a=getSelectedApproval();
+    if(a)return a;
+  }
+  const approvals=filteredActiveApprovals();
+  return approvals[0]||null;
+}
+function fillAuditIntegrationFields(a){
+  const data=(a&&a.auditIntegration)||{};
+  const set=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||""};
+  set("auditSource",data.auditSource||"İç Denetim");
+  set("relatedAuditNo",data.relatedAuditNo||"");
+  set("relatedFindingNo",data.relatedFindingNo||"");
+  set("auditIntegrationStatus",data.status||"Bağlantı Bekliyor");
+  set("auditIntegrationNote",data.note||"");
+  set("integrationResponsibleInput",data.responsibleName||"");
+  set("integrationResponsibleUserId",data.responsibleUserId||"");
+  set("integrationResponsibleDepartment",data.responsibleDepartment||"");
+}
+function collectAuditIntegrationFields(){
+  const u=selectedUsers.integrationResponsible||syncTypedUser("integrationResponsible")||findUserByText(document.getElementById("integrationResponsibleInput")?.value||"");
+  return {
+    auditSource:document.getElementById("auditSource")?.value||"İç Denetim",
+    relatedAuditNo:(document.getElementById("relatedAuditNo")?.value||"").trim(),
+    relatedFindingNo:(document.getElementById("relatedFindingNo")?.value||"").trim(),
+    responsibleName:u?(u.fullname||""):(document.getElementById("integrationResponsibleInput")?.value||""),
+    responsibleUserId:u?(u.id||""):(document.getElementById("integrationResponsibleUserId")?.value||""),
+    responsibleDepartment:u?(u.department||""):(document.getElementById("integrationResponsibleDepartment")?.value||""),
+    responsibleEmail:u?(u.email||""):"",
+    status:document.getElementById("auditIntegrationStatus")?.value||"Bağlantı Bekliyor",
+    note:(document.getElementById("auditIntegrationNote")?.value||"").trim(),
+    updatedBy:getUserName(),
+    updatedAt:nowISO()
+  };
+}
+async function saveAuditIntegration(){
+  const a=getCurrentApprovalForIntegration();
+  if(!a){showToast("Bağlanacak onay süreci bulunamadı");return}
+  const data=collectAuditIntegrationFields();
+  if(!data.relatedAuditNo){showToast("İlgili denetim no zorunlu");return}
+  const old=JSON.stringify(a.auditIntegration||{});
+  a.auditIntegration=data;
+  a.updatedAt=nowISO();
+  replaceApproval(a);
+  await saveApprovalToCloud(a);
+  await writeAudit("LINK_INTERNAL_AUDIT","Onay Yönetimi",a.approvalId,data,old,JSON.stringify(data));
+  await writeActivity("LINK_INTERNAL_AUDIT","Onay Yönetimi",a.approvalId,"İç denetim bağlantısı kaydedildi",data.relatedAuditNo);
+  await createNotification(a,"Onay süreci iç denetim kaydı ile bağlandı: "+data.relatedAuditNo,data.responsibleName);
+  if(data.responsibleName){
+    try{await postJSON("/assignments",{id:uid("ASN"),source_type:"APPROVAL_AUDIT_LINK",source_id:a.approvalId,user_id:data.responsibleUserId,user_name:data.responsibleName,department:data.responsibleDepartment,role:"İç Denetim Bağlantı Sorumlusu",status:"Atandı",title:"İç denetim bağlantı sorumluluğu",message:(a.documentCode||"Onay süreci")+" iç denetim bağlantısı için sorumluluk atandı.",created_by:getUserName(),created_at:nowISO()})}catch(e){}
+  }
+  renderApprovals();
+  showToast("İç denetim bağlantısı kaydedildi");
+}
+function openRelatedAudit(){
+  const no=(document.getElementById("relatedAuditNo")?.value||"").trim();
+  if(no)localStorage.setItem("gdnl_selected_audit_no",no);
+  window.location.href="audit.html";
+}
+async function createCapaFromApproval(){
+  const a=getCurrentApprovalForIntegration();
+  if(!a){showToast("Onay süreci seçili değil");return}
+  const data=collectAuditIntegrationFields();
+  const capaNo="CAP-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6);
+  const payload={id:capaNo,capaNo,title:"Onay / İç Denetim Kaynaklı CAPA",description:data.note||((a.documentCode||"Doküman")+" onay sürecinden CAPA açıldı."),source:"Onay Yönetimi / "+(data.auditSource||"İç Denetim"),related_id:a.approvalId,related_audit_no:data.relatedAuditNo,related_finding_no:data.relatedFindingNo,owner:data.responsibleName,owner_id:data.responsibleUserId,department:data.responsibleDepartment,status:"Açık",priority:"Yüksek",created_by:getUserName(),created_at:nowISO()};
+  try{await postJSON("/capas",payload)}catch(e){try{await postJSON("/actions",payload)}catch(e2){}}
+  a.auditIntegration={...data,status:"CAPA Açıldı",capaNo};
+  replaceApproval(a);await saveApprovalToCloud(a);
+  await writeAudit("CREATE_CAPA_FROM_APPROVAL","Onay Yönetimi",a.approvalId,payload);
+  await writeActivity("CREATE_CAPA_FROM_APPROVAL","Onay Yönetimi",a.approvalId,"CAPA açıldı",capaNo);
+  await createNotification(a,"Onay sürecinden CAPA açıldı: "+capaNo,data.responsibleName);
+  showToast("CAPA kaydı oluşturuldu: "+capaNo);
+}
+async function createRiskFromApproval(){
+  const a=getCurrentApprovalForIntegration();
+  if(!a){showToast("Onay süreci seçili değil");return}
+  const data=collectAuditIntegrationFields();
+  const riskNo="RSK-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6);
+  const payload={id:riskNo,riskNo,title:"Onay / İç Denetim Kaynaklı Risk",description:data.note||((a.documentCode||"Doküman")+" onay sürecinden risk kaydı açıldı."),source:"Onay Yönetimi / "+(data.auditSource||"İç Denetim"),related_id:a.approvalId,related_audit_no:data.relatedAuditNo,owner:data.responsibleName,owner_id:data.responsibleUserId,department:data.responsibleDepartment,status:"Açık",level:"Yüksek",created_by:getUserName(),created_at:nowISO()};
+  try{await postJSON("/risks",payload)}catch(e){const q=getLS("gdnl_pending_risks");q.unshift(payload);setLS("gdnl_pending_risks",q)}
+  a.auditIntegration={...data,status:"Risk Kaydı Açıldı",riskNo};
+  replaceApproval(a);await saveApprovalToCloud(a);
+  await writeAudit("CREATE_RISK_FROM_APPROVAL","Onay Yönetimi",a.approvalId,payload);
+  await writeActivity("CREATE_RISK_FROM_APPROVAL","Onay Yönetimi",a.approvalId,"Risk kaydı açıldı",riskNo);
+  await createNotification(a,"Onay sürecinden risk kaydı açıldı: "+riskNo,data.responsibleName);
+  showToast("Risk kaydı oluşturuldu: "+riskNo);
+}
+async function addYggAgendaFromApproval(){
+  const a=getCurrentApprovalForIntegration();
+  if(!a){showToast("Onay süreci seçili değil");return}
+  const data=collectAuditIntegrationFields();
+  const yggNo="YGG-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6);
+  const payload={id:yggNo,agendaNo:yggNo,title:"Onay / İç Denetim Kaynaklı YGG Gündemi",description:data.note||((a.documentCode||"Doküman")+" onay sürecinden YGG gündemine alındı."),source:"Onay Yönetimi / "+(data.auditSource||"İç Denetim"),related_id:a.approvalId,related_audit_no:data.relatedAuditNo,owner:data.responsibleName,department:data.responsibleDepartment,status:"Gündeme Alındı",created_by:getUserName(),created_at:nowISO()};
+  try{await postJSON("/meetings",payload)}catch(e){const q=getLS("gdnl_pending_ygg_agenda");q.unshift(payload);setLS("gdnl_pending_ygg_agenda",q)}
+  a.auditIntegration={...data,status:"YGG Gündemine Alındı",yggNo};
+  replaceApproval(a);await saveApprovalToCloud(a);
+  await writeAudit("ADD_YGG_AGENDA_FROM_APPROVAL","Onay Yönetimi",a.approvalId,payload);
+  await writeActivity("ADD_YGG_AGENDA_FROM_APPROVAL","Onay Yönetimi",a.approvalId,"YGG gündemine eklendi",yggNo);
+  await createNotification(a,"Onay süreci YGG gündemine eklendi: "+yggNo,data.responsibleName);
+  showToast("YGG gündemine eklendi: "+yggNo);
+}
+
 async function archiveCurrentApproval(){const a=getSelectedApproval();if(!a)return;if(!isSuperAdmin()&&String(a.createdBy||"")!==getUserName()){showToast("Bu işlem için yetkin yok");return}if(!confirm("Onay süreci arşivlensin mi? Kayıt D1 içinde denetim izi olarak kalır."))return;const old=JSON.stringify(a);a.status="Silindi";a.deletedAt=nowISO();a.deletedBy=getUserName();a.updatedAt=nowISO();replaceApproval(a);await saveApprovalToCloud(a);await writeAudit("SOFT_DELETE_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay süreci arşivlendi",old,JSON.stringify(a));await writeActivity("SOFT_DELETE_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay süreci arşivlendi",a.documentCode);closeDrawer();renderApprovals();showToast("Onay süreci arşivlendi")}
 function openDocument(){if(selectedApprovalIndex===null)return;const a=filteredActiveApprovals()[selectedApprovalIndex];localStorage.setItem("gdnl_selected_document_code",a.documentCode);window.location.href="document-viewer.html"}
 
-function renderApprovals(){const approvals=filteredActiveApprovals();const q=document.getElementById("globalSearch").value.toLowerCase();const statusFilter=document.getElementById("statusFilter").value;const stepFilter=document.getElementById("stepFilter").value;const filtered=approvals.filter(a=>{const text=`${a.workflowId} ${a.documentCode} ${a.documentName} ${a.rev} ${a.currentStep} ${a.status} ${a.steps.map(s=>s.approver).join(" ")}`.toLowerCase();return text.includes(q)&&(!statusFilter||a.status===statusFilter)&&(!stepFilter||a.currentStep===stepFilter)});updateCards(approvals);const area=document.getElementById("approvalTable");if(filtered.length===0){area.innerHTML=`<div class="empty">Bekleyen onay kaydı yok. Yeni Doküman ekranından “Onay Süreci Başlat” yapınca buraya düşer.</div>`;return}let html=`<table><thead><tr><th>Onay Süreci</th><th>Doküman</th><th>Rev.</th><th>Mevcut Adım</th><th>Onaycı</th><th>Durum</th><th>Son Güncelleme</th><th>Aksiyon</th></tr></thead><tbody>`;filtered.forEach(a=>{const index=approvals.findIndex(x=>x.approvalId===a.approvalId);const idx=getCurrentStepIndex(a);const approver=idx!==-1?a.steps[idx].approver:"-";html+=`<tr><td>${escapeHTML(a.workflowId)}</td><td>${escapeHTML(a.documentCode)}<br><small>${escapeHTML(a.documentName)}</small></td><td>${escapeHTML(a.rev)}</td><td>${escapeHTML(a.currentStep)}</td><td>${escapeHTML(approver)}</td><td><span class="status ${statusClass(a.status)}">${escapeHTML(a.status)}</span></td><td>${new Date(a.updatedAt).toLocaleDateString("tr-TR")}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button></div></td></tr>`});html+=`</tbody></table>`;area.innerHTML=html}
+function renderApprovals(){const approvals=filteredActiveApprovals();const q=document.getElementById("globalSearch").value.toLowerCase();const statusFilter=document.getElementById("statusFilter").value;const stepFilter=document.getElementById("stepFilter").value;const filtered=approvals.filter(a=>{const text=`${a.workflowId} ${a.documentCode} ${a.documentName} ${a.rev} ${a.currentStep} ${a.status} ${a.steps.map(s=>s.approver).join(" ")} ${JSON.stringify(a.auditIntegration||{})}`.toLowerCase();return text.includes(q)&&(!statusFilter||a.status===statusFilter)&&(!stepFilter||a.currentStep===stepFilter)});updateCards(approvals);const area=document.getElementById("approvalTable");if(filtered.length===0){area.innerHTML=`<div class="empty">Bekleyen onay kaydı yok. Yeni Doküman ekranından “Onay Süreci Başlat” yapınca buraya düşer.</div>`;return}let html=`<table><thead><tr><th>Onay Süreci</th><th>Doküman</th><th>Rev.</th><th>Mevcut Adım</th><th>Onaycı</th><th>Durum</th><th>Son Güncelleme</th><th>Aksiyon</th></tr></thead><tbody>`;filtered.forEach(a=>{const index=approvals.findIndex(x=>x.approvalId===a.approvalId);const idx=getCurrentStepIndex(a);const approver=idx!==-1?a.steps[idx].approver:"-";html+=`<tr><td>${escapeHTML(a.workflowId)}</td><td>${escapeHTML(a.documentCode)}<br><small>${escapeHTML(a.documentName)}</small></td><td>${escapeHTML(a.rev)}</td><td>${escapeHTML(a.currentStep)}</td><td>${escapeHTML(approver)}</td><td><span class="status ${statusClass(a.status)}">${escapeHTML(a.status)}</span></td><td>${new Date(a.updatedAt).toLocaleDateString("tr-TR")}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button></div></td></tr>`});html+=`</tbody></table>`;area.innerHTML=html}
 function updateCards(items){document.getElementById("totalApprovals").textContent=items.length;document.getElementById("pendingApprovals").textContent=items.filter(x=>x.status==="Bekliyor"||x.status==="Devam Ediyor").length;document.getElementById("approvedApprovals").textContent=items.filter(x=>x.status==="Yayınlandı"||x.status==="Onaylandı").length;document.getElementById("rejectedApprovals").textContent=items.filter(x=>x.status==="Reddedildi"||x.status==="Revizyon İstendi").length}
 function showToast(msg){const toast=document.getElementById("toast");toast.textContent=msg;toast.style.display="block";setTimeout(()=>toast.style.display="none",2500)}
 
