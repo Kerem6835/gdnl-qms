@@ -442,6 +442,8 @@ tr:hover td{background:#f7fbf8}
 </div>
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
+<script src="assets/js/config/routes.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 <script>
 const API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
 
@@ -473,6 +475,14 @@ function extractData(payload){
   if(Array.isArray(payload.departments)) return payload.departments;
   if(Array.isArray(payload.permissions)) return payload.permissions;
   return payload.data || payload;
+}
+
+function routeTo(path){
+  return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true}) || path;
+}
+
+function navigateRoute(path){
+  window.location.href = routeTo(path);
 }
 
 async function apiRequest(path, options = {}){
@@ -952,7 +962,7 @@ async function createDepartment(){
 
 async function logout(){
   try{ await apiRequest("/logout", {method:"POST"}); }catch(e){}
-  window.location.href = "index.html";
+  navigateRoute("index.html");
 }
 
 function toggleMenuGroup(btn){
@@ -961,11 +971,19 @@ function toggleMenuGroup(btn){
 }
 
 function openMobileMenu(){
+  if(window.GDNL_MOBILE_MENU){
+    window.GDNL_MOBILE_MENU.open({lockBody:false});
+    return;
+  }
   document.getElementById("mobileOverlay").classList.add("active");
   document.getElementById("mobileDrawer").classList.add("active");
 }
 
 function closeMobileMenu(){
+  if(window.GDNL_MOBILE_MENU){
+    window.GDNL_MOBILE_MENU.close({lockBody:false});
+    return;
+  }
   document.getElementById("mobileOverlay").classList.remove("active");
   document.getElementById("mobileDrawer").classList.remove("active");
 }

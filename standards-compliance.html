@@ -225,7 +225,6 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
 <a href="control-plan.html">Kontrol Planı</a>
-<a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
@@ -317,7 +316,6 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
 <a href="control-plan.html">Kontrol Planı</a>
-<a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
@@ -335,7 +333,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <button class="search-btn" onclick="runGlobalSearch()">Ara</button>
 </div>
 <div class="profile">
-<button class="user-chip" onclick="window.location.href='dashboard.html'">
+<button class="user-chip" onclick="navigateRoute('dashboard.html')">
 <span id="userName">GDNL Kullanıcısı</span>
 </button>
 <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
@@ -477,6 +475,8 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 
+<script src="assets/js/config/routes.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 <script>
 const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
 const state={
@@ -492,6 +492,9 @@ const state={
   selectedId:null,
   uploadedEvidence:null
 };
+
+function routeTo(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true})||path}
+function navigateRoute(path){window.location.href=routeTo(path)}
 
 const templates={
 "ISO 9001":[["4.1","Kuruluşun bağlamı"],["4.2","İlgili tarafların ihtiyaç ve beklentileri"],["4.3","Kapsam"],["4.4","Kalite yönetim sistemi ve prosesleri"],["5.1","Liderlik ve taahhüt"],["5.2","Kalite politikası"],["6.1","Risk ve fırsatlar"],["6.2","Kalite hedefleri"],["7.1","Kaynaklar"],["7.2","Yetkinlik"],["7.5","Dokümante edilmiş bilgi"],["8.4","Dışarıdan sağlanan proses/ürün/hizmet kontrolü"],["9.1","İzleme, ölçme, analiz ve değerlendirme"],["9.2","İç denetim"],["9.3","Yönetimin gözden geçirmesi"],["10.2","Uygunsuzluk ve düzeltici faaliyet"]],
@@ -939,7 +942,7 @@ async function runGlobalSearch(){
   const local=state.clauses.filter(c=>JSON.stringify(c).toLowerCase().includes(keyword)).map(c=>({module:"Standart Uygunluk",title:c.standardName+" "+c.clauseNo,detail:c.clauseTitle+" / "+c.complianceStatus,openId:c.id}));
   renderSearchResults(keyword,[...local,...cloudResults]);
 }
-function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=keyword.replace(/[.*+?^${}()|[\]\]/g,"\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
+function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=String(keyword).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
 function renderSearchResults(keyword,results){
   let panel=document.getElementById("searchResultsPanel");
   if(!panel){
@@ -969,10 +972,8 @@ function clearSearchResults(){
 }
 function exportCSV(){
   const rows=state.clauses.map(normalizeClause);
-  let csv="KayitNo,Standart,MaddeNo,MaddeAdi,Departman,Sorumlu,Durum,Skor,Hazirlik,Kanit,AksiyonGerekli,AksiyonDurumu
-";
-  rows.forEach(c=>csv+=`"${c.clauseRecordNo}","${c.standardName}","${c.clauseNo}","${c.clauseTitle}","${c.department}","${c.owner}","${c.complianceStatus}","${c.complianceScore}","${c.auditReadiness}","${c.evidence.length}","${c.action.required}","${c.action.status}"
-`);
+  let csv="KayitNo,Standart,MaddeNo,MaddeAdi,Departman,Sorumlu,Durum,Skor,Hazirlik,Kanit,AksiyonGerekli,AksiyonDurumu\n";
+  rows.forEach(c=>csv+=`"${c.clauseRecordNo}","${c.standardName}","${c.clauseNo}","${c.clauseTitle}","${c.department}","${c.owner}","${c.complianceStatus}","${c.complianceScore}","${c.auditReadiness}","${c.evidence.length}","${c.action.required}","${c.action.status}"\n`);
   const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
   const url=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=url;a.download="standart_uygunluk.csv";a.click();URL.revokeObjectURL(url);
@@ -1002,9 +1003,9 @@ async function resetForm(){
   document.getElementById("actionDescription").value="";
 }
 function showToast(message){const toast=document.getElementById("toast");toast.textContent=message;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
-function logout(){clearAuthCookie();window.location.href="index.html"}
-function openMobileMenu(){document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("drawerBackdrop")?.classList.add("active")}
-function closeMobileMenu(){document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("drawerBackdrop")?.classList.remove("active")}
+function logout(){clearAuthCookie();navigateRoute("index.html")}
+function openMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.open({overlayId:"drawerBackdrop",lockBody:false});return}document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("drawerBackdrop")?.classList.add("active")}
+function closeMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.close({overlayId:"drawerBackdrop",lockBody:false});return}document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("drawerBackdrop")?.classList.remove("active")}
 function toggleMenuGroup(btn){const group=btn.closest(".menu-group");if(!group)return;const menu=group.parentElement;if(menu){menu.querySelectorAll(".menu-group.open").forEach(g=>{if(g!==group)g.classList.remove("open")})}group.classList.toggle("open")}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMobileMenu();closeDrawer()}});
 document.getElementById("globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();runGlobalSearch()}});

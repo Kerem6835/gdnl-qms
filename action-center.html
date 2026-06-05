@@ -170,7 +170,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
-<a href="apqp.html">APQP ve PPAP</a>
+<a href="apqp.html">APQP</a>
 </div>
 
   </nav>
@@ -245,7 +245,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
-<a href="apqp.html">APQP ve PPAP</a>
+<a href="apqp.html">APQP</a>
 </div>
 
 </nav>
@@ -261,7 +261,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <button class="search-btn" onclick="runEnterpriseSearch()">Ara</button>
 </div>
 <div class="profile">
-<div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
+<div class="avatar" onclick="navigateRoute('dashboard.html')"><span id="userName">Kerem Güdenli</span></div>
 <span id="userRole" style="display:none">Super Administrator</span>
 <span id="userAvatar" style="display:none">K</span>
 <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
@@ -400,6 +400,8 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
+<script src="assets/js/config/routes.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 <script>
 const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
 const session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_ems_session")||"null")||{name:"Kerem Güdenli",role:"Super Administrator"};
@@ -420,7 +422,9 @@ let isCloudReady=false;
 const MODULE_NAME="Aksiyon Merkezi";
 const MODULE_CODE="AKSIYON";
 
-function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");window.location.href="index.html"}
+function routeTo(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true})||path}
+function navigateRoute(path){window.location.href=routeTo(path)}
+function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");navigateRoute("index.html")}
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
 function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function todayISO(){return new Date().toISOString().split("T")[0]}
@@ -1066,8 +1070,8 @@ function toggleMenuGroup(btn){
   menu.querySelectorAll(".submenu").forEach(s=>{if(s!==submenu)s.classList.remove("open");});
   btn.classList.toggle("open");btn.classList.toggle("active-group");submenu.classList.toggle("open");
 }
-function openMobileMenu(){const drawer=document.getElementById("mobileDrawer");const overlay=document.getElementById("mobileOverlay");if(drawer)drawer.classList.add("active");if(overlay)overlay.classList.add("active")}
-function closeMobileMenu(){const drawer=document.getElementById("mobileDrawer");const overlay=document.getElementById("mobileOverlay");if(drawer)drawer.classList.remove("active");if(overlay)overlay.classList.remove("active")}
+function openMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.open({lockBody:false});return}const drawer=document.getElementById("mobileDrawer");const overlay=document.getElementById("mobileOverlay");if(drawer)drawer.classList.add("active");if(overlay)overlay.classList.add("active")}
+function closeMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.close({lockBody:false});return}const drawer=document.getElementById("mobileDrawer");const overlay=document.getElementById("mobileOverlay");if(drawer)drawer.classList.remove("active");if(overlay)overlay.classList.remove("active")}
 
 globalSearch.addEventListener("input",renderAll);
 async function initPage(){

@@ -862,7 +862,6 @@ html,body{width:100%;max-width:100%;overflow-x:hidden!important}
 <button class="menu-group" type="button">🚗 IATF 16949 <span>⌄</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP</a>
-<a href="ppap.html">PPAP</a>
 </div>
 </nav>
 
@@ -934,7 +933,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden!important}
 
 <button class="menu-group" type="button">🚗 IATF 16949 <span>⌄</span></button>
 <div class="submenu">
-<a href="apqp.html">APQP & PPAP</a>
+<a href="apqp.html">APQP</a>
 </div>
 </nav>
 </div>
@@ -953,7 +952,7 @@ html,body{width:100%;max-width:100%;overflow-x:hidden!important}
 <div class="department-chip">Aktif Departman: <span id="activeDepartmentName">-</span></div>
 <div class="profile">
 <div class="avatar"
-onclick="window.location.href='dashboard.html'"
+onclick="navigateRoute('dashboard.html')"
 style="width:auto;padding:0 22px;">
 <span id="userName">Kerem Güdenli</span>
 </div>
@@ -1143,9 +1142,14 @@ style="width:auto;padding:0 22px;">
 </main>
 </div>
 
+<script src="assets/js/config/routes.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 <script>
 const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
 const GDNL_MODULE_NAME="Dashboard";
+
+function routeTo(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true})||path}
+function navigateRoute(path){window.location.href=routeTo(path)}
 
 let gdnlUsers=[];
 let gdnlDepartments=[];
@@ -1790,19 +1794,21 @@ function clearSearchResults(){
 }
 
 function openMobileMenu(){
+  if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.open();return}
   document.getElementById("mobileDrawer").classList.add("active");
   document.getElementById("mobileOverlay").classList.add("active");
   document.body.style.overflow="hidden";
 }
 
 function closeMobileMenu(){
+  if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.close();return}
   document.getElementById("mobileDrawer").classList.remove("active");
   document.getElementById("mobileOverlay").classList.remove("active");
   document.body.style.overflow="";
 }
 
 function logout(){
-  window.location.href="index.html?logout=1";
+  navigateRoute("index.html?logout=1");
 }
 
 document.addEventListener("keydown",function(event){

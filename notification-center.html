@@ -124,7 +124,6 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
 <a href="control-plan.html">Kontrol Planı</a>
-<a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
@@ -199,7 +198,6 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
 <a href="control-plan.html">Kontrol Planı</a>
-<a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
@@ -216,7 +214,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <button class="search-btn" onclick="runSearch()">Ara</button>
 </div>
 <div class="profile">
-<div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
+<div class="avatar" onclick="navigateRoute('dashboard.html')"><span id="userName">Kerem Güdenli</span></div>
 <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
@@ -325,6 +323,8 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
+<script src="assets/js/config/routes.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 <script>
 const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
 const state={currentUser:null,users:[],departments:[],notifications:[],roles:[],permissions:[],rolePermissions:[],auditLogs:[],activityFeed:[],comments:[],assignments:[],approvals:[],approvalHistory:[],workflowHistory:[],archive:[],selectedId:null,mailRecipients:[],smsRecipients:[],integration:{}};
@@ -336,10 +336,12 @@ async function apiRequest(path,opt={}){const res=await fetch(GDNL_API_BASE+path,
 async function safeGet(path){try{return await apiRequest(path)}catch(e){return null}}
 async function safePost(path,body){try{return await apiRequest(path,{method:"POST",body})}catch(e){return null}}
 function asArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
+function routeTo(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true})||path}
+function navigateRoute(path){window.location.href=routeTo(path)}
 function isPassive(r){const s=String(r?.status||r?.state||r?.record_status||"").toLowerCase();return["deleted","silindi","arşivlendi","arsivlendi","iptal","iptal edildi","cancelled","archived","arşiv"].includes(s)}
 function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
 function escapeHTML(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function highlightText(v,k){const safe=escapeHTML(v);if(!k)return safe;return safe.replace(new RegExp(k.replace(/[.*+?^${}()|[\]\]/g,"\$&"),"gi"),m=>`<mark>${m}</mark>`)}
+function highlightText(v,k){const safe=escapeHTML(v);if(!k)return safe;const escaped=String(k).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function hoursBetween(a,b){if(!a||!b)return 0;return Math.floor((new Date(b)-new Date(a))/(1000*60*60))}
@@ -362,10 +364,10 @@ function searchUsers(term){const q=String(term||"").toLowerCase();return state.u
 function setupUserAutocomplete(inputId,target){const input=document.getElementById(inputId);if(!input||input.dataset.ready==="1")return;input.dataset.ready="1";const wrap=document.createElement("div");wrap.className="user-select-wrap";input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);const list=document.createElement("div");list.className="user-autocomplete";wrap.appendChild(list);const chips=document.createElement("div");chips.className="selected-users";wrap.appendChild(chips);input.addEventListener("input",()=>{const found=searchUsers(input.value);list.innerHTML=found.map((u,i)=>`<div class="user-option" data-i="${i}">${escapeHTML(u.fullname)}<br><small>${escapeHTML(u.email)} · ${escapeHTML(u.role)} · ${escapeHTML(u.department)}</small></div>`).join("");list.classList.toggle("active",found.length>0);list.querySelectorAll(".user-option").forEach(el=>el.onclick=()=>{const u=found[Number(el.dataset.i)];const arr=state[target]||[];if(!arr.some(x=>String(x.id)===String(u.id)))arr.push(u);state[target]=arr;input.value="";renderRecipientChips(inputId,target);list.classList.remove("active")})});document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.classList.remove("active")})}
 function renderRecipientChips(inputId,target){const input=document.getElementById(inputId);const chips=input?.closest(".user-select-wrap")?.querySelector(".selected-users");if(!chips)return;chips.innerHTML=(state[target]||[]).map((u,i)=>`<span class="user-chip-tag">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")}<button type="button" onclick="removeRecipient('${target}',${i},'${inputId}')">×</button></span>`).join("")}
 function removeRecipient(target,index,inputId){state[target]=(state[target]||[]).filter((_,i)=>i!==index);renderRecipientChips(inputId,target)}
-function selectedEmails(){const manual=manualE-postaGroups.value.trim();const picked=(state.mailRecipients||[]).map(u=>u.email).filter(Boolean).join("; ");return [picked,manual].filter(Boolean).join("; ")}
+function selectedEmails(){const manual=(document.getElementById("manualE-postaGroups")?.value||"").trim();const picked=(state.mailRecipients||[]).map(u=>u.email).filter(Boolean).join("; ");return [picked,manual].filter(Boolean).join("; ")}
 function selectedSms(){const manual=manualSmsGroups.value.trim();return manual}
 async function createManualNotification(markSent=false){if(!manualMessage.value.trim())return showToast("Mesaj zorunlu");if(!hasPermission("Oluşturma"))return showToast("Bu işlem için yetkiniz yok");const n=normalizeNotification({notificationId:manualNotificationId.value,module:manualModule.value,type:manualType.value,documentCode:manualDokümanCode.value.trim(),documentName:manualDokümanName.value.trim(),mailGroups:selectedEmails(),smsGroups:selectedSms(),message:manualMessage.value.trim(),priority:manualPriority.value,status:markSent?"Gönderildi":"Kuyrukta",is_read:false,read_by:null,read_at:null,createdBy:state.currentUser?.fullname||"",createdAt:new Date().toISOString(),sentAt:markSent?new Date().toISOString():"",auditTrail:[{action:markSent?"Manuel bildirim oluşturuldu ve gönderildi":"Manuel bildirim kuyruğa alındı",user:state.currentUser?.fullname||"Sistem",date:new Date().toISOString()}]});const saved=await safePost("/notifications",n);state.notifications.unshift(n);await writeDenetim("Bildirim Merkezi",markSent?"Oluşturma ve gönderim":"Oluşturma",n.notificationId);await writeActivity("Bildirim Merkezi","Bildirim kaydı oluşturuldu",n.notificationId,null,n,"notifications");clearManual();renderNotifications();showToast(saved?"Bildirim D1 kuyruğuna alındı":"Bildirim ekranda oluşturuldu, API kaydı kontrol edilmeli")}
-async function clearManual(){await generateManualNo();manualModule.value="Sistem";manualType.value="E-posta";manualPriority.value="Normal";manualDokümanCode.value="";manualDokümanName.value="";manualE-postaGroups.value="";manualSmsGroups.value="";manualMessage.value="";state.mailRecipients=[];renderRecipientChips("manualE-postaGroups","mailRecipients")}
+async function clearManual(){await generateManualNo();manualModule.value="Sistem";manualType.value="E-posta";manualPriority.value="Normal";manualDokümanCode.value="";manualDokümanName.value="";const mailGroups=document.getElementById("manualE-postaGroups");if(mailGroups)mailGroups.value="";manualSmsGroups.value="";manualMessage.value="";state.mailRecipients=[];renderRecipientChips("manualE-postaGroups","mailRecipients")}
 async function saveIntegration(){state.integration={serviceId:emailServiceId.value.trim(),templateId:emailTemplateId.value.trim(),publicKey:emailPublicKey.value.trim(),sendMode:sendMode.value,updatedAt:new Date().toISOString()};await safePost("/activity-feed",{module:"Bildirim Merkezi",action:"E-posta entegrasyonu güncellendi",new_value:state.integration,changed_field:"integration",created_at:new Date().toISOString()});loadIntegration();showToast("Entegrasyon ayarları D1 kayıt akışına gönderildi")}
 function loadIntegration(){const cfg=state.integration||{};emailServiceId.value=cfg.serviceId||"";emailTemplateId.value=cfg.templateId||"";emailPublicKey.value=cfg.publicKey||"";sendMode.value=cfg.sendMode||"Simülasyon";emailJsStatus.textContent=(cfg.serviceId&&cfg.templateId&&cfg.publicKey)?"Hazır":"Pasif"}
 function autoDelayCheck(){const now=new Date().toISOString();state.notifications=state.notifications.map(normalizeNotification).map(n=>{if(n.status==="Kuyrukta"&&hoursBetween(n.createdAt,now)>=24){return{...n,status:"Gecikti",lastError:"24 saatten uzun süredir kuyrukta bekliyor.",auditTrail:[{action:"Bildirim otomatik gecikti",user:"Sistem",date:now},...(n.auditTrail||[])]}}return n})}
@@ -407,13 +409,11 @@ async function runSearch(){const text=(globalSearch.value||"").trim().toLowerCas
 function renderSearchResults(keyword,results){const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea");if(!panel)return;panel.classList.add("active");setText("searchKeyword",keyword);setText("searchResultCount",results.length+" sonuç");if(!results.length){area.innerHTML='<div class="empty">Bu kelimeyle eşleşen kayıt bulunamadı.</div>';return}window.gdnlSearchResults=results.slice(0,80);area.innerHTML=window.gdnlSearchResults.map((r,i)=>`<div class="result-card"><div><b>${highlightText(r.module,keyword)}</b><small>${escapeHTML(r.type||"")}</small></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${i})">Aç</button></div>`).join("");panel.scrollIntoView({behavior:"smooth",block:"start"})}
 function openSearchResult(i){const r=(window.gdnlSearchResults||[])[i];if(!r)return;if(r.type==="record"&&r.id){openDrawer(r.id);return}if(r.go&&r.go!=="#")window.location.href=r.go}
 function clearSearchResults(){const panel=document.getElementById("searchResultsPanel");if(panel)panel.classList.remove("active");const area=document.getElementById("searchResultsArea");if(area)area.innerHTML=""}
-function exportCSV(){const rows=state.notifications.map(normalizeNotification);let csv="BildirimNo,Modül,Tip,KayıtNo,KayıtAdı,EpostaAlıcıları,SmsAlıcıları,Mesaj,Durum,Öncelik,Tekrar,Oluşturma,Gönderim
-";rows.forEach(n=>csv+=`"${n.notificationId}","${n.module}","${n.type}","${n.documentCode}","${n.documentName}","${n.mailGroups}","${n.smsGroups}","${String(n.message).replaceAll('"','""')}","${n.status}","${n.priority}","${n.retryCount}","${n.createdAt}","${n.sentAt}"
-`);const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="gdnl_eqms_bildirim_merkezi.csv";a.click();URL.revokeObjectURL(url)}
+function exportCSV(){const rows=state.notifications.map(normalizeNotification);let csv="BildirimNo,Modül,Tip,KayıtNo,KayıtAdı,EpostaAlıcıları,SmsAlıcıları,Mesaj,Durum,Öncelik,Tekrar,Oluşturma,Gönderim\n";rows.forEach(n=>csv+=`"${n.notificationId}","${n.module}","${n.type}","${n.documentCode}","${n.documentName}","${n.mailGroups}","${n.smsGroups}","${String(n.message).replaceAll('"','""')}","${n.status}","${n.priority}","${n.retryCount}","${n.createdAt}","${n.sentAt}"\n`);const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="gdnl_eqms_bildirim_merkezi.csv";a.click();URL.revokeObjectURL(url)}
 function showToast(message){toast.textContent=message;toast.style.display="block";setTimeout(()=>toast.style.display="none",2500)}
-function logout(){clearAuthCookie();window.location.href="index.html"}
-function openMobileMenu(){document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active")}
-function closeMobileMenu(){document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active")}
+function logout(){clearAuthCookie();navigateRoute("index.html")}
+function openMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.open({lockBody:false});return}document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active")}
+function closeMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.close({lockBody:false});return}document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active")}
 function initAccordionMenu(){document.querySelectorAll('.menu-group').forEach(btn=>{btn.addEventListener('click',()=>{const parent=btn.closest('nav');const submenu=btn.nextElementSibling;if(!submenu)return;parent.querySelectorAll('.menu-group').forEach(b=>{if(b!==btn)b.classList.remove('open')});parent.querySelectorAll('.submenu').forEach(s=>{if(s!==submenu)s.classList.remove('open')});btn.classList.toggle('open');submenu.classList.toggle('open')})})}
 async function boot(){initAccordionMenu();await loadCloudData();manualModule.querySelectorAll('option').forEach(o=>o.value=moduleValue(o.value),o.textContent=moduleValue(o.textContent));moduleFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=moduleValue(o.value);o.textContent=moduleValue(o.textContent)});manualType.querySelectorAll('option').forEach(o=>{o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});typeFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});manualPriority.querySelectorAll('option').forEach(o=>{o.value=priorityValue(o.value);o.textContent=priorityValue(o.textContent)});sendMode.querySelectorAll('option').forEach(o=>{if(o.textContent.includes('Email'))o.textContent='E-posta Hazır';if(o.textContent.includes('E-posta'))o.textContent='E-posta Manuel'});setupUserAutocomplete("manualE-postaGroups","mailRecipients");loadIntegration();await clearManual();renderNotifications();globalSearch.addEventListener("input",renderNotifications);globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});setInterval(async()=>{await loadCloudData();renderNotifications()},30000);console.log("GDNL EQMS Bildirim Merkezi Bulut Hazır")}
 boot();

@@ -145,7 +145,6 @@ font-weight:950;
 <a href="apqp.html">🚗 APQP</a>
 <a href="fmea.html">🧩 FMEA</a>
 <a href="control-plan.html">📋 Kontrol Planı</a>
-<a href="ppap.html">📦 PPAP</a>
 <a href="spc.html">📊 SPC</a>
 <a href="msa.html">📐 MSA</a>
 </div>
@@ -214,7 +213,6 @@ font-weight:950;
 <a href="apqp.html">🚗 APQP</a>
 <a href="fmea.html">🧩 FMEA</a>
 <a href="control-plan.html">📋 Kontrol Planı</a>
-<a href="ppap.html">📦 PPAP</a>
 <a href="spc.html">📊 SPC</a>
 <a href="msa.html">📐 MSA</a>
 </div>
@@ -233,7 +231,7 @@ font-weight:950;
 <button class="search-btn" onclick="runSearch()">Ara</button>
 </div>
 <div class="profile">
-<div class="avatar" id="userAvatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
+<div class="avatar" id="userAvatar" onclick="navigateRoute('dashboard.html')"><span id="userName">Kerem Güdenli</span></div>
 <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
@@ -398,6 +396,8 @@ font-weight:950;
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 
+<script src="assets/js/config/routes.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 <script>
 /* GDNL EQMS / GDNL EOS Cloud Ready YGG Yönetimi
    Ana kaynak: Cloudflare Worker gdnl-eos-api
@@ -410,6 +410,9 @@ font-weight:950;
 const API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
 const MODULE_NAME = "YGG Yönetimi";
 const MODULE_CODE = "MANAGEMENT_REVIEW";
+
+function routeTo(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true})||path}
+function navigateRoute(path){window.location.href=routeTo(path)}
 
 let state = {
   currentUser: { id:"", fullname:"GDNL Kullanıcısı", role:"Kullanıcı", department:"", email:"" },
@@ -1335,12 +1338,12 @@ function showToast(m){
   t.style.display="block";
   setTimeout(()=>t.style.display="none",2600);
 }
-function openMobileMenu(){ qs("mobileDrawer").classList.add("active"); qs("mobileOverlay").classList.add("active"); }
-function closeMobileMenu(){ qs("mobileDrawer").classList.remove("active"); qs("mobileOverlay").classList.remove("active"); }
+function openMobileMenu(){ if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.open({lockBody:false});return} qs("mobileDrawer").classList.add("active"); qs("mobileOverlay").classList.add("active"); }
+function closeMobileMenu(){ if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.close({lockBody:false});return} qs("mobileDrawer").classList.remove("active"); qs("mobileOverlay").classList.remove("active"); }
 function logout(){
   document.cookie="gdnl_eos_token=; Max-Age=0; path=/; SameSite=Lax";
   document.cookie="gdnl_eqms_token=; Max-Age=0; path=/; SameSite=Lax";
-  window.location.href="index.html";
+  navigateRoute("index.html");
 }
 function initLockedAccordionMenu(){
   document.querySelectorAll(".menu-group").forEach(btn=>{
