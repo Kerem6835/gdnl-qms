@@ -525,7 +525,7 @@ body:before{
       <div class="avatar" id="avatar">KG</div>
       <div class="user-meta">
         <b id="userName">Kerem Güdenli</b>
-        <span>Rol: <span id="userRole">Super Administrator</span></span>
+        <span>Rol: <span id="userRole">Süper Yönetici</span></span>
       </div>
       <button class="logout" onclick="logout()">⇥ Oturumu Kapat</button>
     </div>
@@ -562,141 +562,529 @@ body:before{
   </main>
 </div>
 <div class="toast" id="toast">İşlem tamamlandı</div>
+
 <script>
-const DEFAULT_SESSION={username:"demo",name:"Demo Kullanıcı",role:"Kullanıcı",department:"Kalite",loginAt:new Date().toISOString()};
+"use strict";
+
+/* =========================================================
+   GDNL EOS / GDNL EQMS CLOUD READY DEPARTMAN MERKEZİ
+   Ana veri kaynağı: Cloudflare D1
+   Worker: gdnl-eos-api
+   D1 Binding: DB
+   R2 Binding: EQMS_FILES
+   R2 Bucket: gdnl-eqms-files
+   ========================================================= */
+
+const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
+const SYSTEM_MODULE = "Departman Merkezi";
+const ARCHIVE_STATUSES = ["Deleted","Silindi","Arşivlendi","İptal Edildi"];
+
+const state = {
+  session: null,
+  currentUser: null,
+  users: [],
+  departments: [],
+  permissions: [],
+  selectedDepartment: null
+};
+
+const MODULE_MAP = {
+  "Yönetim":["management-review.html","kpi-reports.html","action-center.html","dashboard.html"],
+  "Kalite":["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html","approval.html","archive.html"],
+  "Kalite Yönetimi":["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html","approval.html","archive.html"],
+  "Üretim":["process-management.html","control-plan.html","spc.html","capa.html"],
+  "Ar-Ge":["apqp.html","fmea.html","control-plan.html","ppap.html"],
+  "Satınalma":["supplier-management.html","approval.html","documents.html"],
+  "Planlama":["action-center.html","kpi-reports.html","process-management.html"],
+  "Tedarik Zinciri":["supplier-management.html","action-center.html","kpi-reports.html"],
+  "Tedarik":["supplier-management.html","action-center.html","kpi-reports.html"],
+  "Depo":["distribution.html","process-management.html","action-center.html"],
+  "İnsan Kaynakları":["training-management.html","competency-matrix.html","users.html"],
+  "Laboratuvar":["calibration-management.html","msa.html","standards-compliance.html"],
+  "Bilgi Teknolojileri":["users.html","security-continuity-center.html","legal-compliance.html"],
+  "Finans":["kpi-reports.html","approval.html","documents.html"],
+  "Muhasebe":["kpi-reports.html","approval.html","documents.html"],
+  "Satış":["customer-management.html","kpi-reports.html","capa.html"],
+  "Pazarlama":["customer-management.html","kpi-reports.html","capa.html"],
+  "Satış Pazarlama":["customer-management.html","kpi-reports.html","capa.html"],
+  "İdari İşler":["company-assets-documents.html","documents.html","action-center.html"],
+  "Bakım":["calibration-management.html","process-management.html","action-center.html"],
+  "Bakım & Teknik":["calibration-management.html","process-management.html","action-center.html"],
+  "Kalıphane":["calibration-management.html","process-management.html","action-center.html","documents.html"],
+  "Enerji":["kpi-reports.html","continuous-improvement.html","legal-compliance.html"],
+  "İSG":["legal-compliance.html","risk-register.html","action-center.html"],
+  "Çevre":["legal-compliance.html","risk-register.html","action-center.html"],
+  "BGYS":["security-continuity-center.html","users.html","risk-register.html"]
+};
+
+const ICON_MAP = {
+  "Yönetim":"👑",
+  "Kalite":"🏅",
+  "Kalite Yönetimi":"🏅",
+  "Üretim":"🏭",
+  "Ar-Ge":"💡",
+  "Satınalma":"🛒",
+  "Planlama":"🗓️",
+  "Tedarik Zinciri":"🚚",
+  "Tedarik":"🚚",
+  "Depo":"🏬",
+  "İnsan Kaynakları":"👥",
+  "Laboratuvar":"🧪",
+  "Bilgi Teknolojileri":"🖥️",
+  "Finans":"🏛️",
+  "Muhasebe":"🧾",
+  "Satış":"📈",
+  "Pazarlama":"📣",
+  "Satış Pazarlama":"📈",
+  "İdari İşler":"📁",
+  "Bakım":"🛠️",
+  "Bakım & Teknik":"🛠️",
+  "Kalıphane":"🏗️",
+  "Enerji":"⚡",
+  "İSG":"🦺",
+  "Çevre":"🌱",
+  "BGYS":"🔒"
+};
+
+function apiUrl(path){
+  if(!path.startsWith("/")) path = "/" + path;
+  return GDNL_API_BASE + path;
+}
+
+async function apiGet(path, fallbackValue = null){
+  try{
+    const res = await fetch(apiUrl(path), {method:"GET", headers:{"Accept":"application/json"}});
+    if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
+    return await res.json();
+  }catch(err){
+    console.warn("D1 okuma hatası:", err);
+    return fallbackValue;
+  }
+}
+
+async function apiPost(path, payload, fallbackValue = null){
+  try{
+    const res = await fetch(apiUrl(path), {
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify(payload || {})
+    });
+    if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
+    return await res.json();
+  }catch(err){
+    console.warn("D1 yazma hatası:", err);
+    return fallbackValue;
+  }
+}
+
+async function apiPut(path, payload, fallbackValue = null){
+  try{
+    const res = await fetch(apiUrl(path), {
+      method:"PUT",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify(payload || {})
+    });
+    if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
+    return await res.json();
+  }catch(err){
+    console.warn("D1 güncelleme hatası:", err);
+    return fallbackValue;
+  }
+}
+
+function getClientMeta(){
+  return {
+    ip_address:"",
+    user_agent:navigator.userAgent,
+    session_id:state.session?.session_id || state.session?.id || localStorage.getItem("gdnl_session_id") || ""
+  };
+}
+
+function nowISO(){
+  return new Date().toISOString();
+}
+
+function isArchivedStatus(status){
+  return ARCHIVE_STATUSES.includes(String(status || "").trim());
+}
+
+function normalizeList(response){
+  if(Array.isArray(response)) return response;
+  if(Array.isArray(response?.data)) return response.data;
+  if(Array.isArray(response?.items)) return response.items;
+  if(Array.isArray(response?.results)) return response.results;
+  if(Array.isArray(response?.rows)) return response.rows;
+  return [];
+}
 
 function readSession(){
-  const emsSession=JSON.parse(localStorage.getItem("gdnl_ems_session")||"null");
-  const qdmsSession=JSON.parse(localStorage.getItem("gdnl_qdms_session")||"null");
-  const activeSession=emsSession||qdmsSession||DEFAULT_SESSION;
+  const qdms = safeJSON(localStorage.getItem("gdnl_qdms_session"));
+  const eos = safeJSON(localStorage.getItem("gdnl_eos_session"));
+  const ems = safeJSON(localStorage.getItem("gdnl_ems_session"));
+  const session = qdms || eos || ems;
 
-  if(activeSession.username==="keremgudenli"){
-    activeSession.name="Kerem Güdenli";
-    activeSession.role="Root Super Administrator";
-    activeSession.department="Yönetim";
-    activeSession.accessLevel="FULL_SYSTEM_ACCESS";
-    activeSession.permissions=["*","root","admin","view","create","edit","delete","approve","export","import","audit","settings","users","roles","system","all_modules"];
-    activeSession.canViewAll=true;
-    activeSession.canCreate=true;
-    activeSession.canEdit=true;
-    activeSession.canDelete=true;
-    activeSession.canApprove=true;
-    activeSession.canExport=true;
-    activeSession.canImport=true;
-    activeSession.canAudit=true;
-    activeSession.canManageUsers=true;
-    activeSession.canManageRoles=true;
-    activeSession.canManageSystem=true;
-    activeSession.canAccessSettings=true;
-    activeSession.canAccessAllModules=true;
-    activeSession.canOverrideWorkflow=true;
-    activeSession.isRoot=true;
-    activeSession.isSuperAdmin=true;
-    activeSession.isFullAuthorized=true;
+  if(!session){
+    showToast("Oturum bulunamadı. Giriş ekranına yönlendiriliyorsunuz.");
+    setTimeout(()=>{ window.location.href = "index.html"; }, 800);
+    return null;
   }
 
-  if(!activeSession.name)activeSession.name="Demo Kullanıcı";
-  if(!activeSession.role)activeSession.role="Kullanıcı";
-  if(!activeSession.department)activeSession.department=activeSession.role==="Super Administrator"||activeSession.role==="Root Super Administrator"?"Yönetim":"Kalite";
+  session.name = session.fullname || session.name || session.username || "Kullanıcı";
+  session.fullname = session.fullname || session.name;
+  session.role = session.role || "Kullanıcı";
+  session.department = session.department || session.department_name || "";
+  session.email = session.email || "";
+  session.permissions = Array.isArray(session.permissions) ? session.permissions : [];
 
-  localStorage.setItem("gdnl_qdms_session",JSON.stringify(activeSession));
-  localStorage.setItem("gdnl_ems_session",JSON.stringify(activeSession));
-  return activeSession;
+  localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
+  localStorage.setItem("gdnl_eos_session", JSON.stringify(session));
+  localStorage.setItem("gdnl_current_user_name", session.fullname);
+  localStorage.setItem("gdnl_current_user_role", session.role);
+
+  return session;
 }
 
-let session=readSession();
-
-function isFullAccess(){
-  return session.isRoot===true ||
-    session.isSuperAdmin===true ||
-    session.isFullAuthorized===true ||
-    session.canAccessAllModules===true ||
-    session.accessLevel==="FULL_SYSTEM_ACCESS" ||
-    (session.permissions||[]).includes("*") ||
-    session.role==="Super Administrator" ||
-    session.role==="Root Super Administrator";
+function safeJSON(value){
+  try{return JSON.parse(value || "null")}catch(err){return null}
 }
 
-const departments=[
-  {key:"Yönetim",accessKey:"Yönetim",icon:"👑",modules:["management-review.html","kpi-reports.html","action-center.html","dashboard.html"]},
-  {key:"Kalite Yönetimi",accessKey:"Kalite",icon:"🏅",modules:["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html"]},
-  {key:"Üretim",accessKey:"Üretim",icon:"🏭",modules:["process-management.html","control-plan.html","spc.html","capa.html"]},
-  {key:"Ar-Ge",accessKey:"Ar-Ge",icon:"💡",modules:["apqp.html","fmea.html","control-plan.html","ppap.html"]},
-  {key:"Satınalma",accessKey:"Satınalma",icon:"🛒",modules:["supplier-management.html","approval.html","documents.html"]},
-  {key:"Planlama",accessKey:"Planlama",icon:"🗓️",modules:["action-center.html","kpi-reports.html","process-management.html"]},
-  {key:"Tedarik Zinciri",accessKey:"Tedarik",icon:"🚚",modules:["supplier-management.html","action-center.html","kpi-reports.html"]},
-  {key:"Depo",accessKey:"Depo",icon:"🏬",modules:["distribution.html","process-management.html","action-center.html"]},
-  {key:"İnsan Kaynakları",accessKey:"İnsan Kaynakları",icon:"👥",modules:["training-management.html","competency-matrix.html","users.html"]},
-  {key:"Laboratuvar",accessKey:"Laboratuvar",icon:"🧪",modules:["calibration-management.html","msa.html","standards-compliance.html"]},
-  {key:"Bilgi Teknolojileri",accessKey:"Bilgi Teknolojileri",icon:"🖥️",modules:["users.html","security-continuity-center.html","legal-compliance.html"]},
-  {key:"Finans",accessKey:"Finans",icon:"🏛️",modules:["kpi-reports.html","approval.html","documents.html"]},
-  {key:"Satış & Pazarlama",accessKey:"Satış Pazarlama",icon:"📈",modules:["customer-management.html","kpi-reports.html","capa.html"]},
-  {key:"İdari İşler",accessKey:"İdari İşler",icon:"📁",modules:["company-assets-documents.html","documents.html","action-center.html"]},
-  {key:"Bakım & Teknik",accessKey:"Bakım",icon:"🛠️",modules:["calibration-management.html","process-management.html","action-center.html"]}
-];
-
-const roleAccess={
-  "Super Administrator":"ALL",
-  "Kalite Admin":["Kalite","Yönetim","Ar-Ge","Üretim","Laboratuvar","Tedarik","İnsan Kaynakları"],
-  "Departman Müdürü":"OWN_PLUS_MANAGEMENT",
-  "Süreç Sahibi":"OWN_PLUS_QUALITY",
-  "8D Lideri":["Kalite","Üretim","Tedarik","Laboratuvar"],
-  "Denetçi":["Kalite","Yönetim","Tedarik","Üretim","Laboratuvar","İnsan Kaynakları","Bilgi Teknolojileri"],
-  "Kullanıcı":"OWN_ONLY",
-  "User":"OWN_ONLY"
-};
-function unique(arr){return [...new Set(arr.filter(Boolean))]}
-function allowedDepartments(){
-  if(isFullAccess())return departments.map(d=>d.accessKey);
-  const role=session.role||"Kullanıcı";
-  const dep=session.department||"Kalite";
-  const rule=roleAccess[role]||"OWN_ONLY";
-  if(rule==="ALL")return departments.map(d=>d.accessKey);
-  if(rule==="OWN_ONLY")return [dep];
-  if(rule==="OWN_PLUS_MANAGEMENT")return unique([dep,"Yönetim"]);
-  if(rule==="OWN_PLUS_QUALITY")return unique([dep,"Kalite"]);
-  return Array.isArray(rule)?rule:[dep];
+function isSuperAdmin(){
+  const s = state.session || {};
+  const role = String(s.role || "").toLowerCase();
+  return s.isRoot === true ||
+    s.isSuperAdmin === true ||
+    s.isFullAuthorized === true ||
+    s.canAccessAllModules === true ||
+    s.accessLevel === "FULL_SYSTEM_ACCESS" ||
+    (s.permissions || []).includes("*") ||
+    role.includes("super administrator") ||
+    role.includes("root") ||
+    role.includes("süper yönetici");
 }
-function initials(name){return String(name||"DU").trim().split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()}
+
+function hasPermission(permission){
+  if(isSuperAdmin()) return true;
+  const permissions = state.permissions.length ? state.permissions : (state.session?.permissions || []);
+  return permissions.includes(permission) || permissions.includes("*");
+}
+
+function canAccessDepartment(department){
+  if(isSuperAdmin()) return true;
+  const depName = String(department?.department_name || department?.name || department?.key || "").trim();
+  const userDep = String(state.currentUser?.department || state.session?.department || "").trim();
+  const permissions = state.permissions.length ? state.permissions : (state.session?.permissions || []);
+
+  if(depName && userDep && depName.toLocaleLowerCase("tr-TR") === userDep.toLocaleLowerCase("tr-TR")) return true;
+  if(permissions.includes("departments:view:all")) return true;
+  if(permissions.includes("all_departments")) return true;
+  if(permissions.includes("department:" + depName)) return true;
+  if(permissions.includes("departman:" + depName)) return true;
+
+  return false;
+}
+
+function normalizeDepartment(row){
+  const name = row.department_name || row.name || row.key || row.title || "";
+  const cleanName = String(name).trim();
+  const status = row.status || "Aktif";
+  return {
+    id: row.id || cleanName,
+    key: cleanName,
+    accessKey: cleanName,
+    department_name: cleanName,
+    status: status,
+    icon: row.icon || ICON_MAP[cleanName] || "▦",
+    modules: parseModules(row.modules) || MODULE_MAP[cleanName] || ["dashboard.html"]
+  };
+}
+
+function parseModules(value){
+  if(!value) return null;
+  if(Array.isArray(value)) return value;
+  const parsed = safeJSON(value);
+  if(Array.isArray(parsed)) return parsed;
+  return String(value).split(",").map(x=>x.trim()).filter(Boolean);
+}
+
+async function loadCloudData(){
+  const usersResponse = await apiGet("/users", []);
+  const departmentsResponse = await apiGet("/departments", []);
+  const rolesResponse = await apiGet("/roles", []);
+  const permissionsResponse = await apiGet("/permissions", []);
+
+  state.users = normalizeList(usersResponse).filter(x=>!isArchivedStatus(x.status));
+  state.departments = normalizeList(departmentsResponse)
+    .map(normalizeDepartment)
+    .filter(x=>x.department_name && !isArchivedStatus(x.status));
+
+  const currentUser = findCurrentUser();
+  state.currentUser = currentUser || {
+    id: state.session?.id || state.session?.user_id || "",
+    fullname: state.session?.fullname || state.session?.name || "",
+    role: state.session?.role || "Kullanıcı",
+    department: state.session?.department || "",
+    email: state.session?.email || ""
+  };
+
+  state.permissions = extractPermissions(rolesResponse, permissionsResponse, state.currentUser);
+}
+
+function findCurrentUser(){
+  const s = state.session || {};
+  const needle = [
+    s.id,
+    s.user_id,
+    s.username,
+    s.email,
+    s.fullname,
+    s.name
+  ].filter(Boolean).map(v=>String(v).toLocaleLowerCase("tr-TR"));
+
+  return state.users.find(u=>{
+    const values = [
+      u.id,
+      u.user_id,
+      u.username,
+      u.email,
+      u.fullname,
+      u.name
+    ].filter(Boolean).map(v=>String(v).toLocaleLowerCase("tr-TR"));
+    return values.some(v=>needle.includes(v));
+  }) || null;
+}
+
+function extractPermissions(rolesResponse, permissionsResponse, user){
+  const direct = Array.isArray(user?.permissions) ? user.permissions : [];
+  const roleName = String(user?.role || state.session?.role || "").trim();
+  const roles = normalizeList(rolesResponse);
+  const permissions = normalizeList(permissionsResponse);
+  const role = roles.find(r=>String(r.role_name || r.name || r.title || "").trim() === roleName);
+  const roleId = role?.id || role?.role_id || "";
+  const rolePermissions = permissions
+    .filter(p=>String(p.role_id || p.roleId || "") === String(roleId) || String(p.role_name || p.role || "") === roleName)
+    .map(p=>p.permission_key || p.permission || p.name)
+    .filter(Boolean);
+  return [...new Set([...direct, ...rolePermissions])];
+}
+
+function initials(name){
+  return String(name || "KU")
+    .trim()
+    .split(/\s+/)
+    .map(x=>x[0])
+    .join("")
+    .slice(0,2)
+    .toLocaleUpperCase("tr-TR");
+}
+
 function render(){
-  const allowed=allowedDepartments();
-  document.getElementById("userName").textContent=session.name;
-  document.getElementById("userRole").textContent=session.role;
-  document.getElementById("avatar").textContent=initials(session.name);
-  const active=departments.filter(d=>allowed.includes(d.accessKey));
-  const locked=departments.filter(d=>!allowed.includes(d.accessKey));
-  const ordered=[...active.map(d=>({d,ok:true})),...locked.map(d=>({d,ok:false}))];
-  document.getElementById("departmentGrid").innerHTML=ordered.map(x=>cardHTML(x.d,x.ok)).join("");
+  const session = state.session || {};
+  const currentUser = state.currentUser || {};
+
+  document.getElementById("userName").textContent = currentUser.fullname || currentUser.name || session.fullname || session.name || "Kullanıcı";
+  document.getElementById("userRole").textContent = currentUser.role || session.role || "Kullanıcı";
+  document.getElementById("avatar").textContent = initials(currentUser.fullname || session.fullname || session.name);
+
+  const departments = state.departments.length ? state.departments : [];
+  const active = departments.filter(d=>canAccessDepartment(d));
+  const locked = departments.filter(d=>!canAccessDepartment(d));
+  const ordered = [...active.map(d=>({d,ok:true})), ...locked.map(d=>({d,ok:false}))];
+
+  const area = document.getElementById("departmentGrid");
+  if(!ordered.length){
+    area.innerHTML = '<div class="dept-card locked" style="grid-column:1/-1"><div class="dept-top"><div class="dept-icon">!</div><div class="state">🔒</div></div><h3>Departman bulunamadı</h3><span class="badge">D1 bağlantısı kontrol edilmeli</span><div class="open-dot">!</div></div>';
+    return;
+  }
+
+  area.innerHTML = ordered.map(x=>cardHTML(x.d, x.ok)).join("");
 }
-function cardHTML(d,ok){
-  return `<article class="dept-card ${ok?"":"locked"}" onclick="openDepartment('${escapeJS(d.accessKey)}')">
-    <div class="dept-top"><div class="dept-icon">${d.icon}</div><div class="state">${ok?"✓":"🔒"}</div></div>
-    <h3>${escapeHTML(d.key)}</h3>
-    <span class="badge">${ok?"Erişilebilir":"Yetkiniz Yok"}</span>
+
+function cardHTML(d, ok){
+  return `<article class="dept-card ${ok ? "" : "locked"}" onclick="openDepartment('${escapeJS(d.id)}')">
+    <div class="dept-top"><div class="dept-icon">${escapeHTML(d.icon)}</div><div class="state">${ok ? "✓" : "🔒"}</div></div>
+    <h3>${escapeHTML(d.department_name)}</h3>
+    <span class="badge">${ok ? "Erişilebilir" : "Yetkiniz Yok"}</span>
     <div class="open-dot">→</div>
   </article>`;
 }
-function openDepartment(accessKey){
-  const allowed=allowedDepartments();
-  const dept=departments.find(d=>d.accessKey===accessKey);
-  if(!allowed.includes(accessKey)){showToast((dept?.key||accessKey)+" departmanı için yetkiniz bulunmamaktadır.");return;}
-  localStorage.setItem("gdnl_selected_department",accessKey);
-  localStorage.setItem("gdnl_selected_department_label",dept?.key||accessKey);
-  localStorage.setItem("gdnl_department_modules",JSON.stringify(dept?.modules||[]));
-  showToast((dept?.key||accessKey)+" çalışma alanı açılıyor...");
-  setTimeout(()=>{window.location.href="dashboard.html"},450);
+
+async function openDepartment(departmentId){
+  const dept = state.departments.find(d=>String(d.id) === String(departmentId));
+  if(!dept){
+    showToast("Departman kaydı bulunamadı.");
+    return;
+  }
+
+  if(!canAccessDepartment(dept)){
+    showToast(dept.department_name + " departmanı için yetkiniz bulunmamaktadır.");
+    await logAudit("Yetkisiz departman erişim denemesi", dept.department_name, {department_id:dept.id});
+    return;
+  }
+
+  state.selectedDepartment = dept;
+
+  localStorage.setItem("gdnl_selected_department", dept.department_name);
+  localStorage.setItem("gdnl_selected_department_id", dept.id);
+  localStorage.setItem("gdnl_selected_department_label", dept.department_name);
+  localStorage.setItem("gdnl_department_modules", JSON.stringify(dept.modules || ["dashboard.html"]));
+
+  await Promise.all([
+    logAudit("Departman seçildi", dept.department_name, {department_id:dept.id, modules:dept.modules}),
+    logActivity("Departman çalışma alanı açıldı", dept.department_name, {department_id:dept.id}),
+    createNotificationIfNeeded(dept)
+  ]);
+
+  showToast(dept.department_name + " çalışma alanı açılıyor...");
+  setTimeout(()=>{ window.location.href = "dashboard.html"; }, 450);
 }
+
+async function createNotificationIfNeeded(dept){
+  const payload = {
+    module:SYSTEM_MODULE,
+    title:"Departman çalışma alanı seçildi",
+    message:(state.currentUser?.fullname || state.session?.name || "Kullanıcı") + " kullanıcısı " + dept.department_name + " çalışma alanına geçti.",
+    user_id:state.currentUser?.id || state.session?.user_id || "",
+    user_name:state.currentUser?.fullname || state.session?.name || "",
+    department:dept.department_name,
+    status:"Okunmadı",
+    is_read:0,
+    read_by:"",
+    read_at:"",
+    created_at:nowISO()
+  };
+  return apiPost("/notifications", payload, null);
+}
+
+async function logAudit(action, recordNo, extra = {}){
+  const payload = {
+    module:SYSTEM_MODULE,
+    related_id:recordNo || "",
+    action:action,
+    old_value:extra.old_value || "",
+    new_value:JSON.stringify(extra),
+    changed_field:extra.changed_field || "",
+    user_id:state.currentUser?.id || state.session?.user_id || "",
+    user_name:state.currentUser?.fullname || state.session?.name || "",
+    role:state.currentUser?.role || state.session?.role || "",
+    department:state.currentUser?.department || state.session?.department || "",
+    created_at:nowISO(),
+    ...getClientMeta()
+  };
+  return apiPost("/audit-logs", payload, null);
+}
+
+async function logActivity(action, recordNo, extra = {}){
+  const payload = {
+    module:SYSTEM_MODULE,
+    related_id:recordNo || "",
+    action:action,
+    description:action + " / " + (recordNo || ""),
+    user_id:state.currentUser?.id || state.session?.user_id || "",
+    user_name:state.currentUser?.fullname || state.session?.name || "",
+    department:state.currentUser?.department || state.session?.department || "",
+    old_value:extra.old_value || "",
+    new_value:JSON.stringify(extra),
+    changed_field:extra.changed_field || "",
+    created_at:nowISO()
+  };
+  return apiPost("/activity-feed", payload, null);
+}
+
+async function requestSequence(moduleName){
+  const response = await apiGet("/sequence?module=" + encodeURIComponent(moduleName || SYSTEM_MODULE), null);
+  return response?.sequence || response?.no || response?.number || "";
+}
+
+async function archiveDepartmentReference(departmentId, reason){
+  const dept = state.departments.find(d=>String(d.id) === String(departmentId));
+  if(!dept || !canAccessDepartment(dept)) return false;
+  const payload = {
+    module:SYSTEM_MODULE,
+    related_id:dept.id,
+    record_no:dept.department_name,
+    status:"Arşivlendi",
+    archived_by:state.currentUser?.fullname || state.session?.name || "",
+    archived_at:nowISO(),
+    archive_reason:reason || "Departman bağlantısı arşivlendi"
+  };
+  await apiPost("/archive", payload, null);
+  await logAudit("Departman bağlantısı arşivlendi", dept.department_name, payload);
+  await logActivity("Departman bağlantısı arşivlendi", dept.department_name, payload);
+  return true;
+}
+
+async function restoreDepartmentReference(departmentId){
+  const dept = state.departments.find(d=>String(d.id) === String(departmentId));
+  if(!dept) return false;
+  const payload = {
+    module:SYSTEM_MODULE,
+    related_id:dept.id,
+    record_no:dept.department_name,
+    restored_by:state.currentUser?.fullname || state.session?.name || "",
+    restored_at:nowISO()
+  };
+  await apiPost("/restore", payload, null);
+  await logAudit("Departman bağlantısı geri yüklendi", dept.department_name, payload);
+  await logActivity("Departman bağlantısı geri yüklendi", dept.department_name, payload);
+  return true;
+}
+
 function logout(){
-  localStorage.removeItem("gdnl_qdms_session");
-  localStorage.removeItem("gdnl_selected_department");
-  localStorage.removeItem("gdnl_selected_department_label");
-  localStorage.removeItem("gdnl_department_modules");
-  window.location.href="index.html";
+  logAudit("Oturum kapatıldı", state.currentUser?.fullname || state.session?.name || "", {}).finally(()=>{
+    localStorage.removeItem("gdnl_qdms_session");
+    localStorage.removeItem("gdnl_eos_session");
+    localStorage.removeItem("gdnl_ems_session");
+    localStorage.removeItem("gdnl_selected_department");
+    localStorage.removeItem("gdnl_selected_department_id");
+    localStorage.removeItem("gdnl_selected_department_label");
+    localStorage.removeItem("gdnl_department_modules");
+    localStorage.removeItem("gdnl_allowed_departments");
+    localStorage.removeItem("gdnl_current_user_role");
+    localStorage.removeItem("gdnl_current_user_name");
+    window.location.href = "index.html";
+  });
 }
-function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.style.display="none",2500)}
-function escapeHTML(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function escapeJS(value){return String(value||"").replaceAll("\\","\\\\").replaceAll("'","\\'")}
-render();
+
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.style.display = "none", 2500);
+}
+
+function escapeHTML(value){
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function escapeJS(value){
+  return String(value || "")
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'");
+}
+
+async function boot(){
+  state.session = readSession();
+  if(!state.session) return;
+
+  showToast("D1 departman ve kullanıcı verileri yükleniyor...");
+  await loadCloudData();
+
+  if(!state.departments.length){
+    showToast("D1 /departments boş döndü. Departman kayıtları kontrol edilmeli.");
+  }
+
+  render();
+  await logActivity("Departman Merkezi açıldı", state.currentUser?.fullname || state.session?.name || "", {});
+}
+
+boot();
 </script>
+
 </body>
 </html>
