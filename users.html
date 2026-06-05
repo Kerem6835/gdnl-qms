@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Enterprise Users Management</title>
+<title>GDNL EOS | Kurumsal Kullanıcı Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -259,7 +259,7 @@ tr:hover td{background:#f7fbf8}
       <a class="single-link" href="javascript:void(0)" data-module-link="system" onclick="showModule('system')">📡 Sistem İzleme</a>
     </nav>
   </div>
-  <div class="sidebar-footer">GDNL EOS Enterprise<br>Users Management<br>JWT + HttpOnly Cookie Ready</div>
+  <div class="sidebar-footer">GDNL EOS Enterprise<br>Kullanıcı Yönetimi<br>JWT + HttpOnly Cookie Uyumlu</div>
 </aside>
 
 <main class="main">
@@ -267,8 +267,8 @@ tr:hover td{background:#f7fbf8}
 <header class="topbar">
   <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
   <div class="search-wrap">
-    <input class="search" id="globalSearch" placeholder="GET /search · fullname, email, department, role ara">
-    <button class="search-btn" onclick="runGlobalSearch()">Ara</button>
+    <input class="search" id="globalArama" placeholder="GET /search · ad soyad, e-posta, departman, rol ara">
+    <button class="search-btn" onclick="runGlobalArama()">Ara</button>
   </div>
   <div class="profile">
     <button class="user-chip" id="userChip">Oturum Kontrol</button>
@@ -278,13 +278,13 @@ tr:hover td{background:#f7fbf8}
 
 <section class="hero">
   <div>
-    <h1>Enterprise Users Management</h1>
-    <p>Mevcut panel, arama bölümü, kart yapısı ve mobil akış korunarak GDNL EOS Users Management modülü Cloud Ready mimariye geçirildi. browser storage kullanılmaz; oturum GET /me ile doğrulanır.</p>
+    <h1>Kurumsal Kullanıcı Yönetimi</h1>
+    <p>Mevcut panel, arama bölümü, kart yapısı ve mobil akış korunarak GDNL EOS Kullanıcı Yönetimi modülü bulut uyumlu mimariye geçirildi. tarayıcı depolaması kullanılmaz; oturum GET /me ile doğrulanır.</p>
     <div class="cloud-note">
       <span class="cloud-pill">JWT + HttpOnly Cookie</span>
-      <span class="cloud-pill">Cloudflare D1: DB</span>
+      <span class="cloud-pill">Bulutflare D1: DB</span>
       <span class="cloud-pill">R2: EQMS_FILES</span>
-      <span class="warning-pill">Audit Log silinemez</span>
+      <span class="warning-pill">Denetim Kaydı silinemez</span>
     </div>
   </div>
   <div class="hero-badge">SUPER_ADMIN<br><span id="superAdminName">Kerem Güdenli</span></div>
@@ -296,16 +296,16 @@ tr:hover td{background:#f7fbf8}
     <div class="search-summary">
       <span class="search-keyword" id="searchKeyword">-</span>
       <span id="searchResultCount">0 sonuç</span>
-      <a class="link" onclick="clearSearchResults()">Temizle</a>
+      <a class="link" onclick="clearAramaResults()">Temizle</a>
     </div>
   </div>
   <div id="searchResultsArea"></div>
 </section>
 
 <section class="cards module-panel active" data-module="users">
-  <div class="card"><small>Toplam Kullanıcı</small><h2 id="totalUsers">0</h2><p>Hedef sistem: 65 kullanıcı</p></div>
-  <div class="card"><small>Aktif Kullanıcı</small><h2 id="activeUsers">0</h2><p>status = active</p></div>
-  <div class="card"><small>Departman</small><h2 id="totalDepartments">0</h2><p>GET /departments</p></div>
+  <div class="card"><small>Toplam Kullanıcı</small><h2 id="totalKullanıcıs">0</h2><p>Hedef sistem: 65 kullanıcı</p></div>
+  <div class="card"><small>Aktif Kullanıcı</small><h2 id="activeKullanıcıs">0</h2><p>durum = aktif</p></div>
+  <div class="card"><small>Departman</small><h2 id="totalDepartmanlar">0</h2><p>GET /departments</p></div>
   <div class="card"><small>Bekleyen Onay</small><h2 id="pendingApprovals">0</h2><p>Dashboard KPI senkron</p></div>
 </section>
 
@@ -314,27 +314,27 @@ tr:hover td{background:#f7fbf8}
     <h3>Kullanıcı Seçimi / Autocomplete</h3>
     <span class="status blue">GET /users?q=</span>
   </div>
-  <div class="panel-subtitle">Arama alanları: fullname, email, department, role. Kullanıcı seçilince id, fullname, email, department, role otomatik dolar.</div>
+  <div class="panel-subtitle">Arama alanları: ad soyad, e-posta, departman, rol. Kullanıcı seçilince ID, ad soyad, e-posta, departman ve rol otomatik dolar.</div>
   <div class="form-grid">
     <div class="field double autocomplete-box">
       <label>Kullanıcı Ara</label>
       <input id="userAutocomplete" placeholder="Ad, mail, departman veya rol yaz">
       <div class="autocomplete-list" id="userAutocompleteList"></div>
     </div>
-    <div class="field"><label>ID</label><input id="selectedUserId" class="readonly-input" readonly></div>
+    <div class="field"><label>ID</label><input id="selectedKullanıcıId" class="readonly-input" readonly></div>
     <div class="field"><label>Ad Soyad</label><input id="selectedFullname" class="readonly-input" readonly></div>
     <div class="field"><label>E-Posta</label><input id="selectedEmail" class="readonly-input" readonly></div>
     <div class="field"><label>Departman</label><input id="selectedDepartment" class="readonly-input" readonly></div>
-    <div class="field"><label>Rol</label><input id="selectedRole" class="readonly-input" readonly></div>
+    <div class="field"><label>Rol</label><input id="selectedRol" class="readonly-input" readonly></div>
   </div>
 </section>
 
 <section class="panel module-panel active" data-module="users" id="userDefinitionPanel">
   <div class="panel-head">
     <h3>Kullanıcı Tanımlama</h3>
-    <span class="status blue" id="modeBadge">CREATE MODE</span>
+    <span class="status blue" id="modeBadge">KAYIT MODU</span>
   </div>
-  <div class="panel-subtitle">Departman ve rol listeleri hardcoded değildir; API’den gelir. Fiziksel DELETE yasaktır, pasifleştirme/arşivleme kullanılır.</div>
+  <div class="panel-subtitle">Departman ve rol listeleri sabit yazılı değildir; API’den gelir. Fiziksel silme yasaktır, pasifleştirme/arşivleme kullanılır.</div>
 
   <div class="form-grid">
     <div class="field"><label>Kullanıcı Adı</label><input id="username" placeholder="ornek.kullanici"></div>
@@ -347,9 +347,9 @@ tr:hover td{background:#f7fbf8}
   </div>
 
   <div class="actions">
-    <button class="btn primary" onclick="saveUser()">Kullanıcı Kaydet</button>
-    <button class="btn orange" onclick="archiveSelectedUser()">Kullanıcı Pasifleştir / Arşivle</button>
-    <button class="btn green" onclick="restoreSelectedUser()">Restore Et</button>
+    <button class="btn primary" onclick="saveKullanıcı()">Kullanıcı Kaydet</button>
+    <button class="btn orange" onclick="archiveSelectedKullanıcı()">Kullanıcı Pasifleştir / Arşivle</button>
+    <button class="btn green" onclick="restoreSelectedKullanıcı()">Geri Yükle Et</button>
     <button class="btn dark" onclick="resetForm()">Temizle</button>
   </div>
 </section>
@@ -358,9 +358,9 @@ tr:hover td{background:#f7fbf8}
   <div class="panel-head">
     <h3>Kullanıcı Listesi</h3>
     <div class="toolbar">
-      <select id="departmentFilter" onchange="loadUsers()"><option value="">Tüm Departmanlar</option></select>
-      <select id="roleFilter" onchange="loadUsers()"><option value="">Tüm Roller</option></select>
-      <select id="statusFilter" onchange="loadUsers()"><option value="">Tüm Durumlar</option><option value="active">Aktif</option><option value="passive">Pasif</option><option value="archived">Arşivli</option></select>
+      <select id="departmentFilter" onchange="loadKullanıcıs()"><option value="">Tüm Departmanlar</option></select>
+      <select id="roleFilter" onchange="loadKullanıcıs()"><option value="">Tüm Roller</option></select>
+      <select id="statusFilter" onchange="loadKullanıcıs()"><option value="">Tüm Durumlar</option><option value="active">Aktif</option><option value="passive">Pasif</option><option value="archived">Arşivli</option></select>
     </div>
   </div>
   <div id="userTable"></div>
@@ -374,15 +374,15 @@ tr:hover td{background:#f7fbf8}
   <div class="panel-subtitle">Roller API’den yüklenir. SUPER_ADMIN tek kullanıcıdır ve Kerem Güdenli ile sınırlandırılır.</div>
   <div id="rolesTable"></div>
   <div class="actions">
-    <button class="btn primary" onclick="openRoleCreate()">Rol Oluştur</button>
-    <button class="btn red" onclick="deleteSelectedRole()">Rol Sil</button>
+    <button class="btn primary" onclick="openRolCreate()">Rol Oluştur</button>
+    <button class="btn red" onclick="deleteSelectedRol()">Rol Sil</button>
   </div>
 </section>
 
 <section class="panel module-panel" data-module="permissions" id="permissionsPanel">
   <div class="panel-head">
     <h3>Yetkiler / RBAC</h3>
-    <span class="status blue">permissions + role_permissions</span>
+    <span class="status blue">yetkiler + rol_yetkileri</span>
   </div>
   <div id="permissionsTable"></div>
 </section>
@@ -405,10 +405,10 @@ tr:hover td{background:#f7fbf8}
   </div>
 
   <div class="cards">
-    <div class="card"><small>Açık Aksiyonlar</small><h2 id="kpiOpenActions">0</h2><p>GET /dashboard/kpi</p></div>
-    <div class="card"><small>Açık CAPA</small><h2 id="kpiOpenCapa">0</h2><p>GET /dashboard/kpi</p></div>
-    <div class="card"><small>Açık Riskler</small><h2 id="kpiOpenRisks">0</h2><p>GET /dashboard/kpi</p></div>
-    <div class="card"><small>Bekleyen Görevler</small><h2 id="kpiPendingTasks">0</h2><p>GET /dashboard/kpi</p></div>
+    <div class="card"><small>Açık Aksiyonlar</small><h2 id="kpiAçıkActions">0</h2><p>GET /dashboard/kpi</p></div>
+    <div class="card"><small>Açık CAPA</small><h2 id="kpiAçıkCapa">0</h2><p>GET /dashboard/kpi</p></div>
+    <div class="card"><small>Açık Riskler</small><h2 id="kpiAçıkRisks">0</h2><p>GET /dashboard/kpi</p></div>
+    <div class="card"><small>Bekleyen Görevler</small><h2 id="kpiBekleyenTasks">0</h2><p>GET /dashboard/kpi</p></div>
   </div>
 
   <div class="form-grid">
@@ -417,23 +417,23 @@ tr:hover td{background:#f7fbf8}
       <div class="file-box">
         <input type="file" id="fileInput">
         <div class="actions"><button class="btn primary" onclick="uploadFile()">POST /upload</button></div>
-        <small>Dosya erişimi signed_url veya temporary_token ile yapılacaktır.</small>
+        <small>Dosya erişimi imzalı_url veya geçici_token ile yapılacaktır.</small>
       </div>
     </div>
   </div>
 
   <div class="panel" style="margin-top:18px">
     <div class="panel-head"><h3>Audit Log</h3><span class="status red">Silinemez</span></div>
-    <div id="auditLogArea" class="empty">Audit log yüklenmedi.</div>
+    <div id="auditLogArea" class="empty">Denetim kaydı yüklenmedi.</div>
   </div>
 
   <div class="panel" style="margin-top:18px">
-    <div class="panel-head"><h3>Activity Feed</h3><span class="status blue">old_value / new_value / changed_field</span></div>
-    <div id="activityFeedArea" class="empty">Activity feed yüklenmedi.</div>
+    <div class="panel-head"><h3>Activity Feed</h3><span class="status blue">eski_değer / yeni_değer / değişen_alan</span></div>
+    <div id="activityFeedArea" class="empty">Aktivite akışı yüklenmedi.</div>
   </div>
 
   <div class="panel" style="margin-top:18px">
-    <div class="panel-head"><h3>Notifications</h3><span class="status green">is_read / read_by / read_at</span></div>
+    <div class="panel-head"><h3>Notifications</h3><span class="status green">okundu_mu / okuyan / okunma_tarihi</span></div>
     <div id="notificationsArea" class="empty">Bildirimler yüklenmedi.</div>
   </div>
 </section>
@@ -446,12 +446,12 @@ tr:hover td{background:#f7fbf8}
 <script>
 const API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
 
-let currentUser = null;
+let currentKullanıcı = null;
 let users = [];
 let departments = [];
 let roles = [];
-let selectedUser = null;
-let editUserId = null;
+let selectedKullanıcı = null;
+let editKullanıcıId = null;
 
 function fixTR(value){
   if(value === null || value === undefined) return "";
@@ -525,13 +525,13 @@ async function bootstrap(){
         }
       }
 
-      Eski sürüm direkt currentUser.role aradığı için {user:{...}} yapısında role undefined kalıyordu.
+      Eski sürüm direkt currentKullanıcı.role aradığı için {user:{...}} yapısında role undefined kalıyordu.
       Bu nedenle SUPER_ADMIN olmasına rağmen "Yetkisiz erişim" ekranı basıyordu.
     */
-    currentUser = mePayload?.user || mePayload?.data?.user || mePayload;
+    currentKullanıcı = mePayload?.user || mePayload?.data?.user || mePayload;
 
-    const role = String(currentUser?.role || currentUser?.role_name || "").trim().toUpperCase();
-    const name = currentUser?.fullname || currentUser?.fullName || currentUser?.name || currentUser?.username || "Kerem Güdenli";
+    const role = String(currentKullanıcı?.role || currentKullanıcı?.role_name || "").trim().toUpperCase();
+    const name = currentKullanıcı?.fullname || currentKullanıcı?.fullName || currentKullanıcı?.name || currentKullanıcı?.username || "Kerem Güdenli";
 
     if(role !== "SUPER_ADMIN"){
       showToast("Bu sayfaya sadece SUPER_ADMIN erişebilir");
@@ -539,13 +539,13 @@ async function bootstrap(){
       return;
     }
 
-    console.log("GDNL EOS /me currentUser:", currentUser);
+    console.log("GDNL EOS /me currentKullanıcı:", currentKullanıcı);
 
     document.getElementById("userChip").textContent = name;
     document.getElementById("superAdminName").textContent = name;
 
-    await Promise.all([loadDepartments(), loadRoles()]);
-    await Promise.all([loadUsers(), loadDashboardKpi(), loadSystemStreams()]);
+    await Promise.all([loadDepartmanlar(), loadRols()]);
+    await Promise.all([loadKullanıcıs(), loadDashboardKpi(), loadSystemStreams()]);
     bindAutocomplete();
   }catch(err){
     console.error(err);
@@ -553,31 +553,31 @@ async function bootstrap(){
   }
 }
 
-async function loadDepartments(){
+async function loadDepartmanlar(){
   try{
     departments = extractData(await apiRequest("/departments"));
   }catch(e){
     departments = [];
-    showToast("GET /departments alınamadı");
+    showToast("Departmanlar alınamadı");
   }
   fillDepartmentSelects();
-  renderDepartments();
+  renderDepartmanlar();
 }
 
-async function loadRoles(){
+async function loadRols(){
   try{
     roles = extractData(await apiRequest("/roles"));
   }catch(e){
     roles = [];
-    showToast("GET /roles alınamadı");
+    showToast("Roller alınamadı");
   }
-  fillRoleSelects();
-  renderRoles();
-  loadPermissions();
+  fillRolSelects();
+  renderRols();
+  loadYetkiler();
 }
 
 function getDepartmentName(d){ return fixTR(d.name || d.department || d.title || d.fullname || ""); }
-function getRoleName(r){ return fixTR(r.name || r.role || r.code || r.title || ""); }
+function getRolName(r){ return fixTR(r.name || r.role || r.code || r.title || ""); }
 
 function fillDepartmentSelects(){
   const selects = [document.getElementById("department"), document.getElementById("departmentFilter")];
@@ -594,18 +594,18 @@ function fillDepartmentSelects(){
       select.appendChild(opt);
     });
   });
-  const total = document.getElementById("totalDepartments");
+  const total = document.getElementById("totalDepartmanlar");
   if(total) total.textContent = departments.length;
 }
 
-function fillRoleSelects(){
+function fillRolSelects(){
   const selects = [document.getElementById("role"), document.getElementById("roleFilter")];
   selects.forEach(select => {
     if(!select) return;
     const isFilter = select.id === "roleFilter";
     select.innerHTML = isFilter ? '<option value="">Tüm Roller</option>' : '<option value="">Rol Seç</option>';
     roles.forEach(r => {
-      const name = getRoleName(r);
+      const name = getRolName(r);
       if(!name) return;
       const opt = document.createElement("option");
       opt.value = name;
@@ -615,9 +615,9 @@ function fillRoleSelects(){
   });
 }
 
-async function loadUsers(){
-  const query = new URLSearchParams();
-  const q = document.getElementById("globalSearch")?.value || "";
+async function loadKullanıcıs(){
+  const query = new URLAramaParams();
+  const q = document.getElementById("globalArama")?.value || "";
   const dep = document.getElementById("departmentFilter")?.value || "";
   const role = document.getElementById("roleFilter")?.value || "";
   const status = document.getElementById("statusFilter")?.value || "";
@@ -630,13 +630,13 @@ async function loadUsers(){
     users = extractData(await apiRequest("/users" + (query.toString() ? "?" + query.toString() : "")));
   }catch(e){
     users = [];
-    showToast("GET /users alınamadı");
+    showToast("Kullanıcılar alınamadı");
   }
-  renderUsers();
+  renderKullanıcıs();
   updateCards();
 }
 
-function normalizeUserRow(u){
+function normalizeKullanıcıRow(u){
   return {
     id: u.id,
     username: fixTR(u.username || ""),
@@ -650,9 +650,9 @@ function normalizeUserRow(u){
   };
 }
 
-function renderUsers(){
+function renderKullanıcıs(){
   const table = document.getElementById("userTable");
-  const rows = users.map(normalizeUserRow);
+  const rows = users.map(normalizeKullanıcıRow);
 
   if(!rows.length){
     table.innerHTML = '<div class="empty">Kullanıcı kaydı bulunamadı. Seed sonrası toplam hedef: 65 kullanıcı.</div>';
@@ -671,9 +671,9 @@ function renderUsers(){
             <td>${escapeHTML(u.role)}</td>
             <td><span class="status ${u.status === "active" ? "green" : u.status === "archived" ? "orange" : "red"}">${escapeHTML(u.status)}</span></td>
             <td><div class="row-actions">
-              <button class="small-btn edit" onclick="editUser('${escapeHTML(u.id)}')">Düzenle</button>
-              <button class="small-btn delete" onclick="archiveUser('${escapeHTML(u.id)}')">Pasifleştir</button>
-              <button class="small-btn mail" onclick="restoreUser('${escapeHTML(u.id)}')">Restore</button>
+              <button class="small-btn edit" onclick="editKullanıcı('${escapeHTML(u.id)}')">Düzenle</button>
+              <button class="small-btn delete" onclick="archiveKullanıcı('${escapeHTML(u.id)}')">Pasifleştir</button>
+              <button class="small-btn mail" onclick="restoreKullanıcı('${escapeHTML(u.id)}')">Geri Yükle</button>
             </div></td>
           </tr>`).join("")}
       </tbody>
@@ -681,9 +681,9 @@ function renderUsers(){
 }
 
 function updateCards(){
-  const rows = users.map(normalizeUserRow);
-  document.getElementById("totalUsers").textContent = rows.length;
-  document.getElementById("activeUsers").textContent = rows.filter(u => u.status === "active").length;
+  const rows = users.map(normalizeKullanıcıRow);
+  document.getElementById("totalKullanıcıs").textContent = rows.length;
+  document.getElementById("activeKullanıcıs").textContent = rows.filter(u => u.status === "active").length;
 }
 
 function getFormPayload(){
@@ -698,15 +698,15 @@ function getFormPayload(){
   };
 }
 
-async function saveUser(){
+async function saveKullanıcı(){
   const payload = getFormPayload();
   if(!payload.username || !payload.password || !payload.fullname || !payload.email || !payload.department || !payload.role){
     showToast("Kullanıcı adı, şifre, ad soyad, e-posta, departman ve rol zorunlu");
     return;
   }
 
-  if(editUserId){
-    await apiRequest(`/users/${editUserId}`, {method:"PUT", body:JSON.stringify(payload)});
+  if(editKullanıcıId){
+    await apiRequest(`/users/${editKullanıcıId}`, {method:"PUT", body:JSON.stringify(payload)});
     showToast("Kullanıcı güncellendi");
   }else{
     await apiRequest("/users", {method:"POST", body:JSON.stringify(payload)});
@@ -714,14 +714,14 @@ async function saveUser(){
   }
 
   resetForm();
-  await loadUsers();
+  await loadKullanıcıs();
 }
 
-function editUser(id){
-  const u = users.map(normalizeUserRow).find(x => String(x.id) === String(id));
+function editKullanıcı(id){
+  const u = users.map(normalizeKullanıcıRow).find(x => String(x.id) === String(id));
   if(!u) return;
-  editUserId = u.id;
-  document.getElementById("modeBadge").textContent = "EDIT MODE";
+  editKullanıcıId = u.id;
+  document.getElementById("modeBadge").textContent = "DÜZENLEME MODU";
   document.getElementById("username").value = u.username;
   document.getElementById("password").value = u.password || "123456";
   document.getElementById("fullname").value = u.fullname;
@@ -732,33 +732,33 @@ function editUser(id){
   document.getElementById("userDefinitionPanel").scrollIntoView({behavior:"smooth", block:"start"});
 }
 
-async function archiveUser(id, reason = "Kullanıcı pasifleştirme"){
+async function archiveKullanıcı(id, reason = "Kullanıcı pasifleştirme"){
   await apiRequest(`/users/${id}/archive`, {method:"PATCH", body:JSON.stringify({archive_reason:reason})});
   showToast("Kullanıcı arşivlendi / pasifleştirildi");
-  await loadUsers();
+  await loadKullanıcıs();
 }
 
-async function restoreUser(id){
+async function restoreKullanıcı(id){
   await apiRequest(`/users/${id}/restore`, {method:"PATCH"});
-  showToast("Kullanıcı restore edildi");
-  await loadUsers();
+  showToast("Kullanıcı geri yüklendi");
+  await loadKullanıcıs();
 }
 
-function archiveSelectedUser(){
-  const id = editUserId || selectedUser?.id;
+function archiveSelectedKullanıcı(){
+  const id = editKullanıcıId || selectedKullanıcı?.id;
   if(!id){ showToast("Önce kullanıcı seç"); return; }
-  archiveUser(id);
+  archiveKullanıcı(id);
 }
 
-function restoreSelectedUser(){
-  const id = editUserId || selectedUser?.id;
+function restoreSelectedKullanıcı(){
+  const id = editKullanıcıId || selectedKullanıcı?.id;
   if(!id){ showToast("Önce kullanıcı seç"); return; }
-  restoreUser(id);
+  restoreKullanıcı(id);
 }
 
 function resetForm(){
-  editUserId = null;
-  document.getElementById("modeBadge").textContent = "CREATE MODE";
+  editKullanıcıId = null;
+  document.getElementById("modeBadge").textContent = "KAYIT MODU";
   ["username","password","fullname","email"].forEach(id => document.getElementById(id).value = "");
   document.getElementById("department").value = "";
   document.getElementById("role").value = "";
@@ -770,11 +770,11 @@ function bindAutocomplete(){
   let timer = null;
   input.addEventListener("input", () => {
     clearTimeout(timer);
-    timer = setTimeout(() => autocompleteUsers(input.value.trim()), 260);
+    timer = setTimeout(() => autocompleteKullanıcıs(input.value.trim()), 260);
   });
 }
 
-async function autocompleteUsers(q){
+async function autocompleteKullanıcıs(q){
   const list = document.getElementById("userAutocompleteList");
   if(!q){
     list.classList.remove("active");
@@ -783,29 +783,29 @@ async function autocompleteUsers(q){
   }
 
   const result = extractData(await apiRequest("/users?q=" + encodeURIComponent(q)));
-  const rows = result.map(normalizeUserRow);
+  const rows = result.map(normalizeKullanıcıRow);
   list.innerHTML = rows.length ? rows.map(u => `
-    <div class="autocomplete-item" onclick="selectAutocompleteUser('${escapeHTML(u.id)}')">
+    <div class="autocomplete-item" onclick="selectAutocompleteKullanıcı('${escapeHTML(u.id)}')">
       ${escapeHTML(u.fullname)}
       <small>${escapeHTML(u.email)} · ${escapeHTML(u.department)} · ${escapeHTML(u.role)}</small>
     </div>`).join("") : '<div class="autocomplete-item">Sonuç bulunamadı</div>';
   list.classList.add("active");
 }
 
-async function selectAutocompleteUser(id){
-  const u = normalizeUserRow(await apiRequest("/users/" + id));
-  selectedUser = u;
-  document.getElementById("selectedUserId").value = u.id;
+async function selectAutocompleteKullanıcı(id){
+  const u = normalizeKullanıcıRow(await apiRequest("/users/" + id));
+  selectedKullanıcı = u;
+  document.getElementById("selectedKullanıcıId").value = u.id;
   document.getElementById("selectedFullname").value = u.fullname;
   document.getElementById("selectedEmail").value = u.email;
   document.getElementById("selectedDepartment").value = u.department;
-  document.getElementById("selectedRole").value = u.role;
+  document.getElementById("selectedRol").value = u.role;
   document.getElementById("userAutocompleteList").classList.remove("active");
 }
 
-async function runGlobalSearch(){
-  const q = document.getElementById("globalSearch").value.trim();
-  if(!q){ clearSearchResults(); await loadUsers(); return; }
+async function runGlobalArama(){
+  const q = document.getElementById("globalArama").value.trim();
+  if(!q){ clearAramaResults(); await loadKullanıcıs(); return; }
 
   const results = await apiRequest("/search?q=" + encodeURIComponent(q));
   const list = Array.isArray(results) ? results : (results.items || []);
@@ -816,39 +816,39 @@ async function runGlobalSearch(){
     <div class="result-card">
       <div><b>${escapeHTML(item.type || "Kayıt")}</b><small>${escapeHTML(item.id || "")}</small></div>
       <div><small>${escapeHTML(item.title || item.fullname || item.email || "-")}</small></div>
-      <button class="result-open" onclick="openSearchResult('${escapeHTML(item.type || "")}', '${escapeHTML(item.id || "")}')">Aç</button>
+      <button class="result-open" onclick="openAramaResult('${escapeHTML(item.type || "")}', '${escapeHTML(item.id || "")}')">Aç</button>
     </div>`).join("") : '<div class="empty">Arama sonucu bulunamadı</div>';
 }
 
-function openSearchResult(type,id){
-  if(type === "users" || type === "user") selectAutocompleteUser(id);
+function openAramaResult(type,id){
+  if(type === "users" || type === "user") selectAutocompleteKullanıcı(id);
 }
 
-function clearSearchResults(){
-  document.getElementById("globalSearch").value = "";
+function clearAramaResults(){
+  document.getElementById("globalArama").value = "";
   document.getElementById("searchResultsPanel").classList.remove("active");
   document.getElementById("searchResultsArea").innerHTML = "";
 }
 
-function renderDepartments(){
+function renderDepartmanlar(){
   const el = document.getElementById("departmentsTable");
   if(!departments.length){ el.innerHTML = '<div class="empty">Departman bulunamadı.</div>'; return; }
   el.innerHTML = `<table><thead><tr><th>ID</th><th>Departman</th><th>Durum</th></tr></thead><tbody>${departments.map(d => `<tr><td>${escapeHTML(d.id || "")}</td><td>${escapeHTML(getDepartmentName(d))}</td><td><span class="status green">${escapeHTML(d.status || "active")}</span></td></tr>`).join("")}</tbody></table>`;
 }
 
-function renderRoles(){
+function renderRols(){
   const el = document.getElementById("rolesTable");
   if(!roles.length){ el.innerHTML = '<div class="empty">Rol bulunamadı.</div>'; return; }
-  el.innerHTML = `<table><thead><tr><th>ID</th><th>Rol</th><th>Açıklama</th></tr></thead><tbody>${roles.map(r => `<tr><td>${escapeHTML(r.id || "")}</td><td>${escapeHTML(getRoleName(r))}</td><td>${escapeHTML(r.description || "-")}</td></tr>`).join("")}</tbody></table>`;
+  el.innerHTML = `<table><thead><tr><th>ID</th><th>Rol</th><th>Açıklama</th></tr></thead><tbody>${roles.map(r => `<tr><td>${escapeHTML(r.id || "")}</td><td>${escapeHTML(getRolName(r))}</td><td>${escapeHTML(r.description || "-")}</td></tr>`).join("")}</tbody></table>`;
 }
 
-async function loadPermissions(){
+async function loadYetkiler(){
   try{
     const data = extractData(await apiRequest("/permissions"));
     const el = document.getElementById("permissionsTable");
     el.innerHTML = data.length ? `<table><thead><tr><th>Yetki</th><th>Kod</th><th>Modül</th></tr></thead><tbody>${data.map(p => `<tr><td>${escapeHTML(p.name || p.permission || p.code)}</td><td>${escapeHTML(p.code || p.permission_code || "")}</td><td>${escapeHTML(p.module || "users")}</td></tr>`).join("")}</tbody></table>` : '<div class="empty">Yetki kaydı bulunamadı.</div>';
   }catch(e){
-    document.getElementById("permissionsTable").innerHTML = '<div class="empty">GET /permissions endpointi bekleniyor.</div>';
+    document.getElementById("permissionsTable").innerHTML = '<div class="empty">Yetkiler endpointi bekleniyor.</div>';
   }
 }
 
@@ -856,10 +856,10 @@ async function loadDashboardKpi(){
   try{
     const kpi = await apiRequest("/dashboard/kpi");
     document.getElementById("pendingApprovals").textContent = kpi.pending_approvals || 0;
-    document.getElementById("kpiOpenActions").textContent = kpi.open_actions || 0;
-    document.getElementById("kpiOpenCapa").textContent = kpi.open_capa || 0;
-    document.getElementById("kpiOpenRisks").textContent = kpi.open_risks || 0;
-    document.getElementById("kpiPendingTasks").textContent = kpi.pending_tasks || 0;
+    document.getElementById("kpiAçıkActions").textContent = kpi.open_actions || 0;
+    document.getElementById("kpiAçıkCapa").textContent = kpi.open_capa || 0;
+    document.getElementById("kpiAçıkRisks").textContent = kpi.open_risks || 0;
+    document.getElementById("kpiBekleyenTasks").textContent = kpi.pending_tasks || 0;
   }catch(e){}
 }
 
@@ -889,11 +889,11 @@ async function uploadFile(){
   const fd = new FormData();
   fd.append("file", input.files[0]);
   const result = await apiRequest("/upload", {method:"POST", body:fd});
-  showToast(result.signed_url || result.temporary_token ? "Dosya R2’ye yüklendi" : "Yükleme tamamlandı");
+  showToast(result.imzalı_url || result.geçici_token ? "Dosya R2’ye yüklendi" : "Yükleme tamamlandı");
 }
 
-function openRoleCreate(){ createRole(); }
-function deleteSelectedRole(){ archiveRolePrompt(); }
+function openRolCreate(){ createRol(); }
+function deleteSelectedRol(){ archiveRolPrompt(); }
 function openDepartmentCreate(){ createDepartment(); }
 
 function showModule(moduleName){
@@ -903,25 +903,25 @@ function showModule(moduleName){
   document.querySelectorAll('[data-module-link]').forEach(link => {
     link.classList.toggle('active', link.dataset.moduleLink === moduleName);
   });
-  clearSearchResults();
+  clearAramaResults();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-async function createRole(){
+async function createRol(){
   const name = prompt('Yeni rol kodu / adı');
   if(!name) return;
   const description = prompt('Rol açıklaması') || '';
   await apiRequest('/roles', {method:'POST', body:JSON.stringify({name, description})});
   showToast('Rol oluşturuldu');
-  await loadRoles();
+  await loadRols();
 }
 
-async function archiveRolePrompt(){
+async function archiveRolPrompt(){
   const id = prompt('Pasifleştirilecek rol ID');
   if(!id) return;
   await apiRequest(`/roles/${id}/archive`, {method:'PATCH', body:JSON.stringify({archive_reason:'Rol pasifleştirme'})});
   showToast('Rol pasifleştirildi');
-  await loadRoles();
+  await loadRols();
 }
 
 async function createDepartment(){
@@ -929,7 +929,7 @@ async function createDepartment(){
   if(!name) return;
   await apiRequest('/departments', {method:'POST', body:JSON.stringify({name})});
   showToast('Departman oluşturuldu');
-  await loadDepartments();
+  await loadDepartmanlar();
 }
 
 async function logout(){
@@ -961,22 +961,22 @@ function showToast(message){
   window.__toastTimer = setTimeout(() => toast.style.display = "none", 2400);
 }
 
-document.getElementById("globalSearch").addEventListener("input", () => {
-  clearTimeout(window.__globalSearchTimer);
-  window.__globalSearchTimer = setTimeout(loadUsers, 280);
+document.getElementById("globalArama").addEventListener("input", () => {
+  clearTimeout(window.__globalAramaTimer);
+  window.__globalAramaTimer = setTimeout(loadKullanıcıs, 280);
 });
 
 document.addEventListener("keydown", e => {
   if(e.key === "Escape"){
     closeMobileMenu();
-    clearSearchResults();
+    clearAramaResults();
     document.getElementById("userAutocompleteList").classList.remove("active");
   }
 });
 
 bootstrap();
 
-console.log("GDNL EOS Enterprise Users Management Cloud Ready | current D1 users schema compatible");
+console.log("GDNL EOS Kurumsal Kullanıcı Yönetimi Bulut Uyumlu | mevcut D1 kullanıcı şeması uyumlu");
 
 </script>
 
