@@ -633,18 +633,28 @@ function apiUrl(path){
   return GDNL_API_BASE + path;
 }
 
+async function parseApiResponse(res){
+  const raw = await res.text();
+  if(!raw) return null;
+  try{
+    return JSON.parse(raw);
+  }catch(err){
+    return raw;
+  }
+}
+
 async function apiGet(path, fallbackValue = null){
   try{
     const res = await fetch(apiUrl(path), {
       method:"GET",
       cache:"no-store",
-      credentials:"include",
+      mode:"cors",
       headers:{"Accept":"application/json"}
     });
     if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
-    return await res.json();
+    return await parseApiResponse(res);
   }catch(err){
-    console.warn("D1 okuma hatası:", err);
+    console.warn("D1 okuma hatası:", path, err);
     return fallbackValue;
   }
 }
@@ -653,14 +663,14 @@ async function apiPost(path, payload, fallbackValue = null){
   try{
     const res = await fetch(apiUrl(path), {
       method:"POST",
-      credentials:"include",
+      mode:"cors",
       headers:{"Content-Type":"application/json","Accept":"application/json"},
       body:JSON.stringify(payload || {})
     });
     if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
-    return await res.json();
+    return await parseApiResponse(res);
   }catch(err){
-    console.warn("D1 yazma hatası:", err);
+    console.warn("D1 yazma hatası:", path, err);
     return fallbackValue;
   }
 }
@@ -813,11 +823,9 @@ function canAccessDepartment(department){
 }
 
 async function loadCloudData(){
-  const [usersResponse, departmentsResponse, rolesResponse, permissionsResponse] = await Promise.all([
+  const [usersResponse, departmentsResponse] = await Promise.all([
     apiGet("/users", []),
-    apiGet("/departments", []),
-    apiGet("/roles", []),
-    apiGet("/permissions", [])
+    apiGet("/departments", [])
   ]);
 
   state.users = normalizeList(usersResponse, "users")
@@ -827,6 +835,11 @@ async function loadCloudData(){
   state.departments = normalizeList(departmentsResponse, "departments")
     .map(normalizeDepartment)
     .filter(x => x.department_name && !isArchivedStatus(x.status));
+
+  const [rolesResponse, permissionsResponse] = await Promise.all([
+    apiGet("/roles", []),
+    apiGet("/permissions", [])
+  ]);
 
   state.currentUser = await loadCloudSession(state.users);
   state.session = state.currentUser;
@@ -1045,7 +1058,7 @@ async function boot(){
   }
 
   if(!state.departments.length){
-    showToast("D1 /departments boş döndü. Departman kayıtları kontrol edilmeli.");
+    showToast("D1 /departments boş döndü. Worker CORS ve endpoint çıktısı kontrol edilmeli.");
   }
 
   render();
