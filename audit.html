@@ -141,6 +141,16 @@ tr:hover td{background:#f7fbf8}
 .comment-box textarea{width:100%;min-height:72px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;font-weight:850;resize:vertical}
 .comment-row{background:#fff;border:1px solid #e0e8f0;border-radius:14px;padding:10px;margin-top:8px;color:#536176;font-size:12px;font-weight:850}
 
+
+.cloud-chip-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.cloud-user-chip{display:inline-flex;align-items:center;gap:8px;background:#eefaf2;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950}
+.cloud-user-chip button{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;border-radius:999px;width:18px;height:18px;font-weight:950;line-height:1;cursor:pointer}
+.integration-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
+.integration-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;box-shadow:0 8px 22px rgba(7,27,52,.045)}
+.integration-card b{display:block;color:#071b34;font-size:13px;margin-bottom:6px}
+.integration-card small{display:block;color:#64748b;font-weight:800;line-height:1.5}
+@media(max-width:850px){.integration-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -193,7 +203,7 @@ tr:hover td{background:#f7fbf8}
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">Performans Göstergeleri ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
 <a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
@@ -213,7 +223,7 @@ tr:hover td{background:#f7fbf8}
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
-<a href="apqp.html">APQP & PPAP</a>
+<a href="apqp.html">APQP ve PPAP</a>
 </div>
   </nav>
   <div class="mobile-drawer-footer">
@@ -264,7 +274,7 @@ tr:hover td{background:#f7fbf8}
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">Performans Göstergeleri ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
 <a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
@@ -284,7 +294,7 @@ tr:hover td{background:#f7fbf8}
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
-<a href="apqp.html">APQP & PPAP</a>
+<a href="apqp.html">APQP ve PPAP</a>
 </div>
 </nav>
 </div>
@@ -359,11 +369,11 @@ tr:hover td{background:#f7fbf8}
 <div class="field"><label>Bitiş</label><input id="auditEnd" type="date"></div>
 <div class="field"><label>Rapor Termin</label><input id="reportDue" type="date"></div>
 <div class="field"><label>Kapanış Termin</label><input id="closureDue" type="date"></div>
-<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>İK</option><option>Yönetim</option><option>Tüm Sistem</option></select></div>
+<div class="field"><label>Departman</label><select id="department"><option value="">Departman Seçiniz</option></select></div>
 <div class="field"><label>Süreç</label><input id="processName" placeholder="Doküman Kontrol / Üretim / Satınalma"></div>
 <div class="field cloud-autocomplete"><label>Baş Denetçi</label><input id="leadAuditor" autocomplete="off" placeholder="İsim yaz, D1 users içinden seç"><input id="leadAuditor_id" type="hidden"><input id="leadAuditor_department" type="hidden"><input id="leadAuditor_email" type="hidden"></div>
 <div class="field cloud-autocomplete"><label>Denetlenen Sorumlu</label><input id="auditeeOwner" autocomplete="off" placeholder="İsim yaz, departman otomatik gelsin"><input id="auditeeOwner_id" type="hidden"><input id="auditeeOwner_department" type="hidden"><input id="auditeeOwner_email" type="hidden"></div>
-<div class="field full"><label>Denetçi Ekibi</label><textarea id="auditTeam" placeholder="Denetçi adları, departman, rol"></textarea></div>
+<div class="field full cloud-autocomplete"><label>Denetçi Ekibi</label><input id="auditTeamSearch" autocomplete="off" placeholder="Denetçi adı yaz, D1 users içinden seç"><div id="auditTeamChips" class="cloud-chip-list"></div><textarea id="auditTeam" placeholder="Seçilen denetçiler burada otomatik listelenir"></textarea></div>
 <div class="field full"><label>Standart Kapsamı</label><select id="standardScope" multiple style="height:140px"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>IATF 16949</option><option>CoP</option><option>CE</option><option>UL</option><option>EMC</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option><option>Müşteri Özel Şartları</option></select></div>
 <div class="field full"><label>Kapsam</label><textarea id="auditScope"></textarea></div>
 <div class="field full"><label>Kriter</label><textarea id="auditCriteria"></textarea></div>
@@ -421,6 +431,38 @@ tr:hover td{background:#f7fbf8}
 </div>
 </section>
 
+
+<section class="panel">
+<div class="panel-head"><h3>İç Denetim Entegrasyonları</h3><span class="status blue">BAĞLANTI MERKEZİ</span></div>
+<p style="color:#617086;font-weight:800;line-height:1.6;margin-bottom:16px">Denetim bulgularını CAPA, Risk, YGG, Aksiyon, Doküman, Eğitim ve Değişiklik Yönetimi ile ilişkilendir.</p>
+<div class="integration-grid">
+<div class="integration-card"><b>CAPA</b><small>Majör ve minör bulgulardan düzeltici faaliyet açılır.</small></div>
+<div class="integration-card"><b>Risk</b><small>Denetim bulguları risk kayıtlarıyla ilişkilendirilir.</small></div>
+<div class="integration-card"><b>YGG</b><small>Kritik denetim sonuçları YGG gündemine aktarılır.</small></div>
+<div class="integration-card"><b>Aksiyon</b><small>Takip gerektiren bulgular aksiyon merkezine aktarılır.</small></div>
+<div class="integration-card"><b>Doküman</b><small>Doküman değişikliği gereken bulgular doküman yönetimine bağlanır.</small></div>
+<div class="integration-card"><b>Eğitim</b><small>Yetkinlik veya farkındalık ihtiyacı eğitim yönetimine aktarılır.</small></div>
+<div class="integration-card"><b>Değişiklik Yönetimi</b><small>Sistem, proses veya ürün değişiklikleri değişiklik yönetimine açılır.</small></div>
+<div class="integration-card"><b>Arşiv Merkezi</b><small>Silinen ve iptal edilen denetim kayıtları arşivden geri yüklenebilir.</small></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="createCapaFromAuditCurrent()">CAPA Aç</button>
+<button class="btn orange" onclick="createRiskFromAuditCurrent()">Risk Kaydı Aç</button>
+<button class="btn green" onclick="addYggFromAuditCurrent()">YGG Gündemine Ekle</button>
+<button class="btn dark" onclick="createActionFromAuditCurrent()">Aksiyon Aç</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head"><h3>Yorumlar</h3><span class="status blue">ÇOKLU KULLANICI</span></div>
+<p style="color:#617086;font-weight:800;line-height:1.6;margin-bottom:12px">Denetim kaydı altında sınırsız yorum tutulur. Yorumlar D1 comments tablosuna yazılır.</p>
+<div class="comment-box">
+<textarea id="auditCommentInput" placeholder="Denetim için yorum yaz"></textarea>
+<div class="actions"><button class="btn primary" onclick="submitAuditComment()">Yorum Ekle</button></div>
+<div id="auditCommentList"></div>
+</div>
+</section>
+
 <section class="panel">
 <div class="panel-head"><h3>Denetim Kanıt / Ek Dosya Yönetimi</h3><span class="status blue">KANIT YÖNETİMİ</span></div>
 <div class="form-grid">
@@ -450,7 +492,7 @@ tr:hover td{background:#f7fbf8}
 <div class="toolbar">
 <select id="statusFilter" onchange="renderAudits()"><option value="">Tüm Durumlar</option><option>Planlandı</option><option>Devam Ediyor</option><option>Raporlandı</option><option>CAPA Bekliyor</option><option>Kapalı</option><option>Gecikti</option></select>
 <select id="typeFilter" onchange="renderAudits()"><option value="">Tüm Tipler</option><option>İç Denetim</option><option>Proses Denetimi</option><option>Ürün Denetimi</option><option>Tedarikçi Denetimi</option><option>Sistem Denetimi</option><option>CoP Denetimi</option></select>
-<select id="departmentFilter" onchange="renderAudits()"><option value="">Tüm Departmanlar</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>İK</option><option>Yönetim</option><option>Tüm Sistem</option></select>
+<select id="departmentFilter" onchange="renderAudits()"><option value="">Tüm Departmanlar</option></select>
 </div>
 </div>
 <div id="auditTable"></div>
@@ -844,6 +886,41 @@ function clearSearchResults(){
 if(document.getElementById("globalSearch")){
   globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch();});
 }
+
+
+/* GDNL EOS / GDNL EQMS Enterprise Cloud Ready katmanı */
+const GDNL_CLOUD_MODULE="Denetim Yönetimi";
+const GDNL_SEQUENCE_MODULE="AUDIT";
+let gdnlSelectedTeamUsers=[];
+let gdnlPermissions={};
+function getClientContext(){return{ip_address:"",user_agent:navigator.userAgent,session_id:String(session.session_id||session.id||session.loginAt||"")}}
+function normalizeUserRecord(u){return{id:u.id||u.user_id||u.username||"",fullname:u.fullname||u.fullName||u.name||u.username||"",role:u.role||u.title||"",department:u.department||u.department_name||u.departmentName||"",email:u.email||u.mail||"",status:u.status||"Aktif"}}
+function normalizeDepartmentRecord(d){return d.department_name||d.name||d.department||""}
+function hasPermission(p){const r=String(session.role||"").toLowerCase();return r.includes("super")||r.includes("admin")||!!gdnlPermissions[p]}
+async function loadRBAC(){try{gdnlPermissions={roles:await safeApi("/roles"),permissions:await safeApi("/permissions"),role_permissions:await safeApi("/role-permissions")}}catch(e){}}
+async function writeExtendedAudit(action,related_id="",old_value="",new_value="",changed_field=""){return safeApi("/audit-logs",{method:"POST",body:JSON.stringify({module:GDNL_CLOUD_MODULE,related_id,action,old_value,new_value,changed_field,user_id:session.id||session.user_id||"",user_name:currentUserName(),created_by:currentUserName(),created_at:new Date().toISOString(),...getClientContext()})})}
+async function writeExtendedActivity(title,related_id="",description="",old_value="",new_value="",changed_field=""){return safeApi("/activity-feed",{method:"POST",body:JSON.stringify({module:GDNL_CLOUD_MODULE,related_id,title,description,old_value,new_value,changed_field,user_id:session.id||session.user_id||"",user_name:currentUserName(),created_by:currentUserName(),created_at:new Date().toISOString(),...getClientContext()})})}
+postAuditLog=function(action,module=GDNL_CLOUD_MODULE,related_id=""){return writeExtendedAudit(action,related_id)};
+postActivity=function(action,module=GDNL_CLOUD_MODULE,related_id=""){return writeExtendedActivity(action,related_id,action)};
+postNotification=function(title,message,to_user=""){return safeApi("/notifications",{method:"POST",body:JSON.stringify({title,message,to_user,module:GDNL_CLOUD_MODULE,related_id:"",status:"Aktif",is_read:0,read_by:"",read_at:"",created_by:currentUserName(),created_at:new Date().toISOString()})})};
+async function getEnterpriseSequence(){const r=await safeApi(`/sequence?module=${encodeURIComponent(GDNL_SEQUENCE_MODULE)}`);return r?.number||r?.sequence||getNextNo("AUD",GDNL_CLOUD_MODULE)}
+async function initEnterpriseSequence(){const el=document.getElementById("auditNo");if(el&&!el.value)el.value=await getEnterpriseSequence()}
+async function refreshDashboardKpiSync(){await safeApi("/activity-feed",{method:"POST",body:JSON.stringify({module:GDNL_CLOUD_MODULE,title:"Dashboard performans göstergeleri senkronizasyonu",description:"Açık denetimler, açık CAPA, açık riskler, bekleyen görevler ve yaklaşan terminler senkronize edildi.",created_by:currentUserName(),created_at:new Date().toISOString(),...getClientContext()})})}
+async function uploadEvidenceSigned(file,module,related_id){const uploaded=await uploadFileToR2(file,module,related_id);const f=uploaded?.file||uploaded?.data||uploaded;if(f){await safeApi("/file-versions",{method:"POST",body:JSON.stringify({id:"FV-"+Date.now(),file_id:f.id||"",related_id,module,version_no:document.getElementById("eVersion")?.value||"V1",previous_version:"",uploaded_by:currentUserName(),uploaded_at:new Date().toISOString(),revision_reason:document.getElementById("eDescription")?.value||"Denetim kanıtı yüklendi"})})}return f}
+async function getSignedFileAccess(r2_key){const d=await safeApi(`/file/${encodeURIComponent(r2_key)}?signed=1`);return d?.signed_url||d?.temporary_token||d?.url||`${API_BASE}/file/${encodeURIComponent(r2_key)}`}
+rebuildDepartmentSelects=function(){const names=activeOnly(cloudDepartments).map(normalizeDepartmentRecord).filter(Boolean);["department","departmentFilter"].forEach(id=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;el.innerHTML=(id==="departmentFilter"?'<option value="">Tüm Departmanlar</option>':'<option value="">Departman Seçiniz</option>')+names.map(n=>`<option>${n}</option>`).join("");if(cur&&names.includes(cur))el.value=cur})};
+function renderTeamChips(){const box=document.getElementById("auditTeamChips"),area=document.getElementById("auditTeam");if(!box||!area)return;box.innerHTML=gdnlSelectedTeamUsers.map((u,i)=>`<span class="cloud-user-chip">${escapeHTML(u.fullname)} / ${escapeHTML(u.department||"-")}<button type="button" onclick="removeAuditTeamUser(${i})">×</button></span>`).join("");area.value=gdnlSelectedTeamUsers.map(u=>`${u.fullname} / ${u.department||"-"} / ${u.role||"-"} / ${u.email||"-"}`).join("\n")}
+function removeAuditTeamUser(i){gdnlSelectedTeamUsers.splice(i,1);renderTeamChips()}
+function setupTeamAutocomplete(){setupUserAutocomplete("auditTeamSearch",{});const input=document.getElementById("auditTeamSearch");if(!input)return;input.addEventListener("change",()=>{const u=getUsers().map(normalizeUserRecord).find(x=>x.fullname===input.value);if(u&&!gdnlSelectedTeamUsers.some(p=>String(p.id)===String(u.id))){gdnlSelectedTeamUsers.push(u);input.value="";renderTeamChips()}})}
+function setupAllPersonAutocompletes(){setupUserAutocomplete("leadAuditor",{appendTo:"auditTeam"});setupUserAutocomplete("auditeeOwner",{departmentTarget:"department"});setupUserAutocomplete("fOwner");setupTeamAutocomplete()}
+initUserSelects=function(){setupAllPersonAutocompletes();["leadAuditor","auditeeOwner","fOwner"].forEach(id=>{const input=document.getElementById(id);if(input&&input.value){const u=getUsers().map(normalizeUserRecord).find(x=>x.fullname===input.value);if(u)setHiddenUserFields(id,u)}})}
+async function createRiskFromAuditCurrent(){const audits=getAudits();const audit=selectedIndex!==null?audits[selectedIndex]:audits[0];if(!audit)return showToast("Risk için denetim seç");const payload={id:"RSK-"+Date.now(),source_module:GDNL_CLOUD_MODULE,source_id:audit.auditNo,title:"Denetim kaynaklı risk - "+(audit.processName||audit.auditNo),description:"İç denetim sonucundan risk kaydı açıldı.",owner:audit.auditeeOwner||audit.leadAuditor||currentUserName(),owner_id:audit.auditeeOwner_id||audit.leadAuditor_id||"",department:audit.department||audit.auditeeOwner_department||audit.leadAuditor_department||"",status:"Açık",created_by:currentUserName(),created_at:new Date().toISOString()};await safeApi("/risks",{method:"POST",body:JSON.stringify(payload)});await writeExtendedAudit("Denetimden risk kaydı açıldı",audit.auditNo,"",JSON.stringify(payload),"risk");await writeExtendedActivity("Risk kaydı açıldı",audit.auditNo,payload.title);await postNotification("Denetim Risk Bağlantısı",audit.auditNo+" için risk kaydı açıldı.",payload.owner_id);showToast("Risk kaydı açıldı")}
+async function addYggFromAuditCurrent(){const audits=getAudits();const audit=selectedIndex!==null?audits[selectedIndex]:audits[0];if(!audit)return showToast("YGG için denetim seç");const payload={id:"YGG-"+Date.now(),source_module:GDNL_CLOUD_MODULE,source_id:audit.auditNo,title:"Denetim sonucu YGG gündemi",description:(audit.auditNo||"")+" denetim sonucu YGG gündemine aktarıldı.",owner:audit.leadAuditor||currentUserName(),department:audit.department||"",status:"Gündeme Alındı",created_by:currentUserName(),created_at:new Date().toISOString()};await safeApi("/management-review",{method:"POST",body:JSON.stringify(payload)});await writeExtendedAudit("Denetim sonucu YGG gündemine aktarıldı",audit.auditNo,"",JSON.stringify(payload),"ygg");await writeExtendedActivity("YGG gündemine eklendi",audit.auditNo,payload.description);await postNotification("YGG Gündemi",audit.auditNo+" YGG gündemine eklendi.",payload.owner);showToast("YGG gündemine eklendi")}
+async function createActionFromAuditCurrent(){const audits=getAudits();const audit=selectedIndex!==null?audits[selectedIndex]:audits[0];if(!audit)return showToast("Aksiyon için denetim seç");const no=(await safeApi("/sequence?module=ACTION"))?.number||("AKS-"+Date.now());const payload={id:no,module:GDNL_CLOUD_MODULE,related_id:audit.auditNo,title:"Denetim takip aksiyonu",description:"Denetim bulgusu veya gözlemi için aksiyon açıldı.",priority:audit.auditCriticality||"Normal",status:"Açık",owner:audit.auditeeOwner||audit.leadAuditor||currentUserName(),owner_id:audit.auditeeOwner_id||audit.leadAuditor_id||"",department:audit.department||"",due_date:audit.closureDue||"",created_by:currentUserName(),created_at:new Date().toISOString()};await safeApi("/actions",{method:"POST",body:JSON.stringify(payload)});await safeApi("/assignments",{method:"POST",body:JSON.stringify({title:payload.title,owner:payload.owner,owner_id:payload.owner_id,department:payload.department,related_id:audit.auditNo,module:GDNL_CLOUD_MODULE,status:"Açık",created_by:currentUserName(),created_at:new Date().toISOString()})});await writeExtendedAudit("Denetimden aksiyon açıldı",audit.auditNo,"",JSON.stringify(payload),"action");await writeExtendedActivity("Aksiyon açıldı",audit.auditNo,payload.title);showToast("Aksiyon açıldı")}
+async function submitAuditComment(){const audits=getAudits();const audit=selectedIndex!==null?audits[selectedIndex]:audits[0];const txt=document.getElementById("auditCommentInput")?.value?.trim();if(!txt)return showToast("Yorum yaz");const payload={id:"CMT-"+Date.now(),module:GDNL_CLOUD_MODULE,related_id:audit?.auditNo||"GENEL",comment:txt,user_id:session.id||"",user_name:currentUserName(),created_at:new Date().toISOString()};await safeApi("/comments",{method:"POST",body:JSON.stringify(payload)});await writeExtendedAudit("Yorum eklendi",payload.related_id,"",txt,"comment");await writeExtendedActivity("Yorum eklendi",payload.related_id,txt);document.getElementById("auditCommentInput").value="";renderAuditComments(payload.related_id);showToast("Yorum eklendi")}
+async function renderAuditComments(related_id="GENEL"){const box=document.getElementById("auditCommentList");if(!box)return;const data=await safeApi(`/comments?module=${encodeURIComponent(GDNL_CLOUD_MODULE)}&related_id=${encodeURIComponent(related_id)}`);const rows=Array.isArray(data)?data:(data?.comments||data?.results||[]);box.innerHTML=rows.length?rows.map(c=>`<div class="comment-row"><b>${escapeHTML(c.user_name||c.user||"Kullanıcı")}</b><br>${escapeHTML(c.comment||"")}<br><small>${new Date(c.created_at||Date.now()).toLocaleString("tr-TR")}</small></div>`).join(""):""}
+async function initializeEnterpriseCloudLayer(){await loadRBAC();await initEnterpriseSequence();await refreshDashboardKpiSync();setupAllPersonAutocompletes();renderAuditComments()}
+initializeEnterpriseCloudLayer();
 
 console.log("GDNL EQMS Denetim Yönetimi Yüklendi");
 </script>
