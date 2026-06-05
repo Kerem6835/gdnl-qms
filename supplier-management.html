@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Supplier Management</title>
+<title>GDNL EQMS | Tedarikçi Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -96,6 +96,16 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double{grid-column:1/-1}.subgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid,.subgrid{grid-template-columns:1fr}.field.full,.field.double{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
 
+
+.user-picker{position:relative}
+.user-suggestions{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.14);z-index:200;display:none;max-height:260px;overflow:auto}
+.user-suggestions.active{display:block}
+.user-suggestion{padding:11px 12px;border-bottom:1px solid #eef2f7;cursor:pointer;font-size:12px;font-weight:900;color:#536176}
+.user-suggestion:hover{background:#f7fbf8;color:#1f7d3d}
+.user-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.user-tag{display:inline-flex;align-items:center;gap:8px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950}
+.user-tag button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+
 </style>
 </head>
 
@@ -156,9 +166,9 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="menu-section">
   <button class="menu-title" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi</button>
   <div class="menu-items">
-    <a href="kpi-reports.html">KPI & Raporlar</a>
+    <a href="kpi-reports.html">KPI ve Raporlar</a>
     <a href="management-review.html">YGG Yönetimi</a>
-    <a href="action-center.html">Action Center</a>
+    <a href="action-center.html">Aksiyon Merkezi</a>
     <a href="notification-center.html">Bildirim Merkezi</a>
   </div>
 </div>
@@ -181,7 +191,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
   <div class="menu-items">
     <a href="apqp.html">APQP</a>
     <a href="fmea.html">FMEA</a>
-    <a href="control-plan.html">Control Plan</a>
+    <a href="control-plan.html">Kontrol Planı</a>
     <a href="ppap.html">PPAP</a>
     <a href="spc.html">SPC</a>
     <a href="msa.html">MSA</a>
@@ -189,7 +199,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </div>
 </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 <aside class="sidebar">
@@ -243,9 +253,9 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="menu-section">
   <button class="menu-title" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi</button>
   <div class="menu-items">
-    <a href="kpi-reports.html">KPI & Raporlar</a>
+    <a href="kpi-reports.html">KPI ve Raporlar</a>
     <a href="management-review.html">YGG Yönetimi</a>
-    <a href="action-center.html">Action Center</a>
+    <a href="action-center.html">Aksiyon Merkezi</a>
     <a href="notification-center.html">Bildirim Merkezi</a>
   </div>
 </div>
@@ -268,7 +278,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
   <div class="menu-items">
     <a href="apqp.html">APQP</a>
     <a href="fmea.html">FMEA</a>
-    <a href="control-plan.html">Control Plan</a>
+    <a href="control-plan.html">Kontrol Planı</a>
     <a href="ppap.html">PPAP</a>
     <a href="spc.html">SPC</a>
     <a href="msa.html">MSA</a>
@@ -276,7 +286,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Supplier Management<br>IATF / CoP / EV Ready</div>
+<div class="sidebar-footer">GDNL EQMS<br>Tedarikçi Yönetimi<br>IATF / CoP / EV Hazır</div>
 </aside>
 
 <main class="main">
@@ -288,18 +298,18 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </div>
 <div class="profile">
 <div class="avatar" onclick="window.location.href='dashboard.html'">
-<span id="userName">Kerem Güdenli</span>
+<span id="userName">GDNL Kullanıcısı</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Supplier Management Center</h1>
-<p>Tedarikçi kartı, onay durumu, doküman merkezi, sertifika, teknik doküman, audit, risk, SCAR/CAPA, performans, geliştirme planı, CoP, EV ve bildirim yönetimi tek merkezde.</p>
+<h1>Tedarikçi Yönetimi Merkezi</h1>
+<p>Tedarikçi kartı, onay durumu, doküman merkezi, sertifika, teknik doküman, denetim, risk, SCAR/CAPA, performans, geliştirme planı, CoP, EV ve bildirim yönetimi tek merkezde.</p>
 </div>
-<div class="hero-badge">Supplier Engine: <span>Full Scope</span></div>
+<div class="hero-badge">Tedarikçi Motoru: <span>Tam Kapsam</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -314,8 +324,8 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </section>
 <section class="cards">
 <div class="card"><small>Toplam Tedarikçi</small><h2 id="totalSuppliers">0</h2><p>Kayıtlı tedarikçi</p></div>
-<div class="card"><small>Onaylı</small><h2 id="approvedSuppliers">0</h2><p>Approved statü</p></div>
-<div class="card"><small>Kritik</small><h2 id="criticalSuppliers">0</h2><p>High / Critical</p></div>
+<div class="card"><small>Onaylı</small><h2 id="approvedSuppliers">0</h2><p>Onaylı statü</p></div>
+<div class="card"><small>Kritik</small><h2 id="criticalSuppliers">0</h2><p>Yüksek / Kritik</p></div>
 <div class="card"><small>Açık SCAR</small><h2 id="openScar">0</h2><p>SCAR/CAPA açık</p></div>
 </section>
 
@@ -323,62 +333,62 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="card"><small>Belge Süresi Dolacak</small><h2 id="expiringDocs">0</h2><p>30 gün altı</p></div>
 <div class="card"><small>Audit Bekleyen</small><h2 id="auditDue">0</h2><p>Sonraki audit tarihi geçmiş</p></div>
 <div class="card"><small>Ortalama Performans</small><h2 id="avgPerformance">0</h2><p>Skor ortalaması</p></div>
-<div class="card"><small>Bildirim Kuyruğu</small><h2 id="supplierNotifications">0</h2><p>Mail/SMS kayıtları</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="supplierHayırtifications">0</h2><p>Mail/SMS kayıtları</p></div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Tedarikçi Ana Kartı</h3><span class="status blue" id="formMode">CREATE MODE</span></div>
+<div class="panel-head"><h3>Tedarikçi Ana Kartı</h3><span class="status blue" id="formMode">OLUŞTURMA MODU</span></div>
 
 <div class="form-grid">
-<div class="field"><label>Supplier No</label><input id="supplierNo" readonly></div>
-<div class="field"><label>Supplier Name</label><input id="supplierName"></div>
-<div class="field"><label>Supplier Code</label><input id="supplierCode"></div>
-<div class="field"><label>ERP Code</label><input id="erpCode"></div>
+<div class="field"><label>Tedarikçi Hayır</label><input id="supplierHayır" readonly></div>
+<div class="field"><label>Tedarikçi Adı</label><input id="supplierName"></div>
+<div class="field"><label>Tedarikçi Kodu</label><input id="supplierCode"></div>
+<div class="field"><label>ERP Kodu</label><input id="erpCode"></div>
 
-<div class="field"><label>Country</label><input id="country"></div>
-<div class="field"><label>City</label><input id="city"></div>
-<div class="field"><label>Tax No</label><input id="taxNo"></div>
-<div class="field"><label>Website</label><input id="website"></div>
+<div class="field"><label>Ülke</label><input id="country"></div>
+<div class="field"><label>Şehir</label><input id="city"></div>
+<div class="field"><label>Vergi Hayır</label><input id="taxHayır"></div>
+<div class="field"><label>Web Sitesi</label><input id="website"></div>
 
-<div class="field full"><label>Address</label><input id="address"></div>
-<div class="field"><label>Contact Person</label><input id="contactPerson"></div>
-<div class="field"><label>Email</label><input id="email"></div>
-<div class="field"><label>Phone</label><input id="phone"></div>
+<div class="field full"><label>Adres</label><input id="address"></div>
+<div class="field"><label>Yetkili Kişi</label><input id="contactPerson"></div>
+<div class="field"><label>E-posta</label><input id="email"></div>
+<div class="field"><label>Telefon</label><input id="phone"></div>
 
-<div class="field"><label>Supplier Type</label><select id="supplierType"><option>Raw Material</option><option>Component</option><option>Service</option><option>Calibration</option><option>Laboratory</option><option>Logistics</option><option>Software</option><option>Energy</option><option>EV</option><option>CoP</option></select></div>
-<div class="field"><label>Criticality</label><select id="criticality"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
-<div class="field"><label>Source Type</label><select id="sourceType"><option>Single Source</option><option>Dual Source</option><option>Multi Source</option></select></div>
-<div class="field"><label>Approval Status</label><select id="approvalStatus"><option>Approved</option><option>Conditional Approved</option><option>Development Supplier</option><option>Blocked</option><option>Disqualified</option></select></div>
+<div class="field"><label>Tedarikçi Tipi</label><select id="supplierType"><option>Hammadde</option><option>Komponent</option><option>Hizmet</option><option>Kalibrasyon</option><option>Laboratuvar</option><option>Lojistik</option><option>Yazılım</option><option>Enerji</option><option>EV</option><option>CoP</option></select></div>
+<div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Kaynak Tipi</label><select id="sourceType"><option>Tek Kaynak</option><option>Çift Kaynak</option><option>Çoklu Kaynak</option></select></div>
+<div class="field"><label>Onay Durumu</label><select id="approvalDurum"><option>Onaylı</option><option>Conditional Onaylı</option><option>Geliştirme Tedarikçisi</option><option>Blokeli</option><option>Diskalifiye</option></select></div>
 
-<div class="field"><label>Customer Approval</label><select id="customerApproval"><option>None</option><option>Ford Approved</option><option>Toyota Approved</option><option>Renault Approved</option><option>VW Approved</option><option>Mercedes Approved</option><option>BMW Approved</option><option>OEM Approved</option><option>Tier 1 Approved</option></select></div>
-<div class="field"><label>Portal Username</label><input id="portalUsername"></div>
-<div class="field"><label>Portal Status</label><select id="portalStatus"><option>Not Active</option><option>Active</option><option>Suspended</option></select></div>
-<div class="field"><label>Last Login</label><input id="lastLogin" type="date"></div>
+<div class="field"><label>Müşteri Onayı</label><select id="customerApproval"><option>Yok</option><option>Ford Onaylı</option><option>Toyota Onaylı</option><option>Renault Onaylı</option><option>VW Onaylı</option><option>Mercedes Onaylı</option><option>BMW Onaylı</option><option>OEM Onaylı</option><option>Tier 1 Onaylı</option></select></div>
+<div class="field"><label>Portal Kullanıcı Adı</label><input id="portalUsername"></div>
+<div class="field"><label>Portal Durumu</label><select id="portalDurum"><option>Aktif Değil</option><option>Aktif</option><option>Askıda</option></select></div>
+<div class="field"><label>Son Giriş</label><input id="lastLogin" type="date"></div>
 
-<div class="field"><label>BCP Available</label><select id="bcpStatus"><option>No</option><option>Yes</option><option>Partial</option></select></div>
-<div class="field"><label>Disaster Recovery</label><select id="drpStatus"><option>No</option><option>Yes</option><option>Partial</option></select></div>
-<div class="field"><label>Alternate Factory</label><select id="alternateFactory"><option>No</option><option>Yes</option></select></div>
-<div class="field"><label>Alternate Supplier</label><select id="alternateSupplier"><option>No</option><option>Yes</option></select></div>
+<div class="field"><label>İş Sürekliliği Planı Var mı</label><select id="bcpDurum"><option>Hayır</option><option>Evet</option><option>Kısmi</option></select></div>
+<div class="field"><label>Felaket Kurtarma</label><select id="drpDurum"><option>Hayır</option><option>Evet</option><option>Kısmi</option></select></div>
+<div class="field"><label>Alternatif Fabrika</label><select id="alternateFactory"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Alternatif Tedarikçi</label><select id="alternateSupplier"><option>Hayır</option><option>Evet</option></select></div>
 
-<div class="field full"><label>Scope / Supplied Products & Services</label><textarea id="supplierScope" class="big"></textarea></div>
+<div class="field full"><label>Scope / Supplied Products & Hizmets</label><textarea id="supplierScope" class="big"></textarea></div>
 </div>
 
 <div class="box">
-<h4>Performance Score Engine</h4>
+<h4>Performans Skor Motoru</h4>
 <div class="subgrid">
-<div class="field"><label>Quality Score %40</label><input id="qualityScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
-<div class="field"><label>Delivery Score %30</label><input id="deliveryScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
-<div class="field"><label>Audit Score %20</label><input id="auditScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
-<div class="field"><label>SCAR Score %10</label><input id="scarScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
-<div class="field"><label>Overall Score</label><input id="overallScore" readonly></div>
-<div class="field"><label>Performance Class</label><input id="performanceClass" readonly></div>
+<div class="field"><label>Kalite Skoru %40</label><input id="qualityScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
+<div class="field"><label>Teslimat Skoru %30</label><input id="deliveryScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
+<div class="field"><label>Denetim Skoru %20</label><input id="auditScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
+<div class="field"><label>SCAR Skoru %10</label><input id="scarScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
+<div class="field"><label>Genel Skor</label><input id="overallScore" readonly></div>
+<div class="field"><label>Performans Sınıfı</label><input id="performanceClass" readonly></div>
 
 <div class="field"><label>PPM</label><input id="ppm" type="number" value="0"></div>
 <div class="field"><label>OTD %</label><input id="otd" type="number" value="100"></div>
-<div class="field"><label>Defect Rate %</label><input id="defectRate" type="number" value="0"></div>
-<div class="field"><label>Complaint Count</label><input id="complaintCount" type="number" value="0"></div>
-<div class="field"><label>Annual Spend</label><input id="annualSpend" type="number" value="0"></div>
-<div class="field"><label>Monthly Spend</label><input id="monthlySpend" type="number" value="0"></div>
+<div class="field"><label>Hata Oranı %</label><input id="defectRate" type="number" value="0"></div>
+<div class="field"><label>Şikayet Sayısı</label><input id="complaintCount" type="number" value="0"></div>
+<div class="field"><label>Yıllık Harcama</label><input id="annualSpend" type="number" value="0"></div>
+<div class="field"><label>Aylık Harcama</label><input id="monthlySpend" type="number" value="0"></div>
 </div>
 </div>
 
@@ -390,19 +400,19 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Supplier Document Center</h3><span class="status purple">DOCUMENT UPLOAD</span></div>
+<div class="panel-head"><h3>Tedarikçi Doküman Merkezi</h3><span class="status purple">DOKÜMAN YÜKLEME</span></div>
 <div class="box">
 <div class="subgrid">
 <div class="field"><label>Tedarikçi Seç</label><select id="docSupplier"></select></div>
-<div class="field"><label>Document Type</label><select id="docType"><option>Certificate</option><option>Contract</option><option>NDA</option><option>Technical Drawing</option><option>Specification</option><option>Datasheet</option><option>Material Certificate</option><option>MSDS</option><option>IMDS</option><option>PPAP</option><option>Control Plan</option><option>FMEA</option><option>MSA</option><option>SPC</option><option>Test Report</option><option>Validation Report</option><option>CoP Report</option><option>EV Safety Report</option><option>Audit Report</option><option>Risk Assessment</option><option>BCP</option><option>SCAR / 8D</option><option>Other</option></select></div>
-<div class="field"><label>Document Name</label><input id="docName"></div>
-<div class="field"><label>Revision</label><input id="docRevision" value="V1"></div>
-<div class="field"><label>Owner</label><input id="docOwner"></div>
-<div class="field"><label>Upload Date</label><input id="docUploadDate" type="date"></div>
-<div class="field"><label>Expiry Date</label><input id="docExpiryDate" type="date"></div>
-<div class="field"><label>Status</label><select id="docStatus"><option>Valid</option><option>Expiring Soon</option><option>Expired</option><option>Under Review</option><option>Rejected</option><option>Archived</option></select></div>
-<div class="field full"><label>File</label><input id="docFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
-<div class="field full"><label>Description</label><textarea id="docDescription"></textarea></div>
+<div class="field"><label>Doküman Tipi</label><select id="docType"><option>Sertifika</option><option>Sözleşme</option><option>NDA</option><option>Teknik Resim</option><option>Şartname</option><option>Veri Sayfası</option><option>Material Sertifika</option><option>MSDS</option><option>IMDS</option><option>PPAP</option><option>Kontrol Planı</option><option>FMEA</option><option>MSA</option><option>SPC</option><option>Test Raporu</option><option>Doğrulama Raporu</option><option>CoP Report</option><option>EV Safety Report</option><option>Denetim Raporu</option><option>Risk Değerlendirmesi</option><option>BCP</option><option>SCAR / 8D</option><option>Diğer</option></select></div>
+<div class="field"><label>Doküman Adı</label><input id="docName"></div>
+<div class="field"><label>Revizyon</label><input id="docRevizyon" value="V1"></div>
+<div class="field"><label>Sorumlu</label><input id="docSorumlu"></div>
+<div class="field"><label>Yükleme Tarihi</label><input id="docUploadDate" type="date"></div>
+<div class="field"><label>Geçerlilik Tarihi</label><input id="docExpiryDate" type="date"></div>
+<div class="field"><label>Durum</label><select id="docDurum"><option>Geçerli</option><option>Süresi Yaklaşıyor</option><option>Süresi Doldu</option><option>İncelemede</option><option>Reddedildi</option><option>Arşivlendi</option></select></div>
+<div class="field full"><label>Dosya</label><input id="docDosya" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+<div class="field full"><label>Açıklama</label><textarea id="docAçıklama"></textarea></div>
 </div>
 <div class="actions">
 <button class="btn primary" onclick="addDocument()">Doküman Ekle</button>
@@ -413,21 +423,21 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Supplier Audit / Risk / SCAR / Development</h3><span class="status orange">ACTION CENTER</span></div>
+<div class="panel-head"><h3>Tedarikçi Denetim / Risk / SCAR / Geliştirme</h3><span class="status orange">AKSİYON MERKEZİ</span></div>
 <div class="box">
 <div class="subgrid">
-<div class="field"><label>Kayıt Tipi</label><select id="eventType"><option>Supplier Audit</option><option>SCAR</option><option>Risk</option><option>CAPA</option><option>Development Plan</option><option>Training</option><option>Customer Complaint</option><option>Performance Review</option></select></div>
+<div class="field"><label>Kayıt Tipi</label><select id="eventType"><option>Tedarikçi Denetimi</option><option>SCAR</option><option>Risk</option><option>CAPA</option><option>Geliştirme Planı</option><option>Eğitim</option><option>Müşteri Şikayeti</option><option>Performans Gözden Geçirme</option></select></div>
 <div class="field"><label>Tedarikçi Seç</label><select id="eventSupplier"></select></div>
-<div class="field"><label>Owner</label><input id="eventOwner"></div>
-<div class="field"><label>Due Date</label><input id="eventDue" type="date"></div>
-<div class="field"><label>Close Date</label><input id="eventClose" type="date"></div>
-<div class="field"><label>Status</label><select id="eventStatus"><option>Open</option><option>In Progress</option><option>Completed</option><option>Delayed</option><option>Closed</option><option>Cancelled</option></select></div>
+<div class="field"><label>Sorumlu</label><input id="eventSorumlu"></div>
+<div class="field"><label>Termin</label><input id="eventDue" type="date"></div>
+<div class="field"><label>Kapanış Tarihi</label><input id="eventClose" type="date"></div>
+<div class="field"><label>Durum</label><select id="eventDurum"><option>Açık</option><option>Devam Ediyor</option><option>Tamamlandı</option><option>Gecikti</option><option>Kapalı</option><option>İptal</option></select></div>
 <div class="field"><label>Audit Score</label><input id="eventAuditScore" type="number" value="100"></div>
-<div class="field"><label>Major</label><input id="eventMajor" type="number" value="0"></div>
-<div class="field"><label>Minor</label><input id="eventMinor" type="number" value="0"></div>
+<div class="field"><label>Majör</label><input id="eventMajör" type="number" value="0"></div>
+<div class="field"><label>Minör</label><input id="eventMinör" type="number" value="0"></div>
 <div class="field"><label>OFI</label><input id="eventOfi" type="number" value="0"></div>
-<div class="field double"><label>Related CAPA / Risk / SCAR No</label><input id="eventRef"></div>
-<div class="field full"><label>Description / Root Cause / Action</label><textarea id="eventDescription" class="big"></textarea></div>
+<div class="field double"><label>Related CAPA / Risk / SCAR Hayır</label><input id="eventRef"></div>
+<div class="field full"><label>Açıklama / Root Cause / Action</label><textarea id="eventAçıklama" class="big"></textarea></div>
 </div>
 <div class="actions">
 <button class="btn primary" onclick="addEvent()">Kayıt Ekle</button>
@@ -440,11 +450,11 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 
 <section class="panel">
 <div class="panel-head">
-<h3>Supplier Master List</h3>
+<h3>Tedarikçi Master Listesi</h3>
 <div class="toolbar">
-<select id="statusFilter" onchange="renderSuppliers()"><option value="">Tüm Statüler</option><option>Approved</option><option>Conditional Approved</option><option>Development Supplier</option><option>Blocked</option><option>Disqualified</option></select>
-<select id="typeFilter" onchange="renderSuppliers()"><option value="">Tüm Tipler</option><option>Raw Material</option><option>Component</option><option>Service</option><option>Calibration</option><option>Laboratory</option><option>EV</option><option>CoP</option></select>
-<select id="criticalityFilter" onchange="renderSuppliers()"><option value="">Tüm Kritiklikler</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select>
+<select id="statusFilter" onchange="renderSuppliers()"><option value="">Tüm Statüler</option><option>Onaylı</option><option>Conditional Onaylı</option><option>Geliştirme Tedarikçisi</option><option>Blokeli</option><option>Diskalifiye</option></select>
+<select id="typeFilter" onchange="renderSuppliers()"><option value="">Tüm Tipler</option><option>Hammadde</option><option>Komponent</option><option>Hizmet</option><option>Kalibrasyon</option><option>Laboratuvar</option><option>EV</option><option>CoP</option></select>
+<select id="criticalityFilter" onchange="renderSuppliers()"><option value="">Tüm Kritiklikler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
 </div>
 </div>
 <div id="supplierTable"></div>
@@ -454,7 +464,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 
 <div class="drawer" id="drawer">
 <div class="drawer-head">
-<div><h3 id="drawerTitle">Supplier Detail</h3><span class="status blue" id="drawerStatus">Approved</span></div>
+<div><h3 id="drawerTitle">Tedarikçi Detayı</h3><span class="status blue" id="drawerDurum">Onaylı</span></div>
 <button class="close-btn" onclick="closeDrawer()">Kapat</button>
 </div>
 <div id="drawerContent"></div>
@@ -468,311 +478,210 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
+
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const state={currentUser:null,users:[],departments:[],suppliers:[],notifications:[],auditLogs:[],activityFeed:[],comments:[],assignments:[],approvals:[],approvalHistory:[],workflowHistory:[],files:[],archive:[],editId:null,selectedId:null,uploadedDoc:null};
 
-
-function runSearch(){
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-
-if(!text){
-clearSearchResults();
-input.focus();
-renderSuppliers();
-return;
-}
-
-let results=[];
-
-getSuppliers().map(normalizeSupplier).forEach(item=>{
-const fullText=JSON.stringify(item).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"record",
-module:"Tedarikçi Yönetimi",
-go:"#",
-store:"gdnl_selected_supplier",
-selected:item.id||item.supplierNo||"",
-title:item.supplierName||item.supplierNo||"Tedarikçi",
-detail:`${item.supplierNo||""} ${item.supplierType||""} ${item.approvalStatus||""} ${item.criticality||""} ${item.email||""}`
-});
-}
-});
-
-getNotifications().forEach(n=>{
-const fullText=JSON.stringify(n).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"page",
-module:"Bildirim Merkezi",
-go:"notification-center.html",
-store:"gdnl_selected_notification",
-selected:n.notificationId||"",
-title:n.documentName||n.notificationId||"Bildirim",
-detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`
-});
-}
-});
-
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
-}
-
-function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
-
-document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;
-if(!seen.has(key)){
-seen.add(key);
-results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});
-}
-}
-});
-
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
-});
-
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
-});
-
-return results;
-}
-
-function escapeHTML(value){
-return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
-
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
-
-function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-
-if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-return;
-}
-
-area.innerHTML=results.slice(0,80).map((r,index)=>`
-<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module)}</span></div>
-<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
-<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-</div>`).join("");
-
-window.gdnlSearchResults=results.slice(0,80);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];
-if(!r)return;
-
-if(r.type==="scroll"&&r.selector){
-const target=document.querySelector(r.selector);
-if(target){
-target.scrollIntoView({behavior:"smooth",block:"center"});
-target.style.outline="3px solid #35a852";
-target.style.outlineOffset="4px";
-setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
-}
-return;
-}
-
-if(r.store)localStorage.setItem(r.store,r.selected||"");
-
-if(r.module==="Tedarikçi Yönetimi"){
-const items=getSuppliers().map(normalizeSupplier);
-const idx=items.findIndex(x=>x.id===r.selected||x.supplierNo===r.selected);
-if(idx!==-1){
-clearSearchResults();
-renderSuppliers();
-openDrawer(idx);
-}
-return;
-}
-
-if(r.go&&r.go!=="#")window.location.href=r.go;
-}
-
-function clearSearchResults(){
-document.getElementById("globalSearch").value="";
-document.getElementById("searchResultsPanel").classList.remove("active");
-document.getElementById("searchResultsArea").innerHTML="";
-renderSuppliers();
-}
-
-let editIndex=null,selectedIndex=null,uploadedDoc=null;
-
-
-function toggleMenuGroup(button){
-  const section=button.closest('.menu-section');
-  if(section)section.classList.toggle('open');
-}
-
-
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-localStorage.removeItem("gdnl_eqms_session");
-window.location.href="index.html";
-}
-
-function openMobileMenu(){
-document.getElementById("mobileDrawer").classList.add("active");
-document.getElementById("mobileOverlay").classList.add("active");
-document.body.style.overflow="hidden";
-}
-
-function closeMobileMenu(){
-document.getElementById("mobileDrawer").classList.remove("active");
-document.getElementById("mobileOverlay").classList.remove("active");
-document.body.style.overflow="";
-}
-
-document.addEventListener("keydown",function(e){
-if(e.key==="Escape")closeMobileMenu();
-});
-function getSuppliers(){try{return JSON.parse(localStorage.getItem("gdnl_suppliers"))||[]}catch(e){return[]}}
-function setSuppliers(x){localStorage.setItem("gdnl_suppliers",JSON.stringify(x))}
-function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
-function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
+function getCookie(name){return document.cookie.split(";").map(x=>x.trim()).find(x=>x.startsWith(name+"="))?.split("=").slice(1).join("=")||""}
+function clearAuthCookie(){document.cookie="gdnl_eos_token=; Max-Age=0; path=/; SameSite=Lax";document.cookie="gdnl_eqms_token=; Max-Age=0; path=/; SameSite=Lax"}
+function authHeaders(json=true){const token=decodeURIComponent(getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token")||"");const h=json?{"Content-Type":"application/json"}:{};if(token)h.Authorization="Bearer "+token;return h}
+async function apiRequest(path,opt={}){const res=await fetch(GDNL_API_BASE+path,{method:opt.method||"GET",headers:{...authHeaders(opt.json!==false),...(opt.headers||{})},body:opt.body?JSON.stringify(opt.body):opt.rawBody,cache:"no-store"});if(!res.ok)throw new Error(path+" HTTP "+res.status);const text=await res.text();if(!text)return null;try{return JSON.parse(text)}catch(e){return text}}
+async function safeGet(path){try{return await apiRequest(path)}catch(e){console.warn("GET hata",path,e);return null}}
+async function safePost(path,body){try{return await apiRequest(path,{method:"POST",body})}catch(e){console.warn("POST hata",path,e);return null}}
+async function safePut(path,body){try{return await apiRequest(path,{method:"PUT",body})}catch(e){console.warn("PUT hata",path,e);return null}}
+function asArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
+function isPassive(r){const s=String(r?.status||r?.approvalStatus||r?.record_status||"").toLowerCase();return["deleted","silindi","arşivlendi","arsivlendi","archived","iptal","cancelled"].includes(s)}
+function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
+function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;return safe.replace(new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),m=>`<mark>${m}</mark>`)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split("T")[0]}
-function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(todayISO()))/(1000*60*60*24))}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
-function statusClass(s){if(["Approved","Valid","Completed","Closed","Active"].includes(s))return"green";if(["Blocked","Disqualified","Expired","Rejected","Delayed"].includes(s))return"red";if(["Conditional Approved","Development Supplier","Expiring Soon","Under Review","In Progress","Open"].includes(s))return"orange";return"blue"}
-function generateSupplierNo(){supplierNo.value="SUP-"+new Date().getFullYear()+"-"+String(getSuppliers().length+1).padStart(4,"0")}
+function showToast(message){const t=document.getElementById("toast");t.textContent=message;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
+function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"GDNL Kullanıcısı",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeSupplier(s){s=s||{};s.documents=asArray(s.documents);s.events=asArray(s.events);s.timeline=asArray(s.timeline);return s}
+function statusClass(s){if(["Onaylı","Geçerli","Tamamlandı","Kapalı","Aktif"].includes(s))return"green";if(["Blokeli","Diskalifiye","Süresi Doldu","Reddedildi","Gecikti"].includes(s))return"red";if(["Şartlı Onaylı","Geliştirme Tedarikçisi","Süresi Yaklaşıyor","İncelemede","Devam Ediyor","Açık"].includes(s))return"orange";return"blue"}
+
+async function loadCoreData(){
+const [u,d,s,n,a,af,c,as,ap,aph,wfh,files,arch]=await Promise.all([
+safeGet("/users"),safeGet("/departments"),safeGet("/suppliers"),safeGet("/notifications"),safeGet("/audit-logs"),safeGet("/activity-feed"),safeGet("/comments"),safeGet("/assignments"),safeGet("/approvals"),safeGet("/approval-history"),safeGet("/workflow-history"),safeGet("/files"),safeGet("/archive")
+]);
+state.users=activeOnly(u).map(normalizeUser);
+state.departments=activeOnly(d).map(x=>({id:x.id,department_name:x.department_name||x.name||x.department||""}));
+state.suppliers=activeOnly(s).map(normalizeSupplier);
+state.notifications=activeOnly(n);state.auditLogs=activeOnly(a);state.activityFeed=activeOnly(af);state.comments=activeOnly(c);state.assignments=activeOnly(as);state.approvals=activeOnly(ap);state.approvalHistory=activeOnly(aph);state.workflowHistory=activeOnly(wfh);state.files=activeOnly(files);state.archive=asArray(arch);
+state.currentUser=state.users[0]||{id:"",fullname:"GDNL Kullanıcısı",role:"Kullanıcı",department:""};
+document.getElementById("userName").textContent=state.currentUser.fullname;
+}
+
+function searchUsers(term){const q=String(term||"").toLowerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,12)}
+function attachUserAutocomplete(inputId,{multiple=false,departmentTargetId=""}={}){
+const input=document.getElementById(inputId);if(!input||input.dataset.ready==="1")return;input.dataset.ready="1";
+const wrap=document.createElement("div");wrap.className="user-picker";input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);
+const list=document.createElement("div");list.className="user-suggestions";wrap.appendChild(list);
+const tags=document.createElement("div");tags.className="user-tags";if(multiple)wrap.appendChild(tags);
+input.selectedUsers=[];
+function renderTags(){tags.innerHTML=(input.selectedUsers||[]).map((u,i)=>`<span class="user-tag">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")}<button type="button" onclick="removeUserTag('${inputId}',${i})">×</button></span>`).join("");input.dataset.users=JSON.stringify(input.selectedUsers||[])}
+input.addEventListener("input",()=>{const found=searchUsers(input.value);list.innerHTML=found.map((u,i)=>`<div class="user-suggestion" data-i="${i}">${escapeHTML(u.fullname)}<br><small>${escapeHTML(u.email)} · ${escapeHTML(u.role)} · ${escapeHTML(u.department)}</small></div>`).join("");list.classList.toggle("active",found.length>0);list.querySelectorAll(".user-suggestion").forEach(el=>el.onclick=()=>{const u=found[Number(el.dataset.i)];if(multiple){input.selectedUsers=[...(input.selectedUsers||[]),u].filter((x,pos,arr)=>arr.findIndex(y=>String(y.id)===String(x.id))===pos);input.value="";renderTags()}else{input.value=u.fullname;input.dataset.userId=u.id;input.dataset.email=u.email;input.dataset.role=u.role;input.dataset.department=u.department}if(departmentTargetId&&document.getElementById(departmentTargetId))document.getElementById(departmentTargetId).value=u.department||"";list.classList.remove("active")})});
+document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.classList.remove("active")});
+}
+function removeUserTag(inputId,index){const input=document.getElementById(inputId);if(!input)return;input.selectedUsers=(input.selectedUsers||[]).filter((_,i)=>i!==index);input.dataset.users=JSON.stringify(input.selectedUsers||[]);const tags=input.closest(".user-picker")?.querySelector(".user-tags");if(tags)tags.innerHTML=input.selectedUsers.map((u,i)=>`<span class="user-tag">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")}<button type="button" onclick="removeUserTag('${inputId}',${i})">×</button></span>`).join("")}
+
+async function getSequence(moduleName){const r=await safeGet("/sequence?module="+encodeURIComponent(moduleName));return r?.number||r?.sequence||r?.data?.number||null}
+async function generateSupplierNo(){supplierNo.value=await getSequence("SUPPLIER")||"SUP-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6)}
+async function generateDocNo(supplier){return await getSequence("SUPPLIER_DOCUMENT")||"SDOC-"+new Date().getFullYear()+"-"+String((supplier?.documents||[]).length+1).padStart(4,"0")}
+async function generateEventNo(supplier){return await getSequence("SUPPLIER_EVENT")||"SEVT-"+new Date().getFullYear()+"-"+String((supplier?.events||[]).length+1).padStart(4,"0")}
+
+async function uploadToR2(file,metadata={}){
+const form=new FormData();form.append("file",file);Object.entries(metadata).forEach(([k,v])=>form.append(k,v??""));
+const res=await fetch(GDNL_API_BASE+"/upload",{method:"POST",headers:authHeaders(false),body:form,cache:"no-store"});
+if(!res.ok)throw new Error("Dosya yüklenemedi");
+return await res.json();
+}
+async function openSignedFile(r2Key){const data=await safeGet("/file/"+encodeURIComponent(r2Key));const url=data?.signed_url||data?.temporary_url||data?.url;if(url)window.open(url,"_blank");else showToast("Dosya erişim bağlantısı alınamadı")}
+async function auditLog(action,recordNo,oldValue=null,newValue=null,changedField=""){
+const user=state.currentUser||{};
+await safePost("/audit-logs",{module:"Tedarikçi Yönetimi",action,record_no:recordNo,user_id:user.id,user_name:user.fullname,ip_address:"",user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token"),created_at:new Date().toISOString()});
+await safePost("/activity-feed",{module:"Tedarikçi Yönetimi",action,record_no:recordNo,description:action,old_value:oldValue,new_value:newValue,changed_field:changedField,user_id:user.id,user_name:user.fullname,created_at:new Date().toISOString()});
+}
+async function notifySupplierPayload(s,msg){
+const payload={type:"Mail + SMS",module:"Tedarikçi Yönetimi",documentCode:s.supplierNo,documentName:s.supplierName,mailGroups:`${s.email||""}; ${s.contactPerson||""}`,smsGroups:s.phone||"",distributionPoints:`${s.supplierType||""} / ${s.criticality||""}`,message:msg,status:"Kuyrukta",is_read:false,read_by:null,read_at:null,created_by:state.currentUser?.fullname||"",created_at:new Date().toISOString()};
+await safePost("/notifications",payload);state.notifications.unshift(payload);
+}
+
 function updatePerformance(){const q=Number(qualityScore.value||0),d=Number(deliveryScore.value||0),a=Number(auditScore.value||0),s=Number(scarScore.value||0);const total=Math.round((q*.4+d*.3+a*.2+s*.1)*10)/10;overallScore.value=total;performanceClass.value=total>=90?"A":total>=75?"B":total>=60?"C":"D"}
-function normalizeSupplier(s){s.documents=s.documents||[];s.events=s.events||[];s.timeline=s.timeline||[];return s}
-function initSupplierSelects(){const items=getSuppliers();["docSupplier","eventSupplier"].forEach(id=>{const el=document.getElementById(id);el.innerHTML='<option value="">Tedarikçi Seçiniz</option>';items.forEach(s=>el.innerHTML+=`<option value="${s.supplierNo}">${s.supplierNo} / ${s.supplierName}</option>`)})}
-
-function saveSupplier(notify=false){
+function calculateDocStatus(exp,manual){const d=daysLeft(exp);if(d<0)return"Süresi Doldu";if(d<=30)return"Süresi Yaklaşıyor";return manual||"Geçerli"}
+function autoUpdate(items){items.forEach(s=>{(s.documents||[]).forEach(d=>d.status=calculateDocStatus(d.expiryDate,d.status));(s.events||[]).forEach(e=>{if(!["Kapalı","Tamamlandı","İptal"].includes(e.status)&&e.dueDate&&e.dueDate<todayISO())e.status="Gecikti"})})}
+function collectSupplier(){
 updatePerformance();
-const p={id:editIndex!==null?getSuppliers()[editIndex].id:"SUPPLIER-"+Date.now(),supplierNo:supplierNo.value,supplierName:supplierName.value.trim(),supplierCode:supplierCode.value.trim(),erpCode:erpCode.value.trim(),country:country.value.trim(),city:city.value.trim(),taxNo:taxNo.value.trim(),website:website.value.trim(),address:address.value.trim(),contactPerson:contactPerson.value.trim(),email:email.value.trim(),phone:phone.value.trim(),supplierType:supplierType.value,criticality:criticality.value,sourceType:sourceType.value,approvalStatus:approvalStatus.value,customerApproval:customerApproval.value,portalUsername:portalUsername.value.trim(),portalStatus:portalStatus.value,lastLogin:lastLogin.value,bcpStatus:bcpStatus.value,drpStatus:drpStatus.value,alternateFactory:alternateFactory.value,alternateSupplier:alternateSupplier.value,supplierScope:supplierScope.value.trim(),qualityScore:Number(qualityScore.value||0),deliveryScore:Number(deliveryScore.value||0),auditScore:Number(auditScore.value||0),scarScore:Number(scarScore.value||0),overallScore:Number(overallScore.value||0),performanceClass:performanceClass.value,ppm:Number(ppm.value||0),otd:Number(otd.value||0),defectRate:Number(defectRate.value||0),complaintCount:Number(complaintCount.value||0),annualSpend:Number(annualSpend.value||0),monthlySpend:Number(monthlySpend.value||0),documents:editIndex!==null?getSuppliers()[editIndex].documents||[]:[],events:editIndex!==null?getSuppliers()[editIndex].events||[]:[],timeline:editIndex!==null?getSuppliers()[editIndex].timeline||[]:[],createdBy:session.name||"System",createdAt:editIndex!==null?getSuppliers()[editIndex].createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
-if(!p.supplierName)return showToast("Supplier Name zorunlu");if(!p.email)return showToast("Email zorunlu");
-p.timeline.unshift({date:new Date().toISOString(),user:session.name||"System",action:editIndex!==null?"Supplier updated":"Supplier created"});
-const items=getSuppliers();if(editIndex!==null){items[editIndex]=p;showToast("Tedarikçi güncellendi")}else{items.unshift(p);showToast("Tedarikçi kaydedildi")}
-setSuppliers(items);if(notify)createNotification(p,"Supplier created/updated: "+p.supplierName);resetForm();initSupplierSelects();renderSuppliers();
+return{
+id:state.editId||"SUPPLIER-"+Date.now(),supplierNo:supplierNo.value,supplierName:supplierName.value.trim(),supplierCode:supplierCode.value.trim(),erpCode:erpCode.value.trim(),country:country.value.trim(),city:city.value.trim(),taxNo:taxNo.value.trim(),website:website.value.trim(),address:address.value.trim(),contactPerson:contactPerson.value.trim(),email:email.value.trim(),phone:phone.value.trim(),supplierType:supplierType.value,criticality:criticality.value,sourceType:sourceType.value,approvalStatus:approvalStatus.value,customerApproval:customerApproval.value,portalUsername:portalUsername.value.trim(),portalStatus:portalStatus.value,lastLogin:lastLogin.value,bcpStatus:bcpStatus.value,drpStatus:drpStatus.value,alternateFactory:alternateFactory.value,alternateSupplier:alternateSupplier.value,supplierScope:supplierScope.value.trim(),qualityScore:Number(qualityScore.value||0),deliveryScore:Number(deliveryScore.value||0),auditScore:Number(auditScore.value||0),scarScore:Number(scarScore.value||0),overallScore:Number(overallScore.value||0),performanceClass:performanceClass.value,ppm:Number(ppm.value||0),otd:Number(otd.value||0),defectRate:Number(defectRate.value||0),complaintCount:Number(complaintCount.value||0),annualSpend:Number(annualSpend.value||0),monthlySpend:Number(monthlySpend.value||0),documents:state.editId?(state.suppliers.find(x=>x.id===state.editId)?.documents||[]):[],events:state.editId?(state.suppliers.find(x=>x.id===state.editId)?.events||[]):[],timeline:state.editId?(state.suppliers.find(x=>x.id===state.editId)?.timeline||[]):[],createdBy:state.currentUser?.fullname||"",createdAt:state.editId?(state.suppliers.find(x=>x.id===state.editId)?.createdAt||new Date().toISOString()):new Date().toISOString(),updatedAt:new Date().toISOString(),status:"Aktif"
 }
-
-docFile.addEventListener("change",e=>handleDocFile(e.target.files[0]));
-function handleDocFile(file){if(!file)return;if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");docFile.value="";return}const r=new FileReader();r.onload=ev=>{uploadedDoc={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Doküman hazırlandı")};r.readAsDataURL(file)}
-function addDocument(){
-if(!docSupplier.value)return showToast("Tedarikçi seç");if(!docName.value.trim())return showToast("Doküman adı zorunlu");if(!uploadedDoc)return showToast("Dosya seç");
-const items=getSuppliers().map(normalizeSupplier),idx=items.findIndex(s=>s.supplierNo===docSupplier.value);if(idx<0)return;
-const doc={id:"DOC-"+Date.now(),documentNo:"SDOC-"+new Date().getFullYear()+"-"+String(items[idx].documents.length+1).padStart(4,"0"),docType:docType.value,docName:docName.value.trim(),revision:docRevision.value.trim()||"V1",owner:docOwner.value.trim(),uploadDate:docUploadDate.value,expiryDate:docExpiryDate.value,status:calculateDocStatus(docExpiryDate.value,docStatus.value),description:docDescription.value.trim(),file:uploadedDoc,createdAt:new Date().toISOString()};
-items[idx].documents.unshift(doc);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name||"System",action:"Document uploaded: "+doc.documentNo+" / "+doc.docName});
-setSuppliers(items);createNotification(items[idx],"Supplier document uploaded: "+doc.docName);clearDocumentInputs();renderDocuments();renderSuppliers();showToast("Doküman eklendi");
 }
-function calculateDocStatus(exp,manual){const d=daysLeft(exp);if(d<0)return"Expired";if(d<=30)return"Expiring Soon";return manual||"Valid"}
-function clearDocumentInputs(){docSupplier.value="";docType.value="Certificate";docName.value="";docRevision.value="V1";docOwner.value="";docUploadDate.value=todayISO();docExpiryDate.value=addDays(todayISO(),365);docStatus.value="Valid";docDescription.value="";docFile.value="";uploadedDoc=null}
-function renderDocuments(){let docs=[];getSuppliers().forEach(s=>(s.documents||[]).forEach(d=>docs.push({...d,supplierNo:s.supplierNo,supplierName:s.supplierName})));if(!docs.length){documentPreview.innerHTML='<div class="empty" style="margin-top:14px">Doküman yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Tedarikçi</th><th>Tip</th><th>Doküman</th><th>Rev</th><th>Geçerlilik</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';docs.slice(0,30).forEach(d=>h+=`<tr><td>${d.documentNo}</td><td>${d.supplierName}</td><td>${d.docType}</td><td>${d.docName}<br><small>${d.file.fileName}</small></td><td>${d.revision}</td><td>${formatDateTR(d.expiryDate)}<br><small>${daysLeft(d.expiryDate)} gün</small></td><td><span class="status ${statusClass(d.status)}">${d.status}</span></td><td><button class="small-btn down" onclick="downloadDoc('${d.supplierNo}','${d.id}')">İndir</button></td></tr>`);documentPreview.innerHTML=h+"</tbody></table>"}
-function downloadDoc(supNo,docId){const s=getSuppliers().find(x=>x.supplierNo===supNo);const d=s?.documents?.find(x=>x.id===docId);if(!d)return;const a=document.createElement("a");a.href=d.file.fileData;a.download=d.file.fileName;a.click()}
-
-function addEvent(notify=false){
+async function saveSupplier(notify=false){
+const p=collectSupplier();if(!p.supplierName)return showToast("Tedarikçi adı zorunlu");if(!p.email)return showToast("E-posta zorunlu");
+p.timeline.unshift({date:new Date().toISOString(),user:state.currentUser?.fullname||"",action:state.editId?"Tedarikçi güncellendi":"Tedarikçi oluşturuldu"});
+const old=state.editId?state.suppliers.find(x=>x.id===state.editId):null;
+const saved=state.editId?await safePut("/suppliers/"+encodeURIComponent(state.editId),p):await safePost("/suppliers",p);
+const idx=state.suppliers.findIndex(x=>x.id===p.id);if(idx>=0)state.suppliers[idx]=p;else state.suppliers.unshift(p);
+if(notify)await notifySupplierPayload(p,"Tedarikçi kaydı oluşturuldu/güncellendi: "+p.supplierName);
+await auditLog(state.editId?"Düzenleme":"Oluşturma",p.supplierNo,old,p,"supplier");
+if(!saved)showToast("API yanıtı alınamadı; kayıt ekranda güncellendi, Worker endpoint kontrol edilmeli");else showToast(state.editId?"Tedarikçi güncellendi":"Tedarikçi kaydedildi");
+resetForm();renderSuppliers();
+}
+function currentSupplierByNo(no){return state.suppliers.find(s=>s.supplierNo===no)}
+async function addDocument(){
+if(!docSupplier.value)return showToast("Tedarikçi seç");if(!docName.value.trim())return showToast("Doküman adı zorunlu");
+const file=docFile.files[0];if(!file)return showToast("Dosya seç");
+const s=currentSupplierByNo(docSupplier.value);if(!s)return showToast("Tedarikçi bulunamadı");
+let uploaded;try{uploaded=await uploadToR2(file,{module:"SUPPLIER",record_no:s.supplierNo,document_name:docName.value.trim(),document_type:docType.value})}catch(e){return showToast("R2 yükleme başarısız")}
+const doc={id:"DOC-"+Date.now(),documentNo:await generateDocNo(s),docType:docType.value,docName:docName.value.trim(),revision:docRevision.value.trim()||"V1",owner:docOwner.value.trim(),owner_id:docOwner.dataset.userId||"",owner_department:docOwner.dataset.department||"",uploadDate:docUploadDate.value,expiryDate:docExpiryDate.value,status:calculateDocStatus(docExpiryDate.value,docStatus.value),description:docDescription.value.trim(),file:{fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),r2_key:uploaded.r2_key||uploaded.key||uploaded.path||"",file_id:uploaded.file_id||uploaded.id||""},createdAt:new Date().toISOString()};
+s.documents.unshift(doc);s.timeline.unshift({date:new Date().toISOString(),user:state.currentUser?.fullname||"",action:"Doküman yüklendi: "+doc.documentNo+" / "+doc.docName});
+await safePost("/files",{module:"SUPPLIER",record_no:s.supplierNo,r2_key:doc.file.r2_key,file_name:file.name,file_type:file.type,file_size:file.size,metadata:doc,created_at:new Date().toISOString()});
+await safePut("/suppliers/"+encodeURIComponent(s.id),s);await notifySupplierPayload(s,"Tedarikçi dokümanı yüklendi: "+doc.docName);await auditLog("Dosya Yükleme",s.supplierNo,null,doc,"files");
+clearDocumentInputs();renderSuppliers();showToast("Doküman R2 üzerine yüklendi");
+}
+async function addEvent(notify=false){
 if(!eventSupplier.value)return showToast("Tedarikçi seç");
-const items=getSuppliers().map(normalizeSupplier),idx=items.findIndex(s=>s.supplierNo===eventSupplier.value);if(idx<0)return;
-const ev={id:"EVT-"+Date.now(),eventNo:"SEVT-"+new Date().getFullYear()+"-"+String(items[idx].events.length+1).padStart(4,"0"),eventType:eventType.value,eventOwner:eventOwner.value.trim(),dueDate:eventDue.value,closeDate:eventClose.value,status:eventStatus.value,auditScore:Number(eventAuditScore.value||0),major:Number(eventMajor.value||0),minor:Number(eventMinor.value||0),ofi:Number(eventOfi.value||0),ref:eventRef.value.trim(),description:eventDescription.value.trim(),createdAt:new Date().toISOString()};
-items[idx].events.unshift(ev);items[idx].timeline.unshift({date:new Date().toISOString(),user:session.name||"System",action:eventType.value+" added: "+ev.eventNo});
-if(eventType.value==="Supplier Audit")items[idx].auditScore=ev.auditScore;
-if(eventType.value==="SCAR"&&ev.status!=="Closed")items[idx].scarScore=Math.max(0,items[idx].scarScore-15);
-items[idx].overallScore=Math.round((items[idx].qualityScore*.4+items[idx].deliveryScore*.3+items[idx].auditScore*.2+items[idx].scarScore*.1)*10)/10;
-items[idx].performanceClass=items[idx].overallScore>=90?"A":items[idx].overallScore>=75?"B":items[idx].overallScore>=60?"C":"D";
-setSuppliers(items);if(notify)createNotification(items[idx],eventType.value+" added: "+ev.eventNo);clearEventInputs();renderEvents();renderSuppliers();showToast("Kayıt eklendi");
+const s=currentSupplierByNo(eventSupplier.value);if(!s)return showToast("Tedarikçi bulunamadı");
+const ev={id:"EVT-"+Date.now(),eventNo:await generateEventNo(s),eventType:eventType.value,eventOwner:eventOwner.value.trim(),eventOwner_id:eventOwner.dataset.userId||"",eventOwner_department:eventOwner.dataset.department||"",dueDate:eventDue.value,closeDate:eventClose.value,status:eventStatus.value,auditScore:Number(eventAuditScore.value||0),major:Number(eventMajor.value||0),minor:Number(eventMinor.value||0),ofi:Number(eventOfi.value||0),ref:eventRef.value.trim(),description:eventDescription.value.trim(),createdAt:new Date().toISOString()};
+s.events.unshift(ev);s.timeline.unshift({date:new Date().toISOString(),user:state.currentUser?.fullname||"",action:eventType.value+" kaydı eklendi: "+ev.eventNo});
+if(eventType.value==="Tedarikçi Denetimi")s.auditScore=ev.auditScore;
+if(eventType.value==="SCAR"&&ev.status!=="Kapalı")s.scarScore=Math.max(0,Number(s.scarScore||0)-15);
+s.overallScore=Math.round((Number(s.qualityScore||0)*.4+Number(s.deliveryScore||0)*.3+Number(s.auditScore||0)*.2+Number(s.scarScore||0)*.1)*10)/10;
+s.performanceClass=s.overallScore>=90?"A":s.overallScore>=75?"B":s.overallScore>=60?"C":"D";
+await safePut("/suppliers/"+encodeURIComponent(s.id),s);
+await safePost("/assignments",{module:"Tedarikçi Yönetimi",record_no:s.supplierNo,title:ev.eventType+" / "+ev.eventNo,assigned_to:ev.eventOwner_id,assigned_to_name:ev.eventOwner,due_date:ev.dueDate,status:ev.status,created_at:new Date().toISOString()});
+if(notify)await notifySupplierPayload(s,ev.eventType+" kaydı oluşturuldu: "+ev.eventNo);
+await auditLog("Aksiyon/Kayıt Oluşturma",s.supplierNo,null,ev,"events");
+clearEventInputs();renderSuppliers();showToast("Kayıt D1 üzerine eklendi");
 }
-function clearEventInputs(){eventType.value="Supplier Audit";eventSupplier.value="";eventOwner.value="";eventDue.value=addDays(todayISO(),30);eventClose.value="";eventStatus.value="Open";eventAuditScore.value=100;eventMajor.value=0;eventMinor.value=0;eventOfi.value=0;eventRef.value="";eventDescription.value=""}
-function renderEvents(){let evs=[];getSuppliers().forEach(s=>(s.events||[]).forEach(e=>evs.push({...e,supplierNo:s.supplierNo,supplierName:s.supplierName})));if(!evs.length){eventPreview.innerHTML='<div class="empty" style="margin-top:14px">Kayıt yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Tedarikçi</th><th>Tip</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>Skor/Bulgu</th></tr></thead><tbody>';evs.slice(0,30).forEach(e=>h+=`<tr><td>${e.eventNo}</td><td>${e.supplierName}</td><td>${e.eventType}</td><td>${e.eventOwner||"-"}</td><td>${formatDateTR(e.dueDate)}</td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td><td>${e.auditScore} / M:${e.major} m:${e.minor} OFI:${e.ofi}</td></tr>`);eventPreview.innerHTML=h+"</tbody></table>"}
-
-function createNotification(s,msg){const n=getNotifications();n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Supplier",documentCode:s.supplierNo,documentName:s.supplierName,mailGroups:s.email+"; "+s.contactPerson,smsGroups:s.phone,distributionPoints:s.supplierType+" / "+s.criticality,message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
-function autoUpdate(items){const today=todayISO();items.forEach(s=>{(s.documents||[]).forEach(d=>d.status=calculateDocStatus(d.expiryDate,d.status));(s.events||[]).forEach(e=>{if(!["Closed","Completed","Cancelled"].includes(e.status)&&e.dueDate&&e.dueDate<today)e.status="Delayed"})});setSuppliers(items)}
 function renderSuppliers(){
-let items=getSuppliers().map(normalizeSupplier);autoUpdate(items);items=getSuppliers().map(normalizeSupplier);
-const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,cf=criticalityFilter.value;
-const filtered=items.filter(s=>`${s.supplierNo} ${s.supplierName} ${s.supplierCode} ${s.erpCode} ${s.country} ${s.email} ${s.supplierType} ${s.criticality} ${s.approvalStatus} ${s.customerApproval} ${(s.documents||[]).map(d=>d.docName+" "+d.docType).join(" ")} ${(s.events||[]).map(e=>e.eventType+" "+e.description).join(" ")}`.toLowerCase().includes(q)&&(!sf||s.approvalStatus===sf)&&(!tf||s.supplierType===tf)&&(!cf||s.criticality===cf));
-updateCards(items);initSupplierSelects();renderDocuments();renderEvents();
+autoUpdate(state.suppliers);const q=(globalSearch.value||"").toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,cf=criticalityFilter.value;
+const filtered=state.suppliers.filter(s=>`${s.supplierNo} ${s.supplierName} ${s.supplierCode} ${s.erpCode} ${s.country} ${s.email} ${s.supplierType} ${s.criticality} ${s.approvalStatus} ${s.customerApproval} ${(s.documents||[]).map(d=>d.docName+" "+d.docType).join(" ")} ${(s.events||[]).map(e=>e.eventType+" "+e.description).join(" ")}`.toLowerCase().includes(q)&&(!sf||s.approvalStatus===sf)&&(!tf||s.supplierType===tf)&&(!cf||s.criticality===cf));
+updateCards(state.suppliers);initSupplierSelects();renderDocuments();renderEvents();
 if(!filtered.length){supplierTable.innerHTML='<div class="empty">Tedarikçi kaydı bulunamadı.</div>';return}
 let h='<table><thead><tr><th>No</th><th>Tedarikçi</th><th>Tip</th><th>Kritiklik</th><th>Statü</th><th>Performans</th><th>Doküman</th><th>Açık Kayıt</th><th>Aksiyon</th></tr></thead><tbody>';
-filtered.forEach(s=>{const i=items.findIndex(x=>x.id===s.id),open=(s.events||[]).filter(e=>!["Closed","Completed","Cancelled"].includes(e.status)).length;h+=`<tr><td>${s.supplierNo}</td><td>${s.supplierName}<br><small>${s.country} / ${s.email}</small></td><td>${s.supplierType}<br><small>${s.sourceType}</small></td><td><span class="status ${s.criticality==="Critical"?"red":s.criticality==="High"?"orange":"blue"}">${s.criticality}</span></td><td><span class="status ${statusClass(s.approvalStatus)}">${s.approvalStatus}</span></td><td>${s.overallScore} / ${s.performanceClass}</td><td>${(s.documents||[]).length}</td><td>${open}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifySupplier(${i})">Bildir</button></div></td></tr>`});
+filtered.forEach(s=>{const i=state.suppliers.findIndex(x=>x.id===s.id),open=(s.events||[]).filter(e=>!["Kapalı","Tamamlandı","İptal"].includes(e.status)).length;h+=`<tr><td>${escapeHTML(s.supplierNo)}</td><td>${escapeHTML(s.supplierName)}<br><small>${escapeHTML(s.country)} / ${escapeHTML(s.email)}</small></td><td>${escapeHTML(s.supplierType)}<br><small>${escapeHTML(s.sourceType)}</small></td><td><span class="status ${s.criticality==="Kritik"?"red":s.criticality==="Yüksek"?"orange":"blue"}">${escapeHTML(s.criticality)}</span></td><td><span class="status ${statusClass(s.approvalStatus)}">${escapeHTML(s.approvalStatus)}</span></td><td>${escapeHTML(s.overallScore)} / ${escapeHTML(s.performanceClass)}</td><td>${(s.documents||[]).length}</td><td>${open}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifySupplier(${i})">Bildir</button></div></td></tr>`});
 supplierTable.innerHTML=h+"</tbody></table>";
 }
-function updateCards(items){let docs=[],events=[];items.forEach(s=>{docs=docs.concat(s.documents||[]);events=events.concat(s.events||[])});totalSuppliers.textContent=items.length;approvedSuppliers.textContent=items.filter(s=>s.approvalStatus==="Approved").length;criticalSuppliers.textContent=items.filter(s=>["High","Critical"].includes(s.criticality)).length;openScar.textContent=events.filter(e=>e.eventType==="SCAR"&&!["Closed","Completed"].includes(e.status)).length;expiringDocs.textContent=docs.filter(d=>["Expiring Soon","Expired"].includes(d.status)).length;auditDue.textContent=events.filter(e=>e.eventType==="Supplier Audit"&&e.status==="Delayed").length;avgPerformance.textContent=items.length?Math.round(items.reduce((a,b)=>a+Number(b.overallScore||0),0)/items.length):0;supplierNotifications.textContent=getNotifications().filter(n=>n.module==="Supplier").length}
-function openDrawer(i){selectedIndex=i;const s=normalizeSupplier(getSuppliers()[i]);drawerTitle.textContent=s.supplierNo+" / "+s.supplierName;drawerStatus.textContent=s.approvalStatus;drawerStatus.className="status "+statusClass(s.approvalStatus);drawerContent.innerHTML=`<div class="info-box"><b>Supplier:</b> ${s.supplierName}
-<b>Type:</b> ${s.supplierType}
-<b>Criticality:</b> ${s.criticality}
-<b>Status:</b> ${s.approvalStatus}
-<b>Contact:</b> ${s.contactPerson} / ${s.email} / ${s.phone}
-<b>Customer Approval:</b> ${s.customerApproval}
-<b>Portal:</b> ${s.portalStatus} / ${s.portalUsername}
-<b>BCP/DRP:</b> ${s.bcpStatus} / ${s.drpStatus}
-<b>Performance:</b> ${s.overallScore} / ${s.performanceClass}</div>
-<div class="info-box"><b>Scope:</b>
-${s.supplierScope||"-"}</div>
-<div class="info-box"><b>Documents</b><br>${renderDocTable(s)}</div>
-<div class="info-box"><b>Audit / Risk / SCAR / Development</b><br>${renderEventTable(s)}</div>
-<div class="info-box"><b>Supplier Timeline</b>
-${(s.timeline||[]).map(t=>`${formatDateTR(t.date)} - ${t.user} - ${t.action}`).join("\\n")||"-"}</div>`;drawer.classList.add("active")}
-function renderDocTable(s){if(!s.documents.length)return"Doküman yok.";let h='<table><thead><tr><th>No</th><th>Tip</th><th>Doküman</th><th>Rev</th><th>Geçerlilik</th><th>Durum</th></tr></thead><tbody>';s.documents.forEach(d=>h+=`<tr><td>${d.documentNo}</td><td>${d.docType}</td><td>${d.docName}</td><td>${d.revision}</td><td>${formatDateTR(d.expiryDate)}</td><td><span class="status ${statusClass(d.status)}">${d.status}</span></td></tr>`);return h+"</tbody></table>"}
-function renderEventTable(s){if(!s.events.length)return"Kayıt yok.";let h='<table><thead><tr><th>No</th><th>Tip</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>Skor</th></tr></thead><tbody>';s.events.forEach(e=>h+=`<tr><td>${e.eventNo}</td><td>${e.eventType}</td><td>${e.eventOwner}</td><td>${formatDateTR(e.dueDate)}</td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td><td>${e.auditScore}</td></tr>`);return h+"</tbody></table>"}
-function approveSupplierCurrent(){if(selectedIndex===null)return;const items=getSuppliers();items[selectedIndex].approvalStatus="Approved";items[selectedIndex].timeline.unshift({date:new Date().toISOString(),user:session.name||"System",action:"Supplier approved"});setSuppliers(items);renderSuppliers();openDrawer(selectedIndex);showToast("Tedarikçi onaylandı")}
-function blockSupplierCurrent(){if(selectedIndex===null)return;const items=getSuppliers();items[selectedIndex].approvalStatus="Blocked";items[selectedIndex].timeline.unshift({date:new Date().toISOString(),user:session.name||"System",action:"Supplier blocked"});setSuppliers(items);renderSuppliers();openDrawer(selectedIndex);showToast("Tedarikçi bloke edildi")}
-function notifySupplier(i){createNotification(getSuppliers()[i],"Supplier notification created.");showToast("Bildirim kuyruğu oluşturuldu")}
-function notifySupplierCurrent(){if(selectedIndex!==null)notifySupplier(selectedIndex)}
-function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
-function resetForm(){editIndex=null;generateSupplierNo();supplierName.value="";supplierCode.value="";erpCode.value="";country.value="";city.value="";taxNo.value="";website.value="";address.value="";contactPerson.value="";email.value="";phone.value="";supplierType.value="Raw Material";criticality.value="Low";sourceType.value="Multi Source";approvalStatus.value="Development Supplier";customerApproval.value="None";portalUsername.value="";portalStatus.value="Not Active";lastLogin.value="";bcpStatus.value="No";drpStatus.value="No";alternateFactory.value="No";alternateSupplier.value="No";supplierScope.value="";qualityScore.value=100;deliveryScore.value=100;auditScore.value=100;scarScore.value=100;ppm.value=0;otd.value=100;defectRate.value=0;complaintCount.value=0;annualSpend.value=0;monthlySpend.value=0;updatePerformance();formMode.textContent="CREATE MODE"}
-function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
-globalSearch.addEventListener("input",function(){
-if(!this.value.trim()){
-clearSearchResults();
-}else{
-renderSuppliers();
-}
-});
+function updateCards(items){let docs=[],events=[];items.forEach(s=>{docs=docs.concat(s.documents||[]);events=events.concat(s.events||[])});totalSuppliers.textContent=items.length;approvedSuppliers.textContent=items.filter(s=>s.approvalStatus==="Onaylı").length;criticalSuppliers.textContent=items.filter(s=>["Yüksek","Kritik"].includes(s.criticality)).length;openScar.textContent=events.filter(e=>e.eventType==="SCAR"&&!["Kapalı","Tamamlandı"].includes(e.status)).length;expiringDocs.textContent=docs.filter(d=>["Süresi Yaklaşıyor","Süresi Doldu"].includes(d.status)).length;auditDue.textContent=events.filter(e=>e.eventType==="Tedarikçi Denetimi"&&e.status==="Gecikti").length;avgPerformance.textContent=items.length?Math.round(items.reduce((a,b)=>a+Number(b.overallScore||0),0)/items.length):0;supplierNotifications.textContent=state.notifications.filter(n=>n.module==="Tedarikçi Yönetimi").length}
+function initSupplierSelects(){["docSupplier","eventSupplier"].forEach(id=>{const el=document.getElementById(id);el.innerHTML='<option value="">Tedarikçi Seçiniz</option>';state.suppliers.forEach(s=>el.innerHTML+=`<option value="${escapeHTML(s.supplierNo)}">${escapeHTML(s.supplierNo)} / ${escapeHTML(s.supplierName)}</option>`)})}
+function renderDocuments(){let docs=[];state.suppliers.forEach(s=>(s.documents||[]).forEach(d=>docs.push({...d,supplierNo:s.supplierNo,supplierName:s.supplierName})));if(!docs.length){documentPreview.innerHTML='<div class="empty" style="margin-top:14px">Doküman yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Tedarikçi</th><th>Tip</th><th>Doküman</th><th>Rev</th><th>Geçerlilik</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';docs.slice(0,30).forEach(d=>h+=`<tr><td>${escapeHTML(d.documentNo)}</td><td>${escapeHTML(d.supplierName)}</td><td>${escapeHTML(d.docType)}</td><td>${escapeHTML(d.docName)}<br><small>${escapeHTML(d.file?.fileName||"")}</small></td><td>${escapeHTML(d.revision)}</td><td>${formatDateTR(d.expiryDate)}<br><small>${daysLeft(d.expiryDate)} gün</small></td><td><span class="status ${statusClass(d.status)}">${escapeHTML(d.status)}</span></td><td><button class="small-btn down" onclick="downloadDoc('${escapeHTML(d.supplierNo)}','${escapeHTML(d.id)}')">İndir</button></td></tr>`);documentPreview.innerHTML=h+"</tbody></table>"}
+function renderEvents(){let evs=[];state.suppliers.forEach(s=>(s.events||[]).forEach(e=>evs.push({...e,supplierNo:s.supplierNo,supplierName:s.supplierName})));if(!evs.length){eventPreview.innerHTML='<div class="empty" style="margin-top:14px">Kayıt yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Tedarikçi</th><th>Tip</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>Skor/Bulgu</th></tr></thead><tbody>';evs.slice(0,30).forEach(e=>h+=`<tr><td>${escapeHTML(e.eventNo)}</td><td>${escapeHTML(e.supplierName)}</td><td>${escapeHTML(e.eventType)}</td><td>${escapeHTML(e.eventOwner||"-")}</td><td>${formatDateTR(e.dueDate)}</td><td><span class="status ${statusClass(e.status)}">${escapeHTML(e.status)}</span></td><td>${escapeHTML(e.auditScore)} / M:${escapeHTML(e.major)} m:${escapeHTML(e.minor)} F:${escapeHTML(e.ofi)}</td></tr>`);eventPreview.innerHTML=h+"</tbody></table>"}
+function downloadDoc(supNo,docId){const s=state.suppliers.find(x=>x.supplierNo===supNo);const d=s?.documents?.find(x=>x.id===docId);if(!d)return;if(d.file?.r2_key)return openSignedFile(d.file.r2_key);showToast("R2 anahtarı bulunamadı")}
+function openDrawer(i){state.selectedId=state.suppliers[i]?.id;const s=state.suppliers[i];if(!s)return;drawerTitle.textContent=s.supplierNo+" / "+s.supplierName;drawerStatus.textContent=s.approvalStatus;drawerStatus.className="status "+statusClass(s.approvalStatus);drawerContent.innerHTML=`<div class="info-box"><b>Tedarikçi:</b> ${escapeHTML(s.supplierName)}
+<b>Tip:</b> ${escapeHTML(s.supplierType)}
+<b>Kritiklik:</b> ${escapeHTML(s.criticality)}
+<b>Statü:</b> ${escapeHTML(s.approvalStatus)}
+<b>İletişim:</b> ${escapeHTML(s.contactPerson)} / ${escapeHTML(s.email)} / ${escapeHTML(s.phone)}
+<b>Müşteri Onayı:</b> ${escapeHTML(s.customerApproval)}
+<b>Portal:</b> ${escapeHTML(s.portalStatus)} / ${escapeHTML(s.portalUsername)}
+<b>BCP/DRP:</b> ${escapeHTML(s.bcpStatus)} / ${escapeHTML(s.drpStatus)}
+<b>Performans:</b> ${escapeHTML(s.overallScore)} / ${escapeHTML(s.performanceClass)}</div>
+<div class="info-box"><b>Kapsam:</b>
+${escapeHTML(s.supplierScope||"-")}</div>
+<div class="info-box"><b>Dokümanlar</b><br>${renderDocTable(s)}</div>
+<div class="info-box"><b>Denetim / Risk / SCAR / Geliştirme</b><br>${renderEventTable(s)}</div>
+<div class="info-box"><b>Geçmiş</b>
+${(s.timeline||[]).map(x=>`${formatDateTR(x.date)} - ${escapeHTML(x.user)} - ${escapeHTML(x.action)}`).join("\n")||"-"}</div>`;drawer.classList.add("active")}
+function renderDocTable(s){if(!s.documents?.length)return"Doküman yok.";let h='<table><thead><tr><th>No</th><th>Tip</th><th>Ad</th><th>Durum</th></tr></thead><tbody>';s.documents.forEach(d=>h+=`<tr><td>${escapeHTML(d.documentNo)}</td><td>${escapeHTML(d.docType)}</td><td>${escapeHTML(d.docName)}</td><td><span class="status ${statusClass(d.status)}">${escapeHTML(d.status)}</span></td></tr>`);return h+"</tbody></table>"}
+function renderEventTable(s){if(!s.events?.length)return"Kayıt yok.";let h='<table><thead><tr><th>No</th><th>Tip</th><th>Sorumlu</th><th>Durum</th></tr></thead><tbody>';s.events.forEach(e=>h+=`<tr><td>${escapeHTML(e.eventNo)}</td><td>${escapeHTML(e.eventType)}</td><td>${escapeHTML(e.eventOwner||"-")}</td><td><span class="status ${statusClass(e.status)}">${escapeHTML(e.status)}</span></td></tr>`);return h+"</tbody></table>"}
+function closeDrawer(){state.selectedId=null;drawer.classList.remove("active")}
+async function notifySupplier(i){const s=state.suppliers[i];if(!s)return;await notifySupplierPayload(s,"Tedarikçi bildirimi: "+s.supplierName);await auditLog("Bildirim Oluşturma",s.supplierNo,null,s,"notifications");renderSuppliers();showToast("Bildirim kuyruğu oluşturuldu")}
+function notifySupplierCurrent(){const i=state.suppliers.findIndex(x=>x.id===state.selectedId);if(i>=0)notifySupplier(i)}
+async function updateSupplierStatusCurrent(status){const s=state.suppliers.find(x=>x.id===state.selectedId);if(!s)return;const old=s.approvalStatus;s.approvalStatus=status;s.timeline.unshift({date:new Date().toISOString(),user:state.currentUser?.fullname||"",action:"Statü değişti: "+old+" → "+status});await safePut("/suppliers/"+encodeURIComponent(s.id),s);await auditLog("Statü Güncelleme",s.supplierNo,old,status,"approvalStatus");renderSuppliers();openDrawer(state.suppliers.findIndex(x=>x.id===s.id));showToast("Statü güncellendi")}
+function approveSupplierCurrent(){updateSupplierStatusCurrent("Onaylı")}
+function blockSupplierCurrent(){updateSupplierStatusCurrent("Blokeli")}
+function clearDocumentInputs(){docSupplier.value="";docType.value="Sertifika";docName.value="";docRevision.value="V1";docOwner.value="";docUploadDate.value=todayISO();docExpiryDate.value=addDays(todayISO(),365);docStatus.value="Geçerli";docDescription.value="";docFile.value=""}
+function clearEventInputs(){eventType.value="Tedarikçi Denetimi";eventSupplier.value="";eventOwner.value="";eventDue.value=addDays(todayISO(),30);eventClose.value="";eventStatus.value="Açık";eventAuditScore.value=100;eventMajor.value=0;eventMinor.value=0;eventOfi.value=0;eventRef.value="";eventDescription.value=""}
+async function resetForm(){state.editId=null;formMode.textContent="OLUŞTURMA MODU";await generateSupplierNo();supplierName.value="";supplierCode.value="";erpCode.value="";country.value="";city.value="";taxNo.value="";website.value="";address.value="";contactPerson.value="";email.value="";phone.value="";supplierType.value="Hammadde";criticality.value="Düşük";sourceType.value="Tek Kaynak";approvalStatus.value="Onaylı";customerApproval.value="Yok";portalUsername.value="";portalStatus.value="Aktif Değil";lastLogin.value="";bcpStatus.value="Hayır";drpStatus.value="Hayır";alternateFactory.value="Hayır";alternateSupplier.value="Hayır";supplierScope.value="";qualityScore.value=100;deliveryScore.value=100;auditScore.value=100;scarScore.value=100;ppm.value=0;otd.value=100;defectRate.value=0;complaintCount.value=0;annualSpend.value=0;monthlySpend.value=0;updatePerformance()}
+function openMobileMenu(){mobileDrawer.classList.add("active");mobileOverlay.classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){mobileDrawer.classList.remove("active");mobileOverlay.classList.remove("active");document.body.style.overflow=""}
+function toggleMenuGroup(button){const section=button.closest(".menu-section");if(section)section.classList.toggle("open")}
+function logout(){clearAuthCookie();window.location.href="index.html"}
 
-globalSearch.addEventListener("keydown",function(e){
-if(e.key==="Enter"){
-e.preventDefault();
-runSearch();
+async function runSearch(){
+const text=(globalSearch.value||"").trim().toLowerCase();if(!text){clearSearchResults();globalSearch.focus();renderSuppliers();return}
+let results=[];const cloud=await safeGet("/search?q="+encodeURIComponent(text));results=asArray(cloud).filter(x=>!isPassive(x)).map(x=>({type:"page",module:x.module||"Cloud",title:x.title||x.name||x.code||"Kayıt",detail:x.description||x.detail||"",go:x.url||x.page||"#"}));
+state.suppliers.forEach(item=>{if(JSON.stringify(item).toLowerCase().includes(text)){results.push({type:"record",module:"Tedarikçi Yönetimi",selected:item.id,title:item.supplierName||item.supplierNo||"Tedarikçi",detail:`${item.supplierNo||""} ${item.supplierType||""} ${item.approvalStatus||""} ${item.criticality||""} ${item.email||""}`})}});
+document.querySelectorAll(".menu a").forEach(el=>{const label=el.textContent.trim(),href=el.getAttribute("href")||"";if((label+" "+href).toLowerCase().includes(text))results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href})});
+renderSearchResults(text,results);
 }
-});
-docUploadDate.value=todayISO();docExpiryDate.value=addDays(todayISO(),365);eventDue.value=addDays(todayISO(),30);
-resetForm();clearDocumentInputs();clearEventInputs();renderSuppliers();
-console.log("GDNL EQMS Supplier Management Loaded");
+function renderSearchResults(keyword,results){searchResultsPanel.classList.add("active");searchKeyword.textContent=keyword;searchResultCount.textContent=results.length+" sonuç";if(!results.length){searchResultsArea.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;return}window.gdnlSearchResults=results.slice(0,80);searchResultsArea.innerHTML=window.gdnlSearchResults.map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="record"?"İncele":"Aç"}</button></div>`).join("");searchResultsPanel.scrollIntoView({behavior:"smooth",block:"start"})}
+function openSearchResult(index){const r=(window.gdnlSearchResults||[])[index];if(!r)return;if(r.type==="record"){const idx=state.suppliers.findIndex(x=>x.id===r.selected);if(idx>=0)openDrawer(idx);return}if(r.go&&r.go!=="#")window.location.href=r.go}
+function clearSearchResults(){globalSearch.value="";searchResultsPanel.classList.remove("active");searchResultsArea.innerHTML="";renderSuppliers()}
+
+function translateOptions(){
+const maps={
+supplierType:["Hammadde","Komponent","Hizmet","Kalibrasyon","Laboratuvar","Lojistik","Yazılım","Enerji","EV","CoP"],
+criticality:["Düşük","Orta","Yüksek","Kritik"],sourceType:["Tek Kaynak","Çift Kaynak","Çoklu Kaynak"],approvalStatus:["Onaylı","Şartlı Onaylı","Geliştirme Tedarikçisi","Blokeli","Diskalifiye"],
+customerApproval:["Yok","Ford Onaylı","Toyota Onaylı","Renault Onaylı","VW Onaylı","Mercedes Onaylı","BMW Onaylı","OEM Onaylı","Tier 1 Onaylı"],portalStatus:["Aktif Değil","Aktif","Askıda"],bcpStatus:["Hayır","Evet","Kısmi"],drpStatus:["Hayır","Evet","Kısmi"],alternateFactory:["Hayır","Evet"],alternateSupplier:["Hayır","Evet"],
+docType:["Sertifika","Sözleşme","NDA","Teknik Resim","Şartname","Veri Sayfası","Malzeme Sertifikası","MSDS","IMDS","PPAP","Kontrol Planı","FMEA","MSA","SPC","Test Raporu","Doğrulama Raporu","CoP Raporu","EV Güvenlik Raporu","Denetim Raporu","Risk Değerlendirmesi","BCP","SCAR / 8D","Diğer"],
+docStatus:["Geçerli","Süresi Yaklaşıyor","Süresi Doldu","İncelemede","Reddedildi","Arşivlendi"],
+eventType:["Tedarikçi Denetimi","SCAR","Risk","CAPA","Geliştirme Planı","Eğitim","Müşteri Şikayeti","Performans Gözden Geçirme"],
+eventStatus:["Açık","Devam Ediyor","Tamamlandı","Gecikti","Kapalı","İptal"],
+statusFilter:["","Onaylı","Şartlı Onaylı","Geliştirme Tedarikçisi","Blokeli","Diskalifiye"],
+typeFilter:["","Hammadde","Komponent","Hizmet","Kalibrasyon","Laboratuvar","EV","CoP"],
+criticalityFilter:["","Düşük","Orta","Yüksek","Kritik"]
+};
+Object.entries(maps).forEach(([id,arr])=>{const el=document.getElementById(id);if(el)el.innerHTML=arr.map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(v|| (id==="statusFilter"?"Tüm Statüler":id==="typeFilter"?"Tüm Tipler":"Tüm Kritiklikler"))}</option>`).join("")});
+}
+async function boot(){
+translateOptions();
+await loadCoreData();
+attachUserAutocomplete("docOwner");
+attachUserAutocomplete("eventOwner");
+await resetForm();clearDocumentInputs();clearEventInputs();renderSuppliers();
+globalSearch.addEventListener("input",()=>renderSuppliers());
+globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();runSearch()}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMobileMenu();closeDrawer()}});
+setInterval(async()=>{await loadCoreData();renderSuppliers()},30000);
+}
+boot();
 </script>
 </body>
 </html>
