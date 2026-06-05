@@ -580,6 +580,18 @@ const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
 const SYSTEM_MODULE = "Departman Merkezi";
 const ARCHIVE_STATUSES = ["Deleted", "Silindi", "Arşivlendi", "İptal Edildi"];
 
+
+function unwrapApiData(response){
+  if(!response) return null;
+  if(response.success === true && response.data !== undefined) return response.data;
+  return response;
+}
+
+function unwrapMeUser(response){
+  const data = unwrapApiData(response);
+  return data?.user || data?.data?.user || data;
+}
+
 const state = {
   session: null,
   currentUser: null,
@@ -649,6 +661,7 @@ async function apiGet(path, fallbackValue = null){
       method:"GET",
       cache:"no-store",
       mode:"cors",
+      credentials:"include",
       headers:{"Accept":"application/json"}
     });
     if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
@@ -663,6 +676,7 @@ async function apiPost(path, payload, fallbackValue = null){
   try{
     const res = await fetch(apiUrl(path), {
       method:"POST",
+      credentials:"include",
       mode:"cors",
       headers:{"Content-Type":"application/json","Accept":"application/json"},
       body:JSON.stringify(payload || {})
