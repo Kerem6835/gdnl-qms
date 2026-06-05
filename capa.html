@@ -121,6 +121,11 @@ tr:hover td{background:#f7fbf8}
 .comment-item:last-child{border-bottom:none}
 .comment-input{width:100%;min-height:82px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;font-weight:800;resize:vertical}
 
+
+.multi-user-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.multi-user-tag{display:inline-flex;align-items:center;gap:7px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
+.multi-user-tag button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+
 </style>
 </head>
 
@@ -156,6 +161,7 @@ tr:hover td{background:#f7fbf8}
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
+<a href="audit.html">İç Denetim</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
@@ -226,6 +232,7 @@ tr:hover td{background:#f7fbf8}
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
+<a href="audit.html">İç Denetim</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
@@ -341,8 +348,8 @@ tr:hover td{background:#f7fbf8}
 <div class="field"><label>İlerleme %</label><input id="progressRate" readonly></div>
 
 <div class="field double"><label>Problem Başlığı</label><input id="problemTitle" placeholder="Problem başlığını yaz"></div>
-<div class="field"><label>Açan Kişi</label><input id="openedBy"></div>
-<div class="field"><label>8D Lideri</label><input id="leader"></div>
+<div class="field"><label>Açan Kişi</label><input id="openedBy"><input id="openedBy_id" type="hidden"><input id="openedBy_department" type="hidden"><input id="openedBy_email" type="hidden"></div>
+<div class="field"><label>8D Lideri</label><input id="leader"><input id="leader_id" type="hidden"><input id="leader_department" type="hidden"><input id="leader_email" type="hidden"></div>
 
 <div class="field"><label>Müşteri Etkisi</label><select id="customerImpact"><option>Yok</option><option>Var</option><option>Kritik</option></select></div>
 <div class="field"><label>Üretim Etkisi</label><select id="productionImpact"><option>Yok</option><option>Hat Durdu</option><option>Sevkiyat Riski</option><option>Kalite Riski</option></select></div>
@@ -351,13 +358,13 @@ tr:hover td{background:#f7fbf8}
 <div class="field"><label>RPN Tespit</label><select id="detection" onchange="updateRpn()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
 <div class="field"><label>RPN</label><input id="rpn" readonly></div>
 
-<div class="field full"><label>D1 - Takım Üyeleri</label><textarea id="teamMembers" placeholder="Ad Soyad / Departman / Rol / Mail / Telefon"></textarea></div>
+<div class="field full"><label>D1 - Takım Üyeleri</label><textarea id="teamMembers" placeholder="Kişi yaz, users tablosundan seç"></textarea><div class="multi-user-tags" id="teamMembersTags"></div></div>
 <div class="field full"><label>E-Posta Grupları</label><input id="mailGroups" placeholder="kalite@firma.com; uretim@firma.com"></div>
 <div class="field full"><label>Kısa Mesaj Grupları</label><input id="smsGroups" placeholder="Kalite Grup; Üretim Grup"></div>
 
 <div class="field full"><label>D0 - Planlama / Acil Durum Değerlendirmesi</label><textarea id="d0Planning" placeholder="Acil durum, geçici önlem ihtiyacı, müşteri/üretim riski, ilk karar..."></textarea></div>
 <div class="field full"><label>D2 - Problem Tanımı / 5W2H</label><textarea class="big" id="problemDescription" placeholder="Ne, nerede, ne zaman, kim, nasıl, kaç adet, etkisi..."></textarea></div>
-<div class="field full"><label>D3 - Geçici Önlem / Containment</label><textarea id="geçici önlem"></textarea></div>
+<div class="field full"><label>D3 - Geçici Önlem</label><textarea id="temporaryAction"></textarea></div>
 <div class="field full"><label>D4 - Kök Neden / 5 Why</label><textarea class="big" id="rootCause"></textarea></div>
 <div class="field full"><label>D4 - Balık Kılçığı / 6M Analizi</label><textarea id="fishbone" placeholder="İnsan, Makine, Metot, Malzeme, Ölçüm, Çevre"></textarea></div>
 <div class="field full"><label>D5 - Kalıcı Düzeltici Faaliyet Özeti</label><textarea id="correctiveAction"></textarea></div>
@@ -381,10 +388,10 @@ tr:hover td{background:#f7fbf8}
 <h4>Aktif D Adımı İçin Görev / Aksiyon Ekle</h4>
 <div class="subgrid">
 <div class="field"><label>D Adımı</label><select id="taskStep"></select></div>
-<div class="field"><label>Görev Tipi</label><select id="taskType"><option>Düzeltme</option><option>Düzeltici Faaliyet</option><option>Önleyici Faaliyet</option><option>Containment</option><option>Analiz</option><option>Doğrulama</option><option>Eğitim</option><option>Doküman Revizyonu</option><option>Etkinlik Kontrolü</option></select></div>
+<div class="field"><label>Görev Tipi</label><select id="taskType"><option>Düzeltme</option><option>Düzeltici Faaliyet</option><option>Önleyici Faaliyet</option><option>Geçici Önlem</option><option>Analiz</option><option>Doğrulama</option><option>Eğitim</option><option>Doküman Revizyonu</option><option>Etkinlik Kontrolü</option></select></div>
 <div class="field"><label>CAPA Tipi</label><select id="taskClass"><option>Küçük</option><option>Büyük</option><option>Kritik</option></select></div>
 <div class="field"><label>Öncelik</label><select id="taskPriority"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
-<div class="field"><label>Sorumlu</label><input id="taskOwner" placeholder="Sorumlu kişi"></div>
+<div class="field"><label>Sorumlu</label><input id="taskOwner" placeholder="Sorumlu kişi"><input id="taskOwner_id" type="hidden"><input id="taskOwner_department" type="hidden"><input id="taskOwner_email" type="hidden"></div>
 <div class="field"><label>Planlanan Tarih</label><input id="taskPlanDate" type="date"></div>
 <div class="field"><label>Gerçekleşen Tarih</label><input id="taskActualDate" type="date"></div>
 <div class="field"><label>Eskalasyon</label><select id="taskEscalation"><option>Normal</option><option>Lider</option><option>Müdür</option><option>Kalite Admin</option></select></div>
@@ -450,7 +457,7 @@ tr:hover td{background:#f7fbf8}
 
 <script>
 const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
-let session={name:"Kerem Güdenli",role:"Super Administrator",id:"1",department:"Kalite",email:""};
+let session=(()=>{try{return JSON.parse(localStorage.getItem('gdnl_qdms_session')||localStorage.getItem('gdnl_eqms_session')||'null')||{name:'Kerem Güdenli',role:'Super Administrator',id:'1',department:'Kalite',email:''}}catch(e){return {name:'Kerem Güdenli',role:'Super Administrator',id:'1',department:'Kalite',email:''}}})();
 let cloudUsers=[];
 let cloudDepartments=[];
 let cloudCapas=[];
@@ -458,6 +465,14 @@ let cloudNotifications=[];
 let cloudComments=[];
 let cloudNextSeq=1;
 function currentUser(){return session||{name:"Sistem",role:"Kullanıcı",id:"",department:"",email:""}}
+function hasPermission(action,record=null){
+  const role=String(currentUser().role||'').toLowerCase();
+  if(role.includes('super')||role.includes('administrator'))return true;
+  if(action==='view')return true;
+  if(action==='archive'||action==='restore')return record&&String(record.createdBy||record.created_by||'')===String(currentUser().name||'');
+  return ['create','edit','comment'].includes(action);
+}
+
 document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
 
 
@@ -789,7 +804,7 @@ if(!description||description.length<5){showToast("Görev açıklaması zorunlu")
 const status=actualDate?"Tamamlandı":(planDate<todayISO()?"Gecikti":"Açık");
 taskRows.push({
 id:"TASK-"+Date.now()+"-"+Math.random().toString(16).slice(2),
-step,type,class:cls,priority,owner,planDate,actualDate,escalation,description,status,
+step,type,class:cls,priority,owner,owner_id:document.getElementById('taskOwner_id')?.value||'',owner_department:document.getElementById('taskOwner_department')?.value||'',owner_email:document.getElementById('taskOwner_email')?.value||'',planDate,actualDate,escalation,description,status,
 waitDays:daysBetween(todayISO(),planDate),
 closeDays:actualDate?daysBetween(planDate,actualDate):null,
 createdAt:new Date().toISOString()
@@ -802,6 +817,7 @@ showToast("Görev eklendi");
 
 function clearTaskInputs(){
 document.getElementById("taskOwner").value="";
+["taskOwner_id","taskOwner_department","taskOwner_email"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""});
 document.getElementById("taskPlanDate").value=addDays(todayISO(),7);
 document.getElementById("taskActualDate").value="";
 document.getElementById("taskDescription").value="";
@@ -871,13 +887,19 @@ detection:Number(document.getElementById("detection").value),
 rpn:Number(document.getElementById("rpn").value),
 problemTitle:document.getElementById("problemTitle").value.trim(),
 openedBy:document.getElementById("openedBy").value.trim(),
+openedBy_id:document.getElementById("openedBy_id")?.value||'',
+openedBy_department:document.getElementById("openedBy_department")?.value||'',
+openedBy_email:document.getElementById("openedBy_email")?.value||'',
 leader:document.getElementById("leader").value.trim(),
+leader_id:document.getElementById("leader_id")?.value||'',
+leader_department:document.getElementById("leader_department")?.value||'',
+leader_email:document.getElementById("leader_email")?.value||'',
 teamMembers:document.getElementById("teamMembers").value.trim(),
 mailGroups:document.getElementById("mailGroups").value.trim(),
 smsGroups:document.getElementById("smsGroups").value.trim(),
 d0Planning:document.getElementById("d0Planning").value.trim(),
 problemDescription:document.getElementById("problemDescription").value.trim(),
-geçici önlem:document.getElementById("geçici önlem").value.trim(),
+temporaryAction:document.getElementById("temporaryAction").value.trim(),
 rootCause:document.getElementById("rootCause").value.trim(),
 fishbone:document.getElementById("fishbone").value.trim(),
 correctiveAction:document.getElementById("correctiveAction").value.trim(),
@@ -934,7 +956,7 @@ function createNotification(p,msg){
 const n=getNotifications();
 n.unshift({
 notificationId:"NTF-"+Date.now(),
-type:"Mail + SMS",
+type:"E-posta + Kısa Mesaj",
 module:"8D/CAPA",
 documentCode:p.eightDNo,
 documentName:p.problemTitle,
@@ -1076,8 +1098,8 @@ ${x.d0Planning||"-"}</div>
 <div class="info-box"><b>D2 Problem / 5W2H:</b>
 ${x.problemDescription||"-"}</div>
 
-<div class="info-box"><b>D3 Containment:</b>
-${x.geçici önlem||"-"}</div>
+<div class="info-box"><b>D3 Geçici Önlem:</b>
+${x.temporaryAction||"-"}</div>
 
 <div class="info-box"><b>D4 Kök Neden:</b>
 ${x.rootCause||"-"}
@@ -1278,12 +1300,13 @@ document.getElementById("progressRate").value="0%";
 document.getElementById("problemTitle").value="";
 document.getElementById("openedBy").value=session.name||"";
 document.getElementById("leader").value="";
+["leader_id","leader_department","leader_email"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""});
 document.getElementById("teamMembers").value="";
 document.getElementById("mailGroups").value="";
 document.getElementById("smsGroups").value="";
 document.getElementById("d0Planning").value="";
 document.getElementById("problemDescription").value="";
-document.getElementById("geçici önlem").value="";
+document.getElementById("temporaryAction").value="";
 document.getElementById("rootCause").value="";
 document.getElementById("fishbone").value="";
 document.getElementById("correctiveAction").value="";
@@ -1351,28 +1374,45 @@ async function loadCloudCapas(){
   try{const d=await apiGet('/actions');cloudCapas=unwrapList(d,'actions').filter(x=>String(x.module||'').toLowerCase().includes('capa')||String(x.title||'').includes('8D')).map(normalizeCapa)}catch(e){cloudCapas=[]}
 }
 function findCloudUserByName(name){const q=String(name||'').trim().toLowerCase();return cloudUsers.find(u=>String(u.fullname||u.fullName||u.name||'').toLowerCase()===q)||null}
-function normalizeUser(u){return {id:u.id||u.user_id||'',fullname:u.fullname||u.fullName||u.name||'',role:u.role||'',department:u.department||'',email:u.email||''}}
-function makeAutocomplete(inputId, hiddenId, departmentId){
+function normalizeUser(u){return {id:u.id||u.user_id||'',fullname:u.fullname||u.fullName||u.name||u.username||'',role:u.role||u.title||'',department:u.department||u.department_name||u.departmentName||'',email:u.email||u.mail||''}}
+function makeAutocomplete(inputId, hiddenId, departmentId, options={}){
   const input=document.getElementById(inputId); if(!input)return;
+  if(input.dataset.autocompleteReady==='1')return;
+  input.dataset.autocompleteReady='1';
   input.setAttribute('autocomplete','off');
   const wrapper=document.createElement('div'); wrapper.className='autocomplete-box';
   input.parentNode.insertBefore(wrapper,input); wrapper.appendChild(input);
   const list=document.createElement('div'); list.className='autocomplete-list'; wrapper.appendChild(list);
   input.addEventListener('input',()=>{
-    const q=input.value.trim().toLowerCase();
-    const matches=cloudUsers.map(normalizeUser).filter(u=>(u.fullname+' '+u.department+' '+u.role).toLowerCase().includes(q)).slice(0,10);
+    const q=input.value.trim().toLocaleLowerCase('tr-TR');
+    const matches=cloudUsers.map(normalizeUser).filter(u=>(u.fullname+' '+u.department+' '+u.role+' '+u.email).toLocaleLowerCase('tr-TR').includes(q)).slice(0,12);
     if(!q||!matches.length){list.style.display='none';list.innerHTML='';return}
-    list.innerHTML=matches.map(u=>`<div class="autocomplete-item" data-id="${escapeHTML(u.id)}" data-name="${escapeHTML(u.fullname)}" data-dept="${escapeHTML(u.department)}">${escapeHTML(u.fullname)} <small>• ${escapeHTML(u.department||'-')} • ${escapeHTML(u.role||'-')}</small></div>`).join('');
+    list.innerHTML=matches.map(u=>`<div class="autocomplete-item" data-id="${escapeHTML(u.id)}" data-name="${escapeHTML(u.fullname)}" data-dept="${escapeHTML(u.department)}" data-email="${escapeHTML(u.email)}" data-role="${escapeHTML(u.role)}">${escapeHTML(u.fullname)} <small>• ${escapeHTML(u.department||'-')} • ${escapeHTML(u.role||'-')} • ${escapeHTML(u.email||'-')}</small></div>`).join('');
     list.style.display='block';
   });
   list.addEventListener('click',e=>{
     const item=e.target.closest('.autocomplete-item'); if(!item)return;
     input.value=item.dataset.name||'';
-    if(hiddenId&&document.getElementById(hiddenId))document.getElementById(hiddenId).value=item.dataset.id||'';
+    const autoHidden=hiddenId||inputId+'_id';
+    const autoDept=inputId+'_department';
+    const autoEmail=inputId+'_email';
+    if(document.getElementById(autoHidden))document.getElementById(autoHidden).value=item.dataset.id||'';
+    if(document.getElementById(autoDept))document.getElementById(autoDept).value=item.dataset.dept||'';
+    if(document.getElementById(autoEmail))document.getElementById(autoEmail).value=item.dataset.email||'';
     if(departmentId&&document.getElementById(departmentId))document.getElementById(departmentId).value=item.dataset.dept||document.getElementById(departmentId).value;
+    if(options.multiTarget)addMultiUserTag(options.multiTarget,{id:item.dataset.id,name:item.dataset.name,department:item.dataset.dept,email:item.dataset.email,role:item.dataset.role});
     list.style.display='none';
   });
   document.addEventListener('click',e=>{if(!wrapper.contains(e.target))list.style.display='none'});
+}
+function addMultiUserTag(targetId,u){
+  const area=document.getElementById(targetId+'Tags'); const input=document.getElementById(targetId); if(!area||!input||!u.name)return;
+  const current=input.value||'';
+  const line=`${u.name} / ${u.department||'-'} / ${u.role||'-'} / ${u.email||'-'}`;
+  if(!current.includes(u.name))input.value=current?current+'\n'+line:line;
+  const tag=document.createElement('span'); tag.className='multi-user-tag'; tag.dataset.name=u.name; tag.innerHTML=`${escapeHTML(u.name)} <small>${escapeHTML(u.department||'')}</small> <button type="button">×</button>`;
+  tag.querySelector('button').onclick=()=>{tag.remove(); input.value=input.value.split('\n').filter(x=>!x.includes(u.name)).join('\n')};
+  area.appendChild(tag);
 }
 function populateDepartments(){
   const el=document.getElementById('department'); if(!el||!cloudDepartments.length)return;
@@ -1408,17 +1448,17 @@ async function uploadEvidenceToR2(file, relatedId){
   return data.file||data;
 }
 async function writeAudit(action, record){
-  return safePost('/audit-logs',{module:'CAPA',related_id:record?.id||record?.capaNo||'',action,description:record?.problemTitle||'',user_id:currentUser().id,user_name:currentUser().name,created_at:new Date().toISOString()});
+  return safePost('/audit-logs',{module:'CAPA',related_id:record?.id||record?.capaNo||'',action,description:record?.problemTitle||'',user_id:currentUser().id,user_name:currentUser().name,created_at:new Date().toISOString(),ip_address:'',user_agent:navigator.userAgent,session_id:currentUser().id||''});
 }
 async function writeActivity(action, record){
   return safePost('/activity-feed',{module:'CAPA',related_id:record?.id||record?.capaNo||'',title:action,description:record?.problemTitle||'',user_id:currentUser().id,user_name:currentUser().name,created_at:new Date().toISOString()});
 }
 async function writeAssignment(task, record){
   const u=findCloudUserByName(task.owner)||{};
-  return safePost('/assignments',{module:'CAPA',related_id:record.id,record_no:record.capaNo,title:task.description,description:task.description,assigned_to:u.id||'',assigned_to_name:task.owner,department:u.department||record.department,status:task.status||'Açık',priority:task.priority||'Normal',due_date:task.planDate,created_by:currentUser().name,created_at:new Date().toISOString()});
+  return safePost('/assignments',{module:'CAPA',related_id:record.id,record_no:record.capaNo,title:task.description,description:task.description,assigned_to:task.owner_id||u.id||'',assigned_to_name:task.owner,department:task.owner_department||u.department||record.department,status:task.status||'Açık',priority:task.priority||'Normal',due_date:task.planDate,created_by:currentUser().name,created_at:new Date().toISOString()});
 }
 async function createNotification(p,msg){
-  const payload={type:'Bildirim',module:'CAPA',related_id:p.id,documentCode:p.eightDNo,documentName:p.problemTitle,mailGroups:p.mailGroups,smsGroups:p.smsGroups,distributionPoints:p.teamMembers,message:msg,status:'Kuyrukta',created_by:currentUser().name,createdAt:new Date().toISOString(),created_at:new Date().toISOString()};
+  const payload={type:'Bildirim',module:'CAPA',related_id:p.id,documentCode:p.eightDNo,documentName:p.problemTitle,mailGroups:p.mailGroups,smsGroups:p.smsGroups,distributionPoints:p.teamMembers,message:msg,status:'Kuyrukta',is_read:0,read_by:'',read_at:'',created_by:currentUser().name,createdAt:new Date().toISOString(),created_at:new Date().toISOString()};
   const r=await safePost('/notifications',payload);
   cloudNotifications.unshift({...payload,notificationId:'NTF-'+Date.now()});
   return r;
@@ -1446,7 +1486,7 @@ async function archiveCapa(index){
   if(!canArchive(item)){showToast('Bu kaydı arşivleme yetkin yok');return}
   if(!confirm('Kayıt arşivlenecek. Onaylıyor musun?'))return;
   item.status='Arşivlendi'; item.archived_at=new Date().toISOString(); item.archived_by=currentUser().name; item.deleted_at=item.archived_at; item.deleted_by=currentUser().name;
-  await safePut('/archive',{module:'CAPA',related_id:item.id,record:item});
+  await safePost('/archive',{module:'CAPA',related_id:item.id,record:item,archive_reason:'Kullanıcı tarafından arşivlendi'});
   await safePut('/capas/'+encodeURIComponent(item.id),item);
   await writeAudit('CAPA arşivlendi',item); await writeActivity('CAPA arşivlendi',item);
   cloudCapas=cloudCapas.map(x=>x.id===item.id?item:x); renderCapa(); closeDrawer(); showToast('Kayıt Arşiv Merkezi içine alındı');
@@ -1473,7 +1513,7 @@ openDrawer=function(index){__oldOpenDrawer(index);const item=getCapa()[index]; i
 async function cloudBoot(){
   await Promise.all([loadCloudUsers(),loadCloudDepartments(),loadCloudNotifications(),loadCloudComments()]);
   await loadCloudCapas(); await loadSequence();
-  populateDepartments(); makeAutocomplete('openedBy',null,'department'); makeAutocomplete('leader',null,'department'); makeAutocomplete('taskOwner',null,null);
+  populateDepartments(); makeAutocomplete('openedBy','openedBy_id','department'); makeAutocomplete('leader','leader_id','department'); makeAutocomplete('taskOwner','taskOwner_id',null); makeAutocomplete('teamMembers',null,null,{multiTarget:'teamMembers'});
   initStepSelects(); resetForm(); renderCapa();
   console.log('GDNL EQMS 8D ve CAPA Cloud katmanı yüklendi');
 }
