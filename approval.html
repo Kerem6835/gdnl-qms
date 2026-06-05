@@ -103,6 +103,8 @@ tr:hover td{background:#f7fbf8}
 .mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
 
 .comment-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}.comment-item{background:#fff;border:1px solid #e0e8f0;border-radius:16px;padding:12px;box-shadow:0 8px 20px rgba(7,27,52,.045)}.comment-item b{display:block;color:#071b34;font-size:12px;margin-bottom:4px}.comment-item small{display:block;color:#64748b;font-weight:800;margin-bottom:6px}.comment-item p{color:#536176;font-size:13px;font-weight:750;line-height:1.55}.comment-box{margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:10px}.comment-box textarea{height:70px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f;resize:none}.evidence-box{margin-top:14px;border:1px solid #e0e8f0;border-radius:18px;padding:13px;background:linear-gradient(135deg,#f8fbff,#ffffff)}.evidence-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.soft-delete-note{font-size:12px;font-weight:900;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:14px;padding:10px;margin-top:10px}
+
+.autocomplete-wrap{position:relative}.user-hint{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.14);z-index:120;display:none;max-height:220px;overflow:auto}.user-hint.active{display:block}.user-hint button{width:100%;border:none;background:#fff;text-align:left;padding:11px 13px;cursor:pointer;font-weight:850;color:#0f1b2f;border-bottom:1px solid #edf2f7}.user-hint button:hover{background:#eefaf2;color:#1f7d3d}.user-hint small{display:block;color:#64748b;font-weight:800;margin-top:3px}.readonly-field{background:#eef5fc!important;color:#475569!important}.cloud-mini{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.cloud-chip{font-size:11px;font-weight:950;border-radius:999px;padding:6px 9px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca}
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
 
@@ -340,6 +342,16 @@ tr:hover td{background:#f7fbf8}
 <div id="drawerContent"></div>
 
 <div class="form-grid">
+<div class="field autocomplete-wrap">
+<label>Aktif Onaycı</label>
+<input id="activeApproverInput" placeholder="Onaycı adı yaz" oninput="showUserSuggestions(this.value,'activeApprover')" onblur="setTimeout(()=>hideUserSuggestions('activeApprover'),180)">
+<input type="hidden" id="activeApproverUserId">
+<div class="user-hint" id="activeApproverSuggestions"></div>
+</div>
+<div class="field">
+<label>Onaycı Departmanı</label>
+<input id="activeApproverDepartment" class="readonly-field" placeholder="Kullanıcı seçilince otomatik dolar" readonly>
+</div>
 <div class="field">
 <label>Elektronik İmza / Kullanıcı</label>
 <input id="signatureInput" placeholder="İmza / PIN / kullanıcı adı">
@@ -355,6 +367,7 @@ tr:hover td{background:#f7fbf8}
 </div>
 
 <div class="actions">
+<button class="btn primary" onclick="updateActiveApprover()">Onaycıyı Güncelle</button>
 <button class="btn green" onclick="approveCurrent()">Onayla ve Sonraki Adıma Aktar</button>
 <button class="btn orange" onclick="requestRevision()">Revizyon İste</button>
 <button class="btn red" onclick="rejectCurrent()">Reddet</button>
@@ -378,6 +391,7 @@ let cloudApprovals=[];
 let cloudDocuments=[];
 let cloudUsers=[];
 let cloudFiles=[];
+let selectedUsers={};
 
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
 function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -391,6 +405,56 @@ function activeOnly(items){return (items||[]).filter(x=>!isDeletedStatus(x.statu
 function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kullanıcı"}
 function getUserId(){return String(session.id||session.user_id||session.username||"")}
 function isSuperAdmin(){return String(session.role||"").toLowerCase().includes("super")||String(session.role||"").toLowerCase().includes("admin")}
+
+function normalizeCloudUsers(){
+  cloudUsers=(cloudUsers||[]).map(u=>({
+    ...u,
+    id:u.id||u.user_id||u.username||"",
+    fullname:u.fullname||u.fullName||u.name||u.username||"",
+    department:u.department||u.department_name||"",
+    role:u.role||"",
+    email:u.email||""
+  })).filter(u=>u.fullname);
+}
+function userDisplay(u){return `${u.fullname||u.name||u.username||""}${u.department?" / "+u.department:""}${u.role?" / "+u.role:""}`}
+function showUserSuggestions(value,target){
+  const box=document.getElementById(target+"Suggestions");
+  if(!box)return;
+  const q=normalizeTR(value);
+  if(!q){box.classList.remove("active");box.innerHTML="";return;}
+  const items=(cloudUsers||[]).filter(u=>normalizeTR(`${u.fullname} ${u.username||""} ${u.department||""} ${u.role||""} ${u.email||""}`).includes(q)).slice(0,12);
+  if(!items.length){box.classList.remove("active");box.innerHTML="";return;}
+  box.innerHTML=items.map((u,i)=>`<button type="button" onclick="selectUserFor('${target}',${i})">${escapeHTML(u.fullname)}<small>${escapeHTML((u.department||"Departman yok")+" · "+(u.role||"Rol yok")+" · "+(u.email||"E-posta yok"))}</small></button>`).join("");
+  box._items=items;
+  box.classList.add("active");
+}
+function hideUserSuggestions(target){const box=document.getElementById(target+"Suggestions");if(box)box.classList.remove("active")}
+function selectUserFor(target,index){
+  const box=document.getElementById(target+"Suggestions");
+  const u=box&&box._items?box._items[index]:null;
+  if(!u)return;
+  selectedUsers[target]=u;
+  const input=document.getElementById(target+"Input");
+  const idInput=document.getElementById(target+"UserId");
+  const depInput=document.getElementById(target+"Department");
+  if(input)input.value=u.fullname||"";
+  if(idInput)idInput.value=u.id||"";
+  if(depInput)depInput.value=u.department||"";
+  hideUserSuggestions(target);
+}
+function syncTypedUser(target){
+  const input=document.getElementById(target+"Input");
+  const value=input?input.value:"";
+  const u=findUserByText(value);
+  if(u){
+    selectedUsers[target]=u;
+    const idInput=document.getElementById(target+"UserId");
+    const depInput=document.getElementById(target+"Department");
+    if(idInput)idInput.value=u.id||"";
+    if(depInput)depInput.value=u.department||"";
+  }
+  return u;
+}
 
 async function apiFetch(path,options={}){
   const res=await fetch(API_BASE+path,options);
@@ -421,9 +485,9 @@ async function createNotification(a,message,userNameValue=""){
   try{await postJSON("/notifications",payload)}catch(e){const items=getNotifications();items.unshift({notificationId:payload.id,workflowId:a.workflowId,documentCode:a.documentCode,documentName:a.documentName,type:"E-posta + SMS",mailGroups:"",smsGroups:"",distributionPoints:"",message,status:"Kuyrukta",createdAt:payload.created_at});setNotifications(items)}
 }
 async function createAssignmentForStep(a){
-  const idx=getCurrentStepIndex(a);const approver=idx!==-1?a.steps[idx].approver:"";
-  const u=findUserByText(approver);
-  const payload={id:uid("ASN"),source_type:"APPROVAL",source_id:a.approvalId||a.workflowId,user_id:u?.id||u?.user_id||"",user_name:approver||"",role:a.currentStep,status:"Atandı",due_date:"",title:"Onay görevi atandı",message:(a.documentCode||"Doküman")+" için "+a.currentStep+" adımı size atanmıştır.",created_by:getUserName(),created_at:nowISO()};
+  const idx=getCurrentStepIndex(a);const step=idx!==-1?a.steps[idx]:{};const approver=step.approver||"";
+  const u=step.approverId?cloudUsers.find(x=>String(x.id)===String(step.approverId)):findUserByText(approver);
+  const payload={id:uid("ASN"),source_type:"APPROVAL",source_id:a.approvalId||a.workflowId,user_id:u?.id||step.approverId||"",user_name:u?.fullname||approver||"",department:u?.department||step.department||"",role:a.currentStep,status:"Atandı",due_date:"",title:"Onay görevi atandı",message:(a.documentCode||"Doküman")+" için "+a.currentStep+" adımı size atanmıştır.",created_by:getUserName(),created_at:nowISO()};
   try{await postJSON("/assignments",payload)}catch(e){const q=getLS("gdnl_pending_assignments");q.unshift(payload);setLS("gdnl_pending_assignments",q)}
 }
 async function saveApprovalToCloud(a){
@@ -449,6 +513,7 @@ async function uploadFileToR2(file,relatedId){
 
 async function loadCloudData(){
   try{const data=await apiFetch("/users");cloudUsers=Array.isArray(data)?data:(data.users||[])}catch(e){cloudUsers=getLS("gdnl_users")}
+  normalizeCloudUsers();
   try{const data=await apiFetch("/approvals");cloudApprovals=(data.approvals||data.results||data||[]).map(mapCloudApproval).map(normalizeApproval);cloudReady=true;setLS("gdnl_approvals",cloudApprovals)}catch(e){cloudApprovals=getLS("gdnl_approvals").map(normalizeApproval);cloudReady=false}
   try{const data=await apiFetch("/documents");cloudDocuments=(data.documents||data.results||data||[]);setLS("gdnl_documents",cloudDocuments)}catch(e){cloudDocuments=getLS("gdnl_documents")}
   try{const data=await apiFetch("/files?module=ONAY_YONETIMI");cloudFiles=data.files||[]}catch(e){cloudFiles=[]}
@@ -476,7 +541,7 @@ if(status==="Bekliyor"||status==="Devam Ediyor")return"orange";
 if(isDeletedStatus(status))return"gray";
 return"blue";
 }
-function findUserByText(text){const q=normalizeTR(text);return cloudUsers.find(u=>normalizeTR(`${u.fullname||u.fullName||u.name||u.username||""} ${u.department||""} ${u.role||""} ${u.email||""}`).includes(q))}
+function findUserByText(text){const q=normalizeTR(text).trim();if(!q)return null;return cloudUsers.find(u=>normalizeTR(u.fullname||"")===q)||cloudUsers.find(u=>normalizeTR(`${u.fullname||""} ${u.username||""} ${u.department||""} ${u.role||""} ${u.email||""}`).includes(q))||null}
 function normalizeApproval(a){
 return{
 approvalId:a.approvalId||a.approval_id||a.id||"APR-"+Date.now(),
@@ -535,9 +600,10 @@ selectedApprovalIndex=index;const approvals=filteredActiveApprovals();const a=ap
 document.getElementById("drawerTitle").textContent=(a.workflowId||"Onay Süreci")+" / "+(a.documentCode||"");
 document.getElementById("drawerStatus").textContent=a.status;document.getElementById("drawerStatus").className="status "+statusClass(a.status);
 document.getElementById("signatureInput").value="";document.getElementById("actionNote").value="";document.getElementById("rejectReason").value="";
+const activeIdx=getCurrentStepIndex(a);const activeApprover=activeIdx!==-1?a.steps[activeIdx].approver:"";const activeUser=findUserByText(activeApprover);selectedUsers.activeApprover=activeUser||null;document.getElementById("activeApproverInput").value=activeApprover||"";document.getElementById("activeApproverUserId").value=activeUser?(activeUser.id||""):"";document.getElementById("activeApproverDepartment").value=activeUser?(activeUser.department||""):"";
 let html="";
 html+=`<div class="step active"><b>Doküman:</b> ${escapeHTML(a.documentCode)} - ${escapeHTML(a.documentName)}<br><b>Revizyon:</b> ${escapeHTML(a.rev)}<br><b>Mevcut Adım:</b> ${escapeHTML(a.currentStep)}</div>`;
-a.steps.forEach(s=>{let cls="step";if(s.status==="Onaylandı")cls+=" ok";else if(s.status==="Bekliyor")cls+=" active";else if(s.status==="Reddedildi"||s.status==="Revizyon İstendi")cls+=" red";html+=`<div class="${cls}"><b>${escapeHTML(s.step)}</b><br>Onaycı: ${escapeHTML(s.approver||"-")}<br>Durum: ${escapeHTML(s.status)}<br>Tarih: ${escapeHTML(s.date||"-")}${s.signedBy?`<br>İmza: ${escapeHTML(s.signedBy)}`:""}</div>`});
+a.steps.forEach(s=>{let cls="step";if(s.status==="Onaylandı")cls+=" ok";else if(s.status==="Bekliyor")cls+=" active";else if(s.status==="Reddedildi"||s.status==="Revizyon İstendi")cls+=" red";html+=`<div class="${cls}"><b>${escapeHTML(s.step)}</b><br>Onaycı: ${escapeHTML(s.approver||"-")}<br>Durum: ${escapeHTML(s.status)}<br>Tarih: ${escapeHTML(s.date||"-")}${s.department?`<br>Departman: ${escapeHTML(s.department)}`:""}${s.signedBy?`<br>İmza: ${escapeHTML(s.signedBy)}`:""}</div>`});
 html+=`<div class="step"><b>Dağıtım:</b><br>${escapeHTML(doc&&doc.distributionPoints?doc.distributionPoints:"Dağıtım noktası girilmemiş")}<br><br><b>E-posta:</b> ${escapeHTML(doc&&doc.mailGroups?doc.mailGroups:"-")}<br><b>SMS:</b> ${escapeHTML(doc&&doc.smsGroups?doc.smsGroups:"-")}</div>`;
 if(a.history&&a.history.length){html+=`<div class="step"><b>Geçmiş:</b><br>${a.history.map(h=>`${escapeHTML(h.date)} - ${escapeHTML(h.action)} - ${escapeHTML(h.user)} - ${escapeHTML(h.note||"")}`).join("<br>")}</div>`}
 html+=renderComments(a);
@@ -552,7 +618,28 @@ function replaceApproval(updated){const approvals=getApprovals().map(normalizeAp
 async function addWorkflowComment(){const a=getSelectedApproval();if(!a)return;const input=document.getElementById("workflowCommentInput");const comment=(input?.value||"").trim();if(comment.length<2){showToast("Yorum zorunlu");return}a.comments=a.comments||[];a.comments.unshift({id:uid("CMT"),user:getUserName(),user_id:getUserId(),comment,createdAt:nowISO()});a.updatedAt=nowISO();replaceApproval(a);await saveApprovalToCloud(a);try{await postJSON("/comments",{id:uid("CMT"),module:"Onay Yönetimi",related_id:a.approvalId,user_id:getUserId(),user_name:getUserName(),comment,created_at:nowISO()})}catch(e){}await writeAudit("ADD_COMMENT","Onay Yönetimi",a.approvalId,comment);await writeActivity("ADD_COMMENT","Onay Yönetimi",a.approvalId,"Yorum eklendi",comment);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Yorum eklendi")}
 async function uploadApprovalEvidence(){const a=getSelectedApproval();if(!a)return;const file=document.getElementById("approvalEvidenceFile")?.files?.[0];if(!file){showToast("Dosya seç");return}try{const f=await uploadFileToR2(file,a.approvalId);a.evidence=a.evidence||[];a.evidence.unshift({id:f.id||uid("EV"),fileName:f.file_name||file.name,r2_key:f.r2_key,url:API_BASE+"/file/"+encodeURIComponent(f.r2_key),uploadedBy:getUserName(),createdAt:nowISO()});a.updatedAt=nowISO();replaceApproval(a);await saveApprovalToCloud(a);await writeActivity("UPLOAD_FILE","Onay Yönetimi",a.approvalId,"Onay kanıtı yüklendi",file.name);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Kanıt yüklendi")}catch(e){showToast("Kanıt yükleme başarısız: "+e.message)}}
 
-async function approveCurrent(){if(selectedApprovalIndex===null)return;const signature=document.getElementById("signatureInput").value.trim();if(!signature){showToast("Elektronik imza zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);if(idx===-1){showToast("Aktif adım bulunamadı");return}const old=JSON.stringify(a);a.steps[idx].status="Onaylandı";a.steps[idx].date=todayISO();a.steps[idx].signedBy=signature;a.steps[idx].signedUser=getUserName();a.steps[idx].signedUserId=getUserId();a.history.unshift({action:"Onaylandı",step:a.steps[idx].step,user:getUserName(),signature,note:document.getElementById("actionNote").value.trim(),date:nowISO()});if(idx<a.steps.length-1){a.steps[idx+1].status="Bekliyor";a.currentStep=a.steps[idx+1].step;a.status="Devam Ediyor";updateDocumentWorkflow(a.documentCode,"Onayda",a.currentStep);await createNotification(a,"Onay bir sonraki adıma aktarıldı: "+a.currentStep);await createAssignmentForStep(a)}else{a.currentStep="Kalite Final Onayı";a.status="Yayınlandı";await finalPublish(a)}a.updatedAt=nowISO();replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Onaylandı",a.steps[idx].step,document.getElementById("actionNote").value.trim(),signature);await writeAudit("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,{step:a.steps[idx].step,signature},old,JSON.stringify(a));await writeActivity("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay verildi",a.currentStep);renderApprovals();openDrawer(selectedApprovalIndex);showToast(a.status==="Yayınlandı"?"Onay süreci tamamlandı ve yayınlandı":"Onaylandı, sonraki adıma aktarıldı")}
+async function updateActiveApprover(){
+const a=getSelectedApproval();if(!a)return;
+const idx=getCurrentStepIndex(a);if(idx===-1){showToast("Aktif onay adımı bulunamadı");return}
+const input=document.getElementById("activeApproverInput");
+const name=(input?.value||"").trim();
+if(name.length<2){showToast("Onaycı seç veya yaz");return}
+const u=selectedUsers.activeApprover||syncTypedUser("activeApprover")||findUserByText(name);
+const old=JSON.stringify(a);
+a.steps[idx].approver=u?(u.fullname||name):name;
+a.steps[idx].approverId=u?(u.id||""):"";
+a.steps[idx].department=u?(u.department||""):(document.getElementById("activeApproverDepartment")?.value||"");
+a.updatedAt=nowISO();
+replaceApproval(a);
+await saveApprovalToCloud(a);
+await createAssignmentForStep(a);
+await createNotification(a,"Onaycı güncellendi: "+a.steps[idx].approver,a.steps[idx].approver);
+await writeAudit("UPDATE_APPROVER","Onay Yönetimi",a.approvalId,{step:a.steps[idx].step,approver:a.steps[idx].approver,department:a.steps[idx].department},old,JSON.stringify(a));
+await writeActivity("UPDATE_APPROVER","Onay Yönetimi",a.approvalId,"Onaycı güncellendi",a.steps[idx].approver);
+renderApprovals();openDrawer(selectedApprovalIndex);showToast("Onaycı güncellendi");
+}
+
+async function approveCurrent(){if(selectedApprovalIndex===null)return;const signature=document.getElementById("signatureInput").value.trim();if(!signature){showToast("Elektronik imza zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);if(idx===-1){showToast("Aktif adım bulunamadı");return}const old=JSON.stringify(a);a.steps[idx].status="Onaylandı";a.steps[idx].date=todayISO();a.steps[idx].signedBy=signature;a.steps[idx].signedUser=getUserName();a.steps[idx].signedUserId=getUserId();a.steps[idx].signedAt=nowISO();a.steps[idx].signedBrowser=navigator.userAgent;a.steps[idx].signatureType="Elektronik İmza";a.history.unshift({action:"Onaylandı",step:a.steps[idx].step,user:getUserName(),signature,note:document.getElementById("actionNote").value.trim(),date:nowISO()});if(idx<a.steps.length-1){a.steps[idx+1].status="Bekliyor";a.currentStep=a.steps[idx+1].step;a.status="Devam Ediyor";updateDocumentWorkflow(a.documentCode,"Onayda",a.currentStep);await createNotification(a,"Onay bir sonraki adıma aktarıldı: "+a.currentStep);await createAssignmentForStep(a)}else{a.currentStep="Kalite Final Onayı";a.status="Yayınlandı";await finalPublish(a)}a.updatedAt=nowISO();replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Onaylandı",a.steps[idx].step,document.getElementById("actionNote").value.trim(),signature);await writeAudit("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,{step:a.steps[idx].step,signature},old,JSON.stringify(a));await writeActivity("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay verildi",a.currentStep);renderApprovals();openDrawer(selectedApprovalIndex);showToast(a.status==="Yayınlandı"?"Onay süreci tamamlandı ve yayınlandı":"Onaylandı, sonraki adıma aktarıldı")}
 async function finalPublish(a){const docs=getDocuments();const index=docs.findIndex(d=>d.code===a.documentCode||d.documentCode===a.documentCode);if(index!==-1){docs[index].status="Yayında";docs[index].workflowStatus="Yayında";docs[index].lastApprovalId=a.approvalId;docs[index].publishedAt=nowISO();docs[index].updatedAt=nowISO();docs[index].updatedBy=getUserName();setDocuments(docs);await updateDocumentToCloud(docs[index]);createDistributionQueue(docs[index],a);await createNotification(a,"Doküman yayınlandı ve dağıtım kuyruğuna aktarıldı")}}
 function createDistributionQueue(doc,a){const dist=getDistribution();const exists=dist.some(x=>x.documentCode===doc.code&&x.workflowId===a.workflowId);if(exists)return;dist.unshift({distributionId:"DST-"+Date.now(),workflowId:a.workflowId,documentCode:doc.code,documentName:doc.name,rev:doc.rev,status:"Dağıtım Bekliyor",distributionPoints:doc.distributionPoints||"",mailGroups:doc.mailGroups||"",smsGroups:doc.smsGroups||"",notificationType:doc.notificationType||"E-posta + SMS",readTracking:[],createdBy:getUserName(),createdAt:nowISO(),updatedAt:nowISO()});setDistribution(dist)}
 async function rejectCurrent(){if(selectedApprovalIndex===null)return;const reason=document.getElementById("rejectReason").value.trim();if(reason.length<5){showToast("Red gerekçesi zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);const old=JSON.stringify(a);if(idx!==-1){a.steps[idx].status="Reddedildi";a.steps[idx].date=todayISO();a.steps[idx].signedUser=getUserName()}a.status="Reddedildi";a.history.unshift({action:"Reddedildi",step:a.currentStep,user:getUserName(),note:reason,date:nowISO()});a.updatedAt=nowISO();updateDocumentWorkflow(a.documentCode,"Revizyon","Reddedildi");await createNotification(a,"Onay süreci reddedildi: "+reason);replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Reddedildi",a.currentStep,reason);await writeAudit("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,reason,old,JSON.stringify(a));await writeActivity("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay süreci reddedildi",reason);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Onay süreci reddedildi")}
