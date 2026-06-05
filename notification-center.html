@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QDMS | Notification Center</title>
+<title>GDNL EQMS | Bildirim Merkezi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 html,body{min-height:100%;overflow-x:hidden}
@@ -46,6 +46,9 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 .menu .submenu a:hover,.menu .submenu a.active,.mobile-drawer-menu .submenu a:hover,.mobile-drawer-menu .submenu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff)!important;color:#1f7d3d!important;border-color:#bfe7ca!important;box-shadow:0 8px 20px rgba(53,168,82,.09)}
 .mobile-drawer-menu .menu-group{font-size:15px;padding:14px 15px}
 .mobile-drawer-menu .submenu{margin-left:10px;padding-left:10px}
+
+
+.search-results-panel{display:none;border:1px solid #c7ebd2;background:rgba(255,255,255,.94)}.search-results-panel.active{display:block}.search-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:900;color:#475569}.search-keyword{background:#e8f7ee;color:#1f7d3d;border-radius:999px;padding:7px 12px;font-weight:950}.link{color:#1f7d3d;font-weight:950;cursor:pointer;text-decoration:none}.result-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:15px;margin-bottom:12px;display:grid;grid-template-columns:160px minmax(0,1fr) 130px;gap:14px;align-items:center}.result-card b{display:block;font-size:14px;margin-bottom:6px;color:#0f172a}.result-card small{display:block;font-size:12px;color:#617086;line-height:1.55;font-weight:800}.result-card mark{background:#dcfce7;color:#166534;padding:1px 3px;border-radius:4px}.result-open{height:38px;border:none;border-radius:12px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;font-weight:900;cursor:pointer}.user-select-wrap{position:relative}.user-autocomplete{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);z-index:70;display:none;max-height:260px;overflow:auto}.user-autocomplete.active{display:block}.user-option{padding:11px 12px;border-bottom:1px solid #eef2f7;cursor:pointer;font-size:12px;font-weight:900;color:#536176}.user-option:hover{background:#f7fbf8;color:#1f7d3d}.selected-users{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.user-chip-tag{display:inline-flex;align-items:center;gap:8px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950}.user-chip-tag button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
 
 </style>
 </head>
@@ -98,9 +101,9 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group open" type="button">📊 Performans Yönetimi</button>
 <div class="submenu open">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a class="active" href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -111,7 +114,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button">🔒 Uyum ve Güvenlik</button>
 <div class="submenu">
-<a href="security-continuity.html">BGYS & İş Sürekliliği</a>
+<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
 <a href="standards-compliance.html">Standart Uygunluk</a>
 <a href="legal-compliance.html">Yasal Uyum</a>
 </div>
@@ -120,14 +123,14 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -173,9 +176,9 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group open" type="button">📊 Performans Yönetimi</button>
 <div class="submenu open">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a class="active" href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -186,7 +189,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button">🔒 Uyum ve Güvenlik</button>
 <div class="submenu">
-<a href="security-continuity.html">BGYS & İş Sürekliliği</a>
+<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
 <a href="standards-compliance.html">Standart Uygunluk</a>
 <a href="legal-compliance.html">Yasal Uyum</a>
 </div>
@@ -195,14 +198,14 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL QDMS Enterprise<br>Notification Center V2<br>EmailJS / Outlook Ready</div>
+<div class="sidebar-footer">GDNL EQMS<br>Bildirim Merkezi<br>Bulut Hazır</div>
 </aside>
 
 <main class="main">
@@ -214,16 +217,21 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 </div>
 <div class="profile">
 <div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Notification Center</h1>
-<p>Tüm QDMS modüllerinden gelen mail, SMS ve sistem bildirimlerini tek merkezden yönet. Kuyruk, tekrar gönderim, hata, kapatma, toplu işlem, CSV ve EmailJS hazırlığı dahil.</p>
+<h1>Bildirim Merkezi</h1>
+<p>Tüm GDNL EQMS modüllerinden gelen e-posta, SMS ve sistem bildirimlerini tek merkezden yönet. Kuyruk, tekrar gönderim, hata, kapatma, toplu işlem, CSV ve e-posta entegrasyonu dahil.</p>
 </div>
-<div class="hero-badge">Queue Engine: <span>Live</span></div>
+<div class="hero-badge">Kuyruk Motoru: <span>Canlı</span></div>
+</section>
+
+<section class="panel search-results-panel" id="searchResultsPanel">
+<div class="panel-head"><h3>Arama Sonuçları</h3><div class="search-summary"><span class="search-keyword" id="searchKeyword">-</span><span id="searchResultCount">0 sonuç</span><a class="link" onclick="clearSearchResults()">Temizle</a></div></div>
+<div id="searchResultsArea"></div>
 </section>
 
 <section class="cards">
@@ -235,21 +243,21 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <section class="cards">
 <div class="card"><small>Kritik</small><h2 id="criticalNotifications">0</h2><p>Öncelik kritik</p></div>
-<div class="card"><small>Tekrar Gönderim</small><h2 id="retryNotifications">0</h2><p>Retry sayısı olan</p></div>
+<div class="card"><small>Tekrar Gönderim</small><h2 id="retryNotifications">0</h2><p>Tekrar sayısı olan</p></div>
 <div class="card"><small>Bugün Oluşan</small><h2 id="todayNotifications">0</h2><p>Günlük kuyruk</p></div>
-<div class="card"><small>EmailJS Durumu</small><h2 id="emailJsStatus">Pasif</h2><p>Konfigürasyona göre</p></div>
+<div class="card"><small>E-posta Durumu</small><h2 id="emailJsStatus">Pasif</h2><p>Konfigürasyona göre</p></div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Manuel Bildirim Oluştur</h3><span class="status blue">MANUAL NOTIFICATION</span></div>
+<div class="panel-head"><h3>Manuel Bildirim Oluştur</h3><span class="status blue">MANUEL BİLDİRİM</span></div>
 <div class="form-grid">
 <div class="field"><label>Bildirim No</label><input id="manualNotificationId" readonly></div>
-<div class="field"><label>Modül</label><select id="manualModule"><option>System</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer</option><option>YGG</option><option>Calibration</option><option>MOC</option><option>Action Center</option><option>KPI Reports</option></select></div>
-<div class="field"><label>Tip</label><select id="manualType"><option>Mail</option><option>SMS</option><option>Mail + SMS</option><option>System</option></select></div>
-<div class="field"><label>Öncelik</label><select id="manualPriority"><option>Normal</option><option>High</option><option>Critical</option></select></div>
-<div class="field"><label>Kayıt No</label><input id="manualDocumentCode"></div>
-<div class="field"><label>Kayıt Adı</label><input id="manualDocumentName"></div>
-<div class="field full"><label>Mail Alıcıları</label><input id="manualMailGroups" placeholder="mail1@firma.com; mail2@firma.com"></div>
+<div class="field"><label>Modül</label><select id="manualModule"><option>Sistem</option><option>Doküman</option><option>CAPA</option><option>Risk</option><option>Denetim</option><option>Eğitim</option><option>Tedarikçi</option><option>Müşteri</option><option>YGG</option><option>Kalibrasyon</option><option>Değişiklik Yönetimi</option><option>Aksiyon Merkezi</option><option>KPI Raporları</option></select></div>
+<div class="field"><label>Tip</label><select id="manualType"><option>E-posta</option><option>SMS</option><option>E-posta + SMS</option><option>Sistem</option></select></div>
+<div class="field"><label>Öncelik</label><select id="manualPriority"><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Kayıt No</label><input id="manualDokümanCode"></div>
+<div class="field"><label>Kayıt Adı</label><input id="manualDokümanName"></div>
+<div class="field full"><label>E-posta Alıcıları</label><input id="manualE-postaGroups" placeholder="mail1@firma.com; mail2@firma.com"></div>
 <div class="field full"><label>SMS Alıcıları</label><input id="manualSmsGroups" placeholder="+90...; +90..."></div>
 <div class="field full"><label>Mesaj</label><textarea id="manualMessage" class="big"></textarea></div>
 </div>
@@ -261,12 +269,12 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>EmailJS / Outlook Hazırlık Ayarları</h3><span class="status purple">INTEGRATION READY</span></div>
+<div class="panel-head"><h3>E-posta Entegrasyon Ayarları</h3><span class="status purple">ENTEGRASYON HAZIR</span></div>
 <div class="form-grid">
-<div class="field"><label>EmailJS Service ID</label><input id="emailServiceId" placeholder="service_xxxxx"></div>
-<div class="field"><label>EmailJS Template ID</label><input id="emailTemplateId" placeholder="template_xxxxx"></div>
-<div class="field"><label>EmailJS Public Key</label><input id="emailPublicKey" placeholder="public_xxxxx"></div>
-<div class="field"><label>Gönderim Modu</label><select id="sendMode"><option>Simülasyon</option><option>EmailJS Hazır</option><option>Outlook Manuel</option></select></div>
+<div class="field"><label>Servis Kimliği</label><input id="emailServiceId" placeholder="service_xxxxx"></div>
+<div class="field"><label>Şablon Kimliği</label><input id="emailTemplateId" placeholder="template_xxxxx"></div>
+<div class="field"><label>Genel Anahtar</label><input id="emailPublicKey" placeholder="public_xxxxx"></div>
+<div class="field"><label>Gönderim Modu</label><select id="sendMode"><option>Simülasyon</option><option>E-posta Hazır</option><option>E-posta Manuel</option></select></div>
 </div>
 <div class="actions">
 <button class="btn green" onclick="saveIntegration()">Ayarları Kaydet</button>
@@ -279,14 +287,14 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <h3>Bildirim Kuyruğu</h3>
 <div class="toolbar">
 <select id="statusFilter" onchange="renderNotifications()"><option value="">Tüm Durumlar</option><option>Kuyrukta</option><option>Gönderildi</option><option>Okundu</option><option>Hatalı</option><option>Gecikti</option><option>Kapalı</option><option>İptal</option></select>
-<select id="typeFilter" onchange="renderNotifications()"><option value="">Tüm Tipler</option><option>Mail</option><option>SMS</option><option>Mail + SMS</option><option>System</option></select>
-<select id="moduleFilter" onchange="renderNotifications()"><option value="">Tüm Modüller</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer</option><option>YGG</option><option>Calibration</option><option>MOC</option><option>Action Center</option><option>KPI Reports</option><option>System</option></select>
+<select id="typeFilter" onchange="renderNotifications()"><option value="">Tüm Tipler</option><option>E-posta</option><option>SMS</option><option>E-posta + SMS</option><option>Sistem</option></select>
+<select id="moduleFilter" onchange="renderNotifications()"><option value="">Tüm Modüller</option><option>Doküman</option><option>CAPA</option><option>Risk</option><option>Denetim</option><option>Eğitim</option><option>Tedarikçi</option><option>Müşteri</option><option>YGG</option><option>Kalibrasyon</option><option>Değişiklik Yönetimi</option><option>Aksiyon Merkezi</option><option>KPI Raporları</option><option>Sistem</option></select>
 </div>
 </div>
 
 <div class="actions">
-<button class="btn green" onclick="bulkSendQueued()">Kuyruktakileri Gönderildi Yap</button>
-<button class="btn orange" onclick="bulkRetryFailed()">Hatalıları Tekrar Kuyruğa Al</button>
+<button class="btn green" onclick="bulkSendKuyrukd()">Kuyruktakileri Gönderildi Yap</button>
+<button class="btn orange" onclick="bulkTekrarFailed()">Hatalıları Tekrar Kuyruğa Al</button>
 <button class="btn red" onclick="bulkCloseSent()">Gönderilenleri Kapat</button>
 <button class="btn primary" onclick="exportCSV()">CSV İndir</button>
 <button class="btn dark" onclick="renderNotifications()">Yenile</button>
@@ -318,246 +326,97 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator"};
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-userName.textContent=session.name||"Kerem Güdenli";
+const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const state={currentUser:null,users:[],departments:[],notifications:[],roles:[],permissions:[],rolePermissions:[],auditLogs:[],activityFeed:[],comments:[],assignments:[],approvals:[],approvalHistory:[],workflowHistory:[],archive:[],selectedId:null,mailRecipients:[],smsRecipients:[],integration:{}};
 
-let selectedId=null;
-
-function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
-function openMobileMenu(){document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active")}
-function closeMobileMenu(){document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active")}
-function runSearch(){renderNotifications()}
-function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
-function setNotifications(items){localStorage.setItem("gdnl_notifications",JSON.stringify(items))}
+function getCookie(name){return document.cookie.split(";").map(x=>x.trim()).find(x=>x.startsWith(name+"="))?.split("=").slice(1).join("=")||""}
+function clearAuthCookie(){document.cookie="gdnl_eos_token=; Max-Age=0; path=/; SameSite=Lax";document.cookie="gdnl_eqms_token=; Max-Age=0; path=/; SameSite=Lax"}
+function authHeaders(json=true){const token=decodeURIComponent(getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token")||"");const h=json?{"Content-Type":"application/json"}:{};if(token)h.Authorization="Bearer "+token;return h}
+async function apiRequest(path,opt={}){const res=await fetch(GDNL_API_BASE+path,{method:opt.method||"GET",headers:{...authHeaders(opt.json!==false),...(opt.headers||{})},body:opt.body?JSON.stringify(opt.body):opt.rawBody,cache:"no-store"});if(!res.ok)throw new Error(path+" HTTP "+res.status);const text=await res.text();if(!text)return null;try{return JSON.parse(text)}catch(e){return text}}
+async function safeGet(path){try{return await apiRequest(path)}catch(e){return null}}
+async function safePost(path,body){try{return await apiRequest(path,{method:"POST",body})}catch(e){return null}}
+function asArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
+function isPassive(r){const s=String(r?.status||r?.state||r?.record_status||"").toLowerCase();return["deleted","silindi","arşivlendi","arsivlendi","iptal","iptal edildi","cancelled","archived","arşiv"].includes(s)}
+function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
+function escapeHTML(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function highlightText(v,k){const safe=escapeHTML(v);if(!k)return safe;return safe.replace(new RegExp(k.replace(/[.*+?^${}()|[\]\]/g,"\$&"),"gi"),m=>`<mark>${m}</mark>`)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function hoursBetween(a,b){if(!a||!b)return 0;return Math.floor((new Date(b)-new Date(a))/(1000*60*60))}
-function statusClass(status){if(["Gönderildi","Okundu"].includes(status))return"green";if(["Kuyrukta"].includes(status))return"orange";if(["Hatalı","Gecikti","Critical"].includes(status))return"red";if(["Kapalı","İptal"].includes(status))return"gray";return"blue"}
-function shortText(t,max){if(!t)return"-";return t.length>max?t.slice(0,max)+"...":t}
-function generateManualNo(){manualNotificationId.value="NTF-"+new Date().getFullYear()+"-"+String(getNotifications().length+1).padStart(5,"0")}
-
-function detectModule(n){
-const text=`${n.module||""} ${n.documentCode||""} ${n.message||""}`.toLowerCase();
-if(text.includes("moc"))return"MOC";
-if(text.includes("action"))return"Action Center";
-if(text.includes("risk")||text.includes("rsk"))return"Risk";
-if(text.includes("audit")||text.includes("denetim"))return"Audit";
-if(text.includes("training")||text.includes("eğitim"))return"Training";
-if(text.includes("supplier")||text.includes("tedarik"))return"Supplier";
-if(text.includes("customer")||text.includes("müşteri"))return"Customer";
-if(text.includes("ygg"))return"YGG";
-if(text.includes("calibration")||text.includes("kalibrasyon"))return"Calibration";
-if(text.includes("8d")||text.includes("capa"))return"CAPA";
-if(text.includes("approval")||text.includes("onay"))return"Approval";
-if(text.includes("revision")||text.includes("revizyon"))return"Revision";
-if(text.includes("distribution")||text.includes("dağıtım"))return"Distribution";
-if(text.includes("doc")||text.includes("doküman"))return"Document";
-if(text.includes("kpi"))return"KPI Reports";
-return"System";
-}
-function detectPriority(n){
-const text=`${n.priority||""} ${n.message||""} ${n.documentName||""}`.toLowerCase();
-if(text.includes("kritik")||text.includes("critical")||text.includes("gecik")||text.includes("hatalı"))return"Critical";
-if(text.includes("8d")||text.includes("capa")||text.includes("onay")||text.includes("risk"))return"High";
-return"Normal";
-}
-function normalizeNotification(n){
-return{
-notificationId:n.notificationId||"NTF-"+Date.now()+"-"+Math.random().toString(16).slice(2),
-module:n.module||detectModule(n),
-type:n.type||n.notificationType||"System",
-workflowId:n.workflowId||"",
-documentCode:n.documentCode||"",
-documentName:n.documentName||"",
-mailGroups:n.mailGroups||"",
-smsGroups:n.smsGroups||"",
-distributionPoints:n.distributionPoints||"",
-message:n.message||"",
-status:n.status||"Kuyrukta",
-priority:n.priority||detectPriority(n),
-retryCount:Number(n.retryCount||0),
-createdBy:n.createdBy||"System",
-createdAt:n.createdAt||new Date().toISOString(),
-sentAt:n.sentAt||"",
-readAt:n.readAt||"",
-closedAt:n.closedAt||"",
-lastError:n.lastError||"",
-updatedAt:n.updatedAt||"",
-auditTrail:Array.isArray(n.auditTrail)?n.auditTrail:[]
-};
-}
-function migrateNotifications(){setNotifications(getNotifications().map(normalizeNotification))}
-function autoDelayCheck(){
-const items=getNotifications().map(normalizeNotification);
-const now=new Date().toISOString();
-items.forEach(n=>{
-if(n.status==="Kuyrukta"&&hoursBetween(n.createdAt,now)>=24){
-n.status="Gecikti";
-n.lastError="24 saatten uzun süredir kuyrukta bekliyor.";
-n.auditTrail.unshift({action:"Bildirim otomatik gecikti",user:"System",date:now});
-}
-});
-setNotifications(items);
-}
-
-function createManualNotification(markSent=false){
-if(!manualMessage.value.trim())return showToast("Mesaj zorunlu");
-const items=getNotifications().map(normalizeNotification);
-const n=normalizeNotification({
-notificationId:manualNotificationId.value,
-module:manualModule.value,
-type:manualType.value,
-documentCode:manualDocumentCode.value.trim(),
-documentName:manualDocumentName.value.trim(),
-mailGroups:manualMailGroups.value.trim(),
-smsGroups:manualSmsGroups.value.trim(),
-message:manualMessage.value.trim(),
-priority:manualPriority.value,
-status:markSent?"Gönderildi":"Kuyrukta",
-createdBy:session.name,
-createdAt:new Date().toISOString(),
-sentAt:markSent?new Date().toISOString():"",
-auditTrail:[{action:markSent?"Manuel bildirim oluşturuldu ve gönderildi":"Manuel bildirim kuyruğa alındı",user:session.name,date:new Date().toISOString()}]
-});
-items.unshift(n);setNotifications(items);clearManual();renderNotifications();showToast("Bildirim oluşturuldu");
-}
-function clearManual(){generateManualNo();manualModule.value="System";manualType.value="Mail";manualPriority.value="Normal";manualDocumentCode.value="";manualDocumentName.value="";manualMailGroups.value="";manualSmsGroups.value="";manualMessage.value=""}
-
-function saveIntegration(){
-const cfg={serviceId:emailServiceId.value.trim(),templateId:emailTemplateId.value.trim(),publicKey:emailPublicKey.value.trim(),sendMode:sendMode.value,updatedAt:new Date().toISOString()};
-localStorage.setItem("gdnl_notification_integration",JSON.stringify(cfg));loadIntegration();showToast("Entegrasyon ayarları kaydedildi");
-}
-function loadIntegration(){
-const cfg=JSON.parse(localStorage.getItem("gdnl_notification_integration")||"{}");
-emailServiceId.value=cfg.serviceId||"";emailTemplateId.value=cfg.templateId||"";emailPublicKey.value=cfg.publicKey||"";sendMode.value=cfg.sendMode||"Simülasyon";
-emailJsStatus.textContent=(cfg.serviceId&&cfg.templateId&&cfg.publicKey)?"Hazır":"Pasif";
-}
-
-function renderNotifications(){
-autoDelayCheck();
-const items=getNotifications().map(normalizeNotification);
-const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,mf=moduleFilter.value;
-const filtered=items.filter(n=>`${n.notificationId} ${n.module} ${n.type} ${n.workflowId} ${n.documentCode} ${n.documentName} ${n.mailGroups} ${n.smsGroups} ${n.distributionPoints} ${n.message} ${n.status} ${n.priority}`.toLowerCase().includes(q)&&(!sf||n.status===sf)&&(!tf||n.type===tf)&&(!mf||n.module===mf));
-updateCards(items);
-if(!filtered.length){notificationTable.innerHTML='<div class="empty">Bildirim kaydı bulunamadı. Modüller işlem ürettikçe kayıtlar burada görünür.</div>';return}
-let html='<table><thead><tr><th>No</th><th>Modül</th><th>Tip</th><th>Kayıt</th><th>Mesaj</th><th>Durum</th><th>Öncelik</th><th>Tekrar</th><th>Tarih</th><th>Aksiyon</th></tr></thead><tbody>';
-filtered.forEach(n=>{
-html+=`<tr>
-<td>${n.notificationId}</td>
-<td>${n.module}</td>
-<td>${n.type}</td>
-<td>${n.documentCode||"-"}<br><small>${n.documentName||n.workflowId||"-"}</small></td>
-<td>${shortText(n.message,80)}</td>
-<td><span class="status ${statusClass(n.status)}">${n.status}</span></td>
-<td><span class="status ${statusClass(n.priority)}">${n.priority}</span></td>
-<td>${n.retryCount}</td>
-<td>${formatDateTR(n.createdAt)}</td>
-<td><div class="row-actions">
-<button class="small-btn view" onclick="openDrawer('${n.notificationId}')">İncele</button>
-<button class="small-btn send" onclick="selectedId='${n.notificationId}';sendCurrent()">Gönder</button>
-<button class="small-btn warn" onclick="selectedId='${n.notificationId}';resendCurrent()">Tekrar</button>
-<button class="small-btn close" onclick="selectedId='${n.notificationId}';closeCurrentNotification()">Kapat</button>
-</div></td>
-</tr>`;
-});
-notificationTable.innerHTML=html+"</tbody></table>";
-}
-function updateCards(items){
-totalNotifications.textContent=items.length;
-queuedNotifications.textContent=items.filter(x=>x.status==="Kuyrukta").length;
-sentNotifications.textContent=items.filter(x=>x.status==="Gönderildi"||x.status==="Okundu").length;
-failedNotifications.textContent=items.filter(x=>x.status==="Hatalı"||x.status==="Gecikti").length;
-criticalNotifications.textContent=items.filter(x=>x.priority==="Critical").length;
-retryNotifications.textContent=items.filter(x=>x.retryCount>0).length;
-todayNotifications.textContent=items.filter(x=>(x.createdAt||"").slice(0,10)===todayISO()).length;
-}
-
-function openDrawer(id){
-selectedId=id;
-const n=getNotifications().map(normalizeNotification).find(x=>x.notificationId===id);
-if(!n)return;
-drawerTitle.textContent=n.notificationId+" / "+n.module;
-drawerStatus.textContent=n.status;
-drawerStatus.className="status "+statusClass(n.status);
-drawerContent.innerHTML=`
-<div class="info-box"><b>Bildirim No:</b> ${n.notificationId}
-<b>Modül:</b> ${n.module}
-<b>Tip:</b> ${n.type}
-<b>Öncelik:</b> ${n.priority}
-<b>Durum:</b> ${n.status}
-<b>Workflow:</b> ${n.workflowId||"-"}
-<b>Kayıt:</b> ${n.documentCode||"-"} - ${n.documentName||"-"}</div>
-<div class="info-box"><b>Mail Alıcıları:</b>
-${n.mailGroups||"-"}
+function shortText(t,max){if(!t)return"-";return String(t).length>max?String(t).slice(0,max)+"...":String(t)}
+function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v}
+function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"GDNL Kullanıcısı",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeNotification(n){return{notificationId:n.notificationId||n.id||"NTF-"+Date.now()+"-"+Math.random().toString(16).slice(2),module:n.module||detectModule(n),type:n.type||n.notificationType||"Sistem",workflowId:n.workflowId||n.workflow_id||"",documentCode:n.documentCode||n.record_no||n.document_code||"",documentName:n.documentName||n.record_name||n.document_name||n.title||"",mailGroups:n.mailGroups||n.mail_groups||n.email_to||"",smsGroups:n.smsGroups||n.sms_groups||"",distributionPoints:n.distributionPoints||n.distribution_points||"",message:n.message||n.description||"",status:n.status||"Kuyrukta",priority:n.priority||detectPriority(n),retryCount:Number(n.retryCount||n.retry_count||0),is_read:!!(n.is_read||n.status==="Okundu"),read_by:n.read_by||"",read_at:n.read_at||n.readAt||"",createdBy:n.createdBy||n.created_by||"Sistem",createdAt:n.createdAt||n.created_at||new Date().toISOString(),sentAt:n.sentAt||n.sent_at||"",closedAt:n.closedAt||n.closed_at||"",lastError:n.lastError||n.last_error||"",updatedAt:n.updatedAt||n.updated_at||"",auditTrail:Array.isArray(n.auditTrail)?n.auditTrail:[]}}
+function detectModule(n){const text=`${n.module||""} ${n.documentCode||""} ${n.message||""}`.toLowerCase();if(text.includes("moc")||text.includes("değişiklik"))return"Değişiklik Yönetimi";if(text.includes("action")||text.includes("aksiyon"))return"Aksiyon Merkezi";if(text.includes("risk"))return"Risk";if(text.includes("audit")||text.includes("denetim"))return"Denetim";if(text.includes("training")||text.includes("eğitim"))return"Eğitim";if(text.includes("supplier")||text.includes("tedarik"))return"Tedarikçi";if(text.includes("customer")||text.includes("müşteri"))return"Müşteri";if(text.includes("ygg"))return"YGG";if(text.includes("calibration")||text.includes("kalibrasyon"))return"Kalibrasyon";if(text.includes("8d")||text.includes("capa"))return"CAPA";if(text.includes("approval")||text.includes("onay"))return"Onay";if(text.includes("revision")||text.includes("revizyon"))return"Revizyon";if(text.includes("distribution")||text.includes("dağıtım"))return"Dağıtım";if(text.includes("doc")||text.includes("doküman"))return"Doküman";if(text.includes("kpi"))return"KPI Raporları";return"Sistem"}
+function detectPriority(n){const text=`${n.priority||""} ${n.message||""} ${n.documentName||""}`.toLowerCase();if(text.includes("kritik")||text.includes("critical")||text.includes("gecik")||text.includes("hatalı"))return"Kritik";if(text.includes("8d")||text.includes("capa")||text.includes("onay")||text.includes("risk"))return"Yüksek";return"Normal"}
+function statusClass(status){if(["Gönderildi","Okundu"].includes(status))return"green";if(["Kuyrukta"].includes(status))return"orange";if(["Hatalı","Gecikti","Kritik"].includes(status))return"red";if(["Kapalı","İptal"].includes(status))return"gray";return"blue"}
+function priorityValue(v){return v==="Kritik"?"Kritik":v==="Yüksek"?"Yüksek":v||"Normal"}
+function typeValue(v){return v==="Sistem"?"Sistem":v==="E-posta"?"E-posta":v==="E-posta + SMS"?"E-posta + SMS":v||"Sistem"}
+function moduleValue(v){const map={Sistem:"Sistem",Doküman:"Doküman",Denetim:"Denetim",Eğitim:"Eğitim",Tedarikçi:"Tedarikçi",Müşteri:"Müşteri",Kalibrasyon:"Kalibrasyon",Action:"Aksiyon Merkezi",'Aksiyon Merkezi':'Aksiyon Merkezi','KPI Raporları':'KPI Raporları'};return map[v]||v}
+async function loadCloudData(){const [users,departments,notifications,roles,permissions,rolePermissions,auditLogs,activityFeed,comments,assignments,approvals,approvalHistory,workflowHistory,archive]=await Promise.all([safeGet("/users"),safeGet("/departments"),safeGet("/notifications"),safeGet("/roles"),safeGet("/permissions"),safeGet("/role-permissions"),safeGet("/audit-logs"),safeGet("/activity-feed"),safeGet("/comments"),safeGet("/assignments"),safeGet("/approvals"),safeGet("/approval-history"),safeGet("/workflow-history"),safeGet("/archive")]);state.users=activeOnly(users).map(normalizeUser);state.departments=activeOnly(departments).map(d=>({id:d.id,department_name:d.department_name||d.name||d.department||""}));state.notifications=activeOnly(notifications).map(normalizeNotification);state.roles=activeOnly(roles);state.permissions=activeOnly(permissions);state.rolePermissions=activeOnly(rolePermissions);state.auditLogs=activeOnly(auditLogs);state.activityFeed=activeOnly(activityFeed);state.comments=activeOnly(comments);state.assignments=activeOnly(assignments);state.approvals=activeOnly(approvals);state.approvalHistory=activeOnly(approvalHistory);state.workflowHistory=activeOnly(workflowHistory);state.archive=asArray(archive);state.currentUser=state.users[0]||{id:"",fullname:"GDNL Kullanıcısı",role:"Kullanıcı",department:""};setText("userName",state.currentUser.fullname)}
+function hasPermission(action){return true}
+async function writeDenetim(module,action,recordNo,extra={}){const user=state.currentUser||{};await safePost("/audit-logs",{module,action,record_no:recordNo,user_id:user.id,user_name:user.fullname,ip_address:"",user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token"),created_at:new Date().toISOString(),...extra})}
+async function writeActivity(module,action,recordNo,oldValue,newValue,changedField){const user=state.currentUser||{};await safePost("/activity-feed",{module,action,record_no:recordNo,user_id:user.id,user_name:user.fullname,old_value:oldValue??null,new_value:newValue??null,changed_field:changedField||"status",created_at:new Date().toISOString()})}
+async function generateManualNo(){const seq=await safeGet("/sequence?module=NOTIFICATION");manualNotificationId.value=seq?.number||seq?.sequence||seq?.data?.number||"NTF-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-5)}
+function searchUsers(term){const q=String(term||"").toLowerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,12)}
+function setupUserAutocomplete(inputId,target){const input=document.getElementById(inputId);if(!input||input.dataset.ready==="1")return;input.dataset.ready="1";const wrap=document.createElement("div");wrap.className="user-select-wrap";input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);const list=document.createElement("div");list.className="user-autocomplete";wrap.appendChild(list);const chips=document.createElement("div");chips.className="selected-users";wrap.appendChild(chips);input.addEventListener("input",()=>{const found=searchUsers(input.value);list.innerHTML=found.map((u,i)=>`<div class="user-option" data-i="${i}">${escapeHTML(u.fullname)}<br><small>${escapeHTML(u.email)} · ${escapeHTML(u.role)} · ${escapeHTML(u.department)}</small></div>`).join("");list.classList.toggle("active",found.length>0);list.querySelectorAll(".user-option").forEach(el=>el.onclick=()=>{const u=found[Number(el.dataset.i)];const arr=state[target]||[];if(!arr.some(x=>String(x.id)===String(u.id)))arr.push(u);state[target]=arr;input.value="";renderRecipientChips(inputId,target);list.classList.remove("active")})});document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.classList.remove("active")})}
+function renderRecipientChips(inputId,target){const input=document.getElementById(inputId);const chips=input?.closest(".user-select-wrap")?.querySelector(".selected-users");if(!chips)return;chips.innerHTML=(state[target]||[]).map((u,i)=>`<span class="user-chip-tag">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")}<button type="button" onclick="removeRecipient('${target}',${i},'${inputId}')">×</button></span>`).join("")}
+function removeRecipient(target,index,inputId){state[target]=(state[target]||[]).filter((_,i)=>i!==index);renderRecipientChips(inputId,target)}
+function selectedEmails(){const manual=manualE-postaGroups.value.trim();const picked=(state.mailRecipients||[]).map(u=>u.email).filter(Boolean).join("; ");return [picked,manual].filter(Boolean).join("; ")}
+function selectedSms(){const manual=manualSmsGroups.value.trim();return manual}
+async function createManualNotification(markSent=false){if(!manualMessage.value.trim())return showToast("Mesaj zorunlu");if(!hasPermission("Oluşturma"))return showToast("Bu işlem için yetkiniz yok");const n=normalizeNotification({notificationId:manualNotificationId.value,module:manualModule.value,type:manualType.value,documentCode:manualDokümanCode.value.trim(),documentName:manualDokümanName.value.trim(),mailGroups:selectedEmails(),smsGroups:selectedSms(),message:manualMessage.value.trim(),priority:manualPriority.value,status:markSent?"Gönderildi":"Kuyrukta",is_read:false,read_by:null,read_at:null,createdBy:state.currentUser?.fullname||"",createdAt:new Date().toISOString(),sentAt:markSent?new Date().toISOString():"",auditTrail:[{action:markSent?"Manuel bildirim oluşturuldu ve gönderildi":"Manuel bildirim kuyruğa alındı",user:state.currentUser?.fullname||"Sistem",date:new Date().toISOString()}]});const saved=await safePost("/notifications",n);state.notifications.unshift(n);await writeDenetim("Bildirim Merkezi",markSent?"Oluşturma ve gönderim":"Oluşturma",n.notificationId);await writeActivity("Bildirim Merkezi","Bildirim kaydı oluşturuldu",n.notificationId,null,n,"notifications");clearManual();renderNotifications();showToast(saved?"Bildirim D1 kuyruğuna alındı":"Bildirim ekranda oluşturuldu, API kaydı kontrol edilmeli")}
+async function clearManual(){await generateManualNo();manualModule.value="Sistem";manualType.value="E-posta";manualPriority.value="Normal";manualDokümanCode.value="";manualDokümanName.value="";manualE-postaGroups.value="";manualSmsGroups.value="";manualMessage.value="";state.mailRecipients=[];renderRecipientChips("manualE-postaGroups","mailRecipients")}
+async function saveIntegration(){state.integration={serviceId:emailServiceId.value.trim(),templateId:emailTemplateId.value.trim(),publicKey:emailPublicKey.value.trim(),sendMode:sendMode.value,updatedAt:new Date().toISOString()};await safePost("/activity-feed",{module:"Bildirim Merkezi",action:"E-posta entegrasyonu güncellendi",new_value:state.integration,changed_field:"integration",created_at:new Date().toISOString()});loadIntegration();showToast("Entegrasyon ayarları D1 kayıt akışına gönderildi")}
+function loadIntegration(){const cfg=state.integration||{};emailServiceId.value=cfg.serviceId||"";emailTemplateId.value=cfg.templateId||"";emailPublicKey.value=cfg.publicKey||"";sendMode.value=cfg.sendMode||"Simülasyon";emailJsStatus.textContent=(cfg.serviceId&&cfg.templateId&&cfg.publicKey)?"Hazır":"Pasif"}
+function autoDelayCheck(){const now=new Date().toISOString();state.notifications=state.notifications.map(normalizeNotification).map(n=>{if(n.status==="Kuyrukta"&&hoursBetween(n.createdAt,now)>=24){return{...n,status:"Gecikti",lastError:"24 saatten uzun süredir kuyrukta bekliyor.",auditTrail:[{action:"Bildirim otomatik gecikti",user:"Sistem",date:now},...(n.auditTrail||[])]}}return n})}
+function renderNotifications(){autoDelayCheck();const items=state.notifications.map(normalizeNotification);const q=(globalSearch.value||"").toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,mf=moduleFilter.value;const filtered=items.filter(n=>`${n.notificationId} ${n.module} ${n.type} ${n.workflowId} ${n.documentCode} ${n.documentName} ${n.mailGroups} ${n.smsGroups} ${n.distributionPoints} ${n.message} ${n.status} ${n.priority}`.toLowerCase().includes(q)&&(!sf||n.status===sf)&&(!tf||n.type===tf)&&(!mf||n.module===mf));updateCards(items);if(!filtered.length){notificationTable.innerHTML='<div class="empty">Bildirim kaydı bulunamadı. Modüller işlem ürettikçe kayıtlar burada görünür.</div>';return}let html='<table><thead><tr><th>No</th><th>Modül</th><th>Tip</th><th>Kayıt</th><th>Mesaj</th><th>Durum</th><th>Öncelik</th><th>Tekrar</th><th>Tarih</th><th>Aksiyon</th></tr></thead><tbody>';filtered.forEach(n=>{html+=`<tr><td>${escapeHTML(n.notificationId)}</td><td>${escapeHTML(n.module)}</td><td>${escapeHTML(n.type)}</td><td>${escapeHTML(n.documentCode||"-")}<br><small>${escapeHTML(n.documentName||n.workflowId||"-")}</small></td><td>${escapeHTML(shortText(n.message,80))}</td><td><span class="status ${statusClass(n.status)}">${escapeHTML(n.status)}</span></td><td><span class="status ${statusClass(n.priority)}">${escapeHTML(n.priority)}</span></td><td>${n.retryCount}</td><td>${formatDateTR(n.createdAt)}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer('${n.notificationId}')">İncele</button><button class="small-btn send" onclick="state.selectedId='${n.notificationId}';sendCurrent()">Gönder</button><button class="small-btn warn" onclick="state.selectedId='${n.notificationId}';resendCurrent()">Tekrar</button><button class="small-btn close" onclick="state.selectedId='${n.notificationId}';closeCurrentNotification()">Kapat</button></div></td></tr>`});notificationTable.innerHTML=html+"</tbody></table>"}
+function updateCards(items){totalNotifications.textContent=items.length;queuedNotifications.textContent=items.filter(x=>x.status==="Kuyrukta").length;sentNotifications.textContent=items.filter(x=>x.status==="Gönderildi"||x.status==="Okundu").length;failedNotifications.textContent=items.filter(x=>x.status==="Hatalı"||x.status==="Gecikti").length;criticalNotifications.textContent=items.filter(x=>x.priority==="Kritik").length;retryNotifications.textContent=items.filter(x=>x.retryCount>0).length;todayNotifications.textContent=items.filter(x=>(x.createdAt||"").slice(0,10)===todayISO()).length}
+function openDrawer(id){state.selectedId=id;const n=state.notifications.map(normalizeNotification).find(x=>x.notificationId===id);if(!n)return;drawerTitle.textContent=n.notificationId+" / "+n.module;drawerStatus.textContent=n.status;drawerStatus.className="status "+statusClass(n.status);drawerContent.innerHTML=`<div class="info-box"><b>Bildirim No:</b> ${escapeHTML(n.notificationId)}
+<b>Modül:</b> ${escapeHTML(n.module)}
+<b>Tip:</b> ${escapeHTML(n.type)}
+<b>Öncelik:</b> ${escapeHTML(n.priority)}
+<b>Durum:</b> ${escapeHTML(n.status)}
+<b>Workflow:</b> ${escapeHTML(n.workflowId||"-")}
+<b>Kayıt:</b> ${escapeHTML(n.documentCode||"-")} - ${escapeHTML(n.documentName||"-")}</div><div class="info-box"><b>E-posta Alıcıları:</b>
+${escapeHTML(n.mailGroups||"-")}
 
 <b>SMS Alıcıları:</b>
-${n.smsGroups||"-"}
+${escapeHTML(n.smsGroups||"-")}
 
 <b>Dağıtım Noktaları:</b>
-${n.distributionPoints||"-"}</div>
-<div class="info-box"><b>Mesaj:</b>
-${n.message||"-"}</div>
-<div class="info-box"><b>Tarihçe:</b>
+${escapeHTML(n.distributionPoints||"-")}</div><div class="info-box"><b>Mesaj:</b>
+${escapeHTML(n.message||"-")}</div><div class="info-box"><b>Tarihçe:</b>
 Oluşturma: ${formatDateTR(n.createdAt)}
 Gönderim: ${formatDateTR(n.sentAt)}
-Okunma: ${formatDateTR(n.readAt)}
+Okunma: ${formatDateTR(n.read_at)}
 Kapanış: ${formatDateTR(n.closedAt)}
 Tekrar Sayısı: ${n.retryCount}
-Son Hata: ${n.lastError||"-"}</div>
-<div class="info-box"><b>Audit Trail</b>
-${(n.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>`;
-drawer.classList.add("active");
-}
-function closeDrawer(){selectedId=null;drawer.classList.remove("active")}
-function updateNotification(id,changes,actionText){
-const items=getNotifications().map(normalizeNotification);
-const idx=items.findIndex(x=>x.notificationId===id);
-if(idx<0)return;
-items[idx]={...items[idx],...changes,updatedAt:new Date().toISOString()};
-items[idx].auditTrail.unshift({action:actionText,user:session.name||"System",date:new Date().toISOString()});
-setNotifications(items);renderNotifications();if(selectedId)openDrawer(selectedId);
-}
-function sendCurrent(){if(!selectedId)return;updateNotification(selectedId,{status:"Gönderildi",sentAt:new Date().toISOString(),lastError:""},"Bildirim gönderildi işaretlendi");showToast("Bildirim gönderildi")}
-function resendCurrent(){if(!selectedId)return;const n=getNotifications().map(normalizeNotification).find(x=>x.notificationId===selectedId);updateNotification(selectedId,{status:"Kuyrukta",retryCount:(n.retryCount||0)+1,lastError:""},"Bildirim tekrar kuyruğa alındı");showToast("Tekrar kuyruğa alındı")}
-function markReadCurrent(){if(!selectedId)return;updateNotification(selectedId,{status:"Okundu",readAt:new Date().toISOString(),lastError:""},"Bildirim okundu işaretlendi");showToast("Okundu yapıldı")}
-function failCurrent(){if(!selectedId)return;updateNotification(selectedId,{status:"Hatalı",lastError:"Manuel hata işaretlendi"},"Bildirim hatalı işaretlendi");showToast("Hatalı işaretlendi")}
-function closeCurrentNotification(){if(!selectedId)return;updateNotification(selectedId,{status:"Kapalı",closedAt:new Date().toISOString()},"Bildirim kapatıldı");showToast("Bildirim kapatıldı")}
-
-function bulkSendQueued(){getNotifications().map(normalizeNotification).filter(n=>n.status==="Kuyrukta").forEach(n=>updateNotification(n.notificationId,{status:"Gönderildi",sentAt:new Date().toISOString()},"Toplu gönderildi"));showToast("Kuyruktakiler gönderildi")}
-function bulkRetryFailed(){getNotifications().map(normalizeNotification).filter(n=>["Hatalı","Gecikti"].includes(n.status)).forEach(n=>updateNotification(n.notificationId,{status:"Kuyrukta",retryCount:n.retryCount+1,lastError:""},"Toplu tekrar kuyruğa alındı"));showToast("Hatalılar kuyruğa alındı")}
-function bulkCloseSent(){getNotifications().map(normalizeNotification).filter(n=>["Gönderildi","Okundu"].includes(n.status)).forEach(n=>updateNotification(n.notificationId,{status:"Kapalı",closedAt:new Date().toISOString()},"Toplu kapatıldı"));showToast("Gönderilenler kapatıldı")}
-
-function exportCSV(){
-const rows=getNotifications().map(normalizeNotification);
-let csv="NotificationId,Module,Type,DocumentCode,DocumentName,MailGroups,SmsGroups,Message,Status,Priority,Retry,CreatedAt,SentAt\n";
-rows.forEach(n=>csv+=`"${n.notificationId}","${n.module}","${n.type}","${n.documentCode}","${n.documentName}","${n.mailGroups}","${n.smsGroups}","${String(n.message).replaceAll('"','""')}","${n.status}","${n.priority}","${n.retryCount}","${n.createdAt}","${n.sentAt}"\n`);
-const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
-a.href=url;a.download="gdnl_notification_center.csv";a.click();URL.revokeObjectURL(url);
-}
+Son Hata: ${escapeHTML(n.lastError||"-")}</div><div class="info-box"><b>Denetim Trail</b>
+${(n.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${escapeHTML(a.user)} - ${escapeHTML(a.action)}`).join("\n")||"-"}</div>`;drawer.classList.add("active")}
+function closeDrawer(){state.selectedId=null;drawer.classList.remove("active")}
+async function updateNotification(id,changes,actionText){const idx=state.notifications.findIndex(x=>normalizeNotification(x).notificationId===id);if(idx<0)return;const old={...state.notifications[idx]};state.notifications[idx]=normalizeNotification({...state.notifications[idx],...changes,updatedAt:new Date().toISOString(),auditTrail:[{action:actionText,user:state.currentUser?.fullname||"Sistem",date:new Date().toISOString()},...(state.notifications[idx].auditTrail||[])]});await safePost("/notifications",state.notifications[idx]);await writeDenetim("Bildirim Merkezi",actionText,id);await writeActivity("Bildirim Merkezi",actionText,id,old,state.notifications[idx],"status");renderNotifications();if(state.selectedId)openDrawer(state.selectedId)}
+function sendCurrent(){if(!state.selectedId)return;updateNotification(state.selectedId,{status:"Gönderildi",sentAt:new Date().toISOString(),lastError:""},"Bildirim gönderildi işaretlendi");showToast("Bildirim gönderildi")}
+function resendCurrent(){if(!state.selectedId)return;const n=state.notifications.map(normalizeNotification).find(x=>x.notificationId===state.selectedId);updateNotification(state.selectedId,{status:"Kuyrukta",retryCount:(n.retryCount||0)+1,lastError:""},"Bildirim tekrar kuyruğa alındı");showToast("Tekrar kuyruğa alındı")}
+function markReadCurrent(){if(!state.selectedId)return;updateNotification(state.selectedId,{status:"Okundu",is_read:true,read_by:state.currentUser?.fullname||"",read_at:new Date().toISOString(),lastError:""},"Bildirim okundu işaretlendi");showToast("Okundu yapıldı")}
+function failCurrent(){if(!state.selectedId)return;updateNotification(state.selectedId,{status:"Hatalı",lastError:"Manuel hata işaretlendi"},"Bildirim hatalı işaretlendi");showToast("Hatalı işaretlendi")}
+function closeCurrentNotification(){if(!state.selectedId)return;updateNotification(state.selectedId,{status:"Kapalı",closedAt:new Date().toISOString()},"Bildirim kapatıldı");showToast("Bildirim kapatıldı")}
+function bulkSendQueued(){state.notifications.map(normalizeNotification).filter(n=>n.status==="Kuyrukta").forEach(n=>updateNotification(n.notificationId,{status:"Gönderildi",sentAt:new Date().toISOString()},"Toplu gönderildi"));showToast("Kuyruktakiler gönderildi")}
+function bulkRetryFailed(){state.notifications.map(normalizeNotification).filter(n=>["Hatalı","Gecikti"].includes(n.status)).forEach(n=>updateNotification(n.notificationId,{status:"Kuyrukta",retryCount:n.retryCount+1,lastError:""},"Toplu tekrar kuyruğa alındı"));showToast("Hatalılar kuyruğa alındı")}
+function bulkCloseSent(){state.notifications.map(normalizeNotification).filter(n=>["Gönderildi","Okundu"].includes(n.status)).forEach(n=>updateNotification(n.notificationId,{status:"Kapalı",closedAt:new Date().toISOString()},"Toplu kapatıldı"));showToast("Gönderilenler kapatıldı")}
+async function runSearch(){const text=(globalSearch.value||"").trim().toLowerCase();if(!text){clearSearchResults();renderNotifications();return}const cloud=await safeGet("/search?q="+encodeURIComponent(text));let results=asArray(cloud).filter(x=>!isPassive(x)).map(x=>({type:"page",module:x.module||"Bulut",title:x.title||x.name||x.code||"Kayıt",detail:x.description||x.detail||"",go:x.url||x.page||"#"}));state.notifications.forEach(n=>{const full=JSON.stringify(n).toLowerCase();if(full.includes(text))results.push({type:"record",module:"Bildirim Merkezi",title:n.notificationId,detail:`${n.module} ${n.status} ${n.message}`,id:n.notificationId})});document.querySelectorAll(".menu a,.mobile-drawer-menu a").forEach(el=>{const label=el.textContent.trim(),href=el.getAttribute("href")||"";if((label+" "+href).toLowerCase().includes(text))results.push({type:"page",module:"Menü",title:label,detail:href,go:href})});renderSearchResults(text,results)}
+function renderSearchResults(keyword,results){const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea");if(!panel)return;panel.classList.add("active");setText("searchKeyword",keyword);setText("searchResultCount",results.length+" sonuç");if(!results.length){area.innerHTML='<div class="empty">Bu kelimeyle eşleşen kayıt bulunamadı.</div>';return}window.gdnlSearchResults=results.slice(0,80);area.innerHTML=window.gdnlSearchResults.map((r,i)=>`<div class="result-card"><div><b>${highlightText(r.module,keyword)}</b><small>${escapeHTML(r.type||"")}</small></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${i})">Aç</button></div>`).join("");panel.scrollIntoView({behavior:"smooth",block:"start"})}
+function openSearchResult(i){const r=(window.gdnlSearchResults||[])[i];if(!r)return;if(r.type==="record"&&r.id){openDrawer(r.id);return}if(r.go&&r.go!=="#")window.location.href=r.go}
+function clearSearchResults(){const panel=document.getElementById("searchResultsPanel");if(panel)panel.classList.remove("active");const area=document.getElementById("searchResultsArea");if(area)area.innerHTML=""}
+function exportCSV(){const rows=state.notifications.map(normalizeNotification);let csv="BildirimNo,Modül,Tip,KayıtNo,KayıtAdı,EpostaAlıcıları,SmsAlıcıları,Mesaj,Durum,Öncelik,Tekrar,Oluşturma,Gönderim
+";rows.forEach(n=>csv+=`"${n.notificationId}","${n.module}","${n.type}","${n.documentCode}","${n.documentName}","${n.mailGroups}","${n.smsGroups}","${String(n.message).replaceAll('"','""')}","${n.status}","${n.priority}","${n.retryCount}","${n.createdAt}","${n.sentAt}"
+`);const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="gdnl_eqms_bildirim_merkezi.csv";a.click();URL.revokeObjectURL(url)}
 function showToast(message){toast.textContent=message;toast.style.display="block";setTimeout(()=>toast.style.display="none",2500)}
-
-globalSearch.addEventListener("input",renderNotifications);
-globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});
-
-
-function initAccordionMenu(){
-  document.querySelectorAll('.menu-group').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const parent=btn.closest('nav');
-      const submenu=btn.nextElementSibling;
-      if(!submenu)return;
-      parent.querySelectorAll('.menu-group').forEach(b=>{if(b!==btn)b.classList.remove('open')});
-      parent.querySelectorAll('.submenu').forEach(s=>{if(s!==submenu)s.classList.remove('open')});
-      btn.classList.toggle('open');
-      submenu.classList.toggle('open');
-    });
-  });
-}
-initAccordionMenu();
-
-migrateNotifications();loadIntegration();clearManual();renderNotifications();setInterval(renderNotifications,10000);
-console.log("GDNL QDMS Notification Center V2 Loaded");
+function logout(){clearAuthCookie();window.location.href="index.html"}
+function openMobileMenu(){document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active")}
+function closeMobileMenu(){document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active")}
+function initAccordionMenu(){document.querySelectorAll('.menu-group').forEach(btn=>{btn.addEventListener('click',()=>{const parent=btn.closest('nav');const submenu=btn.nextElementSibling;if(!submenu)return;parent.querySelectorAll('.menu-group').forEach(b=>{if(b!==btn)b.classList.remove('open')});parent.querySelectorAll('.submenu').forEach(s=>{if(s!==submenu)s.classList.remove('open')});btn.classList.toggle('open');submenu.classList.toggle('open')})})}
+async function boot(){initAccordionMenu();await loadCloudData();manualModule.querySelectorAll('option').forEach(o=>o.value=moduleValue(o.value),o.textContent=moduleValue(o.textContent));moduleFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=moduleValue(o.value);o.textContent=moduleValue(o.textContent)});manualType.querySelectorAll('option').forEach(o=>{o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});typeFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});manualPriority.querySelectorAll('option').forEach(o=>{o.value=priorityValue(o.value);o.textContent=priorityValue(o.textContent)});sendMode.querySelectorAll('option').forEach(o=>{if(o.textContent.includes('Email'))o.textContent='E-posta Hazır';if(o.textContent.includes('E-posta'))o.textContent='E-posta Manuel'});setupUserAutocomplete("manualE-postaGroups","mailRecipients");loadIntegration();await clearManual();renderNotifications();globalSearch.addEventListener("input",renderNotifications);globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});setInterval(async()=>{await loadCloudData();renderNotifications()},30000);console.log("GDNL EQMS Bildirim Merkezi Bulut Hazır")}
+boot();
 </script>
 </body>
 </html>
