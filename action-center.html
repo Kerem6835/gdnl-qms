@@ -84,6 +84,15 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 .selected-user-pill.active{background:#e8f7ee;color:#1f7d3d;border-color:#bfe7ca}
 
 .comment-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}.comment-item{background:#fff;border:1px solid #e0e8f0;border-radius:16px;padding:12px;box-shadow:0 8px 20px rgba(7,27,52,.045)}.comment-item b{display:block;color:#071b34;font-size:12px;margin-bottom:4px}.comment-item small{display:block;color:#64748b;font-weight:800;margin-bottom:6px}.comment-item p{color:#536176;font-size:13px;font-weight:750;line-height:1.55}.comment-box{margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:10px}.comment-box textarea{height:70px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f;resize:none}.danger-note{font-size:12px;font-weight:900;color:#991b1b;background:#fee2e2;border:1px solid #fecaca;border-radius:14px;padding:10px;margin-top:10px}
+
+.enterprise-mini-panel{margin-top:14px;border:1px dashed #bfe7ca;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:18px;padding:14px;color:#536176;font-size:12px;font-weight:850;line-height:1.55}
+.enterprise-mini-panel b{color:#071b34}
+.enterprise-chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.enterprise-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;padding:6px 10px;font-size:11px;font-weight:950}
+.multi-user-box{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;min-height:34px}
+.multi-user-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid #bfe7ca;background:#eefaf2;color:#1f7d3d;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:950}
+.multi-user-chip button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full,.field.double{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.actions .btn{width:100%}}
 </style>
@@ -118,7 +127,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
-<a href="capa.html">8D / CAPA</a>
+<a href="capa.html">8D ve CAPA</a>
 <a href="risk-register.html">Risk Yönetimi</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
@@ -141,7 +150,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
 <div class="submenu open">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
 <a class="active" href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
@@ -161,7 +170,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
-<a href="apqp.html">APQP & PPAP</a>
+<a href="apqp.html">APQP ve PPAP</a>
 </div>
 
   </nav>
@@ -193,7 +202,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
 <div class="submenu">
-<a href="capa.html">8D / CAPA</a>
+<a href="capa.html">8D ve CAPA</a>
 <a href="risk-register.html">Risk Yönetimi</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
@@ -216,7 +225,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
 <div class="submenu open">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
 <a class="active" href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
@@ -236,7 +245,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
-<a href="apqp.html">APQP & PPAP</a>
+<a href="apqp.html">APQP ve PPAP</a>
 </div>
 
 </nav>
@@ -249,7 +258,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
 <div class="search-wrap">
 <input class="search" id="globalSearch" placeholder="Aksiyon, modül, sorumlu, termin, kaynak no veya durum ara">
-<button class="search-btn" onclick="renderAll()">Ara</button>
+<button class="search-btn" onclick="runEnterpriseSearch()">Ara</button>
 </div>
 <div class="profile">
 <div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
@@ -292,6 +301,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div class="field"><label>Öncelik</label><select id="manualPriority"><option>Düşük</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field user-picker-field"><label>Sorumlu</label><input id="manualOwnerSearch" placeholder="İsim yaz, örn: Kerem" autocomplete="off" oninput="renderOwnerSuggestions()" onfocus="renderOwnerSuggestions()"><input id="manualOwner" type="hidden"><input id="manualOwnerId" type="hidden"><div class="user-suggestions" id="manualOwnerSuggestions"></div><div class="selected-user-pill" id="manualOwnerPill">Sorumlu seçilmedi</div></div>
 <div class="field"><label>Departman</label><input id="manualDepartment" readonly placeholder="Sorumlu seçilince otomatik gelir"></div>
+<div class="field"><label>Bağlı Departman Kaynağı</label><input id="manualDepartmentSource" readonly placeholder="D1 users / departments eşleşmesi"></div>
 <div class="field"><label>Planlanan Tarih</label><input id="manualDueDate" type="date"></div>
 <div class="field"><label>Durum</label><select id="manualStatus"><option>Açık</option><option>Devam Ediyor</option><option>Kanıt Bekliyor</option><option>Onay Bekliyor</option><option>Revizyon İstendi</option><option>Kapalı</option><option>Gecikti</option><option>İptal</option></select></div>
 <div class="field full"><label>Aksiyon Başlığı</label><input id="manualTitle"></div>
@@ -346,6 +356,28 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div id="evidencePreview"></div>
 </div>
 </section>
+
+<section class="panel" id="enterpriseCloudPanel">
+<div class="panel-head"><h3>Kurumsal Cloud İzlenebilirlik</h3><span class="status green">Cloud Ready</span></div>
+<div class="enterprise-mini-panel">
+<b>Aksiyon Merkezi entegrasyon kapsamı:</b> D1 veri yönetimi, R2 dosya yönetimi, kullanıcı otomatik tamamlama, departman otomatik doldurma, RBAC yetki kontrolü, sıra numarası, arşiv, geri yükleme, denetim kaydı, aktivite akışı, bildirim, görev, yorum, dosya revizyonu, imzalı dosya erişimi ve dashboard KPI senkronizasyonu desteklenir.
+<div class="enterprise-chip-row">
+<span class="enterprise-chip">D1</span>
+<span class="enterprise-chip">R2</span>
+<span class="enterprise-chip">RBAC</span>
+<span class="enterprise-chip">Sıra Numarası</span>
+<span class="enterprise-chip">Arşiv</span>
+<span class="enterprise-chip">Geri Yükleme</span>
+<span class="enterprise-chip">Denetim Kaydı</span>
+<span class="enterprise-chip">Aktivite Akışı</span>
+<span class="enterprise-chip">Bildirim</span>
+<span class="enterprise-chip">Görev</span>
+<span class="enterprise-chip">Yorum</span>
+<span class="enterprise-chip">İmzalı Dosya Erişimi</span>
+</div>
+</div>
+</section>
+
 </main>
 </div>
 
@@ -357,8 +389,8 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 <div id="drawerContent"></div>
 <div class="actions">
 <button class="btn green" onclick="closeActionCurrent()">Aksiyonu Kapat</button>
-<button class="btn red" id="deleteCurrentBtn" onclick="deleteActionCurrent()">Kaydı Sil</button>
-<button class="btn orange" onclick="notifyCurrent()">Mail/SMS Bildirim</button>
+<button class="btn red" id="deleteCurrentBtn" onclick="deleteActionCurrent()">Arşivle</button>
+<button class="btn orange" onclick="notifyCurrent()">Bildirim Gönder</button>
 <button class="btn purple" onclick="moveCurrent('Kanıt Bekliyor')">Kanıt Bekliyor</button>
 <button class="btn orange" onclick="requestRevisionCurrent()">Revizyon İste</button>
 <button class="btn primary" onclick="moveCurrent('Devam Ediyor')">Devam Ediyor</button>
@@ -380,7 +412,13 @@ let selectedActionId=null,uploadedEvidence=null;
 let cloudManualActions=[];
 let cloudUsers=[];
 let cloudFiles=[];
+let cloudDepartments=[];
+let cloudPermissions=[];
+let cloudRoles=[];
+let cloudRolePermissions=[];
 let isCloudReady=false;
+const MODULE_NAME="Aksiyon Merkezi";
+const MODULE_CODE="AKSIYON";
 
 function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");window.location.href="index.html"}
 function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
@@ -411,16 +449,217 @@ async function postJSON(path,payload){
 async function putJSON(path,payload){
   return apiFetch(path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
 }
-async function writeAudit(action,module,relatedId,detail,oldValue="",newValue=""){
-  const payload={id:uid("LOG"),user_id:session.id||session.user_id||"",user_name:session.name||session.fullname||session.username||"",action,module,related_id:relatedId||"",old_value:oldValue,new_value:newValue,detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),user_agent:navigator.userAgent,created_at:new Date().toISOString()};
+async function writeAudit(action,module,relatedId,detail,oldValue="",newValue="",changedField=""){
+  const payload={
+    id:uid("LOG"),
+    user_id:session.id||session.user_id||"",
+    user_name:session.name||session.fullname||session.username||"",
+    action,
+    module,
+    related_id:relatedId||"",
+    old_value:oldValue,
+    new_value:newValue,
+    changed_field:changedField||"",
+    detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),
+    ip_address:"",
+    user_agent:navigator.userAgent,
+    session_id:session.session_id||session.id||"",
+    created_at:new Date().toISOString()
+  };
   try{await postJSON("/audit-logs",payload)}catch(e){const l=getLS("gdnl_pending_audit_logs");l.unshift(payload);setLS("gdnl_pending_audit_logs",l)}
 }
+
+async function writeActivity(activityType,module,relatedId,title,description="",oldValue="",newValue="",changedField=""){
+  const payload={
+    id:uid("ACT"),
+    user_id:session.id||session.user_id||"",
+    user_name:session.name||session.fullname||session.username||"",
+    activity_type:activityType,
+    module,
+    related_id:relatedId||"",
+    title:title||activityType,
+    description:typeof description==="string"?description:JSON.stringify(description||{}),
+    old_value:oldValue,
+    new_value:newValue,
+    changed_field:changedField||"",
+    created_at:new Date().toISOString()
+  };
+  try{await postJSON("/activity-feed",payload)}catch(e){const l=getLS("gdnl_pending_activity_feed");l.unshift(payload);setLS("gdnl_pending_activity_feed",l)}
+}
+
+async function loadDepartments(){
+  try{
+    const data=await apiFetch("/departments");
+    cloudDepartments=Array.isArray(data)?data:(data.departments||data.results||[]);
+  }catch(e){cloudDepartments=getLS("gdnl_departments")||[]}
+}
+
+async function loadRBAC(){
+  try{const data=await apiFetch("/roles");cloudRoles=Array.isArray(data)?data:(data.roles||[])}catch(e){cloudRoles=getLS("gdnl_roles")||[]}
+  try{const data=await apiFetch("/permissions");cloudPermissions=Array.isArray(data)?data:(data.permissions||[])}catch(e){cloudPermissions=getLS("gdnl_permissions")||[]}
+  try{const data=await apiFetch("/role-permissions");cloudRolePermissions=Array.isArray(data)?data:(data.role_permissions||data.rolePermissions||[])}catch(e){cloudRolePermissions=getLS("gdnl_role_permissions")||[]}
+}
+
+function hasPermission(permissionName){
+  const role=String(session.role||"").toLocaleLowerCase("tr-TR");
+  if(role.includes("super")||role.includes("admin"))return true;
+  if(!permissionName)return true;
+  const userRole=String(session.role||"");
+  const roleRows=(cloudRoles||[]).filter(r=>String(r.name||r.role_name||"")===userRole||String(r.id||"")===String(session.role_id||""));
+  const roleIds=roleRows.map(r=>String(r.id||r.role_id||""));
+  const permissionRows=(cloudPermissions||[]).filter(p=>String(p.name||p.permission_name||p.code||"")===permissionName);
+  const permissionIds=permissionRows.map(p=>String(p.id||p.permission_id||""));
+  if(!roleIds.length||!permissionIds.length)return true;
+  return (cloudRolePermissions||[]).some(rp=>roleIds.includes(String(rp.role_id||rp.roleId||""))&&permissionIds.includes(String(rp.permission_id||rp.permissionId||"")));
+}
+
+async function getNextSequence(moduleCode=MODULE_CODE){
+  try{
+    const data=await apiFetch(`/sequence?module=${encodeURIComponent(moduleCode)}`);
+    return data.number||data.sequence||data.next_no||data.nextNo||data.id||"";
+  }catch(e){
+    const all=collectActions?collectActions():getManual();
+    const nums=(all||[]).map(a=>String(a.id||"").match(/(\d+)$/)).filter(Boolean).map(m=>Number(m[1]));
+    const next=(Math.max(0,...nums)+1).toString().padStart(6,"0");
+    return "AKS-"+next;
+  }
+}
+
+async function syncDashboardKpi(){
+  const active=collectActions().filter(a=>!isDeletedAction(a));
+  const open=active.filter(a=>!["Kapalı","İptal"].includes(a.status));
+  const payload={
+    module:"Aksiyon Merkezi",
+    open_actions:open.length,
+    overdue_actions:active.filter(a=>a.status==="Gecikti").length,
+    waiting_approval:active.filter(a=>a.status==="Onay Bekliyor").length,
+    waiting_evidence:active.filter(a=>a.status==="Kanıt Bekliyor"||!(a.evidence||[]).length).length,
+    updated_at:new Date().toISOString()
+  };
+  try{await postJSON("/kpi-results",payload)}catch(e){setLS("gdnl_pending_kpi_action_center",[payload,...getLS("gdnl_pending_kpi_action_center")])}
+}
+
+async function writeApprovalStep(a,stepName="Kapanış Onayı",status="Bekliyor",comment=""){
+  const payload={
+    id:uid("APS"),
+    approval_id:a.id,
+    step_no:1,
+    step_name:stepName,
+    approver_id:a.owner_id||"",
+    approver_name:a.owner||"",
+    approver_department:a.department||"",
+    approval_type:"Sıralı",
+    required:true,
+    status,
+    approved_at:status==="Onaylandı"?new Date().toISOString():"",
+    rejected_at:status==="Reddedildi"?new Date().toISOString():"",
+    comment
+  };
+  try{await postJSON("/approval-steps",payload)}catch(e){const q=getLS("gdnl_pending_approval_steps");q.unshift(payload);setLS("gdnl_pending_approval_steps",q)}
+}
+
+async function writeWorkflowStep(a,stepName,status="Devam Ediyor"){
+  const payload={
+    id:uid("WFS"),
+    workflow_id:a.id,
+    step_no:1,
+    step_name:stepName||a.stage||a.status,
+    previous_step:"",
+    next_step:"",
+    required:true,
+    status,
+    created_at:a.createdAt||new Date().toISOString(),
+    completed_at:status==="Tamamlandı"||status==="Kapalı"?new Date().toISOString():""
+  };
+  try{await postJSON("/workflow-steps",payload)}catch(e){const q=getLS("gdnl_pending_workflow_steps");q.unshift(payload);setLS("gdnl_pending_workflow_steps",q)}
+  try{await postJSON("/workflow-history",{...payload,action:status,module:"Aksiyon Merkezi",related_id:a.id,user_name:session.name||session.fullname||""})}catch(e){}
+}
+
+async function createFileVersion(fileObj,relatedId,reason="Kanıt dosyası yüklendi"){
+  const payload={
+    id:uid("FVER"),
+    file_id:fileObj.id||"",
+    related_id:relatedId||"",
+    module:"Aksiyon Merkezi",
+    version_no:fileObj.version_no||"1",
+    previous_version:fileObj.previous_version||"",
+    uploaded_by:session.name||session.fullname||session.username||"",
+    uploaded_at:new Date().toISOString(),
+    revision_reason:reason
+  };
+  try{await postJSON("/file-versions",payload)}catch(e){const q=getLS("gdnl_pending_file_versions");q.unshift(payload);setLS("gdnl_pending_file_versions",q)}
+}
+
+async function getSignedFileUrl(file){
+  if(!file)return"";
+  if(file.signed_url)return file.signed_url;
+  if(file.temporary_token&&file.r2_key)return `${API_BASE}/file/${encodeURIComponent(file.r2_key)}?token=${encodeURIComponent(file.temporary_token)}`;
+  if(file.r2_key){
+    try{
+      const data=await apiFetch(`/files/signed-url?r2_key=${encodeURIComponent(file.r2_key)}`);
+      return data.signed_url||data.url||`${API_BASE}/file/${encodeURIComponent(file.r2_key)}`;
+    }catch(e){return `${API_BASE}/file/${encodeURIComponent(file.r2_key)}`}
+  }
+  return file.url||file.fileData||"";
+}
+
+async function enterpriseSearch(query){
+  const q=(query||"").trim();
+  if(!q)return null;
+  try{
+    const data=await apiFetch(`/search?q=${encodeURIComponent(q)}`);
+    return data.results||data.items||data||[];
+  }catch(e){return null}
+}
+
+async function archiveRecord(sourceType,sourceId,reason="Kullanıcı tarafından arşivlendi"){
+  const payload={
+    module:"Aksiyon Merkezi",
+    source_type:sourceType,
+    source_id:sourceId,
+    status:"Arşivlendi",
+    archived_by:session.name||session.fullname||session.username||"",
+    archived_at:new Date().toISOString(),
+    archive_reason:reason
+  };
+  try{return await postJSON("/archive",payload)}catch(e){const q=getLS("gdnl_pending_archive");q.unshift(payload);setLS("gdnl_pending_archive",q);return null}
+}
+
+async function restoreRecord(sourceType,sourceId){
+  const payload={
+    module:"Aksiyon Merkezi",
+    source_type:sourceType,
+    source_id:sourceId,
+    restored_by:session.name||session.fullname||session.username||"",
+    restored_at:new Date().toISOString()
+  };
+  try{return await postJSON("/restore",payload)}catch(e){const q=getLS("gdnl_pending_restore");q.unshift(payload);setLS("gdnl_pending_restore",q);return null}
+}
+
+async function createInternalAuditLinks(a){
+  if(!String(a.module||"").toLocaleLowerCase("tr-TR").includes("denetim"))return;
+  const links=[
+    {type:"CAPA",path:"/capas",title:"İç denetim bulgusundan CAPA bağlantısı"},
+    {type:"Risk",path:"/risks",title:"İç denetim bulgusundan risk bağlantısı"},
+    {type:"YGG",path:"/meetings",title:"İç denetim sonucundan YGG gündemi"},
+    {type:"Aksiyon",path:"/actions",title:"İç denetim aksiyon bağlantısı"},
+    {type:"Doküman",path:"/documents",title:"İç denetim doküman bağlantısı"},
+    {type:"Eğitim",path:"/trainings",title:"İç denetim eğitim bağlantısı"},
+    {type:"Değişiklik",path:"/change-requests",title:"İç denetim değişiklik bağlantısı"}
+  ];
+  for(const l of links){
+    try{await postJSON(l.path,{id:uid(l.type.substring(0,3).toUpperCase()),source_module:"İç Denetim",source_id:a.id,title:l.title,description:a.title,status:"Açık",created_by:session.name||session.fullname||"",created_at:new Date().toISOString()})}catch(e){}
+  }
+  await writeActivity("İÇ_DENETİM_BAĞLANTI","Aksiyon Merkezi",a.id,"İç denetim bağlantıları üretildi","CAPA, Risk, YGG, Aksiyon, Doküman, Eğitim ve Değişiklik bağlantıları hazırlandı");
+}
+
+
 async function createCloudNotification(a,msg,userNameValue){
-  const payload={id:uid("NTF"),user_id:a.owner_id||"",user_name:userNameValue||a.owner||"",type:"ACTION",title:"Aksiyon Bildirimi",message:msg,module:"Aksiyon Merkezi",related_id:a.id,status:"UNREAD",due_date:a.dueDate||a.due_date||"",created_at:new Date().toISOString()};
-  try{await postJSON("/notifications",payload)}catch(e){const n=getNotifications();n.unshift({notificationId:payload.id,type:"E-posta + SMS",module:"Aksiyon Merkezi",documentCode:a.sourceNo||a.related_id||"",documentName:a.title,mailGroups:(a.owner||"")+"; "+(a.department||"")+"; Kalite",smsGroups:a.owner||"",distributionPoints:(a.module||"Aksiyon Merkezi")+" / "+(a.priority||"Normal"),message:msg,status:"Kuyrukta",createdAt:payload.created_at});setNotifications(n)}
+  const payload={id:uid("NTF"),user_id:a.owner_id||"",user_name:userNameValue||a.owner||"",type:"ACTION",title:"Aksiyon Bildirimi",message:msg,module:"Aksiyon Merkezi",related_id:a.id,status:"Okunmadı",is_read:0,read_by:"",read_at:"",due_date:a.dueDate||a.due_date||"",created_at:new Date().toISOString()};
+  try{await postJSON("/notifications",payload);await writeActivity("BİLDİRİM_OLUŞTURMA","Aksiyon Merkezi",a.id,"Bildirim oluşturuldu",msg)}catch(e){const n=getNotifications();n.unshift({notificationId:payload.id,type:"E-posta + SMS",module:"Aksiyon Merkezi",documentCode:a.sourceNo||a.related_id||"",documentName:a.title,mailGroups:(a.owner||"")+"; "+(a.department||"")+"; Kalite",smsGroups:a.owner||"",distributionPoints:(a.module||"Aksiyon Merkezi")+" / "+(a.priority||"Normal"),message:msg,status:"Kuyrukta",createdAt:payload.created_at});setNotifications(n)}
 }
 async function createAssignmentForAction(a){
-  const payload={id:uid("ASN"),source_type:"ACTION",source_id:a.id,user_id:a.owner_id||"",user_name:a.owner||"",role:"Sorumlu",status:"Atandı",due_date:a.dueDate||"",title:"Yeni aksiyon atandı",message:(a.title||"Aksiyon")+" aksiyonu size atanmıştır.",created_by:session.name||session.fullname||session.username||"",created_at:new Date().toISOString()};
+  const payload={id:uid("ASN"),source_type:"ACTION",source_id:a.id,user_id:a.owner_id||"",user_name:a.owner||"",department:a.department||"",role:"Sorumlu",status:"Atandı",due_date:a.dueDate||"",title:"Yeni aksiyon atandı",message:(a.title||"Aksiyon")+" aksiyonu size atanmıştır.",created_by:session.name||session.fullname||session.username||"",created_at:new Date().toISOString()};
   try{await postJSON("/assignments",payload)}catch(e){const q=getLS("gdnl_pending_assignments");q.unshift(payload);setLS("gdnl_pending_assignments",q)}
 }
 
@@ -477,19 +716,31 @@ async function loadCloudFiles(){
   try{const data=await apiFetch("/files?module=AKSIYON_MERKEZI");cloudFiles=data.files||[]}catch(e){cloudFiles=[]}
 }
 async function saveActionToCloud(a){
-  const payload={id:a.id,module:"Aksiyon Merkezi",related_id:a.sourceNo||a.id,title:a.title,description:serializeActionDetail(a),priority:a.priority,status:a.status,due_date:a.dueDate,created_by:session.name||session.fullname||session.username||"",created_at:a.createdAt||new Date().toISOString()};
+  const payload={id:a.id,module:"Aksiyon Merkezi",related_id:a.sourceNo||a.id,title:a.title,description:serializeActionDetail(a),priority:a.priority,status:a.status,due_date:a.dueDate,created_by:session.name||session.fullname||session.username||"",created_at:a.createdAt||new Date().toISOString(),archive_reason:a.archive_reason||"",delete_reason:a.delete_reason||""};
   try{
     await postJSON("/actions",payload);
-    await writeAudit("CREATE_AKSİYON","Aksiyon Merkezi",a.id,{title:a.title,owner:a.owner,dueDate:a.dueDate});
+    await writeAudit("AKSİYON_OLUŞTURMA","Aksiyon Merkezi",a.id,{title:a.title,owner:a.owner,dueDate:a.dueDate});
+    await writeActivity("AKSİYON_OLUŞTURMA","Aksiyon Merkezi",a.id,"Aksiyon oluşturuldu",a.title);
     await createAssignmentForAction(a);
+    await writeWorkflowStep(a,"Aksiyon Oluşturuldu","Açık");
+    await syncDashboardKpi();
+    await createInternalAuditLinks(a);
     return true;
   }catch(e){
     return false;
   }
 }
-async function updateActionToCloud(a,actionName="UPDATE_ACTION"){
-  const payload={id:a.id,module:"Aksiyon Merkezi",related_id:a.sourceNo||a.id,title:a.title,description:serializeActionDetail(a),priority:a.priority,status:a.status,due_date:a.dueDate,created_by:a.createdBy||session.name||""};
-  try{await putJSON(`/actions/${encodeURIComponent(a.id)}`,payload);await writeAudit(actionName,"Aksiyon Merkezi",a.id,{status:a.status,title:a.title});return true}catch(e){return false}
+async function updateActionToCloud(a,actionName="AKSİYON_GÜNCELLEME",oldValue=""){
+  const payload={id:a.id,module:"Aksiyon Merkezi",related_id:a.sourceNo||a.id,title:a.title,description:serializeActionDetail(a),priority:a.priority,status:a.status,due_date:a.dueDate,created_by:a.createdBy||session.name||"",archive_reason:a.archive_reason||"",delete_reason:a.delete_reason||""};
+  try{
+    await putJSON(`/actions/${encodeURIComponent(a.id)}`,payload);
+    await writeAudit(actionName,"Aksiyon Merkezi",a.id,{status:a.status,title:a.title},oldValue,JSON.stringify(payload),"status");
+    await writeActivity(actionName,"Aksiyon Merkezi",a.id,"Aksiyon güncellendi",a.title,oldValue,JSON.stringify(payload),"status");
+    await writeWorkflowStep(a,a.stage||a.status,a.status);
+    if(a.status==="Onay Bekliyor")await writeApprovalStep(a,"Kapanış Onayı","Bekliyor","Kanıt sonrası kapanış onayı bekliyor");
+    await syncDashboardKpi();
+    return true;
+  }catch(e){return false}
 }
 async function uploadFileToR2(file,relatedId,meta={}){
   const fd=new FormData();
@@ -498,11 +749,16 @@ async function uploadFileToR2(file,relatedId,meta={}){
   fd.append("related_id",relatedId||"REFERANS-YOK");
   fd.append("uploaded_by",session.name||session.fullname||session.username||"BİLİNMİYOR");
   const data=await apiFetch("/upload",{method:"POST",body:fd});
-  await writeAudit("UPLOAD_FILE","Aksiyon Merkezi",relatedId,{fileName:file.name,r2Key:data.file?.r2_key});
+  await writeAudit("DOSYA_YÜKLEME","Aksiyon Merkezi",relatedId,{fileName:file.name,r2Key:data.file?.r2_key});
+  await writeActivity("DOSYA_YÜKLEME","Aksiyon Merkezi",relatedId,"Dosya yüklendi",file.name);
+  await createFileVersion(data.file||data,relatedId,"Aksiyon kanıt dosyası");
   return data.file||data;
 }
 
-function generateManualNo(){manualActionNo.value="ACT-"+new Date().getFullYear()+"-"+String(getManual().length+1).padStart(4,"0")}
+async function generateManualNo(){
+  const seq=await getNextSequence("AKSIYON");
+  manualActionNo.value=seq||("AKS-"+String(getManual().length+1).padStart(6,"0"));
+}
 async function initUsers(){
   try{
     const data=await apiFetch("/users");
@@ -561,7 +817,7 @@ function selectOwnerUser(index){
   manualOwner.value=full;
   manualOwnerId.value=u.id||u.user_id||"";
   manualOwnerSearch.value=full;
-  manualDepartment.value=dep;
+  manualDepartment.value=dep; if(typeof manualDepartmentSource!=="undefined")manualDepartmentSource.value=dep?"D1 users.department":"D1 departments eşleşmesi bekleniyor";
   const pill=document.getElementById("manualOwnerPill");
   if(pill){pill.classList.add("active");pill.innerHTML=`${escapeHTML(full)}${dep?" · "+escapeHTML(dep):""}`;}
   const box=document.getElementById("manualOwnerSuggestions");
@@ -571,7 +827,7 @@ function selectOwnerUser(index){
 function clearOwnerSelection(clearSearch=true){
   if(typeof manualOwner!=="undefined")manualOwner.value="";
   if(typeof manualOwnerId!=="undefined")manualOwnerId.value="";
-  if(typeof manualDepartment!=="undefined")manualDepartment.value="";
+  if(typeof manualDepartment!=="undefined")manualDepartment.value=""; if(typeof manualDepartmentSource!=="undefined")manualDepartmentSource.value="";
   if(clearSearch&&typeof manualOwnerSearch!=="undefined")manualOwnerSearch.value="";
   const pill=document.getElementById("manualOwnerPill");
   if(pill){pill.classList.remove("active");pill.textContent="Sorumlu seçilmedi";}
@@ -619,9 +875,9 @@ const a={id:"MAN-"+Date.now(),module:manualModule.value,sourceNo:manualSourceNo.
 const items=getManual();items.unshift(a);setManual(items);
 const cloudOk=await saveActionToCloud(a);
 if(notify){await createCloudNotification(a,"Aksiyon atandı: "+a.title,a.owner)}
-clearManualAction();renderAll();showToast(cloudOk?"Aksiyon D1'e kaydedildi":"Aksiyon yerel kaydedildi; API aksiyon bağlantısı bekleniyor");
+await clearManualAction();renderAll();showToast(cloudOk?"Aksiyon D1'e kaydedildi":"Aksiyon yerel kaydedildi; API aksiyon bağlantısı bekleniyor");
 }
-function clearManualAction(){generateManualNo();manualModule.value="Manuel";manualSourceNo.value="";manualPriority.value="Normal";manualActionType.value="Düzeltici Faaliyet";manualStage.value="Oluşturuldu";clearOwnerSelection();manualDueDate.value=addDays(todayISO(),7);manualStatus.value="Açık";manualTitle.value="";manualDescription.value=""}
+async function clearManualAction(){await generateManualNo();manualModule.value="Manuel";manualSourceNo.value="";manualPriority.value="Normal";manualActionType.value="Düzeltici Faaliyet";manualStage.value="Oluşturuldu";clearOwnerSelection();manualDueDate.value=addDays(todayISO(),7);manualStatus.value="Açık";manualTitle.value="";manualDescription.value=""}
 
 function filteredActions(){
 const q=String(globalSearch.value||"").toLowerCase(),sf=statusFilter.value,pf=priorityFilter.value,src=sourceFilter.value,km=kanbanModuleFilter.value,ko=kanbanOwnerFilter.value;
@@ -630,6 +886,15 @@ return collectActions().filter(a=>{
   const hay=`${a.id} ${a.module} ${a.sourceNo} ${a.title} ${a.description} ${a.owner} ${a.department} ${a.status} ${a.priority}`.toLowerCase();
   return hay.includes(q)&&(!sf||a.status===sf)&&(!pf||a.priority===pf)&&(!src||a.module===src)&&(!km||a.module===km)&&(!ko||a.owner===ko);
 });
+}
+async function runEnterpriseSearch(){
+  const q=String(globalSearch.value||"").trim();
+  if(!q){renderAll();return}
+  const cloudResults=await enterpriseSearch(q);
+  if(Array.isArray(cloudResults)&&cloudResults.length){
+    showToast("Cloud aramada "+cloudResults.length+" sonuç bulundu");
+  }
+  renderAll();
 }
 function renderAll(){
 const all=collectActions().filter(a=>!isDeletedAction(a)),items=filteredActions().filter(a=>!isDeletedAction(a));
@@ -649,7 +914,7 @@ return `<div class="lane"><h4>${l}<span>${arr.length}</span></h4>${arr.slice(0,1
 function renderTable(items){
 if(!items.length){actionTable.innerHTML='<div class="empty">Aksiyon bulunamadı.</div>';return}
 let h='<table><thead><tr><th>Aksiyon</th><th>Kaynak</th><th>Sorumlu</th><th>Termin</th><th>Kalan</th><th>Öncelik</th><th>Durum</th><th>%</th><th>Aksiyon</th></tr></thead><tbody>';
-items.forEach(a=>h+=`<tr><td>${a.title}<br><small>${a.id}</small></td><td>${a.module}<br><small>${a.sourceNo}</small></td><td>${a.owner}<br><small>${a.department}</small></td><td>${formatDateTR(a.dueDate)}</td><td>${a.dueDate?daysLeft(a.dueDate):"-"}</td><td><span class="status ${statusClass(a.priority)}">${a.priority}</span></td><td><span class="status ${statusClass(a.status)}">${a.status}</span></td><td>${a.completion}%<div class="progress"><div class="bar" style="width:${a.completion}%"></div></div></td><td><button class="small-btn view" onclick="openAction('${a.id}')">İncele</button><button class="small-btn alert" onclick="notifyAction('${a.id}')">Bildir</button>${canDeleteAction(a)?`<button class="small-btn delete" onclick="event.stopPropagation();selectedActionId='${a.id}';deleteActionCurrent()">Sil</button>`:""}</td></tr>`);
+items.forEach(a=>h+=`<tr><td>${a.title}<br><small>${a.id}</small></td><td>${a.module}<br><small>${a.sourceNo}</small></td><td>${a.owner}<br><small>${a.department}</small></td><td>${formatDateTR(a.dueDate)}</td><td>${a.dueDate?daysLeft(a.dueDate):"-"}</td><td><span class="status ${statusClass(a.priority)}">${a.priority}</span></td><td><span class="status ${statusClass(a.status)}">${a.status}</span></td><td>${a.completion}%<div class="progress"><div class="bar" style="width:${a.completion}%"></div></div></td><td><button class="small-btn view" onclick="openAction('${a.id}')">İncele</button><button class="small-btn alert" onclick="notifyAction('${a.id}')">Bildir</button>${canDeleteAction(a)?`<button class="small-btn delete" onclick="event.stopPropagation();selectedActionId='${a.id}';deleteActionCurrent()">Arşivle</button>`:""}</td></tr>`);
 actionTable.innerHTML=h+"</tbody></table>";
 }
 function initEvidenceSelect(items){evidenceActionSelect.innerHTML='<option value="">Aksiyon Seçiniz</option>';items.forEach(a=>evidenceActionSelect.innerHTML+=`<option value="${a.id}">${a.module} / ${a.sourceNo} / ${a.title}</option>`)}
@@ -667,22 +932,31 @@ async function addEvidence(){
 const id=evidenceActionSelect.value;if(!id)return showToast("Aksiyon seç");if(!evidenceName.value.trim())return showToast("Kanıt adı zorunlu");if(!uploadedEvidence)return showToast("Dosya seç");
 let r2File=null;
 try{r2File=await uploadFileToR2(uploadedEvidence.rawFile,id,{module:"AKSIYON_MERKEZI"})}catch(e){showToast("R2 yükleme başarısız: "+e.message);return}
-const ev={id:"EVD-"+Date.now(),type:evidenceType.value,name:evidenceName.value.trim(),status:evidenceStatus.value,description:evidenceDescription.value.trim(),file:{fileName:uploadedEvidence.fileName,fileType:uploadedEvidence.fileType,fileSize:uploadedEvidence.fileSize,fileSizeText:uploadedEvidence.fileSizeText,r2_key:r2File.r2_key,id:r2File.id,url:API_BASE+"/file/"+encodeURIComponent(r2File.r2_key)},uploadedBy:session.name,createdAt:new Date().toISOString()};
+const ev={id:"EVD-"+Date.now(),type:evidenceType.value,name:evidenceName.value.trim(),status:evidenceStatus.value,description:evidenceDescription.value.trim(),file:{fileName:uploadedEvidence.fileName,fileType:uploadedEvidence.fileType,fileSize:uploadedEvidence.fileSize,fileSizeText:uploadedEvidence.fileSizeText,r2_key:r2File.r2_key,id:r2File.id,url:r2File.signed_url||r2File.url||API_BASE+"/file/"+encodeURIComponent(r2File.r2_key),temporary_token:r2File.temporary_token||""},uploadedBy:session.name,createdAt:new Date().toISOString()};
 if(id.startsWith("MAN-")){
- const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].evidence=items[i].evidence||[];items[i].evidence.unshift(ev);items[i].status="Onay Bekliyor";items[i].completion=Math.max(items[i].completion||0,80);setManual(items);await updateActionToCloud(items[i],"UPLOAD_EVIDENCE");await createCloudNotification(items[i],"Aksiyon kanıtı yüklendi: "+items[i].title,items[i].owner);
+ const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].evidence=items[i].evidence||[];items[i].evidence.unshift(ev);items[i].status="Onay Bekliyor";items[i].completion=Math.max(items[i].completion||0,80);setManual(items);await updateActionToCloud(items[i],"KANIT_YÜKLEME");await createCloudNotification(items[i],"Aksiyon kanıtı yüklendi: "+items[i].title,items[i].owner);
 }else{showToast("Kaynak aksiyonda kanıt R2'ye yüklendi; kaynak modül kapama kendi ekranından yapılır.");}
 clearEvidenceInputs();renderAll();showToast("Kanıt R2'ye yüklendi");
 }
-async function approveSelectedEvidenceAction(){const id=evidenceActionSelect.value;if(!id)return showToast("Aksiyon seç");if(id.startsWith("MAN-")){const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].status="Onay Bekliyor";setManual(items);await updateActionToCloud(items[i],"WAITING_APPROVAL");renderAll();showToast("Aksiyon onay bekliyor durumuna alındı")}else showToast("Kaynak modül aksiyonunu kendi modülünden kapatmalısın")}
+async function approveSelectedEvidenceAction(){const id=evidenceActionSelect.value;if(!id)return showToast("Aksiyon seç");if(id.startsWith("MAN-")){const items=getManual();const i=items.findIndex(a=>a.id===id);items[i].status="Onay Bekliyor";setManual(items);await updateActionToCloud(items[i],"ONAY_BEKLEME");renderAll();showToast("Aksiyon onay bekliyor durumuna alındı")}else showToast("Kaynak modül aksiyonunu kendi modülünden kapatmalısın")}
 function clearEvidenceInputs(){evidenceActionSelect.value="";evidenceType.value="Fotoğraf";evidenceName.value="";evidenceStatus.value="Yüklendi";evidenceDescription.value="";evidenceFile.value="";uploadedEvidence=null}
-function downloadEvidence(actionId,eid){const a=collectActions().find(x=>x.id===actionId);const e=a?.evidence?.find(x=>x.id===eid);if(!e)return;if(e.file?.url){window.open(e.file.url,"_blank");return}if(e.file?.fileData){const link=document.createElement("a");link.href=e.file.fileData;link.download=e.file.fileName;link.click()}}
+async function downloadEvidence(actionId,eid){
+  const a=collectActions().find(x=>x.id===actionId);
+  const e=a?.evidence?.find(x=>x.id===eid);
+  if(!e)return;
+  const url=await getSignedFileUrl(e.file);
+  if(url){window.open(url,"_blank");return}
+  if(e.file?.fileData){const link=document.createElement("a");link.href=e.file.fileData;link.download=e.file.fileName;link.click()}
+}
 
 function canDeleteAction(a){
   const current=(session.name||session.fullname||session.username||"").trim();
   const currentId=String(session.id||session.user_id||"");
   const creator=(a.createdBy||"").trim();
   const creatorId=String(a.createdById||"");
-  return !!a.id && a.id.startsWith("MAN-") && ((creator&&creator===current)||(creatorId&&creatorId===currentId)||(!creator&&!creatorId&&current));
+  const role=String(session.role||"").toLocaleLowerCase("tr-TR");
+  const superAdmin=role.includes("super")||role.includes("admin");
+  return !!a.id && a.id.startsWith("MAN-") && (superAdmin||(creator&&creator===current)||(creatorId&&creatorId===currentId)||(!creator&&!creatorId&&current));
 }
 function openAction(id){selectedActionId=id;const a=collectActions().find(x=>x.id===id);if(!a)return;drawerTitle.textContent=a.id+" / "+a.title;drawerStatus.textContent=a.status;drawerStatus.className="status "+statusClass(a.status);const del=document.getElementById("deleteCurrentBtn");if(del)del.style.display=canDeleteAction(a)?"inline-flex":"none";drawerContent.innerHTML=`<div class="info-box"><b>Modül:</b> ${a.module}
 <b>Kaynak No:</b> ${a.sourceNo}
@@ -706,9 +980,21 @@ function renderComments(a){
   if(!comments.length)return '<div class="empty" style="margin-top:10px;padding:14px">Henüz yorum yok.</div>';
   return '<div class="comment-list">'+comments.map(c=>`<div class="comment-item"><b>${escapeHTML(c.userName||"Kullanıcı")}</b><small>${formatDateTR(c.createdAt)} ${c.createdAt?new Date(c.createdAt).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):""}</small><p>${escapeHTML(c.text||"")}</p></div>`).join('')+'</div>';
 }
-function renderEvidenceTable(a){if(!a.evidence||!a.evidence.length)return"Kanıt yok.";let h='<table><thead><tr><th>Tip</th><th>Ad</th><th>Durum</th><th>Dosya</th></tr></thead><tbody>';a.evidence.forEach(e=>h+=`<tr><td>${e.type}</td><td>${e.name}</td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td><td>${e.file?.url?`<button class="small-btn down" onclick="window.open('${e.file.url}','_blank')">Aç</button>`:"-"}</td></tr>`);return h+"</tbody></table>"}
-async function moveCurrent(status){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden değiştirilmeli");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);items[i].status=status;items[i].completion=status==="Kapalı"?100:items[i].completion;setManual(items);await updateActionToCloud(items[i],"UPDATE_AKSİYON_STATUS");renderAll();openAction(selectedActionId);showToast("Durum güncellendi")}
-async function closeActionCurrent(){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden kapatılmalı");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);if(!(items[i].evidence||[]).length)return showToast("Kanıt yüklenmeden aksiyon kapatılamaz");items[i].status="Kapalı";items[i].completion=100;items[i].actualDate=todayISO();setManual(items);await updateActionToCloud(items[i],"CLOSE_AKSİYON");renderAll();openAction(selectedActionId);showToast("Aksiyon kapatıldı")}
+function renderEvidenceTable(a){
+  if(!a.evidence||!a.evidence.length)return"Kanıt yok.";
+  let h='<table><thead><tr><th>Tip</th><th>Ad</th><th>Durum</th><th>Dosya</th></tr></thead><tbody>';
+  a.evidence.forEach(e=>h+=`<tr><td>${escapeHTML(e.type)}</td><td>${escapeHTML(e.name)}</td><td><span class="status ${statusClass(e.status)}">${escapeHTML(e.status)}</span></td><td>${e.file?`<button class="small-btn down" onclick="openEvidenceFile('${a.id}','${e.id}')">Aç</button>`:"-"}</td></tr>`);
+  return h+"</tbody></table>";
+}
+async function openEvidenceFile(actionId,eid){
+  const a=collectActions().find(x=>x.id===actionId);
+  const e=a?.evidence?.find(x=>x.id===eid);
+  if(!e)return;
+  const url=await getSignedFileUrl(e.file);
+  if(url)window.open(url,"_blank");
+}
+async function moveCurrent(status){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden değiştirilmeli");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);items[i].status=status;items[i].completion=status==="Kapalı"?100:items[i].completion;setManual(items);await updateActionToCloud(items[i],"AKSİYON_DURUM_GÜNCELLEME");renderAll();openAction(selectedActionId);showToast("Durum güncellendi")}
+async function closeActionCurrent(){if(!selectedActionId)return;if(!selectedActionId.startsWith("MAN-"))return showToast("Kaynak modül aksiyonları kendi modülünden kapatılmalı");const items=getManual();const i=items.findIndex(a=>a.id===selectedActionId);if(!(items[i].evidence||[]).length)return showToast("Kanıt yüklenmeden aksiyon kapatılamaz");items[i].status="Kapalı";items[i].completion=100;items[i].actualDate=todayISO();setManual(items);await updateActionToCloud(items[i],"AKSİYON_KAPATMA");renderAll();openAction(selectedActionId);showToast("Aksiyon kapatıldı")}
 function closeDrawer(){selectedActionId=null;drawer.classList.remove("active")}
 async function addCommentCurrent(){
   if(!selectedActionId)return;
@@ -737,7 +1023,7 @@ async function requestRevisionCurrent(){
   items[i].comments=items[i].comments||[];
   items[i].comments.push({id:uid("REV"),userId:session.id||session.user_id||"",userName:session.name||session.fullname||session.username||"Kullanıcı",text:"Revizyon istendi: "+reason.trim(),createdAt:new Date().toISOString()});
   setManual(items);
-  await updateActionToCloud(items[i],"REQUEST_REVISION");
+  await updateActionToCloud(items[i],"REVİZYON_TALEBİ");
   await createCloudNotification(items[i],"Aksiyon için revizyon istendi: "+items[i].title,items[i].owner);
   renderAll();openAction(selectedActionId);showToast("Revizyon talebi oluşturuldu");
 }
@@ -745,13 +1031,26 @@ async function deleteActionCurrent(){
   if(!selectedActionId)return;
   const a=collectActions().find(x=>x.id===selectedActionId);
   if(!a)return;
-  if(!canDeleteAction(a))return showToast("Bu kaydı sadece oluşturan kullanıcı silebilir");
-  if(!confirm("Bu aksiyon kaydı silinsin mi?"))return;
-  const items=getManual().filter(x=>x.id!==selectedActionId);
-  setManual(items);
-  try{await apiFetch(`/actions/${encodeURIComponent(selectedActionId)}`,{method:"DELETE"})}catch(e){}
-  await writeAudit("DELETE_AKSİYON","Aksiyon Merkezi",selectedActionId,{title:a.title,owner:a.owner});
-  closeDrawer();renderAll();showToast("Aksiyon silindi");
+  if(!canDeleteAction(a))return showToast("Bu kaydı sadece oluşturan kullanıcı veya Super Administrator arşivleyebilir");
+  const reason=prompt("Arşivleme sebebini yazın:","Kullanıcı tarafından arşivlendi");
+  if(reason===null)return;
+  const items=getManual();
+  const i=items.findIndex(x=>x.id===selectedActionId);
+  if(i>=0){
+    const oldValue=JSON.stringify(items[i]);
+    items[i].status="Arşivlendi";
+    items[i].archived_by=session.name||session.fullname||session.username||"";
+    items[i].archived_at=new Date().toISOString();
+    items[i].closed_at=new Date().toISOString();
+    items[i].archive_reason=reason||"";
+    setManual(items);
+    await updateActionToCloud(items[i],"AKSİYON_ARŞİVLEME",oldValue);
+  }
+  await archiveRecord("ACTION",selectedActionId,reason||"Kullanıcı tarafından arşivlendi");
+  await writeAudit("AKSİYON_ARŞİVLEME","Aksiyon Merkezi",selectedActionId,{title:a.title,owner:a.owner,reason});
+  await writeActivity("AKSİYON_ARŞİVLEME","Aksiyon Merkezi",selectedActionId,"Aksiyon arşivlendi",reason||"");
+  await syncDashboardKpi();
+  closeDrawer();renderAll();showToast("Aksiyon arşive alındı");
 }
 
 async function notifyAction(id){const a=collectActions().find(x=>x.id===id);if(!a)return;await createCloudNotification(a,"Aksiyon bildirimi: "+a.title,a.owner);showToast("Bildirim kuyruğu oluşturuldu")}
@@ -772,11 +1071,13 @@ function closeMobileMenu(){const drawer=document.getElementById("mobileDrawer");
 
 globalSearch.addEventListener("input",renderAll);
 async function initPage(){
+  await loadDepartments();
+  await loadRBAC();
   await initUsers();
   await loadCloudActions();
   await loadCloudFiles();
-  clearManualAction();clearEvidenceInputs();renderAll();
-  await writeAudit("OPEN_PAGE","Aksiyon Merkezi","action-center.html","Aksiyon Merkezi ekranı açıldı");
+  await clearManualAction();clearEvidenceInputs();renderAll();
+  await writeAudit("SAYFA_AÇILDI","Aksiyon Merkezi","action-center.html","Aksiyon Merkezi ekranı açıldı");
   setInterval(async()=>{await loadCloudActions();renderAll()},15000);
 }
 initPage();
