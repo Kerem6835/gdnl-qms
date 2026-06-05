@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Distribution Management V2</title>
+<title>GDNL EQMS | Dağıtım Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -137,6 +137,18 @@ font-size:14px!important;
 padding:11px 13px!important;
 }
 
+/* === GDNL EQMS CLOUD READY KİŞİ SEÇİMİ VE ETİKET STANDARDI === */
+.user-ac-wrap{position:relative}
+.user-suggestions{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 48px rgba(7,27,52,.16);z-index:120;display:none;max-height:260px;overflow:auto}
+.user-suggestions.active{display:block}
+.user-suggestion{padding:11px 13px;cursor:pointer;font-weight:850;color:#0f1b2f;border-bottom:1px solid #eef2f7}
+.user-suggestion:hover{background:#eefaf2;color:#1f7d3d}
+.user-suggestion small{display:block;color:#617086;font-weight:800;margin-top:3px}
+.user-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.user-tag{display:inline-flex;align-items:center;gap:7px;background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900}
+.user-tag button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
+.cloud-note{font-size:12px;color:#617086;font-weight:850;margin-top:8px}
+
 </style>
 </head>
 
@@ -170,6 +182,7 @@ padding:11px 13px!important;
 <div class="submenu">
 <a href="capa.html">8D / CAPA</a>
 <a href="risk-register.html">Risk Yönetimi</a>
+<a href="audit.html">İç Denetim</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
@@ -192,7 +205,7 @@ padding:11px 13px!important;
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -212,7 +225,7 @@ padding:11px 13px!important;
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -220,7 +233,7 @@ padding:11px 13px!important;
 
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -247,6 +260,7 @@ padding:11px 13px!important;
 <div class="submenu">
 <a href="capa.html">8D / CAPA</a>
 <a href="risk-register.html">Risk Yönetimi</a>
+<a href="audit.html">İç Denetim</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
@@ -269,7 +283,7 @@ padding:11px 13px!important;
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -289,7 +303,7 @@ padding:11px 13px!important;
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -297,7 +311,7 @@ padding:11px 13px!important;
 
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Distribution V2<br>Mail / SMS / Read Tracking</div>
+<div class="sidebar-footer">GDNL EQMS<br>Dağıtım Yönetimi<br>E-posta / SMS / Okuma Takibi</div>
 </aside>
 
 <main class="main">
@@ -312,16 +326,16 @@ padding:11px 13px!important;
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName">Kerem Güdenli</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Distribution & Read Tracking Center</h1>
-<p>Kalite Admin final onayından sonra yayınlanan dokümanları mail/SMS kuyruğuna al, dağıtım noktalarına gönder, okundu/okunmadı takibini denetime hazır şekilde yönet.</p>
+<h1>Dağıtım ve Okuma Takip Merkezi</h1>
+<p>Kalite Admin final onayından sonra yayınlanan dokümanları e-posta/SMS kuyruğuna al, dağıtım noktalarına gönder, okundu/okunmadı takibini denetime hazır şekilde yönet.</p>
 </div>
-<div class="hero-badge">Module: <span>V2 Active</span></div>
+<div class="hero-badge">Modül: <span>Aktif</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -336,7 +350,7 @@ padding:11px 13px!important;
 </section>
 <section class="cards">
 <div class="card"><small>Toplam Dağıtım</small><h2 id="totalDist">0</h2><p>Dağıtım kuyruğu</p></div>
-<div class="card"><small>Gönderilen</small><h2 id="sentDist">0</h2><p>Mail/SMS gönderildi</p></div>
+<div class="card"><small>Gönderilen</small><h2 id="sentDist">0</h2><p>E-posta/SMS gönderildi</p></div>
 <div class="card"><small>Okundu</small><h2 id="readDist">0</h2><p>Okuma tamamlandı</p></div>
 <div class="card"><small>Bekleyen</small><h2 id="pendingDist">0</h2><p>İşlem bekleyen</p></div>
 </section>
@@ -345,7 +359,7 @@ padding:11px 13px!important;
 <div class="panel-head">
 <h3>Dağıtım Kuyruğu</h3>
 <div class="toolbar">
-<select id="statusFilter" onchange="renderDistributions()">
+<select id="statusFilter" onchange="renderDağıtıms()">
 <option value="">Tüm Durumlar</option>
 <option>Dağıtım Bekliyor</option>
 <option>Gönderildi</option>
@@ -353,11 +367,11 @@ padding:11px 13px!important;
 <option>Okundu</option>
 <option>Gecikti</option>
 </select>
-<select id="typeFilter" onchange="renderDistributions()">
+<select id="typeFilter" onchange="renderDağıtıms()">
 <option value="">Tüm Bildirimler</option>
-<option>Mail</option>
+<option>E-posta</option>
 <option>SMS</option>
-<option>Mail + SMS</option>
+<option>E-posta + SMS</option>
 </select>
 </div>
 </div>
@@ -377,7 +391,7 @@ padding:11px 13px!important;
 </div>
 <div id="drawerContent"></div>
 <div class="actions">
-<button class="btn primary" onclick="sendCurrent()">Mail / SMS Gönder</button>
+<button class="btn primary" onclick="sendCurrent()">E-posta / SMS Gönder</button>
 <button class="btn green" onclick="markAllReadCurrent()">Tümünü Okundu Yap</button>
 <button class="btn orange" onclick="remindCurrent()">Tekrar Bildir</button>
 <button class="btn dark" onclick="openDocument()">Dokümanı Gör</button>
@@ -387,6 +401,252 @@ padding:11px 13px!important;
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
+
+/* === GDNL EOS / GDNL EQMS CLOUD READY ENTERPRISE KATMANI === */
+const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const GDNL_MODULE="DISTRIBUTION";
+const GDNL_MODULE_TR="Dağıtım Yönetimi";
+const PASSIVE_STATUSES=["Deleted","Silindi","Arşivlendi","İptal Edildi"];
+let cloudUsers=[];
+let cloudDepartments=[];
+let cloudDağıtıms=[];
+let cloudDocuments=[];
+let cloudNotifications=[];
+let cloudArchive=[];
+let cloudReady=false;
+
+async function apiRequest(path,options={}){
+  const url=path.startsWith("http")?path:GDNL_API_BASE+path;
+  const response=await fetch(url,{headers:{"Content-Type":"application/json",...(options.headers||{})},...options});
+  if(!response.ok)throw new Error("API bağlantı hatası: "+response.status);
+  const type=response.headers.get("content-type")||"";
+  return type.includes("application/json")?response.json():response.text();
+}
+async function apiGet(path,fallback=[]){try{return await apiRequest(path)}catch(e){console.warn("Cloud okuma fallback:",path,e);return fallback}}
+async function apiPost(path,payload){try{return await apiRequest(path,{method:"POST",body:JSON.stringify(payload||{})})}catch(e){console.warn("Cloud yazma fallback:",path,e);return null}}
+async function apiPut(path,payload){try{return await apiRequest(path,{method:"PUT",body:JSON.stringify(payload||{})})}catch(e){console.warn("Cloud güncelleme fallback:",path,e);return null}}
+
+function normalizeApiList(data){
+  if(Array.isArray(data))return data;
+  if(Array.isArray(data?.data))return data.data;
+  if(Array.isArray(data?.results))return data.results;
+  if(Array.isArray(data?.items))return data.items;
+  return [];
+}
+function currentUser(){
+  return {
+    id:session?.id||session?.user_id||session?.username||"local-user",
+    fullname:session?.fullname||session?.name||"Kerem Güdenli",
+    role:session?.role||"Super Administrator",
+    department:session?.department||"Yönetim",
+    email:session?.email||""
+  };
+}
+function isPassiveRecord(x){
+  return PASSIVE_STATUSES.includes(String(x?.status||x?.distributionStatus||""));
+}
+function activeOnly(list){
+  return (list||[]).filter(x=>!isPassiveRecord(x));
+}
+function canArchiveRecord(record){
+  const u=currentUser();
+  const createdBy=record?.createdBy||record?.created_by||record?.owner||"";
+  return String(u.role).includes("Super Administrator")||String(u.role).includes("Root")||createdBy===u.fullname||createdBy===u.id;
+}
+async function writeAudit(action,recordNo,details={},oldValue=null,newValue=null){
+  const u=currentUser();
+  return apiPost("/audit-logs",{
+    module:GDNL_MODULE_TR,
+    action,
+    record_no:recordNo||"",
+    user_id:u.id,
+    user_name:u.fullname,
+    department:u.department,
+    details,
+    old_value:oldValue,
+    new_value:newValue,
+    ip_address:"",
+    user_agent:navigator.userAgent,
+    session_id:session?.session_id||session?.loginAt||"",
+    created_at:new Date().toISOString()
+  });
+}
+async function writeActivity(action,recordNo,description,oldValue=null,newValue=null,changedField=""){
+  const u=currentUser();
+  return apiPost("/activity-feed",{
+    module:GDNL_MODULE_TR,
+    action,
+    record_no:recordNo||"",
+    description:description||action,
+    user_id:u.id,
+    user_name:u.fullname,
+    department:u.department,
+    old_value:oldValue,
+    new_value:newValue,
+    changed_field:changedField,
+    created_at:new Date().toISOString()
+  });
+}
+async function writeNotification(payload){
+  const u=currentUser();
+  return apiPost("/notifications",{
+    module:GDNL_MODULE_TR,
+    is_read:false,
+    read_by:"",
+    read_at:"",
+    created_by:u.fullname,
+    created_by_id:u.id,
+    created_at:new Date().toISOString(),
+    ...payload
+  });
+}
+async function writeAssignment(payload){
+  const u=currentUser();
+  return apiPost("/assignments",{
+    module:GDNL_MODULE_TR,
+    assigned_by:u.fullname,
+    assigned_by_id:u.id,
+    created_at:new Date().toISOString(),
+    status:"Açık",
+    ...payload
+  });
+}
+async function writeComment(relatedId,comment){
+  const u=currentUser();
+  return apiPost("/comments",{
+    module:GDNL_MODULE_TR,
+    related_id:relatedId,
+    comment,
+    user_id:u.id,
+    user_name:u.fullname,
+    department:u.department,
+    created_at:new Date().toISOString()
+  });
+}
+async function getNextSequence(moduleName="DST"){
+  const data=await apiGet("/sequence?module="+encodeURIComponent(moduleName),null);
+  return data?.sequence||data?.next_no||data?.number||"DST-"+new Date().getFullYear()+"-"+Date.now().toString().slice(-5);
+}
+async function archiveCloudRecord(record,reason="Kullanıcı tarafından arşivlendi"){
+  if(!record)return;
+  if(!canArchiveRecord(record)){showToast("Bu kaydı arşivleme yetkiniz bulunmamaktadır.");return;}
+  const u=currentUser();
+  const updated={...record,status:"Arşivlendi",archived_by:u.fullname,archived_at:new Date().toISOString(),archive_reason:reason};
+  await apiPost("/archive",{module:GDNL_MODULE_TR,record:updated,reason,archived_by:u.fullname});
+  await writeAudit("Arşivleme",record.distributionId||record.workflowId, {reason}, record, updated);
+  await writeActivity("Arşivleme",record.distributionId||record.workflowId,"Dağıtım kaydı arşivlendi",record,updated,"status");
+  return updated;
+}
+async function restoreCloudRecord(record,reason="Arşivden geri yüklendi"){
+  const u=currentUser();
+  const updated={...record,status:"Dağıtım Bekliyor",restored_by:u.fullname,restored_at:new Date().toISOString()};
+  await apiPost("/restore",{module:GDNL_MODULE_TR,record:updated,reason,restored_by:u.fullname});
+  await writeAudit("Geri Yükleme",record.distributionId||record.workflowId,{reason},record,updated);
+  await writeActivity("Geri Yükleme",record.distributionId||record.workflowId,"Dağıtım kaydı geri yüklendi",record,updated,"status");
+  return updated;
+}
+function mapDağıtımFromCloud(x){
+  return normalizeDağıtım({
+    distributionId:x.id||x.distributionId||x.distribution_no||x.distributionNo,
+    workflowId:x.workflow_id||x.workflowId||x.related_id||"",
+    documentCode:x.document_code||x.documentCode||x.code||"",
+    documentName:x.document_name||x.documentName||x.title||"",
+    rev:x.rev||x.revision||x.documentRev||"R00",
+    status:x.status||"Dağıtım Bekliyor",
+    distributionPoints:x.distribution_points||x.distributionPoints||x.department||"",
+    mailGroups:x.mail_groups||x.mailGroups||x.email||"",
+    smsGroups:x.sms_groups||x.smsGroups||"",
+    notificationType:x.notification_type||x.notificationType||"E-posta + SMS",
+    readTracking:x.read_tracking||x.readTracking||[],
+    sentAt:x.sent_at||x.sentAt||"",
+    dueDate:x.due_date||x.dueDate||"",
+    createdBy:x.created_by||x.createdBy||"",
+    createdAt:x.created_at||x.createdAt||"",
+    updatedAt:x.updated_at||x.updatedAt||""
+  });
+}
+function mapDocumentFromCloud(x){
+  return {
+    code:x.code||x.documentCode||x.document_code||x.id||"",
+    name:x.name||x.documentName||x.document_name||x.title||"",
+    owner:x.owner||x.created_by||"",
+    status:x.status||"",
+    rev:x.rev||x.revision||""
+  };
+}
+async function loadCloudData(){
+  const [users,deps,distributions,documents,notifications,archive]=await Promise.all([
+    apiGet("/users",[]),
+    apiGet("/departments",[]),
+    apiGet("/assignments",[]),
+    apiGet("/documents",[]),
+    apiGet("/notifications",[]),
+    apiGet("/archive",[])
+  ]);
+  cloudUsers=normalizeApiList(users);
+  cloudDepartments=normalizeApiList(deps);
+  cloudDağıtıms=activeOnly(normalizeApiList(distributions).filter(x=>{
+    const moduleText=String(x.module||x.module_name||x.source_module||"").toLowerCase();
+    return !moduleText || moduleText.includes("dağıt") || moduleText.includes("distribution") || moduleText.includes("doküman");
+  }).map(mapDağıtımFromCloud));
+  cloudDocuments=activeOnly(normalizeApiList(documents).map(mapDocumentFromCloud));
+  cloudNotifications=activeOnly(normalizeApiList(notifications));
+  cloudArchive=normalizeApiList(archive);
+  cloudReady=true;
+}
+
+function setupUserAutocomplete(inputId,hiddenId,departmentId,multiple=false){
+  const input=document.getElementById(inputId);
+  if(!input)return;
+  input.setAttribute("autocomplete","off");
+  let wrap=input.closest(".user-ac-wrap");
+  if(!wrap){
+    wrap=document.createElement("div");
+    wrap.className="user-ac-wrap";
+    input.parentNode.insertBefore(wrap,input);
+    wrap.appendChild(input);
+  }
+  const sug=document.createElement("div");
+  sug.className="user-suggestions";
+  wrap.appendChild(sug);
+  const tagBox=document.createElement("div");
+  tagBox.className="user-tags";
+  if(multiple)wrap.appendChild(tagBox);
+  const selected=[];
+  function renderSuggestions(){
+    const q=input.value.trim().toLowerCase();
+    if(!q){sug.classList.remove("active");return;}
+    const list=(cloudUsers||[]).filter(u=>{
+      const txt=[u.fullname,u.name,u.email,u.role,u.department].join(" ").toLowerCase();
+      return txt.includes(q);
+    }).slice(0,8);
+    sug.innerHTML=list.map((u,i)=>`<div class="user-suggestion" data-i="${i}">${escapeHTML(u.fullname||u.name||"-")}<small>${escapeHTML(u.department||"-")} / ${escapeHTML(u.role||"-")} / ${escapeHTML(u.email||"")}</small></div>`).join("");
+    sug.classList.toggle("active",list.length>0);
+    sug.querySelectorAll(".user-suggestion").forEach(el=>el.onclick=()=>{
+      const u=list[Number(el.dataset.i)];
+      if(!u)return;
+      const person={id:u.id||u.user_id||u.email||u.fullname,name:u.fullname||u.name,role:u.role||"",department:u.department||"",email:u.email||""};
+      if(multiple){
+        if(!selected.some(x=>x.id===person.id))selected.push(person);
+        input.value="";
+        tagBox.innerHTML=selected.map((x,idx)=>`<span class="user-tag">${escapeHTML(x.name)} / ${escapeHTML(x.department)} <button type="button" data-remove="${idx}">×</button></span>`).join("");
+        tagBox.querySelectorAll("button").forEach(b=>b.onclick=()=>{selected.splice(Number(b.dataset.remove),1);tagBox.innerHTML="";selected.forEach((x,idx)=>tagBox.innerHTML+=`<span class="user-tag">${escapeHTML(x.name)} / ${escapeHTML(x.department)} <button type="button" data-remove="${idx}">×</button></span>`);});
+        input.dataset.selectedUsers=JSON.stringify(selected);
+      }else{
+        input.value=person.name;
+        input.dataset.userId=person.id;
+        input.dataset.userEmail=person.email;
+        input.dataset.userRole=person.role;
+      }
+      if(hiddenId&&document.getElementById(hiddenId))document.getElementById(hiddenId).value=person.id;
+      if(departmentId&&document.getElementById(departmentId))document.getElementById(departmentId).value=person.department;
+      sug.classList.remove("active");
+    });
+  }
+  input.addEventListener("input",renderSuggestions);
+  document.addEventListener("click",e=>{if(!wrap.contains(e.target))sug.classList.remove("active")});
+}
+
 const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
 if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
@@ -401,13 +661,13 @@ const text=input.value.trim().toLowerCase();
 if(!text){
 clearSearchResults();
 input.focus();
-renderDistributions();
+renderDağıtıms();
 return;
 }
 
 let results=[];
 
-getDistribution().map(normalizeDistribution).forEach(item=>{
+getDağıtım().map(normalizeDağıtım).forEach(item=>{
 const fullText=JSON.stringify(item).toLowerCase();
 if(fullText.includes(text)){
 results.push({
@@ -551,11 +811,11 @@ return;
 if(r.store)localStorage.setItem(r.store,r.selected||"");
 
 if(r.module==="Dağıtım Yönetimi"){
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 const idx=items.findIndex(x=>x.distributionId===r.selected);
 if(idx!==-1){
 clearSearchResults();
-renderDistributions();
+renderDağıtıms();
 openDrawer(idx);
 }
 return;
@@ -568,7 +828,7 @@ function clearSearchResults(){
 document.getElementById("globalSearch").value="";
 document.getElementById("searchResultsPanel").classList.remove("active");
 document.getElementById("searchResultsArea").innerHTML="";
-renderDistributions();
+renderDağıtıms();
 }
 
 let selectedIndex=null;
@@ -594,11 +854,18 @@ document.body.style.overflow="";
 document.addEventListener("keydown",function(e){
 if(e.key==="Escape")closeMobileMenu();
 });
-function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
-function getDistribution(){return JSON.parse(localStorage.getItem("gdnl_distribution"))||[]}
-function setDistribution(items){localStorage.setItem("gdnl_distribution",JSON.stringify(items));localStorage.setItem("gdnl_distributions",JSON.stringify(items))}
-function getNotifications(){return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}
-function setNotifications(items){localStorage.setItem("gdnl_notifications",JSON.stringify(items))}
+function getDocuments(){return cloudReady&&cloudDocuments.length?cloudDocuments:(JSON.parse(localStorage.getItem("gdnl_documents"))||[])}
+function getDağıtım(){return cloudReady&&cloudDağıtıms.length?cloudDağıtıms:(JSON.parse(localStorage.getItem("gdnl_distribution"))||[])}
+function setDağıtım(items){
+  cloudDağıtıms=activeOnly((items||[]).map(normalizeDağıtım));
+  localStorage.setItem("gdnl_distribution",JSON.stringify(cloudDağıtıms));
+  localStorage.setItem("gdnl_distributions",JSON.stringify(cloudDağıtıms));
+}
+function getNotifications(){return cloudReady&&cloudNotifications.length?cloudNotifications:(JSON.parse(localStorage.getItem("gdnl_notifications"))||[])}
+function setNotifications(items){
+  cloudNotifications=items||[];
+  localStorage.setItem("gdnl_notifications",JSON.stringify(items||[]));
+}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
@@ -610,7 +877,7 @@ if(status==="Gecikti")return"red";
 return"orange";
 }
 
-function normalizeDistribution(x){
+function normalizeDağıtım(x){
 return{
 distributionId:x.distributionId||x.distributionNo||"DST-"+Date.now()+"-"+Math.random().toString(16).slice(2),
 workflowId:x.workflowId||"",
@@ -618,32 +885,32 @@ documentCode:x.documentCode||"",
 documentName:x.documentName||"",
 rev:x.rev||x.documentRev||"R00",
 status:x.status||"Dağıtım Bekliyor",
-distributionPoints:x.distributionPoints||x.targetDepartment||"",
+distributionPoints:x.distributionPoints||x.targetDepartman||"",
 mailGroups:x.mailGroups||"",
 smsGroups:x.smsGroups||"",
-notificationType:x.notificationType||"Mail + SMS",
+notificationType:x.notificationType||"E-posta + SMS",
 readTracking:Array.isArray(x.readTracking)?x.readTracking:[],
 sentAt:x.sentAt||"",
 dueDate:x.dueDate||addDays(todayISO(),7),
-createdBy:x.createdBy||session.name||"System",
+createdBy:x.createdBy||session.name||"Sistem",
 createdAt:x.createdAt||new Date().toISOString(),
 updatedAt:x.updatedAt||new Date().toISOString()
 };
 }
 
-function migrateDistribution(){
-let main=getDistribution();
+function migrateDağıtım(){
+let main=getDağıtım();
 let old=JSON.parse(localStorage.getItem("gdnl_distributions"))||[];
 let merged=[...main,...old];
 
 const unique=[];
-merged.map(normalizeDistribution).forEach(item=>{
+merged.map(normalizeDağıtım).forEach(item=>{
 if(!unique.some(x=>x.distributionId===item.distributionId||x.workflowId&&x.workflowId===item.workflowId&&x.documentCode===item.documentCode)){
 unique.push(item);
 }
 });
 
-setDistribution(unique);
+setDağıtım(unique);
 }
 
 function getTargets(item){
@@ -652,11 +919,11 @@ let mails=item.mailGroups||"";
 let sms=item.smsGroups||"";
 let list=[];
 
-raw.split(/[,;\n]/).map(x=>x.trim()).filter(Boolean).forEach(x=>list.push({name:x,type:"Department"}));
-mails.split(/[,;\n]/).map(x=>x.trim()).filter(Boolean).forEach(x=>list.push({name:x,type:"Mail"}));
+raw.split(/[,;\n]/).map(x=>x.trim()).filter(Boolean).forEach(x=>list.push({name:x,type:"Departman"}));
+mails.split(/[,;\n]/).map(x=>x.trim()).filter(Boolean).forEach(x=>list.push({name:x,type:"E-posta"}));
 sms.split(/[,;\n]/).map(x=>x.trim()).filter(Boolean).forEach(x=>list.push({name:x,type:"SMS"}));
 
-if(list.length===0)list.push({name:"Kalite Admin tarafından dağıtım noktası seçilecek",type:"Manual"});
+if(list.length===0)list.push({name:"Kalite Admin tarafından dağıtım noktası seçilecek",type:"Manuel"});
 
 return list;
 }
@@ -674,16 +941,16 @@ lastReminderAt:""
 }
 
 function syncReadTracking(index){
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 items[index].readTracking=ensureReadTracking(items[index]);
-setDistribution(items);
+setDağıtım(items);
 }
 
 function openDrawer(index){
 selectedIndex=index;
 syncReadTracking(index);
 
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 const item=items[index];
 
 document.getElementById("drawerTitle").textContent=item.documentCode+" / "+item.documentName;
@@ -692,7 +959,7 @@ document.getElementById("drawerStatus").className="status "+statusClass(item.sta
 
 let html="";
 html+=`<div class="info-box"><b>Workflow:</b> ${item.workflowId||"-"}<br><b>Revizyon:</b> ${item.rev}<br><b>Bildirim Tipi:</b> ${item.notificationType}<br><b>Son Okuma Tarihi:</b> ${formatDateTR(item.dueDate)}</div>`;
-html+=`<div class="info-box"><b>Dağıtım Noktaları:</b><br>${item.distributionPoints||"-"}<br><br><b>Mail:</b> ${item.mailGroups||"-"}<br><b>SMS:</b> ${item.smsGroups||"-"}</div>`;
+html+=`<div class="info-box"><b>Dağıtım Noktaları:</b><br>${item.distributionPoints||"-"}<br><br><b>E-posta:</b> ${item.mailGroups||"-"}<br><b>SMS:</b> ${item.smsGroups||"-"}</div>`;
 
 html+=`<div class="info-box"><b>Okuma Takibi</b><br>`;
 item.readTracking.forEach((r,i)=>{
@@ -722,7 +989,7 @@ if(item.status!=="Okundu"&&item.dueDate&&item.dueDate<todayISO())item.status="Ge
 
 function sendCurrent(){
 if(selectedIndex===null)return;
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 const item=items[selectedIndex];
 
 item.readTracking=ensureReadTracking(item);
@@ -732,16 +999,19 @@ item.readTracking=item.readTracking.map(r=>({...r,sentAt:new Date().toISOString(
 item.updatedAt=new Date().toISOString();
 
 items[selectedIndex]=item;
-setDistribution(items);
+setDağıtım(items);
+apiPut("/assignments/"+encodeURIComponent(item.distributionId),item);
+writeAudit("Dağıtım Gönderimi",item.distributionId||item.workflowId,{documentCode:item.documentCode},null,item);
+writeActivity("Dağıtım Gönderimi",item.distributionId||item.workflowId,"Doküman dağıtım bildirimi gönderildi",null,item,"status");
 createNotification(item,"Doküman dağıtım bildirimi gönderildi");
-renderDistributions();
+renderDağıtıms();
 openDrawer(selectedIndex);
-showToast("Mail/SMS kuyruğuna gönderildi");
+showToast("E-posta/SMS kuyruğuna gönderildi");
 }
 
 function markAllReadCurrent(){
 if(selectedIndex===null)return;
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 const item=items[selectedIndex];
 
 item.readTracking=ensureReadTracking(item).map(r=>({...r,status:"Okundu",readAt:new Date().toISOString()}));
@@ -749,15 +1019,18 @@ updateStatusByReadTracking(item);
 item.updatedAt=new Date().toISOString();
 
 items[selectedIndex]=item;
-setDistribution(items);
-renderDistributions();
+setDağıtım(items);
+apiPut("/assignments/"+encodeURIComponent(item.distributionId),item);
+writeAudit("Okundu İşaretleme",item.distributionId||item.workflowId,{documentCode:item.documentCode},null,item);
+writeActivity("Okundu İşaretleme",item.distributionId||item.workflowId,"Tüm hedefler okundu işaretlendi",null,item,"readTracking");
+renderDağıtıms();
 openDrawer(selectedIndex);
 showToast("Tüm hedefler okundu işaretlendi");
 }
 
 function remindCurrent(){
 if(selectedIndex===null)return;
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 const item=items[selectedIndex];
 
 item.readTracking=ensureReadTracking(item).map(r=>{
@@ -767,16 +1040,19 @@ return r;
 item.updatedAt=new Date().toISOString();
 
 items[selectedIndex]=item;
-setDistribution(items);
+setDağıtım(items);
+apiPut("/assignments/"+encodeURIComponent(item.distributionId),item);
+writeAudit("Hatırlatma",item.distributionId||item.workflowId,{documentCode:item.documentCode},null,item);
+writeActivity("Hatırlatma",item.distributionId||item.workflowId,"Okuma hatırlatma bildirimi gönderildi",null,item,"readTracking");
 createNotification(item,"Okuma hatırlatma bildirimi gönderildi");
-renderDistributions();
+renderDağıtıms();
 openDrawer(selectedIndex);
 showToast("Okunmayan hedeflere tekrar bildirim kuyruğu oluşturuldu");
 }
 
 function createNotification(item,message){
 const n=getNotifications();
-n.unshift({
+const payload={
 notificationId:"NTF-"+Date.now(),
 workflowId:item.workflowId,
 documentCode:item.documentCode,
@@ -787,30 +1063,36 @@ smsGroups:item.smsGroups,
 distributionPoints:item.distributionPoints,
 message:message,
 status:"Kuyrukta",
+is_read:false,
+read_by:"",
+read_at:"",
 createdAt:new Date().toISOString()
-});
+};
+n.unshift(payload);
 setNotifications(n);
+writeNotification(payload);
+writeActivity("Bildirim",item.distributionId||item.workflowId,message,null,payload,"notification");
 }
 
 function openDocument(){
 if(selectedIndex===null)return;
-const item=getDistribution().map(normalizeDistribution)[selectedIndex];
+const item=getDağıtım().map(normalizeDağıtım)[selectedIndex];
 localStorage.setItem("gdnl_selected_document_code",item.documentCode);
 window.location.href="document-viewer.html";
 }
 
 function autoDelayCheck(){
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 items.forEach(item=>{
 item.readTracking=ensureReadTracking(item);
 updateStatusByReadTracking(item);
 });
-setDistribution(items);
+setDağıtım(items);
 }
 
-function renderDistributions(){
+function renderDağıtıms(){
 autoDelayCheck();
-const items=getDistribution().map(normalizeDistribution);
+const items=getDağıtım().map(normalizeDağıtım);
 const q=document.getElementById("globalSearch").value.toLowerCase();
 const statusFilter=document.getElementById("statusFilter").value;
 const typeFilter=document.getElementById("typeFilter").value;
@@ -892,7 +1174,7 @@ document.getElementById("globalSearch").addEventListener("input",function(){
 if(!this.value.trim()){
 clearSearchResults();
 }else{
-renderDistributions();
+renderDağıtıms();
 }
 });
 
@@ -903,10 +1185,14 @@ runSearch();
 }
 });
 
-migrateDistribution();
-renderDistributions();
-
-console.log("GDNL EQMS Distribution V2 Loaded");
+async function initCloudReadyPage(){
+  await loadCloudData();
+  migrateDağıtım();
+  renderDağıtıms();
+  await writeActivity("Sayfa Açılışı","DISTRIBUTION-PAGE","Dağıtım Yönetimi sayfası açıldı");
+}
+initCloudReadyPage();
+console.log("GDNL EQMS Dağıtım Yönetimi yüklendi");
 </script>
 
 <script>
