@@ -894,7 +894,7 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
         <h1>APQP ve PPAP</h1>
         <p>Tam APQP modülü: proje kartı, faz yönetimi, ekip atama, görev takibi, PPAP paket bilgisi, faz kapısı kilidi, aktif onay akışı, otomatik aksiyon ve revizyon geçmişi. Her aşama tamamlanmadan bir sonrakine geçilemez.</p>
       </div>
-      <div class="hero-badge">IATF 16949<br>APQP: Tam</div>
+      <div class="hero-badge">IATF 16949<br>APQP Tam</div>
     </section>
  
     <!-- İstatistik kartları -->
@@ -977,7 +977,7 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
     <section class="panel" aria-labelledby="panelTitle2">
       <div class="panel-head">
         <h3 id="panelTitle2">2. Ekip Atama</h3>
-        <span class="pill pill-blue">D1 /users</span>
+        <span class="pill pill-blue">D1 Kullanıcı Havuzu</span>
       </div>
       <p class="help">Soldaki alandan kullanıcı arayıp seçin — APQP rolüyle birlikte sağdaki ekip listesine eklenir. Birden fazla kişi atanabilir.</p>
       <div class="assignment-shell">
@@ -2072,6 +2072,425 @@ async function submitApqpComment(){
   await addComment($("apqpNo")?.value||"APQP",text);
   input.value=""; toast("Yorum eklendi.");
 }
+
+
+/* ─────────────────────────────────────────────
+   EK KURUMSAL CLOUD STANDARDI
+   Approval Steps + Workflow Steps + RBAC + Global Search
+   Dashboard KPI Sync + Signed File Access + Extended Audit
+   Mevcut ekran tasarımı korunarak eklendi.
+───────────────────────────────────────────── */
+const ENTERPRISE_CLOUD_STANDARD={
+  modules:{
+    APQP:"APQP",
+    PPAP:"PPAP",
+    CAPA:"CAPA",
+    RISK:"RISK",
+    AUDIT:"AUDIT",
+    ACTION:"ACTION",
+    DOCUMENT:"DOCUMENT",
+    TRAINING:"TRAINING",
+    CHANGE:"CHANGE",
+    MANAGEMENT_REVIEW:"YGG"
+  },
+  roles:["Super Administrator","Administrator","Yönetici","Kalite Müdürü","Kalite Mühendisi","Denetçi","Kullanıcı","Misafir"],
+  permissions:["Görüntüleme","Oluşturma","Düzenleme","Onaylama","Arşivleme","Geri Yükleme","Yetki Verme"],
+  kpis:["Açık Aksiyonlar","Açık CAPA","Açık Riskler","Açık Denetimler","Açık Revizyonlar","Bekleyen Onaylar","Bekleyen Görevler","Yaklaşan Terminler"]
+};
+
+function getSessionId(){
+  let sid=session.session_id||session.sessionId||localStorage.getItem("gdnl_session_id");
+  if(!sid){sid="SES-"+Date.now()+"-"+Math.random().toString(16).slice(2,8);localStorage.setItem("gdnl_session_id",sid)}
+  return sid;
+}
+function getClientIp(){return session.ip_address||session.ip||""}
+function normalizePermissionText(v){return String(v||"").toLocaleLowerCase("tr-TR").trim()}
+function currentRole(){return session.role||session.user_role||"Super Administrator"}
+function can(permission){
+  const role=String(currentRole()).toLowerCase();
+  if(role.includes("super"))return true;
+  if(role.includes("administrator"))return true;
+  const map={
+    "yönetici":["görüntüleme","oluşturma","düzenleme","onaylama","arşivleme"],
+    "kalite müdürü":["görüntüleme","oluşturma","düzenleme","onaylama","arşivleme"],
+    "kalite mühendisi":["görüntüleme","oluşturma","düzenleme"],
+    "denetçi":["görüntüleme","oluşturma","düzenleme"],
+    "kullanıcı":["görüntüleme","oluşturma"],
+    "misafir":["görüntüleme"]
+  };
+  const allowed=map[role]||["görüntüleme"];
+  return allowed.includes(normalizePermissionText(permission));
+}
+async function getRBACPermissions(){
+  try{
+    const [roles,permissions,rolePermissions]=await Promise.all([
+      apiFetch("/roles").catch(()=>[]),
+      apiFetch("/permissions").catch(()=>[]),
+      apiFetch("/role-permissions").catch(()=>[])
+    ]);
+    window._gdnlRBAC={roles,permissions,rolePermissions};
+    return window._gdnlRBAC;
+  }catch(e){return null}
+}
+
+async function createApprovalStepsForRecord(record){
+  const relatedId=record.apqpNo||record.id||$("apqpNo")?.value||"";
+  const leader=getSelectedPerson("leader")||{};
+  const prepared=getSelectedPerson("preparedBy")||{};
+  const team=getTeam();
+  const defaultApprover=leader.name||prepared.name||getUserName();
+  const defaultDepartment=leader.department||prepared.department||"";
+  const steps=approvalSteps.map((s,i)=>({
+    id:"APS-"+Date.now()+"-"+i+"-"+Math.random().toString(16).slice(2,6),
+    approval_id:relatedId,
+    module:"APQP ve PPAP",
+    step_no:i+1,
+    step_name:s.name,
+    approver_id:leader.id||prepared.id||getUserId(),
+    approver_name:(i===0?(prepared.name||getUserName()):defaultApprover),
+    approver_department:defaultDepartment,
+    approval_type:i===approvalSteps.length-1?"Final Onay":"Sıralı Onay",
+    required:1,
+    status:i===0?"Bekliyor":"Sırada",
+    approved_at:"",
+    rejected_at:"",
+    comment:s.desc||"",
+    created_at:nowISO()
+  }));
+  for(const step of steps){try{await postJSON("/approval-steps",step)}catch(e){}}
+  return steps;
+}
+async function createWorkflowStepsForRecord(record){
+  const relatedId=record.apqpNo||record.id||$("apqpNo")?.value||"";
+  const steps=phaseData.map((p,i)=>({
+    id:"WFS-"+Date.now()+"-"+i+"-"+Math.random().toString(16).slice(2,6),
+    workflow_id:relatedId,
+    module:"APQP ve PPAP",
+    step_no:i+1,
+    step_name:p.label,
+    previous_step:i>0?phaseData[i-1].label:"",
+    next_step:i<phaseData.length-1?phaseData[i+1].label:"",
+    required:1,
+    status:i===0?"Açık":"Kilitli",
+    created_at:nowISO(),
+    completed_at:""
+  }));
+  for(const step of steps){try{await postJSON("/workflow-steps",step)}catch(e){}}
+  return steps;
+}
+async function writeWorkflowHistoryExtended(record,action,stepName,note=""){
+  const payload={
+    id:"WFH-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+    workflow_id:record.apqpNo||$("apqpNo")?.value||"",
+    module:"APQP ve PPAP",
+    step_name:stepName||"",
+    action,
+    status:record.status||$("statusField")?.value||"",
+    user_id:getUserId(),
+    user_name:getUserName(),
+    note,
+    created_at:nowISO()
+  };
+  try{await postJSON("/workflow-history",payload)}catch(e){}
+}
+async function writeApprovalHistoryExtended(record,action,stepName,note=""){
+  const payload={
+    id:"APH-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+    approval_id:record.apqpNo||$("apqpNo")?.value||"",
+    module:"APQP ve PPAP",
+    step_name:stepName||"",
+    action,
+    status:record.status||$("statusField")?.value||"",
+    user_id:getUserId(),
+    user_name:getUserName(),
+    approver_department:getSelectedPerson("leader")?.department||"",
+    note,
+    signature_id:"SIG-"+Date.now(),
+    signature_hash:btoa(unescape(encodeURIComponent((record.apqpNo||"")+"|"+action+"|"+getUserName()+"|"+nowISO()))),
+    approval_token:"TOK-"+Date.now()+"-"+Math.random().toString(16).slice(2,8),
+    signed_at:nowISO(),
+    signed_by:getUserName(),
+    created_at:nowISO()
+  };
+  try{await postJSON("/approval-history",payload)}catch(e){}
+}
+const _gdnlOldWriteAudit=writeAudit;
+writeAudit=async function(action,module,relatedId,detail,oldValue="",newValue="",changedField=""){
+  const payload={
+    id:"LOG-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+    user_id:getUserId(),
+    user_name:getUserName(),
+    action,
+    module,
+    related_id:relatedId||"",
+    detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),
+    old_value:oldValue,
+    new_value:newValue,
+    changed_field:changedField,
+    ip_address:getClientIp(),
+    user_agent:navigator.userAgent,
+    session_id:getSessionId(),
+    created_at:nowISO()
+  };
+  try{await postJSON("/audit-logs",payload)}
+  catch(e){
+    const q=getLS("gdnl_pending_audit_logs");
+    q.unshift(payload);
+    localStorage.setItem("gdnl_pending_audit_logs",JSON.stringify(q));
+  }
+};
+const _gdnlOldWriteActivity=writeActivity;
+writeActivity=async function(type,module,relatedId,title,description="",oldValue="",newValue="",changedField=""){
+  const payload={
+    id:"ACT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+    user_id:getUserId(),
+    user_name:getUserName(),
+    activity_type:type,
+    module,
+    related_id:relatedId||"",
+    title:title||type,
+    description:description||"",
+    old_value:oldValue,
+    new_value:newValue,
+    changed_field:changedField,
+    created_at:nowISO()
+  };
+  try{await postJSON("/activity-feed",payload)}
+  catch(e){
+    const q=getLS("gdnl_pending_activity_feed");
+    q.unshift(payload);
+    localStorage.setItem("gdnl_pending_activity_feed",JSON.stringify(q));
+  }
+};
+async function notifyUsersExtended(title,message,relatedId,userNames=[]){
+  const users=(userNames||[]).length?userNames:[""];
+  for(const user_name of users){
+    const u=(window._gdnlUsers||[]).find(x=>x.name===user_name||x.fullName===user_name||x.email===user_name)||{};
+    const payload={
+      id:"NTF-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+      user_id:u.id||"",
+      user_name:user_name||u.name||"",
+      type:"APQP",
+      title,
+      message,
+      module:"APQP ve PPAP",
+      related_id:relatedId||"",
+      status:"UNREAD",
+      is_read:0,
+      read_by:"",
+      read_at:"",
+      created_at:nowISO()
+    };
+    try{await postJSON("/notifications",payload)}catch(e){}
+  }
+}
+notifyUsers=notifyUsersExtended;
+
+async function addAssignmentExtended(sourceId,title,user,role="Sorumlu",due=""){
+  const payload={
+    id:"ASN-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+    source_type:"APQP",
+    source_id:sourceId||$("apqpNo")?.value||"",
+    user_id:user.id||user.user_id||"",
+    user_name:user.name||user.fullname||user.fullName||"",
+    department:user.department||"",
+    role,
+    status:"Atandı",
+    due_date:due,
+    title,
+    message:title,
+    created_by:getUserName(),
+    created_at:nowISO()
+  };
+  try{await postJSON("/assignments",payload)}catch(e){}
+}
+addAssignment=addAssignmentExtended;
+
+async function createDashboardKpiSync(type,relatedId,description){
+  const payload={
+    id:"KPI-SYNC-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+    module:"APQP ve PPAP",
+    related_id:relatedId||"",
+    event_type:type,
+    description:description||"",
+    counters:ENTERPRISE_CLOUD_STANDARD.kpis,
+    created_by:getUserName(),
+    created_at:nowISO()
+  };
+  try{await postJSON("/dashboard-kpi-sync",payload)}catch(e){}
+}
+async function getSignedFileUrl(fileRecord){
+  if(!fileRecord)return"";
+  const r2=fileRecord.r2_key||fileRecord.r2Key||fileRecord.key||"";
+  if(!r2)return fileRecord.url||"";
+  try{
+    const signed=await apiFetch("/file-token?key="+encodeURIComponent(r2));
+    return signed.signed_url||signed.url||signed.temporary_url||(`${API_BASE}/file/${encodeURIComponent(r2)}`);
+  }catch(e){
+    return `${API_BASE}/file/${encodeURIComponent(r2)}`;
+  }
+}
+const _gdnlOldUploadFileToR2=uploadFileToR2;
+uploadFileToR2=async function(file,relatedId){
+  const fd=new FormData();
+  fd.append("file",file);
+  fd.append("module","APQP_PPAP");
+  fd.append("related_id",relatedId||$("apqpNo")?.value||"REFERANS-YOK");
+  fd.append("uploaded_by",getUserName());
+  fd.append("session_id",getSessionId());
+  const data=await apiFetch("/upload",{method:"POST",body:fd});
+  const f=data.file||data;
+  try{
+    await postJSON("/file-versions",{
+      id:"FV-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+      file_id:f.id||"",
+      module:"APQP ve PPAP",
+      related_id:relatedId||$("apqpNo")?.value||"",
+      version_no:f.version_no||1,
+      previous_version:f.previous_version||"",
+      uploaded_by:getUserName(),
+      uploaded_at:nowISO(),
+      revision_reason:$("revReason")?.value||"Dosya yükleme"
+    });
+  }catch(e){}
+  await writeAudit("DOSYA_YUKLE","APQP ve PPAP",relatedId,{fileName:file.name,r2_key:f.r2_key},"","", "file");
+  await writeActivity("DOSYA_YUKLE","APQP ve PPAP",relatedId,"Dosya yüklendi",file.name);
+  return f;
+};
+
+async function enterpriseSequence(moduleCode,prefix){
+  try{
+    const r=await apiFetch("/sequence?module="+encodeURIComponent(moduleCode));
+    const n=Number(r.next||r.next_number||r.value||0);
+    if(n>0)return prefix+"-"+String(n).padStart(6,"0");
+  }catch(e){}
+  let max=0;
+  [...getAllProjects(),...getArchives()].forEach(p=>{
+    const values=[p.apqpNo,p.ppapNo,p.documentCode,p.sourceId,p.recordNo,p.no].filter(Boolean);
+    values.forEach(v=>{if(String(v).startsWith(prefix+"-"))max=Math.max(max,readSeqNo(v))});
+  });
+  return prefix+"-"+String(max+1).padStart(6,"0");
+}
+nextNo=async function(){
+  const apq=await enterpriseSequence("APQP","APQ");
+  const ppp=await enterpriseSequence("PPAP","PPP");
+  if($("apqpNo"))$("apqpNo").value=apq;
+  if($("ppapNo"))$("ppapNo").value=ppp;
+};
+
+async function runEnterpriseGlobalSearch(){
+  const q=($("globalSearch")?.value||"").trim();
+  if(q.length<2){renderProjects();return}
+  try{
+    const data=await apiFetch("/search?q="+encodeURIComponent(q));
+    const results=(data.results||data.items||data||[]).filter(x=>!isPassiveStatus(x.status));
+    const apqpResults=results.filter(x=>String(x.module||"").toLocaleLowerCase("tr-TR").includes("apqp")||String(x.module||"").toLocaleLowerCase("tr-TR").includes("ppap"));
+    if(apqpResults.length){
+      CLOUD.projects=apqpResults.map(mapCloudProject);
+      renderProjects();
+      await writeAudit("GLOBAL_ARAMA","APQP ve PPAP","",{query:q,result_count:apqpResults.length});
+      return;
+    }
+  }catch(e){}
+  renderProjects();
+}
+if($("searchBtn"))$("searchBtn").addEventListener("click",runEnterpriseGlobalSearch);
+if($("globalSearch"))$("globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter")runEnterpriseGlobalSearch()});
+
+async function createInternalAuditLinks(record,source="APQP"){
+  const relatedId=record.apqpNo||$("apqpNo")?.value||"";
+  const payload={
+    id:"AUD-LNK-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),
+    module:"APQP ve PPAP",
+    source_module:source,
+    related_id:relatedId,
+    audit_link:"audit.html",
+    capa_link:"capa.html",
+    risk_link:"risk-register.html",
+    ygg_link:"management-review.html",
+    action_link:"action-center.html",
+    document_link:"documents.html",
+    training_link:"training-management.html",
+    change_link:"change-management.html",
+    created_by:getUserName(),
+    created_at:nowISO()
+  };
+  try{await postJSON("/audit-links",payload)}catch(e){}
+  await writeAudit("IC_DENETIM_BAGLANTISI","APQP ve PPAP",relatedId,payload);
+}
+
+async function archiveWithReason(record,reason){
+  record.archive_reason=reason||record.archiveReason||"Kullanıcı tarafından arşivlendi";
+  record.delete_reason="";
+  return archiveRecord(record,record.archive_reason);
+}
+async function restoreWithReason(archiveItem,reason="Arşivden geri yükleme"){
+  const rec=await restoreRecord(archiveItem);
+  rec.restore_reason=reason;
+  await writeAudit("GERI_YUKLE","APQP ve PPAP",rec.apqpNo,{reason});
+  await createDashboardKpiSync("GERI_YUKLE",rec.apqpNo,reason);
+  return rec;
+}
+
+/* Proje oluşturma sonrasında kurumsal tabloları doldur */
+if($("createApqp")){
+  $("createApqp").addEventListener("click",async()=>{
+    setTimeout(async()=>{
+      const record=buildRecord();
+      record.apqpNo=$("apqpNo")?.value||record.apqpNo;
+      record.ppapNo=$("ppapNo")?.value||record.ppapNo;
+      try{
+        await createApprovalStepsForRecord(record);
+        await createWorkflowStepsForRecord(record);
+        await createInternalAuditLinks(record);
+        await createDashboardKpiSync("OLUSTURMA",record.apqpNo,"APQP kaydı oluşturuldu");
+      }catch(e){console.warn("Kurumsal cloud standardı ek kayıtları tamamlanamadı",e)}
+    },300);
+  });
+}
+if($("approveGate")){
+  $("approveGate").addEventListener("click",async()=>{
+    const record=buildRecord();
+    const idx=currentPhaseIndex();
+    try{
+      await writeApprovalHistoryExtended(record,"Faz Onayı",phaseData[idx]?.label||"Faz", "Faz kapısı onaylandı");
+      await writeWorkflowHistoryExtended(record,"Faz Onayı",phaseData[idx]?.label||"Faz", "Faz kapısı onaylandı");
+      await createDashboardKpiSync("ONAY",record.apqpNo,"Faz kapısı onayı");
+    }catch(e){}
+  });
+}
+if($("rejectGate")){
+  $("rejectGate").addEventListener("click",async()=>{
+    const record=buildRecord();
+    const idx=currentPhaseIndex();
+    try{
+      await writeApprovalHistoryExtended(record,"Faz Red",phaseData[idx]?.label||"Faz", "Faz kapısı reddedildi");
+      await writeWorkflowHistoryExtended(record,"Faz Red",phaseData[idx]?.label||"Faz", "Faz kapısı reddedildi");
+      await createDashboardKpiSync("RED",record.apqpNo,"Faz kapısı reddi");
+    }catch(e){}
+  });
+}
+
+/* Kullanıcı arama alanlarını fullname + email + role + department üzerinden güçlendir */
+const _gdnlOldSearchUsers=searchUsers;
+searchUsers=function(q,limit=8){
+  q=(q||"").trim().toLocaleLowerCase("tr-TR");
+  if(q.length<2)return[];
+  return(window._gdnlUsers||[]).filter(u=>([u.name,u.fullName,u.username,u.email,u.position,u.department,u.role].join(" ")).toLocaleLowerCase("tr-TR").includes(q)).slice(0,limit);
+};
+
+/* Hazırlayanı mümkünse oturumdan otomatik doldur */
+async function autoFillPreparedByFromSession(){
+  const current=sessionDisplayName();
+  const u=(window._gdnlUsers||[]).find(x=>x.name===current||x.fullName===current||x.username===session.username||x.email===session.email);
+  if(u&&!getSelectedPerson("preparedBy")){
+    setSelectedPerson("preparedBy",u);
+    if($("preparedBySearch"))$("preparedBySearch").value="";
+  }
+}
+setTimeout(autoFillPreparedByFromSession,800);
+getRBACPermissions();
+
 
 /* ── BAŞLANGIÇ ── */
 /* Kayıtlar artık sayfa açılışında silinmez; sadece kullanıcı isteyince temizlenir. */
