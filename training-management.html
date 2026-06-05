@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Training Management</title>
+<title>GDNL EQMS | Eğitim Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -159,9 +159,9 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="menu-group">
 <button class="menu-group-title" type="button" onclick="toggleMenuGroup(this)"><span>📊 Performans Yönetimi</span><span class="chevron">⌄</span></button>
 <div class="menu-items">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 </div>
@@ -184,7 +184,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="menu-items">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -192,7 +192,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </div>
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 <aside class="sidebar">
@@ -246,9 +246,9 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="menu-group">
 <button class="menu-group-title" type="button" onclick="toggleMenuGroup(this)"><span>📊 Performans Yönetimi</span><span class="chevron">⌄</span></button>
 <div class="menu-items">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 </div>
@@ -271,7 +271,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="menu-items">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -279,7 +279,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Training & Competency<br>ISO / IATF / CoP / EV Ready</div>
+<div class="sidebar-footer">GDNL EQMS<br>Eğitim ve Yetkinlik<br>ISO / IATF / CoP / EV Hazır</div>
 </aside>
 
 <main class="main">
@@ -293,16 +293,16 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName">Kerem Güdenli</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Training & Competency Management</h1>
+<h1>Eğitim ve Yetkinlik Yönetimi</h1>
 <p>Risk, CAPA, Audit, doküman revizyonu, CoP, EV, ISO 17025 ve tüm yönetim sistemi eğitimlerini; katılımcı, sınav, sertifika, etkinlik, bildirim ve KPI ile tek merkezden yönet.</p>
 </div>
-<div class="hero-badge">Training Engine: <span>Active</span></div>
+<div class="hero-badge">Eğitim Motoru: <span>Aktif</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -330,7 +330,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Yeni Eğitim Kaydı</h3><span class="status blue" id="formMode">CREATE MODE</span></div>
+<div class="panel-head"><h3>Yeni Eğitim Kaydı</h3><span class="status blue" id="formMode">OLUŞTURMA MODU</span></div>
 
 <div class="form-grid">
 <div class="field"><label>Eğitim No</label><input id="trainingNo" readonly></div>
@@ -343,7 +343,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 <div class="field"><label>Eğitim Sahibi</label><select id="trainingOwner"></select></div>
 <div class="field"><label>Eğitmen</label><select id="trainer"></select></div>
 
-<div class="field full"><label>Standart Bağlantısı</label><select id="standards" multiple style="height:140px"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 10002</option><option>ISO 17025</option><option>ISO 27001</option><option>IATF 16949</option><option>CoP</option><option>EV Sector</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option><option>CE / UL / EMC</option><option>Müşteri Özel Şartları</option></select></div>
+<div class="field full"><label>Standart Bağlantısı</label><select id="standards" multiple style="height:140px"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 10002</option><option>ISO 17025</option><option>ISO 27001</option><option>IATF 16949</option><option>CoP</option><option>EV Sektörü</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option><option>CE / UL / EMC</option><option>Müşteri Özel Şartları</option></select></div>
 
 <div class="field"><label>Planlanan Tarih</label><input id="plannedDate" type="date"></div>
 <div class="field"><label>Gerçekleşen Tarih</label><input id="actualDate" type="date"></div>
@@ -371,7 +371,7 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Katılımcı / Yetkinlik Matrisi</h3><span class="status purple" id="participantMode">PARTICIPANT CREATE</span></div>
+<div class="panel-head"><h3>Katılımcı / Yetkinlik Matrisi</h3><span class="status purple" id="participantMode">KATILIMCI OLUŞTURMA</span></div>
 <div class="box">
 <div class="subgrid">
 <div class="field"><label>Katılımcı</label><select id="participantUser"></select></div>
@@ -424,397 +424,189 @@ td small{color:#64748b;font-weight:800}tr:hover td{background:#f7fbf8}
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
+
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const MODULE_CODE="EGITIM_YONETIMI";
+let state={currentUser:null,users:[],departments:[],trainings:[],actions:[],assignments:[],notifications:[],auditLogs:[],activityFeed:[],comments:[],approvals:[],approvalHistory:[],workflowHistory:[],documents:[],files:[],archive:[],participants:[],editId:null,selectedId:null,certFile:null,loaded:false};
 
+function $(id){return document.getElementById(id)}
+function textOf(v){return String(v??"")}
+function escapeHTML(v){return textOf(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function isPassive(r){const s=textOf(r.status||r.trainingStatus||r.record_status).toLowerCase();return["silindi","arşivlendi","arsivlendi","iptal","iptal edildi","deleted","archived","cancelled"].includes(s)}
+function asArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
+function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
+function showToast(m){const t=$("toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
+function getCookie(name){return document.cookie.split(";").map(x=>x.trim()).find(x=>x.startsWith(name+"="))?.split("=").slice(1).join("=")||""}
+function authHeaders(json=true){const token=decodeURIComponent(getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token")||"");const h=json?{"Content-Type":"application/json"}:{};if(token)h.Authorization="Bearer "+token;return h}
+async function api(path,opt={}){const res=await fetch(GDNL_API_BASE+path,{method:opt.method||"GET",headers:{...authHeaders(opt.json!==false),...(opt.headers||{})},body:opt.body?JSON.stringify(opt.body):opt.rawBody,cache:"no-store"});if(!res.ok)throw new Error(path+" HTTP "+res.status);const tx=await res.text();if(!tx)return null;try{return JSON.parse(tx)}catch(e){return tx}}
+async function safeGet(path){try{return await api(path)}catch(e){return null}}
+async function safePost(path,body){try{return await api(path,{method:"POST",body})}catch(e){return null}}
+async function getSequence(moduleName){const x=await safeGet("/sequence?module="+encodeURIComponent(moduleName));return x?.number||x?.sequence||x?.data?.number||x?.value||null}
 
+function normalizeUser(u){return{id:u.id||u.user_id||u.uid||"",fullname:u.fullname||u.fullName||u.name||u.username||"",email:u.email||"",role:u.role||u.role_name||"",department:u.department||u.department_name||""}}
+function normalizeDepartment(d){return{id:d.id||d.department_id||"",department_name:d.department_name||d.name||d.department||""}}
+function normalizeTraining(t){return{...t,id:t.id||t.training_id||t.record_id||t.trainingNo||("TRN-"+Date.now()),trainingNo:t.trainingNo||t.training_no||t.record_no||t.no||"",trainingStatus:t.trainingStatus||t.training_status||t.status||"Planlandı",trainingSource:t.trainingSource||t.training_source||t.source||"",trainingCategory:t.trainingCategory||t.training_category||t.category||"",department:t.department||t.department_name||"",processName:t.processName||t.process_name||"",trainingOwner:t.trainingOwner||t.training_owner_name||t.owner_name||"",trainingOwnerId:t.trainingOwnerId||t.training_owner_id||t.owner_id||"",trainer:t.trainer||t.trainer_name||"",trainerId:t.trainerId||t.trainer_id||"",standards:Array.isArray(t.standards)?t.standards:(textOf(t.standards).split(",").filter(Boolean)),participants:Array.isArray(t.participants)?t.participants:[],auditTrail:Array.isArray(t.auditTrail)?t.auditTrail:[],status:t.status||t.trainingStatus||t.training_status||"Planlandı"}}
 
-function toggleMenuGroup(button){
-const group=button.closest(".menu-group");
-if(!group)return;
-const menu=group.parentElement;
-if(menu){
-menu.querySelectorAll(".menu-group").forEach(item=>{
-if(item!==group)item.classList.remove("open");
-});
-}
-group.classList.toggle("open");
-}
-
-function runSearch(){
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-
-if(!text){
-clearSearchResults();
-input.focus();
-renderTrainings();
-return;
-}
-
-let results=[];
-
-getTrainings().map(normalizeTraining).forEach(item=>{
-const fullText=JSON.stringify(item).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"record",
-module:"Eğitim Yönetimi",
-go:"#",
-store:"gdnl_selected_training",
-selected:item.id||item.trainingNo||"",
-title:item.trainingTitle||item.trainingNo||"Eğitim",
-detail:`${item.trainingNo||""} ${item.trainingCategory||""} ${item.trainingSource||""} ${item.department||""} ${item.trainingStatus||""} ${item.trainer||""}`
-});
-}
-});
-
-getRisks().forEach(r=>{
-const fullText=JSON.stringify(r).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"page",
-module:"Risk Yönetimi",
-go:"risk-register.html",
-store:"gdnl_selected_risk",
-selected:r.id||r.riskNo||"",
-title:r.riskTitle||r.riskNo||"Risk",
-detail:`${r.department||""} ${r.initialScore||""} ${r.residualScore||""} ${r.riskStatus||""}`
-});
-}
-});
-
-getNotifications().forEach(n=>{
-const fullText=JSON.stringify(n).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"page",
-module:"Bildirim Merkezi",
-go:"notification-center.html",
-store:"gdnl_selected_notification",
-selected:n.notificationId||"",
-title:n.documentName||n.notificationId||"Bildirim",
-detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`
-});
-}
-});
-
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
+async function loadCloud(){
+const [users,departments,actions,assignments,notifications,auditLogs,activityFeed,comments,approvals,approvalHistory,workflowHistory,documents,files,archive,trainings]=await Promise.all([
+safeGet("/users"),safeGet("/departments"),safeGet("/actions"),safeGet("/assignments"),safeGet("/notifications"),safeGet("/audit-logs"),safeGet("/activity-feed"),safeGet("/comments"),safeGet("/approvals"),safeGet("/approval-history"),safeGet("/workflow-history"),safeGet("/documents"),safeGet("/files"),safeGet("/archive"),safeGet("/trainings")
+]);
+state.users=activeOnly(users).map(normalizeUser);
+state.departments=activeOnly(departments).map(normalizeDepartment);
+state.actions=activeOnly(actions);
+state.assignments=activeOnly(assignments);
+state.notifications=activeOnly(notifications);
+state.auditLogs=activeOnly(auditLogs);
+state.activityFeed=activeOnly(activityFeed);
+state.comments=activeOnly(comments);
+state.approvals=activeOnly(approvals);
+state.approvalHistory=activeOnly(approvalHistory);
+state.workflowHistory=activeOnly(workflowHistory);
+state.documents=activeOnly(documents);
+state.files=activeOnly(files);
+state.archive=asArray(archive);
+const direct=activeOnly(trainings).map(normalizeTraining);
+const fromActions=state.actions.filter(a=>textOf(a.module||a.source_module).toLowerCase().includes("eğitim")||textOf(a.module||a.source_module).toLowerCase().includes("training")).map(normalizeTraining);
+state.trainings=(direct.length?direct:fromActions).filter(x=>!isPassive(x));
+state.currentUser=state.users[0]||{id:"",fullname:"GDNL Kullanıcısı",role:"Kullanıcı",department:""};
+$("userName").textContent=state.currentUser.fullname||"GDNL Kullanıcısı";
+state.loaded=true;
 }
 
-function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
-
-document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;
-if(!seen.has(key)){
-seen.add(key);
-results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});
+function fillDepartments(){
+const dep=$("department");
+if(!dep)return;
+const current=dep.value;
+dep.innerHTML='<option value="">Departman Seçiniz</option>'+state.departments.map(d=>`<option value="${escapeHTML(d.department_name)}">${escapeHTML(d.department_name)}</option>`).join("");
+if(current)dep.value=current;
 }
+function searchUsers(term){const q=textOf(term).toLowerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,15)}
+function setupUserAutocomplete(id,{departmentTarget=""}={}){
+const input=$(id);if(!input||input.dataset.ready==="1")return;input.dataset.ready="1";
+const oldValue=input.value||"";
+const repl=document.createElement("input");repl.id=id;repl.value=oldValue;repl.placeholder=input.getAttribute("placeholder")||"Kullanıcı ara";repl.autocomplete="off";repl.className=input.className;
+input.replaceWith(repl);
+const wrap=document.createElement("div");wrap.style.position="relative";repl.parentNode.insertBefore(wrap,repl);wrap.appendChild(repl);
+const list=document.createElement("div");list.style.cssText="display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);z-index:70;max-height:260px;overflow:auto";wrap.appendChild(list);
+function select(u){repl.value=u.fullname;repl.dataset.userId=u.id;repl.dataset.email=u.email;repl.dataset.role=u.role;repl.dataset.department=u.department;if(departmentTarget&&$(departmentTarget))$(departmentTarget).value=u.department||$(departmentTarget).value;list.style.display="none"}
+repl.addEventListener("input",()=>{const arr=searchUsers(repl.value);list.innerHTML=arr.map((u,i)=>`<div data-i="${i}" style="padding:11px 12px;border-bottom:1px solid #eef2f7;cursor:pointer;font-size:12px;font-weight:900;color:#536176">${escapeHTML(u.fullname)}<br><small>${escapeHTML(u.email)} · ${escapeHTML(u.role)} · ${escapeHTML(u.department)}</small></div>`).join("");list.style.display=arr.length?"block":"none";list.querySelectorAll("[data-i]").forEach(el=>el.onclick=()=>select(arr[Number(el.dataset.i)]))});
+document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.style.display="none"});
 }
-});
+function userByName(name){return state.users.find(u=>u.fullname===name)||{}}
 
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
-});
-
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
-});
-
-return results;
-}
-
-function escapeHTML(value){
-return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
-
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
-
-function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-
-if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-return;
-}
-
-area.innerHTML=results.slice(0,80).map((r,index)=>`
-<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module)}</span></div>
-<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
-<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-</div>`).join("");
-
-window.gdnlSearchResults=results.slice(0,80);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];
-if(!r)return;
-
-if(r.type==="scroll"&&r.selector){
-const target=document.querySelector(r.selector);
-if(target){
-target.scrollIntoView({behavior:"smooth",block:"center"});
-target.style.outline="3px solid #35a852";
-target.style.outlineOffset="4px";
-setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
-}
-return;
-}
-
-if(r.store)localStorage.setItem(r.store,r.selected||"");
-
-if(r.module==="Eğitim Yönetimi"){
-const items=getTrainings().map(normalizeTraining);
-const idx=items.findIndex(x=>x.id===r.selected||x.trainingNo===r.selected);
-if(idx!==-1){
-clearSearchResults();
-renderTrainings();
-openDrawer(idx);
-}
-return;
-}
-
-if(r.go&&r.go!=="#")window.location.href=r.go;
-}
-
-function clearSearchResults(){
-document.getElementById("globalSearch").value="";
-document.getElementById("searchResultsPanel").classList.remove("active");
-document.getElementById("searchResultsArea").innerHTML="";
-renderTrainings();
-}
-
-let editIndex=null,selectedIndex=null,participants=[],editParticipantIndex=null,certFile=null;
-
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-localStorage.removeItem("gdnl_eqms_session");
-window.location.href="index.html";
-}
-
-function openMobileMenu(){
-document.getElementById("mobileDrawer").classList.add("active");
-document.getElementById("mobileOverlay").classList.add("active");
-document.body.style.overflow="hidden";
-}
-
-function closeMobileMenu(){
-document.getElementById("mobileDrawer").classList.remove("active");
-document.getElementById("mobileOverlay").classList.remove("active");
-document.body.style.overflow="";
-}
-
-document.addEventListener("keydown",function(e){
-if(e.key==="Escape")closeMobileMenu();
-});
-function getTrainings(){try{return JSON.parse(localStorage.getItem("gdnl_trainings"))||[]}catch(e){return[]}}
-function setTrainings(x){localStorage.setItem("gdnl_trainings",JSON.stringify(x))}
-function getUsers(){try{return JSON.parse(localStorage.getItem("gdnl_users"))||[]}catch(e){return[]}}
-function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
-function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
-function getRisks(){try{return JSON.parse(localStorage.getItem("gdnl_risks"))||[]}catch(e){return[]}}
-function setRisks(x){localStorage.setItem("gdnl_risks",JSON.stringify(x))}
+function selectedStandards(){return Array.from($("standards")?.selectedOptions||[]).map(o=>o.value)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
-function selectedStandards(){return Array.from(standards.selectedOptions).map(o=>o.value)}
-function statusClass(s){if(["Kapalı","Tamamlandı","Başarılı","Etkin","Katıldı"].includes(s))return"green";if(["Gecikti","Başarısız","Etkin Değil","Katılmadı"].includes(s))return"red";if(["Davet Gönderildi","Devam Ediyor","Etkinlik Kontrolü","Kısmen Etkin","Mazeretli"].includes(s))return"orange";return"blue"}
-function generateTrainingNo(){trainingNo.value="TRN-"+new Date().getFullYear()+"-"+String(getTrainings().length+1).padStart(4,"0")}
+function statusClass(s){if(["Kapalı","Tamamlandı","Başarılı","Etkin","Katıldı"].includes(s))return"green";if(["Gecikti","Başarısız","Etkin Değil","Katılmadı","İptal"].includes(s))return"red";if(["Davet Gönderildi","Devam Ediyor","Etkinlik Kontrolü","Kısmen Etkin","Mazeretli"].includes(s))return"orange";return"blue"}
 
-function initUserSelects(){
-const users=getUsers().filter(u=>u.status!=="Pasif");
-["trainingOwner","trainer","participantUser"].forEach(id=>{
-const el=document.getElementById(id);el.innerHTML='<option value="">Seçiniz</option>';
-users.forEach(u=>el.innerHTML+=`<option value="${u.fullName}" data-dep="${u.department||""}" data-pos="${u.position||u.role||""}">${u.fullName} / ${u.department||"-"} / ${u.position||u.role||"-"}</option>`);
-if(!users.length)el.innerHTML+='<option value="Kerem Güdenli" data-dep="Kalite" data-pos="Admin">Kerem Güdenli</option>';
-});
-}
-
-participantUser.addEventListener("change",()=>{
-const opt=participantUser.selectedOptions[0];
-participantDepartment.value=opt?.dataset?.dep||"";
-participantPosition.value=opt?.dataset?.pos||"";
-});
-
-certificateFile.addEventListener("change",e=>handleCertificate(e.target.files[0]));
-function handleCertificate(file){
-if(!file)return;
-if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");certificateFile.value="";return}
-const r=new FileReader();
-r.onload=ev=>{certFile={fileName:file.name,fileType:file.type,fileSize:file.size,fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Sertifika / kanıt hazırlandı")};
-r.readAsDataURL(file);
-}
-
+async function generateTrainingNo(){const seq=await getSequence(MODULE_CODE);$("trainingNo").value=seq||("TRN-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6))}
+function resetForm(){state.editId=null;state.participants=[];state.certFile=null;$("formMode").textContent="OLUŞTURMA MODU";generateTrainingNo();["trainingTitle","trainingScope","trainingContent","processName","riskRef","capaRef","auditRef","documentRef"].forEach(id=>{if($(id))$(id).value=""});$("trainingStatus").value="Planlandı";$("trainingSource").value="Risk Aksiyonu";$("trainingCategory").value="Kalite";$("plannedDate").value=todayISO();$("actualDate").value="";$("nextTrainingDate").value=addDays(todayISO(),365);$("validityPeriod").value="12 Ay";$("trainingOwner").value="";$("trainer").value="";renderParticipantPreview()}
+function clearParticipantInputs(){["participantUser","participantDepartment","participantPosition","participantNote"].forEach(id=>{if($(id))$(id).value=""});$("attendanceStatus").value="Planlandı";$("examScore").value=0;$("examResult").value="Bekliyor";$("beforeCompetency").value=3;$("afterCompetency").value=4;$("effectivenessResult").value="Bekliyor";$("effectivenessDate").value=addDays(todayISO(),30);if($("certificateFile"))$("certificateFile").value="";state.certFile=null;$("participantMode").textContent="KATILIMCI OLUŞTURMA"}
 function addOrUpdateParticipant(){
-const p={id:editParticipantIndex!==null?participants[editParticipantIndex].id:"PAR-"+Date.now(),participantUser:participantUser.value,participantDepartment:participantDepartment.value.trim(),participantPosition:participantPosition.value.trim(),attendanceStatus:attendanceStatus.value,examScore:Number(examScore.value||0),examResult:examResult.value,beforeCompetency:Number(beforeCompetency.value),afterCompetency:Number(afterCompetency.value),effectivenessResult:effectivenessResult.value,effectivenessDate:effectivenessDate.value,certificate:certFile,participantNote:participantNote.value.trim(),createdAt:new Date().toISOString()};
-if(!p.participantUser)return showToast("Katılımcı seç"); 
-if(editParticipantIndex!==null){participants[editParticipantIndex]=p;editParticipantIndex=null}else participants.push(p);
-clearParticipantInputs();renderParticipantPreview();showToast("Katılımcı kaydedildi");
+const input=$("participantUser");const u=userByName(input.value);
+const p={id:"PAR-"+Date.now(),user_id:input.dataset.userId||u.id||"",fullname:input.value,department:$("participantDepartment").value||input.dataset.department||u.department||"",role:input.dataset.role||u.role||"",email:input.dataset.email||u.email||"",participantUser:input.value,participantDepartment:$("participantDepartment").value,participantPosition:$("participantPosition").value,attendanceStatus:$("attendanceStatus").value,examScore:Number($("examScore").value||0),examResult:$("examResult").value,beforeCompetency:Number($("beforeCompetency").value||0),afterCompetency:Number($("afterCompetency").value||0),effectivenessResult:$("effectivenessResult").value,effectivenessDate:$("effectivenessDate").value,certificate:state.certFile,participantNote:$("participantNote").value,createdAt:new Date().toISOString()};
+if(!p.fullname)return showToast("Katılımcı seç");
+state.participants.push(p);
+clearParticipantInputs();renderParticipantPreview();showToast("Katılımcı eklendi");
 }
-function editParticipant(i){const p=participants[i];editParticipantIndex=i;participantUser.value=p.participantUser;participantDepartment.value=p.participantDepartment;participantPosition.value=p.participantPosition;attendanceStatus.value=p.attendanceStatus;examScore.value=p.examScore;examResult.value=p.examResult;beforeCompetency.value=p.beforeCompetency;afterCompetency.value=p.afterCompetency;effectivenessResult.value=p.effectivenessResult;effectivenessDate.value=p.effectivenessDate;participantNote.value=p.participantNote;certFile=p.certificate||null;participantMode.textContent="PARTICIPANT EDIT"}
-function clearParticipantInputs(){editParticipantIndex=null;participantUser.value="";participantDepartment.value="";participantPosition.value="";attendanceStatus.value="Planlandı";examScore.value=0;examResult.value="Bekliyor";beforeCompetency.value=3;afterCompetency.value=4;effectivenessResult.value="Bekliyor";effectivenessDate.value=addDays(todayISO(),30);participantNote.value="";certificateFile.value="";certFile=null;participantMode.textContent="PARTICIPANT CREATE"}
-function renderParticipantPreview(){if(!participants.length){participantPreview.innerHTML='<div class="empty" style="margin-top:14px">Katılımcı yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Katılımcı</th><th>Departman</th><th>Katılım</th><th>Sınav</th><th>Yetkinlik</th><th>Etkinlik</th><th>Belge</th><th>Aksiyon</th></tr></thead><tbody>';participants.forEach((p,i)=>h+=`<tr><td>${p.participantUser}</td><td>${p.participantDepartment}<br><small>${p.participantPosition}</small></td><td><span class="status ${statusClass(p.attendanceStatus)}">${p.attendanceStatus}</span></td><td>${p.examScore} / <span class="status ${statusClass(p.examResult)}">${p.examResult}</span></td><td>${p.beforeCompetency} → ${p.afterCompetency}</td><td><span class="status ${statusClass(p.effectivenessResult)}">${p.effectivenessResult}</span></td><td>${p.certificate?'<span class="status green">Var</span>':'<span class="status gray">Yok</span>'}</td><td><button class="small-btn view" onclick="editParticipant(${i})">Düzenle</button><button class="small-btn delete" onclick="participants.splice(${i},1);renderParticipantPreview()">Sil</button></td></tr>`);participantPreview.innerHTML=h+"</tbody></table>"}
+function renderParticipantPreview(){const area=$("participantPreview");if(!state.participants.length){area.innerHTML='<div class="empty" style="margin-top:14px">Katılımcı yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Katılımcı</th><th>Departman</th><th>Katılım</th><th>Sınav</th><th>Yetkinlik</th><th>Etkinlik</th><th>Belge</th><th>Aksiyon</th></tr></thead><tbody>';state.participants.forEach((p,i)=>h+=`<tr><td>${escapeHTML(p.participantUser)}</td><td>${escapeHTML(p.participantDepartment)}<br><small>${escapeHTML(p.participantPosition)}</small></td><td><span class="status ${statusClass(p.attendanceStatus)}">${escapeHTML(p.attendanceStatus)}</span></td><td>${p.examScore} / <span class="status ${statusClass(p.examResult)}">${escapeHTML(p.examResult)}</span></td><td>${p.beforeCompetency} → ${p.afterCompetency}</td><td><span class="status ${statusClass(p.effectivenessResult)}">${escapeHTML(p.effectivenessResult)}</span></td><td>${p.certificate?'<span class="status green">Var</span>':'<span class="status gray">Yok</span>'}</td><td><button class="small-btn delete" onclick="state.participants.splice(${i},1);renderParticipantPreview()">Kaldır</button></td></tr>`);area.innerHTML=h+"</tbody></table>"}
 
-function saveTraining(notify=false){
-const t={id:editIndex!==null?getTrainings()[editIndex].id:"TRN-"+Date.now(),trainingNo:trainingNo.value,trainingStatus:trainingStatus.value,trainingSource:trainingSource.value,trainingCategory:trainingCategory.value,department:department.value,processName:processName.value.trim(),trainingOwner:trainingOwner.value,trainer:trainer.value,standards:selectedStandards(),plannedDate:plannedDate.value,actualDate:actualDate.value,nextTrainingDate:nextTrainingDate.value,validityPeriod:validityPeriod.value,riskRef:riskRef.value.trim(),capaRef:capaRef.value.trim(),auditRef:auditRef.value.trim(),documentRef:documentRef.value.trim(),trainingTitle:trainingTitle.value.trim(),trainingScope:trainingScope.value.trim(),trainingContent:trainingContent.value.trim(),participants:participants,createdBy:session.name||"System",createdAt:editIndex!==null?getTrainings()[editIndex].createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),closedAt:"",auditTrail:editIndex!==null?(getTrainings()[editIndex].auditTrail||[]):[]};
-if(!t.trainingTitle)return showToast("Eğitim başlığı zorunlu");if(!t.trainingOwner)return showToast("Eğitim sahibi zorunlu");if(!t.trainer)return showToast("Eğitmen zorunlu");if(!t.plannedDate)return showToast("Planlanan tarih zorunlu");if(!t.standards.length)return showToast("En az 1 standart seç");if(!t.participants.length)return showToast("En az 1 katılımcı ekle");
-t.auditTrail.push({action:editIndex!==null?"Eğitim güncellendi":"Eğitim açıldı",user:session.name||"System",date:new Date().toISOString()});
-const items=getTrainings();if(editIndex!==null){items[editIndex]=t;showToast("Eğitim güncellendi")}else{items.unshift(t);showToast("Eğitim kaydedildi")}
-setTrainings(items);if(notify)createTrainingNotification(t,"Eğitim planlandı/güncellendi: "+t.trainingNo);resetForm();renderTrainings();
+async function handleCertificate(file){if(!file)return;const uploaded=await uploadToR2(file,{module:MODULE_CODE,record_no:$("trainingNo").value,file_type:"certificate"});state.certFile=uploaded||{file_name:file.name,name:file.name,size:file.size,temporary_note:"R2 yanıtı alınamadı"};showToast(uploaded?"Sertifika R2 üzerine yüklendi":"Sertifika seçildi, R2 yanıtı kontrol edilmeli")}
+async function uploadToR2(file,metadata={}){const form=new FormData();form.append("file",file);Object.entries(metadata).forEach(([k,v])=>form.append(k,v));try{const res=await fetch(GDNL_API_BASE+"/upload",{method:"POST",headers:authHeaders(false),body:form,cache:"no-store"});if(!res.ok)throw new Error("upload");return await res.json()}catch(e){return null}}
+async function openSignedFile(r2Key){const data=await safeGet("/file/"+encodeURIComponent(r2Key));const url=data?.signed_url||data?.temporary_url||data?.url;if(url)window.open(url,"_blank");return data}
+
+function buildPayload(){
+const owner=userByName($("trainingOwner").value),tr=userByName($("trainer").value);
+return{id:state.editId||undefined,trainingNo:$("trainingNo").value,record_no:$("trainingNo").value,module:MODULE_CODE,trainingStatus:$("trainingStatus").value,status:$("trainingStatus").value,trainingSource:$("trainingSource").value,trainingCategory:$("trainingCategory").value,department:$("department").value,processName:$("processName").value,trainingOwner:$("trainingOwner").value,trainingOwnerId:$("trainingOwner").dataset.userId||owner.id||"",trainingOwnerDepartment:$("trainingOwner").dataset.department||owner.department||"",trainer:$("trainer").value,trainerId:$("trainer").dataset.userId||tr.id||"",trainerDepartment:$("trainer").dataset.department||tr.department||"",standards:selectedStandards(),plannedDate:$("plannedDate").value,actualDate:$("actualDate").value,nextTrainingDate:$("nextTrainingDate").value,validityPeriod:$("validityPeriod").value,riskRef:$("riskRef").value,capaRef:$("capaRef").value,auditRef:$("auditRef").value,documentRef:$("documentRef").value,trainingTitle:$("trainingTitle").value.trim(),trainingScope:$("trainingScope").value.trim(),trainingContent:$("trainingContent").value.trim(),participants:state.participants,approval_steps:buildApprovalSteps(),workflow_steps:buildWorkflowSteps(),signature:null,created_by:state.currentUser.fullname,updated_at:new Date().toISOString(),status_fields:{closed_at:null,deleted_by:null,deleted_at:null,archived_by:null,archived_at:null,restored_by:null,restored_at:null,archive_reason:null,delete_reason:null}};
 }
-
-function createTrainingNotification(t,msg){
-const n=getNotifications();
-const people=t.participants.map(p=>p.participantUser).join("; ");
-n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Training",documentCode:t.trainingNo,documentName:t.trainingTitle,mailGroups:t.trainingOwner+"; "+t.trainer+"; "+people,smsGroups:people,distributionPoints:t.department+" / "+t.standards.join(", "),message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});
-setNotifications(n);
+function buildApprovalSteps(){const owner=userByName($("trainingOwner").value),tr=userByName($("trainer").value);return[{step_no:1,step_name:"Eğitim Sahibi Kontrolü",approver_id:owner.id||"",approver_name:$("trainingOwner").value,approver_department:owner.department||$("trainingOwner").dataset.department||"",approval_type:"Kontrol",required:true,status:"Bekliyor",approved_at:null,rejected_at:null,comment:""},{step_no:2,step_name:"Eğitmen Doğrulaması",approver_id:tr.id||"",approver_name:$("trainer").value,approver_department:tr.department||$("trainer").dataset.department||"",approval_type:"Doğrulama",required:true,status:"Bekliyor",approved_at:null,rejected_at:null,comment:""}]}
+function buildWorkflowSteps(){return[{step_no:1,step_name:"Planlandı",previous_step:null,next_step:2,required:true,status:"Tamamlandı",created_at:new Date().toISOString(),completed_at:new Date().toISOString()},{step_no:2,step_name:"Davet Gönderildi",previous_step:1,next_step:3,required:true,status:"Bekliyor",created_at:new Date().toISOString(),completed_at:null},{step_no:3,step_name:"Etkinlik Kontrolü",previous_step:2,next_step:4,required:true,status:"Bekliyor",created_at:new Date().toISOString(),completed_at:null},{step_no:4,step_name:"Kapatma Onayı",previous_step:3,next_step:null,required:true,status:"Bekliyor",created_at:new Date().toISOString(),completed_at:null}]}
+async function saveTraining(notify=false){
+const payload=buildPayload();
+if(!payload.trainingTitle)return showToast("Eğitim başlığı zorunlu");
+if(!payload.trainingOwner)return showToast("Eğitim sahibi zorunlu");
+if(!payload.trainer)return showToast("Eğitmen zorunlu");
+if(!payload.plannedDate)return showToast("Planlanan tarih zorunlu");
+if(!payload.standards.length)return showToast("En az 1 standart seç");
+if(!payload.participants.length)return showToast("En az 1 katılımcı ekle");
+const saved=await safePost("/trainings",payload)||await safePost("/actions",{...payload,module:"Eğitim Yönetimi",action_type:"Eğitim Kaydı"});
+await writeAudit("Eğitim Kaydı",payload.trainingNo,state.editId?"Düzenleme":"Oluşturma",null,payload,"training");
+await safePost("/assignments",{module:"Eğitim Yönetimi",record_no:payload.trainingNo,title:payload.trainingTitle,assigned_to:payload.participants.map(p=>p.user_id).filter(Boolean),assigned_names:payload.participants.map(p=>p.fullname||p.participantUser),due_date:payload.plannedDate,status:"Açık",created_by:state.currentUser.fullname});
+if(notify)await createTrainingNotification(payload,"Eğitim planlandı/güncellendi: "+payload.trainingNo);
+showToast(saved?"Eğitim D1 üzerine kaydedildi":"Kayıt gönderildi, Worker yanıtı kontrol edilmeli");
+await loadCloud();resetForm();renderTrainings();
 }
+async function writeAudit(module,recordNo,action,oldValue,newValue,field){await safePost("/audit-logs",{module,record_no:recordNo,action,user_id:state.currentUser.id,user_name:state.currentUser.fullname,ip_address:"",user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token"),created_at:new Date().toISOString()});await safePost("/activity-feed",{module,record_no:recordNo,action,old_value:oldValue,new_value:newValue,changed_field:field,user_id:state.currentUser.id,user_name:state.currentUser.fullname,created_at:new Date().toISOString()})}
+async function createTrainingNotification(t,msg){await safePost("/notifications",{module:"Eğitim Yönetimi",documentCode:t.trainingNo,documentName:t.trainingTitle,title:"Eğitim bildirimi",message:msg,mailGroups:[t.trainingOwner,t.trainer,...t.participants.map(p=>p.fullname||p.participantUser)].filter(Boolean).join("; "),smsGroups:t.participants.map(p=>p.fullname||p.participantUser).join("; "),distributionPoints:t.department+" / "+t.standards.join(", "),status:"Kuyrukta",is_read:false,read_by:null,read_at:null,created_by:state.currentUser.fullname,created_at:new Date().toISOString()})}
+async function createRiskActionFromTrainingCurrent(){const t=state.trainings.find(x=>x.id===state.selectedId);if(!t)return;await safePost("/actions",{module:"Risk Yönetimi",source_module:"Eğitim Yönetimi",source_record_no:t.trainingNo,title:"Etkin olmayan eğitim için risk aksiyonu",description:t.trainingTitle,status:"Açık",owner_name:t.trainingOwner,due_date:addDays(todayISO(),30),created_by:state.currentUser.fullname});await writeAudit("Eğitim Yönetimi",t.trainingNo,"Risk aksiyonu oluşturuldu",null,t,"risk_action");showToast("Risk aksiyonu D1 üzerine gönderildi")}
+async function closeTraining(i){const t=state.trainings[i];if(!t)return;const ok=(t.participants||[]).length>0&&(t.participants||[]).every(p=>["Katıldı","Mazeretli"].includes(p.attendanceStatus))&&(t.participants||[]).every(p=>["Başarılı","Sınavsız"].includes(p.examResult))&&(t.participants||[]).every(p=>["Etkin","Kısmen Etkin"].includes(p.effectivenessResult));if(!ok)return showToast("Katılım, sınav ve etkinlik kontrolü tamamlanmadan kapatılamaz");const next={...t,trainingStatus:"Kapalı",status:"Kapalı",closed_at:new Date().toISOString()};await safePost("/trainings",next)||await safePost("/actions",next);await writeAudit("Eğitim Yönetimi",t.trainingNo,"Kapatma",t,next,"status");await loadCloud();renderTrainings();showToast("Eğitim kapatıldı")}
+function closeTrainingCurrent(){const i=state.trainings.findIndex(x=>x.id===state.selectedId);if(i>-1)closeTraining(i)}
+function notifyTraining(i){const t=state.trainings[i];if(t)createTrainingNotification(t,"Eğitim bildirimi oluşturuldu.").then(()=>showToast("Bildirim kuyruğu oluşturuldu"))}
+function notifyTrainingCurrent(){const i=state.trainings.findIndex(x=>x.id===state.selectedId);if(i>-1)notifyTraining(i)}
 
-function loadTemplate(type){
-if(type==="EV"){trainingCategory.value="EV Sektörü";trainingSource.value="EV Projesi";trainingTitle.value="EV Safety, Battery Risk, HV Safety ve EMC Farkındalık Eğitimi";trainingScope.value="EV ürün ve proseslerinde batarya güvenliği, yüksek voltaj, EMC, charging compatibility, cybersecurity ve field failure risklerinin kontrolü.";trainingContent.value="HV safety, thermal runaway, EMC uygunluğu, functional safety, cybersecurity, batarya bozunması, saha arızası, müşteri özel şartları, CoP ve test kanıtları."}
-if(type==="CoP"){trainingCategory.value="CoP";trainingSource.value="CoP";trainingTitle.value="CoP Üretim Uygunluğu ve Test Kanıt Yönetimi Eğitimi";trainingScope.value="CoP planı, ürün uygunluk kanıtları, akredite test raporları, teknik dosya ve regülasyon uyumunun sürdürülebilir yönetimi.";trainingContent.value="CoP planı, ürün uygunluk kontrolleri, test raporu takibi, teknik dosya, değişiklik yönetimi, uygunsuzluk ve CAPA bağlantısı."}
-if(type==="17025"){trainingCategory.value="Laboratuvar";trainingSource.value="ISO 17025 Laboratuvar";trainingTitle.value="ISO 17025 Laboratuvar Yetkinlik, Kalibrasyon ve Ölçüm Belirsizliği Eğitimi";trainingScope.value="Laboratuvar tarafsızlığı, gizlilik, ölçüm belirsizliği, metot validasyonu, cihaz kalibrasyonu ve numune yönetimi yetkinliği.";trainingContent.value="ISO 17025 şartları, tarafsızlık, metot validasyonu, ölçüm belirsizliği, izlenebilirlik, cihaz ara kontrol, kalibrasyon kayıtları."}
-showToast(type+" eğitim şablonu yüklendi");
-}
+function loadTemplate(type){if(type==="EV"){trainingCategory.value="EV Sektörü";trainingSource.value="EV Projesi";trainingTitle.value="EV Güvenliği, Batarya Riski, Yüksek Voltaj Güvenliği ve EMC Farkındalık Eğitimi";trainingScope.value="EV ürün ve proseslerinde batarya güvenliği, yüksek voltaj, EMC, şarj uyumluluğu, siber güvenlik ve saha arızası risklerinin kontrolü.";trainingContent.value="Yüksek voltaj güvenliği, termal kaçak, EMC uygunluğu, fonksiyonel güvenlik, siber güvenlik, batarya bozunması, saha arızası, müşteri özel şartları, CoP ve test kanıtları."}if(type==="CoP"){trainingCategory.value="CoP";trainingSource.value="CoP";trainingTitle.value="CoP Üretim Uygunluğu ve Test Kanıt Yönetimi Eğitimi";trainingScope.value="CoP planı, ürün uygunluk kanıtları, akredite test raporları, teknik dosya ve regülasyon uyumunun sürdürülebilir yönetimi.";trainingContent.value="CoP planı, ürün uygunluk kontrolleri, test raporu takibi, teknik dosya, değişiklik yönetimi, uygunsuzluk ve CAPA bağlantısı."}if(type==="17025"){trainingCategory.value="Laboratuvar";trainingSource.value="ISO 17025 Laboratuvar";trainingTitle.value="ISO 17025 Laboratuvar Yetkinlik, Kalibrasyon ve Ölçüm Belirsizliği Eğitimi";trainingScope.value="Laboratuvar tarafsızlığı, gizlilik, ölçüm belirsizliği, metot validasyonu, cihaz kalibrasyonu ve numune yönetimi yetkinliği.";trainingContent.value="ISO 17025 şartları, tarafsızlık, metot validasyonu, ölçüm belirsizliği, izlenebilirlik, cihaz ara kontrol, kalibrasyon kayıtları."}showToast(type+" eğitim şablonu yüklendi")}
 
-function normalizeTraining(t){t.participants=t.participants||[];t.standards=t.standards||[];t.auditTrail=t.auditTrail||[];return t}
-function autoDelay(items){const today=todayISO();items.forEach(t=>{if(!["Kapalı","İptal"].includes(t.trainingStatus)&&t.plannedDate&&t.plannedDate<today&&t.trainingStatus==="Planlandı")t.trainingStatus="Gecikti"});setTrainings(items)}
-function trainingReady(t){return t.participants.length>0&&t.participants.every(p=>["Katıldı","Mazeretli"].includes(p.attendanceStatus))&&t.participants.every(p=>["Başarılı","Sınavsız"].includes(p.examResult))&&t.participants.every(p=>["Etkin","Kısmen Etkin"].includes(p.effectivenessResult))}
 function renderTrainings(){
-let items=getTrainings().map(normalizeTraining);autoDelay(items);items=getTrainings().map(normalizeTraining);
-const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,cf=categoryFilter.value,srcf=sourceFilter.value;
-const filtered=items.filter(t=>`${t.trainingNo} ${t.trainingTitle} ${t.trainingCategory} ${t.trainingSource} ${t.department} ${t.processName} ${t.trainingOwner} ${t.trainer} ${t.standards.join(" ")} ${t.riskRef} ${t.capaRef} ${t.auditRef} ${t.participants.map(p=>p.participantUser).join(" ")}`.toLowerCase().includes(q)&&(!sf||t.trainingStatus===sf)&&(!cf||t.trainingCategory===cf)&&(!srcf||t.trainingSource===srcf));
+let items=state.trainings.map(normalizeTraining);const q=($("globalSearch")?.value||"").toLowerCase(),sf=$("statusFilter").value,cf=$("categoryFilter").value,srcf=$("sourceFilter").value;
+const filtered=items.filter(t=>`${t.trainingNo} ${t.trainingTitle} ${t.trainingCategory} ${t.trainingSource} ${t.department} ${t.processName} ${t.trainingOwner} ${t.trainer} ${t.standards.join(" ")} ${t.riskRef||""} ${t.capaRef||""} ${t.auditRef||""} ${(t.participants||[]).map(p=>p.fullname||p.participantUser).join(" ")}`.toLowerCase().includes(q)&&(!sf||t.trainingStatus===sf)&&(!cf||t.trainingCategory===cf)&&(!srcf||t.trainingSource===srcf));
 updateCards(items);
-if(!filtered.length){trainingTable.innerHTML='<div class="empty">Eğitim kaydı bulunamadı.</div>';return}
+if(!filtered.length){$("trainingTable").innerHTML='<div class="empty">Eğitim kaydı bulunamadı.</div>';return}
 let h='<table><thead><tr><th>Eğitim No</th><th>Eğitim</th><th>Kaynak</th><th>Standart</th><th>Sahip / Eğitmen</th><th>Katılımcı</th><th>Durum</th><th>Tarih</th><th>Aksiyon</th></tr></thead><tbody>';
-filtered.forEach(t=>{const i=items.findIndex(x=>x.id===t.id);h+=`<tr><td>${t.trainingNo}</td><td>${t.trainingTitle}<br><small>${t.trainingCategory} / ${t.processName}</small></td><td>${t.trainingSource}</td><td>${t.standards.slice(0,3).join(", ")}${t.standards.length>3?"...":""}</td><td>${t.trainingOwner}<br><small>${t.trainer}</small></td><td>${t.participants.length}</td><td><span class="status ${statusClass(t.trainingStatus)}">${t.trainingStatus}</span></td><td>${formatDateTR(t.plannedDate)}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyTraining(${i})">Bildir</button><button class="small-btn close" onclick="closeTraining(${i})">Kapat</button></div></td></tr>`});
-trainingTable.innerHTML=h+"</tbody></table>";
+filtered.forEach(t=>{const i=items.findIndex(x=>x.id===t.id);h+=`<tr><td>${escapeHTML(t.trainingNo)}</td><td>${escapeHTML(t.trainingTitle||"")}<br><small>${escapeHTML(t.trainingCategory||"")} / ${escapeHTML(t.processName||"")}</small></td><td>${escapeHTML(t.trainingSource||"")}</td><td>${escapeHTML((t.standards||[]).slice(0,3).join(", "))}${(t.standards||[]).length>3?"...":""}</td><td>${escapeHTML(t.trainingOwner||"")}<br><small>${escapeHTML(t.trainer||"")}</small></td><td>${(t.participants||[]).length}</td><td><span class="status ${statusClass(t.trainingStatus)}">${escapeHTML(t.trainingStatus)}</span></td><td>${formatDateTR(t.plannedDate)}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyTraining(${i})">Bildir</button><button class="small-btn close" onclick="closeTraining(${i})">Kapat</button></div></td></tr>`});$("trainingTable").innerHTML=h+"</tbody></table>"
 }
-
-function updateCards(items){
-let parts=[];items.forEach(t=>parts=parts.concat(t.participants||[]));
-const success=parts.length?Math.round((parts.filter(p=>p.examResult==="Başarılı"||p.examResult==="Sınavsız").length/parts.length)*100):0;
-totalTrainings.textContent=items.length;
-openTrainings.textContent=items.filter(t=>!["Kapalı","İptal"].includes(t.trainingStatus)).length;
-lateTrainings.textContent=items.filter(t=>t.trainingStatus==="Gecikti").length;
-totalParticipants.textContent=parts.length;
-successRate.textContent=success+"%";
-certifiedCount.textContent=parts.filter(p=>p.certificate).length;
-effectiveCount.textContent=parts.filter(p=>p.effectivenessResult==="Etkin").length;
-notificationCount.textContent=getNotifications().filter(n=>n.module==="Training").length;
-}
-
-function openDrawer(i){
-selectedIndex=i;const t=normalizeTraining(getTrainings()[i]);
-drawerTitle.textContent=t.trainingNo+" / "+t.trainingTitle;drawerStatus.textContent=t.trainingStatus;drawerStatus.className="status "+statusClass(t.trainingStatus);
-drawerContent.innerHTML=`<div class="info-box"><b>Eğitim No:</b> ${t.trainingNo}
-<b>Kaynak:</b> ${t.trainingSource}
-<b>Kategori:</b> ${t.trainingCategory}
-<b>Departman / Süreç:</b> ${t.department} / ${t.processName}
-<b>Eğitim Sahibi:</b> ${t.trainingOwner}
-<b>Eğitmen:</b> ${t.trainer}
+function updateCards(items){let parts=[];items.forEach(t=>parts=parts.concat(t.participants||[]));const success=parts.length?Math.round((parts.filter(p=>p.examResult==="Başarılı"||p.examResult==="Sınavsız").length/parts.length)*100):0;$("totalTrainings").textContent=items.length;$("openTrainings").textContent=items.filter(t=>!["Kapalı","İptal"].includes(t.trainingStatus)).length;$("lateTrainings").textContent=items.filter(t=>t.trainingStatus==="Gecikti").length;$("totalParticipants").textContent=parts.length;$("successRate").textContent=success+"%";$("certifiedCount").textContent=parts.filter(p=>p.certificate).length;$("effectiveCount").textContent=parts.filter(p=>p.effectivenessResult==="Etkin").length;$("notificationCount").textContent=state.notifications.filter(n=>textOf(n.module).includes("Eğitim")||textOf(n.module).includes("Training")).length}
+function openDrawer(i){const t=state.trainings[i];if(!t)return;state.selectedId=t.id;$("drawerTitle").textContent=(t.trainingNo||"")+" / "+(t.trainingTitle||"");$("drawerStatus").textContent=t.trainingStatus;$("drawerStatus").className="status "+statusClass(t.trainingStatus);$("drawerContent").innerHTML=`<div class="info-box"><b>Eğitim No:</b> ${escapeHTML(t.trainingNo)}
+<b>Kaynak:</b> ${escapeHTML(t.trainingSource)}
+<b>Kategori:</b> ${escapeHTML(t.trainingCategory)}
+<b>Departman / Süreç:</b> ${escapeHTML(t.department)} / ${escapeHTML(t.processName)}
+<b>Eğitim Sahibi:</b> ${escapeHTML(t.trainingOwner)}
+<b>Eğitmen:</b> ${escapeHTML(t.trainer)}
 <b>Planlanan:</b> ${formatDateTR(t.plannedDate)}
 <b>Gerçekleşen:</b> ${formatDateTR(t.actualDate)}
 <b>Sonraki Eğitim:</b> ${formatDateTR(t.nextTrainingDate)}
-<b>Standartlar:</b> ${t.standards.join(", ")}
-<b>Risk:</b> ${t.riskRef||"-"}
-<b>CAPA:</b> ${t.capaRef||"-"}
-<b>Audit:</b> ${t.auditRef||"-"}
-<b>Doküman:</b> ${t.documentRef||"-"}</div>
+<b>Standartlar:</b> ${escapeHTML((t.standards||[]).join(", "))}
+<b>Risk:</b> ${escapeHTML(t.riskRef||"-")}
+<b>CAPA:</b> ${escapeHTML(t.capaRef||"-")}
+<b>Denetim:</b> ${escapeHTML(t.auditRef||"-")}
+<b>Doküman:</b> ${escapeHTML(t.documentRef||"-")}</div>
 <div class="info-box"><b>Amaç / Kapsam:</b>
-${t.trainingScope||"-"}
+${escapeHTML(t.trainingScope||"-")}
 
 <b>İçerik:</b>
-${t.trainingContent||"-"}</div>
-<div class="info-box"><b>Katılımcılar</b><br>${renderParticipantsTable(t.participants)}</div>
-<div class="info-box"><b>Audit Trail</b>
-${(t.auditTrail||[]).map(x=>`${formatDateTR(x.date)} - ${x.user} - ${x.action}`).join("\\n")||"-"}</div>`;
-drawer.classList.add("active");
-}
+${escapeHTML(t.trainingContent||"-")}</div>
+<div class="info-box"><b>Katılımcılar</b><br>${renderParticipantsTable(t.participants||[])}</div>`;$("drawer").classList.add("active")}
+function renderParticipantsTable(p){if(!p.length)return"Katılımcı yok.";let h='<table><thead><tr><th>Kişi</th><th>Departman</th><th>Katılım</th><th>Sınav</th><th>Yetkinlik</th><th>Etkinlik</th><th>Belge</th></tr></thead><tbody>';p.forEach(x=>h+=`<tr><td>${escapeHTML(x.fullname||x.participantUser)}</td><td>${escapeHTML(x.department||x.participantDepartment||"")}</td><td><span class="status ${statusClass(x.attendanceStatus)}">${escapeHTML(x.attendanceStatus||"")}</span></td><td>${escapeHTML(x.examScore||0)} / <span class="status ${statusClass(x.examResult)}">${escapeHTML(x.examResult||"")}</span></td><td>${escapeHTML(x.beforeCompetency||"")} → ${escapeHTML(x.afterCompetency||"")}</td><td><span class="status ${statusClass(x.effectivenessResult)}">${escapeHTML(x.effectivenessResult||"")}</span></td><td>${x.certificate?'<span class="status green">Var</span>':'<span class="status gray">Yok</span>'}</td></tr>`);return h+"</tbody></table>"}
+function closeDrawer(){state.selectedId=null;$("drawer").classList.remove("active")}
 
-function renderParticipantsTable(p){
-if(!p.length)return"Katılımcı yok.";
-let h='<table><thead><tr><th>Kişi</th><th>Departman</th><th>Katılım</th><th>Sınav</th><th>Yetkinlik</th><th>Etkinlik</th><th>Belge</th></tr></thead><tbody>';
-p.forEach(x=>h+=`<tr><td>${x.participantUser}</td><td>${x.participantDepartment}</td><td><span class="status ${statusClass(x.attendanceStatus)}">${x.attendanceStatus}</span></td><td>${x.examScore} / <span class="status ${statusClass(x.examResult)}">${x.examResult}</span></td><td>${x.beforeCompetency} → ${x.afterCompetency}</td><td><span class="status ${statusClass(x.effectivenessResult)}">${x.effectivenessResult}</span></td><td>${x.certificate?'<span class="status green">Var</span>':'<span class="status gray">Yok</span>'}</td></tr>`);
-return h+"</tbody></table>";
-}
+async function runSearch(){const text=($("globalSearch").value||"").trim().toLowerCase();if(!text){clearSearchResults();return}let cloud=await safeGet("/search?q="+encodeURIComponent(text));let results=asArray(cloud).filter(x=>!isPassive(x)).map(x=>({type:"page",module:x.module||"Cloud",title:x.title||x.name||x.record_no||"Kayıt",detail:x.description||x.detail||"",go:x.url||x.page||"#"}));state.trainings.forEach(t=>{if(JSON.stringify(t).toLowerCase().includes(text))results.push({type:"record",module:"Eğitim Yönetimi",title:t.trainingTitle||t.trainingNo,detail:`${t.trainingNo||""} ${t.department||""} ${t.trainingStatus||""}`,selected:t.id})});document.querySelectorAll(".menu a").forEach(el=>{const label=el.textContent.trim(),href=el.getAttribute("href")||"";if((label+" "+href).toLowerCase().includes(text))results.push({type:"page",module:"Menü",title:label,detail:href,go:href})});renderSearchResults(text,results)}
+function renderSearchResults(keyword,results){$("searchResultsPanel").classList.add("active");$("searchKeyword").textContent=keyword;$("searchResultCount").textContent=results.length+" sonuç";if(!results.length){$("searchResultsArea").innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;return}window.gdnlSearchResults=results.slice(0,80);$("searchResultsArea").innerHTML=window.gdnlSearchResults.map((r,i)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${escapeHTML(r.title)}</b><small>${escapeHTML(r.detail)}</small></div><button class="result-open" onclick="openSearchResult(${i})">${r.type==="record"?"İncele":"Aç"}</button></div>`).join("");$("searchResultsPanel").scrollIntoView({behavior:"smooth",block:"start"})}
+function openSearchResult(i){const r=(window.gdnlSearchResults||[])[i];if(!r)return;if(r.type==="record"){const idx=state.trainings.findIndex(x=>x.id===r.selected);if(idx>-1)openDrawer(idx);return}if(r.go&&r.go!=="#")window.location.href=r.go}
+function clearSearchResults(){$("globalSearch").value="";$("searchResultsPanel").classList.remove("active");$("searchResultsArea").innerHTML="";renderTrainings()}
 
-function notifyTraining(i){createTrainingNotification(getTrainings()[i],"Eğitim bildirimi oluşturuldu.");showToast("Bildirim kuyruğu oluşturuldu")}
-function notifyTrainingCurrent(){if(selectedIndex!==null)notifyTraining(selectedIndex)}
-function closeTraining(i){
-const items=getTrainings().map(normalizeTraining),t=items[i];
-if(!trainingReady(t))return showToast("Katılım, sınav ve etkinlik kontrolü tamamlanmadan kapatılamaz");
-t.trainingStatus="Kapalı";t.closedAt=new Date().toISOString();t.auditTrail.push({action:"Eğitim kapatıldı",user:session.name||"System",date:new Date().toISOString()});
-setTrainings(items);renderTrainings();showToast("Eğitim kapatıldı");
-}
-function closeTrainingCurrent(){if(selectedIndex!==null){closeTraining(selectedIndex);openDrawer(selectedIndex)}}
-function createRiskActionFromTrainingCurrent(){
-if(selectedIndex===null)return;
-const t=getTrainings()[selectedIndex];
-const bad=t.participants.filter(p=>p.effectivenessResult==="Etkin Değil"||p.examResult==="Başarısız");
-if(!bad.length)return showToast("Etkin olmayan katılımcı yok");
-const risks=getRisks();
-risks.unshift({id:"RISK-"+Date.now(),riskNo:"RSK-"+new Date().getFullYear()+"-"+String(risks.length+1).padStart(4,"0"),riskStatus:"Aksiyon Bekliyor",riskCategory:"Eğitim / Yetkinlik",riskSource:"Eğitim Etkinliği",department:t.department,processName:t.processName,riskOwner:t.trainingOwner,responsiblePerson:t.trainer,standards:t.standards,auditRef:t.auditRef,capaRef:t.capaRef,riskTitle:"Eğitim etkinliği yetersizliği riski: "+t.trainingTitle,riskDescription:"Eğitim sonrası sınav veya etkinlik kontrolünde başarısız/etkin değil sonucu oluştu.",initialO:7,initialS:7,initialD:6,initialScore:294,initialLevel:"Orta",residualO:4,residualS:7,residualD:4,residualScore:112,residualLevel:"İzlenmeli",reductionRate:"62%",actions:[],createdBy:session.name||"System",createdAt:new Date().toISOString(),auditTrail:[{action:"Eğitimden risk aksiyonu oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]});
-setRisks(risks);showToast("Risk aksiyonu oluşturuldu");
-}
-function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
-function resetForm(){
-editIndex=null;generateTrainingNo();trainingStatus.value="Planlandı";trainingSource.value="Risk Aksiyonu";trainingCategory.value="Kalite";department.value="Kalite";processName.value="";trainingOwner.value="";trainer.value="";Array.from(standards.options).forEach(o=>o.selected=false);plannedDate.value=todayISO();actualDate.value="";nextTrainingDate.value=addDays(todayISO(),365);validityPeriod.value="12 Ay";riskRef.value="";capaRef.value="";auditRef.value="";documentRef.value="";trainingTitle.value="";trainingScope.value="";trainingContent.value="";participants=[];renderParticipantPreview();clearParticipantInputs();formMode.textContent="CREATE MODE";
-}
-function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
-globalSearch.addEventListener("input",function(){
-if(!this.value.trim()){
-clearSearchResults();
-}else{
+function toggleMenuGroup(button){const group=button.closest(".menu-group");if(!group)return;const menu=group.parentElement;if(menu){menu.querySelectorAll(".menu-group").forEach(item=>{if(item!==group)item.classList.remove("open")})}group.classList.toggle("open")}
+function logout(){document.cookie="gdnl_eos_token=; Max-Age=0; path=/; SameSite=Lax";document.cookie="gdnl_eqms_token=; Max-Age=0; path=/; SameSite=Lax";window.location.href="index.html"}
+function openMobileMenu(){$("mobileDrawer").classList.add("active");$("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){$("mobileDrawer").classList.remove("active");$("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
+
+async function boot(){
+await loadCloud();
+fillDepartments();
+setupUserAutocomplete("trainingOwner",{departmentTarget:"department"});
+setupUserAutocomplete("trainer",{});
+setupUserAutocomplete("participantUser",{});
+$("participantUser").addEventListener("change",()=>{const u=userByName($("participantUser").value);$("participantDepartment").value=u.department||$("participantUser").dataset.department||"";$("participantPosition").value=u.role||$("participantUser").dataset.role||""});
+$("certificateFile").addEventListener("change",e=>handleCertificate(e.target.files[0]));
+$("globalSearch").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();runSearch()}});
+$("globalSearch").addEventListener("input",()=>{if(!$("globalSearch").value.trim())renderTrainings()});
+resetForm();
 renderTrainings();
+setInterval(async()=>{await loadCloud();renderTrainings()},30000);
 }
-});
-
-globalSearch.addEventListener("keydown",function(e){
-if(e.key==="Enter"){
-e.preventDefault();
-runSearch();
-}
-});
-initUserSelects();resetForm();renderTrainings();
-console.log("GDNL EQMS Training Management Loaded");
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMobileMenu()});
+boot();
 </script>
+
 </body>
 </html>
