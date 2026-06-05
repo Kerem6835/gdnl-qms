@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Security & Continuity Center</title>
+<title>GDNL EQMS | BGYS ve İş Sürekliliği Merkezi</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -175,7 +175,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="menu-sub">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 </div>
@@ -201,14 +201,14 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="menu-sub">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </div>
 </nav>
-  <div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Logout</button></div>
+  <div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Çıkış Yap</button></div>
 </aside>
 
 <aside class="sidebar">
@@ -264,7 +264,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="menu-sub">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 </div>
@@ -290,7 +290,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="menu-sub">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
@@ -298,7 +298,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>ISO 27001 • ISO 22301<br>Security & Continuity Center</div>
+<div class="sidebar-footer">GDNL EQMS Enterprise<br>ISO 27001 • ISO 22301<br>BGYS ve İş Sürekliliği Merkezi</div>
 </aside>
 
 <main class="main">
@@ -310,16 +310,16 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 </div>
 <div class="profile">
 <div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName">Kerem Güdenli</span></div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Security & Continuity Center</h1>
+<h1>BGYS ve İş Sürekliliği Merkezi</h1>
 <p>ISO 27001 bilgi güvenliği olay yönetimi, BGYS risk yönetimi ve ISO 22301 iş sürekliliği tek yaşam döngüsünde yönetilir. V2 yapıda 10×10×10 RPN, aksiyon yönetimi, varlık envanteri, BIA, BCP tatbikat takvimi, risk heat map ve YGG entegrasyonu aynı merkezde çalışır.</p>
 </div>
-<div class="hero-badge">Security Engine V2: <span>10/10 Active</span></div>
+<div class="hero-badge">BGYS Motoru V2: <span>10/10 Aktif</span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -357,22 +357,22 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 
 <section class="panel">
 <div class="panel-head">
-<h3>Security & Continuity Master Record</h3>
-<span class="status blue" id="modeBadge">CREATE MODE</span>
+<h3>BGYS ve İş Sürekliliği Ana Kaydı</h3>
+<span class="status blue" id="modeBadge">OLUŞTURMA MODU</span>
 </div>
 
 <div class="form-grid">
 <div class="field"><label>Kayıt No</label><input id="recordNo" readonly></div>
 <div class="field"><label>Kayıt Tipi</label><select id="recordType" onchange="applyTypeDefaults()"><option>Bilgi Güvenliği Olayı</option><option>BGYS Risk</option><option>İş Sürekliliği / BCP</option><option>BCP Tatbikatı</option><option>Entegre Olay + Risk + BCP</option></select></div>
 <div class="field"><label>Kayıt Tarihi</label><input id="recordDate" type="date"></div>
-<div class="field"><label>Durum</label><select id="status" onchange="renderFlowPreview(this.value)"><option>Yeni</option><option>İncelemede</option><option>Risk Değerlendirme</option><option>Aksiyon Bekliyor</option><option>BCP Etki Analizi</option><option>Tatbikat / Test</option><option>Etkinlik Kontrolü</option><option>Lessons Learned</option><option>Kapalı</option><option>Reddedildi</option></select></div>
+<div class="field"><label>Durum</label><select id="status" onchange="renderFlowPreview(this.value)"><option>Yeni</option><option>İncelemede</option><option>Risk Değerlendirme</option><option>Aksiyon Bekliyor</option><option>BCP Etki Analizi</option><option>Tatbikat / Test</option><option>Etkinlik Kontrolü</option><option>Öğrenilmiş Dersler</option><option>Kapalı</option><option>Reddedildi</option></select></div>
 
 <div class="field double"><label>Başlık</label><input id="title" placeholder="Olay / risk / süreklilik kaydı başlığı"></div>
-<div class="field"><label>Departman</label><select id="department"><option>Bilgi Güvenliği</option><option>BT</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Yönetim</option><option>Operasyon</option><option>Bakım</option></select></div>
+<div class="field"><label>Departman</label><select id="department"></select></div>
 <div class="field"><label>Sorumlu</label><input id="owner" placeholder="Risk / olay sahibi"></div>
 
-<div class="field"><label>Varlık Seç</label><select id="assetRegister" onchange="syncAssetRegister()"><option>ERP</option><option>EQMS</option><option>Mail Server</option><option>Firewall</option><option>NAS</option><option>Sunucu</option><option>Laptop</option><option>Veritabanı</option><option>Bulut Servisi</option><option>Tedarikçi Portalı</option><option>PLC / OT Sistemleri</option><option>Yedekleme Sistemi</option><option>VPN</option><option>Active Directory</option><option>Diğer</option></select></div>
-<div class="field"><label>Öncelik</label><select id="priority"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div>
+<div class="field"><label>Varlık Seç</label><select id="assetRegister" onchange="syncAssetRegister()"><option>ERP</option><option>EQMS</option><option>Mail Server</option><option>Firewall</option><option>NAS</option><option>Sunucu</option><option>Laptop</option><option>Veritabanı</option><option>Bulut Servisi</option><option>Tedarikçi Portalı</option><option>PLC / OT Sistemleri</option><option>Yedekleme Sistemi</option><option>VPN</option><option>Aktif Directory</option><option>Diğer</option></select></div>
+<div class="field"><label>Öncelik</label><select id="priority"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Termin</label><input id="dueDate" type="date"></div>
 <div class="field"><label>Bildiren / Kaynak</label><input id="reportedBy" placeholder="Kişi, sistem, denetim, müşteri"></div>
@@ -434,7 +434,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="field"><label>RTO</label><input id="rto" placeholder="Örn: 4 saat"></div>
 <div class="field"><label>RPO</label><input id="rpo" placeholder="Örn: 1 saat"></div>
 
-<div class="field"><label>Kritik Seviye</label><select id="businessCriticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Kritik Seviye</label><select id="businessKritikity"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Kurtarma Ekibi</label><input id="recoveryTeam" placeholder="Ekip / kişiler"></div>
 <div class="field"><label>Alternatif Lokasyon</label><input id="alternateLocation" placeholder="Lokasyon / uzaktan çalışma"></div>
 <div class="field"><label>Tatbikat Tarihi</label><input id="drillDate" type="date"></div>
@@ -463,15 +463,15 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="form-grid">
 <div class="field"><label>CAPA Aç</label><select id="createCapa"><option>Evet</option><option>Hayır</option></select></div>
 <div class="field"><label>Risk Register Aç</label><select id="createRisk"><option>Evet</option><option>Hayır</option></select></div>
-<div class="field"><label>Action Center Aç</label><select id="createAction"><option>Evet</option><option>Hayır</option></select></div>
-<div class="field"><label>Lessons Learned Aç</label><select id="createLesson"><option>Evet</option><option>Hayır</option></select></div>
+<div class="field"><label>Aksiyon Merkezi Aç</label><select id="createAction"><option>Evet</option><option>Hayır</option></select></div>
+<div class="field"><label>Öğrenilmiş Dersler Aç</label><select id="createLesson"><option>Evet</option><option>Hayır</option></select></div>
 
 <div class="field"><label>CAPA Ref</label><input id="capaRef" placeholder="CAPA-2026-0001"></div>
 <div class="field"><label>Action Ref</label><input id="actionRef" placeholder="ACT-2026-0001"></div>
 <div class="field"><label>CI Ref</label><input id="ciRef" placeholder="CI-2026-0001"></div>
 <div class="field"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
 
-<div class="field full"><label>Lessons Learned / Kapanış Notu</label><textarea id="lessonLearned" class="big" placeholder="Bu olay/risk/tatbikat sonucunda ne öğrenildi, tekrarını önlemek için ne standartlaştırıldı?"></textarea></div>
+<div class="field full"><label>Öğrenilmiş Dersler / Kapanış Notu</label><textarea id="lessonLearned" class="big" placeholder="Bu olay/risk/tatbikat sonucunda ne öğrenildi, tekrarını önlemek için ne standartlaştırıldı?"></textarea></div>
 <div class="field"><label>Standart Güncellendi mi?</label><select id="standardUpdated"><option>Hayır</option><option>Evet</option></select></div>
 <div class="field"><label>Eğitim Açıldı mı?</label><select id="trainingOpened"><option>Hayır</option><option>Evet</option></select></div>
 <div class="field"><label>CAPA Açıldı mı?</label><select id="capaOpened"><option>Hayır</option><option>Evet</option></select></div>
@@ -485,7 +485,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <button class="btn primary" onclick="saveRecord()">Kaydet</button>
 <button class="btn orange" onclick="saveRecord(true)">Kaydet + Bildirim</button>
 <button class="btn green" onclick="markLifecycle('Kapalı')">Kapalı İşaretle</button>
-<button class="btn purple" onclick="markLifecycle('Lessons Learned')">Lessons Learned</button>
+<button class="btn purple" onclick="markLifecycle('Öğrenilmiş Dersler')">Öğrenilmiş Dersler</button>
 <button class="btn blue" onclick="markLifecycle('BCP Etki Analizi')">BCP Etki Analizi</button>
 <button class="btn dark" onclick="resetForm()">Temizle</button>
 </div>
@@ -493,12 +493,12 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 
 <section class="panel">
 <div class="panel-head">
-<h3>Risk Heat Map & BCP Tatbikat Takvimi</h3>
-<span class="status purple">V2 ANALYTICS</span>
+<h3>Risk Isı Haritası ve BCP Tatbikat Takvimi</h3>
+<span class="status purple">V2 ANALİZ</span>
 </div>
 <div class="form-grid">
 <div class="field double">
-<label>5x5 Risk Heat Map</label>
+<label>5x5 Risk Isı Haritası</label>
 <div class="heatmap-wrap"><div class="heatmap" id="riskHeatMap"></div></div>
 </div>
 <div class="field double">
@@ -510,12 +510,12 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 
 <section class="panel admin-lock" id="securityAdminArea">
 <div class="panel-head">
-<h3>Security Admin Area</h3>
-<span class="status orange">SUPER ADMIN / BGYS MANAGER</span>
+<h3>BGYS Yönetici Alanı</h3>
+<span class="status orange">ÜST YETKİLİ / BGYS YÖNETİCİSİ</span>
 </div>
 <div class="form-grid">
 <div class="field"><label>RPN Aksiyon Eşiği</label><input id="rpnActionThreshold" type="number" value="300"></div>
-<div class="field"><label>Kritik RPN Eşiği</label><input id="rpnCriticalThreshold" type="number" value="600"></div>
+<div class="field"><label>Kritik RPN Eşiği</label><input id="rpnKritikThreshold" type="number" value="600"></div>
 <div class="field"><label>Varsayılan BCP Test Periyodu</label><select id="bcpDefaultPeriod"><option>6 Ay</option><option>3 Ay</option><option>12 Ay</option></select></div>
 <div class="field"><label>YGG Otomatik Bayrak</label><select id="autoMrmFlag"><option>Evet</option><option>Hayır</option></select></div>
 </div>
@@ -523,12 +523,12 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 
 <section class="panel">
 <div class="panel-head">
-<h3>Security & Continuity Master Listesi</h3>
+<h3>BGYS ve İş Sürekliliği Ana Listesi</h3>
 <div class="toolbar">
 <select id="typeFilter" onchange="renderRecords()"><option value="">Tüm Tipler</option><option>Bilgi Güvenliği Olayı</option><option>BGYS Risk</option><option>İş Sürekliliği / BCP</option><option>BCP Tatbikatı</option><option>Entegre Olay + Risk + BCP</option></select>
-<select id="statusFilter" onchange="renderRecords()"><option value="">Tüm Durumlar</option><option>Yeni</option><option>İncelemede</option><option>Risk Değerlendirme</option><option>Aksiyon Bekliyor</option><option>BCP Etki Analizi</option><option>Tatbikat / Test</option><option>Etkinlik Kontrolü</option><option>Lessons Learned</option><option>Kapalı</option><option>Reddedildi</option></select>
-<select id="priorityFilter" onchange="renderRecords()"><option value="">Tüm Öncelikler</option><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select>
-<select id="departmentFilter" onchange="renderRecords()"><option value="">Tüm Departmanlar</option><option>Bilgi Güvenliği</option><option>BT</option><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Yönetim</option><option>Operasyon</option><option>Bakım</option></select>
+<select id="statusFilter" onchange="renderRecords()"><option value="">Tüm Durumlar</option><option>Yeni</option><option>İncelemede</option><option>Risk Değerlendirme</option><option>Aksiyon Bekliyor</option><option>BCP Etki Analizi</option><option>Tatbikat / Test</option><option>Etkinlik Kontrolü</option><option>Öğrenilmiş Dersler</option><option>Kapalı</option><option>Reddedildi</option></select>
+<select id="priorityFilter" onchange="renderRecords()"><option value="">Tüm Öncelikler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
+<select id="departmentFilter" onchange="renderRecords()"><option value="">Tüm Departmanlar</option></select>
 </div>
 </div>
 <div class="actions">
@@ -545,7 +545,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div class="drawer" id="drawer">
 <div class="drawer-head">
 <div>
-<h3 id="drawerTitle">Security Detail</h3>
+<h3 id="drawerTitle">BGYS Detayı</h3>
 <span class="status blue" id="drawerStatus">Durum</span>
 </div>
 <button class="close-btn" onclick="closeDrawer()">Kapat</button>
@@ -553,7 +553,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 <div id="drawerContent"></div>
 <div class="actions">
 <button class="btn green" onclick="advanceCurrent()">Sonraki Aşama</button>
-<button class="btn purple" onclick="makeLessonCurrent()">Lessons Learned</button>
+<button class="btn purple" onclick="makeLessonCurrent()">Öğrenilmiş Dersler</button>
 <button class="btn blue" onclick="makeBcpCurrent()">BCP Etki Analizi</button>
 <button class="btn primary" onclick="closeCurrent()">Kapat</button>
 <button class="btn orange" onclick="createIntegrationCurrent()">Entegrasyonları Oluştur</button>
@@ -564,599 +564,80 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
-<script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
-
-const FLOW=["Yeni","İncelemede","Risk Değerlendirme","Aksiyon Bekliyor","BCP Etki Analizi","Tatbikat / Test","Etkinlik Kontrolü","Lessons Learned","Kapalı"];
-let selectedIndex=null;
-let editId=null;
-let uploadedEvidence=null;
-
-function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_eqms_session");window.location.href="index.html"}
-function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
-function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
-
-function getRecords(){try{return JSON.parse(localStorage.getItem("gdnl_security_continuity"))||[]}catch(e){return[]}}
-function setRecords(x){localStorage.setItem("gdnl_security_continuity",JSON.stringify(x))}
-function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
-function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
-function getActions(){try{return JSON.parse(localStorage.getItem("gdnl_action_center"))||[]}catch(e){return[]}}
-function setActions(x){localStorage.setItem("gdnl_action_center",JSON.stringify(x))}
-function getCapa(){try{return JSON.parse(localStorage.getItem("gdnl_capa"))||[]}catch(e){return[]}}
-function setCapa(x){localStorage.setItem("gdnl_capa",JSON.stringify(x))}
-function getRisks(){try{return JSON.parse(localStorage.getItem("gdnl_risk_register"))||[]}catch(e){return[]}}
-function setRisks(x){localStorage.setItem("gdnl_risk_register",JSON.stringify(x))}
-function getCI(){try{return JSON.parse(localStorage.getItem("gdnl_continuous_improvement"))||[]}catch(e){return[]}}
-function setCI(x){localStorage.setItem("gdnl_continuous_improvement",JSON.stringify(x))}
-
-function todayISO(){return new Date().toISOString().split("T")[0]}
-function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
-function daysBetween(a,b){if(!a||!b)return null;const d1=new Date(a);const d2=new Date(b);if(isNaN(d1)||isNaN(d2))return null;return Math.ceil((d2-d1)/(1000*60*60*24))}
-function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
-function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
-function escapeHTML(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function statusClass(s){if(["Kapalı","Başarılı","Etkili"].includes(s))return"green";if(["Reddedildi","Başarısız","Kritik","Critical","Yüksek"].includes(s))return"red";if(["İncelemede","Aksiyon Bekliyor","BCP Etki Analizi","Tatbikat / Test","Etkinlik Kontrolü","High","Kısmen Başarılı"].includes(s))return"orange";if(["Lessons Learned"].includes(s))return"purple";if(["Low","Düşük"].includes(s))return"gray";return"blue"}
-
-function generateNumbers(){
-const year=new Date().getFullYear();
-const count=getRecords().length+1;
-document.getElementById("recordNo").value="SEC-"+year+"-"+String(count).padStart(4,"0");
-document.getElementById("incidentNo").value="INC-"+year+"-"+String(count).padStart(4,"0");
-document.getElementById("riskNo").value="ISMS-RSK-"+year+"-"+String(count).padStart(4,"0");
-document.getElementById("bcpNo").value="BCP-"+year+"-"+String(count).padStart(4,"0");
-}
-function applyTypeDefaults(){
-const t=document.getElementById("recordType").value;
-if(t==="BGYS Risk")document.getElementById("status").value="Risk Değerlendirme";
-if(t==="İş Sürekliliği / BCP")document.getElementById("status").value="BCP Etki Analizi";
-if(t==="BCP Tatbikatı")document.getElementById("status").value="Tatbikat / Test";
-if(t==="Bilgi Güvenliği Olayı")document.getElementById("status").value="Yeni";
-if(t==="Entegre Olay + Risk + BCP")document.getElementById("status").value="İncelemede";
-renderFlowPreview(document.getElementById("status").value);
-}
-function syncAssetRegister(){
-const asset=document.getElementById("assetRegister").value;
-if(document.getElementById("affectedAsset"))document.getElementById("affectedAsset").value=asset;
-if(document.getElementById("affectedSystem")&&!document.getElementById("affectedSystem").value)document.getElementById("affectedSystem").value=asset;
-}
-function calculateRisk(){
-const l=Number(document.getElementById("likelihood").value||1);
-const s=Number(document.getElementById("severity").value||1);
-const d=Number(document.getElementById("detection").value||1);
-const score=l*s*d;
-document.getElementById("riskScore").value=score;
-let level="Düşük";
-if(score>=600)level="Kritik";else if(score>=300)level="Yüksek";else if(score>=100)level="Orta";
-document.getElementById("riskLevel").value=level;
-if(score>=300){
-document.getElementById("actionRequired").value="Evet";
-document.getElementById("createAction").value="Evet";
-}
-if(["Yüksek","Kritik"].includes(level)){
-document.getElementById("priority").value=level==="Kritik"?"Critical":"High";
-document.getElementById("criticality").value=level;
-document.getElementById("mrmInput").value="Evet";
-}
-renderHeatMap(getRecords().map(normalizeRecord));
-}
-function calculateBia(){
-const f=Number(document.getElementById("financialImpact").value||1);
-const o=Number(document.getElementById("operationalImpact").value||1);
-const l=Number(document.getElementById("legalImpact").value||1);
-const r=Number(document.getElementById("reputationImpact").value||1);
-const score=f+o+l+r;
-document.getElementById("biaScore").value=score;
-let level="Düşük";
-if(score>=32)level="Kritik";else if(score>=24)level="Yüksek";else if(score>=14)level="Orta";
-document.getElementById("biaLevel").value=level;
-if(["Yüksek","Kritik"].includes(level)){
-document.getElementById("businessCriticality").value=level;
-document.getElementById("mrmInput").value="Evet";
-}
-}
-function enforceAdminArea(){
-const area=document.getElementById("securityAdminArea");
-if(!area)return;
-const role=session.role||"";
-if(role!=="Super Administrator"&&role!=="Bilgi Güvenliği Yöneticisi"){
-area.style.display="none";
-}
-}
-function renderFlowPreview(status="Yeni"){
-const area=document.getElementById("flowPreview");
-const currentIndex=FLOW.indexOf(status);
-let html="";
-FLOW.forEach((s,i)=>{
-let cls="flow-step";
-if(status==="Reddedildi"&&i===0)cls+=" reject";
-else if(i<currentIndex)cls+=" done";
-else if(i===currentIndex)cls+=" active";
-html+=`<div class="${cls}">${s}<br><small>${i<currentIndex?"Tamamlandı":i===currentIndex?"Aktif":"Bekliyor"}</small></div>`;
-});
-area.innerHTML=html;
-}
-
-function collectPayload(notify=false){
-calculateRisk();
-const existing=editId?getRecords().find(x=>x.id===editId):null;
-const payload={
-id:editId||"SECID-"+Date.now(),
-recordNo:document.getElementById("recordNo").value,
-recordType:document.getElementById("recordType").value,
-recordDate:document.getElementById("recordDate").value,
-status:document.getElementById("status").value,
-title:document.getElementById("title").value.trim(),
-department:document.getElementById("department").value,
-owner:document.getElementById("owner").value.trim(),
-priority:document.getElementById("priority").value,
-criticality:document.getElementById("criticality").value,
-dueDate:document.getElementById("dueDate").value,
-reportedBy:document.getElementById("reportedBy").value.trim(),
-incidentNo:document.getElementById("incidentNo").value,
-incidentType:document.getElementById("incidentType").value,
-affectedSystem:document.getElementById("affectedSystem").value.trim(),
-affectedAsset:document.getElementById("affectedAsset").value.trim(),
-assetRegister:document.getElementById("assetRegister").value,
-confidentiality:document.getElementById("confidentiality").value,
-integrity:document.getElementById("integrity").value,
-availability:document.getElementById("availability").value,
-incidentLevel:document.getElementById("incidentLevel").value,
-incidentDescription:document.getElementById("incidentDescription").value.trim(),
-containment:document.getElementById("containment").value.trim(),
-rootCause:document.getElementById("rootCause").value.trim(),
-correctiveAction:document.getElementById("correctiveAction").value.trim(),
-riskNo:document.getElementById("riskNo").value,
-assetGroup:document.getElementById("assetGroup").value,
-threat:document.getElementById("threat").value.trim(),
-vulnerability:document.getElementById("vulnerability").value.trim(),
-likelihood:Number(document.getElementById("likelihood").value),
-severity:Number(document.getElementById("severity").value),
-detection:Number(document.getElementById("detection").value),
-impact:Number(document.getElementById("severity").value),
-riskScore:Number(document.getElementById("riskScore").value||0),
-riskLevel:document.getElementById("riskLevel").value,
-actionRequired:document.getElementById("actionRequired").value,
-actionOwner:document.getElementById("actionOwner").value.trim(),
-actionDueDate:document.getElementById("actionDueDate").value,
-actionStatus:document.getElementById("actionStatus").value,
-actionEffectiveness:document.getElementById("actionEffectiveness").value,
-existingControls:document.getElementById("existingControls").value.trim(),
-riskTreatment:document.getElementById("riskTreatment").value.trim(),
-riskOwner:document.getElementById("riskOwner").value.trim(),
-controlRef:document.getElementById("controlRef").value.trim(),
-residualRisk:document.getElementById("residualRisk").value,
-mrmInput:document.getElementById("mrmInput").value,
-bcpNo:document.getElementById("bcpNo").value,
-criticalProcess:document.getElementById("criticalProcess").value.trim(),
-rto:document.getElementById("rto").value.trim(),
-rpo:document.getElementById("rpo").value.trim(),
-businessCriticality:document.getElementById("businessCriticality").value,
-recoveryTeam:document.getElementById("recoveryTeam").value.trim(),
-alternateLocation:document.getElementById("alternateLocation").value.trim(),
-drillDate:document.getElementById("drillDate").value,
-drillResult:document.getElementById("drillResult").value,
-downtime:document.getElementById("downtime").value.trim(),
-biaStatus:document.getElementById("biaStatus").value,
-mtpd:document.getElementById("mtpd").value.trim(),
-financialImpact:Number(document.getElementById("financialImpact").value||1),
-operationalImpact:Number(document.getElementById("operationalImpact").value||1),
-legalImpact:Number(document.getElementById("legalImpact").value||1),
-reputationImpact:Number(document.getElementById("reputationImpact").value||1),
-biaScore:Number(document.getElementById("biaScore").value||0),
-biaLevel:document.getElementById("biaLevel").value,
-bcpUpdateRequired:document.getElementById("bcpUpdateRequired").value,
-continuityScenario:document.getElementById("continuityScenario").value.trim(),
-recoveryStrategy:document.getElementById("recoveryStrategy").value.trim(),
-drillFindings:document.getElementById("drillFindings").value.trim(),
-createCapa:document.getElementById("createCapa").value,
-createRisk:document.getElementById("createRisk").value,
-createAction:document.getElementById("createAction").value,
-createLesson:document.getElementById("createLesson").value,
-capaRef:document.getElementById("capaRef").value.trim(),
-actionRef:document.getElementById("actionRef").value.trim(),
-ciRef:document.getElementById("ciRef").value.trim(),
-lessonLearned:document.getElementById("lessonLearned").value.trim(),
-standardUpdated:document.getElementById("standardUpdated").value,
-trainingOpened:document.getElementById("trainingOpened").value,
-capaOpened:document.getElementById("capaOpened").value,
-riskUpdated:document.getElementById("riskUpdated").value,
-evidence:uploadedEvidence||existing?.evidence||null,
-notificationSent:notify?"Evet":existing?.notificationSent||"Hayır",
-createdBy:existing?.createdBy||session.name||"System",
-createdAt:existing?.createdAt||new Date().toISOString(),
-updatedAt:new Date().toISOString(),
-closedAt:document.getElementById("status").value==="Kapalı"?(existing?.closedAt||new Date().toISOString()):existing?.closedAt||"",
-auditTrail:existing?.auditTrail||[]
-};
-payload.auditTrail.unshift({action:editId?"Security & Continuity kaydı güncellendi":"Security & Continuity kaydı oluşturuldu",user:session.name||"System",date:new Date().toISOString()});
-return payload;
-}
-function validate(p){
-if(!p.title||p.title.length<5){showToast("Başlık zorunlu");return false}
-if(!p.owner){showToast("Sorumlu zorunlu");return false}
-if(!p.dueDate){showToast("Termin zorunlu");return false}
-if(p.recordType.includes("Olay")&&!p.incidentDescription){showToast("Olay açıklaması zorunlu");return false}
-if(p.recordType.includes("Risk")&&(!p.threat||!p.vulnerability)){showToast("Risk için tehdit ve zafiyet zorunlu");return false}
-if(p.recordType.includes("BCP")&&!p.criticalProcess){showToast("BCP için kritik süreç zorunlu");return false}
-return true;
-}
-function saveRecord(notify=false){
-const p=collectPayload(notify);
-if(!validate(p))return;
-const items=getRecords();
-if(editId){const i=items.findIndex(x=>x.id===editId);if(i>-1)items[i]=p}else{items.unshift(p)}
-setRecords(items);
-if(notify)createNotification(p,"Security & Continuity kaydı oluşturuldu: "+p.title);
-createAutoIntegrations(p);
-showToast(editId?"Kayıt güncellendi":"Kayıt kaydedildi");
-resetForm();
-renderRecords();
-}
-function createNotification(p,msg){
-const n=getNotifications();
-n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Security & Continuity",documentCode:p.recordNo,documentName:p.title,mailGroups:p.owner+"; "+p.department+"; Yönetim",smsGroups:p.owner,distributionPoints:p.department+" / "+p.recordType,message:msg,status:"Kuyrukta",priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name||"System"});
-setNotifications(n);
-}
-function createAutoIntegrations(p){
-const actionThreshold=Number(document.getElementById("rpnActionThreshold")?.value||300);
-if((p.createAction==="Evet"||p.riskScore>=actionThreshold||p.actionRequired==="Evet")&&!p.actionRef){
-const actions=getActions(),no="ACT-"+new Date().getFullYear()+"-"+String(actions.length+1).padStart(4,"0");
-actions.unshift({id:"ACTID-"+Date.now(),actionNo:no,module:"Security & Continuity",sourceNo:p.recordNo,title:p.title,department:p.department,responsible:p.owner,dueDate:p.dueDate,status:"Açık",priority:p.priority,description:p.correctiveAction||p.riskTreatment||p.recoveryStrategy||p.title,createdAt:new Date().toISOString(),createdBy:session.name});
-setActions(actions);p.actionRef=no;
-}
-if(p.createCapa==="Evet"&&!p.capaRef){
-const capas=getCapa(),no="CAPA-"+new Date().getFullYear()+"-"+String(capas.length+1).padStart(4,"0");
-capas.unshift({id:"CAPAID-"+Date.now(),capaNo:no,eightDNo:no.replace("CAPA","8D"),problemTitle:p.title,source:"Security & Continuity",department:p.department,status:"Açık",criticality:p.criticality,problemDescription:p.incidentDescription||p.riskTreatment||p.continuityScenario,correctiveAction:p.correctiveAction||p.riskTreatment||p.recoveryStrategy,createdAt:new Date().toISOString(),createdBy:session.name});
-setCapa(capas);p.capaRef=no;
-}
-if(p.createRisk==="Evet"&&!p.ciRiskSynced){
-const risks=getRisks(),no=p.riskNo||("ISMS-RSK-"+new Date().getFullYear()+"-"+String(risks.length+1).padStart(4,"0"));
-risks.unshift({id:"RSKID-"+Date.now(),riskNo:no,module:"Security & Continuity",sourceNo:p.recordNo,riskTitle:p.title,department:p.department,riskDescription:(p.threat+" / "+p.vulnerability)||p.incidentDescription,status:"Açık",riskScore:p.riskScore,rpn:p.riskScore,likelihood:p.likelihood,severity:p.severity,detection:p.detection,riskLevel:p.riskLevel,priority:p.priority,createdAt:new Date().toISOString(),createdBy:session.name});
-setRisks(risks);p.ciRiskSynced="Evet";
-}
-if(p.createLesson==="Evet"&&!p.ciRef&&p.lessonLearned){
-const ci=getCI(),no="CI-"+new Date().getFullYear()+"-"+String(ci.length+1).padStart(4,"0");
-ci.unshift({id:"CIID-"+Date.now(),improvementNo:no,recordDate:todayISO(),status:"Lessons Learned",title:"Security Lesson - "+p.title,department:p.department,owner:p.owner,responsible:p.owner,category:"Bilgi Güvenliği",priority:p.priority,currentState:p.incidentDescription||p.continuityScenario||p.title,lessonLearned:p.lessonLearned,preventRecurrence:p.correctiveAction||p.riskTreatment||p.recoveryStrategy,sourceModule:"Security & Continuity",sourceNo:p.recordNo,createdAt:new Date().toISOString(),createdBy:session.name});
-setCI(ci);p.ciRef=no;
-}
-setRecords(getRecords().map(x=>x.id===p.id?p:x));
-}
-function normalizeRecord(x){if(!x.auditTrail)x.auditTrail=[];if(!x.status)x.status="Yeni";return x}
-
-function renderRecords(){
-let items=getRecords().map(normalizeRecord);
-setRecords(items);
-items=getRecords().map(normalizeRecord);
-const q=document.getElementById("globalSearch").value.toLowerCase();
-const tf=document.getElementById("typeFilter").value;
-const sf=document.getElementById("statusFilter").value;
-const pf=document.getElementById("priorityFilter").value;
-const df=document.getElementById("departmentFilter").value;
-const filtered=items.filter(x=>{
-const text=JSON.stringify(x).toLowerCase();
-return text.includes(q)&&(!tf||x.recordType===tf)&&(!sf||x.status===sf)&&(!pf||x.priority===pf)&&(!df||x.department===df);
-});
-updateCards(items);
-const area=document.getElementById("recordTable");
-if(!filtered.length){area.innerHTML='<div class="empty">Security & Continuity kaydı bulunamadı.</div>';return}
-let html='<table><thead><tr><th>No</th><th>Başlık</th><th>Tip</th><th>Departman</th><th>Risk</th><th>BCP</th><th>Durum</th><th>Termin</th><th>İlerleme</th><th>Aksiyon</th></tr></thead><tbody>';
-filtered.forEach(x=>{
-const index=items.findIndex(i=>i.id===x.id);
-const progress=getProgressByStatus(x.status);
-html+=`<tr>
-<td>${escapeHTML(x.recordNo)}<br><small>${escapeHTML(x.incidentNo||"-")}</small></td>
-<td>${escapeHTML(x.title)}<br><small>${escapeHTML(x.owner||"-")} / ${escapeHTML(x.affectedSystem||x.criticalProcess||"-")}</small></td>
-<td>${escapeHTML(x.recordType)}</td>
-<td>${escapeHTML(x.department)}</td>
-<td><span class="status ${statusClass(x.riskLevel)}">${escapeHTML(x.riskLevel||"-")}</span><br><small>RPN: ${x.riskScore||0}</small></td>
-<td>${escapeHTML(x.rto||"-")} / ${escapeHTML(x.rpo||"-")}<br><small>${escapeHTML(x.drillResult||"-")}</small></td>
-<td><span class="status ${statusClass(x.status)}">${escapeHTML(x.status)}</span></td>
-<td>${formatDateTR(x.dueDate)}</td>
-<td>${progress}%<div class="progress"><div class="bar" style="width:${progress}%"></div></div></td>
-<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button><button class="small-btn approve" onclick="advanceIndex(${index})">Sonraki</button><button class="small-btn dark" onclick="editRecord(${index})">Düzenle</button></div></td>
-</tr>`;
-});
-area.innerHTML=html+'</tbody></table>';
-}
-function getProgressByStatus(s){
-if(s==="Yeni")return 10;if(s==="İncelemede")return 20;if(s==="Risk Değerlendirme")return 35;if(s==="Aksiyon Bekliyor")return 50;if(s==="BCP Etki Analizi")return 62;if(s==="Tatbikat / Test")return 72;if(s==="Etkinlik Kontrolü")return 84;if(s==="Lessons Learned")return 94;if(s==="Kapalı")return 100;if(s==="Reddedildi")return 0;return 0;
-}
-function updateCards(items){
-document.getElementById("openIncidents").textContent=items.filter(x=>x.recordType.includes("Olay")&&!["Kapalı","Reddedildi"].includes(x.status)).length;
-document.getElementById("closedIncidents").textContent=items.filter(x=>x.recordType.includes("Olay")&&x.status==="Kapalı").length;
-document.getElementById("openRisks").textContent=items.filter(x=>(x.recordType.includes("Risk")||x.riskScore>0)&&!["Kapalı","Reddedildi"].includes(x.status)).length;
-document.getElementById("highRisks").textContent=items.filter(x=>["Yüksek","Kritik"].includes(x.riskLevel)||["High","Critical"].includes(x.priority)).length;
-document.getElementById("bcpTests").textContent=items.filter(x=>x.recordType.includes("BCP")||x.drillDate).length;
-const now=todayISO(),future=addDays(now,30);
-document.getElementById("upcomingDrills").textContent=items.filter(x=>x.drillDate&&x.drillDate>=now&&x.drillDate<=future).length;
-document.getElementById("failedDrills").textContent=items.filter(x=>["Başarısız","Kısmen Başarılı"].includes(x.drillResult)).length;
-document.getElementById("openActions").textContent=items.filter(x=>(x.actionRef||x.actionRequired==="Evet")&&!["Kapalı","Reddedildi"].includes(x.status)).length;
-document.getElementById("criticalRiskCount").textContent=items.filter(x=>Number(x.riskScore||0)>=600||x.riskLevel==="Kritik").length;
-const rpnItems=items.filter(x=>Number(x.riskScore||0)>0);
-document.getElementById("averageRpn").textContent=rpnItems.length?Math.round(rpnItems.reduce((s,x)=>s+Number(x.riskScore||0),0)/rpnItems.length):0;
-document.getElementById("mrmCount").textContent=items.filter(x=>x.mrmInput==="Evet").length;
-document.getElementById("assetCoverage").textContent=new Set(items.map(x=>x.assetRegister||x.affectedAsset||x.affectedSystem).filter(Boolean)).size;
-renderHeatMap(items);
-renderDrillSchedule(items);
-}
-
-function heatClass(score){
-if(score>=16)return"hm-critical";
-if(score>=10)return"hm-high";
-if(score>=5)return"hm-med";
-return"hm-low";
-}
-function renderHeatMap(items){
-const area=document.getElementById("riskHeatMap");
-if(!area)return;
-let counts={};
-items.forEach(x=>{
-const sev=Math.min(5,Math.max(1,Math.ceil(Number(x.severity||x.impact||1)/2)));
-const lik=Math.min(5,Math.max(1,Math.ceil(Number(x.likelihood||1)/2)));
-const key=lik+"-"+sev;
-counts[key]=(counts[key]||0)+1;
-});
-let html='<div class="hm-cell hm-head">L/S</div>';
-for(let s=1;s<=5;s++)html+=`<div class="hm-cell hm-head">Ş${s}</div>`;
-for(let l=5;l>=1;l--){
-html+=`<div class="hm-cell hm-head">O${l}</div>`;
-for(let s=1;s<=5;s++){
-const key=l+"-"+s,score=l*s,count=counts[key]||0;
-html+=`<div class="hm-cell ${heatClass(score)} ${count?'hm-active':''}">${count?count:'-'}<br><small>${score}</small></div>`;
-}
-}
-area.innerHTML=html;
-}
-function renderDrillSchedule(items){
-const area=document.getElementById("drillSchedule");
-if(!area)return;
-const now=todayISO(),future=addDays(now,30);
-const drills=items.filter(x=>x.drillDate&&x.drillDate>=now&&x.drillDate<=future).sort((a,b)=>String(a.drillDate).localeCompare(String(b.drillDate))).slice(0,8);
-if(!drills.length){area.innerHTML='<div class="empty">30 gün içinde planlı tatbikat yok.</div>';return;}
-area.innerHTML=drills.map(x=>`<div class="schedule-item"><b>${formatDateTR(x.drillDate)}</b><span>${escapeHTML(x.title||x.criticalProcess||"-")}</span><span>${escapeHTML(x.owner||x.recoveryTeam||"-")}</span><span class="status ${statusClass(x.drillResult)}">${escapeHTML(x.drillResult||"-")}</span></div>`).join("");
-}
-
-function openDrawer(index){
-selectedIndex=index;
-const x=normalizeRecord(getRecords()[index]);
-document.getElementById("drawerTitle").textContent=x.recordNo+" / "+x.title;
-document.getElementById("drawerStatus").textContent=x.status;
-document.getElementById("drawerStatus").className="status "+statusClass(x.status);
-const daysOpen=x.closedAt?daysBetween(x.recordDate,x.closedAt):daysBetween(x.recordDate,todayISO());
-document.getElementById("drawerContent").innerHTML=`
-<div class="info-box"><b>Kayıt:</b> ${x.recordNo}
-<b>Tip:</b> ${x.recordType}
-<b>Başlık:</b> ${x.title}
-<b>Departman:</b> ${x.department}
-<b>Sorumlu:</b> ${x.owner}
-<b>Öncelik:</b> ${x.priority}
-<b>Kritiklik:</b> ${x.criticality}
-<b>Durum:</b> ${x.status}
-<b>Açık Gün:</b> ${daysOpen===null?"-":daysOpen+" gün"}</div>
-
-<div class="info-box"><b>Bilgi Güvenliği Olayı</b>
-Olay No: ${x.incidentNo}
-Tür: ${x.incidentType}
-Sistem: ${x.affectedSystem||"-"}
-Varlık: ${x.affectedAsset||"-"}
-CIA: G=${x.confidentiality} / B=${x.integrity} / E=${x.availability}
-Seviye: ${x.incidentLevel}
-
-Açıklama:
-${x.incidentDescription||"-"}
-
-İlk Müdahale:
-${x.containment||"-"}
-
-Kök Neden:
-${x.rootCause||"-"}
-
-Düzeltici Faaliyet:
-${x.correctiveAction||"-"}</div>
-
-<div class="info-box"><b>BGYS Risk</b>
-Risk No: ${x.riskNo}
-Varlık Grubu: ${x.assetGroup}
-Tehdit: ${x.threat||"-"}
-Zafiyet: ${x.vulnerability||"-"}
-RPN: ${x.riskScore||0} / ${x.riskLevel||"-"}\nOlasılık: ${x.likelihood||"-"} | Şiddet: ${x.severity||"-"} | Keşfetme: ${x.detection||"-"}
-Kontrol Ref: ${x.controlRef||"-"}
-Artık Risk: ${x.residualRisk}
-YGG Girdisi: ${x.mrmInput}
-
-Mevcut Kontroller:
-${x.existingControls||"-"}
-
-Risk İşleme:\n${x.riskTreatment||"-"}\n\nAksiyon Gerekli: ${x.actionRequired||"-"}\nAksiyon Sahibi: ${x.actionOwner||"-"}\nAksiyon Termin: ${formatDateTR(x.actionDueDate)}\nAksiyon Durumu: ${x.actionStatus||"-"}\nEtkinlik: ${x.actionEffectiveness||"-"}</div>
-
-<div class="info-box"><b>İş Sürekliliği / ISO 22301</b>
-BCP No: ${x.bcpNo}
-Kritik Süreç: ${x.criticalProcess||"-"}
-MTPD: ${x.mtpd||"-"}\nRTO: ${x.rto||"-"}\nRPO: ${x.rpo||"-"}\nBIA Skoru: ${x.biaScore||0} / ${x.biaLevel||"-"}
-Kritik Seviye: ${x.businessCriticality}
-Kurtarma Ekibi: ${x.recoveryTeam||"-"}
-Alternatif Lokasyon: ${x.alternateLocation||"-"}
-Tatbikat Tarihi: ${formatDateTR(x.drillDate)}
-Tatbikat Sonucu: ${x.drillResult}
-Kesinti: ${x.downtime||"-"}
-BIA: ${x.biaStatus}
-BCP Güncelleme: ${x.bcpUpdateRequired}
-
-Senaryo:
-${x.continuityScenario||"-"}
-
-Kurtarma Stratejisi:
-${x.recoveryStrategy||"-"}
-
-Tatbikat Bulguları:
-${x.drillFindings||"-"}</div>
-
-<div class="info-box"><b>EQMS Entegrasyonları</b>
-CAPA: ${x.capaRef||"-"}
-Action: ${x.actionRef||"-"}
-CI / Lessons: ${x.ciRef||"-"}
-Kanıt: ${x.evidence?x.evidence.fileName+" - "+x.evidence.fileSizeText:"Yok"}
-
-Lessons Learned:
-${x.lessonLearned||"-"}</div>
-
-<div class="info-box"><b>Audit Trail</b>
-${(x.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>`;
-document.getElementById("drawer").classList.add("active");
-}
-function closeDrawer(){selectedIndex=null;document.getElementById("drawer").classList.remove("active")}
-function updateRecord(index,changes,actionText){
-const items=getRecords().map(normalizeRecord);if(!items[index])return;
-items[index]={...items[index],...changes,updatedAt:new Date().toISOString()};
-items[index].auditTrail=items[index].auditTrail||[];
-items[index].auditTrail.unshift({action:actionText,user:session.name||"System",date:new Date().toISOString()});
-setRecords(items);renderRecords();if(selectedIndex!==null)openDrawer(selectedIndex);
-}
-function nextStatus(s){const i=FLOW.indexOf(s);return i>=0&&i<FLOW.length-1?FLOW[i+1]:s}
-function advanceIndex(index){const item=getRecords()[index];updateRecord(index,{status:nextStatus(item.status)},"Yaşam döngüsü ilerletildi");showToast("Sonraki aşamaya geçildi")}
-function advanceCurrent(){if(selectedIndex===null)return;advanceIndex(selectedIndex)}
-function makeLessonCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Lessons Learned"},"Lessons Learned aşamasına alındı");showToast("Lessons Learned")}
-function makeBcpCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"BCP Etki Analizi"},"BCP etki analizine alındı");showToast("BCP Etki Analizi")}
-function closeCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Kapalı",closedAt:new Date().toISOString()},"Kayıt kapatıldı");showToast("Kapatıldı")}
-function rejectCurrent(){if(selectedIndex===null)return;updateRecord(selectedIndex,{status:"Reddedildi"},"Kayıt reddedildi");showToast("Reddedildi")}
-function createIntegrationCurrent(){if(selectedIndex===null)return;const item=getRecords()[selectedIndex];createAutoIntegrations(item);showToast("Entegrasyonlar oluşturuldu");renderRecords();openDrawer(selectedIndex)}
-
-function editRecord(index){
-const x=normalizeRecord(getRecords()[index]);
-editId=x.id;uploadedEvidence=x.evidence||null;
-document.getElementById("modeBadge").textContent="EDIT MODE";
-document.getElementById("modeBadge").className="status orange";
-["recordNo","recordType","recordDate","status","title","department","owner","assetRegister","priority","criticality","dueDate","reportedBy","incidentNo","incidentType","affectedSystem","affectedAsset","confidentiality","integrity","availability","incidentLevel","incidentDescription","containment","rootCause","correctiveAction","riskNo","assetGroup","threat","vulnerability","likelihood","severity","detection","riskScore","riskLevel","actionRequired","actionOwner","actionDueDate","actionStatus","actionEffectiveness","existingControls","riskTreatment","riskOwner","controlRef","residualRisk","mrmInput","bcpNo","criticalProcess","mtpd","rto","rpo","financialImpact","operationalImpact","legalImpact","reputationImpact","biaScore","biaLevel","businessCriticality","recoveryTeam","alternateLocation","drillDate","drillResult","downtime","biaStatus","bcpUpdateRequired","continuityScenario","recoveryStrategy","drillFindings","createCapa","createRisk","createAction","createLesson","capaRef","actionRef","ciRef","lessonLearned","standardUpdated","trainingOpened","capaOpened","riskUpdated"].forEach(id=>{
-if(document.getElementById(id))document.getElementById(id).value=x[id]??"";
-});
-renderFlowPreview(x.status);
-document.querySelector(".panel").scrollIntoView({behavior:"smooth",block:"start"});
-}
-function markLifecycle(s){document.getElementById("status").value=s;renderFlowPreview(s);showToast(s+" işaretlendi")}
-
-function resetForm(){
-editId=null;uploadedEvidence=null;
-document.getElementById("modeBadge").textContent="CREATE MODE";
-document.getElementById("modeBadge").className="status blue";
-generateNumbers();
-document.getElementById("recordType").value="Bilgi Güvenliği Olayı";
-document.getElementById("recordDate").value=todayISO();
-document.getElementById("status").value="Yeni";
-document.getElementById("title").value="";
-document.getElementById("department").value="Bilgi Güvenliği";
-document.getElementById("owner").value=session.name||"Kerem Güdenli";
-document.getElementById("assetRegister").value="EQMS";
-document.getElementById("priority").value="Medium";
-document.getElementById("criticality").value="Orta";
-document.getElementById("dueDate").value=addDays(todayISO(),14);
-document.getElementById("reportedBy").value=session.name||"Kerem Güdenli";
-["affectedSystem","affectedAsset","incidentDescription","containment","rootCause","correctiveAction","threat","vulnerability","existingControls","riskTreatment","riskOwner","controlRef","criticalProcess","mtpd","rto","rpo","recoveryTeam","alternateLocation","downtime","continuityScenario","recoveryStrategy","drillFindings","capaRef","actionRef","ciRef","lessonLearned","actionOwner"].forEach(id=>document.getElementById(id).value="");
-document.getElementById("incidentType").value="Yetkisiz Erişim";
-document.getElementById("confidentiality").value="Yok";document.getElementById("integrity").value="Yok";document.getElementById("availability").value="Yok";document.getElementById("incidentLevel").value="Seviye 1";
-document.getElementById("assetGroup").value="Bilgi Varlığı";document.getElementById("likelihood").value="1";document.getElementById("severity").value="1";document.getElementById("detection").value="1";document.getElementById("actionRequired").value="Hayır";document.getElementById("actionDueDate").value=addDays(todayISO(),14);document.getElementById("actionStatus").value="Açık";document.getElementById("actionEffectiveness").value="Bekliyor";calculateRisk();
-document.getElementById("residualRisk").value="Düşük";document.getElementById("mrmInput").value="Hayır";
-document.getElementById("financialImpact").value="1";document.getElementById("operationalImpact").value="1";document.getElementById("legalImpact").value="1";document.getElementById("reputationImpact").value="1";calculateBia();document.getElementById("businessCriticality").value="Orta";document.getElementById("drillDate").value=addDays(todayISO(),30);document.getElementById("drillResult").value="Planlandı";document.getElementById("biaStatus").value="Gerekli";document.getElementById("bcpUpdateRequired").value="Hayır";
-document.getElementById("createCapa").value="Evet";document.getElementById("createRisk").value="Evet";document.getElementById("createAction").value="Evet";document.getElementById("createLesson").value="Evet";document.getElementById("standardUpdated").value="Hayır";document.getElementById("trainingOpened").value="Hayır";document.getElementById("capaOpened").value="Hayır";document.getElementById("riskUpdated").value="Hayır";
-document.getElementById("evidenceFile").value="";
-renderFlowPreview("Yeni");
-}
-function createMRMNotifications(){
-getRecords().filter(x=>x.mrmInput==="Evet"||["Yüksek","Kritik"].includes(x.riskLevel)||["High","Critical"].includes(x.priority)||x.drillResult==="Başarısız").forEach(x=>createNotification(x,"YGG gündemi / Security & Continuity: "+x.title));
-showToast("YGG bildirimleri oluşturuldu");
-}
-function exportCSV(){
-const rows=getRecords().map(normalizeRecord);
-let csv="RecordNo,Type,Title,Department,Owner,Priority,Status,Likelihood,Severity,Detection,RPN,RiskLevel,MTPD,RTO,RPO,BIA,DrillResult,ActionRequired,CAPA,Action,CI\n";
-rows.forEach(x=>csv+=`"${x.recordNo}","${x.recordType}","${x.title}","${x.department}","${x.owner}","${x.priority}","${x.status}","${x.likelihood}","${x.severity}","${x.detection}","${x.riskScore}","${x.riskLevel}","${x.mtpd}","${x.rto}","${x.rpo}","${x.biaScore}","${x.drillResult}","${x.actionRequired}","${x.capaRef}","${x.actionRef}","${x.ciRef}"\n`);
-const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="security_continuity_center.csv";a.click();URL.revokeObjectURL(url);
-}
-function runSearch(){
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-if(!text){clearSearchResults();input.focus();renderRecords();return}
-let results=[];
-getRecords().map(normalizeRecord).forEach(item=>{
-if(JSON.stringify(item).toLowerCase().includes(text)){
-results.push({type:"record",module:"Security & Continuity",selected:item.id,title:item.recordNo+" / "+item.title,detail:`${item.recordType||""} ${item.department||""} ${item.riskLevel||""} ${item.status||""} ${item.affectedSystem||""} ${item.criticalProcess||""}`});
-}
-});
-getNotifications().forEach(n=>{
-if(JSON.stringify(n).toLowerCase().includes(text)){
-results.push({type:"page",module:"Bildirim Merkezi",go:"notification-center.html",store:"gdnl_selected_notification",selected:n.notificationId||"",title:n.documentName||n.notificationId||"Bildirim",detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`});
-}
-});
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
-renderRecords();
-}
-function collectPageSearchResults(keyword){
-const results=[];const seen=new Set();
-document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim(),href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"})}}
-});
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim(),value=(el.querySelector("h2")?.textContent||"").trim(),detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}
-});
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim(),detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`})}
-});
-return results;
-}
-function highlightText(value,keyword){
-const safe=escapeHTML(value);if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
-function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),count=document.getElementById("searchResultCount"),key=document.getElementById("searchKeyword");
-panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";
-if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}
-area.innerHTML=results.slice(0,80).map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");
-window.gdnlSearchResults=results.slice(0,80);panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];if(!r)return;
-if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}
-if(r.store)localStorage.setItem(r.store,r.selected||"");
-if(r.module==="Security & Continuity"){const items=getRecords().map(normalizeRecord);const idx=items.findIndex(x=>x.id===r.selected);if(idx!==-1){clearSearchResults();renderRecords();openDrawer(idx)}return}
-if(r.go&&r.go!=="#")window.location.href=r.go;
-}
-function clearSearchResults(){
-document.getElementById("globalSearch").value="";
-document.getElementById("searchResultsPanel").classList.remove("active");
-document.getElementById("searchResultsArea").innerHTML="";
-renderRecords();
-}
-function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2500)}
-document.getElementById("globalSearch").addEventListener("input",function(){if(!this.value.trim())clearSearchResults();else renderRecords()});
-document.getElementById("globalSearch").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();runSearch()}});
-document.getElementById("evidenceFile").addEventListener("change",function(e){
-const file=e.target.files[0];if(!file)return;
-if(file.size>5*1024*1024){showToast("Dosya 5MB üzerinde olamaz");e.target.value="";return}
-const reader=new FileReader();
-reader.onload=function(ev){uploadedEvidence={fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};showToast("Kanıt dosyası yüklendi")};
-reader.readAsDataURL(file);
-});
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeMobileMenu();closeDrawer()}});
-resetForm();
-renderRecords();
-enforceAdminArea();
-console.log("GDNL EQMS Security & Continuity Center V2 Loaded");
-</script>
-
 
 <script>
-function toggleMenuGroup(button){
-  const group = button.closest('.menu-group');
-  if(group) group.classList.toggle('open');
-}
+const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const MODUL_ADI="BGYS_IS_SUREKLILIGI";
+const state={currentUser:null,users:[],departments:[],records:[],files:[],notifications:[],actions:[],auditLogs:[],activityFeed:[],comments:[],approvals:[],approvalHistory:[],workflowHistory:[],selectedId:null,uploadedEvidence:null};
+const FLOW=["Yeni","İncelemede","Risk Değerlendirme","Aksiyon Bekliyor","BCP Etki Analizi","Tatbikat / Test","Etkinlik Kontrolü","Öğrenilmiş Dersler","Kapalı"];
+function $(id){return document.getElementById(id)}
+function toast(m){const t=$("toast");if(!t)return;t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
+function escapeHTML(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function normalizeArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
+function isPassive(r){const s=String(r?.status||r?.record_status||r?.state||"").toDüşükerCase();return ["deleted","archived","silindi","arşivlendi","arsivlendi","iptal","iptal edildi","cancelled"].includes(s)}
+function activeOnly(x){return normalizeArray(x).filter(r=>!isPassive(r))}
+function getCookie(n){return document.cookie.split(";").map(x=>x.trim()).find(x=>x.startsWith(n+"="))?.split("=").slice(1).join("=")||""}
+function clearAuthCookie(){document.cookie="gdnl_eos_token=; Max-Age=0; path=/; SameSite=Lax";document.cookie="gdnl_eqms_token=; Max-Age=0; path=/; SameSite=Lax"}
+function authHeaders(json=true){const token=decodeURIComponent(getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token")||"");const h=json?{"Content-Type":"application/json"}:{};if(token)h.Authorization="Bearer "+token;return h}
+async function api(path,opt={}){const res=await fetch(GDNL_API_BASE+path,{method:opt.method||"GET",headers:{...authHeaders(opt.json!==false),...(opt.headers||{})},body:opt.body?JSON.stringify(opt.body):opt.rawBody,cache:"no-store"});if(!res.ok)throw new Error(path+" HTTP "+res.status);const text=await res.text();if(!text)return null;try{return JSON.parse(text)}catch(e){return text}}
+async function safeGet(path){try{return await api(path)}catch(e){console.warn("API okunamadı",path,e.message);return null}}
+async function safePost(path,body){try{return await api(path,{method:"POST",body})}catch(e){console.warn("API yazılamadı",path,e.message);return null}}
+async function loadCloud(){const [users,deps,actions,notifications,auditLogs,activityFeed,comments,approvals,approvalHistory,workflowHistory,files]=await Promise.all([safeGet("/users"),safeGet("/departments"),safeGet("/actions"),safeGet("/notifications"),safeGet("/audit-logs"),safeGet("/activity-feed"),safeGet("/comments"),safeGet("/approvals"),safeGet("/approval-history"),safeGet("/workflow-history"),safeGet("/files")]);state.users=activeOnly(users).map(u=>({id:u.id||u.user_id||"",fullname:u.fullname||u.fullName||u.name||"",email:u.email||"",role:u.role||u.role_name||"",department:u.department||u.department_name||""}));state.departments=activeOnly(deps).map(d=>({id:d.id,department_name:d.department_name||d.name||d.department||""}));state.actions=activeOnly(actions);state.notifications=activeOnly(notifications);state.auditLogs=activeOnly(auditLogs);state.activityFeed=activeOnly(activityFeed);state.comments=activeOnly(comments);state.approvals=activeOnly(approvals);state.approvalHistory=activeOnly(approvalHistory);state.workflowHistory=activeOnly(workflowHistory);state.files=activeOnly(files);state.records=state.actions.filter(x=>[MODUL_ADI,"BGYS ve İş Sürekliliği","BGYS"].includes(x.module)||String(x.recordNo||x.record_no||x.documentCode||"").startsWith("SEC-"));state.currentUser=state.users[0]||{id:"",fullname:"GDNL Kullanıcısı",role:"Kullanıcı",department:""};}
+async function getSequence(moduleName){const x=await safeGet("/sequence?module="+encodeURIComponent(moduleName));return x?.number||x?.sequence||x?.data?.number||x?.data?.sequence||""}
+async function uploadEvidenceIfAny(recordNo){const f=$("evidenceFile")?.files?.[0];if(!f)return state.uploadedEvidence;const form=new FormData();form.append("file",f);form.append("module",MODUL_ADI);form.append("record_no",recordNo);form.append("file_type","evidence");const res=await fetch(GDNL_API_BASE+"/upload",{method:"POST",headers:authHeaders(false),body:form,cache:"no-store"});if(!res.ok){toast("Dosya yükleme API kontrol edilmeli");return null}const data=await res.json();state.uploadedEvidence={file_name:f.name,file_size:f.size,mime_type:f.type,r2_key:data.r2_key||data.key||data.file_key||"",signed_url:data.signed_url||data.url||"",temporary_token:data.temporary_token||""};return state.uploadedEvidence}
+async function openSignedFile(r2Key){if(!r2Key)return;const data=await safeGet("/file/"+encodeURIComponent(r2Key));const url=data?.signed_url||data?.temporary_url||data?.url;if(url)window.open(url,"_blank")}
+function fillDepartmentSelects(){const opts=['<option value="">Seçiniz</option>'].concat(state.departments.map(d=>`<option value="${escapeHTML(d.department_name)}">${escapeHTML(d.department_name)}</option>`)).join("");if($("department"))$("department").innerHTML=opts;if($("departmentFilter"))$("departmentFilter").innerHTML='<option value="">Tüm Departmanlar</option>'+state.departments.map(d=>`<option>${escapeHTML(d.department_name)}</option>`).join("");}
+function searchUsers(term){const q=String(term||"").toDüşükerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toDüşükerCase().includes(q)).slice(0,15)}
+function setupUserAutocomplete(id,depTarget="department",multi=false){const input=$(id);if(!input||input.dataset.ready==="1")return;input.dataset.ready="1";const wrap=document.createElement("div");wrap.style.position="relative";input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);const list=document.createElement("div");list.className="user-autocomplete";list.style.cssText="display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:200;background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);max-height:260px;overflow:auto";wrap.appendChild(list);const chips=document.createElement("div");chips.style.cssText="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px";if(multi)wrap.appendChild(chips);input.selectedUsers=[];function renderChips(){chips.innerHTML=(input.selectedUsers||[]).map((u,i)=>`<span style="background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")} <button type="button" style="border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer" onclick="removeUserChip('${id}',${i})">×</button></span>`).join("");input.dataset.users=JSON.stringify(input.selectedUsers||[])}
+input.addEventListener("input",()=>{const found=searchUsers(input.value);list.innerHTML=found.map((u,i)=>`<div data-i="${i}" style="padding:11px 12px;border-bottom:1px solid #eef2f7;cursor:pointer;font-size:12px;font-weight:900;color:#536176"><b>${escapeHTML(u.fullname)}</b><br>${escapeHTML(u.email)} · ${escapeHTML(u.role)} · ${escapeHTML(u.department)}</div>`).join("");list.style.display=found.length?"block":"none";list.querySelectorAll("div[data-i]").forEach(el=>el.onclick=()=>{const u=found[Number(el.dataset.i)];if(multi){input.selectedUsers=[...(input.selectedUsers||[]),u].filter((x,p,a)=>a.findIndex(y=>String(y.id)===String(x.id))===p);input.value="";renderChips()}else{input.value=u.fullname;input.dataset.userId=u.id;input.dataset.email=u.email;input.dataset.role=u.role;input.dataset.department=u.department;if(depTarget&&$(depTarget))$(depTarget).value=u.department||$(depTarget).value}list.style.display="none"})});document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.style.display="none"})}
+function removeUserChip(id,index){const input=$(id);if(!input)return;input.selectedUsers=(input.selectedUsers||[]).filter((_,i)=>i!==index);input.dataset.users=JSON.stringify(input.selectedUsers||[]);const wrap=input.parentElement;const chips=wrap?.querySelector("div[style*='flex-wrap']");if(chips)chips.innerHTML=input.selectedUsers.map((u,i)=>`<span style="background:#e8f7ee;color:#1f7d3d;border:1px solid #bfe7ca;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:950">${escapeHTML(u.fullname)} · ${escapeHTML(u.department||"")} <button type="button" style="border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer" onclick="removeUserChip('${id}',${i})">×</button></span>`).join("")}
+function todayISO(){return new Date().toISOString().slice(0,10)}
+function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);return isNaN(d)?v:d.toLocaleDateString("tr-TR")}
+function statusClass(s){if(["Kapalı","Başarılı","Etkili"].includes(s))return"green";if(["Reddedildi","Başarısız","Kritik","Yüksek"].includes(s))return"red";if(["İncelemede","Aksiyon Bekliyor","BCP Etki Analizi","Tatbikat / Test","Etkinlik Kontrolü","Kısmen Başarılı"].includes(s))return"orange";if(["Öğrenilmiş Dersler"].includes(s))return"purple";if(["Düşük"].includes(s))return"gray";return"blue"}
+function riskLevelByScore(score){if(score>=600)return"Kritik";if(score>=300)return"Yüksek";if(score>=100)return"Orta";return"Düşük"}
+function calculateRisk(){const l=Number($("likelihood")?.value||1),s=Number($("severity")?.value||1),d=Number($("detection")?.value||1);const score=l*s*d;if($("riskScore"))$("riskScore").value=score;if($("riskLevel"))$("riskLevel").value=riskLevelByScore(score);if(score>=300){if($("actionRequired"))$("actionRequired").value="Evet";if($("createAction"))$("createAction").value="Evet"}if(score>=300){if($("priority"))$("priority").value=score>=600?"Kritik":"Yüksek";if($("criticality"))$("criticality").value=score>=600?"Kritik":"Yüksek";if($("mrmInput"))$("mrmInput").value="Evet"}renderHeatMap(state.records)}
+function calculateBia(){const ids=["financialImpact","operationalImpact","legalImpact","reputationImpact"];const score=ids.reduce((s,id)=>s+Number($(id)?.value||1),0);if($("biaScore"))$("biaScore").value=score;let level="Düşük";if(score>=32)level="Kritik";else if(score>=24)level="Yüksek";else if(score>=14)level="Orta";if($("biaLevel"))$("biaLevel").value=level;if(["Yüksek","Kritik"].includes(level)){if($("businessKritikity"))$("businessKritikity").value=level;if($("mrmInput"))$("mrmInput").value="Evet"}}
+function renderFlowPreview(status="Yeni"){const area=$("flowPreview");if(!area)return;const cur=FLOW.indexOf(status);area.innerHTML=FLOW.map((s,i)=>{let cls="flow-step";if(status==="Reddedildi"&&i===0)cls+=" reject";else if(i<cur)cls+=" done";else if(i===cur)cls+=" active";return`<div class="${cls}">${escapeHTML(s)}<br><small>${i<cur?"Tamamlandı":i===cur?"Aktif":"Bekliyor"}</small></div>`}).join("")}
+async function generateNumbers(){const seq=await getSequence(MODUL_ADI);const n=seq||("SEC-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-5));if($("recordNo"))$("recordNo").value=n;if($("incidentNo"))$("incidentNo").value=n.replace("SEC","INC");if($("riskNo"))$("riskNo").value=n.replace("SEC","ISMS-RSK");if($("bcpNo"))$("bcpNo").value=n.replace("SEC","BCP")}
+function applyTypeDefaults(){const t=$("recordType")?.value;if(t==="BGYS Risk")$("status").value="Risk Değerlendirme";if(t==="İş Sürekliliği / BCP")$("status").value="BCP Etki Analizi";if(t==="BCP Tatbikatı")$("status").value="Tatbikat / Test";if(t==="Bilgi Güvenliği Olayı")$("status").value="Yeni";if(t==="Entegre Olay + Risk + BCP")$("status").value="İncelemede";renderFlowPreview($("status")?.value||"Yeni")}
+function syncAssetRegister(){const asset=$("assetRegister")?.value||"";if($("affectedAsset"))$("affectedAsset").value=asset;if($("affectedSystem")&&!$("affectedSystem").value)$("affectedSystem").value=asset}
+function collectPayload(){calculateRisk();calculateBia();return {id:state.selectedId||"SECID-"+Date.now(),module:MODUL_ADI,recordNo:$("recordNo")?.value||"",recordType:$("recordType")?.value||"",recordDate:$("recordDate")?.value||todayISO(),status:$("status")?.value||"Yeni",title:$("title")?.value.trim()||"",department:$("department")?.value||"",owner:$("owner")?.value.trim()||"",owner_id:$("owner")?.dataset.userId||"",owner_department:$("owner")?.dataset.department||"",priority:$("priority")?.value||"Orta",criticality:$("criticality")?.value||"Orta",dueDate:$("dueDate")?.value||"",reportedBy:$("reportedBy")?.value.trim()||"",incidentNo:$("incidentNo")?.value||"",incidentType:$("incidentType")?.value||"",affectedSystem:$("affectedSystem")?.value.trim()||"",affectedAsset:$("affectedAsset")?.value.trim()||"",assetRegister:$("assetRegister")?.value||"",confidentiality:$("confidentiality")?.value||"",integrity:$("integrity")?.value||"",availability:$("availability")?.value||"",incidentLevel:$("incidentLevel")?.value||"",incidentDescription:$("incidentDescription")?.value.trim()||"",containment:$("containment")?.value.trim()||"",rootCause:$("rootCause")?.value.trim()||"",correctiveAction:$("correctiveAction")?.value.trim()||"",riskNo:$("riskNo")?.value||"",assetGroup:$("assetGroup")?.value||"",threat:$("threat")?.value.trim()||"",vulnerability:$("vulnerability")?.value.trim()||"",likelihood:Number($("likelihood")?.value||1),severity:Number($("severity")?.value||1),detection:Number($("detection")?.value||1),riskScore:Number($("riskScore")?.value||0),riskLevel:$("riskLevel")?.value||"",actionRequired:$("actionRequired")?.value||"Hayır",actionOwner:$("actionOwner")?.value.trim()||"",action_owner_id:$("actionOwner")?.dataset.userId||"",actionDueDate:$("actionDueDate")?.value||"",actionStatus:$("actionStatus")?.value||"Açık",actionEffectiveness:$("actionEffectiveness")?.value||"Bekliyor",existingControls:$("existingControls")?.value.trim()||"",riskTreatment:$("riskTreatment")?.value.trim()||"",riskOwner:$("riskOwner")?.value.trim()||"",risk_owner_id:$("riskOwner")?.dataset.userId||"",controlRef:$("controlRef")?.value.trim()||"",residualRisk:$("residualRisk")?.value||"",mrmInput:$("mrmInput")?.value||"Hayır",bcpNo:$("bcpNo")?.value||"",criticalProcess:$("criticalProcess")?.value.trim()||"",rto:$("rto")?.value.trim()||"",rpo:$("rpo")?.value.trim()||"",businessKritikity:$("businessKritikity")?.value||"",recoveryTeam:$("recoveryTeam")?.value.trim()||"",alternateLocation:$("alternateLocation")?.value.trim()||"",drillDate:$("drillDate")?.value||"",drillResult:$("drillResult")?.value||"",downtime:$("downtime")?.value.trim()||"",biaStatus:$("biaStatus")?.value||"",bcpUpdateRequired:$("bcpUpdateRequired")?.value||"Hayır",mtpd:$("mtpd")?.value.trim()||"",biaScore:Number($("biaScore")?.value||0),biaLevel:$("biaLevel")?.value||"",continuityScenario:$("continuityScenario")?.value.trim()||"",recoveryStrategy:$("recoveryStrategy")?.value.trim()||"",drillFindings:$("drillFindings")?.value.trim()||"",createCapa:$("createCapa")?.value||"Hayır",createRisk:$("createRisk")?.value||"Hayır",createAction:$("createAction")?.value||"Hayır",createLesson:$("createLesson")?.value||"Hayır",capaRef:$("capaRef")?.value.trim()||"",actionRef:$("actionRef")?.value.trim()||"",ciRef:$("ciRef")?.value.trim()||"",lessonLearned:$("lessonLearned")?.value.trim()||"",standardUpdated:$("standardUpdated")?.value||"Hayır",trainingOpened:$("trainingOpened")?.value||"Hayır",capaOpened:$("capaOpened")?.value||"Hayır",riskUpdated:$("riskUpdated")?.value||"Hayır",evidence:state.uploadedEvidence,created_by:state.currentUser?.fullname||"",updated_at:new Date().toISOString(),deleted_at:null,archived_at:null};}
+function validatePayload(p){if(!p.title){toast("Başlık zorunlu");return false}if(!p.owner){toast("Sorumlu zorunlu");return false}if(!p.department){toast("Departman zorunlu");return false}return true}
+async function saveRecord(notify=false){const p=collectPayload();if(!validatePayload(p))return;p.evidence=await uploadEvidenceIfAny(p.recordNo);const saved=await safePost("/actions",p);await safePost("/audit-logs",{module:MODUL_ADI,action:state.selectedId?"Düzenleme":"Oluşturma",record_no:p.recordNo,user_id:state.currentUser?.id,user_name:state.currentUser?.fullname,user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token")});await safePost("/activity-feed",{module:MODUL_ADI,action:state.selectedId?"Kayıt güncellendi":"Kayıt oluşturuldu",record_no:p.recordNo,description:p.title,old_value:null,new_value:p,changed_field:"record"});if(p.actionRequired==="Evet"||p.createAction==="Evet")await safePost("/assignments",{module:MODUL_ADI,record_no:p.recordNo,title:p.title,assigned_to:p.actionOwner||p.owner,assigned_to_id:p.action_owner_id||p.owner_id,due_date:p.actionDueDate||p.dueDate,status:"Açık",created_at:new Date().toISOString()});if(notify)await safePost("/notifications",{module:MODUL_ADI,title:"BGYS ve İş Sürekliliği bildirimi",message:p.title,record_no:p.recordNo,is_read:false,read_by:null,read_at:null,created_at:new Date().toISOString()});toast(saved?"Kayıt D1 üzerine işlendi":"API yanıtı alınamadı, Worker kontrol edilmeli");state.selectedId=null;await loadCloud();await resetForm();renderRecords()}
+function normalizeRecord(r){return {...r,recordNo:r.recordNo||r.record_no||r.documentCode||"",title:r.title||r.documentName||r.name||"",status:r.status||"Yeni",recordType:r.recordType||r.type||r.actionType||"",department:r.department||"",priority:r.priority||"Orta",criticality:r.criticality||"Orta",riskScore:Number(r.riskScore||r.score||0),biaScore:Number(r.biaScore||0),mrmInput:r.mrmInput||"Hayır",affectedAsset:r.affectedAsset||r.assetRegister||"",drillDate:r.drillDate||"",drillResult:r.drillResult||"",dueDate:r.dueDate||r.due_date||""}}
+function filteredRecords(){const q=($("globalSearch")?.value||"").toDüşükerCase(),tf=$("typeFilter")?.value||"",sf=$("statusFilter")?.value||"",pf=$("priorityFilter")?.value||"",df=$("departmentFilter")?.value||"";return state.records.map(normalizeRecord).filter(r=>!isPassive(r)&&JSON.stringify(r).toDüşükerCase().includes(q)&&(!tf||r.recordType===tf)&&(!sf||r.status===sf)&&(!pf||r.priority===pf)&&(!df||r.department===df))}
+function updateCards(items){const openInc=items.filter(x=>x.recordType.includes("Olay")&&x.status!=="Kapalı").length;const closedInc=items.filter(x=>x.recordType.includes("Olay")&&x.status==="Kapalı").length;const openRisks=items.filter(x=>x.recordType.includes("Risk")&&x.status!=="Kapalı").length;const high=items.filter(x=>x.riskScore>=300||["Yüksek","Kritik"].includes(x.criticality)).length;const tests=items.filter(x=>x.recordType.includes("Tatbikat")||x.recordType.includes("BCP")).length;const today=new Date();const upcoming=items.filter(x=>x.drillDate&&new Date(x.drillDate)>=today&&(new Date(x.drillDate)-today)/(86400000)<=30).length;const failed=items.filter(x=>["Başarısız","Kısmen Başarılı"].includes(x.drillResult)).length;const openA=items.filter(x=>x.actionRequired==="Evet"&&x.actionStatus!=="Kapalı").length;const crit=items.filter(x=>x.riskScore>=600||x.criticality==="Kritik").length;const avg=items.length?Math.round(items.reduce((s,x)=>s+x.riskScore,0)/items.length):0;const mrm=items.filter(x=>x.mrmInput==="Evet").length;const asset=new Set(items.map(x=>x.affectedAsset).filter(Boolean)).size;Object.entries({openIncidents:openInc,closedIncidents:closedInc,openRisks:openRisks,highRisks:high,bcpTests:tests,upcomingDrills:upcoming,failedDrills:failed,openActions:openA,criticalRiskCount:crit,averageRpn:avg,mrmCount:mrm,assetCoverage:asset}).forEach(([k,v])=>{if($(k))$(k).textContent=v})}
+function renderRecords(){const items=filteredRecords();updateCards(state.records.map(normalizeRecord));renderHeatMap(state.records.map(normalizeRecord));renderDrillSchedule(state.records.map(normalizeRecord));const area=$("recordTable");if(!area)return;if(!items.length){area.innerHTML='<div class="empty">Kayıt bulunamadı.</div>';return}let h='<table><thead><tr><th>No</th><th>Başlık</th><th>Tip</th><th>Departman</th><th>Sorumlu</th><th>RPN</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';items.forEach(r=>{h+=`<tr><td>${escapeHTML(r.recordNo)}</td><td>${escapeHTML(r.title)}<br><small>${escapeHTML(r.affectedAsset||r.criticalProcess||"")}</small></td><td>${escapeHTML(r.recordType)}</td><td>${escapeHTML(r.department)}</td><td>${escapeHTML(r.owner||r.riskOwner||"")}</td><td>${escapeHTML(r.riskScore||0)} / ${escapeHTML(r.riskLevel||"")}</td><td><span class="status ${statusClass(r.status)}">${escapeHTML(r.status)}</span></td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawerById('${escapeHTML(r.id)}')">İncele</button><button class="small-btn approve" onclick="updateLifecycleById('${escapeHTML(r.id)}','Kapalı')">Kapat</button><button class="small-btn warn" onclick="notifyById('${escapeHTML(r.id)}')">Bildir</button></div></td></tr>`});area.innerHTML=h+'</tbody></table>'}
+function renderHeatMap(items){const area=$("riskHeatMap");if(!area)return;const levels=["1","2","3","4","5"],counts={};items.forEach(r=>{const l=Math.min(5,Math.max(1,Math.ceil((r.riskScore||0)/200)));const c=Math.min(5,Math.max(1,Math.ceil((r.biaScore||1)/8)));counts[l+"-"+c]=(counts[l+"-"+c]||0)+1});let h='<div class="hm-cell hm-head">BIA/RPN</div>'+levels.map(x=>`<div class="hm-cell hm-head">${x}</div>`).join("");for(let y=5;y>=1;y--){h+=`<div class="hm-cell hm-head">${y}</div>`;for(let x=1;x<=5;x++){const n=counts[x+"-"+y]||0;const score=x*y;const cls=score>=20?'hm-critical':score>=12?'hm-high':score>=6?'hm-med':'hm-low';h+=`<div class="hm-cell ${cls} ${n?'hm-active':''}">${n}</div>`}}area.innerHTML=h}
+function renderDrillSchedule(items){const area=$("drillSchedule");if(!area)return;const today=new Date();const list=items.filter(x=>x.drillDate).sort((a,b)=>new Date(a.drillDate)-new Date(b.drillDate)).slice(0,10);area.innerHTML=list.length?list.map(r=>`<div class="schedule-item"><b>${formatDateTR(r.drillDate)}</b><span>${escapeHTML(r.title)}</span><span>${escapeHTML(r.drillResult||"Planlandı")}</span><button class="small-btn view" onclick="openDrawerById('${escapeHTML(r.id)}')">Aç</button></div>`).join(""):'<div class="empty">Planlı tatbikat yok.</div>'}
+function openDrawerById(id){const r=state.records.map(normalizeRecord).find(x=>String(x.id)===String(id));if(!r)return;state.selectedId=id;if($("drawerTitle"))$("drawerTitle").textContent=(r.recordNo||"")+" / "+(r.title||"");if($("drawerStatus")){ $("drawerStatus").textContent=r.status; $("drawerStatus").className="status "+statusClass(r.status)}if($("drawerContent"))$("drawerContent").innerHTML=`<div class="info-box"><b>Kayıt No:</b> ${escapeHTML(r.recordNo)}\n<b>Tip:</b> ${escapeHTML(r.recordType)}\n<b>Departman:</b> ${escapeHTML(r.department)}\n<b>Sorumlu:</b> ${escapeHTML(r.owner)}\n<b>Öncelik:</b> ${escapeHTML(r.priority)}\n<b>Kritiklik:</b> ${escapeHTML(r.criticality)}\n<b>Termin:</b> ${formatDateTR(r.dueDate)}</div><div class="info-box"><b>Olay / Risk / Süreklilik Açıklaması</b>\n${escapeHTML(r.incidentDescription||r.continuityScenario||r.title)}</div><div class="info-box"><b>RPN:</b> ${escapeHTML(r.riskScore)} / ${escapeHTML(r.riskLevel||"")}\n<b>BIA:</b> ${escapeHTML(r.biaScore)} / ${escapeHTML(r.biaLevel||"")}\n<b>YGG Girdisi:</b> ${escapeHTML(r.mrmInput||"Hayır")}</div><div class="info-box"><b>Kanıt:</b> ${r.evidence?.r2_key?`<button class="small-btn view" onclick="openSignedFile('${escapeHTML(r.evidence.r2_key)}')">Dosyayı Aç</button>`:"-"}</div>`;$("drawer")?.classList.add("active")}
+function closeDrawer(){state.selectedId=null;$("drawer")?.classList.remove("active")}
+async function updateLifecycleById(id,status){const r=state.records.map(normalizeRecord).find(x=>String(x.id)===String(id));if(!r)return;const old=r.status;r.status=status;r.closed_at=status==="Kapalı"?new Date().toISOString():r.closed_at;await safePost("/actions",r);await safePost("/audit-logs",{module:MODUL_ADI,action:"Durum Değişikliği",record_no:r.recordNo,old_value:old,new_value:status,user_id:state.currentUser?.id,user_name:state.currentUser?.fullname,user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token")});await safePost("/activity-feed",{module:MODUL_ADI,action:"Durum değişti",record_no:r.recordNo,old_value:old,new_value:status,changed_field:"status"});await loadCloud();renderRecords();toast("Durum güncellendi")}
+function advanceCurrent(){const r=state.records.map(normalizeRecord).find(x=>String(x.id)===String(state.selectedId));if(!r)return;const i=FLOW.indexOf(r.status);updateLifecycleById(r.id,FLOW[Math.min(FLOW.length-1,i+1)]);closeDrawer()}
+function makeLessonCurrent(){if(state.selectedId)updateLifecycleById(state.selectedId,"Öğrenilmiş Dersler")}
+function makeBcpCurrent(){if(state.selectedId)updateLifecycleById(state.selectedId,"BCP Etki Analizi")}
+function closeCurrent(){if(state.selectedId)updateLifecycleById(state.selectedId,"Kapalı")}
+function rejectCurrent(){if(state.selectedId)updateLifecycleById(state.selectedId,"Reddedildi")}
+function markLifecycle(status){if($("status"))$("status").value=status;renderFlowPreview(status);toast("Durum seçildi")}
+async function notifyById(id){const r=state.records.map(normalizeRecord).find(x=>String(x.id)===String(id));if(!r)return;await safePost("/notifications",{module:MODUL_ADI,title:"BGYS ve İş Sürekliliği bildirimi",message:r.title,record_no:r.recordNo,is_read:false,read_by:null,read_at:null,created_at:new Date().toISOString()});toast("Bildirim kuyruğa alındı")}
+function createMRMNotifications(){state.records.map(normalizeRecord).filter(x=>x.mrmInput==="Evet").forEach(x=>notifyById(x.id));toast("YGG bildirimleri oluşturuldu")}
+function createIntegrationCurrent(){if(state.selectedId)createIntegrationsFor(state.selectedId)}
+async function createIntegrationsFor(id){const r=state.records.map(normalizeRecord).find(x=>String(x.id)===String(id));if(!r)return;if(r.createAction==="Evet")await safePost("/assignments",{module:MODUL_ADI,record_no:r.recordNo,title:r.title,assigned_to:r.actionOwner||r.owner,due_date:r.actionDueDate||r.dueDate,status:"Açık"});if(r.createCapa==="Evet")await safePost("/actions",{module:"CAPA",source_module:MODUL_ADI,source_record_no:r.recordNo,title:"BGYS CAPA - "+r.title,status:"Açık"});if(r.createRisk==="Evet")await safePost("/actions",{module:"RISK",source_module:MODUL_ADI,source_record_no:r.recordNo,title:"BGYS Risk - "+r.title,status:"Açık"});await safePost("/activity-feed",{module:MODUL_ADI,record_no:r.recordNo,action:"Entegrasyonlar oluşturuldu",new_value:{capa:r.createCapa,risk:r.createRisk,assignment:r.createAction},changed_field:"integration"});toast("Entegrasyon kayıtları oluşturuldu")}
+function exportCSV(){const rows=filteredRecords();let csv="Kayıt No,Tip,Başlık,Departman,Sorumlu,Durum,RPN,BIA,YGG\n";rows.forEach(r=>csv+=`"${r.recordNo}","${r.recordType}","${String(r.title).replaceAll('"','""')}","${r.department}","${r.owner}","${r.status}","${r.riskScore}","${r.biaScore}","${r.mrmInput}"\n`);const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="gdnl_eqms_bgys_is_surekliligi.csv";a.click();URL.revokeObjectURL(url)}
+async function runSearch(){const text=($("globalSearch")?.value||"").trim().toDüşükerCase();if(!text){clearSearchResults();renderRecords();return}const cloud=await safeGet("/search?q="+encodeURIComponent(text));let results=activeOnly(cloud).filter(x=>!isPassive(x)).map(x=>({type:"page",module:x.module||"Cloud",title:x.title||x.name||x.record_no||"Kayıt",detail:x.description||x.detail||"",go:x.url||x.page||"#"}));state.records.map(normalizeRecord).forEach(r=>{if(JSON.stringify(r).toDüşükerCase().includes(text))results.push({type:"record",module:"BGYS ve İş Sürekliliği",title:r.recordNo+" / "+r.title,detail:`${r.recordType} ${r.department} ${r.owner} ${r.status}`,id:r.id})});document.querySelectorAll(".menu a,.mobile-drawer-menu a").forEach(a=>{const label=a.textContent.trim(),href=a.getAttribute("href")||"";if((label+" "+href).toDüşükerCase().includes(text))results.push({type:"page",module:"Menü",title:label,detail:href,go:href})});renderSearchResults(text,results)}
+function highlightText(v,k){const safe=escapeHTML(v);if(!k)return safe;return safe.replace(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),m=>`<mark>${m}</mark>`)}
+function renderSearchResults(k,results){const panel=$("searchResultsPanel"),area=$("searchResultsArea");if(!panel||!area)return;panel.classList.add("active");$("searchKeyword").textContent=k;$("searchResultCount").textContent=results.length+" sonuç";window.gdnlSearchResults=results.slice(0,80);area.innerHTML=window.gdnlSearchResults.length?window.gdnlSearchResults.map((r,i)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,k)}</b><small>${highlightText(r.detail||"",k)}</small></div><button class="result-open" onclick="openSearchResult(${i})">Aç</button></div>`).join(""):'<div class="empty">Arama sonucu bulunamadı.</div>';panel.scrollIntoView({behavior:"smooth",block:"start"})}
+function openSearchResult(i){const r=(window.gdnlSearchResults||[])[i];if(!r)return;if(r.type==="record"&&r.id){openDrawerById(r.id);return}if(r.go&&r.go!=="#")window.location.href=r.go}
+function clearSearchResults(){if($("searchResultsPanel"))$("searchResultsPanel").classList.remove("active");if($("searchResultsArea"))$("searchResultsArea").innerHTML="";window.gdnlSearchResults=[]}
+function toggleMenuGroup(btn){const group=btn.closest(".menu-group"),nav=btn.closest("nav");if(!group)return;nav?.querySelectorAll(".menu-group").forEach(g=>{if(g!==group)g.classList.remove("open")});group.classList.toggle("open")}
+function openMobileMenu(){$("mobileDrawer")?.classList.add("active");$("mobileOverlay")?.classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){$("mobileDrawer")?.classList.remove("active");$("mobileOverlay")?.classList.remove("active");document.body.style.overflow=""}
+function logout(){clearAuthCookie();window.location.href="index.html"}
+async function resetForm(){state.selectedId=null;await generateNumbers();["recordDate","dueDate","actionDueDate","drillDate"].forEach(id=>{if($(id))$(id).value=id==="recordDate"?todayISO():addDays(todayISO(),30)});["title","owner","reportedBy","affectedSystem","affectedAsset","incidentDescription","containment","rootCause","correctiveAction","threat","vulnerability","existingControls","riskTreatment","riskOwner","controlRef","criticalProcess","rto","rpo","recoveryTeam","alternateLocation","downtime","mtpd","continuityScenario","recoveryStrategy","drillFindings","capaRef","actionRef","ciRef","lessonLearned"].forEach(id=>{if($(id))$(id).value=""});if($("status"))$("status").value="Yeni";renderFlowPreview("Yeni");calculateRisk();calculateBia();if($("modeBadge"))$("modeBadge").textContent="OLUŞTURMA MODU";state.uploadedEvidence=null}
+async function boot(){await loadCloud();fillDepartmentSelects();if($("userName"))$("userName").textContent=state.currentUser?.fullname||"GDNL Kullanıcısı";["owner","actionOwner","riskOwner","recoveryTeam","reportedBy"].forEach(id=>setupUserAutocomplete(id));await resetForm();renderRecords();renderFlowPreview("Yeni");["globalSearch"].forEach(id=>$(id)?.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()}));$("globalSearch")?.addEventListener("input",()=>renderRecords());setInterval(async()=>{await loadCloud();renderRecords()},30000)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeMobileMenu();clearSearchResults();closeDrawer()}});
+boot();
 </script>
 
 </body>
