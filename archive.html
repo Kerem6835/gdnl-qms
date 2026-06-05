@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Archive & Obsolete Control V2</title>
+<title>GDNL EQMS | Arşiv Yönetimi</title>
 
 <style>
 
@@ -96,6 +96,7 @@ tr:hover td{background:#f7fbf8}
 
 .mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
 .mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
+.archive-note{font-size:12px;font-weight:900;color:#405166;background:#e9eef5;border:1px solid #dfe9f5;border-radius:14px;padding:10px;margin-top:10px}
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
 
@@ -153,7 +154,7 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -173,14 +174,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -228,7 +229,7 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -248,14 +249,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Archive V2<br>Obsolete & Traceability</div>
+<div class="sidebar-footer"></div>
 </aside>
 
 <main class="main">
@@ -270,16 +271,16 @@ tr:hover td{background:#f7fbf8}
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName">Kerem Güdenli</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Archive & Obsolete Control Center</h1>
-<p>Silinen, obsolete edilen veya revizyon sonrası saklanan kayıtları izlenebilir şekilde yönet. Arşiv kaydı silinmez; denetim izi korunur.</p>
+<h1>Arşiv Yönetim Merkezi</h1>
+<p>Silinen, arşivlenen, iptal edilen veya revizyon sonrası saklanan tüm kayıtları izlenebilir şekilde yönet. Kayıt fiziksel olarak silinmez; denetim izi korunur ve yetkili kullanıcı tarafından geri yüklenebilir.</p>
 </div>
-<div class="hero-badge">Module: <span>V2 Active</span></div>
+<div class="hero-badge">Modül: <span>Aktif</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -294,9 +295,9 @@ tr:hover td{background:#f7fbf8}
 </section>
 <section class="cards">
 <div class="card"><small>Toplam Arşiv</small><h2 id="totalArchive">0</h2><p>Arşiv kayıtları</p></div>
-<div class="card"><small>Obsolete</small><h2 id="obsoleteArchive">0</h2><p>Pasif / obsolete</p></div>
+<div class="card"><small>Pasif</small><h2 id="obsoleteArchive">0</h2><p>Pasif / obsolete</p></div>
 <div class="card"><small>Revizyon Arşivi</small><h2 id="revisionArchive">0</h2><p>Eski revizyon izi</p></div>
-<div class="card"><small>Geri Alınabilir</small><h2 id="restorableArchive">0</h2><p>Restore edilebilir</p></div>
+<div class="card"><small>Geri Yüklenebilir</small><h2 id="restorableArchive">0</h2><p>Geri Yükle edilebilir</p></div>
 </section>
 
 <section class="panel">
@@ -304,16 +305,16 @@ tr:hover td{background:#f7fbf8}
 <h3>Arşiv Kayıtları</h3>
 <div class="toolbar">
 <select id="typeFilter" onchange="renderArchive()">
-<option value="">Tüm Tipler</option>
-<option>Obsolete Doküman</option>
+<option value="">Tüm Türler</option>
+<option>Pasif Doküman</option>
 <option>Revizyon Arşivi</option>
 <option>Manuel Arşiv</option>
 </select>
 <select id="statusFilter" onchange="renderArchive()">
 <option value="">Tüm Durumlar</option>
-<option>Obsolete</option>
+<option>Pasif</option>
 <option>Arşivlendi</option>
-<option>Geri Alındı</option>
+<option>Geri Yüklendi</option>
 <option>Kilitli</option>
 </select>
 </div>
@@ -328,7 +329,7 @@ tr:hover td{background:#f7fbf8}
 <div class="drawer-head">
 <div>
 <h3 id="drawerTitle">Arşiv Detayı</h3>
-<span class="status red" id="drawerStatus">Obsolete</span>
+<span class="status red" id="drawerStatus">Pasif</span>
 </div>
 <button class="close-btn" onclick="closeDrawer()">Kapat</button>
 </div>
@@ -343,353 +344,332 @@ tr:hover td{background:#f7fbf8}
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_eqms_session")||"null")||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
 if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
 localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-
 document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
 
-
-function runSearch(){
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-
-if(!text){
-clearSearchResults();
-input.focus();
-renderArchive();
-return;
-}
-
-let results=[];
-
-getArchive().map(normalizeArchive).forEach(item=>{
-const fullText=JSON.stringify(item).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"record",
-module:"Arşiv Yönetimi",
-go:"#",
-store:"gdnl_selected_archive",
-selected:item.archiveNo||"",
-title:item.archiveNo||"Arşiv",
-detail:`${item.documentCode||""} ${item.documentName||""} ${item.type||""} ${item.status||""} ${item.reason||""}`
-});
-}
-});
-
-getDocuments().forEach(d=>{
-const fullText=JSON.stringify(d).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"page",
-module:"Doküman Yönetimi",
-go:"document-viewer.html",
-store:"gdnl_selected_document_code",
-selected:d.code||"",
-title:d.name||d.code||"Doküman",
-detail:`${d.code||""} ${d.owner||""} ${d.status||""} ${d.rev||""}`
-});
-}
-});
-
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
-}
-
-function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
-
-document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;
-if(!seen.has(key)){
-seen.add(key);
-results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});
-}
-}
-});
-
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
-});
-
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
-});
-
-return results;
-}
-
-function escapeHTML(value){
-return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
-
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
-
-function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-
-if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-return;
-}
-
-area.innerHTML=results.slice(0,80).map((r,index)=>`
-<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module)}</span></div>
-<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
-<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-</div>`).join("");
-
-window.gdnlSearchResults=results.slice(0,80);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];
-if(!r)return;
-
-if(r.type==="scroll"&&r.selector){
-const target=document.querySelector(r.selector);
-if(target){
-target.scrollIntoView({behavior:"smooth",block:"center"});
-target.style.outline="3px solid #35a852";
-target.style.outlineOffset="4px";
-setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
-}
-return;
-}
-
-if(r.store)localStorage.setItem(r.store,r.selected||"");
-
-if(r.module==="Arşiv Yönetimi"){
-const archive=getArchive().map(normalizeArchive);
-const idx=archive.findIndex(x=>x.archiveNo===r.selected);
-if(idx!==-1){
-clearSearchResults();
-renderArchive();
-openDrawer(idx);
-}
-return;
-}
-
-if(r.go&&r.go!=="#")window.location.href=r.go;
-}
-
-function clearSearchResults(){
-document.getElementById("globalSearch").value="";
-document.getElementById("searchResultsPanel").classList.remove("active");
-document.getElementById("searchResultsArea").innerHTML="";
-renderArchive();
-}
-
 let selectedIndex=null;
+let cloudArchive=[];
+let cloudDocuments=[];
+let cloudUsers=[];
+let cloudReady=false;
 
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-localStorage.removeItem("gdnl_eqms_session");
-window.location.href="index.html";
-}
-
-
-function toggleMenuGroup(btn){
-  const menu=btn.closest("nav");
-  const submenu=btn.nextElementSibling;
-  if(!menu||!submenu)return;
-  menu.querySelectorAll(".menu-group").forEach(b=>{
-    if(b!==btn){b.classList.remove("open","active-group");}
-  });
-  menu.querySelectorAll(".submenu").forEach(s=>{
-    if(s!==submenu)s.classList.remove("open");
-  });
-  btn.classList.toggle("open");
-  btn.classList.toggle("active-group");
-  submenu.classList.toggle("open");
-}
-
-function openMobileMenu(){
-document.getElementById("mobileDrawer").classList.add("active");
-document.getElementById("mobileOverlay").classList.add("active");
-document.body.style.overflow="hidden";
-}
-
-function closeMobileMenu(){
-document.getElementById("mobileDrawer").classList.remove("active");
-document.getElementById("mobileOverlay").classList.remove("active");
-document.body.style.overflow="";
-}
-
-document.addEventListener("keydown",function(e){
-if(e.key==="Escape")closeMobileMenu();
-});
-function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
-function setDocuments(items){localStorage.setItem("gdnl_documents",JSON.stringify(items))}
-function getArchive(){return JSON.parse(localStorage.getItem("gdnl_archive"))||[]}
-function setArchive(items){localStorage.setItem("gdnl_archive",JSON.stringify(items))}
+function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
+function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function uid(prefix="ID"){return prefix+"-"+Date.now()+"-"+Math.random().toString(16).slice(2,8)}
+function nowISO(){return new Date().toISOString()}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function escapeHTML(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function normalizeTR(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kullanıcı"}
+function getUserId(){return String(session.id||session.user_id||session.username||"")}
+function isSuperAdmin(){return String(session.role||"").toLowerCase().includes("super")||String(session.role||"").toLowerCase().includes("admin")}
+function isArchiveStatus(v){const s=normalizeTR(v).trim();return ["deleted","silindi","arsivlendi","arşivlendi","iptal edildi","iptal","pasif","obsolete","kilitli"].includes(s)}
+function moduleEndpoint(module){
+  const m=normalizeTR(module);
+  if(m.includes("aksiyon"))return "/actions";
+  if(m.includes("onay"))return "/approvals";
+  if(m.includes("dokuman")||m.includes("doküman"))return "/documents";
+  if(m.includes("dosya"))return "/files";
+  if(m.includes("risk"))return "/risks";
+  if(m.includes("capa"))return "/capas";
+  if(m.includes("egitim")||m.includes("eğitim"))return "/trainings";
+  if(m.includes("tedarik"))return "/suppliers";
+  if(m.includes("musteri")||m.includes("müşteri"))return "/customers";
+  return "";
+}
+
+async function apiFetch(path,options={}){
+  const res=await fetch(API_BASE+path,options);
+  const ct=res.headers.get("content-type")||"";
+  const data=ct.includes("application/json")?await res.json():await res.text();
+  if(!res.ok)throw new Error(typeof data==="string"?data:(data.message||data.detail||"API hatası"));
+  return data;
+}
+function postJSON(path,payload){return apiFetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})}
+function putJSON(path,payload){return apiFetch(path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})}
+
+async function writeAudit(action,module,relatedId,detail,oldValue="",newValue=""){
+  const payload={id:uid("LOG"),user_id:getUserId(),user_name:getUserName(),action,module,related_id:relatedId||"",old_value:oldValue,new_value:newValue,detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),user_agent:navigator.userAgent,created_at:nowISO()};
+  try{await postJSON("/audit-logs",payload)}catch(e){const q=getLS("gdnl_pending_audit_logs");q.unshift(payload);setLS("gdnl_pending_audit_logs",q)}
+}
+async function writeActivity(type,module,relatedId,title,description=""){
+  const payload={id:uid("ACTV"),user_id:getUserId(),user_name:getUserName(),activity_type:type,module,related_id:relatedId||"",title:title||type,description:description||"",created_at:nowISO()};
+  try{await postJSON("/activity-feed",payload)}catch(e){const q=getLS("gdnl_pending_activity_feed");q.unshift(payload);setLS("gdnl_pending_activity_feed",q)}
+}
+async function createNotification(title,message,relatedId=""){
+  const payload={id:uid("NTF"),user_id:getUserId(),user_name:getUserName(),type:"ARCHIVE",title,message,module:"Arşiv Yönetimi",related_id:relatedId,status:"UNREAD",created_at:nowISO()};
+  try{await postJSON("/notifications",payload)}catch(e){const q=getLS("gdnl_notifications");q.unshift(payload);setLS("gdnl_notifications",q)}
+}
+
+function getDocuments(){return cloudDocuments.length?cloudDocuments:getLS("gdnl_documents")}
+function setDocuments(items){cloudDocuments=items;setLS("gdnl_documents",items)}
+function getArchive(){return cloudArchive.length?cloudArchive:getLS("gdnl_archive")}
+function setArchive(items){cloudArchive=items;setLS("gdnl_archive",items)}
 
 function statusClass(status){
-if(status==="Geri Alındı")return"green";
-if(status==="Obsolete")return"red";
+if(status==="Geri Yüklendi"||status==="Geri Yüklendi")return"green";
+if(status==="Silindi"||status==="Arşivlendi"||status==="İptal Edildi"||status==="Pasif")return"red";
 if(status==="Kilitli")return"gray";
 return"blue";
 }
-
 function typeClass(type){
-if(type==="Obsolete Doküman")return"red";
+if(type==="Silinen Kayıt")return"red";
 if(type==="Revizyon Arşivi")return"blue";
+if(type==="Dosya Kaydı")return"orange";
 return"gray";
 }
 
 function normalizeArchive(x){
+const sourceModül=x.sourceModül||x.module||x.source_module||"Genel";
+const sourceId=x.sourceId||x.source_id||x.related_id||x.id||x.archiveNo||"";
+const code=x.documentCode||x.code||x.recordNo||x.workflowId||x.actionNo||x.id||"";
+const name=x.documentName||x.name||x.title||x.recordName||x.file_name||"";
+const archivedAt=x.archivedAt||x.archived_at||x.deletedAt||x.deleted_at||x.closed_at||x.archiveDate||x.updated_at||x.created_at||nowISO();
 return{
-archiveNo:x.archiveNo||"ARC-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-5),
-type:x.type||"Obsolete Doküman",
-status:x.status||"Obsolete",
-documentCode:x.documentCode||x.code||"",
-documentName:x.documentName||x.name||"",
-oldRev:x.oldRev||x.rev||"-",
+archiveNo:x.archiveNo||x.archive_no||"ARS-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6),
+type:x.type||x.recordType||x.record_type||inferArchiveType(x),
+status:normalizeArchiveStatus(x.status||"Arşivlendi"),
+sourceModül,
+sourceId,
+documentCode:code,
+documentName:name,
+oldRev:x.oldRev||x.rev||x.revision||"-",
 newRev:x.newRev||"-",
-sourceRevisionNo:x.sourceRevisionNo||x.revisionNo||"-",
-sourceApprovalNo:x.sourceApprovalNo||x.approvalNo||"-",
-archivedBy:x.archivedBy||session.name||"System",
-archiveDate:x.archiveDate||todayISO(),
-restoreAvailable:x.restoreAvailable||"Evet",
-reason:x.reason||"Doküman arşive alındı.",
+sourceRevisionNo:x.sourceRevisionNo||x.revisionNo||x.revision_id||"-",
+sourceApprovalNo:x.sourceApprovalNo||x.approvalNo||x.approval_id||x.workflow_id||"-",
+archivedBy:x.archivedBy||x.archived_by||x.deletedBy||x.deleted_by||x.updated_by||x.created_by||"Sistem",
+archiveDate:archivedAt,
+restoreAvailable:x.restoreAvailable||x.restore_available||((x.status==="Kilitli"||x.status==="Geri Yüklendi"||x.status==="Geri Yüklendi")?"Hayır":"Evet"),
+reason:x.reason||x.archiveReason||x.deleteReason||"Kayıt arşive alındı.",
 detail:x.detail||x.description||"",
-sourceDocument:x.sourceDocument||null,
-createdAt:x.createdAt||new Date().toISOString(),
-updatedAt:x.updatedAt||new Date().toISOString()
+sourceDocument:x.sourceDocument||x.source_document||null,
+sourceRecord:x.sourceRecord||x.source_record||x,
+previousStatus:x.previousStatus||x.previous_status||"Aktif",
+restoredBy:x.restoredBy||x.restored_by||"",
+restoredAt:x.restoredAt||x.restored_at||"",
+createdAt:x.createdAt||x.created_at||archivedAt,
+updatedAt:x.updatedAt||x.updated_at||archivedAt
 };
 }
-
-function migrateArchive(){
-const normalized=getArchive().map(normalizeArchive);
-setArchive(normalized);
+function inferArchiveType(x){
+  const m=normalizeTR(x.module||x.sourceModül||"");
+  if(m.includes("dokuman")||m.includes("doküman"))return "Doküman Arşivi";
+  if(m.includes("revizyon"))return "Revizyon Arşivi";
+  if(m.includes("dosya"))return "Dosya Kaydı";
+  if(x.status==="Silindi"||x.status==="Deleted")return "Silinen Kayıt";
+  return "Arşiv Kaydı";
 }
+function normalizeArchiveStatus(s){
+  const v=normalizeTR(s).trim();
+  if(v==="deleted"||v==="silindi")return"Silindi";
+  if(v==="obsolete"||v==="pasif")return"Pasif";
+  if(v==="arsivlendi"||v==="arşivlendi")return"Arşivlendi";
+  if(v==="iptal"||v==="iptal edildi")return"İptal Edildi";
+  if(v==="restored"||v==="geri alindi"||v==="geri alındı"||v==="geri yuklendi"||v==="geri yüklendi")return"Geri Yüklendi";
+  if(v==="kilitli"||v==="locked")return"Kilitli";
+  return s||"Arşivlendi";
+}
+
+async function loadCloudData(){
+  try{const data=await apiFetch("/users");cloudUsers=Array.isArray(data)?data:(data.users||data.results||[])}catch(e){cloudUsers=getLS("gdnl_users")}
+  try{const data=await apiFetch("/documents");cloudDocuments=Array.isArray(data)?data:(data.documents||data.results||[]);setLS("gdnl_documents",cloudDocuments)}catch(e){cloudDocuments=getLS("gdnl_documents")}
+  let loaded=false;
+  try{
+    const data=await apiFetch("/archive");
+    const rows=Array.isArray(data)?data:(data.archive||data.results||[]);
+    cloudArchive=rows.map(normalizeArchive);
+    loaded=true;
+  }catch(e){
+    loaded=false;
+  }
+  if(!loaded){
+    const collected=await collectArchiveFromKnownSources();
+    const local=getLS("gdnl_archive").map(normalizeArchive);
+    cloudArchive=mergeArchive(local,collected);
+  }
+  setLS("gdnl_archive",cloudArchive);
+  cloudReady=true;
+  renderArchive();
+}
+function mergeArchive(a,b){
+  const map=new Map();
+  [...a,...b].forEach(x=>{const n=normalizeArchive(x);const key=(n.sourceModül+"|"+n.sourceId+"|"+n.archiveNo);if(!map.has(key))map.set(key,n)});
+  return [...map.values()];
+}
+async function collectArchiveFromKnownSources(){
+  const sources=[
+    {path:"/actions",module:"Aksiyon Merkezi",list:"actions"},
+    {path:"/approvals",module:"Onay Yönetimi",list:"approvals"},
+    {path:"/documents",module:"Doküman Yönetimi",list:"documents"},
+    {path:"/files",module:"Dosya Yönetimi",list:"files"}
+  ];
+  const out=[];
+  for(const src of sources){
+    try{
+      const data=await apiFetch(src.path);
+      const rows=Array.isArray(data)?data:(data[src.list]||data.results||[]);
+      rows.forEach(row=>{
+        let detail={};try{detail=typeof row.description==="string"?JSON.parse(row.description):{}}catch(e){}
+        const merged={...row,...detail};
+        if(isArchiveStatus(row.status)||isArchiveStatus(merged.status)){
+          out.push(normalizeArchive({
+            archiveNo:merged.archiveNo||"ARS-"+new Date().getFullYear()+"-"+String(row.id||merged.id||Date.now()).toString().replace(/\D/g,"").slice(-6),
+            sourceModül:src.module,
+            sourceId:row.id||merged.id,
+            documentCode:merged.documentCode||merged.sourceNo||row.related_id||row.id||"",
+            documentName:merged.documentName||row.title||merged.title||row.file_name||"",
+            type:inferArchiveType({...merged,module:src.module}),
+            status:row.status||merged.status,
+            oldRev:merged.rev||row.rev||"-",
+            sourceRecord:row,
+            previousStatus:merged.previousStatus||"Aktif",
+            archivedBy:merged.archivedBy||merged.deletedBy||row.created_by||"",
+            archiveDate:merged.archivedAt||merged.deletedAt||row.closed_at||row.updated_at||row.created_at||nowISO(),
+            reason:merged.reason||"Kayıt arşiv durumunda bulundu.",
+            detail:merged.description||row.description||""
+          }));
+        }
+      });
+    }catch(e){}
+  }
+  return out;
+}
+
+function runSearch(){
+const input=document.getElementById("globalSearch");
+const text=input.value.trim().toLowerCase();
+if(!text){clearSearchResults();input.focus();renderArchive();return}
+let results=[];
+getArchive().map(normalizeArchive).forEach(item=>{
+const fullText=JSON.stringify(item).toLowerCase();
+if(fullText.includes(text)){
+results.push({type:"record",module:"Arşiv Yönetimi",go:"#",store:"gdnl_selected_archive",selected:item.archiveNo||"",title:item.archiveNo||"Arşiv",detail:`${item.sourceModül||""} ${item.documentCode||""} ${item.documentName||""} ${item.type||""} ${item.status||""} ${item.reason||""}`});
+}
+});
+getDocuments().forEach(d=>{
+const fullText=JSON.stringify(d).toLowerCase();
+if(fullText.includes(text)){
+results.push({type:"page",module:"Doküman Yönetimi",go:"document-viewer.html",store:"gdnl_selected_document_code",selected:d.code||"",title:d.name||d.code||"Doküman",detail:`${d.code||""} ${d.owner||""} ${d.status||""} ${d.rev||""}`});
+}
+});
+results=results.concat(collectPageSearchResults(text));
+renderSearchResults(text,results);
+}
+function collectPageSearchResults(keyword){
+const results=[];const seen=new Set();
+document.querySelectorAll(".menu a").forEach(el=>{const label=el.textContent.trim();const href=el.getAttribute("href")||"";if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"})}}});
+document.querySelectorAll(".card").forEach((el,index)=>{const title=(el.querySelector("small")?.textContent||"Kart").trim();const value=(el.querySelector("h2")?.textContent||"").trim();const detail=(el.querySelector("p")?.textContent||"").trim();if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}});
+document.querySelectorAll(".panel").forEach((el,index)=>{if(el.id==="searchResultsPanel")return;const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`})}});
+return results;
+}
+function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
+function renderSearchResults(keyword,results){
+const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),count=document.getElementById("searchResultCount"),key=document.getElementById("searchKeyword");
+panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";
+if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}
+area.innerHTML=results.slice(0,80).map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");
+window.gdnlSearchResults=results.slice(0,80);
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function openSearchResult(index){
+const r=(window.gdnlSearchResults||[])[index];if(!r)return;
+if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}
+if(r.store)localStorage.setItem(r.store,r.selected||"");
+if(r.module==="Arşiv Yönetimi"){const archive=getArchive().map(normalizeArchive);const idx=archive.findIndex(x=>x.archiveNo===r.selected);if(idx!==-1){clearSearchResults();renderArchive();openDrawer(idx)}return}
+if(r.go&&r.go!=="#")window.location.href=r.go;
+}
+function clearSearchResults(){document.getElementById("globalSearch").value="";document.getElementById("searchResultsPanel").classList.remove("active");document.getElementById("searchResultsArea").innerHTML="";renderArchive()}
+
+function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_eqms_session");window.location.href="index.html"}
+function toggleMenuGroup(btn){const menu=btn.closest("nav");const submenu=btn.nextElementSibling;if(!menu||!submenu)return;menu.querySelectorAll(".menu-group").forEach(b=>{if(b!==btn){b.classList.remove("open","active-group")}});menu.querySelectorAll(".submenu").forEach(s=>{if(s!==submenu)s.classList.remove("open")});btn.classList.toggle("open");btn.classList.toggle("active-group");submenu.classList.toggle("open")}
+function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMobileMenu()});
 
 function openDrawer(index){
 selectedIndex=index;
 const item=getArchive().map(normalizeArchive)[index];
 if(!item)return;
-
-document.getElementById("drawerTitle").textContent=item.archiveNo+" / "+item.documentCode;
+document.getElementById("drawerTitle").textContent=item.archiveNo+" / "+(item.documentCode||item.sourceId||"-");
 document.getElementById("drawerStatus").textContent=item.status;
 document.getElementById("drawerStatus").className="status "+statusClass(item.status);
-
 document.getElementById("drawerContent").innerHTML=`
-<div class="info-box"><b>Doküman:</b> ${item.documentCode} - ${item.documentName}<br><b>Tip:</b> ${item.type}<br><b>Durum:</b> ${item.status}</div>
-<div class="info-box"><b>Revizyon:</b> ${item.oldRev} → ${item.newRev}<br><b>Kaynak Revizyon:</b> ${item.sourceRevisionNo}<br><b>Kaynak Onay:</b> ${item.sourceApprovalNo}</div>
-<div class="info-box"><b>Arşivleyen:</b> ${item.archivedBy}<br><b>Arşiv Tarihi:</b> ${formatDateTR(item.archiveDate)}<br><b>Geri Alınabilir:</b> ${item.restoreAvailable}</div>
-<div class="info-box"><b>Gerekçe:</b><br>${item.reason||"-"}<br><br><b>Detay:</b><br>${item.detail||"-"}</div>
+<div class="info-box"><b>Modül:</b> ${escapeHTML(item.sourceModül)}<br><b>Kayıt No:</b> ${escapeHTML(item.documentCode||item.sourceId)}<br><b>Kayıt Adı:</b> ${escapeHTML(item.documentName||"-")}</div>
+<div class="info-box"><b>Tip:</b> ${escapeHTML(item.type)}<br><b>Durum:</b> ${escapeHTML(item.status)}<br><b>Eski Durum:</b> ${escapeHTML(item.previousStatus||"-")}</div>
+<div class="info-box"><b>Revizyon:</b> ${escapeHTML(item.oldRev)} → ${escapeHTML(item.newRev)}<br><b>Kaynak Revizyon:</b> ${escapeHTML(item.sourceRevisionNo)}<br><b>Kaynak Onay:</b> ${escapeHTML(item.sourceApprovalNo)}</div>
+<div class="info-box"><b>Arşivleyen:</b> ${escapeHTML(item.archivedBy)}<br><b>Arşiv Tarihi:</b> ${escapeHTML(formatDateTR(item.archiveDate))}<br><b>Geri Yüklenebilir:</b> ${escapeHTML(item.restoreAvailable)}</div>
+<div class="info-box"><b>Gerekçe:</b><br>${escapeHTML(item.reason||"-")}<br><br><b>Detay:</b><br>${escapeHTML(item.detail||"-")}</div>
+${item.restoredBy?`<div class="info-box"><b>Geri Yükleyen:</b> ${escapeHTML(item.restoredBy)}<br><b>Geri Yükleme Tarihi:</b> ${escapeHTML(formatDateTR(item.restoredAt))}</div>`:""}
+<div class="archive-note">Bu kayıt fiziksel olarak silinmez. Arşiv Merkezi içinde denetim izi olarak saklanır.</div>
 `;
-
 document.getElementById("drawer").classList.add("active");
 }
+function closeDrawer(){selectedIndex=null;document.getElementById("drawer").classList.remove("active")}
 
-function closeDrawer(){
-selectedIndex=null;
-document.getElementById("drawer").classList.remove("active");
-}
-
-function restoreCurrent(){
+async function restoreCurrent(){
 if(selectedIndex===null)return;
+if(!isSuperAdmin()){showToast("Geri yükleme için yetkin yok");return}
 const archive=getArchive().map(normalizeArchive);
 const item=archive[selectedIndex];
-
-if(item.restoreAvailable!=="Evet"||item.status==="Kilitli"){
-showToast("Bu kayıt geri alınamaz");
-return;
-}
-
-const docs=getDocuments();
-const exists=docs.some(d=>d.code===item.documentCode);
-
-if(!exists){
-const restored=item.sourceDocument||{
-systemId:"DOC-RESTORED-"+Date.now(),
-docType:(item.documentCode||"PR").split(".")[0],
-docTypeName:"Geri Yüklenen Doküman",
-code:item.documentCode,
-name:item.documentName,
-rev:item.newRev&&item.newRev!=="-"?item.newRev:item.oldRev,
-status:"Yayında",
-workflowStatus:"Geri Alındı",
-owner:"Kalite",
-standard:"ISO 9001",
-criticality:"Normal",
-date:todayISO(),
-description:item.detail||item.reason||"",
-documentContent:item.detail||"",
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString(),
-source:"archive-restore"
-};
-restored.status="Yayında";
-restored.workflowStatus="Geri Alındı";
-restored.updatedAt=new Date().toISOString();
-docs.unshift(restored);
-setDocuments(docs);
-}else{
-const i=docs.findIndex(d=>d.code===item.documentCode);
-docs[i].status="Yayında";
-docs[i].workflowStatus="Geri Alındı";
-docs[i].updatedAt=new Date().toISOString();
-setDocuments(docs);
-}
-
-archive[selectedIndex].status="Geri Alındı";
-archive[selectedIndex].restoreAvailable="Hayır";
-archive[selectedIndex].updatedAt=new Date().toISOString();
+if(item.restoreAvailable!=="Evet"||item.status==="Kilitli"||item.status==="Geri Yüklendi"){showToast("Bu kayıt geri yüklenemez");return}
+if(!confirm("Kayıt geri yüklensin mi? Eski numarası korunur; yeni kayıtlarda bu numara tekrar kullanılmaz."))return;
+const old=JSON.stringify(item);
+item.status="Geri Yüklendi";
+item.restoreAvailable="Hayır";
+item.restoredBy=getUserName();
+item.restoredAt=nowISO();
+item.updatedAt=nowISO();
+await restoreSourceRecord(item);
+archive[selectedIndex]=item;
 setArchive(archive);
-
-renderArchive();
-openDrawer(selectedIndex);
-showToast("Arşiv kaydı geri yüklendi");
+try{await putJSON(`/archive/${encodeURIComponent(item.archiveNo)}`,item)}catch(e){try{await postJSON("/restore",{...item,restored_by:getUserName(),restored_at:nowISO()})}catch(e2){}}
+await writeAudit("RESTORE_ARCHIVE","Arşiv Yönetimi",item.sourceId||item.archiveNo,{record:item.documentCode,module:item.sourceModül},old,JSON.stringify(item));
+await writeActivity("RESTORE_ARCHIVE","Arşiv Yönetimi",item.sourceId||item.archiveNo,"Arşiv kaydı geri yüklendi",item.documentCode||item.documentName);
+await createNotification("Arşiv Kaydı Geri Yüklendi",(item.documentCode||item.archiveNo)+" geri yüklendi.",item.sourceId||item.archiveNo);
+renderArchive();openDrawer(selectedIndex);showToast("Arşiv kaydı geri yüklendi");
+}
+async function restoreSourceRecord(item){
+  const endpoint=moduleEndpoint(item.sourceModül);
+  const restored={...(item.sourceRecord||{})};
+  restored.status=item.previousStatus&&item.previousStatus!=="-"?item.previousStatus:"Aktif";
+  restored.restored_by=getUserName();
+  restored.restored_at=nowISO();
+  restored.updated_by=getUserName();
+  restored.updated_at=nowISO();
+  if(item.sourceModül==="Doküman Yönetimi"||endpoint==="/documents"){
+    const docs=getDocuments();
+    const idx=docs.findIndex(d=>String(d.code||d.id)===String(item.documentCode||item.sourceId));
+    if(idx!==-1){docs[idx]={...docs[idx],...restored,status:"Yayında",workflowStatus:"Geri Yüklendi",updatedAt:nowISO(),updatedBy:getUserName()};}
+    else{docs.unshift({...restored,code:item.documentCode,name:item.documentName,status:"Yayında",workflowStatus:"Geri Yüklendi",updatedAt:nowISO(),updatedBy:getUserName()});}
+    setDocuments(docs);
+  }
+  if(endpoint&&item.sourceId){
+    try{await putJSON(`${endpoint}/${encodeURIComponent(item.sourceId)}`,restored)}catch(e){}
+  }
 }
 
-function lockCurrent(){
+async function lockCurrent(){
 if(selectedIndex===null)return;
+if(!isSuperAdmin()){showToast("Kilitleme için yetkin yok");return}
 const archive=getArchive().map(normalizeArchive);
-archive[selectedIndex].status="Kilitli";
-archive[selectedIndex].restoreAvailable="Hayır";
-archive[selectedIndex].updatedAt=new Date().toISOString();
+const item=archive[selectedIndex];
+if(item.status==="Kilitli"){showToast("Kayıt zaten kilitli");return}
+const old=JSON.stringify(item);
+item.status="Kilitli";
+item.restoreAvailable="Hayır";
+item.updatedAt=nowISO();
+archive[selectedIndex]=item;
 setArchive(archive);
-renderArchive();
-openDrawer(selectedIndex);
-showToast("Arşiv kaydı kilitlendi");
+try{await putJSON(`/archive/${encodeURIComponent(item.archiveNo)}`,item)}catch(e){}
+await writeAudit("LOCK_ARCHIVE","Arşiv Yönetimi",item.sourceId||item.archiveNo,"Arşiv kaydı kilitlendi",old,JSON.stringify(item));
+await writeActivity("LOCK_ARCHIVE","Arşiv Yönetimi",item.sourceId||item.archiveNo,"Arşiv kaydı kilitlendi",item.documentCode||item.documentName);
+renderArchive();openDrawer(selectedIndex);showToast("Arşiv kaydı kilitlendi");
 }
-
 function openDocument(){
 if(selectedIndex===null)return;
 const item=getArchive().map(normalizeArchive)[selectedIndex];
@@ -702,94 +682,49 @@ const archive=getArchive().map(normalizeArchive);
 const q=document.getElementById("globalSearch").value.toLowerCase();
 const typeFilter=document.getElementById("typeFilter").value;
 const statusFilter=document.getElementById("statusFilter").value;
-
 const filtered=archive.filter(item=>{
-const text=`${item.archiveNo} ${item.type} ${item.status} ${item.documentCode} ${item.documentName} ${item.oldRev} ${item.newRev} ${item.reason} ${item.detail}`.toLowerCase();
+const text=`${item.archiveNo} ${item.type} ${item.status} ${item.sourceModül} ${item.documentCode} ${item.documentName} ${item.oldRev} ${item.newRev} ${item.reason} ${item.detail} ${item.archivedBy}`.toLowerCase();
 return text.includes(q)&&(!typeFilter||item.type===typeFilter)&&(!statusFilter||item.status===statusFilter);
 });
-
 updateCards(archive);
-
 const area=document.getElementById("archiveTable");
-if(filtered.length===0){
-area.innerHTML='<div class="empty">Arşiv kaydı bulunamadı. Documents ekranından arşive alınan kayıtlar burada görünür.</div>';
-return;
-}
-
-let html=`<table>
-<thead>
-<tr>
-<th>Arşiv No</th>
-<th>Tip</th>
-<th>Doküman</th>
-<th>Revizyon</th>
-<th>Kaynak</th>
-<th>Durum</th>
-<th>Arşivleyen</th>
-<th>Tarih</th>
-<th>Aksiyon</th>
-</tr>
-</thead>
-<tbody>`;
-
+if(filtered.length===0){area.innerHTML='<div class="empty">Arşiv kaydı bulunamadı. Silinen, arşivlenen veya iptal edilen kayıtlar burada görünür.</div>';return}
+let html=`<table><thead><tr><th>Arşiv No</th><th>Modül</th><th>Tip</th><th>Kayıt</th><th>Revizyon</th><th>Durum</th><th>Arşivleyen</th><th>Tarih</th><th>Aksiyon</th></tr></thead><tbody>`;
 filtered.forEach(item=>{
 const index=archive.findIndex(x=>x.archiveNo===item.archiveNo&&x.createdAt===item.createdAt);
 html+=`<tr>
-<td>${item.archiveNo}</td>
-<td><span class="status ${typeClass(item.type)}">${item.type}</span></td>
-<td>${item.documentCode}<br><small>${item.documentName}</small></td>
-<td>${item.oldRev} → ${item.newRev}</td>
-<td>${item.sourceRevisionNo}<br><small>${item.sourceApprovalNo}</small></td>
-<td><span class="status ${statusClass(item.status)}">${item.status}</span></td>
-<td>${item.archivedBy}</td>
-<td>${formatDateTR(item.archiveDate)}</td>
-<td>
-<div class="row-actions">
+<td>${escapeHTML(item.archiveNo)}</td>
+<td>${escapeHTML(item.sourceModül||"-")}</td>
+<td><span class="status ${typeClass(item.type)}">${escapeHTML(item.type)}</span></td>
+<td>${escapeHTML(item.documentCode||item.sourceId||"-")}<br><small>${escapeHTML(item.documentName||"-")}</small></td>
+<td>${escapeHTML(item.oldRev)} → ${escapeHTML(item.newRev)}</td>
+<td><span class="status ${statusClass(item.status)}">${escapeHTML(item.status)}</span></td>
+<td>${escapeHTML(item.archivedBy)}</td>
+<td>${escapeHTML(formatDateTR(item.archiveDate))}</td>
+<td><div class="row-actions">
 <button class="small-btn view" onclick="openDrawer(${index})">Detay</button>
-<button class="small-btn restore" onclick="selectedIndex=${index};restoreCurrent()">Geri Al</button>
-<button class="small-btn lock" onclick="selectedIndex=${index};lockCurrent()">Kilitle</button>
-</div>
-</td>
+${item.restoreAvailable==="Evet"&&item.status!=="Kilitli"?`<button class="small-btn restore" onclick="selectedIndex=${index};restoreCurrent()">Geri Yükle</button>`:""}
+${isSuperAdmin()&&item.status!=="Kilitli"?`<button class="small-btn lock" onclick="selectedIndex=${index};lockCurrent()">Kilitle</button>`:""}
+</div></td>
 </tr>`;
 });
-
 html+='</tbody></table>';
 area.innerHTML=html;
 }
-
 function updateCards(items){
 document.getElementById("totalArchive").textContent=items.length;
-document.getElementById("obsoleteArchive").textContent=items.filter(x=>x.type==="Obsolete Doküman"||x.status==="Obsolete").length;
+document.getElementById("obsoleteArchive").textContent=items.filter(x=>x.status==="Pasif"||x.status==="Silindi"||x.status==="Arşivlendi").length;
 document.getElementById("revisionArchive").textContent=items.filter(x=>x.type==="Revizyon Arşivi").length;
 document.getElementById("restorableArchive").textContent=items.filter(x=>x.restoreAvailable==="Evet").length;
 }
+function showToast(message){const toast=document.getElementById("toast");toast.textContent=message;toast.style.display="block";setTimeout(()=>toast.style.display="none",2500)}
 
-function showToast(message){
-const toast=document.getElementById("toast");
-toast.textContent=message;
-toast.style.display="block";
-setTimeout(()=>toast.style.display="none",2500);
-}
+document.getElementById("globalSearch").addEventListener("input",function(){if(!this.value.trim()){clearSearchResults()}else{renderArchive()}});
+document.getElementById("globalSearch").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();runSearch()}});
 
-document.getElementById("globalSearch").addEventListener("input",function(){
-if(!this.value.trim()){
-clearSearchResults();
-}else{
+loadCloudData();
 renderArchive();
-}
-});
-
-document.getElementById("globalSearch").addEventListener("keydown",function(e){
-if(e.key==="Enter"){
-e.preventDefault();
-runSearch();
-}
-});
-
-migrateArchive();
-renderArchive();
-
-console.log("GDNL EQMS Archive V2 Loaded");
+console.log("GDNL EQMS Arşiv Yönetimi Cloud Ready Yüklendi");
 </script>
 </body>
 </html>
