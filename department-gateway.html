@@ -573,11 +573,12 @@ body:before{
    D1 Binding: DB
    R2 Binding: EQMS_FILES
    R2 Bucket: gdnl-eqms-files
+   Kritik kayıt, kullanıcı, departman ve oturum için tarayıcı depolaması kullanılmaz.
    ========================================================= */
 
 const GDNL_API_BASE = "https://gdnl-eos-api.keremgudenli.workers.dev";
 const SYSTEM_MODULE = "Departman Merkezi";
-const ARCHIVE_STATUSES = ["Deleted","Silindi","Arşivlendi","İptal Edildi"];
+const ARCHIVE_STATUSES = ["Deleted", "Silindi", "Arşivlendi", "İptal Edildi"];
 
 const state = {
   session: null,
@@ -614,36 +615,17 @@ const MODULE_MAP = {
   "Enerji":["kpi-reports.html","continuous-improvement.html","legal-compliance.html"],
   "İSG":["legal-compliance.html","risk-register.html","action-center.html"],
   "Çevre":["legal-compliance.html","risk-register.html","action-center.html"],
-  "BGYS":["security-continuity-center.html","users.html","risk-register.html"]
+  "BGYS":["security-continuity-center.html","users.html","risk-register.html"],
+  "İç Denetim":["audit.html","capa.html","risk-register.html","management-review.html","action-center.html"],
+  "Denetim":["audit.html","capa.html","risk-register.html","management-review.html","action-center.html"]
 };
 
 const ICON_MAP = {
-  "Yönetim":"👑",
-  "Kalite":"🏅",
-  "Kalite Yönetimi":"🏅",
-  "Üretim":"🏭",
-  "Ar-Ge":"💡",
-  "Satınalma":"🛒",
-  "Planlama":"🗓️",
-  "Tedarik Zinciri":"🚚",
-  "Tedarik":"🚚",
-  "Depo":"🏬",
-  "İnsan Kaynakları":"👥",
-  "Laboratuvar":"🧪",
-  "Bilgi Teknolojileri":"🖥️",
-  "Finans":"🏛️",
-  "Muhasebe":"🧾",
-  "Satış":"📈",
-  "Pazarlama":"📣",
-  "Satış Pazarlama":"📈",
-  "İdari İşler":"📁",
-  "Bakım":"🛠️",
-  "Bakım & Teknik":"🛠️",
-  "Kalıphane":"🏗️",
-  "Enerji":"⚡",
-  "İSG":"🦺",
-  "Çevre":"🌱",
-  "BGYS":"🔒"
+  "Yönetim":"👑", "Kalite":"🏅", "Kalite Yönetimi":"🏅", "Üretim":"🏭", "Ar-Ge":"💡", "Satınalma":"🛒",
+  "Planlama":"🗓️", "Tedarik Zinciri":"🚚", "Tedarik":"🚚", "Depo":"🏬", "İnsan Kaynakları":"👥",
+  "Laboratuvar":"🧪", "Bilgi Teknolojileri":"🖥️", "Finans":"🏛️", "Muhasebe":"🧾", "Satış":"📈",
+  "Pazarlama":"📣", "Satış Pazarlama":"📈", "İdari İşler":"📁", "Bakım":"🛠️", "Bakım & Teknik":"🛠️",
+  "Kalıphane":"🏗️", "Enerji":"⚡", "İSG":"🦺", "Çevre":"🌱", "BGYS":"🔒", "İç Denetim":"🔎", "Denetim":"🔎"
 };
 
 function apiUrl(path){
@@ -653,7 +635,12 @@ function apiUrl(path){
 
 async function apiGet(path, fallbackValue = null){
   try{
-    const res = await fetch(apiUrl(path), {method:"GET", headers:{"Accept":"application/json"}});
+    const res = await fetch(apiUrl(path), {
+      method:"GET",
+      cache:"no-store",
+      credentials:"include",
+      headers:{"Accept":"application/json"}
+    });
     if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
     return await res.json();
   }catch(err){
@@ -666,6 +653,7 @@ async function apiPost(path, payload, fallbackValue = null){
   try{
     const res = await fetch(apiUrl(path), {
       method:"POST",
+      credentials:"include",
       headers:{"Content-Type":"application/json","Accept":"application/json"},
       body:JSON.stringify(payload || {})
     });
@@ -677,192 +665,184 @@ async function apiPost(path, payload, fallbackValue = null){
   }
 }
 
-async function apiPut(path, payload, fallbackValue = null){
-  try{
-    const res = await fetch(apiUrl(path), {
-      method:"PUT",
-      headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body:JSON.stringify(payload || {})
-    });
-    if(!res.ok) throw new Error(path + " yanıt hatası: " + res.status);
-    return await res.json();
-  }catch(err){
-    console.warn("D1 güncelleme hatası:", err);
-    return fallbackValue;
+function normalizeList(response, preferredKey = ""){
+  if(Array.isArray(response)) return response;
+  if(!response || typeof response !== "object") return [];
+  if(preferredKey && Array.isArray(response[preferredKey])) return response[preferredKey];
+  const keys = ["data","items","results","rows","users","departments","actions","assignments","notifications","comments","approvals","documents","archive","permissions","roles"];
+  for(const key of keys){
+    if(Array.isArray(response[key])) return response[key];
   }
+  return [];
 }
 
 function getClientMeta(){
   return {
     ip_address:"",
     user_agent:navigator.userAgent,
-    session_id:state.session?.session_id || state.session?.id || localStorage.getItem("gdnl_session_id") || ""
+    session_id:state.session?.session_id || state.session?.id || ""
   };
 }
 
-function nowISO(){
-  return new Date().toISOString();
-}
+function nowISO(){ return new Date().toISOString(); }
 
 function isArchivedStatus(status){
   return ARCHIVE_STATUSES.includes(String(status || "").trim());
 }
 
-function normalizeList(response){
-  if(Array.isArray(response)) return response;
-  if(Array.isArray(response?.data)) return response.data;
-  if(Array.isArray(response?.items)) return response.items;
-  if(Array.isArray(response?.results)) return response.results;
-  if(Array.isArray(response?.rows)) return response.rows;
-  return [];
+function parseJSON(value){
+  if(!value || typeof value !== "string") return null;
+  try{return JSON.parse(value)}catch(err){return null}
 }
 
-function readSession(){
-  const qdms = safeJSON(localStorage.getItem("gdnl_qdms_session"));
-  const eos = safeJSON(localStorage.getItem("gdnl_eos_session"));
-  const ems = safeJSON(localStorage.getItem("gdnl_ems_session"));
-  const session = qdms || eos || ems;
-
-  if(!session){
-    showToast("Oturum bulunamadı. Giriş ekranına yönlendiriliyorsunuz.");
-    setTimeout(()=>{ window.location.href = "index.html"; }, 800);
-    return null;
-  }
-
-  session.name = session.fullname || session.name || session.username || "Kullanıcı";
-  session.fullname = session.fullname || session.name;
-  session.role = session.role || "Kullanıcı";
-  session.department = session.department || session.department_name || "";
-  session.email = session.email || "";
-  session.permissions = Array.isArray(session.permissions) ? session.permissions : [];
-
-  localStorage.setItem("gdnl_qdms_session", JSON.stringify(session));
-  localStorage.setItem("gdnl_eos_session", JSON.stringify(session));
-  localStorage.setItem("gdnl_current_user_name", session.fullname);
-  localStorage.setItem("gdnl_current_user_role", session.role);
-
-  return session;
+function parseModules(value){
+  if(!value) return null;
+  if(Array.isArray(value)) return value;
+  const parsed = parseJSON(value);
+  if(Array.isArray(parsed)) return parsed;
+  return String(value).split(",").map(x=>x.trim()).filter(Boolean);
 }
 
-function safeJSON(value){
-  try{return JSON.parse(value || "null")}catch(err){return null}
+function normalizeRole(role){
+  const r = String(role || "Kullanıcı").trim();
+  const low = r.toLocaleLowerCase("tr-TR");
+  if(low.includes("root") && low.includes("super")) return "Kök Süper Yönetici";
+  if(low.includes("super administrator")) return "Süper Yönetici";
+  if(low === "administrator") return "Yönetici";
+  if(low === "admin") return "Yönetici";
+  if(low === "user") return "Kullanıcı";
+  if(low === "guest") return "Misafir";
+  return r;
 }
 
-function isSuperAdmin(){
-  const s = state.session || {};
-  const role = String(s.role || "").toLowerCase();
-  return s.isRoot === true ||
-    s.isSuperAdmin === true ||
-    s.isFullAuthorized === true ||
-    s.canAccessAllModules === true ||
-    s.accessLevel === "FULL_SYSTEM_ACCESS" ||
-    (s.permissions || []).includes("*") ||
+function normalizeUser(row){
+  const user = row || {};
+  const fullname = user.fullname || user.fullName || user.name || user.username || "Kullanıcı";
+  return {
+    ...user,
+    id:user.id || user.user_id || user.username || fullname,
+    fullname,
+    name:fullname,
+    username:String(user.username || "").trim(),
+    email:String(user.email || "").trim(),
+    role:user.role || "Kullanıcı",
+    role_tr:normalizeRole(user.role || "Kullanıcı"),
+    department:user.department || user.department_name || "",
+    status:user.status || "Aktif",
+    permissions:Array.isArray(user.permissions) ? user.permissions : parseModules(user.permissions) || [],
+    departments:Array.isArray(user.departments) ? user.departments : parseModules(user.departments) || []
+  };
+}
+
+function normalizeDepartment(row){
+  const name = row.department_name || row.name || row.key || row.title || "";
+  const cleanName = String(name).trim();
+  return {
+    ...row,
+    id:row.id || row.department_id || cleanName,
+    key:cleanName,
+    accessKey:cleanName,
+    department_name:cleanName,
+    status:row.status || "Aktif",
+    icon:row.icon || ICON_MAP[cleanName] || "▦",
+    modules:parseModules(row.modules) || MODULE_MAP[cleanName] || ["dashboard.html"]
+  };
+}
+
+function isSuperAdmin(user = state.currentUser || state.session || {}){
+  const role = String(user.role || "").toLocaleLowerCase("tr-TR");
+  const perms = Array.isArray(user.permissions) ? user.permissions : [];
+  return user.isRoot === true ||
+    user.isSuperAdmin === true ||
+    user.isFullAuthorized === true ||
+    user.canAccessAllModules === true ||
+    user.accessLevel === "FULL_SYSTEM_ACCESS" ||
+    perms.includes("*") ||
     role.includes("super administrator") ||
     role.includes("root") ||
     role.includes("süper yönetici");
 }
 
+function findBestCloudUser(users){
+  const url = new URL(window.location.href);
+  const username = String(url.searchParams.get("username") || "").trim().toLocaleLowerCase("tr-TR");
+  const email = String(url.searchParams.get("email") || "").trim().toLocaleLowerCase("tr-TR");
+
+  if(username || email){
+    const match = users.find(u =>
+      String(u.username || "").toLocaleLowerCase("tr-TR") === username ||
+      String(u.email || "").toLocaleLowerCase("tr-TR") === email
+    );
+    if(match) return match;
+  }
+
+  return users.find(u => isSuperAdmin(u)) || users[0] || null;
+}
+
+async function loadCloudSession(users){
+  const sessionResponse = await apiGet("/session", null) || await apiGet("/me", null);
+  const sessionUser = sessionResponse?.user || sessionResponse?.session || sessionResponse?.data || sessionResponse;
+  if(sessionUser && typeof sessionUser === "object" && Object.keys(sessionUser).length){
+    const normalized = normalizeUser(sessionUser);
+    const cloudMatch = users.find(u => String(u.id) === String(normalized.id) || String(u.username) === String(normalized.username) || String(u.email) === String(normalized.email));
+    return cloudMatch || normalized;
+  }
+  return findBestCloudUser(users);
+}
+
 function hasPermission(permission){
   if(isSuperAdmin()) return true;
-  const permissions = state.permissions.length ? state.permissions : (state.session?.permissions || []);
+  const permissions = state.permissions.length ? state.permissions : (state.currentUser?.permissions || []);
   return permissions.includes(permission) || permissions.includes("*");
 }
 
 function canAccessDepartment(department){
   if(isSuperAdmin()) return true;
   const depName = String(department?.department_name || department?.name || department?.key || "").trim();
-  const userDep = String(state.currentUser?.department || state.session?.department || "").trim();
-  const permissions = state.permissions.length ? state.permissions : (state.session?.permissions || []);
+  const userDep = String(state.currentUser?.department || "").trim();
+  const permissions = state.permissions.length ? state.permissions : (state.currentUser?.permissions || []);
+  const userDepartments = Array.isArray(state.currentUser?.departments) ? state.currentUser.departments : [];
 
   if(depName && userDep && depName.toLocaleLowerCase("tr-TR") === userDep.toLocaleLowerCase("tr-TR")) return true;
+  if(userDepartments.some(x => String(x).toLocaleLowerCase("tr-TR") === depName.toLocaleLowerCase("tr-TR"))) return true;
   if(permissions.includes("departments:view:all")) return true;
   if(permissions.includes("all_departments")) return true;
   if(permissions.includes("department:" + depName)) return true;
   if(permissions.includes("departman:" + depName)) return true;
-
   return false;
 }
 
-function normalizeDepartment(row){
-  const name = row.department_name || row.name || row.key || row.title || "";
-  const cleanName = String(name).trim();
-  const status = row.status || "Aktif";
-  return {
-    id: row.id || cleanName,
-    key: cleanName,
-    accessKey: cleanName,
-    department_name: cleanName,
-    status: status,
-    icon: row.icon || ICON_MAP[cleanName] || "▦",
-    modules: parseModules(row.modules) || MODULE_MAP[cleanName] || ["dashboard.html"]
-  };
-}
-
-function parseModules(value){
-  if(!value) return null;
-  if(Array.isArray(value)) return value;
-  const parsed = safeJSON(value);
-  if(Array.isArray(parsed)) return parsed;
-  return String(value).split(",").map(x=>x.trim()).filter(Boolean);
-}
-
 async function loadCloudData(){
-  const usersResponse = await apiGet("/users", []);
-  const departmentsResponse = await apiGet("/departments", []);
-  const rolesResponse = await apiGet("/roles", []);
-  const permissionsResponse = await apiGet("/permissions", []);
+  const [usersResponse, departmentsResponse, rolesResponse, permissionsResponse] = await Promise.all([
+    apiGet("/users", []),
+    apiGet("/departments", []),
+    apiGet("/roles", []),
+    apiGet("/permissions", [])
+  ]);
 
-  state.users = normalizeList(usersResponse).filter(x=>!isArchivedStatus(x.status));
-  state.departments = normalizeList(departmentsResponse)
+  state.users = normalizeList(usersResponse, "users")
+    .map(normalizeUser)
+    .filter(x => !isArchivedStatus(x.status));
+
+  state.departments = normalizeList(departmentsResponse, "departments")
     .map(normalizeDepartment)
-    .filter(x=>x.department_name && !isArchivedStatus(x.status));
+    .filter(x => x.department_name && !isArchivedStatus(x.status));
 
-  const currentUser = findCurrentUser();
-  state.currentUser = currentUser || {
-    id: state.session?.id || state.session?.user_id || "",
-    fullname: state.session?.fullname || state.session?.name || "",
-    role: state.session?.role || "Kullanıcı",
-    department: state.session?.department || "",
-    email: state.session?.email || ""
-  };
-
+  state.currentUser = await loadCloudSession(state.users);
+  state.session = state.currentUser;
   state.permissions = extractPermissions(rolesResponse, permissionsResponse, state.currentUser);
-}
-
-function findCurrentUser(){
-  const s = state.session || {};
-  const needle = [
-    s.id,
-    s.user_id,
-    s.username,
-    s.email,
-    s.fullname,
-    s.name
-  ].filter(Boolean).map(v=>String(v).toLocaleLowerCase("tr-TR"));
-
-  return state.users.find(u=>{
-    const values = [
-      u.id,
-      u.user_id,
-      u.username,
-      u.email,
-      u.fullname,
-      u.name
-    ].filter(Boolean).map(v=>String(v).toLocaleLowerCase("tr-TR"));
-    return values.some(v=>needle.includes(v));
-  }) || null;
 }
 
 function extractPermissions(rolesResponse, permissionsResponse, user){
   const direct = Array.isArray(user?.permissions) ? user.permissions : [];
-  const roleName = String(user?.role || state.session?.role || "").trim();
-  const roles = normalizeList(rolesResponse);
-  const permissions = normalizeList(permissionsResponse);
-  const role = roles.find(r=>String(r.role_name || r.name || r.title || "").trim() === roleName);
+  const roleName = String(user?.role || "").trim();
+  const roles = normalizeList(rolesResponse, "roles");
+  const permissions = normalizeList(permissionsResponse, "permissions");
+  const role = roles.find(r => String(r.role_name || r.name || r.title || "").trim() === roleName);
   const roleId = role?.id || role?.role_id || "";
   const rolePermissions = permissions
-    .filter(p=>String(p.role_id || p.roleId || "") === String(roleId) || String(p.role_name || p.role || "") === roleName)
-    .map(p=>p.permission_key || p.permission || p.name)
+    .filter(p => String(p.role_id || p.roleId || "") === String(roleId) || String(p.role_name || p.role || "") === roleName)
+    .map(p => p.permission_key || p.permission || p.name)
     .filter(Boolean);
   return [...new Set([...direct, ...rolePermissions])];
 }
@@ -871,32 +851,30 @@ function initials(name){
   return String(name || "KU")
     .trim()
     .split(/\s+/)
-    .map(x=>x[0])
+    .map(x => x[0])
     .join("")
     .slice(0,2)
     .toLocaleUpperCase("tr-TR");
 }
 
 function render(){
-  const session = state.session || {};
   const currentUser = state.currentUser || {};
+  document.getElementById("userName").textContent = currentUser.fullname || currentUser.name || "Kullanıcı";
+  document.getElementById("userRole").textContent = normalizeRole(currentUser.role || "Kullanıcı");
+  document.getElementById("avatar").textContent = initials(currentUser.fullname || currentUser.name);
 
-  document.getElementById("userName").textContent = currentUser.fullname || currentUser.name || session.fullname || session.name || "Kullanıcı";
-  document.getElementById("userRole").textContent = currentUser.role || session.role || "Kullanıcı";
-  document.getElementById("avatar").textContent = initials(currentUser.fullname || session.fullname || session.name);
-
-  const departments = state.departments.length ? state.departments : [];
-  const active = departments.filter(d=>canAccessDepartment(d));
-  const locked = departments.filter(d=>!canAccessDepartment(d));
-  const ordered = [...active.map(d=>({d,ok:true})), ...locked.map(d=>({d,ok:false}))];
-
+  const departments = state.departments;
+  const active = departments.filter(d => canAccessDepartment(d));
+  const locked = departments.filter(d => !canAccessDepartment(d));
+  const ordered = [...active.map(d => ({d, ok:true})), ...locked.map(d => ({d, ok:false}))];
   const area = document.getElementById("departmentGrid");
+
   if(!ordered.length){
     area.innerHTML = '<div class="dept-card locked" style="grid-column:1/-1"><div class="dept-top"><div class="dept-icon">!</div><div class="state">🔒</div></div><h3>Departman bulunamadı</h3><span class="badge">D1 bağlantısı kontrol edilmeli</span><div class="open-dot">!</div></div>';
     return;
   }
 
-  area.innerHTML = ordered.map(x=>cardHTML(x.d, x.ok)).join("");
+  area.innerHTML = ordered.map(x => cardHTML(x.d, x.ok)).join("");
 }
 
 function cardHTML(d, ok){
@@ -909,7 +887,7 @@ function cardHTML(d, ok){
 }
 
 async function openDepartment(departmentId){
-  const dept = state.departments.find(d=>String(d.id) === String(departmentId));
+  const dept = state.departments.find(d => String(d.id) === String(departmentId));
   if(!dept){
     showToast("Departman kaydı bulunamadı.");
     return;
@@ -922,29 +900,28 @@ async function openDepartment(departmentId){
   }
 
   state.selectedDepartment = dept;
-
-  localStorage.setItem("gdnl_selected_department", dept.department_name);
-  localStorage.setItem("gdnl_selected_department_id", dept.id);
-  localStorage.setItem("gdnl_selected_department_label", dept.department_name);
-  localStorage.setItem("gdnl_department_modules", JSON.stringify(dept.modules || ["dashboard.html"]));
-
   await Promise.all([
     logAudit("Departman seçildi", dept.department_name, {department_id:dept.id, modules:dept.modules}),
     logActivity("Departman çalışma alanı açıldı", dept.department_name, {department_id:dept.id}),
     createNotificationIfNeeded(dept)
   ]);
 
+  const target = new URL("dashboard.html", window.location.href);
+  target.searchParams.set("department", dept.department_name);
+  target.searchParams.set("department_id", dept.id);
+  target.searchParams.set("source", "department-gateway");
+
   showToast(dept.department_name + " çalışma alanı açılıyor...");
-  setTimeout(()=>{ window.location.href = "dashboard.html"; }, 450);
+  setTimeout(() => { window.location.href = target.toString(); }, 450);
 }
 
 async function createNotificationIfNeeded(dept){
   const payload = {
     module:SYSTEM_MODULE,
     title:"Departman çalışma alanı seçildi",
-    message:(state.currentUser?.fullname || state.session?.name || "Kullanıcı") + " kullanıcısı " + dept.department_name + " çalışma alanına geçti.",
-    user_id:state.currentUser?.id || state.session?.user_id || "",
-    user_name:state.currentUser?.fullname || state.session?.name || "",
+    message:(state.currentUser?.fullname || "Kullanıcı") + " kullanıcısı " + dept.department_name + " çalışma alanına geçti.",
+    user_id:state.currentUser?.id || "",
+    user_name:state.currentUser?.fullname || "",
     department:dept.department_name,
     status:"Okunmadı",
     is_read:0,
@@ -963,10 +940,10 @@ async function logAudit(action, recordNo, extra = {}){
     old_value:extra.old_value || "",
     new_value:JSON.stringify(extra),
     changed_field:extra.changed_field || "",
-    user_id:state.currentUser?.id || state.session?.user_id || "",
-    user_name:state.currentUser?.fullname || state.session?.name || "",
-    role:state.currentUser?.role || state.session?.role || "",
-    department:state.currentUser?.department || state.session?.department || "",
+    user_id:state.currentUser?.id || "",
+    user_name:state.currentUser?.fullname || "",
+    role:state.currentUser?.role || "",
+    department:state.currentUser?.department || "",
     created_at:nowISO(),
     ...getClientMeta()
   };
@@ -979,9 +956,9 @@ async function logActivity(action, recordNo, extra = {}){
     related_id:recordNo || "",
     action:action,
     description:action + " / " + (recordNo || ""),
-    user_id:state.currentUser?.id || state.session?.user_id || "",
-    user_name:state.currentUser?.fullname || state.session?.name || "",
-    department:state.currentUser?.department || state.session?.department || "",
+    user_id:state.currentUser?.id || "",
+    user_name:state.currentUser?.fullname || "",
+    department:state.currentUser?.department || "",
     old_value:extra.old_value || "",
     new_value:JSON.stringify(extra),
     changed_field:extra.changed_field || "",
@@ -996,14 +973,14 @@ async function requestSequence(moduleName){
 }
 
 async function archiveDepartmentReference(departmentId, reason){
-  const dept = state.departments.find(d=>String(d.id) === String(departmentId));
+  const dept = state.departments.find(d => String(d.id) === String(departmentId));
   if(!dept || !canAccessDepartment(dept)) return false;
   const payload = {
     module:SYSTEM_MODULE,
     related_id:dept.id,
     record_no:dept.department_name,
     status:"Arşivlendi",
-    archived_by:state.currentUser?.fullname || state.session?.name || "",
+    archived_by:state.currentUser?.fullname || "",
     archived_at:nowISO(),
     archive_reason:reason || "Departman bağlantısı arşivlendi"
   };
@@ -1014,13 +991,13 @@ async function archiveDepartmentReference(departmentId, reason){
 }
 
 async function restoreDepartmentReference(departmentId){
-  const dept = state.departments.find(d=>String(d.id) === String(departmentId));
+  const dept = state.departments.find(d => String(d.id) === String(departmentId));
   if(!dept) return false;
   const payload = {
     module:SYSTEM_MODULE,
     related_id:dept.id,
     record_no:dept.department_name,
-    restored_by:state.currentUser?.fullname || state.session?.name || "",
+    restored_by:state.currentUser?.fullname || "",
     restored_at:nowISO()
   };
   await apiPost("/restore", payload, null);
@@ -1030,17 +1007,8 @@ async function restoreDepartmentReference(departmentId){
 }
 
 function logout(){
-  logAudit("Oturum kapatıldı", state.currentUser?.fullname || state.session?.name || "", {}).finally(()=>{
-    localStorage.removeItem("gdnl_qdms_session");
-    localStorage.removeItem("gdnl_eos_session");
-    localStorage.removeItem("gdnl_ems_session");
-    localStorage.removeItem("gdnl_selected_department");
-    localStorage.removeItem("gdnl_selected_department_id");
-    localStorage.removeItem("gdnl_selected_department_label");
-    localStorage.removeItem("gdnl_department_modules");
-    localStorage.removeItem("gdnl_allowed_departments");
-    localStorage.removeItem("gdnl_current_user_role");
-    localStorage.removeItem("gdnl_current_user_name");
+  logAudit("Oturum kapatıldı", state.currentUser?.fullname || "", {}).finally(async () => {
+    await apiPost("/logout", {user_id:state.currentUser?.id || "", created_at:nowISO()}, null);
     window.location.href = "index.html";
   });
 }
@@ -1050,7 +1018,7 @@ function showToast(msg){
   t.textContent = msg;
   t.style.display = "block";
   clearTimeout(window.__toastTimer);
-  window.__toastTimer = setTimeout(()=>t.style.display = "none", 2500);
+  window.__toastTimer = setTimeout(() => t.style.display = "none", 2500);
 }
 
 function escapeHTML(value){
@@ -1069,18 +1037,19 @@ function escapeJS(value){
 }
 
 async function boot(){
-  state.session = readSession();
-  if(!state.session) return;
-
   showToast("D1 departman ve kullanıcı verileri yükleniyor...");
   await loadCloudData();
+
+  if(!state.users.length){
+    showToast("D1 /users boş döndü. Kullanıcı kayıtları kontrol edilmeli.");
+  }
 
   if(!state.departments.length){
     showToast("D1 /departments boş döndü. Departman kayıtları kontrol edilmeli.");
   }
 
   render();
-  await logActivity("Departman Merkezi açıldı", state.currentUser?.fullname || state.session?.name || "", {});
+  await logActivity("Departman Merkezi açıldı", state.currentUser?.fullname || "", {});
 }
 
 boot();
