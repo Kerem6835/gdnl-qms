@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Revision Management V2</title>
+<title>GDNL EQMS | Revizyon Yönetimi</title>
 
 <style>
 
@@ -144,6 +144,13 @@ tr:hover td{background:#f7fbf8}
   padding-left:10px;
 }
 
+
+.user-select-wrap{position:relative;width:100%}
+.user-autocomplete{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);z-index:70;display:none;max-height:260px;overflow:auto}
+.user-autocomplete.active{display:block}
+.user-option{padding:11px 12px;border-bottom:1px solid #eef2f7;cursor:pointer;font-size:12px;font-weight:900;color:#536176}
+.user-option:hover{background:#f7fbf8;color:#1f7d3d}
+
 </style>
 </head>
 
@@ -177,6 +184,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="capa.html">8D / CAPA</a>
 <a href="risk-register.html">Risk Yönetimi</a>
+<a href="audit-management.html">İç Denetim</a>
+<a href="audit-to-capa.html">İç Denetim → CAPA</a>
+<a href="audit-to-risk.html">İç Denetim → Risk</a>
+<a href="audit-to-management-review.html">İç Denetim → YGG</a>
+<a href="audit-to-action.html">İç Denetim → Aksiyon</a>
+<a href="audit-to-document.html">İç Denetim → Doküman</a>
+<a href="audit-to-training.html">İç Denetim → Eğitim</a>
+<a href="audit-to-change.html">İç Denetim → Değişiklik Yönetimi</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
@@ -194,9 +209,9 @@ tr:hover td{background:#f7fbf8}
 </div>
 <button class="menu-group" type="button">📊 Performans Yönetimi<span>▾</span></button>
 <div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 <button class="menu-group" type="button">🔬 Teknik Yönetim<span>▾</span></button>
@@ -213,14 +228,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -247,6 +262,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="capa.html">8D / CAPA</a>
 <a href="risk-register.html">Risk Yönetimi</a>
+<a href="audit-management.html">İç Denetim</a>
+<a href="audit-to-capa.html">İç Denetim → CAPA</a>
+<a href="audit-to-risk.html">İç Denetim → Risk</a>
+<a href="audit-to-management-review.html">İç Denetim → YGG</a>
+<a href="audit-to-action.html">İç Denetim → Aksiyon</a>
+<a href="audit-to-document.html">İç Denetim → Doküman</a>
+<a href="audit-to-training.html">İç Denetim → Eğitim</a>
+<a href="audit-to-change.html">İç Denetim → Değişiklik Yönetimi</a>
 <a href="change-management.html">Değişiklik Yönetimi</a>
 <a href="process-management.html">Süreç Yönetimi</a>
 <a href="continuous-improvement.html">Sürekli İyileştirme</a>
@@ -264,9 +287,9 @@ tr:hover td{background:#f7fbf8}
 </div>
 <button class="menu-group" type="button">📊 Performans Yönetimi<span>▾</span></button>
 <div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="kpi-reports.html">KPI ve Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 <button class="menu-group" type="button">🔬 Teknik Yönetim<span>▾</span></button>
@@ -283,14 +306,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Revision Workflow V2<br>Controlled Change Engine</div>
+<div class="sidebar-footer">GDNL EQMS<br>Revizyon İş Akışı<br>Kontrollü Değişiklik Motoru</div>
 </aside>
 
 <main class="main">
@@ -305,16 +328,16 @@ tr:hover td{background:#f7fbf8}
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName">Kerem Güdenli</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Revision Control Center</h1>
+<h1>Revizyon Kontrol Merkezi</h1>
 <p>Yayındaki doküman için kontrollü revizyon talebi aç, yeni revizyonu otomatik üret, etki analizini kaydet ve yeni onay workflow’unu başlat.</p>
 </div>
-<div class="hero-badge">Module: <span>V2 Active</span></div>
+<div class="hero-badge">Modül: <span>Aktif</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -328,16 +351,16 @@ tr:hover td{background:#f7fbf8}
 <div id="searchResultsArea"></div>
 </section>
 <section class="cards">
-<div class="card"><small>Toplam Revizyon</small><h2 id="totalRevisions">0</h2><p>Kayıtlı revizyon</p></div>
-<div class="card"><small>Onay Bekleyen</small><h2 id="pendingRevisions">0</h2><p>Workflow bekleyen</p></div>
-<div class="card"><small>Workflow Açılan</small><h2 id="workflowRevisions">0</h2><p>Onay akışında</p></div>
-<div class="card"><small>Reddedilen</small><h2 id="rejectedRevisions">0</h2><p>Red / iptal</p></div>
+<div class="card"><small>Toplam Revizyon</small><h2 id="totalRevizyons">0</h2><p>Kayıtlı revizyon</p></div>
+<div class="card"><small>Onay Bekleyen</small><h2 id="pendingRevizyons">0</h2><p>İş akışı bekleyen</p></div>
+<div class="card"><small>İş Akışı Açılan</small><h2 id="workflowRevizyons">0</h2><p>Onay akışında</p></div>
+<div class="card"><small>Reddedilen</small><h2 id="rejectedRevizyons">0</h2><p>Red / iptal</p></div>
 </section>
 
 <section class="panel">
 <div class="panel-head">
 <h3>Yeni Revizyon Talebi</h3>
-<span class="status blue">CREATE MODE</span>
+<span class="status blue">Oluşturma Modu</span>
 </div>
 
 <div class="form-grid">
@@ -389,9 +412,7 @@ tr:hover td{background:#f7fbf8}
 
 <div class="field">
 <label>Departman</label>
-<select id="department">
-<option>Kalite</option><option>Sistem</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>İK</option><option>Bakım</option><option>Bilgi Güvenliği</option><option>Yönetim</option>
-</select>
+<select id="department"></select>
 </div>
 
 <div class="field">
@@ -399,13 +420,13 @@ tr:hover td{background:#f7fbf8}
 <select id="revisionStatus">
 <option>İncelemede</option>
 <option>Onay Bekliyor</option>
-<option>Workflow Başlatıldı</option>
+<option>İş Akışı Başlatıldı</option>
 <option>Reddedildi</option>
 </select>
 </div>
 
 <div class="field">
-<label>Workflow ID</label>
+<label>İş Akışı ID</label>
 <input id="workflowId" readonly>
 </div>
 
@@ -482,8 +503,8 @@ tr:hover td{background:#f7fbf8}
 </div>
 
 <div class="actions">
-<button class="btn primary" onclick="saveRevision(false)">Revizyon Talebi Aç</button>
-<button class="btn orange" onclick="saveRevision(true)">Workflow Başlat</button>
+<button class="btn primary" onclick="saveRevizyon(false)">Revizyon Talebi Aç</button>
+<button class="btn orange" onclick="saveRevizyon(true)">İş Akışı Başlat</button>
 <button class="btn green" onclick="openSelectedDocument()">Dokümanı Gör</button>
 <button class="btn dark" onclick="resetForm()">Temizle</button>
 </div>
@@ -493,11 +514,11 @@ tr:hover td{background:#f7fbf8}
 <div class="panel-head">
 <h3>Revizyon Kayıtları</h3>
 <div class="toolbar">
-<select id="statusFilter" onchange="renderRevisions()">
+<select id="statusFilter" onchange="renderRevizyons()">
 <option value="">Tüm Durumlar</option>
 <option>İncelemede</option>
 <option>Onay Bekliyor</option>
-<option>Workflow Başlatıldı</option>
+<option>İş Akışı Başlatıldı</option>
 <option>Reddedildi</option>
 </select>
 </div>
@@ -510,599 +531,96 @@ tr:hover td{background:#f7fbf8}
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
+
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
+const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const state={currentKullanıcı:null,users:[],departments:[],documents:[],revisions:[],approvals:[],notifications:[],auditLogs:[],activityFeed:[],selectedRevizyonId:null};
 
-document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+function getCookie(name){return document.cookie.split(";").map(x=>x.trim()).find(x=>x.startsWith(name+"="))?.split("=").slice(1).join("=")||""}
+function clearAuthCookie(){document.cookie="gdnl_eos_token=; Max-Age=0; path=/; SameSite=Lax";document.cookie="gdnl_eqms_token=; Max-Age=0; path=/; SameSite=Lax"}
+function authHeaders(json=true){const token=decodeURIComponent(getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token")||"");const h=json?{"Content-Type":"application/json"}:{};if(token)h.Authorization="Bearer "+token;return h}
+async function apiRequest(path,opt={}){const res=await fetch(GDNL_API_BASE+path,{method:opt.method||"GET",headers:{...authHeaders(opt.json!==false),...(opt.headers||{})},body:opt.body?JSON.stringify(opt.body):opt.rawBody,cache:"no-store"});if(!res.ok)throw new Error(path+" HTTP "+res.status);const text=await res.text();if(!text)return null;try{return JSON.parse(text)}catch(e){return text}}
+async function safeGet(path){try{return await apiRequest(path)}catch(e){return null}}
+async function safePost(path,body){try{return await apiRequest(path,{method:"POST",body})}catch(e){return null}}
+function asArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
+function isPassive(r){const s=String(r?.status||r?.record_status||r?.state||"").toLowerCase();return["deleted","silindi","arşivlendi","arsivlendi","iptal","iptal edildi","cancelled","archived"].includes(s)}
+function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
+function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
+function normalizeKullanıcı(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"GDNL Kullanıcısı",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeDepartment(d){return{id:d?.id||d?.department_id||"",department_name:d?.department_name||d?.name||d?.department||""}}
+function normalizeDocument(d){return{id:d?.id||d?.document_id||d?.systemId||"",code:d?.code||d?.document_code||d?.documentCode||"",name:d?.name||d?.document_name||d?.documentName||"",rev:d?.rev||d?.revision||d?.revision_no||"R00",status:d?.status||"Yayında",owner:d?.owner||d?.department||d?.department_name||"",owner_id:d?.owner_id||"",mailGroups:d?.mailGroups||d?.mail_groups||"",smsGroups:d?.smsGroups||d?.sms_groups||"",r2_key:d?.r2_key||d?.file_key||""}}
+function normalizeRevizyon(r){return{id:r?.id||r?.revision_id||r?.revisionNo||r?.revision_no||"",revisionNo:r?.revisionNo||r?.revision_no||"",workflowId:r?.workflowId||r?.workflow_id||"",documentCode:r?.documentCode||r?.document_code||"",documentName:r?.documentName||r?.document_name||"",oldRev:r?.oldRev||r?.old_rev||"",newRev:r?.newRev||r?.new_rev||"",requester:r?.requester||r?.requester_name||"",requester_id:r?.requester_id||"",department:r?.department||r?.department_name||"",status:r?.status||"İncelemede",requestDate:r?.requestDate||r?.request_date||"",reason:r?.reason||"",changeDescription:r?.changeDescription||r?.change_description||"",affectedDepartments:r?.affectedDepartments||r?.affected_departments||"",qualityImpact:r?.qualityImpact||r?.quality_impact||"Yok",customerImpact:r?.customerImpact||r?.customer_impact||"Yok",legalImpact:r?.legalImpact||r?.legal_impact||"Yok",preparedBy:r?.preparedBy||r?.prepared_by_name||"",departmentApprover:r?.departmentApprover||r?.department_approver_name||"",managerApprover:r?.managerApprover||r?.manager_approver_name||"",qualityApprover:r?.qualityApprover||r?.quality_approver_name||"",qualityAdmin:r?.qualityAdmin||r?.quality_admin_name||"",createdAt:r?.createdAt||r?.created_at||""}}
 
-function logout(){
-localStorage.removeItem("gdnl_qdms_session");
-localStorage.removeItem("gdnl_eqms_session");
-window.location.href="index.html";
+async function loadCloudData(){
+const [users,departments,documents,revisions,approvals,notifications,auditLogs,activityFeed]=await Promise.all([
+safeGet("/users"),safeGet("/departments"),safeGet("/documents"),safeGet("/document_versions?type=revision"),safeGet("/approvals"),safeGet("/notifications"),safeGet("/audit-logs"),safeGet("/activity-feed")
+]);
+state.users=activeOnly(users).map(normalizeKullanıcı);
+state.departments=activeOnly(departments).map(normalizeDepartment).filter(x=>x.department_name);
+state.documents=activeOnly(documents).map(normalizeDocument).filter(x=>x.code);
+state.revisions=activeOnly(revisions).map(normalizeRevizyon);
+state.approvals=activeOnly(approvals);
+state.notifications=activeOnly(notifications);
+state.auditLogs=activeOnly(auditLogs);
+state.activityFeed=activeOnly(activityFeed);
+state.currentKullanıcı=state.users[0]||{id:"",fullname:"GDNL Kullanıcısı",role:"Kullanıcı",department:""};
+document.getElementById("userName").textContent=state.currentKullanıcı.fullname||"GDNL Kullanıcısı";
 }
 
-function openMobileMenu(){
-document.getElementById("mobileDrawer").classList.add("active");
-document.getElementById("mobileOverlay").classList.add("active");
-document.body.style.overflow="hidden";
-}
-
-function closeMobileMenu(){
-document.getElementById("mobileDrawer").classList.remove("active");
-document.getElementById("mobileOverlay").classList.remove("active");
-document.body.style.overflow="";
-}
-
-document.addEventListener("keydown",function(e){
-if(e.key==="Escape")closeMobileMenu();
-});
-function getDocuments(){return JSON.parse(localStorage.getItem("gdnl_documents"))||[]}
-function setDocuments(docs){localStorage.setItem("gdnl_documents",JSON.stringify(docs))}
-function getRevisions(){return JSON.parse(localStorage.getItem("gdnl_revisions"))||[]}
-function setRevisions(items){localStorage.setItem("gdnl_revisions",JSON.stringify(items))}
-function getApprovals(){return JSON.parse(localStorage.getItem("gdnl_approvals"))||[]}
-function setApprovals(items){localStorage.setItem("gdnl_approvals",JSON.stringify(items))}
-function getNotifications(){return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}
-function setNotifications(items){localStorage.setItem("gdnl_notifications",JSON.stringify(items))}
+function searchKullanıcıs(term){const q=String(term||"").toLowerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,12)}
+function setupKullanıcıAutocomplete(inputId,{departmentTargetId=""}={}){const input=document.getElementById(inputId);if(!input||input.dataset.autocompleteReady==="1")return;input.dataset.autocompleteReady="1";const wrap=document.createElement("div");wrap.className="user-select-wrap";input.parentNode.insertBefore(wrap,input);wrap.appendChild(input);const list=document.createElement("div");list.className="user-autocomplete";wrap.appendChild(list);input.addEventListener("input",()=>{const found=searchKullanıcıs(input.value);list.innerHTML=found.map((u,i)=>`<div class="user-option" data-i="${i}">${escapeHTML(u.fullname)}<br><small>${escapeHTML(u.email)} · ${escapeHTML(u.role)} · ${escapeHTML(u.department)}</small></div>`).join("");list.classList.toggle("active",found.length>0);list.querySelectorAll(".user-option").forEach(el=>el.onclick=()=>{const u=found[Number(el.dataset.i)];input.value=u.fullname;input.dataset.userId=u.id;input.dataset.email=u.email;input.dataset.role=u.role;input.dataset.department=u.department;if(departmentTargetId&&document.getElementById(departmentTargetId))setDepartmentValue(u.department);list.classList.remove("active")})});document.addEventListener("click",e=>{if(!wrap.contains(e.target))list.classList.remove("active")})}
+function setupPersonFields(){["requester","preparedBy","departmentApprover","managerApprover","qualityApprover","qualityAdmin"].forEach(id=>setupKullanıcıAutocomplete(id,{departmentTargetId:id==="requester"?"department":""}))}
+function populateDepartments(){const el=document.getElementById("department");if(!el)return;el.innerHTML='<option value="">Departman seçiniz</option>'+state.departments.map(d=>`<option value="${escapeHTML(d.department_name)}">${escapeHTML(d.department_name)}</option>`).join("")}
+function setDepartmentValue(value){const el=document.getElementById("department");if(!el)return;if(value&&!Array.from(el.options).some(o=>o.value===value))el.innerHTML+=`<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`;el.value=value||""}
+async function getSequence(moduleName){const seq=await safeGet("/sequence?module="+encodeURIComponent(moduleName));return seq?.number||seq?.sequence||seq?.data?.number||""}
+async function generateRevizyonNo(){const no=await getSequence("REVISION");document.getElementById("revisionNo").value=no||"REV-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6)}
+async function generateİş AkışıId(){const no=await getSequence("WORKFLOW");document.getElementById("workflowId").value=no||"WF-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
-
-
-function runSearch(){
-const input=document.getElementById("globalSearch");
-const text=input.value.trim().toLowerCase();
-
-if(!text){
-clearSearchResults();
-input.focus();
-renderRevisions();
-return;
-}
-
-let results=[];
-
-getRevisions().forEach(r=>{
-const fullText=JSON.stringify(r).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"record",
-module:"Revizyon Yönetimi",
-go:"#",
-store:"gdnl_selected_revision",
-selected:r.revisionNo||"",
-title:r.revisionNo||"Revizyon",
-detail:`${r.documentCode||""} ${r.documentName||""} ${r.oldRev||""} → ${r.newRev||""} ${r.requester||""} ${r.department||""} ${r.status||""}`
-});
-}
-});
-
-getDocuments().forEach(d=>{
-const fullText=JSON.stringify(d).toLowerCase();
-if(fullText.includes(text)){
-results.push({
-type:"page",
-module:"Doküman Yönetimi",
-go:"document-viewer.html",
-store:"gdnl_selected_document_code",
-selected:d.code||"",
-title:d.name||d.code||"Doküman",
-detail:`${d.code||""} ${d.owner||""} ${d.status||""} ${d.rev||""}`
-});
-}
-});
-
-results=results.concat(collectPageSearchResults(text));
-renderSearchResults(text,results);
-}
-
-function collectPageSearchResults(keyword){
-const results=[];
-const seen=new Set();
-
-document.querySelectorAll(".menu a").forEach(el=>{
-const label=el.textContent.trim();
-const href=el.getAttribute("href")||"";
-if((label+" "+href).toLowerCase().includes(keyword)){
-const key=href+"-"+label;
-if(!seen.has(key)){
-seen.add(key);
-results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});
-}
-}
-});
-
-document.querySelectorAll(".card").forEach((el,index)=>{
-const title=(el.querySelector("small")?.textContent||"Kart").trim();
-const value=(el.querySelector("h2")?.textContent||"").trim();
-const detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-card",index);
-results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
-}
-});
-
-document.querySelectorAll(".panel").forEach((el,index)=>{
-if(el.id==="searchResultsPanel")return;
-const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toLowerCase().includes(keyword)){
-el.setAttribute("data-search-panel",index);
-results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
-}
-});
-
-return results;
-}
-
-function escapeHTML(value){
-return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-}
-
-function highlightText(value,keyword){
-const safe=escapeHTML(value);
-if(!keyword)return safe;
-const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
-}
-
-function renderSearchResults(keyword,results){
-const panel=document.getElementById("searchResultsPanel");
-const area=document.getElementById("searchResultsArea");
-const count=document.getElementById("searchResultCount");
-const key=document.getElementById("searchKeyword");
-
-panel.classList.add("active");
-key.textContent=keyword;
-count.textContent=results.length+" sonuç";
-
-if(!results.length){
-area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-return;
-}
-
-area.innerHTML=results.slice(0,80).map((r,index)=>`
-<div class="result-card">
-<div><span class="status blue">${escapeHTML(r.module)}</span></div>
-<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
-<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-</div>`).join("");
-
-window.gdnlSearchResults=results.slice(0,80);
-panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function openSearchResult(index){
-const r=(window.gdnlSearchResults||[])[index];
-if(!r)return;
-
-if(r.type==="scroll"&&r.selector){
-const target=document.querySelector(r.selector);
-if(target){
-target.scrollIntoView({behavior:"smooth",block:"center"});
-target.style.outline="3px solid #35a852";
-target.style.outlineOffset="4px";
-setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
-}
-return;
-}
-
-if(r.store)localStorage.setItem(r.store,r.selected||"");
-
-if(r.module==="Revizyon Yönetimi"){
-const revisions=getRevisions();
-const index=revisions.findIndex(x=>x.revisionNo===r.selected);
-if(index!==-1){
-document.getElementById("globalSearch").value="";
-clearSearchResults();
-renderRevisions();
-const rows=[...document.querySelectorAll("#revisionTable tbody tr")];
-const row=rows.find(x=>x.textContent.includes(r.selected));
-if(row){
-row.scrollIntoView({behavior:"smooth",block:"center"});
-row.style.outline="3px solid #35a852";
-row.style.outlineOffset="4px";
-setTimeout(()=>{row.style.outline="";row.style.outlineOffset=""},2200);
-}
-}
-return;
-}
-
-if(r.go&&r.go!=="#")window.location.href=r.go;
-}
-
-function clearSearchResults(){
-document.getElementById("globalSearch").value="";
-document.getElementById("searchResultsPanel").classList.remove("active");
-document.getElementById("searchResultsArea").innerHTML="";
-renderRevisions();
-}
-
-function statusClass(status){
-if(status==="Workflow Başlatıldı"||status==="Onaylandı"||status==="Yayınlandı")return"green";
-if(status==="Reddedildi")return"red";
-if(status==="Onay Bekliyor"||status==="İncelemede")return"orange";
-return"blue";
-}
-
-function impactClass(value){
-if(value==="Kritik")return"red";
-if(value==="Yüksek")return"orange";
-if(value==="Orta")return"blue";
-return"green";
-}
-
-function nextRevision(current){
-const n=parseInt(String(current||"R00").replace("R",""),10);
-if(isNaN(n))return"R01";
-return"R"+String(n+1).padStart(2,"0");
-}
-
-function generateRevisionNo(){
-const year=new Date().getFullYear();
-const next=String(getRevisions().length+1).padStart(4,"0");
-document.getElementById("revisionNo").value="REV-"+year+"-"+next;
-}
-
-function generateWorkflowId(){
-const year=new Date().getFullYear();
-const count=getApprovals().filter(a=>(a.workflowId||"").includes("WF-"+year)).length+1;
-document.getElementById("workflowId").value="WF-"+year+"-"+String(count).padStart(5,"0");
-}
-
-function loadDocuments(){
-const docs=getDocuments().filter(d=>d.status!=="Obsolete"&&d.status!=="Pasif");
-const select=document.getElementById("documentSelect");
-select.innerHTML="";
-
-if(docs.length===0){
-select.innerHTML='<option value="">Önce doküman oluşturmalısın</option>';
-return;
-}
-
-docs.forEach(doc=>{
-select.innerHTML+=`<option value="${doc.code}">${doc.code} - ${doc.name}</option>`;
-});
-
-const target=localStorage.getItem("gdnl_revision_target_code");
-if(target&&docs.some(d=>d.code===target)){
-select.value=target;
-localStorage.removeItem("gdnl_revision_target_code");
-}
-
-fillDocumentInfo();
-}
-
-function selectedDoc(){
-const code=document.getElementById("documentSelect").value;
-return getDocuments().find(d=>d.code===code);
-}
-
-function fillDocumentInfo(){
-const doc=selectedDoc();
-if(!doc)return;
-
-document.getElementById("documentCode").value=doc.code||"";
-document.getElementById("documentName").value=doc.name||"";
-document.getElementById("currentRev").value=doc.rev||"R00";
-document.getElementById("newRev").value=nextRevision(doc.rev||"R00");
-document.getElementById("docOwner").value=doc.owner||"";
-document.getElementById("department").value=doc.owner||"Kalite";
-document.getElementById("preparedBy").value=session.name||"";
-document.getElementById("departmentApprover").value=doc.owner||"";
-document.getElementById("qualityApprover").value="Kalite";
-document.getElementById("qualityAdmin").value="Kalite Admin";
-document.getElementById("mailGroups").value=doc.mailGroups||"";
-document.getElementById("smsGroups").value=doc.smsGroups||"";
-}
-
-function collectRevision(startWorkflow){
-const doc=selectedDoc();
-return{
-revisionNo:document.getElementById("revisionNo").value.trim(),
-workflowId:document.getElementById("workflowId").value.trim(),
-documentCode:doc?doc.code:"",
-documentName:doc?doc.name:"",
-oldRev:doc?doc.rev||"R00":"",
-newRev:document.getElementById("newRev").value.trim(),
-requester:document.getElementById("requester").value.trim(),
-department:document.getElementById("department").value,
-status:startWorkflow?"Workflow Başlatıldı":document.getElementById("revisionStatus").value,
-requestDate:document.getElementById("requestDate").value,
-reason:document.getElementById("reason").value.trim(),
-changeDescription:document.getElementById("changeDescription").value.trim(),
-affectedDepartments:document.getElementById("affectedDepartments").value.trim(),
-qualityImpact:document.getElementById("qualityImpact").value,
-customerImpact:document.getElementById("customerImpact").value,
-legalImpact:document.getElementById("legalImpact").value,
-preparedBy:document.getElementById("preparedBy").value.trim(),
-departmentApprover:document.getElementById("departmentApprover").value.trim(),
-managerApprover:document.getElementById("managerApprover").value.trim(),
-qualityApprover:document.getElementById("qualityApprover").value.trim(),
-qualityAdmin:document.getElementById("qualityAdmin").value.trim(),
-notificationType:document.getElementById("notificationType").value,
-mailGroups:document.getElementById("mailGroups").value.trim(),
-smsGroups:document.getElementById("smsGroups").value.trim(),
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString()
-};
-}
-
-function validateRevision(p){
-if(!p.revisionNo){showToast("Revizyon no zorunlu");return false}
-if(!p.documentCode){showToast("Doküman seçilmedi");return false}
-if(!/^R\d{2}$/.test(p.newRev)){showToast("Yeni revizyon R01 formatında olmalı");return false}
-if(!p.requester){showToast("Talep eden zorunlu");return false}
-if(p.reason.length<10){showToast("Revizyon sebebi en az 10 karakter olmalı");return false}
-if(p.changeDescription.length<10){showToast("Değişiklik açıklaması en az 10 karakter olmalı");return false}
-if(getRevisions().some(r=>(r.revisionNo||"").toLowerCase()===p.revisionNo.toLowerCase())){showToast("Bu revizyon no zaten var");return false}
-return true;
-}
-
-function saveRevision(startWorkflow){
-const p=collectRevision(startWorkflow);
-if(!validateRevision(p))return;
-
-const revisions=getRevisions();
-revisions.unshift(p);
-setRevisions(revisions);
-
-markDocumentRevision(p);
-
-if(startWorkflow){
-createApprovalQueueFromRevision(p);
-createNotification(p,"Revizyon workflow başlatıldı");
-}
-
-showToast(startWorkflow?"Revizyon workflow kuyruğuna aktarıldı":"Revizyon talebi açıldı");
-resetForm();
-renderRevisions();
-loadDocuments();
-}
-
-function markDocumentRevision(p){
-const docs=getDocuments();
-const index=docs.findIndex(d=>d.code===p.documentCode);
-if(index!==-1){
-docs[index].status="Revizyon";
-docs[index].workflowStatus=p.status;
-docs[index].pendingRevisionNo=p.revisionNo;
-docs[index].pendingNewRev=p.newRev;
-docs[index].updatedAt=new Date().toISOString();
-docs[index].updatedBy=session.name||"System";
-setDocuments(docs);
-}
-}
-
-function createApprovalQueueFromRevision(p){
-const approvals=getApprovals();
-approvals.unshift({
-approvalId:"APR-"+Date.now(),
-workflowId:p.workflowId,
-documentCode:p.documentCode,
-documentName:p.documentName,
-rev:p.newRev,
-revisionNo:p.revisionNo,
-currentStep:"Departman Onayı",
-status:"Bekliyor",
-steps:[
-{step:"Departman Onayı",approver:p.departmentApprover||p.department,status:"Bekliyor",date:""},
-{step:"Müdür Onayı",approver:p.managerApprover||"Bölüm Müdürü",status:"Sırada",date:""},
-{step:"Kalite Onayı",approver:p.qualityApprover||"Kalite",status:"Sırada",date:""},
-{step:"Kalite Admin",approver:p.qualityAdmin||"Kalite Admin",status:"Sırada",date:""}
-],
-history:[{action:"Revizyon Workflow Başlatıldı",user:session.name||"System",note:p.reason,date:new Date().toISOString()}],
-createdAt:new Date().toISOString(),
-updatedAt:new Date().toISOString()
-});
-setApprovals(approvals);
-}
-
-function createNotification(p,message){
-const n=getNotifications();
-n.unshift({
-notificationId:"NTF-"+Date.now(),
-workflowId:p.workflowId,
-documentCode:p.documentCode,
-documentName:p.documentName,
-type:p.notificationType,
-mailGroups:p.mailGroups,
-smsGroups:p.smsGroups,
-distributionPoints:p.affectedDepartments,
-message:message,
-status:"Kuyrukta",
-createdAt:new Date().toISOString()
-});
-setNotifications(n);
-}
-
-function rejectRevision(index){
-const revisions=getRevisions();
-revisions[index].status="Reddedildi";
-revisions[index].updatedAt=new Date().toISOString();
-setRevisions(revisions);
-
-const docs=getDocuments();
-const docIndex=docs.findIndex(d=>d.code===revisions[index].documentCode);
-if(docIndex!==-1){
-docs[docIndex].status="Yayında";
-docs[docIndex].workflowStatus="Yayında";
-docs[docIndex].updatedAt=new Date().toISOString();
-setDocuments(docs);
-}
-
-renderRevisions();
-showToast("Revizyon reddedildi");
-}
-
-function startWorkflowFromRecord(index){
-const revisions=getRevisions();
-const r=revisions[index];
-if(r.status==="Workflow Başlatıldı"){showToast("Workflow zaten başlatılmış");return}
-
-if(!r.workflowId)r.workflowId="WF-"+new Date().getFullYear()+"-"+String(getApprovals().length+1).padStart(5,"0");
-r.status="Workflow Başlatıldı";
-r.updatedAt=new Date().toISOString();
-revisions[index]=r;
-setRevisions(revisions);
-
-createApprovalQueueFromRevision(r);
-createNotification(r,"Revizyon workflow sonradan başlatıldı");
-markDocumentRevision(r);
-renderRevisions();
-showToast("Workflow approval kuyruğuna aktarıldı");
-}
-
-function openDocumentByRevision(index){
-const r=getRevisions()[index];
-localStorage.setItem("gdnl_selected_document_code",r.documentCode);
-window.location.href="document-viewer.html";
-}
-
-function renderRevisions(){
-const revisions=getRevisions();
-const q=document.getElementById("globalSearch").value.toLowerCase();
-const statusFilter=document.getElementById("statusFilter").value;
-
-const filtered=revisions.filter(r=>{
-const text=`${r.revisionNo} ${r.workflowId} ${r.documentCode} ${r.documentName} ${r.requester} ${r.department} ${r.status}`.toLowerCase();
-return text.includes(q)&&(!statusFilter||r.status===statusFilter);
-});
-
-updateCards(revisions);
-
-const area=document.getElementById("revisionTable");
-if(filtered.length===0){
-area.innerHTML='<div class="empty">Revizyon kaydı bulunamadı.</div>';
-return;
-}
-
-let html=`<table>
-<thead>
-<tr>
-<th>Revizyon No</th>
-<th>Workflow</th>
-<th>Doküman</th>
-<th>Geçiş</th>
-<th>Talep Eden</th>
-<th>Durum</th>
-<th>Kalite</th>
-<th>Müşteri</th>
-<th>Yasal</th>
-<th>Aksiyon</th>
-</tr>
-</thead>
-<tbody>`;
-
-filtered.forEach(r=>{
-const index=revisions.findIndex(x=>x.revisionNo===r.revisionNo&&x.createdAt===r.createdAt);
-
-html+=`<tr>
-<td>${r.revisionNo}</td>
-<td>${r.workflowId||"-"}</td>
-<td>${r.documentCode}<br><small>${r.documentName}</small></td>
-<td>${r.oldRev} → ${r.newRev}</td>
-<td>${r.requester}</td>
-<td><span class="status ${statusClass(r.status)}">${r.status}</span></td>
-<td><span class="status ${impactClass(r.qualityImpact)}">${r.qualityImpact}</span></td>
-<td><span class="status ${impactClass(r.customerImpact)}">${r.customerImpact}</span></td>
-<td><span class="status ${impactClass(r.legalImpact)}">${r.legalImpact}</span></td>
-<td>
-<div class="row-actions">
-<button class="small-btn view" onclick="openDocumentByRevision(${index})">Gör</button>
-<button class="small-btn flow" onclick="startWorkflowFromRecord(${index})">Workflow</button>
-<button class="small-btn reject" onclick="rejectRevision(${index})">Reddet</button>
-</div>
-</td>
-</tr>`;
-});
-
-html+='</tbody></table>';
-area.innerHTML=html;
-}
-
-function updateCards(items){
-document.getElementById("totalRevisions").textContent=items.length;
-document.getElementById("pendingRevisions").textContent=items.filter(x=>x.status==="İncelemede"||x.status==="Onay Bekliyor").length;
-document.getElementById("workflowRevisions").textContent=items.filter(x=>x.status==="Workflow Başlatıldı").length;
-document.getElementById("rejectedRevisions").textContent=items.filter(x=>x.status==="Reddedildi").length;
-}
-
-function openSelectedDocument(){
-const doc=selectedDoc();
-if(!doc){showToast("Doküman seçilmedi");return}
-localStorage.setItem("gdnl_selected_document_code",doc.code);
-window.location.href="document-viewer.html";
-}
-
-function resetForm(){
-generateRevisionNo();
-generateWorkflowId();
-document.getElementById("requester").value=session.name||"";
-document.getElementById("requestDate").value=todayISO();
-document.getElementById("revisionStatus").value="İncelemede";
-document.getElementById("reason").value="";
-document.getElementById("changeDescription").value="";
-document.getElementById("affectedDepartments").value="";
-document.getElementById("qualityImpact").value="Yok";
-document.getElementById("customerImpact").value="Yok";
-document.getElementById("legalImpact").value="Yok";
-document.getElementById("notificationType").value="Mail + SMS";
-document.getElementById("managerApprover").value="";
-fillDocumentInfo();
-}
-
-function showToast(message){
-const toast=document.getElementById("toast");
-toast.textContent=message;
-toast.style.display="block";
-setTimeout(()=>toast.style.display="none",2500);
-}
-
-document.getElementById("globalSearch").addEventListener("input",function(){
-if(!this.value.trim()){
-clearSearchResults();
-}else{
-renderRevisions();
-}
-});
-
-document.getElementById("globalSearch").addEventListener("keydown",function(e){
-if(e.key==="Enter"){
-e.preventDefault();
-runSearch();
-}
-});
-
-loadDocuments();
-resetForm();
-renderRevisions();
-
-console.log("GDNL EQMS Revision V2 Loaded");
-</script>
-
-<script>
-function initLockedAccordionMenu(){
-  document.querySelectorAll(".menu-group").forEach(btn=>{
-    btn.addEventListener("click",function(){
-      const submenu=this.nextElementSibling;
-      if(!submenu || !submenu.classList.contains("submenu")) return;
-      const container=this.closest("nav");
-      if(container){
-        container.querySelectorAll(".submenu").forEach(menu=>{
-          if(menu!==submenu) menu.classList.remove("open");
-        });
-        container.querySelectorAll(".menu-group").forEach(group=>{
-          if(group!==this) group.classList.remove("active-group");
-        });
-      }
-      submenu.classList.toggle("open");
-      this.classList.toggle("active-group", submenu.classList.contains("open"));
-    });
-  });
-}
-document.addEventListener("DOMContentLoaded", initLockedAccordionMenu);
+function nextRevizyon(current){const n=parseInt(String(current||"R00").replace("R",""),10);if(isNaN(n))return"R01";return"R"+String(n+1).padStart(2,"0")}
+function statusClass(status){if(status==="İş Akışı Başlatıldı"||status==="Onaylandı"||status==="Yayınlandı")return"green";if(status==="Reddedildi")return"red";if(status==="Onay Bekliyor"||status==="İncelemede")return"orange";return"blue"}
+function impactClass(value){if(value==="Kritik")return"red";if(value==="Yüksek")return"orange";if(value==="Orta")return"blue";return"green"}
+
+function loadDocuments(){const select=document.getElementById("documentSelect");const docs=state.documents.filter(d=>!["Pasif","Arşiv","Silindi","İptal"].includes(d.status));select.innerHTML="";if(!docs.length){select.innerHTML='<option value="">D1 üzerinde aktif doküman yok</option>';return}select.innerHTML=docs.map(doc=>`<option value="${escapeHTML(doc.code)}">${escapeHTML(doc.code)} - ${escapeHTML(doc.name)}</option>`).join("");fillDocumentInfo()}
+function selectedDoc(){const code=document.getElementById("documentSelect").value;return state.documents.find(d=>d.code===code)}
+function fillDocumentInfo(){const doc=selectedDoc();if(!doc)return;document.getElementById("documentCode").value=doc.code||"";document.getElementById("documentName").value=doc.name||"";document.getElementById("currentRev").value=doc.rev||"R00";document.getElementById("newRev").value=nextRevizyon(doc.rev||"R00");document.getElementById("docOwner").value=doc.owner||"";setDepartmentValue(doc.owner||state.currentKullanıcı.department||"");document.getElementById("preparedBy").value=state.currentKullanıcı.fullname||"";document.getElementById("preparedBy").dataset.userId=state.currentKullanıcı.id||"";document.getElementById("mailGroups").value=doc.mailGroups||"";document.getElementById("smsGroups").value=doc.smsGroups||""}
+function collectRevizyon(startİş Akışı){const doc=selectedDoc();return{revisionNo:document.getElementById("revisionNo").value.trim(),workflowId:document.getElementById("workflowId").value.trim(),document_id:doc?.id||"",documentCode:doc?.code||"",documentName:doc?.name||"",oldRev:doc?.rev||"R00",newRev:document.getElementById("newRev").value.trim(),requester:document.getElementById("requester").value.trim(),requester_id:document.getElementById("requester").dataset.userId||"",department:document.getElementById("department").value,department_name:document.getElementById("department").value,status:startİş Akışı?"İş Akışı Başlatıldı":document.getElementById("revisionStatus").value,requestDate:document.getElementById("requestDate").value,reason:document.getElementById("reason").value.trim(),changeDescription:document.getElementById("changeDescription").value.trim(),affectedDepartments:document.getElementById("affectedDepartments").value.trim(),qualityImpact:document.getElementById("qualityImpact").value,customerImpact:document.getElementById("customerImpact").value,legalImpact:document.getElementById("legalImpact").value,preparedBy:document.getElementById("preparedBy").value.trim(),prepared_by_id:document.getElementById("preparedBy").dataset.userId||"",departmentApprover:document.getElementById("departmentApprover").value.trim(),department_approver_id:document.getElementById("departmentApprover").dataset.userId||"",managerApprover:document.getElementById("managerApprover").value.trim(),manager_approver_id:document.getElementById("managerApprover").dataset.userId||"",qualityApprover:document.getElementById("qualityApprover").value.trim(),quality_approver_id:document.getElementById("qualityApprover").dataset.userId||"",qualityAdmin:document.getElementById("qualityAdmin").value.trim(),quality_admin_id:document.getElementById("qualityAdmin").dataset.userId||"",notificationType:document.getElementById("notificationType").value,mailGroups:document.getElementById("mailGroups").value.trim(),smsGroups:document.getElementById("smsGroups").value.trim(),created_by:state.currentKullanıcı.id||"",created_by_name:state.currentKullanıcı.fullname||"",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),status_fields:{closed_at:null,deleted_by:null,deleted_at:null,archived_by:null,archived_at:null,restored_by:null,restored_at:null,archive_reason:null,delete_reason:null}}}
+function validateRevizyon(p){if(!p.revisionNo){showToast("Revizyon no zorunlu");return false}if(!p.documentCode){showToast("Doküman seçilmedi");return false}if(!/^R\d{2}$/.test(p.newRev)){showToast("Yeni revizyon R01 formatında olmalı");return false}if(!p.requester){showToast("Talep eden zorunlu");return false}if(!p.department){showToast("Departman zorunlu");return false}if(p.reason.length<10){showToast("Revizyon sebebi en az 10 karakter olmalı");return false}if(p.changeDescription.length<10){showToast("Değişiklik açıklaması en az 10 karakter olmalı");return false}if(state.revisions.some(r=>(r.revisionNo||"").toLowerCase()===p.revisionNo.toLowerCase())){showToast("Bu revizyon no zaten var");return false}return true}
+function buildApprovalSteps(p){return[{step_no:1,step_name:"Departman Onayı",approver_id:p.department_approver_id,approver_name:p.departmentApprover,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Bekliyor",approved_at:null,rejected_at:null,comment:""},{step_no:2,step_name:"Müdür Onayı",approver_id:p.manager_approver_id,approver_name:p.managerApprover,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Sırada",approved_at:null,rejected_at:null,comment:""},{step_no:3,step_name:"Kalite Onayı",approver_id:p.quality_approver_id,approver_name:p.qualityApprover,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Sırada",approved_at:null,rejected_at:null,comment:""},{step_no:4,step_name:"Kalite Admin / Yayın",approver_id:p.quality_admin_id,approver_name:p.qualityAdmin,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Sırada",approved_at:null,rejected_at:null,comment:""}]}
+function buildİş AkışıSteps(){const now=new Date().toISOString();return[{step_no:1,step_name:"Revizyon Talebi",previous_step:null,next_step:2,required:true,status:"Tamamlandı",created_at:now,completed_at:now},{step_no:2,step_name:"Etki Analizi",previous_step:1,next_step:3,required:true,status:"Tamamlandı",created_at:now,completed_at:now},{step_no:3,step_name:"Onay Akışı",previous_step:2,next_step:4,required:true,status:"Açık",created_at:now,completed_at:null},{step_no:4,step_name:"Yayın ve Dağıtım",previous_step:3,next_step:null,required:true,status:"Sırada",created_at:now,completed_at:null}]}
+
+async function saveRevizyon(startİş Akışı){const p=collectRevizyon(startİş Akışı);if(!validateRevizyon(p))return;const body={...p,approval_steps:startİş Akışı?buildApprovalSteps(p):[],workflow_steps:startİş Akışı?buildİş AkışıSteps():[],physical_delete:false,archive_fields:p.status_fields};const saved=await safePost("/document_versions",body)||await safePost("/documents/"+encodeURIComponent(p.documentCode)+"/revisions",body)||await safePost("/documents",body);if(startİş Akışı){await createApprovalQueueFromRevizyon(p);await createİş AkışıRecord(p);await createNotification(p,"Revizyon iş akışı başlatıldı")}await writeAudit("Revizyon Yönetimi","Oluşturma",p.revisionNo,null,body,"revision");await writeActivity("Revizyon Yönetimi","Revizyon kaydı oluşturuldu",p.revisionNo,null,body,"revision");state.revisions.unshift(normalizeRevizyon(body));await markDocumentRevizyon(p);showToast(saved?"Revizyon D1 üzerine kaydedildi":"Revizyon ekranda oluşturuldu, API kaydı kontrol edilmeli");await resetForm();renderRevizyons();loadDocuments()}
+async function createApprovalQueueFromRevizyon(p){const payload={module:"Revizyon Yönetimi",record_no:p.revisionNo,workflow_id:p.workflowId,document_code:p.documentCode,document_name:p.documentName,rev:p.newRev,status:"Bekliyor",current_step:"Departman Onayı",approval_steps:buildApprovalSteps(p),approval_history:[{action:"Revizyon iş akışı başlatıldı",user_id:state.currentKullanıcı.id,user_name:state.currentKullanıcı.fullname,note:p.reason,date:new Date().toISOString()}],signature:{signature_id:"SIG-"+Date.now(),signature_hash:"",approval_token:"",signed_at:null,signed_by:null,department:p.department,operation_type:"Revizyon Onayı",note:p.reason}};return await safePost("/approvals",payload)}
+async function createİş AkışıRecord(p){return await safePost("/workflows",{module:"Revizyon Yönetimi",record_no:p.revisionNo,workflow_id:p.workflowId,status:"Açık",workflow_steps:buildİş AkışıSteps(),created_by:state.currentKullanıcı.id,created_at:new Date().toISOString()})}
+async function createNotification(p,message){return await safePost("/notifications",{module:"Revizyon Yönetimi",type:p.notificationType,record_no:p.revisionNo,documentCode:p.documentCode,documentName:p.documentName,mailGroups:p.mailGroups,smsGroups:p.smsGroups,distributionPoints:p.affectedDepartments,message,status:"Kuyrukta",is_read:false,read_by:null,read_at:null,created_by:state.currentKullanıcı.fullname,created_at:new Date().toISOString()})}
+async function writeAudit(module,action,recordNo,oldValue,newValue,field){return await safePost("/audit-logs",{module,action,record_no:recordNo,old_value:oldValue,new_value:newValue,changed_field:field,user_id:state.currentKullanıcı.id,user_name:state.currentKullanıcı.fullname,ip_address:"",user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token"),created_at:new Date().toISOString()})}
+async function writeActivity(module,action,recordNo,oldValue,newValue,field){return await safePost("/activity-feed",{module,action,record_no:recordNo,description:action,old_value:oldValue,new_value:newValue,changed_field:field,user_id:state.currentKullanıcı.id,user_name:state.currentKullanıcı.fullname,created_at:new Date().toISOString()})}
+async function markDocumentRevizyon(p){await safePost("/documents/"+encodeURIComponent(p.documentCode)+"/status",{status:"Revizyon",workflow_status:p.status,pending_revision_no:p.revisionNo,pending_new_rev:p.newRev,updated_by:state.currentKullanıcı.id,updated_at:new Date().toISOString()})}
+async function rejectRevizyon(index){const r=state.revisions[index];if(!r)return;const old={...r};r.status="Reddedildi";await safePost("/document_versions/"+encodeURIComponent(r.revisionNo)+"/reject",{status:"Reddedildi",updated_by:state.currentKullanıcı.id,updated_at:new Date().toISOString()});await writeAudit("Revizyon Yönetimi","Reddetme",r.revisionNo,old,r,"status");await writeActivity("Revizyon Yönetimi","Revizyon reddedildi",r.revisionNo,old.status,r.status,"status");renderRevizyons();showToast("Revizyon reddedildi")}
+async function startİş AkışıFromRecord(index){const r=state.revisions[index];if(!r)return;if(r.status==="İş Akışı Başlatıldı"){showToast("İş akışı zaten başlatılmış");return}const old={...r};r.workflowId=r.workflowId||await getSequence("WORKFLOW")||"WF-"+Date.now();r.status="İş Akışı Başlatıldı";await createApprovalQueueFromRevizyon({...r,department_approver_id:"",manager_approver_id:"",quality_approver_id:"",quality_admin_id:"",departmentApprover:r.departmentApprover,managerApprover:r.managerApprover,qualityApprover:r.qualityApprover,qualityAdmin:r.qualityAdmin,notificationType:"Mail + SMS",mailGroups:"",smsGroups:""});await createİş AkışıRecord(r);await writeAudit("Revizyon Yönetimi","İş Akışı Başlatma",r.revisionNo,old,r,"status");await writeActivity("Revizyon Yönetimi","Revizyon iş akışı başlatıldı",r.revisionNo,old.status,r.status,"status");renderRevizyons();showToast("İş akışı onay kuyruğuna aktarıldı")}
+function openDocumentByRevizyon(index){const r=state.revisions[index];if(!r)return;window.location.href="document-viewer.html?document_code="+encodeURIComponent(r.documentCode)}
+function openSelectedDocument(){const doc=selectedDoc();if(!doc){showToast("Doküman seçilmedi");return}window.location.href="document-viewer.html?document_code="+encodeURIComponent(doc.code)}
+
+function renderRevizyons(){const q=(document.getElementById("globalSearch").value||"").toLowerCase();const sf=document.getElementById("statusFilter").value;const filtered=state.revisions.filter(r=>`${r.revisionNo} ${r.workflowId} ${r.documentCode} ${r.documentName} ${r.requester} ${r.department} ${r.status}`.toLowerCase().includes(q)&&(!sf||r.status===sf));updateCards(state.revisions);const area=document.getElementById("revisionTable");if(!filtered.length){area.innerHTML='<div class="empty">Revizyon kaydı bulunamadı.</div>';return}let html=`<table><thead><tr><th>Revizyon No</th><th>İş Akışı</th><th>Doküman</th><th>Geçiş</th><th>Talep Eden</th><th>Durum</th><th>Kalite</th><th>Müşteri</th><th>Yasal</th><th>Aksiyon</th></tr></thead><tbody>`;filtered.forEach(r=>{const index=state.revisions.findIndex(x=>x.revisionNo===r.revisionNo&&x.createdAt===r.createdAt);html+=`<tr><td>${escapeHTML(r.revisionNo)}</td><td>${escapeHTML(r.workflowId||"-")}</td><td>${escapeHTML(r.documentCode)}<br><small>${escapeHTML(r.documentName)}</small></td><td>${escapeHTML(r.oldRev)} → ${escapeHTML(r.newRev)}</td><td>${escapeHTML(r.requester)}</td><td><span class="status ${statusClass(r.status)}">${escapeHTML(r.status)}</span></td><td><span class="status ${impactClass(r.qualityImpact)}">${escapeHTML(r.qualityImpact)}</span></td><td><span class="status ${impactClass(r.customerImpact)}">${escapeHTML(r.customerImpact)}</span></td><td><span class="status ${impactClass(r.legalImpact)}">${escapeHTML(r.legalImpact)}</span></td><td><div class="row-actions"><button class="small-btn view" onclick="openDocumentByRevizyon(${index})">Gör</button><button class="small-btn flow" onclick="startİş AkışıFromRecord(${index})">İş Akışı</button><button class="small-btn reject" onclick="rejectRevizyon(${index})">Reddet</button></div></td></tr>`});area.innerHTML=html+"</tbody></table>"}
+function updateCards(items){document.getElementById("totalRevizyons").textContent=items.length;document.getElementById("pendingRevizyons").textContent=items.filter(x=>x.status==="İncelemede"||x.status==="Onay Bekliyor").length;document.getElementById("workflowRevizyons").textContent=items.filter(x=>x.status==="İş Akışı Başlatıldı").length;document.getElementById("rejectedRevizyons").textContent=items.filter(x=>x.status==="Reddedildi").length}
+async function resetForm(){await generateRevizyonNo();await generateİş AkışıId();document.getElementById("requester").value=state.currentKullanıcı.fullname||"";document.getElementById("requester").dataset.userId=state.currentKullanıcı.id||"";document.getElementById("requestDate").value=todayISO();document.getElementById("revisionStatus").value="İncelemede";["reason","changeDescription","affectedDepartments","managerApprover","departmentApprover","qualityApprover","qualityAdmin"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""});document.getElementById("qualityImpact").value="Yok";document.getElementById("customerImpact").value="Yok";document.getElementById("legalImpact").value="Yok";document.getElementById("notificationType").value="Mail + SMS";fillDocumentInfo()}
+
+async function runSearch(){const input=document.getElementById("globalSearch");const text=input.value.trim().toLowerCase();if(!text){clearSearchResults();input.focus();renderRevizyons();return}let results=[];const cloud=await safeGet("/search?q="+encodeURIComponent(text)+"&module=revision");results=asArray(cloud).filter(x=>!isPassive(x)).map(x=>({type:"page",module:x.module||"Revizyon Yönetimi",title:x.title||x.name||x.code||"Kayıt",detail:x.description||x.detail||"",go:x.url||"#"}));state.revisions.forEach(r=>{const fullText=JSON.stringify(r).toLowerCase();if(fullText.includes(text))results.push({type:"record",module:"Revizyon Yönetimi",title:r.revisionNo||"Revizyon",detail:`${r.documentCode||""} ${r.documentName||""} ${r.oldRev||""} → ${r.newRev||""} ${r.requester||""} ${r.department||""} ${r.status||""}`,id:r.revisionNo})});state.documents.forEach(d=>{const fullText=JSON.stringify(d).toLowerCase();if(fullText.includes(text))results.push({type:"page",module:"Doküman Yönetimi",go:"document-viewer.html?document_code="+encodeURIComponent(d.code||""),title:d.name||d.code||"Doküman",detail:`${d.code||""} ${d.owner||""} ${d.status||""} ${d.rev||""}`})});results=results.concat(collectPageSearchResults(text));renderSearchResults(text,results)}
+function collectPageSearchResults(keyword){const results=[];const seen=new Set();document.querySelectorAll(".menu a,.mobile-drawer-menu a").forEach(el=>{const label=el.textContent.trim();const href=el.getAttribute("href")||"";if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Menü",title:label,detail:href,go:href||"#"})}}});document.querySelectorAll(".card").forEach((el,index)=>{const title=(el.querySelector("small")?.textContent||"Kart").trim();const value=(el.querySelector("h2")?.textContent||"").trim();const detail=(el.querySelector("p")?.textContent||"").trim();if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}});document.querySelectorAll(".panel").forEach((el,index)=>{if(el.id==="searchResultsPanel")return;const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title,detail,selector:`.panel[data-search-panel="${index}"]`})}});return results}
+function renderSearchResults(keyword,results){const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),count=document.getElementById("searchResultCount"),key=document.getElementById("searchKeyword");panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}window.gdnlSearchResults=results.slice(0,80);area.innerHTML=window.gdnlSearchResults.map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");panel.scrollIntoView({behavior:"smooth",block:"start"})}
+function openSearchResult(index){const r=(window.gdnlSearchResults||[])[index];if(!r)return;if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}if(r.type==="record"&&r.id){const row=[...document.querySelectorAll("#revisionTable tbody tr")].find(x=>x.textContent.includes(r.id));if(row){row.scrollIntoView({behavior:"smooth",block:"center"});row.style.outline="3px solid #35a852";setTimeout(()=>row.style.outline="",2200)}return}if(r.go&&r.go!=="#")window.location.href=r.go}
+function clearSearchResults(){document.getElementById("globalSearch").value="";document.getElementById("searchResultsPanel").classList.remove("active");document.getElementById("searchResultsArea").innerHTML="";renderRevizyons()}
+function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
+function logout(){clearAuthCookie();window.location.href="index.html"}
+function showToast(message){const toast=document.getElementById("toast");toast.textContent=message;toast.style.display="block";setTimeout(()=>toast.style.display="none",2500)}
+function initLockedAccordionMenu(){document.querySelectorAll(".menu-group").forEach(btn=>{btn.addEventListener("click",function(){const submenu=this.nextElementSibling;if(!submenu||!submenu.classList.contains("submenu"))return;const container=this.closest("nav");if(container){container.querySelectorAll(".submenu").forEach(menu=>{if(menu!==submenu)menu.classList.remove("open")});container.querySelectorAll(".menu-group").forEach(group=>{if(group!==this)group.classList.remove("active-group")})}submenu.classList.toggle("open");this.classList.toggle("active-group",submenu.classList.contains("open"))})})}
+
+document.getElementById("globalSearch").addEventListener("input",function(){if(!this.value.trim()){clearSearchResults()}else{renderRevizyons()}});
+document.getElementById("globalSearch").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();runSearch()}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMobileMenu()});
+async function boot(){initLockedAccordionMenu();await loadCloudData();populateDepartments();setupPersonFields();loadDocuments();await resetForm();renderRevizyons();setInterval(async()=>{await loadCloudData();loadDocuments();renderRevizyons()},30000)}
+boot();
 </script>
 
 </body>
