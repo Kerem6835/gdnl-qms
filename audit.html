@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Audit Management Unified</title>
+<title>GDNL EQMS | Denetim Yönetimi</title>
 <style>
 
 
@@ -35,7 +35,7 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 .main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
 .topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px}
 .search-wrap{display:flex;align-items:center;gap:10px;min-width:0}
-.search{width:550px;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
+.search{width:min(860px,60vw);height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
 .search:focus,.field input:focus,.field textarea:focus,.toolbar select:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12);background:#fff}
 .search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);transition:.2s}
 .search-btn:hover,.avatar:hover,.btn.primary:hover,.result-open:hover{opacity:1;filter:brightness(.99);transform:translateY(-1px)}
@@ -104,7 +104,7 @@ tr:hover td{background:#f7fbf8}
 .mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}
 .mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
 .mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
-@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:min(620px,52vw)}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
 
 
@@ -129,6 +129,17 @@ tr:hover td{background:#f7fbf8}
 @media print{.sidebar,.topbar,.hero,.cards,.panel,.actions,.toast,.mobile-overlay,.mobile-drawer{display:none!important}.drawer{display:block!important;position:static;width:100%;max-height:none;box-shadow:none}.close-btn{display:none}}
 @media(max-width:1200px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double{grid-column:1/-1}.subgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.calendar{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:850px){.form-grid,.subgrid,.calendar{grid-template-columns:1fr}.field.full,.field.double{grid-column:1/-1}.mobile-drawer-menu{padding-bottom:100px}table{min-width:760px}.audit-box{overflow:auto}}
+
+
+/* GDNL EOS Cloud Migration Ek Katmanı */
+.cloud-autocomplete{position:relative}
+.cloud-suggest{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:75;background:#fff;border:1px solid #dfe9f5;border-radius:16px;box-shadow:0 20px 46px rgba(7,27,52,.13);padding:8px;max-height:240px;overflow:auto}
+.cloud-suggest.active{display:block}
+.cloud-suggest button{display:block;width:100%;text-align:left;border:1px solid #e0e8f0;background:linear-gradient(135deg,#fff,#f8fbff);border-radius:12px;padding:10px 12px;margin-bottom:6px;color:#071b34;font-weight:900}
+.cloud-suggest button small{display:block;color:#617086;margin-top:3px;font-weight:800}
+.comment-box{border:1px solid #dfe9f5;border-radius:18px;background:linear-gradient(135deg,#fff,#f8fbff);padding:14px;margin-top:14px}
+.comment-box textarea{width:100%;min-height:72px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;font-weight:850;resize:vertical}
+.comment-row{background:#fff;border:1px solid #e0e8f0;border-radius:14px;padding:10px;margin-top:8px;color:#536176;font-size:12px;font-weight:850}
 
 </style>
 </head>
@@ -184,7 +195,7 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -204,14 +215,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Logout</button>
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
   </div>
 </aside>
 
@@ -260,7 +271,7 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="kpi-reports.html">KPI & Raporlar</a>
 <a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Action Center</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
 <a href="notification-center.html">Bildirim Merkezi</a>
 </div>
 
@@ -280,14 +291,14 @@ tr:hover td{background:#f7fbf8}
 <div class="submenu">
 <a href="apqp.html">APQP</a>
 <a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Control Plan</a>
+<a href="control-plan.html">Kontrol Planı</a>
 <a href="ppap.html">PPAP</a>
 <a href="spc.html">SPC</a>
 <a href="msa.html">MSA</a>
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS Enterprise<br>Audit Management<br>Evidence + CAPA Engine</div>
+<div class="sidebar-footer" style="display:none"></div>
 </aside>
 
 <main class="main">
@@ -303,16 +314,16 @@ tr:hover td{background:#f7fbf8}
 <span id="userAvatar" style="display:none">K</span>
 <span id="userRole" style="display:none">Super Administrator</span>
 </div>
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
 </header>
 
 <section class="hero">
 <div>
-<h1>Integrated Audit Management Center</h1>
+<h1>Entegre Denetim Yönetim Merkezi</h1>
 <p>Denetim, checklist, bulgu, kanıt dosyaları, CAPA bağlantısı, bildirim, kapanış kilidi, rapor ve KPI tek sayfada birleşik çalışır.</p>
 </div>
-<div class="hero-badge">Audit Engine: <span>Unified Final</span></div>
+<div class="hero-badge">Denetim Motoru: <span>Birleşik Yapı</span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -331,24 +342,24 @@ tr:hover td{background:#f7fbf8}
 <section class="cards">
 <div class="card"><small>Toplam Denetim</small><h2 id="totalAudits">0</h2><p>Planlı / gerçekleşen</p></div>
 <div class="card"><small>Açık Denetim</small><h2 id="openAudits">0</h2><p>Devam eden kayıt</p></div>
-<div class="card"><small>Toplam Bulgu</small><h2 id="totalFindings">0</h2><p>Majör / minör / OFI</p></div>
-<div class="card"><small>Toplam Kanıt</small><h2 id="totalEvidence">0</h2><p>Audit dosya kanıtları</p></div>
+<div class="card"><small>Toplam Bulgu</small><h2 id="totalFindings">0</h2><p>Majör / minör / İyileştirme Fırsatı</p></div>
+<div class="card"><small>Toplam Kanıt</small><h2 id="totalEvidence">0</h2><p>Denetim dosya kanıtları</p></div>
 </section>
 
 <section class="cards">
 <div class="card"><small>Majör</small><h2 id="majorFindings">0</h2><p>Kritik uygunsuzluk</p></div>
 <div class="card"><small>Geciken Bulgu</small><h2 id="lateFindings">0</h2><p>Termin aşımı</p></div>
-<div class="card"><small>Audit Score</small><h2 id="auditScore">0%</h2><p>Uygunluk skoru</p></div>
+<div class="card"><small>Denetim Skoru</small><h2 id="auditScore">0%</h2><p>Uygunluk skoru</p></div>
 <div class="card"><small>Kapanışa Hazır</small><h2 id="readyAudits">0</h2><p>Bulgu/kanıt kontrolü tamam</p></div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Yıllık Denetim Takvimi</h3><span class="status green">ANNUAL PROGRAM</span></div>
+<div class="panel-head"><h3>Yıllık Denetim Takvimi</h3><span class="status green">YILLIK PROGRAM</span></div>
 <div class="calendar" id="annualCalendar"></div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Yeni Entegre Denetim Planı</h3><span class="status blue">CREATE MODE</span></div>
+<div class="panel-head"><h3>Yeni Entegre Denetim Planı</h3><span class="status blue">OLUŞTURMA MODU</span></div>
 <div class="form-grid">
 <div class="field"><label>Denetim No</label><input id="auditNo" readonly></div>
 <div class="field"><label>Denetim Tipi</label><select id="auditType"><option>İç Denetim</option><option>Proses Denetimi</option><option>Ürün Denetimi</option><option>Tedarikçi Denetimi</option><option>Sistem Denetimi</option><option>CoP Denetimi</option><option>Özel Denetim</option></select></div>
@@ -371,20 +382,20 @@ tr:hover td{background:#f7fbf8}
 <div class="actions">
 <button class="btn primary" onclick="createAudit()">Denetim Planı Oluştur</button>
 <button class="btn orange" onclick="createAudit(true)">Oluştur ve Bildir</button>
-<button class="btn green" onclick="generateChecklist()">Standart Checklist Üret</button>
+<button class="btn green" onclick="generateChecklist()">Standart Kontrol Listesi Üret</button>
 <button class="btn dark" onclick="resetAuditForm()">Temizle</button>
 </div>
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Checklist / Denetim Sorusu</h3><span class="status orange" id="qMode">QUESTION CREATE</span></div>
+<div class="panel-head"><h3>Kontrol Listesi / Denetim Sorusu</h3><span class="status orange" id="qMode">SORU OLUŞTUR</span></div>
 <div class="audit-box">
 <div class="subgrid">
 <div class="field"><label>Standart</label><select id="qStandard"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>IATF 16949</option><option>CoP</option><option>CE</option><option>UL</option><option>EMC</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option></select></div>
 <div class="field"><label>Madde</label><input id="qClause"></div>
 <div class="field"><label>Süreç</label><input id="qProcess"></div>
 <div class="field"><label>Risk</label><select id="qRisk"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
-<div class="field"><label>Sonuç</label><select id="qResult"><option>Bekliyor</option><option>Uygun</option><option>Uygunsuz</option><option>OFI</option><option>NA</option></select></div>
+<div class="field"><label>Sonuç</label><select id="qResult"><option>Bekliyor</option><option>Uygun</option><option>Uygunsuz</option><option>İyileştirme Fırsatı</option><option>Uygulanamaz</option></select></div>
 <div class="field"><label>Kanıt</label><select id="qEvidenceStatus"><option>Bekliyor</option><option>Yeterli</option><option>Yetersiz</option><option>Yok</option></select></div>
 <div class="field full"><label>Soru</label><textarea id="qText"></textarea></div>
 <div class="field full"><label>Beklenen Kanıt</label><textarea id="qExpectedEvidence"></textarea></div>
@@ -399,10 +410,10 @@ tr:hover td{background:#f7fbf8}
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Bulgu / Uygunsuzluk</h3><span class="status red" id="fMode">FINDING CREATE</span></div>
+<div class="panel-head"><h3>Bulgu / Uygunsuzluk</h3><span class="status red" id="fMode">BULGU OLUŞTUR</span></div>
 <div class="audit-box">
 <div class="subgrid">
-<div class="field"><label>Tip</label><select id="fType"><option>Majör Uygunsuzluk</option><option>Minör Uygunsuzluk</option><option>OFI</option><option>Gözlem</option><option>İyi Uygulama</option></select></div>
+<div class="field"><label>Tip</label><select id="fType"><option>Majör Uygunsuzluk</option><option>Minör Uygunsuzluk</option><option>İyileştirme Fırsatı</option><option>Gözlem</option><option>İyi Uygulama</option></select></div>
 <div class="field"><label>Standart</label><select id="fStandard"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>IATF 16949</option><option>CoP</option><option>CE</option><option>UL</option><option>EMC</option><option>APQP / PPAP</option><option>FMEA / MSA / SPC</option></select></div>
 <div class="field"><label>Madde</label><input id="fClause"></div>
 <div class="field"><label>Sorumlu</label><select id="fOwner"></select></div>
@@ -421,10 +432,10 @@ tr:hover td{background:#f7fbf8}
 </section>
 
 <section class="panel">
-<div class="panel-head"><h3>Audit Kanıt / Ek Dosya Yönetimi</h3><span class="status blue">EVIDENCE ENGINE</span></div>
+<div class="panel-head"><h3>Denetim Kanıt / Ek Dosya Yönetimi</h3><span class="status blue">KANIT YÖNETİMİ</span></div>
 <div class="form-grid">
 <div class="field"><label>Denetim Seç</label><select id="eAuditSelect"></select></div>
-<div class="field"><label>Kanıt Tipi</label><select id="eType"><option>Denetim Planı</option><option>Checklist Kanıtı</option><option>Bulgu Kanıtı</option><option>Açılış Toplantısı Kaydı</option><option>Kapanış Toplantısı Kaydı</option><option>Katılımcı / İmza Listesi</option><option>Fotoğraf</option><option>Denetim Raporu</option><option>CAPA Kanıtı</option><option>Diğer</option></select></div>
+<div class="field"><label>Kanıt Tipi</label><select id="eType"><option>Denetim Planı</option><option>Kontrol Listesi Kanıtı</option><option>Bulgu Kanıtı</option><option>Açılış Toplantısı Kaydı</option><option>Kapanış Toplantısı Kaydı</option><option>Katılımcı / İmza Listesi</option><option>Fotoğraf</option><option>Denetim Raporu</option><option>CAPA Kanıtı</option><option>Diğer</option></select></div>
 <div class="field"><label>Standart</label><select id="eStandard"><option>ISO 9001</option><option>ISO 14001</option><option>ISO 45001</option><option>ISO 50001</option><option>ISO 27001</option><option>ISO 10002</option><option>IATF 16949</option><option>CoP</option><option>CE</option><option>UL</option><option>EMC</option><option>Genel</option></select></div>
 <div class="field"><label>Durum</label><select id="eStatus"><option>Aktif</option><option>İncelemede</option><option>Onaylandı</option><option>Arşiv</option><option>Reddedildi</option></select></div>
 <div class="field"><label>Madde / Referans</label><input id="eClause"></div>
@@ -436,9 +447,9 @@ tr:hover td{background:#f7fbf8}
 <div class="field full"><label>Sürükle Bırak</label><div class="dropzone" id="eDropzone">Dosyayı buraya sürükle bırak veya yukarıdan seç. Maksimum önerilen dosya boyutu: 4.5 MB.</div></div>
 </div>
 <div class="actions">
-<button class="btn primary" onclick="saveEvidence()">Kanıtı Kaydet ve Audit'e Bağla</button>
+<button class="btn primary" onclick="saveEvidence()">Kanıtı Kaydet ve Denetime Bağla</button>
 <button class="btn dark" onclick="resetEvidenceForm()">Kanıt Formunu Temizle</button>
-<button class="btn orange" onclick="exportEvidenceBackup()">Kanıt JSON Yedek Al</button>
+<button class="btn orange" onclick="exportEvidenceBackup()">Kanıt Yedeği Al</button>
 </div>
 <div id="evidencePreview"></div>
 </section>
@@ -465,7 +476,7 @@ tr:hover td{background:#f7fbf8}
 <div id="drawerContent"></div>
 <div class="actions">
 <button class="btn green" onclick="closeAuditCurrent()">Denetimi Kapat</button>
-<button class="btn orange" onclick="notifyAuditCurrent()">Mail Bildirimi Oluştur</button>
+<button class="btn orange" onclick="notifyAuditCurrent()">Bildirim Oluştur</button>
 <button class="btn primary" onclick="createCapaFromAuditCurrent()">Bulgulardan CAPA Aç</button>
 <button class="btn dark" onclick="printAuditReport()">Rapor Yazdır</button>
 <button class="btn red" onclick="closeDrawer()">Geri Dön</button>
@@ -475,64 +486,114 @@ tr:hover td{background:#f7fbf8}
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script>
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session"))||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_ems_session")||"null")||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
 if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
 userName.textContent=session.name||"Kerem Güdenli";userRole.textContent=session.role||"Super Administrator";userAvatar.textContent=(session.name||"K").charAt(0).toUpperCase();
 
 let selectedIndex=null,questionRows=[],findingRows=[],editQuestionIndex=null,editFindingIndex=null,uploadedFile=null;
+let cloudUsers=[],cloudDepartments=[],cloudAudits=[],cloudEvidence=[];
 
-function logout(){localStorage.removeItem("gdnl_qdms_session");window.location.href="index.html"}
-function getAudits(){try{return JSON.parse(localStorage.getItem("gdnl_audits"))||[]}catch(e){return[]}}
-function setAudits(x){localStorage.setItem("gdnl_audits",JSON.stringify(x))}
-function getUsers(){try{return JSON.parse(localStorage.getItem("gdnl_users"))||[]}catch(e){return[]}}
-function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications"))||[]}catch(e){return[]}}
-function setNotifications(x){localStorage.setItem("gdnl_notifications",JSON.stringify(x))}
-function getCapa(){try{return JSON.parse(localStorage.getItem("gdnl_capa"))||[]}catch(e){return[]}}
-function setCapa(x){localStorage.setItem("gdnl_capa",JSON.stringify(x))}
-function getEvidence(){try{return JSON.parse(localStorage.getItem("gdnl_audit_evidence"))||[]}catch(e){return[]}}
-function setEvidence(x){localStorage.setItem("gdnl_audit_evidence",JSON.stringify(x))}
+async function api(path,options={}){
+  const opt={headers:{"Content-Type":"application/json",...(options.headers||{})},...options};
+  if(options.body instanceof FormData){delete opt.headers["Content-Type"]}
+  const res=await fetch(API_BASE+path,opt);
+  const data=await res.json().catch(()=>({success:false,message:"Geçersiz sunucu yanıtı"}));
+  if(!res.ok||data.success===false)throw new Error(data.message||data.detail||"API işlem hatası");
+  return data;
+}
+async function safeApi(path,options={}){try{return await api(path,options)}catch(e){console.warn("Cloud fallback:",path,e.message);return null}}
+function currentUserName(){return session.fullname||session.fullName||session.name||session.username||"Kerem Güdenli"}
+function isPassiveStatus(v){return ["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","iptal","arşiv"].includes(String(v||"").toLowerCase().trim())}
+function activeOnly(list){return (list||[]).filter(x=>!isPassiveStatus(x.status||x.auditStatus))}
+function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");window.location.href="index.html"}
+function getAudits(){return activeOnly(cloudAudits.length?cloudAudits:(JSON.parse(localStorage.getItem("gdnl_audits_cache")||localStorage.getItem("gdnl_audits")||"[]")))}
+function setAudits(x){cloudAudits=activeOnly(x);localStorage.setItem("gdnl_audits_cache",JSON.stringify(cloudAudits));syncAuditListToCloud(cloudAudits)}
+function getUsers(){return activeOnly(cloudUsers.length?cloudUsers:(JSON.parse(localStorage.getItem("gdnl_users")||"[]")))}
+function getNotifications(){try{return JSON.parse(localStorage.getItem("gdnl_notifications_cache")||"[]")}catch(e){return[]}}
+function setNotifications(x){localStorage.setItem("gdnl_notifications_cache",JSON.stringify(x))}
+function getCapa(){try{return JSON.parse(localStorage.getItem("gdnl_capa_cache")||localStorage.getItem("gdnl_capa")||"[]")}catch(e){return[]}}
+function setCapa(x){localStorage.setItem("gdnl_capa_cache",JSON.stringify(x))}
+function getEvidence(){return activeOnly(cloudEvidence.length?cloudEvidence:(JSON.parse(localStorage.getItem("gdnl_audit_evidence_cache")||localStorage.getItem("gdnl_audit_evidence")||"[]")))}
+function setEvidence(x){cloudEvidence=activeOnly(x);localStorage.setItem("gdnl_audit_evidence_cache",JSON.stringify(cloudEvidence))}
 function todayISO(){return new Date().toISOString().split("T")[0]}
+async function loadCloudMasterData(){
+  const [u,d,a,e]=await Promise.all([safeApi("/users"),safeApi("/departments"),safeApi("/audits"),safeApi("/files")]);
+  cloudUsers=Array.isArray(u)?u:(u?.users||u?.results||[]);
+  cloudDepartments=Array.isArray(d)?d:(d?.departments||d?.results||[]);
+  cloudAudits=activeOnly(Array.isArray(a)?a:(a?.audits||a?.results||[]));
+  cloudEvidence=activeOnly((e?.files||e?.results||[]).filter(x=>String(x.module||"").toUpperCase().includes("AUDIT")||String(x.related_id||"").startsWith("AUD-")));
+  rebuildDepartmentSelects();initUserSelects();initAuditSelects();
+}
+function rebuildDepartmentSelects(){
+  const names=activeOnly(cloudDepartments).map(d=>d.department_name||d.name||d.department).filter(Boolean);
+  const fill=id=>{const el=document.getElementById(id);if(!el||!names.length)return;const current=el.value;el.innerHTML='<option value="">Departman Seçiniz</option>'+names.map(n=>`<option>${n}</option>`).join("");if(current)el.value=current;};
+  fill("department");fill("departmentFilter");
+}
+function postAuditLog(action,module="Denetim",related_id=""){return safeApi("/audit-logs",{method:"POST",body:JSON.stringify({module,related_id,action,user:currentUserName(),created_by:currentUserName(),created_at:new Date().toISOString()})})}
+function postActivity(action,module="Denetim",related_id=""){return safeApi("/activity-feed",{method:"POST",body:JSON.stringify({module,related_id,title:action,description:action,user:currentUserName(),created_by:currentUserName(),created_at:new Date().toISOString()})})}
+function postNotification(title,message,to_user=""){return safeApi("/notifications",{method:"POST",body:JSON.stringify({title,message,to_user,created_by:currentUserName(),status:"Aktif",created_at:new Date().toISOString()})})}
+function postAssignment(title,owner,related_id,module="Denetim"){return safeApi("/assignments",{method:"POST",body:JSON.stringify({title,owner,related_id,module,status:"Açık",created_by:currentUserName(),created_at:new Date().toISOString()})})}
+async function syncAuditListToCloud(list){for(const a of list){await safeApi("/audits",{method:"POST",body:JSON.stringify(a)})}}
+async function getNextNo(prefix,module){
+  const r=await safeApi(`/sequence?prefix=${encodeURIComponent(prefix)}&module=${encodeURIComponent(module)}`);
+  if(r?.number)return r.number;
+  const all=[...getAudits(),...JSON.parse(localStorage.getItem("gdnl_audits_cache")||"[]")];
+  const nums=all.map(x=>String(x.auditNo||"")).filter(x=>x.startsWith(prefix+"-")).map(x=>parseInt(x.split("-").pop(),10)||0);
+  return `${prefix}-${new Date().getFullYear()}-${String((Math.max(0,...nums)+1)).padStart(4,"0")}`;
+}
+async function uploadFileToR2(file,module,related_id){if(!file)return null;const fd=new FormData();fd.append("file",file);fd.append("module",module);fd.append("related_id",related_id||"");fd.append("uploaded_by",currentUserName());return await api("/upload",{method:"POST",body:fd})}
+function archiveRecord(item,module="Denetim"){
+  item.status="Arşivlendi";item.auditStatus=item.auditStatus||item.status;item.archived_by=currentUserName();item.archived_at=new Date().toISOString();
+  safeApi("/archive",{method:"POST",body:JSON.stringify({module,record:item,archived_by:currentUserName(),archived_at:item.archived_at})});
+  postAuditLog("Kayıt arşivlendi",module,item.auditNo||item.id);postActivity("Kayıt arşivlendi",module,item.auditNo||item.id);
+  return item;
+}
+async function restoreRecord(module,record_id){const r=await safeApi("/restore",{method:"POST",body:JSON.stringify({module,record_id,restored_by:currentUserName(),restored_at:new Date().toISOString()})});await postAuditLog("Arşivden geri yüklendi",module,record_id);await postActivity("Arşivden geri yüklendi",module,record_id);return r}
+
 function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
-function statusClass(s){if(["Kapalı","Uygun","İyi Uygulama","Aktif","Onaylandı"].includes(s))return"green";if(["Majör Uygunsuzluk","Gecikti","Kritik","Uygunsuz","Reddedildi"].includes(s))return"red";if(["Minör Uygunsuzluk","OFI","CAPA Bekliyor","Aksiyon Bekliyor","Devam Ediyor","Raporlandı","İncelemede"].includes(s))return"orange";if(s==="Arşiv")return"gray";return"blue"}
-function generateAuditNo(){auditNo.value="AUD-"+new Date().getFullYear()+"-"+String(getAudits().length+1).padStart(4,"0")}
-function initUserSelects(){const users=getUsers().filter(u=>u.status!=="Pasif");["leadAuditor","auditeeOwner","fOwner"].forEach(id=>{const el=document.getElementById(id);el.innerHTML='<option value="">Seçiniz</option>';users.forEach(u=>el.innerHTML+=`<option value="${u.fullName}">${u.fullName} / ${u.department||"-"} / ${u.role||"-"}</option>`);if(users.length===0)el.innerHTML+='<option>Kerem Güdenli</option>'})}
+function statusClass(s){if(["Kapalı","Uygun","İyi Uygulama","Aktif","Onaylandı"].includes(s))return"green";if(["Majör Uygunsuzluk","Gecikti","Kritik","Uygunsuz","Reddedildi"].includes(s))return"red";if(["Minör Uygunsuzluk","İyileştirme Fırsatı","CAPA Bekliyor","Aksiyon Bekliyor","Devam Ediyor","Raporlandı","İncelemede"].includes(s))return"orange";if(s==="Arşiv")return"gray";return"blue"}
+async function generateAuditNo(){auditNo.value=await getNextNo("AUD","Denetim")}
+function initUserSelects(){const users=getUsers().filter(u=>!isPassiveStatus(u.status));["leadAuditor","auditeeOwner","fOwner"].forEach(id=>{const el=document.getElementById(id);if(!el)return;const current=el.value;el.innerHTML='<option value="">Seçiniz</option>';users.forEach(u=>{const name=u.fullname||u.fullName||u.name||u.username;const dep=u.department||u.department_name||"-";if(name)el.innerHTML+=`<option value="${name}" data-user-id="${u.id||""}" data-department="${dep}" data-email="${u.email||""}">${name} / ${dep} / ${u.role||"-"}</option>`});if(users.length===0)el.innerHTML+='<option>Kerem Güdenli</option>';if(current)el.value=current;})}
 function initAuditSelects(){const audits=getAudits();eAuditSelect.innerHTML='<option value="">Denetim Seçiniz</option>';audits.forEach(a=>eAuditSelect.innerHTML+=`<option value="${a.auditNo}">${a.auditNo} / ${a.processName||"-"} / ${a.auditType||"-"}</option>`)}
 function selectedStandards(){return Array.from(standardScope.selectedOptions).map(o=>o.value)}
-function calculateAuditScore(q,f){let s=100;f.forEach(x=>{if(x.type==="Majör Uygunsuzluk")s-=20;if(x.type==="Minör Uygunsuzluk")s-=8;if(x.type==="OFI")s-=2});return Math.max(0,s)}
+function calculateAuditScore(q,f){let s=100;f.forEach(x=>{if(x.type==="Majör Uygunsuzluk")s-=20;if(x.type==="Minör Uygunsuzluk")s-=8;if(x.type==="İyileştirme Fırsatı")s-=2});return Math.max(0,s)}
 function evidenceForAudit(no){return getEvidence().filter(e=>e.auditNo===no)}
 function isAuditReady(a){return (a.findings||[]).filter(f=>f.status!=="Kapalı"&&f.status!=="CAPA Açıldı").length===0 && evidenceForAudit(a.auditNo).length>0}
 
-function createAudit(notify=false){
-const p={id:"AUDIT-"+Date.now(),auditNo:auditNo.value,auditType:auditType.value,auditStatus:auditStatus.value,auditCriticality:auditCriticality.value,auditStart:auditStart.value,auditEnd:auditEnd.value,reportDue:reportDue.value,closureDue:closureDue.value,department:department.value,processName:processName.value.trim(),leadAuditor:leadAuditor.value,auditeeOwner:auditeeOwner.value,auditTeam:auditTeam.value.trim(),standards:selectedStandards(),auditScope:auditScope.value.trim(),auditCriteria:auditCriteria.value.trim(),auditMethod:auditMethod.value.trim(),questions:questionRows,findings:findingRows,evidence:[],createdBy:session.name||"System",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),closedAt:"",auditScore:calculateAuditScore(questionRows,findingRows),auditTrail:[{action:"Denetim planı oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]};
+async function createAudit(notify=false){
+if(!auditNo.value) auditNo.value=await getNextNo("AUD","Denetim");
+const p={id:"AUDIT-"+Date.now(),auditNo:auditNo.value,auditType:auditType.value,auditStatus:auditStatus.value,auditCriticality:auditCriticality.value,auditStart:auditStart.value,auditEnd:auditEnd.value,reportDue:reportDue.value,closureDue:closureDue.value,department:department.value,processName:processName.value.trim(),leadAuditor:leadAuditor.value,auditeeOwner:auditeeOwner.value,auditTeam:auditTeam.value.trim(),standards:selectedStandards(),auditScope:auditScope.value.trim(),auditCriteria:auditCriteria.value.trim(),auditMethod:auditMethod.value.trim(),questions:questionRows,findings:findingRows,evidence:[],createdBy:currentUserName(),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),closedAt:"",auditScore:calculateAuditScore(questionRows,findingRows),auditTrail:[{action:"Denetim planı oluşturuldu",user:currentUserName(),date:new Date().toISOString()}]};
 if(!p.processName)return showToast("Süreç adı zorunlu");if(!p.leadAuditor)return showToast("Baş denetçi zorunlu");if(!p.auditStart||!p.auditEnd)return showToast("Tarih zorunlu");if(p.standards.length===0)return showToast("En az 1 standart seç");
-const items=getAudits();items.unshift(p);setAudits(items);if(notify)createNotification(p,"Yeni denetim planı oluşturuldu.");showToast("Denetim planı oluşturuldu");resetAuditForm();initAuditSelects();renderAudits()
+const items=getAudits();items.unshift(p);setAudits(items);await safeApi("/audits",{method:"POST",body:JSON.stringify(p)});await postAuditLog("Denetim planı oluşturuldu","Denetim",p.auditNo);await postActivity("Denetim planı oluşturuldu","Denetim",p.auditNo);await postAssignment("Denetim sorumluluğu",p.leadAuditor,p.auditNo,"Denetim");if(notify){createNotification(p,"Yeni denetim planı oluşturuldu.");await postNotification("Yeni denetim planı",p.auditNo+" için denetim planı oluşturuldu.",p.leadAuditor)}showToast("Denetim planı oluşturuldu");resetAuditForm();initAuditSelects();renderAudits()
 }
 
 function getDefaultQuestions(std){const bank={"ISO 9001":[["4.4","Proses","Yüksek","Süreçler girdiler, çıktılar, KPI ve sorumlularla tanımlı mı?","Proses kartı, KPI"],["7.5","Doküman","Yüksek","Dokümante edilmiş bilgi kontrol altında mı?","Master liste, revizyon"],["9.2","İç Denetim","Yüksek","İç denetimler planlı ve kanıta dayalı mı?","Plan, checklist, rapor"],["10.2","CAPA","Kritik","Uygunsuzluklar kök neden ve etkinlik kontrolüyle yönetiliyor mu?","8D/CAPA"]],"IATF 16949":[["8.3.5","APQP","Kritik","APQP çıktıları ve özel karakteristikler kontrol altında mı?","APQP, FMEA"],["8.5.1.1","Kontrol Planı","Kritik","Kontrol planı PFMEA ve proses akışıyla uyumlu mu?","CP, PFMEA"],["9.1.1.1","MSA/SPC","Yüksek","MSA ve SPC uygulanıyor mu?","MSA, SPC"],["10.2.3","8D","Kritik","Problem çözme ve tekrarını önleme uygulanıyor mu?","8D"]],"ISO 27001":[["6.1.2","BGYS Risk","Kritik","Bilgi güvenliği riskleri yönetiliyor mu?","Risk planı"],["A.5-A.8","Kontroller","Kritik","Erişim, varlık ve politika kontrolleri uygulanıyor mu?","SoA, erişim"]],"ISO 14001":[["6.1.2","Çevre Boyutları","Yüksek","Çevre boyutları ve etkileri belirlenmiş mi?","Boyut-etki analizi"]],"ISO 45001":[["6.1.2","İSG Risk","Kritik","Tehlike ve riskler kontrol altında mı?","Risk analizi"]],"CoP":[["CoP","Ürün Uygunluğu","Kritik","CoP test ve uygunluk kayıtları kontrol altında mı?","CoP dosyası"]]};
 return (bank[std]||[["GEN","Genel","Orta",std+" gereklilikleri için kanıt var mı?","Kayıt"]]).map(x=>({standard:std,clause:x[0],process:x[1],risk:x[2],question:x[3],expectedEvidence:x[4],result:"Bekliyor",evidenceStatus:"Bekliyor",actualEvidence:"",id:"Q-"+Date.now()+Math.random()}))}
 function generateChecklist(){const stds=selectedStandards();if(!stds.length)return showToast("Standart seç");stds.forEach(s=>questionRows.push(...getDefaultQuestions(s)));renderQuestionPreview();showToast("Checklist üretildi")}
 function addOrUpdateQuestion(){const q={id:editQuestionIndex!==null?questionRows[editQuestionIndex].id:"Q-"+Date.now(),standard:qStandard.value,clause:qClause.value.trim(),process:qProcess.value.trim(),risk:qRisk.value,result:qResult.value,evidenceStatus:qEvidenceStatus.value,question:qText.value.trim(),expectedEvidence:qExpectedEvidence.value.trim(),actualEvidence:qActualEvidence.value.trim(),createdAt:new Date().toISOString()};if(!q.question)return showToast("Soru zorunlu");if(editQuestionIndex!==null){questionRows[editQuestionIndex]=q;editQuestionIndex=null}else questionRows.push(q);clearQuestionInputs();renderQuestionPreview();showToast("Soru kaydedildi")}
-function editQuestion(i){const q=questionRows[i];editQuestionIndex=i;qStandard.value=q.standard;qClause.value=q.clause;qProcess.value=q.process;qRisk.value=q.risk;qResult.value=q.result;qEvidenceStatus.value=q.evidenceStatus;qText.value=q.question;qExpectedEvidence.value=q.expectedEvidence;qActualEvidence.value=q.actualEvidence;qMode.textContent="QUESTION EDIT"}
-function clearQuestionInputs(){editQuestionIndex=null;qClause.value="";qProcess.value="";qText.value="";qExpectedEvidence.value="";qActualEvidence.value="";qResult.value="Bekliyor";qEvidenceStatus.value="Bekliyor";qMode.textContent="QUESTION CREATE"}
-function renderQuestionPreview(){const a=questionPreview;if(!questionRows.length){a.innerHTML='<div class="empty" style="margin-top:14px">Checklist sorusu yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Std</th><th>Madde</th><th>Soru</th><th>Risk</th><th>Sonuç</th><th>Aksiyon</th></tr></thead><tbody>';questionRows.forEach((q,i)=>h+=`<tr><td>${q.standard}</td><td>${q.clause}</td><td>${q.question}</td><td><span class="status ${statusClass(q.risk)}">${q.risk}</span></td><td><span class="status ${statusClass(q.result)}">${q.result}</span></td><td><button class="small-btn view" onclick="editQuestion(${i})">Düzenle</button><button class="small-btn delete" onclick="questionRows.splice(${i},1);renderQuestionPreview()">Sil</button></td></tr>`);a.innerHTML=h+"</tbody></table>"}
+function editQuestion(i){const q=questionRows[i];editQuestionIndex=i;qStandard.value=q.standard;qClause.value=q.clause;qProcess.value=q.process;qRisk.value=q.risk;qResult.value=q.result;qEvidenceStatus.value=q.evidenceStatus;qText.value=q.question;qExpectedEvidence.value=q.expectedEvidence;qActualEvidence.value=q.actualEvidence;qMode.textContent="SORU DÜZENLE"}
+function clearQuestionInputs(){editQuestionIndex=null;qClause.value="";qProcess.value="";qText.value="";qExpectedEvidence.value="";qActualEvidence.value="";qResult.value="Bekliyor";qEvidenceStatus.value="Bekliyor";qMode.textContent="SORU OLUŞTUR"}
+function archiveQuestion(i){if(!questionRows[i])return;questionRows[i].status="Arşivlendi";questionRows[i].archived_by=currentUserName();questionRows[i].archived_at=new Date().toISOString();postAuditLog("Denetim sorusu arşivlendi","Denetim Sorusu",questionRows[i].id);postActivity("Denetim sorusu arşivlendi","Denetim Sorusu",questionRows[i].id);renderQuestionPreview();}
+function archiveFinding(i){if(!findingRows[i])return;findingRows[i].status="Arşivlendi";findingRows[i].archived_by=currentUserName();findingRows[i].archived_at=new Date().toISOString();postAuditLog("Bulgu arşivlendi","Denetim Bulgusu",findingRows[i].id);postActivity("Bulgu arşivlendi","Denetim Bulgusu",findingRows[i].id);renderFindingPreview();}
+function renderQuestionPreview(){const a=questionPreview;questionRows=activeOnly(questionRows);if(!questionRows.length){a.innerHTML='<div class="empty" style="margin-top:14px">Checklist sorusu yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Std</th><th>Madde</th><th>Soru</th><th>Risk</th><th>Sonuç</th><th>Aksiyon</th></tr></thead><tbody>';questionRows.forEach((q,i)=>h+=`<tr><td>${q.standard}</td><td>${q.clause}</td><td>${q.question}</td><td><span class="status ${statusClass(q.risk)}">${q.risk}</span></td><td><span class="status ${statusClass(q.result)}">${q.result}</span></td><td><button class="small-btn view" onclick="editQuestion(${i})">Düzenle</button><button class="small-btn rev" onclick="archiveQuestion(${i})">Arşivle</button></td></tr>`);a.innerHTML=h+"</tbody></table>"}
 
 function addOrUpdateFinding(capa=false){const f={id:editFindingIndex!==null?findingRows[editFindingIndex].id:"F-"+Date.now(),type:fType.value,standard:fStandard.value,clause:fClause.value.trim(),owner:fOwner.value,dueDate:fDueDate.value,status:capa?"CAPA Açıldı":fStatus.value,description:fDescription.value.trim(),action:fAction.value.trim(),capaNo:"",createdAt:new Date().toISOString()};if(!f.description)return showToast("Bulgu açıklaması zorunlu");if(!f.owner)return showToast("Sorumlu zorunlu");if(!f.dueDate)return showToast("Termin zorunlu");if(capa)f.capaNo=createCapaFromFinding(f);if(editFindingIndex!==null){findingRows[editFindingIndex]=f;editFindingIndex=null}else findingRows.push(f);clearFindingInputs();renderFindingPreview();showToast("Bulgu kaydedildi")}
-function editFinding(i){const f=findingRows[i];editFindingIndex=i;fType.value=f.type;fStandard.value=f.standard;fClause.value=f.clause;fOwner.value=f.owner;fDueDate.value=f.dueDate;fStatus.value=f.status;fDescription.value=f.description;fAction.value=f.action;fMode.textContent="FINDING EDIT"}
-function clearFindingInputs(){editFindingIndex=null;fClause.value="";fOwner.value="";fDueDate.value=addDays(todayISO(),14);fStatus.value="Açık";fDescription.value="";fAction.value="";fMode.textContent="FINDING CREATE"}
-function renderFindingPreview(){const a=findingPreview;if(!findingRows.length){a.innerHTML='<div class="empty" style="margin-top:14px">Bulgu yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Tip</th><th>Std</th><th>Madde</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>CAPA</th><th>Aksiyon</th></tr></thead><tbody>';findingRows.forEach((f,i)=>h+=`<tr><td><span class="status ${statusClass(f.type)}">${f.type}</span></td><td>${f.standard}</td><td>${f.clause}</td><td>${f.owner}</td><td>${formatDateTR(f.dueDate)}</td><td><span class="status ${statusClass(f.status)}">${f.status}</span></td><td>${f.capaNo||"-"}</td><td><button class="small-btn view" onclick="editFinding(${i})">Düzenle</button><button class="small-btn delete" onclick="findingRows.splice(${i},1);renderFindingPreview()">Sil</button></td></tr>`);a.innerHTML=h+"</tbody></table>"}
+function editFinding(i){const f=findingRows[i];editFindingIndex=i;fType.value=f.type;fStandard.value=f.standard;fClause.value=f.clause;fOwner.value=f.owner;fDueDate.value=f.dueDate;fStatus.value=f.status;fDescription.value=f.description;fAction.value=f.action;fMode.textContent="BULGU DÜZENLE"}
+function clearFindingInputs(){editFindingIndex=null;fClause.value="";fOwner.value="";fDueDate.value=addDays(todayISO(),14);fStatus.value="Açık";fDescription.value="";fAction.value="";fMode.textContent="BULGU OLUŞTUR"}
+function renderFindingPreview(){const a=findingPreview;findingRows=activeOnly(findingRows);if(!findingRows.length){a.innerHTML='<div class="empty" style="margin-top:14px">Bulgu yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Tip</th><th>Std</th><th>Madde</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>CAPA</th><th>Aksiyon</th></tr></thead><tbody>';findingRows.forEach((f,i)=>h+=`<tr><td><span class="status ${statusClass(f.type)}">${f.type}</span></td><td>${f.standard}</td><td>${f.clause}</td><td>${f.owner}</td><td>${formatDateTR(f.dueDate)}</td><td><span class="status ${statusClass(f.status)}">${f.status}</span></td><td>${f.capaNo||"-"}</td><td><button class="small-btn view" onclick="editFinding(${i})">Düzenle</button><button class="small-btn rev" onclick="archiveFinding(${i})">Arşivle</button></td></tr>`);a.innerHTML=h+"</tbody></table>"}
 
-function createCapaFromFinding(f){const c=getCapa(),y=new Date().getFullYear(),n=String(c.length+1).padStart(4,"0"),capaNo="CAPA-"+y+"-"+n,eightD="8D-"+y+"-"+n;c.unshift({id:"CAPA-"+Date.now(),eightDNo:eightD,capaNo,openDate:todayISO(),dueDate:f.dueDate,capaClass:f.type==="Majör Uygunsuzluk"?"Major CAPA":"Minor CAPA",source:"İç Denetim",department:department.value,criticality:f.type==="Majör Uygunsuzluk"?"Yüksek":"Orta",status:"Açık",problemTitle:"Audit Bulgusu: "+f.clause,leader:f.owner,problemDescription:f.description,correctiveAction:f.action,auditFindingId:f.id,auditReference:auditNo.value,tasks:[],actions:[],createdBy:session.name||"System",createdAt:new Date().toISOString(),auditTrail:[{action:"Audit bulgusundan CAPA oluşturuldu",user:session.name||"System",date:new Date().toISOString()}]});setCapa(c);return capaNo}
+function createCapaFromFinding(f){const c=getCapa(),y=new Date().getFullYear(),n=String(c.length+1).padStart(4,"0"),capaNo="CAPA-"+y+"-"+n,eightD="8D-"+y+"-"+n;c.unshift({id:"CAPA-"+Date.now(),eightDNo:eightD,capaNo,openDate:todayISO(),dueDate:f.dueDate,capaClass:f.type==="Majör Uygunsuzluk"?"Majör CAPA":"Minör CAPA",source:"İç Denetim",department:department.value,criticality:f.type==="Majör Uygunsuzluk"?"Yüksek":"Orta",status:"Açık",problemTitle:"Denetim Bulgusu: "+f.clause,leader:f.owner,problemDescription:f.description,correctiveAction:f.action,auditFindingId:f.id,auditReference:auditNo.value,tasks:[],actions:[],createdBy:currentUserName(),createdAt:new Date().toISOString(),auditTrail:[{action:"Denetim bulgusundan CAPA oluşturuldu",user:currentUserName(),date:new Date().toISOString()}]});setCapa(c);return capaNo}
 function createNotification(a,msg){const n=getNotifications();n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Audit",documentCode:a.auditNo,documentName:a.processName,mailGroups:a.leadAuditor+"; "+a.auditeeOwner+"; "+a.department,smsGroups:a.department,distributionPoints:a.auditTeam,message:msg,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
 
-function handleFile(file){if(!file)return;if(file.size>4.5*1024*1024)return showToast("Dosya maksimum 4.5 MB olmalı");const r=new FileReader();r.onload=e=>{uploadedFile={fileName:file.name,fileType:file.type||guessMime(file.name),fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:e.target.result,uploadedAt:new Date().toISOString()};eDropzone.textContent="Seçilen dosya: "+file.name+" / "+formatFileSize(file.size);showToast("Dosya hazırlandı")};r.readAsDataURL(file)}
+function handleFile(file){if(!file)return;if(file.size>4.5*1024*1024)return showToast("Dosya maksimum 4.5 MB olmalı");const r=new FileReader();r.onload=e=>{uploadedFile={rawFile:file,fileName:file.name,fileType:file.type||guessMime(file.name),fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:e.target.result,uploadedAt:new Date().toISOString()};eDropzone.textContent="Seçilen dosya: "+file.name+" / "+formatFileSize(file.size);showToast("Dosya hazırlandı")};r.readAsDataURL(file)}
 function guessMime(n){const e=n.split(".").pop().toLowerCase();if(e==="pdf")return"application/pdf";if(["jpg","jpeg"].includes(e))return"image/jpeg";if(e==="png")return"image/png";if(e==="webp")return"image/webp";if(e==="txt")return"text/plain";if(e==="csv")return"text/csv";return"application/octet-stream"}
 eFileInput.addEventListener("change",e=>handleFile(e.target.files[0]));eDropzone.addEventListener("dragover",e=>{e.preventDefault();eDropzone.classList.add("drag")});eDropzone.addEventListener("dragleave",()=>eDropzone.classList.remove("drag"));eDropzone.addEventListener("drop",e=>{e.preventDefault();eDropzone.classList.remove("drag");handleFile(e.dataTransfer.files[0])});
-function saveEvidence(){if(!uploadedFile)return showToast("Önce dosya seç");if(!eAuditSelect.value)return showToast("Denetim seçmeden kanıt bağlanamaz");const item={id:"EVD-"+Date.now(),evidenceNo:"EVD-"+new Date().getFullYear()+"-"+String(getEvidence().length+1).padStart(4,"0"),auditNo:eAuditSelect.value,evidenceType:eType.value,standard:eStandard.value,status:eStatus.value,clause:eClause.value.trim(),findingRef:eFindingRef.value.trim(),processName:eProcess.value.trim(),versionNo:eVersion.value.trim()||"V1",description:eDescription.value.trim(),file:uploadedFile,createdBy:session.name||"System",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),auditTrail:[{action:"Kanıt yüklendi ve denetime bağlandı",user:session.name||"System",date:new Date().toISOString()}]};const ev=getEvidence();ev.unshift(item);setEvidence(ev);attachEvidenceToAudit(item);createEvidenceNotification(item);showToast("Kanıt kaydedildi ve audit'e bağlandı");resetEvidenceForm();renderEvidencePreview();renderAudits()}
-function attachEvidenceToAudit(item){const audits=getAudits();const idx=audits.findIndex(a=>a.auditNo===item.auditNo);if(idx<0)return;audits[idx].evidence=Array.isArray(audits[idx].evidence)?audits[idx].evidence:[];audits[idx].evidence.unshift({evidenceNo:item.evidenceNo,evidenceType:item.evidenceType,fileName:item.file.fileName,fileSizeText:item.file.fileSizeText,standard:item.standard,clause:item.clause,findingRef:item.findingRef,createdAt:item.createdAt});audits[idx].auditTrail=Array.isArray(audits[idx].auditTrail)?audits[idx].auditTrail:[];audits[idx].auditTrail.push({action:"Kanıt eklendi: "+item.evidenceNo,user:session.name||"System",date:new Date().toISOString()});setAudits(audits)}
-function createEvidenceNotification(item){const audits=getAudits();const a=audits.find(x=>x.auditNo===item.auditNo)||{};const n=getNotifications();n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Audit Evidence",documentCode:item.auditNo,documentName:item.evidenceNo,mailGroups:(a.leadAuditor||"")+"; "+(a.auditeeOwner||""),smsGroups:a.department||"",distributionPoints:a.auditTeam||"",message:"Audit kanıtı yüklendi: "+item.file.fileName,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
+async function saveEvidence(){if(!uploadedFile)return showToast("Önce dosya seç");if(!eAuditSelect.value)return showToast("Denetim seçmeden kanıt bağlanamaz");let cloudFile=null;try{cloudFile=await uploadFileToR2(uploadedFile.rawFile,"AUDIT",eAuditSelect.value)}catch(e){showToast("R2 yükleme başarısız, geçici kayıt oluşturuldu")}const item={id:"EVD-"+Date.now(),evidenceNo:"EVD-"+new Date().getFullYear()+"-"+String(getEvidence().length+1).padStart(4,"0"),auditNo:eAuditSelect.value,evidenceType:eType.value,standard:eStandard.value,status:eStatus.value,clause:eClause.value.trim(),findingRef:eFindingRef.value.trim(),processName:eProcess.value.trim(),versionNo:eVersion.value.trim()||"V1",description:eDescription.value.trim(),file:{...uploadedFile,cloud:cloudFile,r2_key:cloudFile?.r2_key||cloudFile?.file?.r2_key||"",url:cloudFile?.url||cloudFile?.file?.url||""},createdBy:currentUserName(),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),auditTrail:[{action:"Kanıt yüklendi ve denetime bağlandı",user:currentUserName(),date:new Date().toISOString()}]};const ev=getEvidence();ev.unshift(item);setEvidence(ev);attachEvidenceToAudit(item);createEvidenceNotification(item);showToast("Kanıt kaydedildi ve audit'e bağlandı");resetEvidenceForm();renderEvidencePreview();renderAudits()}
+function attachEvidenceToAudit(item){const audits=getAudits();const idx=audits.findIndex(a=>a.auditNo===item.auditNo);if(idx<0)return;audits[idx].evidence=Array.isArray(audits[idx].evidence)?audits[idx].evidence:[];audits[idx].evidence.unshift({evidenceNo:item.evidenceNo,evidenceType:item.evidenceType,fileName:item.file.fileName,fileSizeText:item.file.fileSizeText,standard:item.standard,clause:item.clause,findingRef:item.findingRef,createdAt:item.createdAt});audits[idx].auditTrail=Array.isArray(audits[idx].auditTrail)?audits[idx].auditTrail:[];audits[idx].auditTrail.push({action:"Kanıt eklendi: "+item.evidenceNo,user:currentUserName(),date:new Date().toISOString()});setAudits(audits)}
+function createEvidenceNotification(item){const audits=getAudits();const a=audits.find(x=>x.auditNo===item.auditNo)||{};const n=getNotifications();n.unshift({notificationId:"NTF-"+Date.now(),type:"Mail + SMS",module:"Denetim Kanıtı",documentCode:item.auditNo,documentName:item.evidenceNo,mailGroups:(a.leadAuditor||"")+"; "+(a.auditeeOwner||""),smsGroups:a.department||"",distributionPoints:a.auditTeam||"",message:"Denetim kanıtı yüklendi: "+item.file.fileName,status:"Kuyrukta",createdAt:new Date().toISOString()});setNotifications(n)}
 function resetEvidenceForm(){uploadedFile=null;eAuditSelect.value="";eType.value="Denetim Planı";eStandard.value="ISO 9001";eStatus.value="Aktif";eClause.value="";eFindingRef.value="";eProcess.value="";eVersion.value="V1";eDescription.value="";eFileInput.value="";eDropzone.textContent="Dosyayı buraya sürükle bırak veya yukarıdan seç. Maksimum önerilen dosya boyutu: 4.5 MB."}
 function renderEvidencePreview(){const ev=getEvidence();if(!ev.length){evidencePreview.innerHTML='<div class="empty" style="margin-top:14px">Kanıt yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>Kanıt</th><th>Audit</th><th>Tip</th><th>Dosya</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';ev.slice(0,20).forEach(e=>h+=`<tr><td>${e.evidenceNo}</td><td>${e.auditNo}</td><td>${e.evidenceType}</td><td>${e.file.fileName}<br><small>${e.file.fileSizeText}</small></td><td><span class="status ${statusClass(e.status)}">${e.status}</span></td><td><button class="small-btn view" onclick="previewEvidence('${e.id}')">Önizle</button><button class="small-btn down" onclick="downloadEvidence('${e.id}')">İndir</button></td></tr>`);evidencePreview.innerHTML=h+"</tbody></table>"}
 function previewEvidence(id){const e=getEvidence().find(x=>x.id===id);if(!e)return;drawerTitle.textContent=e.evidenceNo+" / "+e.file.fileName;drawerStatus.textContent=e.status;drawerStatus.className="status "+statusClass(e.status);drawerContent.innerHTML=`<div class="info-box"><b>Kanıt:</b> ${e.evidenceNo}
@@ -547,8 +608,8 @@ function exportEvidenceBackup(){const data=JSON.stringify(getEvidence(),null,2),
 
 function normalizeAudit(a){a.questions=a.questions||[];a.findings=a.findings||[];a.standards=a.standards||[];a.evidence=a.evidence||[];a.auditScore=a.auditScore??calculateAuditScore(a.questions,a.findings);a.auditTrail=a.auditTrail||[];return a}
 function autoDelay(items){const t=todayISO();items.forEach(a=>{if(a.auditStatus!=="Kapalı"&&a.closureDue&&a.closureDue<t)a.auditStatus="Gecikti";(a.findings||[]).forEach(f=>{if(f.status!=="Kapalı"&&f.dueDate&&f.dueDate<t)f.status="Gecikti"})});setAudits(items)}
-function renderAudits(){let items=getAudits().map(normalizeAudit);autoDelay(items);items=getAudits().map(normalizeAudit);const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,df=departmentFilter.value;const f=items.filter(a=>`${a.auditNo} ${a.auditType} ${a.auditStatus} ${a.department} ${a.processName} ${a.leadAuditor} ${a.auditeeOwner} ${a.standards.join(" ")} ${(a.findings||[]).map(x=>x.description).join(" ")} ${evidenceForAudit(a.auditNo).map(e=>e.file.fileName).join(" ")}`.toLowerCase().includes(q)&&(!sf||a.auditStatus===sf)&&(!tf||a.auditType===tf)&&(!df||a.department===df));updateCards(items);renderCalendar(items);initAuditSelects();renderEvidencePreview();if(!f.length){auditTable.innerHTML='<div class="empty">Denetim kaydı bulunamadı.</div>';return}let h='<table><thead><tr><th>No</th><th>Tip / Süreç</th><th>Standart</th><th>Baş Denetçi</th><th>Durum</th><th>Bulgu</th><th>Kanıt</th><th>Skor</th><th>Aksiyon</th></tr></thead><tbody>';f.forEach(a=>{const i=items.findIndex(x=>x.id===a.id),maj=(a.findings||[]).filter(x=>x.type==="Majör Uygunsuzluk").length,ev=evidenceForAudit(a.auditNo).length;h+=`<tr><td>${a.auditNo}</td><td>${a.auditType}<br><small>${a.processName}</small></td><td>${a.standards.slice(0,2).join(", ")}${a.standards.length>2?"...":""}</td><td>${a.leadAuditor}</td><td><span class="status ${statusClass(a.auditStatus)}">${a.auditStatus}</span></td><td>${(a.findings||[]).length}<br><small>${maj} majör</small></td><td>${ev}</td><td>${a.auditScore}%</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyAudit(${i})">Bildir</button><button class="small-btn close" onclick="closeAudit(${i})">Kapat</button></div></td></tr>`});auditTable.innerHTML=h+"</tbody></table>"}
-function updateCards(items){let f=[];items.forEach(a=>f=f.concat(a.findings||[]));const score=items.length?Math.round(items.reduce((s,a)=>s+(a.auditScore||0),0)/items.length):0;totalAudits.textContent=items.length;openAudits.textContent=items.filter(a=>!["Kapalı","İptal"].includes(a.auditStatus)).length;totalFindings.textContent=f.length;totalEvidence.textContent=getEvidence().length;majorFindings.textContent=f.filter(x=>x.type==="Majör Uygunsuzluk").length;lateFindings.textContent=f.filter(x=>x.status==="Gecikti").length;auditScore.textContent=score+"%";readyAudits.textContent=items.filter(isAuditReady).length}
+function renderAudits(){let items=activeOnly(getAudits()).map(normalizeAudit);autoDelay(items);items=getAudits().map(normalizeAudit);const q=globalSearch.value.toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,df=departmentFilter.value;const f=items.filter(a=>`${a.auditNo} ${a.auditType} ${a.auditStatus} ${a.department} ${a.processName} ${a.leadAuditor} ${a.auditeeOwner} ${a.standards.join(" ")} ${(a.findings||[]).map(x=>x.description).join(" ")} ${evidenceForAudit(a.auditNo).map(e=>e.file.fileName).join(" ")}`.toLowerCase().includes(q)&&(!sf||a.auditStatus===sf)&&(!tf||a.auditType===tf)&&(!df||a.department===df));updateCards(items);renderCalendar(items);initAuditSelects();renderEvidencePreview();if(!f.length){auditTable.innerHTML='<div class="empty">Denetim kaydı bulunamadı.</div>';return}let h='<table><thead><tr><th>No</th><th>Tip / Süreç</th><th>Standart</th><th>Baş Denetçi</th><th>Durum</th><th>Bulgu</th><th>Kanıt</th><th>Skor</th><th>Aksiyon</th></tr></thead><tbody>';f.forEach(a=>{const i=items.findIndex(x=>x.id===a.id),maj=(a.findings||[]).filter(x=>x.type==="Majör Uygunsuzluk").length,ev=evidenceForAudit(a.auditNo).length;h+=`<tr><td>${a.auditNo}</td><td>${a.auditType}<br><small>${a.processName}</small></td><td>${a.standards.slice(0,2).join(", ")}${a.standards.length>2?"...":""}</td><td>${a.leadAuditor}</td><td><span class="status ${statusClass(a.auditStatus)}">${a.auditStatus}</span></td><td>${(a.findings||[]).length}<br><small>${maj} majör</small></td><td>${ev}</td><td>${a.auditScore}%</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${i})">İncele</button><button class="small-btn alert" onclick="notifyAudit(${i})">Bildir</button><button class="small-btn close" onclick="closeAudit(${i})">Kapat</button></div></td></tr>`});auditTable.innerHTML=h+"</tbody></table>"}
+function updateCards(items){let f=[];items.forEach(a=>f=f.concat(a.findings||[]));const score=items.length?Math.round(items.reduce((s,a)=>s+(a.auditScore||0),0)/items.length):0;totalAudits.textContent=items.length;openAudits.textContent=items.filter(a=>!["Kapalı","İptal"].includes(a.auditStatus)).length;totalFindings.textContent=f.length;totalEvidence.textContent=activeOnly(getEvidence()).length;majorFindings.textContent=f.filter(x=>x.type==="Majör Uygunsuzluk").length;lateFindings.textContent=f.filter(x=>x.status==="Gecikti").length;auditScore.textContent=score+"%";readyAudits.textContent=items.filter(isAuditReady).length}
 function renderCalendar(items){const months=["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];annualCalendar.innerHTML=months.map((m,i)=>{const c=items.filter(a=>new Date(a.auditStart).getMonth()===i);return`<div class="month"><b>${m}</b><span>${c.length} denetim</span><span>${c.slice(0,2).map(x=>x.auditNo+" "+x.processName).join("<br>")||"Plan yok"}</span></div>`}).join("")}
 
 function openDrawer(i){selectedIndex=i;const a=normalizeAudit(getAudits()[i]);drawerTitle.textContent=a.auditNo+" / "+a.processName;drawerStatus.textContent=a.auditStatus;drawerStatus.className="status "+statusClass(a.auditStatus);drawerContent.innerHTML=`<div class="info-box"><b>Denetim:</b> ${a.auditNo}
@@ -567,7 +628,7 @@ function openDrawer(i){selectedIndex=i;const a=normalizeAudit(getAudits()[i]);dr
 <b>Metot:</b> ${a.auditMethod||"-"}</div>
 <div class="info-box"><b>Checklist</b><br>${renderQuestionTable(a.questions)}</div>
 <div class="info-box"><b>Bulgular</b><br>${renderFindingTable(a.findings)}</div>
-<div class="info-box"><b>Audit Kanıtları</b><br>${renderEvidenceTable(a)}</div>
+<div class="info-box"><b>Denetim Kanıtları</b><br>${renderEvidenceTable(a)}</div>
 <div class="info-box"><b>Audit Trail</b>
 ${(a.auditTrail||[]).map(x=>`${formatDateTR(x.date)} - ${x.user} - ${x.action}`).join("\\n")||"-"}</div>`;drawer.classList.add("active")}
 function renderQuestionTable(qs){if(!qs.length)return"Checklist yok.";let h='<table><thead><tr><th>Std</th><th>Madde</th><th>Soru</th><th>Sonuç</th><th>Kanıt</th></tr></thead><tbody>';qs.forEach(q=>h+=`<tr><td>${q.standard}</td><td>${q.clause}</td><td>${q.question}</td><td><span class="status ${statusClass(q.result)}">${q.result}</span></td><td>${q.actualEvidence||q.expectedEvidence||"-"}</td></tr>`);return h+"</tbody></table>"}
@@ -576,15 +637,15 @@ function renderEvidenceTable(a){const ev=evidenceForAudit(a.auditNo);if(!ev.leng
 function closeDrawer(){selectedIndex=null;drawer.classList.remove("active")}
 function notifyAudit(i){createNotification(getAudits()[i],"Denetim bildirimi oluşturuldu.");showToast("Bildirim kuyruğu oluşturuldu")}
 function notifyAuditCurrent(){if(selectedIndex!==null)notifyAudit(selectedIndex)}
-function closeAudit(i){const a=getAudits().map(normalizeAudit),audit=a[i];const open=(audit.findings||[]).filter(f=>f.status!=="Kapalı"&&f.status!=="CAPA Açıldı");if(open.length)return showToast("Açık bulgu varken denetim kapatılamaz");if(evidenceForAudit(audit.auditNo).length===0)return showToast("Kanıt yüklenmeden denetim kapatılamaz");audit.auditStatus="Kapalı";audit.closedAt=new Date().toISOString();audit.auditTrail.push({action:"Denetim kapatıldı",user:session.name||"System",date:new Date().toISOString()});setAudits(a);renderAudits();showToast("Denetim kapatıldı")}
+function closeAudit(i){const a=getAudits().map(normalizeAudit),audit=a[i];const open=(audit.findings||[]).filter(f=>f.status!=="Kapalı"&&f.status!=="CAPA Açıldı");if(open.length)return showToast("Açık bulgu varken denetim kapatılamaz");if(evidenceForAudit(audit.auditNo).length===0)return showToast("Kanıt yüklenmeden denetim kapatılamaz");audit.auditStatus="Kapalı";audit.closedAt=new Date().toISOString();audit.auditTrail.push({action:"Denetim kapatıldı",user:currentUserName(),date:new Date().toISOString()});setAudits(a);postAuditLog("Denetim kapatıldı","Denetim",audit.auditNo);postActivity("Denetim kapatıldı","Denetim",audit.auditNo);renderAudits();showToast("Denetim kapatıldı")}
 function closeAuditCurrent(){if(selectedIndex!==null){closeAudit(selectedIndex);openDrawer(selectedIndex)}}
-function createCapaFromAuditCurrent(){if(selectedIndex===null)return;const a=getAudits().map(normalizeAudit);let c=0;a[selectedIndex].findings.forEach(f=>{if(!f.capaNo&&["Majör Uygunsuzluk","Minör Uygunsuzluk"].includes(f.type)){f.capaNo=createCapaFromFinding(f);f.status="CAPA Açıldı";c++}});a[selectedIndex].auditStatus="CAPA Bekliyor";a[selectedIndex].auditTrail.push({action:c+" bulgu için CAPA açıldı",user:session.name||"System",date:new Date().toISOString()});setAudits(a);renderAudits();openDrawer(selectedIndex);showToast(c+" CAPA oluşturuldu")}
+function createCapaFromAuditCurrent(){if(selectedIndex===null)return;const a=getAudits().map(normalizeAudit);let c=0;a[selectedIndex].findings.forEach(f=>{if(!f.capaNo&&["Majör Uygunsuzluk","Minör Uygunsuzluk"].includes(f.type)){f.capaNo=createCapaFromFinding(f);f.status="CAPA Açıldı";c++}});a[selectedIndex].auditStatus="CAPA Bekliyor";a[selectedIndex].auditTrail.push({action:c+" bulgu için CAPA açıldı",user:currentUserName(),date:new Date().toISOString()});setAudits(a);renderAudits();openDrawer(selectedIndex);showToast(c+" CAPA oluşturuldu")}
 function printAuditReport(){window.print()}
 
 function resetAuditForm(){generateAuditNo();auditType.value="İç Denetim";auditStatus.value="Planlandı";auditCriticality.value="Normal";auditStart.value=todayISO();auditEnd.value=addDays(todayISO(),1);reportDue.value=addDays(todayISO(),3);closureDue.value=addDays(todayISO(),30);department.value="Kalite";processName.value="";leadAuditor.value="";auditeeOwner.value="";auditTeam.value="";auditScope.value="";auditCriteria.value="";auditMethod.value="Doküman inceleme, saha gözlemi, görüşme, kayıt kontrolü, örnekleme ve izlenebilirlik doğrulama.";Array.from(standardScope.options).forEach(o=>o.selected=false);questionRows=[];findingRows=[];renderQuestionPreview();renderFindingPreview();clearQuestionInputs();clearFindingInputs()}
 function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
 globalSearch.addEventListener("input",renderAudits);
-initUserSelects();resetAuditForm();resetEvidenceForm();renderAudits();
+loadCloudMasterData().finally(()=>{resetAuditForm();resetEvidenceForm();renderAudits();});
 
 
 function toggleMenuGroup(btn){
@@ -713,7 +774,7 @@ if(document.getElementById("globalSearch")){
   globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch();});
 }
 
-console.log("GDNL EQMS Unified Audit Final Loaded");
+console.log("GDNL EQMS Denetim Yönetimi Yüklendi");
 </script>
 </body>
 </html>
