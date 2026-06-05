@@ -216,6 +216,13 @@ tr:hover td{background:#f7fbf8}
 .file-box{border:1px dashed #bfe7ca;border-radius:18px;padding:18px;background:linear-gradient(135deg,#f8fbff,#fff)}
 .hidden{display:none!important}
 
+
+/* === SINGLE PAGE USERS MANAGEMENT MODULE FLOW === */
+.module-panel{display:none}
+.module-panel.active{display:block}
+.module-panel.active.cards{display:grid}
+.menu a.single-link.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+
 </style>
 </head>
 
@@ -230,11 +237,11 @@ tr:hover td{background:#f7fbf8}
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
-    <a class="single-link active" href="users.html">👥 Kullanıcılar</a>
-    <a class="single-link" href="#rolesPanel" onclick="closeMobileMenu()">🛡️ Roller</a>
-    <a class="single-link" href="#permissionsPanel" onclick="closeMobileMenu()">🔐 Yetkiler</a>
-    <a class="single-link" href="#departmentsPanel" onclick="closeMobileMenu()">🏢 Departmanlar</a>
-    <a class="single-link" href="#systemPanel" onclick="closeMobileMenu()">📡 Sistem İzleme</a>
+    <a class="single-link active" href="javascript:void(0)" data-module-link="users" onclick="showModule('users');closeMobileMenu()">👥 Kullanıcılar</a>
+    <a class="single-link" href="javascript:void(0)" data-module-link="roles" onclick="showModule('roles');closeMobileMenu()">🛡️ Roller</a>
+    <a class="single-link" href="javascript:void(0)" data-module-link="permissions" onclick="showModule('permissions');closeMobileMenu()">🔐 Yetkiler</a>
+    <a class="single-link" href="javascript:void(0)" data-module-link="departments" onclick="showModule('departments');closeMobileMenu()">🏢 Departmanlar</a>
+    <a class="single-link" href="javascript:void(0)" data-module-link="system" onclick="showModule('system');closeMobileMenu()">📡 Sistem İzleme</a>
   </nav>
   <div class="mobile-drawer-footer">
     <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
@@ -245,11 +252,11 @@ tr:hover td{background:#f7fbf8}
   <div>
     <a href="users.html" class="logo">GDNL <span>EOS</span></a>
     <nav class="menu">
-      <a class="single-link active" href="users.html">👥 Kullanıcılar</a>
-      <a class="single-link" href="#rolesPanel">🛡️ Roller</a>
-      <a class="single-link" href="#permissionsPanel">🔐 Yetkiler</a>
-      <a class="single-link" href="#departmentsPanel">🏢 Departmanlar</a>
-      <a class="single-link" href="#systemPanel">📡 Sistem İzleme</a>
+      <a class="single-link active" href="javascript:void(0)" data-module-link="users" onclick="showModule('users')">👥 Kullanıcılar</a>
+      <a class="single-link" href="javascript:void(0)" data-module-link="roles" onclick="showModule('roles')">🛡️ Roller</a>
+      <a class="single-link" href="javascript:void(0)" data-module-link="permissions" onclick="showModule('permissions')">🔐 Yetkiler</a>
+      <a class="single-link" href="javascript:void(0)" data-module-link="departments" onclick="showModule('departments')">🏢 Departmanlar</a>
+      <a class="single-link" href="javascript:void(0)" data-module-link="system" onclick="showModule('system')">📡 Sistem İzleme</a>
     </nav>
   </div>
   <div class="sidebar-footer">GDNL EOS Enterprise<br>Users Management<br>JWT + HttpOnly Cookie Ready</div>
@@ -295,14 +302,14 @@ tr:hover td{background:#f7fbf8}
   <div id="searchResultsArea"></div>
 </section>
 
-<section class="cards">
+<section class="cards module-panel active" data-module="users">
   <div class="card"><small>Toplam Kullanıcı</small><h2 id="totalUsers">0</h2><p>Hedef sistem: 65 kullanıcı</p></div>
   <div class="card"><small>Aktif Kullanıcı</small><h2 id="activeUsers">0</h2><p>status = active</p></div>
   <div class="card"><small>Departman</small><h2 id="totalDepartments">0</h2><p>GET /departments</p></div>
   <div class="card"><small>Bekleyen Onay</small><h2 id="pendingApprovals">0</h2><p>Dashboard KPI senkron</p></div>
 </section>
 
-<section class="panel" id="selectorPanel">
+<section class="panel module-panel active" data-module="users" id="selectorPanel">
   <div class="panel-head">
     <h3>Kullanıcı Seçimi / Autocomplete</h3>
     <span class="status blue">GET /users?q=</span>
@@ -322,7 +329,7 @@ tr:hover td{background:#f7fbf8}
   </div>
 </section>
 
-<section class="panel" id="userDefinitionPanel">
+<section class="panel module-panel active" data-module="users" id="userDefinitionPanel">
   <div class="panel-head">
     <h3>Kullanıcı Tanımlama</h3>
     <span class="status blue" id="modeBadge">CREATE MODE</span>
@@ -347,7 +354,7 @@ tr:hover td{background:#f7fbf8}
   </div>
 </section>
 
-<section class="panel" id="userListPanel">
+<section class="panel module-panel active" data-module="users" id="userListPanel">
   <div class="panel-head">
     <h3>Kullanıcı Listesi</h3>
     <div class="toolbar">
@@ -359,7 +366,7 @@ tr:hover td{background:#f7fbf8}
   <div id="userTable"></div>
 </section>
 
-<section class="panel" id="rolesPanel">
+<section class="panel module-panel" data-module="roles" id="rolesPanel">
   <div class="panel-head">
     <h3>Roller</h3>
     <span class="status blue">GET /roles</span>
@@ -372,7 +379,7 @@ tr:hover td{background:#f7fbf8}
   </div>
 </section>
 
-<section class="panel" id="permissionsPanel">
+<section class="panel module-panel" data-module="permissions" id="permissionsPanel">
   <div class="panel-head">
     <h3>Yetkiler / RBAC</h3>
     <span class="status blue">permissions + role_permissions</span>
@@ -380,7 +387,7 @@ tr:hover td{background:#f7fbf8}
   <div id="permissionsTable"></div>
 </section>
 
-<section class="panel" id="departmentsPanel">
+<section class="panel module-panel" data-module="departments" id="departmentsPanel">
   <div class="panel-head">
     <h3>Departmanlar</h3>
     <span class="status blue">GET /departments</span>
@@ -391,7 +398,7 @@ tr:hover td{background:#f7fbf8}
   </div>
 </section>
 
-<section class="panel admin-panel" id="systemPanel">
+<section class="panel admin-panel module-panel" data-module="system" id="systemPanel">
   <div class="panel-head">
     <h3>Sistem İzleme</h3>
     <span class="status orange">Audit / Activity / Notifications / Files</span>
@@ -825,9 +832,45 @@ async function uploadFile(){
   showToast(result.signed_url || result.temporary_token ? "Dosya R2’ye yüklendi" : "Yükleme tamamlandı");
 }
 
-function openRoleCreate(){ showToast("Rol oluşturma modalı POST /roles endpointine bağlanacak"); }
-function deleteSelectedRole(){ showToast("Rol silme fiziksel değil soft delete mantığıyla yapılacak"); }
-function openDepartmentCreate(){ showToast("Departman oluşturma POST /departments endpointine bağlanacak"); }
+function openRoleCreate(){ createRole(); }
+function deleteSelectedRole(){ archiveRolePrompt(); }
+function openDepartmentCreate(){ createDepartment(); }
+
+function showModule(moduleName){
+  document.querySelectorAll('.module-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.dataset.module === moduleName);
+  });
+  document.querySelectorAll('[data-module-link]').forEach(link => {
+    link.classList.toggle('active', link.dataset.moduleLink === moduleName);
+  });
+  clearSearchResults();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+async function createRole(){
+  const name = prompt('Yeni rol kodu / adı');
+  if(!name) return;
+  const description = prompt('Rol açıklaması') || '';
+  await apiRequest('/roles', {method:'POST', body:JSON.stringify({name, description})});
+  showToast('Rol oluşturuldu');
+  await loadRoles();
+}
+
+async function archiveRolePrompt(){
+  const id = prompt('Pasifleştirilecek rol ID');
+  if(!id) return;
+  await apiRequest(`/roles/${id}/archive`, {method:'PATCH', body:JSON.stringify({archive_reason:'Rol pasifleştirme'})});
+  showToast('Rol pasifleştirildi');
+  await loadRoles();
+}
+
+async function createDepartment(){
+  const name = prompt('Yeni departman adı');
+  if(!name) return;
+  await apiRequest('/departments', {method:'POST', body:JSON.stringify({name})});
+  showToast('Departman oluşturuldu');
+  await loadDepartments();
+}
 
 async function logout(){
   try{ await apiRequest("/logout", {method:"POST"}); }catch(e){}
