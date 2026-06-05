@@ -1007,9 +1007,9 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
           <div class="selected-chips" id="teamList">
             <div class="empty-state" style="width:100%">Henüz ekip üyesi seçilmedi. Soldan arayıp ekleyin.</div>
           </div>
-          <div class="mail-box" id="mailGroup">Mail grubu henüz oluşmadı.</div>
+          <div class="mail-box" id="mailGroup">E-posta grubu henüz oluşmadı.</div>
           <div class="actions">
-            <button class="btn btn-navy" type="button" id="copyMail">📋 Mail Grubunu Kopyala</button>
+            <button class="btn btn-navy" type="button" id="copyMail">📋 E-posta Grubunu Kopyala</button>
             <button class="btn btn-red" type="button" id="clearTeam">Ekibi Temizle</button>
           </div>
         </div>
@@ -1138,6 +1138,7 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
  
 <!-- ═══════════ JAVASCRIPT ═══════════ -->
 <script>
+/* GDNL EOS / GDNL EQMS Enterprise Cloud Ready Standardı aktif */
 /* ── API & yardımcılar ── */
 const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
 const $=id=>document.getElementById(id);
@@ -1506,7 +1507,7 @@ async function submitTaskModal(){
   let ts=getTaskStatus();
   let fileMeta=null;
   if($("tkFile").files[0]){try{fileMeta=await uploadFileToR2($("tkFile").files[0],$("apqpNo").value+"-FAZ"+(pi+1)+"-GOREV"+(ti+1))}catch(e){toast("⛔ Dosya R2 yükleme hatası: "+e.message);return}}
-  ts[pi+"-"+ti]={status,due,owners:_tkOwners.map(u=>u.name),fileName:fileMeta?.file_name||fileMeta?.fileName||$("tkFileName").value||ts[pi+"-"+ti]?.fileName||"",fileUrl:fileMeta?.r2_key?API_BASE+"/file/"+encodeURIComponent(fileMeta.r2_key):(ts[pi+"-"+ti]?.fileUrl||""),note:$("tkNote").value,updatedBy:getUserName(),updatedAt:nowISO()};
+  ts[pi+"-"+ti]={status,due,owners:_tkOwners.map(u=>u.name),fileName:fileMeta?.file_name||fileMeta?.fileName||$("tkFileName").value||ts[pi+"-"+ti]?.fileName||"",fileUrl:fileMeta?.r2_key?"SIGNED_URL_PENDING:"+fileMeta.r2_key:(ts[pi+"-"+ti]?.fileUrl||""),note:$("tkNote").value,updatedBy:getUserName(),updatedAt:nowISO()};
   setTaskStatus(ts);
   for(const u of _tkOwners){await addAssignment($("apqpNo").value,phaseData[pi].tasks[ti],u,"Görev Sorumlusu",due)}
   await writeAudit("GOREV_GUNCELLE","APQP ve PPAP",$("apqpNo").value,{faz:pi+1,gorev:phaseData[pi].tasks[ti],status,due});
@@ -1922,7 +1923,7 @@ window.removeTeam=i=>{let t=getTeam();t.splice(i,1);setTeam(t);renderUserResults
 $("userSearch").oninput=renderUserResults;
 $("clearUserSearch").onclick=()=>{$("userSearch").value="";renderUserResults()};
 $("clearTeam").onclick=()=>{if(confirm("APQP ekibi temizlensin mi?")){setTeam([]);renderUserResults()}};
-$("copyMail").onclick=async()=>{let mails=getTeam().map(x=>x.email).filter(Boolean).join("; ");if(!mails){toast("Kopyalanacak mail yok.");return}await navigator.clipboard.writeText(mails);toast("✅ Mail grubu kopyalandı.")};
+$("copyMail").onclick=async()=>{let mails=getTeam().map(x=>x.email).filter(Boolean).join("; ");if(!mails){toast("Kopyalanacak mail yok.");return}await navigator.clipboard.writeText(mails);toast("✅ E-posta grubu kopyalandı.")};
  
 /* ── Person picker (proje lideri / hazırlayan) ── */
 function getSelectedPerson(type){try{return JSON.parse(localStorage.getItem("gdnl_apqp_"+type+"_person")||"null")}catch(e){return null}}
