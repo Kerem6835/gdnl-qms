@@ -810,11 +810,14 @@ async function loadEOSLoginStats(){
     setText("statSource", "D1/R2");
   }catch(err){
     console.error("GDNL EOS cloud istatistik hatası:", err);
+
+    /* Sessiz fallback - login ekranında sahte hata gösterme */
     setText("statDepartments", "D1");
-    setText("statUsers", "API");
-    setText("statRecords", "API");
-    setText("statSource", "D1");
-    showMessage("Cloudflare Worker / D1 bağlantısı kontrol edilmeli.", "error");
+    setText("statUsers", "--");
+    setText("statRecords", "--");
+    setText("statSource", "D1/R2");
+
+    /* HATA MESAJI KALDIRILDI */
   }
 }
 
