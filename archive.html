@@ -1,5 +1,1509 @@
 <!DOCTYPE html>
+<html lang="tr"><!DOCTYPE html>
 <html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL EQMS | 8D ve CAPA Yönetimi</title>
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+html,body{min-height:100%;overflow-x:hidden}
+body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparent 30%),radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),linear-gradient(135deg,#fbfdff 0%,#eef5fc 46%,#f8fbff 100%);color:#0f1b2f}
+.app{display:grid;grid-template-columns:282px minmax(0,1fr);min-height:100vh;align-items:start}
+.sidebar{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #dfe9f5;box-shadow:18px 0 58px rgba(7,27,52,.06);min-height:100vh;position:sticky;top:0}
+.logo{font-size:30px;font-weight:900;margin-bottom:35px;text-decoration:none;color:#071b34;display:block;letter-spacing:-.8px}
+.logo span{color:#35a852}
+.menu{display:flex;flex-direction:column;gap:8px}
+.menu a{text-decoration:none;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s;border:1px solid transparent}
+.menu a:hover,.menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+
+.menu-group{width:100%;border:1px solid transparent;background:transparent;color:#516177;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:900;text-align:left;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.menu-group:hover,.menu-group.active-group{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
+.menu-group .chev{font-size:12px;transition:.2s;color:inherit}
+.menu-group.open .chev{transform:rotate(90deg)}
+.submenu{display:none;flex-direction:column;gap:6px;margin:0 0 6px 12px;padding:6px 0 6px 12px;border-left:2px solid #dbeafe}
+.submenu.open{display:flex}
+.submenu a{font-size:13px;padding:11px 12px;border-radius:12px;font-weight:850}
+.submenu a:before{content:"";width:6px;height:6px;border-radius:99px;background:#b8c7d9;display:inline-block;margin-right:8px;vertical-align:middle}
+.submenu a.active:before{background:#35a852}
+.mobile-drawer-menu .menu-group{font-size:15px;padding:14px 15px;border-radius:15px}
+.mobile-drawer-menu .submenu{margin-left:12px;padding-left:12px;border-left:2px solid #dbeafe;gap:6px}
+.mobile-drawer-menu .submenu a{font-size:14px;padding:12px 12px;border-radius:13px}
+
+.sidebar-footer{font-size:12px;color:#66758a;line-height:1.6;border-top:1px solid #dfe9f5;padding-top:18px}
+.main{padding:24px 24px 40px;max-width:1780px;margin:0 auto;width:100%;align-self:start}
+.topbar{height:72px;background:rgba(255,255,255,.93);backdrop-filter:blur(16px);border:1px solid #dfe9f5;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(7,27,52,.065);margin-bottom:24px}
+.search-wrap{display:flex;align-items:center;gap:10px;min-width:0}
+.search{width:550px;height:46px;border:1px solid #d8e4ef;border-radius:14px;padding:0 16px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
+.search:focus,.field input:focus,.field select:focus,.field textarea:focus,.toolbar select:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12);background:#fff}
+.search-btn{height:46px;padding:0 18px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);transition:.2s}
+.search-btn:hover,.avatar:hover,.btn.primary:hover,.result-open:hover{opacity:1;filter:brightness(.99);transform:translateY(-1px)}
+.profile{display:flex;align-items:center;gap:10px;flex:0 0 auto}
+.avatar{width:auto!important;height:44px;border-radius:14px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer;box-shadow:0 14px 32px rgba(53,168,82,.22);padding:0 24px!important;transition:.2s;white-space:nowrap}
+.logout-btn{height:44px;border:1px solid #fecaca;background:#fee2e2;color:#991b1b;padding:0 18px;border-radius:14px;font-weight:900;cursor:pointer;transition:.2s;white-space:nowrap}
+.logout-btn:hover{background:#fecaca;transform:translateY(-1px)}
+.hero{background:radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf3ff 100%);color:#0f1b2f;border:1px solid #dbe8f7;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 20px 55px rgba(7,27,52,.065)}
+.hero h1{font-size:42px;font-weight:950;letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px;color:#081d35}
+.hero p{max-width:1000px;color:#4e6078;font-weight:650;line-height:1.7}
+.hero-badge{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap;box-shadow:0 14px 32px rgba(53,168,82,.22)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{background:rgba(255,255,255,.84);backdrop-filter:blur(20px);border:1px solid rgba(53,168,82,.12);border-radius:24px;padding:22px;box-shadow:0 10px 30px rgba(7,27,52,.05),0 2px 8px rgba(53,168,82,.05);position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,#35a852,#1597ff);opacity:.88}
+.card small{color:#617086;font-weight:900}.card h2{font-size:40px;font-weight:950;color:#1f7d3d;letter-spacing:-1px;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#536176}
+.panel{background:rgba(255,255,255,.93);border:1px solid #e0e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(7,27,52,.055);backdrop-filter:blur(14px);margin-bottom:24px;min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.panel h3{font-size:19px;font-weight:900;color:#071b34;letter-spacing:-.3px}
+.form-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field.full{grid-column:1/-1}.field.double{grid-column:span 2}.field.triple{grid-column:span 3}
+.field label{font-size:12px;font-weight:900;color:#617086}
+.field input,.field select,.field textarea{width:100%;max-width:100%;min-width:0;height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 13px;background:linear-gradient(135deg,#fff,#f8fbff);outline:none;font-weight:800;color:#0f1b2f}
+.field input[readonly]{background:#eef2f7;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.field textarea{height:92px;padding:12px;resize:none}.field textarea.big{height:155px}
+.actions,.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.toolbar{margin-top:0}
+.toolbar select{height:42px;border:1px solid #d8e4ef;border-radius:13px;padding:0 12px;background:linear-gradient(135deg,#fff,#f8fbff);font-weight:800;outline:none;color:#0f1b2f}
+.btn{border:none;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;box-shadow:0 14px 32px rgba(53,168,82,.22)}
+.btn.dark{background:linear-gradient(135deg,#071b34,#0d2747);color:white}.btn.green{background:#dcfce7;color:#15803d}.btn.orange{background:#ffedd5;color:#c2410c}.btn.red{background:#fee2e2;color:#991b1b}
+.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
+.status.blue{background:#e8f7ee;color:#1f7d3d}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e9eef5;color:#405166}
+table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}
+th{text-align:left;font-size:12px;color:#617086;padding:12px;border-bottom:1px solid #e1eaf3;background:linear-gradient(135deg,#f8fbff,#f1f8f4)}
+td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:800;color:#536176;vertical-align:middle}
+td small{color:#64748b;font-weight:800}
+tr:hover td{background:#f7fbf8}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap}
+.small-btn{border:none;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:900;cursor:pointer}
+.small-btn.view{background:#e8f7ee;color:#1f7d3d}.small-btn.close{background:#dcfce7;color:#15803d}.small-btn.alert{background:#ffedd5;color:#c2410c}.small-btn.delete{background:#fee2e2;color:#991b1b}.small-btn.next{background:#071b34;color:white}
+.empty{padding:30px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:linear-gradient(135deg,#f8fbff,#fff)}
+.workflow{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:10px;margin-top:14px}
+.wstep{border:1px solid #e0e8f0;background:linear-gradient(135deg,#f8fbff,#ffffff);border-radius:16px;padding:12px;text-align:center;font-weight:900;font-size:12px;color:#536176;min-width:0}
+.wstep.active{border-color:#bfe7ca;background:#eefaf2;color:#1f7d3d}
+.wstep.done{border-color:#86efac;background:#f0fdf4;color:#15803d}
+.wstep.late{border-color:#fecaca;background:#fef2f2;color:#991b1b}
+.subgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.action-box{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:20px;padding:16px;margin-top:14px}
+.action-box h4{font-size:15px;font-weight:900;margin-bottom:12px;color:#071b34}
+.drawer{display:none;position:fixed;right:24px;top:24px;width:min(960px,calc(100% - 48px));max-height:calc(100vh - 48px);overflow:auto;background:rgba(255,255,255,.96);border:1px solid #e0e8f0;border-radius:28px;box-shadow:0 30px 100px rgba(15,23,42,.22);z-index:80;padding:24px;backdrop-filter:blur(18px)}
+.drawer.active{display:block}.drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}.drawer h3{font-size:22px;margin-bottom:8px;color:#071b34}
+.close-btn{border:1px solid #fecaca;background:#fee2e2;color:#991b1b;border-radius:12px;padding:10px 13px;font-weight:900;cursor:pointer}
+.info-box{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;margin-bottom:12px;font-size:13px;font-weight:800;color:#536176;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.toast{position:fixed;right:24px;bottom:24px;background:linear-gradient(135deg,#071b34,#1f8f43);color:white;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 18px 50px rgba(15,23,42,.28);display:none;z-index:99}
+.search-results-panel{display:none;border:1px solid #bae6fd;background:rgba(255,255,255,.94)}
+.search-results-panel.active{display:block;border-color:#c7ebd2}
+.search-summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;font-weight:900;color:#475569}
+.search-keyword{background:#e8f7ee;color:#1f7d3d;border-radius:999px;padding:7px 12px;font-weight:950}
+.result-card{background:linear-gradient(135deg,#f8fbff,#ffffff);border:1px solid #e0e8f0;border-radius:18px;padding:15px;margin-bottom:12px;display:grid;grid-template-columns:160px minmax(0,1fr) 130px;gap:14px;align-items:center}
+.result-card b{display:block;font-size:14px;margin-bottom:6px;color:#0f172a}.result-card small{display:block;font-size:12px;color:#617086;line-height:1.55;font-weight:800}.result-card mark{background:#dcfce7;color:#166534;padding:1px 3px;border-radius:4px}
+.result-open{height:38px;border:none;border-radius:12px;background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%);color:white;font-weight:900;cursor:pointer}
+.mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:14px;background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:white;font-size:22px;font-weight:950;cursor:pointer;box-shadow:0 12px 28px rgba(53,168,82,.22);flex:0 0 auto}
+.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.42);backdrop-filter:blur(6px);z-index:90}
+.mobile-drawer{position:fixed;top:0;left:-88%;width:86%;max-width:360px;height:100dvh;min-height:100dvh;background:rgba(255,255,255,.98);z-index:100;box-shadow:28px 0 70px rgba(15,23,42,.22);transition:.25s ease;display:flex;flex-direction:column;border-right:1px solid #e2e8f0;overflow:hidden}
+.mobile-drawer.active{left:0}.mobile-overlay.active{display:block}
+.mobile-drawer-head{height:86px;flex:0 0 86px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #e2e8f0;background:linear-gradient(135deg,#ffffff,#f0fbf4)}
+.mobile-drawer-logo{font-size:25px;font-weight:950;letter-spacing:-.5px;color:#0f172a}.mobile-drawer-logo span{color:#35a852}
+.mobile-close{width:42px;height:42px;border:1px solid #fecaca;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950;cursor:pointer}
+.mobile-drawer-menu{padding:16px 16px 92px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:8px;flex:1 1 auto;-webkit-overflow-scrolling:touch;max-height:calc(100dvh - 86px)}
+.mobile-drawer-menu a{text-decoration:none;color:#516177;padding:14px 15px;border-radius:15px;font-size:15px;font-weight:900;border:1px solid transparent}
+.mobile-drawer-menu a:hover,.mobile-drawer-menu a.active{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca}
+.mobile-drawer-footer{position:absolute;left:0;right:0;bottom:0;width:100%;padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid #e2e8f0;background:rgba(255,255,255,.98);box-shadow:0 -14px 30px rgba(15,23,42,.12);z-index:120}
+.mobile-logout{display:flex;align-items:center;justify-content:center;width:100%;height:52px;border:1px solid #fecaca;border-radius:15px;background:#fee2e2;color:#991b1b;font-weight:950;font-size:15px;cursor:pointer}.mobile-logout:hover{background:#fecaca}
+@media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.field.full,.field.double,.field.triple{grid-column:1/-1}.subgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.workflow{grid-template-columns:repeat(3,minmax(0,1fr))}.search{width:320px}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid,.subgrid,.workflow{grid-template-columns:1fr}.field.full,.field.double,.field.triple{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
+
+
+.autocomplete-box{position:relative}
+.autocomplete-list{position:absolute;z-index:120;left:0;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.16);max-height:220px;overflow:auto;display:none}
+.autocomplete-item{padding:11px 13px;font-weight:850;color:#334155;cursor:pointer;border-bottom:1px solid #eef2f7}
+.autocomplete-item:hover{background:#eefaf2;color:#1f7d3d}
+.comment-box{background:linear-gradient(135deg,#f8fbff,#fff);border:1px solid #e0e8f0;border-radius:18px;padding:14px;margin-top:12px}
+.comment-item{border-bottom:1px solid #edf2f7;padding:10px 0;font-size:13px;color:#536176;font-weight:800}
+.comment-item:last-child{border-bottom:none}
+.comment-input{width:100%;min-height:82px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;font-weight:800;resize:vertical}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-head">
+    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
+  </div>
+  <nav class="mobile-drawer-menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📚 Doküman Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="company-assets-documents.html">Firma Belgeleri</a>
+<a href="documents.html">Doküman Yönetimi</a>
+<a href="new-document.html">Yeni Doküman</a>
+<a href="revision.html">Revizyon Yönetimi</a>
+<a href="approval.html">Onay Yönetimi</a>
+<a href="distribution.html">Dağıtım Yönetimi</a>
+<a href="archive.html">Arşiv Yönetimi</a>
+<a href="document-viewer.html">Doküman Görüntüleyici</a>
+</div>
+
+<button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
+<div class="submenu open">
+<a class="active" href="capa.html">8D / CAPA</a>
+<a href="risk-register.html">Risk Yönetimi</a>
+<a href="change-management.html">Değişiklik Yönetimi</a>
+<a href="process-management.html">Süreç Yönetimi</a>
+<a href="continuous-improvement.html">Sürekli İyileştirme</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="training-management.html">Eğitim Yönetimi</a>
+<a href="competency-matrix.html">Yetkinlik Matrisi</a>
+<a href="users.html">Kullanıcılar</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🏭 Paydaş Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="supplier-management.html">Tedarikçi Yönetimi</a>
+<a href="customer-management.html">Müşteri Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="management-review.html">YGG Yönetimi</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
+<a href="notification-center.html">Bildirim Merkezi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
+<div class="submenu">
+<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
+<div class="submenu">
+<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
+<a href="standards-compliance.html">Standart Uygunluk</a>
+<a href="legal-compliance.html">Yasal Uyum</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
+<div class="submenu">
+<a href="apqp.html">APQP & PPAP</a>
+</div>
+</nav>
+  <div class="mobile-drawer-footer">
+    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
+  </div>
+</aside>
+
+<aside class="sidebar">
+<div>
+<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<nav class="menu">
+<a href="dashboard.html">🏠 Dashboard</a>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📚 Doküman Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="company-assets-documents.html">Firma Belgeleri</a>
+<a href="documents.html">Doküman Yönetimi</a>
+<a href="new-document.html">Yeni Doküman</a>
+<a href="revision.html">Revizyon Yönetimi</a>
+<a href="approval.html">Onay Yönetimi</a>
+<a href="distribution.html">Dağıtım Yönetimi</a>
+<a href="archive.html">Arşiv Yönetimi</a>
+<a href="document-viewer.html">Doküman Görüntüleyici</a>
+</div>
+
+<button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">⚙️ Kalite Yönetimi <span class="chev">›</span></button>
+<div class="submenu open">
+<a class="active" href="capa.html">8D / CAPA</a>
+<a href="risk-register.html">Risk Yönetimi</a>
+<a href="change-management.html">Değişiklik Yönetimi</a>
+<a href="process-management.html">Süreç Yönetimi</a>
+<a href="continuous-improvement.html">Sürekli İyileştirme</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">👥 Organizasyon Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="training-management.html">Eğitim Yönetimi</a>
+<a href="competency-matrix.html">Yetkinlik Matrisi</a>
+<a href="users.html">Kullanıcılar</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🏭 Paydaş Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="supplier-management.html">Tedarikçi Yönetimi</a>
+<a href="customer-management.html">Müşteri Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">📊 Performans Yönetimi <span class="chev">›</span></button>
+<div class="submenu">
+<a href="kpi-reports.html">KPI & Raporlar</a>
+<a href="management-review.html">YGG Yönetimi</a>
+<a href="action-center.html">Aksiyon Merkezi</a>
+<a href="notification-center.html">Bildirim Merkezi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
+<div class="submenu">
+<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
+<div class="submenu">
+<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
+<a href="standards-compliance.html">Standart Uygunluk</a>
+<a href="legal-compliance.html">Yasal Uyum</a>
+</div>
+
+<button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
+<div class="submenu">
+<a href="apqp.html">APQP</a>
+<a href="fmea.html">FMEA</a>
+<a href="control-plan.html">Kontrol Planı</a>
+<a href="ppap.html">PPAP</a>
+<a href="spc.html">SPC</a>
+<a href="msa.html">MSA</a>
+</div>
+</nav>
+</div>
+<div class="sidebar-footer" style="display:none"></div>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
+<div class="search-wrap">
+<input class="search" id="globalSearch" placeholder="8D no, CAPA no, problem, aktif adım, görev, sorumlu veya durum ara">
+<button class="search-btn" onclick="runSearch()">Ara</button>
+</div>
+<div class="profile">
+<div class="avatar" onclick="window.location.href='dashboard.html'">
+<span id="userName">Kerem Güdenli</span>
+</div>
+<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+</div>
+</header>
+
+<section class="hero">
+<div>
+<h1>8D ve CAPA Yönetim Merkezi</h1>
+<p>D0–D8 adım bazlı ilerleyen, her adım için sorumlu/planlanan tarih/gerçekleşen tarih/görev/kapanış süresi/eskalasyon/denetim izi ve mail-SMS bildirim kuyruğu üreten profesyonel CAPA yönetim merkezi.</p>
+</div>
+<div class="hero-badge">Sistem: <span>Aktif</span></div>
+</section>
+<section class="panel search-results-panel" id="searchResultsPanel">
+<div class="panel-head">
+<h3>Arama Sonuçları</h3>
+<div class="search-summary">
+<span class="search-keyword" id="searchKeyword">-</span>
+<span id="searchResultCount">0 sonuç</span>
+<a class="link" onclick="clearSearchResults()">Temizle</a>
+</div>
+</div>
+<div id="searchResultsArea"></div>
+</section>
+<section class="cards">
+<div class="card"><small>Toplam 8D</small><h2 id="totalCapa">0</h2><p>Kayıtlı 8D/CAPA</p></div>
+<div class="card"><small>Açık</small><h2 id="openCapa">0</h2><p>Devam eden kayıt</p></div>
+<div class="card"><small>Geciken</small><h2 id="lateCapa">0</h2><p>Termin aşımı</p></div>
+<div class="card"><small>Kapalı</small><h2 id="closedCapa">0</h2><p>Kapatılan kayıt</p></div>
+</section>
+
+<section class="cards">
+<div class="card"><small>Toplam Görev</small><h2 id="totalTasks">0</h2><p>D0-D8 görevleri</p></div>
+<div class="card"><small>Açık Görev</small><h2 id="openTasks">0</h2><p>Devam eden işler</p></div>
+<div class="card"><small>Geciken Görev</small><h2 id="lateTasks">0</h2><p>Planlanan tarihi geçen</p></div>
+<div class="card"><small>Ort. Kapanış</small><h2 id="avgCloseDays">0</h2><p>Gün bazlı ortalama</p></div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>Yeni 8D / CAPA Açılışı</h3>
+<span class="status blue">KAYIT OLUŞTURMA MODU</span>
+</div>
+
+<div class="form-grid">
+<div class="field"><label>8D No</label><input id="eightDNo" readonly></div>
+<div class="field"><label>CAPA No</label><input id="capaNo" readonly></div>
+<div class="field"><label>Açılış Tarihi</label><input id="openDate" type="date"></div>
+<div class="field"><label>Beklenen Kapanış</label><input id="dueDate" type="date"></div>
+
+<div class="field"><label>CAPA Sınıfı</label><select id="capaClass" onchange="applySlaByClass()"><option>Küçük CAPA</option><option>Büyük CAPA</option><option>Kritik 8D</option><option>Tedarikçi 8D</option><option>Müşteri 8D</option><option>Tedarikçi Düzeltici Faaliyet Talebi</option></select></div>
+<div class="field"><label>Kaynak</label><select id="source"><option>Müşteri Şikayeti</option><option>İç Denetim</option><option>Üretim Uygunsuzluğu</option><option>Tedarikçi</option><option>Proses</option><option>Kalibrasyon</option><option>Risk</option><option>Yönetim Gözden Geçirme</option><option>Diğer</option></select></div>
+<div class="field"><label>Departman</label><select id="department"><option>Kalite</option><option>Üretim</option><option>Mühendislik</option><option>Satınalma</option><option>Bakım</option><option>Lojistik</option><option>Bilgi Güvenliği</option><option>Yönetim</option></select></div>
+<div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+
+<div class="field"><label>Durum</label><select id="status"><option>Açık</option><option>İncelemede</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Reddedildi</option></select></div>
+<div class="field"><label>Beklenen SLA</label><input id="slaDays" readonly></div>
+<div class="field"><label>Aktif D Adımı</label><input id="currentStep" readonly></div>
+<div class="field"><label>İlerleme %</label><input id="progressRate" readonly></div>
+
+<div class="field double"><label>Problem Başlığı</label><input id="problemTitle" placeholder="Problem başlığını yaz"></div>
+<div class="field"><label>Açan Kişi</label><input id="openedBy"></div>
+<div class="field"><label>8D Lideri</label><input id="leader"></div>
+
+<div class="field"><label>Müşteri Etkisi</label><select id="customerImpact"><option>Yok</option><option>Var</option><option>Kritik</option></select></div>
+<div class="field"><label>Üretim Etkisi</label><select id="productionImpact"><option>Yok</option><option>Hat Durdu</option><option>Sevkiyat Riski</option><option>Kalite Riski</option></select></div>
+<div class="field"><label>RPN Şiddet</label><select id="severity" onchange="updateRpn()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>RPN Sıklık</label><select id="occurrence" onchange="updateRpn()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>RPN Tespit</label><select id="detection" onchange="updateRpn()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+<div class="field"><label>RPN</label><input id="rpn" readonly></div>
+
+<div class="field full"><label>D1 - Takım Üyeleri</label><textarea id="teamMembers" placeholder="Ad Soyad / Departman / Rol / Mail / Telefon"></textarea></div>
+<div class="field full"><label>E-Posta Grupları</label><input id="mailGroups" placeholder="kalite@firma.com; uretim@firma.com"></div>
+<div class="field full"><label>Kısa Mesaj Grupları</label><input id="smsGroups" placeholder="Kalite Grup; Üretim Grup"></div>
+
+<div class="field full"><label>D0 - Planlama / Acil Durum Değerlendirmesi</label><textarea id="d0Planning" placeholder="Acil durum, geçici önlem ihtiyacı, müşteri/üretim riski, ilk karar..."></textarea></div>
+<div class="field full"><label>D2 - Problem Tanımı / 5W2H</label><textarea class="big" id="problemDescription" placeholder="Ne, nerede, ne zaman, kim, nasıl, kaç adet, etkisi..."></textarea></div>
+<div class="field full"><label>D3 - Geçici Önlem / Containment</label><textarea id="geçici önlem"></textarea></div>
+<div class="field full"><label>D4 - Kök Neden / 5 Why</label><textarea class="big" id="rootCause"></textarea></div>
+<div class="field full"><label>D4 - Balık Kılçığı / 6M Analizi</label><textarea id="fishbone" placeholder="İnsan, Makine, Metot, Malzeme, Ölçüm, Çevre"></textarea></div>
+<div class="field full"><label>D5 - Kalıcı Düzeltici Faaliyet Özeti</label><textarea id="correctiveAction"></textarea></div>
+<div class="field full"><label>D6 - Uygulama / Kanıt Özeti</label><textarea id="implementation"></textarea></div>
+<div class="field full"><label>D7 - Tekrarını Önleme</label><textarea id="prevention" placeholder="FMEA, kontrol planı, prosedür, talimat, eğitim, SPC, MSA, PPAP bağlantıları"></textarea></div>
+<div class="field full"><label>D8 - Kapanış / Öğrenilen Dersler</label><textarea id="closureNote"></textarea></div>
+
+<div class="field"><label>Doküman Revizyonu Gerekli mi?</label><select id="docRevisionRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>FMEA Güncelleme Gerekli mi?</label><select id="fmeaRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Kontrol Planı Güncelleme Gerekli mi?</label><select id="controlPlanRequired"><option>Hayır</option><option>Evet</option></select></div>
+<div class="field"><label>Eğitim Gerekli mi?</label><select id="trainingRequired"><option>Hayır</option><option>Evet</option></select></div>
+
+<div class="field"><label>Etkinlik Kontrol Tarihi</label><input id="effectivenessDate" type="date"></div>
+<div class="field"><label>Etkinlik Sonucu</label><select id="effectivenessResult"><option>Bekliyor</option><option>Etkili</option><option>Etkisiz</option></select></div>
+<div class="field double"><label>Kanıt Dosyası</label><input id="evidenceFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp,.txt,.csv,.zip,.rar"></div>
+</div>
+
+<div class="workflow" id="workflowPreview"></div>
+
+<div class="action-box">
+<h4>Aktif D Adımı İçin Görev / Aksiyon Ekle</h4>
+<div class="subgrid">
+<div class="field"><label>D Adımı</label><select id="taskStep"></select></div>
+<div class="field"><label>Görev Tipi</label><select id="taskType"><option>Düzeltme</option><option>Düzeltici Faaliyet</option><option>Önleyici Faaliyet</option><option>Containment</option><option>Analiz</option><option>Doğrulama</option><option>Eğitim</option><option>Doküman Revizyonu</option><option>Etkinlik Kontrolü</option></select></div>
+<div class="field"><label>CAPA Tipi</label><select id="taskClass"><option>Küçük</option><option>Büyük</option><option>Kritik</option></select></div>
+<div class="field"><label>Öncelik</label><select id="taskPriority"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
+<div class="field"><label>Sorumlu</label><input id="taskOwner" placeholder="Sorumlu kişi"></div>
+<div class="field"><label>Planlanan Tarih</label><input id="taskPlanDate" type="date"></div>
+<div class="field"><label>Gerçekleşen Tarih</label><input id="taskActualDate" type="date"></div>
+<div class="field"><label>Eskalasyon</label><select id="taskEscalation"><option>Normal</option><option>Lider</option><option>Müdür</option><option>Kalite Admin</option></select></div>
+<div class="field full"><label>Görev / Aksiyon Açıklaması</label><textarea id="taskDescription" placeholder="Görev maddesini net yaz"></textarea></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="addTask()">Görev Ekle</button>
+<button class="btn dark" onclick="clearTaskInputs()">Görev Alanını Temizle</button>
+</div>
+<div id="taskPreview"></div>
+</div>
+
+<div class="actions">
+<button class="btn primary" onclick="saveCapa()">8D / CAPA Aç</button>
+<button class="btn orange" onclick="saveCapa(true)">Aç ve Bildir</button>
+<button class="btn green" onclick="saveClosedCapa()">Kapalı Kaydet</button>
+<button class="btn dark" onclick="resetForm()">Temizle</button>
+</div>
+</section>
+
+<section class="panel">
+<div class="panel-head">
+<h3>8D / CAPA Ana Listesi</h3>
+<div class="toolbar">
+<select id="statusFilter" onchange="renderCapa()"><option value="">Tüm Durumlar</option><option>Açık</option><option>İncelemede</option><option>Aksiyon Bekliyor</option><option>Etkinlik Kontrolü</option><option>Kapalı</option><option>Gecikti</option><option>Reddedildi</option></select>
+<select id="stepFilter" onchange="renderCapa()"><option value="">Tüm D Adımları</option></select>
+<select id="criticalityFilter" onchange="renderCapa()"><option value="">Tüm Kritiklikler</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select>
+<select id="classFilter" onchange="renderCapa()"><option value="">Tüm CAPA Sınıfları</option><option>Küçük CAPA</option><option>Büyük CAPA</option><option>Kritik 8D</option><option>Tedarikçi 8D</option><option>Müşteri 8D</option><option>Tedarikçi Düzeltici Faaliyet Talebi</option></select>
+</div>
+</div>
+<div id="capaTable"></div>
+</section>
+
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+<div class="drawer-head">
+<div>
+<h3 id="drawerTitle">8D Detayı</h3>
+<span class="status blue" id="drawerStatus">Açık</span>
+</div>
+<button class="close-btn" onclick="closeDrawer()">Kapat</button>
+</div>
+<div id="drawerContent"></div>
+
+<div class="comment-box" id="commentPanel" style="display:none">
+<h4>Yorumlar</h4>
+<div id="commentList"></div>
+<textarea class="comment-input" id="commentText" placeholder="Yorum yaz"></textarea>
+<div class="actions"><button class="btn primary" onclick="addCommentToCurrent()">Yorum Ekle</button></div>
+</div>
+<div class="actions">
+<button class="btn green" onclick="advanceCurrentStep()">Aktif D Adımını Tamamla / Sonraki Adıma Geç</button>
+<button class="btn orange" onclick="notifyCurrent()">Bildirim Oluştur</button>
+<button class="btn primary" onclick="startRevisionCurrent()">Doküman Revizyonu Başlat</button>
+<button class="btn red" onclick="closeCurrent()">8D Kapat</button>
+<button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
+</div>
+</div>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script>
+const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+let session={name:"Kerem Güdenli",role:"Super Administrator",id:"1",department:"Kalite",email:""};
+let cloudUsers=[];
+let cloudDepartments=[];
+let cloudCapas=[];
+let cloudNotifications=[];
+let cloudComments=[];
+let cloudNextSeq=1;
+function currentUser(){return session||{name:"Sistem",role:"Kullanıcı",id:"",department:"",email:""}}
+document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+
+
+function runSearch(){
+const input=document.getElementById("globalSearch");
+const text=input.value.trim().toLowerCase();
+
+if(!text){
+clearSearchResults();
+input.focus();
+renderCapa();
+return;
+}
+
+let results=[];
+
+getCapa().map(normalizeCapa).forEach(item=>{
+const fullText=JSON.stringify(item).toLowerCase();
+if(fullText.includes(text)){
+results.push({
+type:"record",
+module:"8D / CAPA",
+go:"#",
+store:"gdnl_selected_capa",
+selected:item.id||item.eightDNo||"",
+title:item.problemTitle||item.eightDNo||item.capaNo||"CAPA",
+detail:`${item.eightDNo||""} ${item.capaNo||""} ${item.source||""} ${item.department||""} ${item.status||""} ${item.capaClass||""} ${item.currentStep||""}`
+});
+}
+});
+
+getNotifications().forEach(n=>{
+const fullText=JSON.stringify(n).toLowerCase();
+if(fullText.includes(text)){
+results.push({
+type:"page",
+module:"Bildirim Merkezi",
+go:"notification-center.html",
+store:"gdnl_selected_notification",
+selected:n.notificationId||"",
+title:n.documentName||n.notificationId||"Bildirim",
+detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`
+});
+}
+});
+
+results=results.concat(collectPageSearchResults(text));
+renderSearchResults(text,results);
+}
+
+function collectPageSearchResults(keyword){
+const results=[];
+const seen=new Set();
+
+document.querySelectorAll(".menu a").forEach(el=>{
+const label=el.textContent.trim();
+const href=el.getAttribute("href")||"";
+if((label+" "+href).toLowerCase().includes(keyword)){
+const key=href+"-"+label;
+if(!seen.has(key)){
+seen.add(key);
+results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"});
+}
+}
+});
+
+document.querySelectorAll(".card").forEach((el,index)=>{
+const title=(el.querySelector("small")?.textContent||"Kart").trim();
+const value=(el.querySelector("h2")?.textContent||"").trim();
+const detail=(el.querySelector("p")?.textContent||"").trim();
+if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){
+el.setAttribute("data-search-card",index);
+results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`});
+}
+});
+
+document.querySelectorAll(".panel").forEach((el,index)=>{
+if(el.id==="searchResultsPanel")return;
+const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
+const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
+if((title+" "+detail).toLowerCase().includes(keyword)){
+el.setAttribute("data-search-panel",index);
+results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`});
+}
+});
+
+return results;
+}
+
+function escapeHTML(value){
+return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+function highlightText(value,keyword){
+const safe=escapeHTML(value);
+if(!keyword)return safe;
+const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`);
+}
+
+function renderSearchResults(keyword,results){
+const panel=document.getElementById("searchResultsPanel");
+const area=document.getElementById("searchResultsArea");
+const count=document.getElementById("searchResultCount");
+const key=document.getElementById("searchKeyword");
+
+panel.classList.add("active");
+key.textContent=keyword;
+count.textContent=results.length+" sonuç";
+
+if(!results.length){
+area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+return;
+}
+
+area.innerHTML=results.slice(0,80).map((r,index)=>`
+<div class="result-card">
+<div><span class="status blue">${escapeHTML(r.module)}</span></div>
+<div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
+<button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
+</div>`).join("");
+
+window.gdnlSearchResults=results.slice(0,80);
+panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function openSearchResult(index){
+const r=(window.gdnlSearchResults||[])[index];
+if(!r)return;
+
+if(r.type==="scroll"&&r.selector){
+const target=document.querySelector(r.selector);
+if(target){
+target.scrollIntoView({behavior:"smooth",block:"center"});
+target.style.outline="3px solid #35a852";
+target.style.outlineOffset="4px";
+setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200);
+}
+return;
+}
+
+window.__gdnlSelectedRecord=r.selected||"";
+
+if(r.module==="8D / CAPA"){
+const items=getCapa().map(normalizeCapa);
+const idx=items.findIndex(x=>x.id===r.selected||x.eightDNo===r.selected);
+if(idx!==-1){
+clearSearchResults();
+renderCapa();
+openDrawer(idx);
+}
+return;
+}
+
+if(r.go&&r.go!=="#")window.location.href=r.go;
+}
+
+function clearSearchResults(){
+document.getElementById("globalSearch").value="";
+document.getElementById("searchResultsPanel").classList.remove("active");
+document.getElementById("searchResultsArea").innerHTML="";
+renderCapa();
+}
+
+const D_STEPS=[
+"D0 Planlama",
+"D1 Takım",
+"D2 Problem Tanımı",
+"D3 Geçici Önlem",
+"D4 Kök Neden",
+"D5 Kalıcı Aksiyon",
+"D6 Uygulama",
+"D7 Önleme",
+"D8 Kapanış"
+];
+
+let selectedIndex=null;
+let uploadedEvidence=null;
+let taskRows=[];
+
+function logout(){window.location.href="index.html";}
+
+
+function toggleMenuGroup(btn){
+  const menu=btn.closest("nav");
+  const submenu=btn.nextElementSibling;
+  if(!menu||!submenu)return;
+  menu.querySelectorAll(".menu-group").forEach(b=>{
+    if(b!==btn){b.classList.remove("open","active-group");}
+  });
+  menu.querySelectorAll(".submenu").forEach(s=>{
+    if(s!==submenu)s.classList.remove("open");
+  });
+  btn.classList.toggle("open");
+  btn.classList.toggle("active-group");
+  submenu.classList.toggle("open");
+}
+
+function openMobileMenu(){
+document.getElementById("mobileDrawer").classList.add("active");
+document.getElementById("mobileOverlay").classList.add("active");
+document.body.style.overflow="hidden";
+}
+
+function closeMobileMenu(){
+document.getElementById("mobileDrawer").classList.remove("active");
+document.getElementById("mobileOverlay").classList.remove("active");
+document.body.style.overflow="";
+}
+
+document.addEventListener("keydown",function(e){
+if(e.key==="Escape")closeMobileMenu();
+});
+function getCapa(){return (cloudCapas||[]).filter(x=>!isArchivedStatus(x.status))}
+function setCapa(x){cloudCapas=Array.isArray(x)?x:[]}
+function getNotifications(){return cloudNotifications||[]}
+function setNotifications(x){cloudNotifications=Array.isArray(x)?x:[]}
+function isArchivedStatus(v){const s=String(v||"").toLowerCase();return ["deleted","silindi","arşivlendi","arsivlendi","iptal edildi"].includes(s)}
+function todayISO(){return new Date().toISOString().split("T")[0]}
+function addDays(date,days){const d=new Date(date);d.setDate(d.getDate()+days);return d.toISOString().split("T")[0]}
+function daysBetween(a,b){if(!a||!b)return null;const d1=new Date(a);const d2=new Date(b);if(isNaN(d1)||isNaN(d2))return null;return Math.ceil((d2-d1)/(1000*60*60*24))}
+function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
+function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
+
+function statusClass(s){
+if(s==="Kapalı"||s==="Etkili"||s==="Tamamlandı")return"green";
+if(s==="Gecikti"||s==="Reddedildi"||s==="Kritik"||s==="Kritik"||s==="Etkisiz")return"red";
+if(s==="Aksiyon Bekliyor"||s==="Etkinlik Kontrolü"||s==="İncelemede"||s==="Devam Ediyor"||s==="Büyük"||s==="Yüksek")return"orange";
+return"blue";
+}
+
+function getSlaDays(capaClass){
+if(capaClass==="Küçük CAPA")return 14;
+if(capaClass==="Büyük CAPA")return 30;
+if(capaClass==="Kritik 8D")return 7;
+if(capaClass==="Tedarikçi 8D")return 30;
+if(capaClass==="Müşteri 8D")return 10;
+if(capaClass==="Tedarikçi Düzeltici Faaliyet Talebi")return 30;
+return 14;
+}
+
+function applySlaByClass(){
+const cls=document.getElementById("capaClass").value;
+const days=getSlaDays(cls);
+document.getElementById("slaDays").value=days+" gün";
+document.getElementById("dueDate").value=addDays(document.getElementById("openDate").value||todayISO(),days);
+if(cls==="Kritik 8D")document.getElementById("criticality").value="Kritik";
+if(cls==="Büyük CAPA"||cls==="Tedarikçi 8D"||cls==="Müşteri 8D"||cls==="Tedarikçi Düzeltici Faaliyet Talebi")document.getElementById("criticality").value="Yüksek";
+}
+
+function generateNumbers(){
+const year=new Date().getFullYear();
+const count=getCapa().length+1;
+document.getElementById("eightDNo").value="8D-"+year+"-"+String(count).padStart(4,"0");
+document.getElementById("capaNo").value="CAPA-"+year+"-"+String(count).padStart(4,"0");
+}
+
+function initStepSelects(){
+const taskStep=document.getElementById("taskStep");
+const stepFilter=document.getElementById("stepFilter");
+taskStep.innerHTML="";
+D_STEPS.forEach(s=>taskStep.innerHTML+=`<option>${s}</option>`);
+D_STEPS.forEach(s=>stepFilter.innerHTML+=`<option>${s}</option>`);
+}
+
+function createStepMeta(){
+const meta={};
+D_STEPS.forEach((s,i)=>{
+meta[s]={
+step:s,
+index:i,
+status:i===0?"Aktif":"Kilitli",
+owner:"",
+plannedDate:"",
+actualDate:"",
+completedBy:"",
+completedAt:"",
+method:"",
+note:""
+};
+});
+return meta;
+}
+
+function updateRpn(){
+const s=Number(document.getElementById("severity").value||1);
+const o=Number(document.getElementById("occurrence").value||1);
+const d=Number(document.getElementById("detection").value||1);
+document.getElementById("rpn").value=s*o*d;
+}
+
+function getProgress(stepMeta){
+const done=Object.values(stepMeta).filter(x=>x.status==="Tamamlandı").length;
+return Math.round((done/D_STEPS.length)*100);
+}
+
+function renderWorkflowPreview(stepMeta=createStepMeta(),active="D0 Planlama"){
+document.getElementById("currentStep").value=active;
+document.getElementById("progressRate").value=getProgress(stepMeta)+"%";
+const area=document.getElementById("workflowPreview");
+let html="";
+D_STEPS.forEach(s=>{
+const st=stepMeta[s]||{status:"Kilitli"};
+let cls="wstep";
+if(st.status==="Tamamlandı")cls+=" done";
+else if(st.status==="Aktif")cls+=" active";
+else if(st.status==="Gecikti")cls+=" late";
+html+=`<div class="${cls}">${s}<br><small>${st.status}</small></div>`;
+});
+area.innerHTML=html;
+}
+
+function addTask(){
+const step=document.getElementById("taskStep").value;
+const type=document.getElementById("taskType").value;
+const cls=document.getElementById("taskClass").value;
+const priority=document.getElementById("taskPriority").value;
+const owner=document.getElementById("taskOwner").value.trim();
+const planDate=document.getElementById("taskPlanDate").value;
+const actualDate=document.getElementById("taskActualDate").value;
+const escalation=document.getElementById("taskEscalation").value;
+const description=document.getElementById("taskDescription").value.trim();
+
+if(!owner){showToast("Görev sorumlusu zorunlu");return}
+if(!planDate){showToast("Planlanan tarih zorunlu");return}
+if(!description||description.length<5){showToast("Görev açıklaması zorunlu");return}
+
+const status=actualDate?"Tamamlandı":(planDate<todayISO()?"Gecikti":"Açık");
+taskRows.push({
+id:"TASK-"+Date.now()+"-"+Math.random().toString(16).slice(2),
+step,type,class:cls,priority,owner,planDate,actualDate,escalation,description,status,
+waitDays:daysBetween(todayISO(),planDate),
+closeDays:actualDate?daysBetween(planDate,actualDate):null,
+createdAt:new Date().toISOString()
+});
+
+clearTaskInputs();
+renderTaskPreview();
+showToast("Görev eklendi");
+}
+
+function clearTaskInputs(){
+document.getElementById("taskOwner").value="";
+document.getElementById("taskPlanDate").value=addDays(todayISO(),7);
+document.getElementById("taskActualDate").value="";
+document.getElementById("taskDescription").value="";
+document.getElementById("taskEscalation").value="Normal";
+}
+
+function deleteTask(index){
+taskRows.splice(index,1);
+renderTaskPreview();
+}
+
+function renderTaskPreview(){
+const area=document.getElementById("taskPreview");
+if(taskRows.length===0){
+area.innerHTML='<div class="empty" style="margin-top:14px">Henüz görev eklenmedi. Aktif D adımı için görev ekleyebilirsin.</div>';
+return;
+}
+
+let html='<table style="margin-top:14px"><thead><tr><th>D Adımı</th><th>Tip</th><th>Öncelik</th><th>Görev</th><th>Sorumlu</th><th>Plan</th><th>Gerçek</th><th>Durum</th><th>Sil</th></tr></thead><tbody>';
+taskRows.forEach((a,i)=>{
+html+=`<tr>
+<td>${a.step}</td>
+<td>${a.type}</td>
+<td><span class="status ${statusClass(a.priority)}">${a.priority}</span></td>
+<td>${a.description}</td>
+<td>${a.owner}</td>
+<td>${formatDateTR(a.planDate)}</td>
+<td>${formatDateTR(a.actualDate)}</td>
+<td><span class="status ${statusClass(a.status)}">${a.status}</span></td>
+<td><button class="small-btn delete" onclick="deleteTask(${i})">Sil</button></td>
+</tr>`;
+});
+html+='</tbody></table>';
+area.innerHTML=html;
+}
+
+function collectPayload(notify){
+const openDate=document.getElementById("openDate").value;
+const status=document.getElementById("status").value;
+const stepMeta=createStepMeta();
+taskRows.forEach(t=>{
+if(stepMeta[t.step]&&!stepMeta[t.step].owner)stepMeta[t.step].owner=t.owner;
+if(stepMeta[t.step]&&!stepMeta[t.step].plannedDate)stepMeta[t.step].plannedDate=t.planDate;
+});
+const closedAt=status==="Kapalı"?new Date().toISOString():"";
+
+return{
+id:"CAPA-"+Date.now(),
+eightDNo:document.getElementById("eightDNo").value,
+capaNo:document.getElementById("capaNo").value,
+openDate,
+dueDate:document.getElementById("dueDate").value,
+capaClass:document.getElementById("capaClass").value,
+slaDays:getSlaDays(document.getElementById("capaClass").value),
+source:document.getElementById("source").value,
+department:document.getElementById("department").value,
+criticality:document.getElementById("criticality").value,
+status,
+currentStep:"D0 Planlama",
+stepMeta,
+progressRate:getProgress(stepMeta),
+customerImpact:document.getElementById("customerImpact").value,
+productionImpact:document.getElementById("productionImpact").value,
+severity:Number(document.getElementById("severity").value),
+occurrence:Number(document.getElementById("occurrence").value),
+detection:Number(document.getElementById("detection").value),
+rpn:Number(document.getElementById("rpn").value),
+problemTitle:document.getElementById("problemTitle").value.trim(),
+openedBy:document.getElementById("openedBy").value.trim(),
+leader:document.getElementById("leader").value.trim(),
+teamMembers:document.getElementById("teamMembers").value.trim(),
+mailGroups:document.getElementById("mailGroups").value.trim(),
+smsGroups:document.getElementById("smsGroups").value.trim(),
+d0Planning:document.getElementById("d0Planning").value.trim(),
+problemDescription:document.getElementById("problemDescription").value.trim(),
+geçici önlem:document.getElementById("geçici önlem").value.trim(),
+rootCause:document.getElementById("rootCause").value.trim(),
+fishbone:document.getElementById("fishbone").value.trim(),
+correctiveAction:document.getElementById("correctiveAction").value.trim(),
+implementation:document.getElementById("implementation").value.trim(),
+prevention:document.getElementById("prevention").value.trim(),
+closureNote:document.getElementById("closureNote").value.trim(),
+docRevisionRequired:document.getElementById("docRevisionRequired").value,
+fmeaRequired:document.getElementById("fmeaRequired").value,
+controlPlanRequired:document.getElementById("controlPlanRequired").value,
+trainingRequired:document.getElementById("trainingRequired").value,
+effectivenessDate:document.getElementById("effectivenessDate").value,
+effectivenessResult:document.getElementById("effectivenessResult").value,
+tasks:taskRows,
+actions:taskRows,
+evidence:uploadedEvidence,
+notificationSent:notify?"Evet":"Hayır",
+createdBy:session.name||"Sistem",
+createdAt:new Date().toISOString(),
+updatedAt:new Date().toISOString(),
+closedAt,
+closedBy:closedAt?(session.name||"Sistem"):"",
+closureDays:closedAt?daysBetween(openDate,closedAt):null,
+auditTrail:[{action:"8D/CAPA oluşturuldu",user:session.name||"Sistem",date:new Date().toISOString()}]
+};
+}
+
+function validate(p){
+if(!p.problemTitle||p.problemTitle.length<5){showToast("Problem başlığı zorunlu");return false}
+if(!p.leader){showToast("8D lideri zorunlu");return false}
+if(!p.problemDescription||p.problemDescription.length<10){showToast("Problem tanımı en az 10 karakter olmalı");return false}
+if(!p.dueDate){showToast("Termin tarihi zorunlu");return false}
+if(p.tasks.length===0){showToast("En az 1 görev eklemelisin");return false}
+return true;
+}
+
+function saveCapa(notify=false){
+const p=collectPayload(notify);
+if(!validate(p))return;
+const items=getCapa();
+items.unshift(p);
+setCapa(items);
+if(notify)createNotification(p,"8D/CAPA açıldı ve takım bilgilendirildi");
+showToast(notify?"8D kaydı oluşturuldu ve bildirim kuyruğu oluşturuldu":"8D/CAPA kaydı oluşturuldu");
+resetForm();
+renderCapa();
+}
+
+function saveClosedCapa(){
+document.getElementById("status").value="Kapalı";
+saveCapa(false);
+}
+
+function createNotification(p,msg){
+const n=getNotifications();
+n.unshift({
+notificationId:"NTF-"+Date.now(),
+type:"Mail + SMS",
+module:"8D/CAPA",
+documentCode:p.eightDNo,
+documentName:p.problemTitle,
+mailGroups:p.mailGroups,
+smsGroups:p.smsGroups,
+distributionPoints:p.teamMembers,
+message:msg,
+status:"Kuyrukta",
+createdAt:new Date().toISOString()
+});
+setNotifications(n);
+}
+
+function normalizeCapa(x){
+if(!Array.isArray(x.tasks))x.tasks=Array.isArray(x.actions)?x.actions:[];
+if(!Array.isArray(x.actions))x.actions=x.tasks;
+if(!x.capaClass)x.capaClass="Küçük CAPA";
+if(!x.slaDays)x.slaDays=getSlaDays(x.capaClass);
+if(!x.stepMeta)x.stepMeta=createStepMeta();
+if(!x.currentStep)x.currentStep="D0 Planlama";
+if(x.progressRate===undefined)x.progressRate=getProgress(x.stepMeta);
+return x;
+}
+
+function autoDelay(items){
+const today=todayISO();
+items.forEach(x=>{
+x=normalizeCapa(x);
+if(x.status!=="Kapalı"&&x.status!=="Reddedildi"&&x.dueDate&&x.dueDate<today)x.status="Gecikti";
+x.tasks.forEach(a=>{
+if(a.status!=="Tamamlandı"&&a.planDate&&a.planDate<today)a.status="Gecikti";
+});
+if(x.stepMeta&&x.currentStep&&x.stepMeta[x.currentStep]&&x.stepMeta[x.currentStep].plannedDate&&x.stepMeta[x.currentStep].plannedDate<today&&x.stepMeta[x.currentStep].status!=="Tamamlandı"){
+x.stepMeta[x.currentStep].status="Gecikti";
+}
+});
+setCapa(items);
+}
+
+function renderCapa(){
+let items=getCapa().map(normalizeCapa);
+autoDelay(items);
+items=getCapa().map(normalizeCapa);
+
+const q=document.getElementById("globalSearch").value.toLowerCase();
+const sf=document.getElementById("statusFilter").value;
+const stepF=document.getElementById("stepFilter").value;
+const cf=document.getElementById("criticalityFilter").value;
+const classF=document.getElementById("classFilter").value;
+
+const filtered=items.filter(x=>{
+const taskText=(x.tasks||[]).map(a=>`${a.step} ${a.type} ${a.description} ${a.owner} ${a.status}`).join(" ");
+const text=`${x.eightDNo} ${x.capaNo} ${x.problemTitle} ${x.leader} ${x.source} ${x.department} ${x.status} ${x.capaClass} ${x.currentStep} ${taskText}`.toLowerCase();
+return text.includes(q)&&(!sf||x.status===sf)&&(!stepF||x.currentStep===stepF)&&(!cf||x.criticality===cf)&&(!classF||x.capaClass===classF);
+});
+
+updateCards(items);
+const area=document.getElementById("capaTable");
+
+if(filtered.length===0){
+area.innerHTML='<div class="empty">8D / CAPA kaydı bulunamadı.</div>';
+return;
+}
+
+let html='<table><thead><tr><th>8D No</th><th>Problem</th><th>Sınıf</th><th>Aktif Adım</th><th>İlerleme</th><th>Görev</th><th>Durum</th><th>Termin</th><th>Süre</th><th>Aksiyon</th></tr></thead><tbody>';
+
+filtered.forEach(x=>{
+const index=items.findIndex(i=>i.id===x.id);
+const total=(x.tasks||[]).length;
+const completed=(x.tasks||[]).filter(a=>a.status==="Tamamlandı").length;
+const late=(x.tasks||[]).filter(a=>a.status==="Gecikti").length;
+const daysOpen=x.status==="Kapalı"&&x.closedAt?daysBetween(x.openDate,x.closedAt):daysBetween(x.openDate,todayISO());
+
+html+=`<tr>
+<td>${x.eightDNo}<br><small>${x.capaNo}</small></td>
+<td>${x.problemTitle}<br><small>${x.source} / ${x.department}</small></td>
+<td><span class="status ${statusClass(x.capaClass.includes("Büyük")?"Büyük":x.capaClass.includes("Kritik")?"Kritik":"Küçük")}">${x.capaClass}</span></td>
+<td><span class="status ${statusClass(x.stepMeta[x.currentStep]?.status||"Aktif")}">${x.currentStep}</span></td>
+<td>${x.progressRate||0}%</td>
+<td>${completed}/${total}<br><small>${late} geciken</small></td>
+<td><span class="status ${statusClass(x.status)}">${x.status}</span></td>
+<td>${formatDateTR(x.dueDate)}</td>
+<td>${daysOpen===null?"-":daysOpen+" gün"}</td>
+<td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button><button class="small-btn next" onclick="selectedIndex=${index};advanceCurrentStep()">D Sonraki</button><button class="small-btn close" onclick="closeCapa(${index})">Kapat</button></div></td>
+</tr>`;
+});
+
+html+='</tbody></table>';
+area.innerHTML=html;
+}
+
+function updateCards(items){
+let allTasks=[];
+items.forEach(x=>{allTasks=allTasks.concat(x.tasks||[])});
+const closedItems=items.filter(x=>x.status==="Kapalı"&&x.closedAt&&x.openDate);
+const avgClosed=closedItems.length?Math.round(closedItems.reduce((sum,x)=>sum+(daysBetween(x.openDate,x.closedAt)||0),0)/closedItems.length):0;
+
+document.getElementById("totalCapa").textContent=items.length;
+document.getElementById("openCapa").textContent=items.filter(x=>x.status!=="Kapalı"&&x.status!=="Reddedildi").length;
+document.getElementById("lateCapa").textContent=items.filter(x=>x.status==="Gecikti").length;
+document.getElementById("closedCapa").textContent=items.filter(x=>x.status==="Kapalı").length;
+document.getElementById("totalTasks").textContent=allTasks.length;
+document.getElementById("openTasks").textContent=allTasks.filter(x=>x.status!=="Tamamlandı").length;
+document.getElementById("lateTasks").textContent=allTasks.filter(x=>x.status==="Gecikti").length;
+document.getElementById("avgCloseDays").textContent=avgClosed;
+}
+
+function openDrawer(index){
+selectedIndex=index;
+const x=normalizeCapa(getCapa()[index]);
+document.getElementById("drawerTitle").textContent=x.eightDNo+" / "+x.problemTitle;
+document.getElementById("drawerStatus").textContent=x.status;
+document.getElementById("drawerStatus").className="status "+statusClass(x.status);
+
+const daysOpen=x.status==="Kapalı"&&x.closedAt?daysBetween(x.openDate,x.closedAt):daysBetween(x.openDate,todayISO());
+const taskTable=renderTaskDetailTable(x.tasks||[]);
+const workflowHtml=renderWorkflowDetail(x);
+
+document.getElementById("drawerContent").innerHTML=`
+<div class="info-box"><b>CAPA No:</b> ${x.capaNo}
+<b>Sınıf:</b> ${x.capaClass}
+<b>Kaynak:</b> ${x.source}
+<b>Departman:</b> ${x.department}
+<b>Lider:</b> ${x.leader}
+<b>Aktif D Adımı:</b> ${x.currentStep}
+<b>İlerleme:</b> ${x.progressRate||0}%
+<b>Açılış:</b> ${formatDateTR(x.openDate)}
+<b>Termin:</b> ${formatDateTR(x.dueDate)}
+<b>Açık/Kapanış Süresi:</b> ${daysOpen===null?"-":daysOpen+" gün"}
+<b>RPN:</b> ${x.rpn||"-"}
+<b>Takım:</b>
+${x.teamMembers||"-"}</div>
+
+<div class="info-box"><b>8D Akışı</b><br>${workflowHtml}</div>
+
+<div class="info-box"><b>D0 Planlama:</b>
+${x.d0Planning||"-"}</div>
+
+<div class="info-box"><b>D2 Problem / 5W2H:</b>
+${x.problemDescription||"-"}</div>
+
+<div class="info-box"><b>D3 Containment:</b>
+${x.geçici önlem||"-"}</div>
+
+<div class="info-box"><b>D4 Kök Neden:</b>
+${x.rootCause||"-"}
+
+<b>6M:</b>
+${x.fishbone||"-"}</div>
+
+<div class="info-box"><b>D5/D6 Aksiyon Özeti:</b>
+${x.correctiveAction||"-"}
+
+${x.implementation||""}</div>
+
+<div class="info-box"><b>D7 Önleme:</b>
+${x.prevention||"-"}
+
+<b>D8 Kapanış:</b>
+${x.closureNote||"-"}</div>
+
+<div class="info-box"><b>Etkinlik:</b> ${x.effectivenessResult} / ${formatDateTR(x.effectivenessDate)}
+<b>Doküman Revizyonu:</b> ${x.docRevisionRequired}
+<b>FMEA:</b> ${x.fmeaRequired}
+<b>Kontrol Planı:</b> ${x.controlPlanRequired}
+<b>Eğitim:</b> ${x.trainingRequired}
+<b>Kanıt:</b> ${x.evidence?x.evidence.fileName+" - "+x.evidence.fileSizeText:"Yok"}</div>
+
+<div class="info-box"><b>Görev / Aksiyon Listesi</b><br>${taskTable}</div>
+
+<div class="info-box"><b>Audit Trail</b>
+${(x.auditTrail||[]).map(a=>`${formatDateTR(a.date)} - ${a.user} - ${a.action}`).join("\\n")||"-"}</div>
+`;
+document.getElementById("drawer").classList.add("active");
+}
+
+function renderWorkflowDetail(x){
+let html='<table><thead><tr><th>Adım</th><th>Durum</th><th>Sorumlu</th><th>Plan</th><th>Gerçek</th><th>Tamamlayan</th></tr></thead><tbody>';
+D_STEPS.forEach(s=>{
+const m=x.stepMeta[s]||{};
+html+=`<tr><td>${s}</td><td><span class="status ${statusClass(m.status)}">${m.status||"Kilitli"}</span></td><td>${m.owner||"-"}</td><td>${formatDateTR(m.plannedDate)}</td><td>${formatDateTR(m.actualDate)}</td><td>${m.completedBy||"-"}</td></tr>`;
+});
+html+='</tbody></table>';
+return html;
+}
+
+function renderTaskDetailTable(tasks){
+if(!tasks||tasks.length===0)return"İlişkili görev yok.";
+let html='<table><thead><tr><th>D</th><th>Tip</th><th>Öncelik</th><th>Görev</th><th>Sorumlu</th><th>Plan</th><th>Gerçek</th><th>Durum</th><th>Süre</th></tr></thead><tbody>';
+tasks.forEach(a=>{
+const closeDays=a.actualDate?daysBetween(a.planDate,a.actualDate):daysBetween(todayISO(),a.planDate);
+html+=`<tr>
+<td>${a.step}</td>
+<td>${a.type}</td>
+<td><span class="status ${statusClass(a.priority)}">${a.priority}</span></td>
+<td>${a.description}</td>
+<td>${a.owner}</td>
+<td>${formatDateTR(a.planDate)}</td>
+<td>${formatDateTR(a.actualDate)}</td>
+<td><span class="status ${statusClass(a.status)}">${a.status}</span></td>
+<td>${closeDays===null?"-":closeDays+" gün"}</td>
+</tr>`;
+});
+html+='</tbody></table>';
+return html;
+}
+
+function advanceCurrentStep(){
+if(selectedIndex===null)return;
+const items=getCapa().map(normalizeCapa);
+const x=items[selectedIndex];
+const current=x.currentStep;
+const currentTasks=(x.tasks||[]).filter(t=>t.step===current);
+const openTasks=currentTasks.filter(t=>t.status!=="Tamamlandı");
+
+if(currentTasks.length===0){
+showToast("Aktif D adımında en az 1 görev olmalı");
+return;
+}
+
+if(openTasks.length>0){
+showToast("Aktif D adımındaki tüm görevler tamamlanmadan sonraki adıma geçilemez");
+return;
+}
+
+const idx=D_STEPS.indexOf(current);
+x.stepMeta[current].status="Tamamlandı";
+x.stepMeta[current].actualDate=todayISO();
+x.stepMeta[current].completedBy=session.name||"Sistem";
+x.stepMeta[current].completedAt=new Date().toISOString();
+
+if(idx<D_STEPS.length-1){
+const next=D_STEPS[idx+1];
+x.currentStep=next;
+x.stepMeta[next].status="Aktif";
+x.stepMeta[next].plannedDate=addDays(todayISO(),getStepDefaultDays(next));
+x.status="Aksiyon Bekliyor";
+createNotification(x,next+" adımı için görev/sorumlu ataması bekleniyor");
+}else{
+x.status="Etkinlik Kontrolü";
+}
+
+x.progressRate=getProgress(x.stepMeta);
+x.updatedAt=new Date().toISOString();
+x.auditTrail=x.auditTrail||[];
+x.auditTrail.push({action:current+" tamamlandı, aktif adım: "+x.currentStep,user:session.name||"Sistem",date:new Date().toISOString()});
+
+items[selectedIndex]=x;
+setCapa(items);
+renderCapa();
+openDrawer(selectedIndex);
+showToast("D adımı tamamlandı");
+}
+
+function getStepDefaultDays(step){
+if(step==="D3 Geçici Önlem")return 2;
+if(step==="D4 Kök Neden")return 5;
+if(step==="D5 Kalıcı Aksiyon")return 7;
+if(step==="D6 Uygulama")return 10;
+if(step==="D7 Önleme")return 14;
+if(step==="D8 Kapanış")return 5;
+return 3;
+}
+
+function closeDrawer(){
+selectedIndex=null;
+document.getElementById("drawer").classList.remove("active");
+}
+
+function closeCapa(index){
+const items=getCapa().map(normalizeCapa);
+const now=new Date().toISOString();
+items[index].status="Kapalı";
+items[index].closedAt=now;
+items[index].closedBy=session.name||"Sistem";
+items[index].closureDays=daysBetween(items[index].openDate,now);
+items[index].currentStep="D8 Kapanış";
+D_STEPS.forEach(s=>{
+items[index].stepMeta[s].status="Tamamlandı";
+if(!items[index].stepMeta[s].actualDate)items[index].stepMeta[s].actualDate=todayISO();
+if(!items[index].stepMeta[s].completedBy)items[index].stepMeta[s].completedBy=session.name||"Sistem";
+});
+items[index].progressRate=100;
+items[index].tasks=(items[index].tasks||[]).map(a=>{
+if(a.status!=="Tamamlandı"){
+a.status="Tamamlandı";
+a.actualDate=todayISO();
+a.closeDays=daysBetween(a.planDate,a.actualDate);
+}
+return a;
+});
+items[index].actions=items[index].tasks;
+items[index].auditTrail=items[index].auditTrail||[];
+items[index].auditTrail.push({action:"8D/CAPA kapatıldı",user:session.name||"Sistem",date:now});
+setCapa(items);
+renderCapa();
+showToast("8D/CAPA kapatıldı");
+}
+
+function closeCurrent(){
+if(selectedIndex!==null){
+closeCapa(selectedIndex);
+openDrawer(selectedIndex);
+}
+}
+
+function notifyCapa(index){
+const x=getCapa()[index];
+createNotification(x,"8D/CAPA bilgilendirmesi gönderildi");
+showToast("Bildirim bildirim kuyruğu oluşturuldu");
+}
+
+function notifyCurrent(){
+if(selectedIndex!==null)notifyCapa(selectedIndex);
+}
+
+function startRevisionCurrent(){
+if(selectedIndex===null)return;
+const x=getCapa()[selectedIndex];
+localStorage.setItem("gdnl_capa_revision_reason",x.eightDNo+" - "+x.problemTitle);
+window.location.href="revision.html";
+}
+
+function resetForm(){
+generateNumbers();
+document.getElementById("openDate").value=todayISO();
+document.getElementById("capaClass").value="Küçük CAPA";
+document.getElementById("source").value="Müşteri Şikayeti";
+document.getElementById("department").value="Kalite";
+document.getElementById("criticality").value="Orta";
+document.getElementById("status").value="Açık";
+document.getElementById("customerImpact").value="Yok";
+document.getElementById("productionImpact").value="Yok";
+document.getElementById("severity").value="1";
+document.getElementById("occurrence").value="1";
+document.getElementById("detection").value="1";
+updateRpn();
+applySlaByClass();
+document.getElementById("currentStep").value="D0 Planlama";
+document.getElementById("progressRate").value="0%";
+document.getElementById("problemTitle").value="";
+document.getElementById("openedBy").value=session.name||"";
+document.getElementById("leader").value="";
+document.getElementById("teamMembers").value="";
+document.getElementById("mailGroups").value="";
+document.getElementById("smsGroups").value="";
+document.getElementById("d0Planning").value="";
+document.getElementById("problemDescription").value="";
+document.getElementById("geçici önlem").value="";
+document.getElementById("rootCause").value="";
+document.getElementById("fishbone").value="";
+document.getElementById("correctiveAction").value="";
+document.getElementById("implementation").value="";
+document.getElementById("prevention").value="";
+document.getElementById("closureNote").value="";
+document.getElementById("docRevisionRequired").value="Hayır";
+document.getElementById("fmeaRequired").value="Hayır";
+document.getElementById("controlPlanRequired").value="Hayır";
+document.getElementById("trainingRequired").value="Hayır";
+document.getElementById("effectivenessDate").value=addDays(todayISO(),30);
+document.getElementById("effectivenessResult").value="Bekliyor";
+document.getElementById("evidenceFile").value="";
+uploadedEvidence=null;
+taskRows=[];
+renderTaskPreview();
+clearTaskInputs();
+renderWorkflowPreview(createStepMeta(),"D0 Planlama");
+}
+
+document.getElementById("evidenceFile").addEventListener("change",function(e){
+const file=e.target.files[0];
+if(!file){uploadedEvidence=null;return}
+uploadedEvidence={__rawFile:file,fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),uploadedAt:new Date().toISOString()};
+if(file.size>4.5*1024*1024){showToast("Dosya maksimum 4.5 MB olmalı");e.target.value="";return}
+const reader=new FileReader();
+reader.onload=function(ev){
+uploadedEvidence={__rawFile:file,fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),fileData:ev.target.result,uploadedAt:new Date().toISOString()};
+showToast("Kanıt dosyası yüklendi");
+};
+reader.readAsDataURL(file);
+});
+
+function showToast(msg){
+const t=document.getElementById("toast");
+t.textContent=msg;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",2500);
+}
+
+
+
+/* GDNL EOS Cloud Migration D1/R2 Entegrasyon Katmanı */
+async function apiFetch(path, options={}){
+  const response=await fetch(API_BASE+path,{headers:{"Content-Type":"application/json",...(options.headers||{})},...options});
+  const text=await response.text();
+  let data={};
+  try{data=text?JSON.parse(text):{}}catch(e){data={success:false,raw:text}}
+  if(!response.ok)throw new Error(data.message||data.detail||("API hata kodu: "+response.status));
+  return data;
+}
+async function apiGet(path){return apiFetch(path)}
+async function apiPost(path, body){return apiFetch(path,{method:"POST",body:JSON.stringify(body)})}
+async function apiPut(path, body){return apiFetch(path,{method:"PUT",body:JSON.stringify(body)})}
+function unwrapList(data,key){return Array.isArray(data)?data:(data[key]||data.results||data.data||data.items||[])}
+async function safePost(path, body){try{return await apiPost(path,body)}catch(e){console.warn(path,e.message);return {success:false,error:e.message}}}
+async function safePut(path, body){try{return await apiPut(path,body)}catch(e){console.warn(path,e.message);return {success:false,error:e.message}}}
+async function loadCloudUsers(){try{const d=await apiGet('/users');cloudUsers=unwrapList(d,'users')}catch(e){cloudUsers=[]}}
+async function loadCloudDepartments(){try{const d=await apiGet('/departments');cloudDepartments=unwrapList(d,'departments')}catch(e){cloudDepartments=[]}}
+async function loadCloudNotifications(){try{const d=await apiGet('/notifications');cloudNotifications=unwrapList(d,'notifications')}catch(e){cloudNotifications=[]}}
+async function loadCloudComments(){try{const d=await apiGet('/comments?module=CAPA');cloudComments=unwrapList(d,'comments')}catch(e){cloudComments=[]}}
+async function loadCloudCapas(){
+  try{const d=await apiGet('/capas');cloudCapas=unwrapList(d,'capas').map(normalizeCapa);return}
+  catch(e){console.warn('/capas yoksa /actions CAPA filtrelenir',e.message)}
+  try{const d=await apiGet('/actions');cloudCapas=unwrapList(d,'actions').filter(x=>String(x.module||'').toLowerCase().includes('capa')||String(x.title||'').includes('8D')).map(normalizeCapa)}catch(e){cloudCapas=[]}
+}
+function findCloudUserByName(name){const q=String(name||'').trim().toLowerCase();return cloudUsers.find(u=>String(u.fullname||u.fullName||u.name||'').toLowerCase()===q)||null}
+function normalizeUser(u){return {id:u.id||u.user_id||'',fullname:u.fullname||u.fullName||u.name||'',role:u.role||'',department:u.department||'',email:u.email||''}}
+function makeAutocomplete(inputId, hiddenId, departmentId){
+  const input=document.getElementById(inputId); if(!input)return;
+  input.setAttribute('autocomplete','off');
+  const wrapper=document.createElement('div'); wrapper.className='autocomplete-box';
+  input.parentNode.insertBefore(wrapper,input); wrapper.appendChild(input);
+  const list=document.createElement('div'); list.className='autocomplete-list'; wrapper.appendChild(list);
+  input.addEventListener('input',()=>{
+    const q=input.value.trim().toLowerCase();
+    const matches=cloudUsers.map(normalizeUser).filter(u=>(u.fullname+' '+u.department+' '+u.role).toLowerCase().includes(q)).slice(0,10);
+    if(!q||!matches.length){list.style.display='none';list.innerHTML='';return}
+    list.innerHTML=matches.map(u=>`<div class="autocomplete-item" data-id="${escapeHTML(u.id)}" data-name="${escapeHTML(u.fullname)}" data-dept="${escapeHTML(u.department)}">${escapeHTML(u.fullname)} <small>• ${escapeHTML(u.department||'-')} • ${escapeHTML(u.role||'-')}</small></div>`).join('');
+    list.style.display='block';
+  });
+  list.addEventListener('click',e=>{
+    const item=e.target.closest('.autocomplete-item'); if(!item)return;
+    input.value=item.dataset.name||'';
+    if(hiddenId&&document.getElementById(hiddenId))document.getElementById(hiddenId).value=item.dataset.id||'';
+    if(departmentId&&document.getElementById(departmentId))document.getElementById(departmentId).value=item.dataset.dept||document.getElementById(departmentId).value;
+    list.style.display='none';
+  });
+  document.addEventListener('click',e=>{if(!wrapper.contains(e.target))list.style.display='none'});
+}
+function populateDepartments(){
+  const el=document.getElementById('department'); if(!el||!cloudDepartments.length)return;
+  const current=el.value;
+  el.innerHTML=cloudDepartments.filter(d=>!isArchivedStatus(d.status)).map(d=>`<option>${escapeHTML(d.department_name||d.departmentName||d.name||'')}</option>`).join('');
+  if(current&&[...el.options].some(o=>o.value===current))el.value=current;
+}
+function findMaxSeq(prefix){
+  let max=0;
+  (cloudCapas||[]).forEach(x=>[x.eightDNo,x.capaNo,x.recordNo,x.no].forEach(v=>{const m=String(v||'').match(new RegExp('^'+prefix+'-?(?:\\d{4}-)?(\\d+)$')); if(m)max=Math.max(max,Number(m[1]||0));}));
+  return max;
+}
+async function loadSequence(){
+  try{const d=await apiGet('/sequence?module=CAPA&prefix=CAP');cloudNextSeq=Number(d.next||d.number||d.sequence||0)||Math.max(findMaxSeq('CAPA'),findMaxSeq('8D'))+1}
+  catch(e){cloudNextSeq=Math.max(findMaxSeq('CAPA'),findMaxSeq('8D'))+1}
+}
+function generateNumbers(){
+  const year=new Date().getFullYear();
+  const n=String(cloudNextSeq||1).padStart(4,'0');
+  document.getElementById('eightDNo').value='8D-'+year+'-'+n;
+  document.getElementById('capaNo').value='CAPA-'+year+'-'+n;
+}
+async function uploadEvidenceToR2(file, relatedId){
+  if(!file)return null;
+  const fd=new FormData();
+  fd.append('file',file);
+  fd.append('module','CAPA');
+  fd.append('related_id',relatedId||document.getElementById('capaNo').value||'CAPA');
+  fd.append('uploaded_by',currentUser().name||'Sistem');
+  const res=await fetch(API_BASE+'/upload',{method:'POST',body:fd});
+  const data=await res.json().catch(()=>({success:false}));
+  if(!res.ok||data.success===false)throw new Error(data.message||'Dosya yüklenemedi');
+  return data.file||data;
+}
+async function writeAudit(action, record){
+  return safePost('/audit-logs',{module:'CAPA',related_id:record?.id||record?.capaNo||'',action,description:record?.problemTitle||'',user_id:currentUser().id,user_name:currentUser().name,created_at:new Date().toISOString()});
+}
+async function writeActivity(action, record){
+  return safePost('/activity-feed',{module:'CAPA',related_id:record?.id||record?.capaNo||'',title:action,description:record?.problemTitle||'',user_id:currentUser().id,user_name:currentUser().name,created_at:new Date().toISOString()});
+}
+async function writeAssignment(task, record){
+  const u=findCloudUserByName(task.owner)||{};
+  return safePost('/assignments',{module:'CAPA',related_id:record.id,record_no:record.capaNo,title:task.description,description:task.description,assigned_to:u.id||'',assigned_to_name:task.owner,department:u.department||record.department,status:task.status||'Açık',priority:task.priority||'Normal',due_date:task.planDate,created_by:currentUser().name,created_at:new Date().toISOString()});
+}
+async function createNotification(p,msg){
+  const payload={type:'Bildirim',module:'CAPA',related_id:p.id,documentCode:p.eightDNo,documentName:p.problemTitle,mailGroups:p.mailGroups,smsGroups:p.smsGroups,distributionPoints:p.teamMembers,message:msg,status:'Kuyrukta',created_by:currentUser().name,createdAt:new Date().toISOString(),created_at:new Date().toISOString()};
+  const r=await safePost('/notifications',payload);
+  cloudNotifications.unshift({...payload,notificationId:'NTF-'+Date.now()});
+  return r;
+}
+async function saveCapa(notify=false){
+  const p=collectPayload(notify);
+  if(!validate(p))return;
+  p.status=p.status||'Açık';
+  p.createdBy=currentUser().name;
+  p.created_by=currentUser().name;
+  p.created_user_id=currentUser().id;
+  p.archived_at='';p.archived_by='';p.deleted_at='';p.deleted_by='';p.restored_at='';p.restored_by='';
+  if(uploadedEvidence&&uploadedEvidence.__rawFile){try{p.evidence=await uploadEvidenceToR2(uploadedEvidence.__rawFile,p.capaNo)}catch(e){showToast(e.message);return}}
+  let saved=false;
+  try{await apiPost('/capas',p);saved=true}catch(e){await safePost('/actions',{module:'CAPA',related_id:p.id,title:p.problemTitle,description:JSON.stringify(p),priority:p.criticality,status:p.status,due_date:p.dueDate,created_by:currentUser().name,created_at:new Date().toISOString()});saved=true}
+  cloudCapas.unshift(normalizeCapa(p)); cloudNextSeq++;
+  for(const t of (p.tasks||[]))await writeAssignment(t,p);
+  if(notify)await createNotification(p,'8D / CAPA kaydı oluşturuldu ve takım bilgilendirildi');
+  await writeAudit('CAPA oluşturuldu',p); await writeActivity('CAPA oluşturuldu',p);
+  showToast(notify?'Kayıt oluşturuldu ve bildirim kuyruğu hazırlandı':'8D / CAPA kaydı oluşturuldu');
+  resetForm(); renderCapa();
+}
+async function archiveCapa(index){
+  const item=getCapa()[index]; if(!item)return;
+  if(!canArchive(item)){showToast('Bu kaydı arşivleme yetkin yok');return}
+  if(!confirm('Kayıt arşivlenecek. Onaylıyor musun?'))return;
+  item.status='Arşivlendi'; item.archived_at=new Date().toISOString(); item.archived_by=currentUser().name; item.deleted_at=item.archived_at; item.deleted_by=currentUser().name;
+  await safePut('/archive',{module:'CAPA',related_id:item.id,record:item});
+  await safePut('/capas/'+encodeURIComponent(item.id),item);
+  await writeAudit('CAPA arşivlendi',item); await writeActivity('CAPA arşivlendi',item);
+  cloudCapas=cloudCapas.map(x=>x.id===item.id?item:x); renderCapa(); closeDrawer(); showToast('Kayıt Arşiv Merkezi içine alındı');
+}
+function canArchive(item){const u=currentUser();return String(item.createdBy||item.created_by||'')===String(u.name||'')||String(u.role||'').toLowerCase().includes('super')}
+function addArchiveButtons(){
+  document.querySelectorAll('#capaTable tbody tr').forEach((tr,i)=>{if(!tr.querySelector('.archive-added')){const cell=tr.querySelector('td:last-child .row-actions');if(cell)cell.insertAdjacentHTML('beforeend',`<button class="small-btn delete archive-added" onclick="archiveCapa(${i})">Arşivle</button>`);}})
+}
+const __oldRenderCapa=renderCapa;
+renderCapa=function(){__oldRenderCapa();addArchiveButtons();}
+async function addCommentToCurrent(){
+  if(selectedIndex===null)return; const item=getCapa()[selectedIndex]; const text=document.getElementById('commentText').value.trim(); if(!text)return showToast('Yorum boş olamaz');
+  const c={module:'CAPA',related_id:item.id,comment:text,user_id:currentUser().id,user_name:currentUser().name,created_at:new Date().toISOString()};
+  await safePost('/comments',c); cloudComments.unshift(c); document.getElementById('commentText').value=''; renderComments(item.id); await writeAudit('Yorum eklendi',item); showToast('Yorum eklendi');
+}
+function renderComments(id){
+  const panel=document.getElementById('commentPanel'),list=document.getElementById('commentList'); if(!panel||!list)return;
+  panel.style.display='block';
+  const rows=(cloudComments||[]).filter(c=>String(c.related_id||c.relatedId)===String(id));
+  list.innerHTML=rows.length?rows.map(c=>`<div class="comment-item"><b>${escapeHTML(c.user_name||c.userName||'-')}</b> <small>${formatDateTR(c.created_at||c.createdAt)}</small><br>${escapeHTML(c.comment||c.description||'')}</div>`).join(''):'<div class="empty">Henüz yorum yok.</div>';
+}
+const __oldOpenDrawer=openDrawer;
+openDrawer=function(index){__oldOpenDrawer(index);const item=getCapa()[index]; if(item)renderComments(item.id);}
+async function cloudBoot(){
+  await Promise.all([loadCloudUsers(),loadCloudDepartments(),loadCloudNotifications(),loadCloudComments()]);
+  await loadCloudCapas(); await loadSequence();
+  populateDepartments(); makeAutocomplete('openedBy',null,'department'); makeAutocomplete('leader',null,'department'); makeAutocomplete('taskOwner',null,null);
+  initStepSelects(); resetForm(); renderCapa();
+  console.log('GDNL EQMS 8D ve CAPA Cloud katmanı yüklendi');
+}
+
+document.getElementById("globalSearch").addEventListener("input",function(){
+if(!this.value.trim()){
+clearSearchResults();
+}else{
+renderCapa();
+}
+});
+
+document.getElementById("globalSearch").addEventListener("keydown",function(e){
+if(e.key==="Enter"){
+e.preventDefault();
+runSearch();
+}
+});
+document.getElementById("openDate").addEventListener("change",applySlaByClass);
+
+cloudBoot();
+</script>
+</body>
+</html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
