@@ -769,6 +769,15 @@ const GDNL_API_BASE = window.GDNL_API_BASE;
 const SYSTEM_SOURCE = "Cloudflare D1 + R2";
 let resetState = { username:"", requestId:"" };
 
+function currentQuery(){
+  return new URL(window.location.href).searchParams;
+}
+
+function cleanLoginUrl(){
+  if(!window.history?.replaceState) return;
+  window.history.replaceState({}, document.title, window.location.pathname.split("/").pop() || "index.html");
+}
+
 function repairTR(value){
   if(typeof value !== "string") return value;
   const map = {
@@ -889,6 +898,13 @@ function resolveLandingPage(user){
   return "department-gateway.html";
 }
 
+function redirectOnceToLanding(user, delay = 500){
+  const target = resolveLandingPage(user);
+  const current = (window.location.pathname.split("/").pop() || "index.html") + window.location.search;
+  if(current.startsWith(target)) return;
+  setTimeout(() => { window.location.replace(target); }, delay);
+}
+
 async function loadEOSLoginStats(){
   setText("statDepartments", "...");
   setText("statUsers", "...");
@@ -936,12 +952,25 @@ async function loadEOSLoginStats(){
 }
 
 async function checkExistingSession(){
+  const params = currentQuery();
+  if(params.get("logout") === "1"){
+    window.GDNL_API?.setToken?.("");
+    showMessage("Oturum kapatıldı. Tekrar giriş yapabilirsiniz.", "success");
+    cleanLoginUrl();
+    return;
+  }
+  if(params.get("auth") === "expired"){
+    window.GDNL_API?.setToken?.("");
+    showMessage("Oturum süresi doldu. Lütfen tekrar giriş yapın.", "error");
+    cleanLoginUrl();
+    return;
+  }
   try{
     const mePayload = await apiGet("/me");
     const user = mapD1UserToEOS(mePayload.user || mePayload);
     if(user && user.username){
       showMessage("Aktif oturum bulundu. Yönlendiriliyorsunuz...", "success");
-      setTimeout(() => { window.location.href = resolveLandingPage(user); }, 500);
+      redirectOnceToLanding(user, 500);
     }
   }catch(e){
     /* Oturum yoksa login ekranı kalır */
@@ -1072,7 +1101,7 @@ async function login(){
     }
 
     showMessage("Giriş başarılı. Yönlendiriliyorsunuz...", "success");
-    setTimeout(() => { window.location.href = resolveLandingPage(user); }, 650);
+    redirectOnceToLanding(user, 650);
   }catch(err){
     console.error("GDNL EOS API giriş hatası:", err);
     const msg = err && err.message && !err.message.includes("Failed to fetch")

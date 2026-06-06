@@ -60,6 +60,32 @@
     return API_BASE_URL + (value.startsWith("/") ? value : "/" + value);
   }
 
+  function currentPageName() {
+    return (global.location?.pathname || "").split("/").pop() || "index.html";
+  }
+
+  function isLoginPage() {
+    return currentPageName() === "index.html";
+  }
+
+  function resolveLocalRoute(route) {
+    return global.GDNL_ROUTES?.resolveRoute?.(route) || route;
+  }
+
+  function redirectToLogin(reason) {
+    if (isLoginPage()) return;
+    let target = resolveLocalRoute("index.html");
+    try {
+      const url = new URL(target, global.location.href);
+      if (reason) url.searchParams.set("auth", reason);
+      target = url.pathname.split("/").pop() + url.search;
+    } catch (error) {
+      target = reason ? "index.html?auth=" + encodeURIComponent(reason) : "index.html";
+    }
+    if (global.location.href.endsWith(target)) return;
+    global.location.replace(target);
+  }
+
   function getToken() {
     try {
       return sessionStorage.getItem(TOKEN_KEY) || "";
@@ -225,9 +251,7 @@
 
     if (res.status === 401 && config.redirectOnUnauthorized !== false) {
       setToken("");
-      if (!/index\.html(?:$|[?#])/.test(location.pathname)) {
-        location.href = global.GDNL_ROUTES?.resolveRoute?.("index.html") || "index.html";
-      }
+      redirectToLogin("expired");
     }
 
     if (!res.ok || payload?.success === false) {
@@ -287,7 +311,8 @@
       } catch (inner) {}
     } finally {
       setToken("");
-      location.href = global.GDNL_ROUTES?.resolveRoute?.("index.html") || "index.html";
+      const target = resolveLocalRoute("index.html");
+      location.replace(target + (target.includes("?") ? "&" : "?") + "logout=1");
     }
   }
 
@@ -485,7 +510,7 @@
 
   global.GDNL_LEGACY_STORAGE = legacyStorage;
 
-  if (!/index\.html(?:$|[?#])/.test(location.pathname)) {
+  if (!isLoginPage()) {
     const applyFallback = () => applyCurrentUser(global.GDNL_CURRENT_USER || {});
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", applyFallback, { once: true });

@@ -840,6 +840,12 @@ const state = {
   selectedDepartment: null
 };
 
+function redirectToLoginOnce(reason){
+  const target = "index.html" + (reason ? "?auth=" + encodeURIComponent(reason) : "");
+  if((window.location.pathname.split("/").pop() || "") === "index.html") return;
+  window.location.replace(target);
+}
+
 const MODULE_MAP = {
   "Yönetim":["management-dashboard.html","management-board.html","management-decisions.html","management-kpi.html","management-goals.html","management-budget.html","management-workforce.html","management-projects.html","management-reports.html","management-calendar.html","management-organization.html","management-policies.html"],
   "Kalite":["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html","approval.html","archive.html"],
@@ -1078,7 +1084,7 @@ async function loadCloudSession(users){
   if(!meUser || typeof meUser !== "object" || !meUser.username){
     showToast("Oturum bulunamadı. Lütfen tekrar giriş yapın.");
     setTimeout(() => {
-      window.location.href = "index.html";
+      redirectToLoginOnce("expired");
     }, 900);
     return null;
   }
@@ -1310,9 +1316,13 @@ async function restoreDepartmentReference(departmentId){
 }
 
 function logout(){
+  if(window.GDNL_API?.logout){
+    window.GDNL_API.logout();
+    return;
+  }
   logAudit("Oturum kapatıldı", state.currentUser?.fullname ||"", {}).finally(async () => {
     await apiPost("/logout", {user_id:state.currentUser?.id ||"", created_at:nowISO()}, null);
-    window.location.href = "index.html";
+    window.location.replace("index.html?logout=1");
   });
 }
 
