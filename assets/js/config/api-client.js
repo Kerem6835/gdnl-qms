@@ -29,6 +29,9 @@
     ["/risks", "/api/risks"],
     ["/actions", "/api/actions"],
     ["/notifications", "/api/notifications"],
+    ["/messages", "/api/messages"],
+    ["/message-recipients", "/api/message-recipients"],
+    ["/message-attachments", "/api/message-attachments"],
     ["/standards", "/api/standards"],
     ["/audits", "/api/audits"],
     ["/trainings", "/api/trainings"],
@@ -290,7 +293,7 @@
     const departmentTargets = ["activeDepartment", "currentDepartment", "userDepartment"];
     nameTargets.forEach((id) => {
       const el = document.getElementById(id);
-      if (el) el.textContent = current.fullname || current.username || "Kullanıcı";
+      if (el) el.textContent = current.fullname || current.name || current.username || current.email || "Oturum Kullanıcısı";
     });
     roleTargets.forEach((id) => {
       const el = document.getElementById(id);
@@ -299,6 +302,94 @@
     departmentTargets.forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.textContent = current.department || "";
+    });
+  }
+
+  function routeHref(path) {
+    const target = resolveLocalRoute(path);
+    if (global.location?.protocol === "file:" && String(target).startsWith("/")) {
+      return String(target).slice(1);
+    }
+    try {
+      return new URL(target, global.location.href).href;
+    } catch (error) {
+      return target;
+    }
+  }
+
+  function injectChromeStyles() {
+    if (document.getElementById("gdnlGlobalChromeStyles")) return;
+    const style = document.createElement("style");
+    style.id = "gdnlGlobalChromeStyles";
+    style.textContent = `
+.gdnl-global-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-height:38px!important;padding:0 13px!important;border:1px solid rgba(216,228,239,.95)!important;border-radius:13px!important;background:rgba(255,255,255,.92)!important;color:#0f1b2f!important;text-decoration:none!important;font-weight:900!important;font-size:13px!important;line-height:1!important;box-shadow:0 10px 26px rgba(7,27,52,.08)!important;cursor:pointer!important;white-space:nowrap!important}
+.gdnl-global-action:hover{transform:translateY(-1px)!important;border-color:#b9d8c5!important;box-shadow:0 16px 32px rgba(7,27,52,.12)!important}
+.gdnl-global-action.primary{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f)!important;color:#fff!important;border-color:transparent!important}
+.gdnl-global-icon{min-width:42px!important;padding:0 11px!important;font-size:17px!important}
+.gdnl-global-user{display:inline-flex!important;align-items:center!important;gap:7px!important;font-weight:900!important;color:#0f1b2f!important;white-space:nowrap!important}
+.gdnl-global-search{min-width:46px!important}
+@media(max-width:850px){.gdnl-global-action{min-height:40px!important;padding:0 11px!important;font-size:12px!important}.gdnl-global-icon{min-width:40px!important}.gdnl-global-user{max-width:100%;white-space:normal!important}}`;
+    document.head.appendChild(style);
+  }
+
+  function ensureAction(container, selector, html, configure) {
+    const existing = container.querySelector(selector);
+    if (existing) {
+      configure(existing);
+      return existing;
+    }
+    const wrapper = document.createElement("span");
+    wrapper.innerHTML = html.trim();
+    const node = wrapper.firstElementChild;
+    container.appendChild(node);
+    configure(node);
+    return node;
+  }
+
+  function enhanceTopbarLinks() {
+    if (isLoginPage() || !document.body) return;
+    injectChromeStyles();
+    const bars = Array.from(document.querySelectorAll(".topbar, header.topbar, .header, header")).filter((bar) => !bar.closest(".sidebar,.drawer"));
+    bars.forEach((bar) => {
+      const actionHost = bar.querySelector(".topbar-actions") || bar;
+      let user = bar.querySelector("#userName, #topUserName, #superAdminName");
+      if (user) {
+        const holder = user.closest(".user") || user.parentElement;
+        if (holder) holder.classList.add("gdnl-global-user");
+      }
+      const mailbox = ensureAction(actionHost, 'a[href="mailbox.html"],button[aria-label*="Mesaj"],button[onclick*="mailbox.html"]', '<a href="mailbox.html">📨 Mesaj Merkezi</a>', (el) => {
+        if (el.tagName === "A") el.href = routeHref("mailbox.html");
+        else el.onclick = () => { global.location.href = routeHref("mailbox.html"); };
+        el.classList.add("gdnl-global-action", "gdnl-global-icon");
+        el.setAttribute("aria-label", "Mesaj Merkezi");
+        if (!/Mesaj/i.test(el.textContent || "")) el.textContent = "📨";
+      });
+      const notify = ensureAction(actionHost, 'a[href="notification-center.html"],button[aria-label*="Bildirim"],button[onclick*="notification-center.html"]', '<a href="notification-center.html">🔔</a>', (el) => {
+        if (el.tagName === "A") el.href = routeHref("notification-center.html");
+        else el.onclick = () => { global.location.href = routeHref("notification-center.html"); };
+        el.classList.add("gdnl-global-action", "gdnl-global-icon");
+        el.setAttribute("aria-label", "Bildirim Merkezi");
+      });
+      if (!bar.querySelector('a[href="department-gateway.html"],button[onclick*="department-gateway.html"]') && currentPageName() !== "department-gateway.html") {
+        ensureAction(actionHost, ".gdnl-department-home", '<a class="gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>', (el) => {
+          el.href = routeHref("department-gateway.html");
+          el.classList.add("gdnl-global-action", "primary");
+        });
+      } else {
+        bar.querySelectorAll('a[href="department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => {
+          if (el.tagName === "A") el.href = routeHref("department-gateway.html");
+          else el.onclick = () => { global.location.href = routeHref("department-gateway.html"); };
+          el.classList.add("gdnl-global-action", "primary");
+        });
+      }
+      if (!bar.querySelector(".search-btn,#searchBtn,.gdnl-global-search") && currentPageName() !== "search.html") {
+        ensureAction(actionHost, ".gdnl-global-search", '<a class="gdnl-global-search" href="search.html">Ara</a>', (el) => {
+          el.href = routeHref("search.html");
+          el.classList.add("gdnl-global-action");
+        });
+      }
+      mailbox.title = "Mesaj Merkezi";
+      notify.title = "Bildirim Merkezi";
     });
   }
 
@@ -342,7 +433,7 @@
     if (!select) return [];
     const config = options || {};
     const users = (config.users || []).map(normalizeUser);
-    const placeholder = config.placeholder || "Kullanıcı";
+    const placeholder = config.placeholder || "Kişi seç";
     select.innerHTML = "";
     if (config.includeEmpty !== false) {
       const empty = document.createElement("option");
@@ -353,7 +444,7 @@
     users.forEach((user) => {
       const option = document.createElement("option");
       option.value = user.id || user.username || user.fullname;
-      option.textContent = user.fullname || user.username || "Kullanıcı";
+      option.textContent = user.fullname || user.username || "Oturum Kullanıcısı";
       option.dataset.userId = user.id;
       option.dataset.fullname = user.fullname;
       option.dataset.username = user.username;
@@ -422,7 +513,7 @@
 
   function renderSelectedUserChips(users) {
     return (users || []).map(normalizeUser).map((user) => (
-      `<span class="user-chip" data-user-id="${String(user.id).replaceAll('"', "&quot;")}" data-fullname="${String(user.fullname).replaceAll('"', "&quot;")}" data-username="${String(user.username).replaceAll('"', "&quot;")}" data-email="${String(user.email).replaceAll('"', "&quot;")}" data-phone="${String(user.phone).replaceAll('"', "&quot;")}" data-role="${String(user.role).replaceAll('"', "&quot;")}" data-department="${String(user.department).replaceAll('"', "&quot;")}">${user.fullname || user.username || "Kullanıcı"}</span>`
+      `<span class="user-chip" data-user-id="${String(user.id).replaceAll('"', "&quot;")}" data-fullname="${String(user.fullname).replaceAll('"', "&quot;")}" data-username="${String(user.username).replaceAll('"', "&quot;")}" data-email="${String(user.email).replaceAll('"', "&quot;")}" data-phone="${String(user.phone).replaceAll('"', "&quot;")}" data-role="${String(user.role).replaceAll('"', "&quot;")}" data-department="${String(user.department).replaceAll('"', "&quot;")}">${user.fullname || user.username || "Oturum Kullanıcısı"}</span>`
     )).join("");
   }
 
@@ -494,6 +585,7 @@
     renderDepartmentChips,
     showToast,
     showConfirm,
+    enhanceTopbarLinks,
     asArray,
     responseData,
     getToken,
@@ -511,12 +603,15 @@
   global.GDNL_LEGACY_STORAGE = legacyStorage;
 
   if (!isLoginPage()) {
-    const applyFallback = () => applyCurrentUser(global.GDNL_CURRENT_USER || {});
+    const applyFallback = () => {
+      applyCurrentUser(global.GDNL_CURRENT_USER || {});
+      enhanceTopbarLinks();
+    };
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", applyFallback, { once: true });
     } else {
       applyFallback();
     }
-    guard({ redirectOnUnauthorized: true }).catch(applyFallback);
+    guard({ redirectOnUnauthorized: true }).then(enhanceTopbarLinks).catch(applyFallback);
   }
 })(window);

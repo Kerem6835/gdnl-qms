@@ -613,7 +613,7 @@ function todayISO(){return new Date().toISOString().split("T")[0]}
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function escapeHTML(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function normalizeTR(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
-function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kullanıcı"}
+function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kişi"}
 function getUserId(){return String(session.id||session.user_id||session.username||"")}
 function safeUserName(u){return u.fullname||u.fullName||u.name||u.username||""}
 function safeUserDepartment(u){return u.department||u.department_name||u.departmentName||""}
@@ -639,7 +639,7 @@ function attachUserAutocomplete(inputId,hiddenId,departmentId,suggestId,onSelect
       const hay=normalizeTR([safeUserName(u),safeUserDepartment(u),safeUserRole(u),safeUserEmail(u)].join(" "));
       return hay.includes(q);
     }).slice(0,12);
-    if(!matches.length){box.innerHTML='<button type="button">Kullanıcı bulunamadı<small>D1 users tablosunda eşleşme yok</small></button>';box.classList.add("active");return;}
+    if(!matches.length){box.innerHTML='<button type="button">Kişi bulunamadı<small>D1 users tablosunda eşleşme yok</small></button>';box.classList.add("active");return;}
     box.innerHTML=matches.map((u,i)=>`<button type="button" data-user-index="${i}">${escapeHTML(safeUserName(u))}<small>${escapeHTML(safeUserDepartment(u)||"-")} / ${escapeHTML(safeUserRole(u)||"-")} / ${escapeHTML(safeUserEmail(u)||"-")}</small></button>`).join("");
     box.querySelectorAll("button[data-user-index]").forEach(btn=>{
       btn.onclick=()=>{

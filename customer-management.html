@@ -588,7 +588,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="panel-head"><h3>Kişi / Yetkili Ekle</h3><span class="status purple">KİŞİLER</span></div>
 <div class="box">
 <div class="subgrid">
-<div class="field"><label>Ad Soyad</label><input id="contactName" data-user-autocomplete="true" data-department-target="contactDepartment" placeholder="Kullanıcı yaz ve seç"></div>
+<div class="field"><label>Ad Soyad</label><input id="contactName" data-user-autocomplete="true" data-department-target="contactDepartment" placeholder="Kişi yaz ve seç"></div>
 <div class="field"><label>Görev</label><input id="contactTitle"></div>
 <div class="field"><label>Departman</label><input id="contactDepartment" readonly placeholder="Kişi seçilince otomatik dolar"></div>
 <div class="field"><label>E-Posta</label><input id="contactEmail"></div>
@@ -675,7 +675,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="field"><label>Kayıt Tipi</label><select id="activityType"><option>Proje</option><option>İletişim</option><option>Denetim</option><option>Toplantı</option><option>E-Posta</option><option>Teklif Talebi</option><option>PPAP</option><option>APQP</option><option>CoP</option><option>EV</option></select></div>
 <div class="field"><label>Kayıt No</label><input id="activityNo" readonly></div>
 <div class="field"><label>Tarih</label><input id="activityDate" type="date"></div>
-<div class="field"><label>Sorumlu</label><input id="activityOwner" data-user-autocomplete="true" placeholder="Kullanıcı yaz ve seç"></div>
+<div class="field"><label>Sorumlu</label><input id="activityOwner" data-user-autocomplete="true" placeholder="Kişi yaz ve seç"></div>
 <div class="field"><label>Durum</label><select id="activityStatus"><option>Açık</option><option>Devam Ediyor</option><option>Tamamlandı</option><option>Kapalı</option><option>Gecikti</option></select></div>
 <div class="field full"><label>Konu / Açıklama</label><textarea id="activityDescription" class="big"></textarea></div>
 </div>
@@ -689,7 +689,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="panel-head"><h3>Yorumlar ve İzlenebilirlik</h3><span class="status green">CLOUD READY</span></div>
 <div class="form-grid">
 <div class="field"><label>İlgili Kayıt No</label><input id="commentRecordNo" placeholder="Müşteri / şikayet / doküman no"></div>
-<div class="field"><label>Yorum Yapan</label><input id="commentOwner" data-user-autocomplete="true" placeholder="Kullanıcı yaz ve seç"></div>
+<div class="field"><label>Yorum Yapan</label><input id="commentOwner" data-user-autocomplete="true" placeholder="Kişi yaz ve seç"></div>
 <div class="field full"><label>Yorum</label><textarea id="commentText" placeholder="Yorum, karar, takip notu veya müşteri iletişim notu"></textarea></div>
 </div>
 <div class="actions"><button class="btn primary" onclick="addCloudComment()">Yorum Ekle</button></div>
@@ -1018,7 +1018,7 @@ function gdnlRenderUserSuggestions(input,box,multi){
     const text=[u.fullname,u.email,u.role,u.department].join(" ").toLowerCase();
     return !q || text.includes(q);
   }).slice(0,12);
-  if(!list.length){box.innerHTML='<div class="gdnl-user-option">Kullanıcı bulunamadı<small>D1 users tablosunu kontrol et</small></div>';box.classList.add("active");return;}
+  if(!list.length){box.innerHTML='<div class="gdnl-user-option">Kişi bulunamadı<small>D1 users tablosunu kontrol et</small></div>';box.classList.add("active");return;}
   box.innerHTML=list.map((u,i)=>`<div class="gdnl-user-option" data-index="${i}">${escapeHTML(u.fullname)}<small>${escapeHTML(u.department||"Departman yok")} · ${escapeHTML(u.role||"Rol yok")} · ${escapeHTML(u.email||"")}</small></div>`).join("");
   box.querySelectorAll(".gdnl-user-option").forEach((el,i)=>el.onclick=()=>gdnlSelectUser(input,box,list[i],multi));
   box.classList.add("active");
@@ -1126,7 +1126,7 @@ async function addCloudComment(){
 function renderCloudComments(){
   const area=document.getElementById("commentPreview"); if(!area)return;
   if(!gdnlComments.length){area.innerHTML='<div class="empty">Henüz yorum yok.</div>';return;}
-  area.innerHTML='<table><thead><tr><th>Kayıt</th><th>Kullanıcı</th><th>Yorum</th><th>Tarih</th></tr></thead><tbody>'+gdnlComments.slice(0,20).map(c=>`<tr><td>${escapeHTML(c.record_no)}</td><td>${escapeHTML(c.user_name)}<br><small>${escapeHTML(c.department)}</small></td><td>${escapeHTML(c.comment)}</td><td>${formatDateTR(c.created_at)}</td></tr>`).join('')+'</tbody></table>';
+  area.innerHTML='<table><thead><tr><th>Kayıt</th><th>Kişi</th><th>Yorum</th><th>Tarih</th></tr></thead><tbody>'+gdnlComments.slice(0,20).map(c=>`<tr><td>${escapeHTML(c.record_no)}</td><td>${escapeHTML(c.user_name)}<br><small>${escapeHTML(c.department)}</small></td><td>${escapeHTML(c.comment)}</td><td>${formatDateTR(c.created_at)}</td></tr>`).join('')+'</tbody></table>';
 }
 async function gdnlLoadCustomersFromCloud(){
   const data=await gdnlFetch("/customers");

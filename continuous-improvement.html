@@ -975,7 +975,7 @@ function makeAutocompleteInput(el,{multi=false,onSelect=null}={}){
   el.dataset.userAutocomplete="1";
   if(el.tagName==="SELECT"){
     const input=document.createElement("input");
-    input.id=el.id; input.placeholder="Kullanıcı adı yazın"; input.className=el.className; input.value="";
+    input.id=el.id; input.placeholder="Kişi adı yazın"; input.className=el.className; input.value="";
     el.parentNode.replaceChild(input,el); el=input;
   }
   const wrap=document.createElement("div");wrap.className="autocomplete-wrap";

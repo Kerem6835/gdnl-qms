@@ -760,7 +760,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
     <div class="user-panel">
 <div class="topbar-actions" aria-label="Mesaj ve bildirim kısayolları"><button class="topbar-icon-btn" type="button" aria-label="Mesaj Merkezi" onclick="window.location.href='mailbox.html'">📨</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
-      <div class="avatar" id="avatar" aria-label="Kullanıcı"></div>
+      <div class="avatar" id="avatar" aria-label="Oturum Kullanıcısı"></div>
       <div class="user-meta">
         <b id="userName"></b>
         <span>Rol: <span id="userRole"></span></span>
@@ -973,20 +973,20 @@ function parseModules(value){
 }
 
 function normalizeRole(role){
-  const r = String(role || "Kullanıcı").trim();
+  const r = String(role || "Oturum Kullanıcısı").trim();
   const low = r.toLocaleLowerCase("tr-TR");
   if(low.includes("root") && low.includes("super")) return "Kök Süper Yönetici";
   if(low.includes("super administrator")) return "Süper Yönetici";
   if(low === "administrator") return "Yönetici";
   if(low === "admin") return "Yönetici";
-  if(low === "user") return "Kullanıcı";
+  if(low === "user") return "Oturum Kullanıcısı";
   if(low === "guest") return "Misafir";
   return r;
 }
 
 function normalizeUser(row){
   const user = row || {};
-  const fullname = user.fullname || user.fullName || user.name || user.username || "Kullanıcı";
+  const fullname = user.fullname || user.fullName || user.name || user.username || "Oturum Kullanıcısı";
   return {
     ...user,
     id:user.id || user.user_id || user.username || fullname,
@@ -994,8 +994,8 @@ function normalizeUser(row){
     name:fullname,
     username:String(user.username ||"").trim(),
     email:String(user.email ||"").trim(),
-    role:user.role || "Kullanıcı",
-    role_tr:normalizeRole(user.role || "Kullanıcı"),
+    role:user.role || "Oturum Kullanıcısı",
+    role_tr:normalizeRole(user.role || "Oturum Kullanıcısı"),
     department:user.department || user.department_name ||"",
     status:user.status || "Aktif",
     permissions:Array.isArray(user.permissions) ? user.permissions : parseModules(user.permissions) || [],
@@ -1168,7 +1168,7 @@ function render(){
   }
 
   document.getElementById("userName").textContent = currentUser.fullname || currentUser.name ||"";
-  document.getElementById("userRole").textContent = normalizeRole(currentUser.role || "Kullanıcı");
+  document.getElementById("userRole").textContent = normalizeRole(currentUser.role || "Oturum Kullanıcısı");
   document.getElementById("avatar").textContent = "";
 
   const departments = state.departments;
@@ -1228,7 +1228,7 @@ async function createNotificationIfNeeded(dept){
   const payload = {
     module:SYSTEM_MODULE,
     title:"Departman çalışma alanı seçildi",
-    message:(state.currentUser?.fullname || "Kullanıcı") + " kullanıcısı " + dept.department_name + " çalışma alanına geçti.",
+    message:(state.currentUser?.fullname || "Oturum Kullanıcısı") + " kullanıcısı " + dept.department_name + " çalışma alanına geçti.",
     user_id:state.currentUser?.id ||"",
     user_name:state.currentUser?.fullname ||"",
     department:dept.department_name,

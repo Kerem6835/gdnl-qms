@@ -684,7 +684,7 @@ state.archive=asArray(archive);
 const direct=activeOnly(trainings).map(normalizeTraining);
 const fromActions=state.actions.filter(a=>textOf(a.module||a.source_module).toLowerCase().includes("eğitim")||textOf(a.module||a.source_module).toLowerCase().includes("training")).map(normalizeTraining);
 state.trainings=(direct.length?direct:fromActions).filter(x=>!isPassive(x));
-state.currentUser=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
+state.currentUser=state.users[0]||{id:"",fullname:"",role:"Oturum Kullanıcısı",department:""};
 $("userName").textContent=state.currentUser.fullname||"";
 state.loaded=true;
 }

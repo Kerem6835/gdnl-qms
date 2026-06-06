@@ -5,6 +5,9 @@
     "index.html": "/index.html",
     "dashboard.html": "/dashboard.html",
     "department-gateway.html": "/department-gateway.html",
+    "mailbox.html": "/mailbox.html",
+    "notification-center.html": "/notification-center.html",
+    "search.html": "/search.html",
     "management-dashboard.html": "/management-dashboard.html",
     "management-board.html": "/management-board.html",
     "management-decisions.html": "/management-decisions.html",
@@ -72,7 +75,6 @@
     "kpi-reports.html": "/modules/performance/kpi-reports.html",
     "management-review.html": "/management-review.html",
     "action-center.html": "/modules/performance/action-center.html",
-    "notification-center.html": "/modules/performance/notification-center.html",
 
     "calibration-management.html": "/modules/technical/calibration-management.html",
 

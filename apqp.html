@@ -1547,7 +1547,7 @@ function postJSON(path,payload){return apiFetch(path,{method:"POST",headers:{"Co
 function putJSON(path,payload){return apiFetch(path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})}
 async function tryMany(list,payload){let last=null;for(const x of list){try{return await (x.method==="PUT"?putJSON(x.path,payload):postJSON(x.path,payload))}catch(e){last=e}}throw last||new Error("API bağlantısı kurulamadı")}
 function getUserId(){return String(session.id||session.user_id||session.username||session.name||"")}
-function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kullanıcı"}
+function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kişi"}
 function isSuperAdmin(){return String(session.role||"").toLowerCase().includes("super")||String(session.role||"").toLowerCase().includes("admin")}
 async function writeAudit(action,module,relatedId,detail,oldValue="",newValue=""){const payload={id:"LOG-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),action,module,related_id:relatedId||"",detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),old_value:oldValue,new_value:newValue,user_agent:navigator.userAgent,created_at:nowISO()};try{await postJSON("/audit-logs",payload)}catch(e){const q=getLS("gdnl_pending_audit_logs");q.unshift(payload);window.GDNL_LEGACY_STORAGE.setItem("gdnl_pending_audit_logs",JSON.stringify(q))}}
 async function writeActivity(type,module,relatedId,title,description=""){const payload={id:"ACT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),activity_type:type,module,related_id:relatedId||"",title:title||type,description:description||"",created_at:nowISO()};try{await postJSON("/activity-feed",payload)}catch(e){const q=getLS("gdnl_pending_activity_feed");q.unshift(payload);window.GDNL_LEGACY_STORAGE.setItem("gdnl_pending_activity_feed",JSON.stringify(q))}}
@@ -2281,7 +2281,7 @@ function updateStats(){
 function renderApqpComments(){
   const list=(CLOUD.comments&&CLOUD.comments.length?CLOUD.comments:getLS("gdnl_apqp_comments"));
   const box=$("apqpCommentList"); if(!box)return;
-  box.innerHTML=list.length?list.slice(0,50).map(c=>`<div class="cloud-comment-item"><b>${c.user_name||c.user||"Kullanıcı"}</b><small>${new Date(c.created_at||c.createdAt||nowISO()).toLocaleString("tr-TR")}</small><div>${String(c.comment||"").replaceAll("<","&lt;").replaceAll(">","&gt;")}</div></div>`).join(""):`<div class="empty-state">Henüz yorum yok.</div>`;
+  box.innerHTML=list.length?list.slice(0,50).map(c=>`<div class="cloud-comment-item"><b>${c.user_name||c.user||"Oturum Kullanıcısı"}</b><small>${new Date(c.created_at||c.createdAt||nowISO()).toLocaleString("tr-TR")}</small><div>${String(c.comment||"").replaceAll("<","&lt;").replaceAll(">","&gt;")}</div></div>`).join(""):`<div class="empty-state">Henüz yorum yok.</div>`;
 }
 async function submitApqpComment(){
   const input=$("apqpCommentInput"); const text=(input?.value||"").trim();
@@ -2310,7 +2310,7 @@ const ENTERPRISE_CLOUD_STANDARD={
     CHANGE:"CHANGE",
     MANAGEMENT_REVIEW:"YGG"
   },
-  roles:["admin","Administrator","Yönetici","Kalite Müdürü","Kalite Mühendisi","Denetçi","Kullanıcı","Misafir"],
+  roles:["admin","Administrator","Yönetici","Kalite Müdürü","Kalite Mühendisi","Denetçi","Temel Rol","Misafir"],
   permissions:["Görüntüleme","Oluşturma","Düzenleme","Onaylama","Arşivleme","Geri Yükleme","Yetki Verme"],
   kpis:["Açık Aksiyonlar","Açık CAPA","Açık Riskler","Açık Denetimler","Açık Revizyonlar","Bekleyen Onaylar","Bekleyen Görevler","Yaklaşan Terminler"]
 };

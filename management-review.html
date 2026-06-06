@@ -632,7 +632,7 @@ function routeTo(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMi
 function navigateRoute(path){window.location.href=routeTo(path)}
 
 let state = {
-  currentUser: { id:"", fullname:"", role:"Kullanıcı", department:"", email:"" },
+  currentUser: { id:"", fullname:"", role:"Oturum Kullanıcısı", department:"", email:"" },
   users: [],
   departments: [],
   reviews: [],
@@ -703,7 +703,7 @@ function normalizeUser(u){
     id: u?.id || u?.user_id || u?.uid ||"",
     fullname: u?.fullname || u?.fullName || u?.name || u?.username ||"",
     email: u?.email ||"",
-    role: u?.role || u?.role_name || "Kullanıcı",
+    role: u?.role || u?.role_name || "Oturum Kullanıcısı",
     department: u?.department || u?.department_name ||""
   };
 }

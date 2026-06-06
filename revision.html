@@ -762,7 +762,7 @@ function isPassive(r){const s=String(r?.status||r?.record_status||r?.state||"").
 function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
 function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
-function normalizeKullanıcı(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeKullanıcı(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Oturum Kullanıcısı",department:u?.department||u?.department_name||""}}
 function normalizeDepartment(d){return{id:d?.id||d?.department_id||"",department_name:d?.department_name||d?.name||d?.department||""}}
 function normalizeDocument(d){return{id:d?.id||d?.document_id||d?.systemId||"",code:d?.code||d?.document_code||d?.documentCode||"",name:d?.name||d?.document_name||d?.documentName||"",rev:d?.rev||d?.revision||d?.revision_no||"R00",status:d?.status||"Yayında",owner:d?.owner||d?.department||d?.department_name||"",owner_id:d?.owner_id||"",mailGroups:d?.mailGroups||d?.mail_groups||"",smsGroups:d?.smsGroups||d?.sms_groups||"",r2_key:d?.r2_key||d?.file_key||""}}
 function normalizeRevizyon(r){return{id:r?.id||r?.revision_id||r?.revisionNo||r?.revision_no||"",revisionNo:r?.revisionNo||r?.revision_no||"",workflowId:r?.workflowId||r?.workflow_id||"",documentCode:r?.documentCode||r?.document_code||"",documentName:r?.documentName||r?.document_name||"",oldRev:r?.oldRev||r?.old_rev||"",newRev:r?.newRev||r?.new_rev||"",requester:r?.requester||r?.requester_name||"",requester_id:r?.requester_id||"",department:r?.department||r?.department_name||"",status:r?.status||"İncelemede",requestDate:r?.requestDate||r?.request_date||"",reason:r?.reason||"",changeDescription:r?.changeDescription||r?.change_description||"",affectedDepartments:r?.affectedDepartments||r?.affected_departments||"",qualityImpact:r?.qualityImpact||r?.quality_impact||"Yok",customerImpact:r?.customerImpact||r?.customer_impact||"Yok",legalImpact:r?.legalImpact||r?.legal_impact||"Yok",preparedBy:r?.preparedBy||r?.prepared_by_name||"",departmentApprover:r?.departmentApprover||r?.department_approver_name||"",managerApprover:r?.managerApprover||r?.manager_approver_name||"",qualityApprover:r?.qualityApprover||r?.quality_approver_name||"",qualityAdmin:r?.qualityAdmin||r?.quality_admin_name||"",createdAt:r?.createdAt||r?.created_at||""}}
@@ -779,7 +779,7 @@ state.approvals=activeOnly(approvals);
 state.notifications=activeOnly(notifications);
 state.auditLogs=activeOnly(auditLogs);
 state.activityFeed=activeOnly(activityFeed);
-state.currentKullanıcı=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
+state.currentKullanıcı=state.users[0]||{id:"",fullname:"",role:"Oturum Kullanıcısı",department:""};
 document.getElementById("userName").textContent=state.currentKullanıcı.fullname||"";
 }
 

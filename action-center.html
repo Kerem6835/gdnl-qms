@@ -623,7 +623,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 const API_BASE = window.GDNL_API_BASE;
 const session=window.GDNL_API?.normalizeUser(window.GDNL_CURRENT_USER||{})||{};
 if(typeof userName!=="undefined")userName.textContent=session.name||session.fullname||"";
-if(typeof userRole!=="undefined")userRole.textContent=session.role||"Kullanıcı";
+if(typeof userRole!=="undefined")userRole.textContent=session.role||"Oturum Kullanıcısı";
 if(typeof userAvatar!=="undefined")userAvatar.textContent="";
 
 let selectedActionId=null,uploadedEvidence=null;
@@ -1014,12 +1014,12 @@ function renderOwnerSuggestions(){
     return hay.includes(q);
   }).slice(0,12);
   if(!matches.length){
-    box.innerHTML='<div class="empty" style="padding:12px;border-radius:14px">Kullanıcı bulunamadı</div>';
+    box.innerHTML='<div class="empty" style="padding:12px;border-radius:14px">Kişi bulunamadı</div>';
     box.classList.add("active");
     return;
   }
   box.innerHTML=matches.map((u,i)=>{
-    const full=getUserFullName(u)||"Kullanıcı";
+    const full=getUserFullName(u)||"Oturum Kullanıcısı";
     const dep=getUserDepartment(u)||"Departman yok";
     const role=getUserRole(u)||"Rol yok";
     const email=getUserEmail(u)||"Mail yok";
@@ -1032,7 +1032,7 @@ function renderOwnerSuggestions(){
 function selectOwnerUser(index){
   const u=(window.__ownerMatches||[])[index];
   if(!u)return;
-  const full=getUserFullName(u)||"Kullanıcı";
+  const full=getUserFullName(u)||"Oturum Kullanıcısı";
   const dep=getUserDepartment(u)||"";
   manualOwner.value=full;
   manualOwnerId.value=u.id||u.user_id||"";
@@ -1197,7 +1197,7 @@ ${canDeleteAction(a)?'<div class="danger-note">Bu kaydı sadece oluşturan kulla
 function renderComments(a){
   const comments=a.comments||[];
   if(!comments.length)return '<div class="empty" style="margin-top:10px;padding:14px">Henüz yorum yok.</div>';
-  return '<div class="comment-list">'+comments.map(c=>`<div class="comment-item"><b>${escapeHTML(c.userName||"Kullanıcı")}</b><small>${formatDateTR(c.createdAt)} ${c.createdAt?new Date(c.createdAt).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):""}</small><p>${escapeHTML(c.text||"")}</p></div>`).join('')+'</div>';
+  return '<div class="comment-list">'+comments.map(c=>`<div class="comment-item"><b>${escapeHTML(c.userName||"Oturum Kullanıcısı")}</b><small>${formatDateTR(c.createdAt)} ${c.createdAt?new Date(c.createdAt).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):""}</small><p>${escapeHTML(c.text||"")}</p></div>`).join('')+'</div>';
 }
 function renderEvidenceTable(a){
   if(!a.evidence||!a.evidence.length)return"Kanıt yok.";
@@ -1224,7 +1224,7 @@ async function addCommentCurrent(){
   const i=items.findIndex(a=>a.id===selectedActionId);
   if(i<0)return showToast("Yorum sadece bu ekran kaydına eklenebilir");
   items[i].comments=items[i].comments||[];
-  items[i].comments.push({id:uid("YRM"),userId:session.id||session.user_id||"",userName:session.name||session.fullname||session.username||"Kullanıcı",text,createdAt:new Date().toISOString()});
+  items[i].comments.push({id:uid("YRM"),userId:session.id||session.user_id||"",userName:session.name||session.fullname||session.username||"Oturum Kullanıcısı",text,createdAt:new Date().toISOString()});
   setManual(items);
   await updateActionToCloud(items[i],"ADD_COMMENT");
   await writeAudit("ADD_COMMENT","Aksiyon Merkezi",items[i].id,{comment:text});
@@ -1240,7 +1240,7 @@ async function requestRevisionCurrent(){
   items[i].status="Revizyon İstendi";
   items[i].stage="Revizyon İstendi";
   items[i].comments=items[i].comments||[];
-  items[i].comments.push({id:uid("REV"),userId:session.id||session.user_id||"",userName:session.name||session.fullname||session.username||"Kullanıcı",text:"Revizyon istendi: "+reason.trim(),createdAt:new Date().toISOString()});
+  items[i].comments.push({id:uid("REV"),userId:session.id||session.user_id||"",userName:session.name||session.fullname||session.username||"Oturum Kullanıcısı",text:"Revizyon istendi: "+reason.trim(),createdAt:new Date().toISOString()});
   setManual(items);
   await updateActionToCloud(items[i],"REVİZYON_TALEBİ");
   await createCloudNotification(items[i],"Aksiyon için revizyon istendi: "+items[i].title,items[i].owner);

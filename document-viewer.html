@@ -790,7 +790,7 @@ function nowISO(){
 
 function normalizeUser(row){
   const user = row || {};
-  const fullname = user.fullname || user.fullName || user.name || user.user_name || user.username || "Kullanıcı";
+  const fullname = user.fullname || user.fullName || user.name || user.user_name || user.username || "Oturum Kullanıcısı";
   return {
     ...user,
     id: user.id || user.user_id || user.username || fullname,
@@ -798,7 +798,7 @@ function normalizeUser(row){
     name: fullname,
     username: String(user.username ||"").trim(),
     email: String(user.email ||"").trim(),
-    role: user.role || "Kullanıcı",
+    role: user.role || "Oturum Kullanıcısı",
     department: user.department || user.department_name ||"",
     status: user.status || "Aktif"
   };
@@ -1519,7 +1519,7 @@ function renderCommentHistory(d){
     return;
   }
 
-  area.innerHTML = items.map(c => `<div class="step"><strong>${escapeHTML(c.user_name || c.fullname || "Kullanıcı")}</strong><span>${escapeHTML(c.comment || c.description || c.note ||"")}<br>${escapeHTML(formatDateTR(c.created_at || c.createdAt))}</span></div>`).join("");
+  area.innerHTML = items.map(c => `<div class="step"><strong>${escapeHTML(c.user_name || c.fullname || "Oturum Kullanıcısı")}</strong><span>${escapeHTML(c.comment || c.description || c.note ||"")}<br>${escapeHTML(formatDateTR(c.created_at || c.createdAt))}</span></div>`).join("");
 }
 
 async function startRevision(){

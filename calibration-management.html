@@ -1131,7 +1131,7 @@ function renderCalibrationComments(){
   const area=document.getElementById("calibrationCommentList");
   if(!area)return;
   const rows=(cloudComments||[]).slice(0,50);
-  area.innerHTML=rows.length?rows.map(c=>`<div class="cloud-comment-item"><b>${escapeHTML(c.user_name||c.created_by||"Kullanıcı")} · ${escapeHTML(formatDateTR(c.created_at))}</b>${escapeHTML(c.comment||c.description||"")}</div>`).join(""):'<div class="empty">Henüz yorum yok.</div>';
+  area.innerHTML=rows.length?rows.map(c=>`<div class="cloud-comment-item"><b>${escapeHTML(c.user_name||c.created_by||"Oturum Kullanıcısı")} · ${escapeHTML(formatDateTR(c.created_at))}</b>${escapeHTML(c.comment||c.description||"")}</div>`).join(""):'<div class="empty">Henüz yorum yok.</div>';
 }
 async function createCapaFromCalibration(){
   if(!requirePermission("Oluşturma"))return;

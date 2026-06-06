@@ -33,7 +33,7 @@ body{background:#f4f9ff;color:#172033;min-height:100vh;min-height:100svh;min-hei
 <div class="top-actions">
 <button class="btn secondary" onclick="window.location.href='search.html'">Arama</button>
 <a class="btn secondary" href="mailbox.html" style="text-decoration:none;display:inline-flex;align-items:center">📨 Mesaj Merkezi</a>
-<div class="user">Kullanıcı: <span id="userName">Kullanıcı</span></div>
+<div class="user"><span id="userName">Oturum Kullanıcısı</span></div>
 </div>
 </div>
 
@@ -46,7 +46,7 @@ body{background:#f4f9ff;color:#172033;min-height:100vh;min-height:100svh;min-hei
 <div class="card"><small>Arama Kapsamı</small><b>10</b></div>
 <div class="card"><small>Kalite Asistanı</small><b>12</b></div>
 <div class="card"><small>Dosya Analizi</small><b>R2</b></div>
-<div class="card"><small>Karar Yetkisi</small><b>Kullanıcı</b></div>
+<div class="card"><small>Karar Yetkisi</small><b>İnsan Onayı</b></div>
 </section>
 
 <section class="layout">
@@ -65,7 +65,7 @@ body{background:#f4f9ff;color:#172033;min-height:100vh;min-height:100svh;min-hei
 <div class="field">
 <label>Kapsam</label>
 <select id="scopeSelect" multiple size="1">
-<option value="users">Kullanıcı</option>
+<option value="users">Kişiler</option>
 <option value="departments">Departman</option>
 <option value="documents">Doküman</option>
 <option value="capa">CAPA</option>
@@ -141,7 +141,7 @@ function renderSelect(){modeSelect.innerHTML=modes.map(m=>`<option value="${m.id
 function renderExamples(){examples.innerHTML=activeMode.examples.map(x=>`<button class="hint" onclick="useExample('${esc(x)}')"><b>${esc(activeMode.name)}</b>${esc(x)}</button>`).join("")}
 function useExample(text){prompt.value=text;prompt.focus()}
 function addMessage(role,text,meta){chat.push({role,text,meta,date:new Date().toLocaleString("tr-TR")});renderMessages()}
-function renderMessages(){messages.innerHTML=chat.length?chat.map(m=>`<div class="message ${m.role==="user"?"user":""}"><b>${m.role==="user"?"Kullanıcı":"AI Asistan"}</b><small>${esc(m.date)}${m.meta?` · ${esc(m.meta)}`:""}</small><pre>${esc(m.text)}</pre></div>`).join(""):'<div class="empty">Soru yazıp öneri alın.</div>'}
+function renderMessages(){messages.innerHTML=chat.length?chat.map(m=>`<div class="message ${m.role==="user"?"user":""}"><b>${m.role==="user"?"Oturum Kullanıcısı":"AI Asistan"}</b><small>${esc(m.date)}${m.meta?` · ${esc(m.meta)}`:""}</small><pre>${esc(m.text)}</pre></div>`).join(""):'<div class="empty">Soru yazıp öneri alın.</div>'}
 function clearChat(){chat=[];renderMessages()}
 function toastMsg(text){if(api?.showToast){api.showToast(text);return}toast.textContent=text;toast.style.display="block";setTimeout(()=>toast.style.display="none",2400)}
 async function uploadContextFile(){const file=contextFile.files?.[0];if(!file)return null;try{return await api.uploadToR2(file,{module:"AI_ASSISTANT",related_id:recordRef.value||activeMode.id,uploaded_by:window.GDNL_CURRENT_USER?.fullname||""})}catch(err){toastMsg("Bağlam dosyası R2 yükleme bekliyor");return null}}

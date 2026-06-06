@@ -1218,7 +1218,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 const GDNL_API_BASE = window.GDNL_API_BASE;
 const CLOUD_MODULE="DOCUMENTS";
 let uploadedFileMeta=null;
-let currentUser={id:"",fullname:"",role:"Kullanıcı",department:"",email:""};
+let currentUser={id:"",fullname:"",role:"Oturum Kullanıcısı",department:"",email:""};
 let cloudUsers=[];
 let cloudDepartments=[];
 let selectedUsers={};
@@ -1255,7 +1255,7 @@ async function safePost(path,body){try{return await apiRequest(path,{method:"POS
 function asArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
 function isPassive(r){const s=String(r?.status||r?.state||r?.record_status||"").toLowerCase();return["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","cancelled","archived","pasif"].includes(s)}
 function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
-function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Oturum Kullanıcısı",department:u?.department||u?.department_name||""}}
 function normalizeDepartment(d){return{id:d?.id||d?.department_id||"",department_name:d?.department_name||d?.name||d?.department||""}}
 function escapeHTML(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function highlightText(v,k){const safe=escapeHTML(v);if(!k)return safe;return safe.replace(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi"),m=>`<mark>${m}</mark>`)}

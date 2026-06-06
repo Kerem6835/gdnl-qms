@@ -588,7 +588,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="field"><label>Madde Adı</label><input id="clauseTitle"></div>
 
 <div class="field"><label>Sorumlu Departman</label><select id="department"></select></div>
-<div class="field"><label>Sorumlu Kişi</label><input id="owner" autocomplete="off" placeholder="Kullanıcı ara"></div>
+<div class="field"><label>Sorumlu Kişi</label><input id="owner" autocomplete="off" placeholder="Kişi ara"></div>
 <div class="field"><label>Uygulanma Durumu</label><select id="complianceStatus"><option>Uygun</option><option>Kısmen Uygun</option><option>Eksik Var</option><option>Uygun Değil</option><option>Uygulanamaz</option><option>Değerlendirme Bekliyor</option></select></div>
 <div class="field"><label>Uygunluk Skoru %</label><input id="complianceScore" type="number" min="0" max="100" value="0"></div>
 
@@ -621,7 +621,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h4>Eksik / Aksiyon</h4>
 <div class="subgrid">
 <div class="field"><label>Aksiyon Gerekli mi?</label><select id="actionRequired"><option>Hayır</option><option>Evet</option></select></div>
-<div class="field"><label>Aksiyon Sorumlusu</label><input id="actionOwner" autocomplete="off" placeholder="Kullanıcı ara"></div>
+<div class="field"><label>Aksiyon Sorumlusu</label><input id="actionOwner" autocomplete="off" placeholder="Kişi ara"></div>
 <div class="field"><label>Aksiyon Termin</label><input id="actionDueDate" type="date"></div>
 <div class="field"><label>Aksiyon Durumu</label><select id="actionStatus"><option>Yok</option><option>Açık</option><option>Devam Ediyor</option><option>Kanıt Bekliyor</option><option>Onay Bekliyor</option><option>Kapalı</option><option>Gecikti</option></select></div>
 <div class="field full"><label>Aksiyon Açıklaması</label><textarea id="actionDescription"></textarea></div>
@@ -769,7 +769,7 @@ function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(to
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function statusClass(s){if(["Uygun","Hazır","Onaylandı","Kapalı"].includes(s))return"green";if(["Kısmen Uygun","Aksiyon Bekliyor","Kanıt Eksik","Devam Ediyor","Onay Bekliyor"].includes(s))return"orange";if(["Eksik Var","Uygun Değil","Riskli","Gecikti","Reddedildi","Kritik"].includes(s))return"red";if(["Uygulanamaz","Yok"].includes(s))return"gray";return"blue"}
-function normalizeUser(u){return{id:u?.id||u?.user_id||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeUser(u){return{id:u?.id||u?.user_id||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Oturum Kullanıcısı",department:u?.department||u?.department_name||""}}
 function normalizeClause(c){
   c.id=c.id||c.document_id||c.clause_id||("STDID-"+Math.random());
   c.clauseRecordNo=c.clauseRecordNo||c.record_no||c.document_code||c.code||"";
@@ -814,7 +814,7 @@ async function loadBaseData(){
   ]);
   state.users=activeOnly(users).map(normalizeUser);
   state.departments=activeOnly(departments).map(d=>({id:d.id||d.department_id||"",department_name:d.department_name||d.name||d.department||""})).filter(d=>d.department_name);
-  state.currentUser=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
+  state.currentUser=state.users[0]||{id:"",fullname:"",role:"Oturum Kullanıcısı",department:""};
   state.notifications=activeOnly(notifications);
   state.files=activeOnly(files);
   state.actions=activeOnly(actions);

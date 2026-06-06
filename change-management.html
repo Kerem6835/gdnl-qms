@@ -618,7 +618,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <script src="assets/js/config/api-client.js"></script>
 <script>
 const session=window.GDNL_API?.normalizeUser(window.GDNL_CURRENT_USER||{})||{};
-userName.textContent=session.name||"";userRole.textContent=session.role||"Kullanıcı";userAvatar.textContent="";
+userName.textContent=session.name||"";userRole.textContent=session.role||"Oturum Kullanıcısı";userAvatar.textContent="";
 
 /* GDNL EOS / GDNL EQMS Cloud Ready Enterprise Katmanı */
 const API_BASE = window.GDNL_API_BASE;
@@ -695,7 +695,7 @@ function setupUserAutocomplete(inputId,opts={}){
   function render(){
     const q=input.value.trim().toLowerCase();
     const found=(cloudUsers.length?cloudUsers:getUsers().map(normalizeUser)).filter(u=>!q||userSearchText(u).includes(q)).slice(0,12);
-    list.innerHTML=found.length?found.map((u,i)=>`<div class="autocomplete-item" data-i="${i}">${escapeHTML(u.fullname)}<small>${escapeHTML(u.department||"-")} / ${escapeHTML(u.role||"-")} / ${escapeHTML(u.email||"-")}</small></div>`).join(""):'<div class="autocomplete-item">Kullanıcı bulunamadı</div>';
+    list.innerHTML=found.length?found.map((u,i)=>`<div class="autocomplete-item" data-i="${i}">${escapeHTML(u.fullname)}<small>${escapeHTML(u.department||"-")} / ${escapeHTML(u.role||"-")} / ${escapeHTML(u.email||"-")}</small></div>`).join(""):'<div class="autocomplete-item">Kişi bulunamadı</div>';
     list.querySelectorAll(".autocomplete-item[data-i]").forEach(el=>el.onclick=()=>selectUser(found[Number(el.dataset.i)]));
     list.classList.add("active");
   }
