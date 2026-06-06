@@ -1,9 +1,638 @@
 <!DOCTYPE html>
 <html lang="tr">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>GDNL EQMS | Aktivite Merkezi</title><style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{background:#f4f9ff;color:#172033;overflow-x:hidden}.main{max-width:1440px;margin:0 auto;padding:24px}.topbar,.panel{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:22px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:64px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-size:24px;font-weight:950;color:#071b34;text-decoration:none}.brand span{color:#35a852}.panel{padding:18px;overflow:auto}.hero h1{font-size:34px;font-weight:950}.hero p{margin:8px 0 18px;color:#617086;font-weight:800}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid #edf2f7;text-align:left;font-size:13px}th{color:#617086;background:#f8fbff}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}</style></head>
-<body><main class="main"><div class="topbar"><a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="mailbox.html" style="text-decoration:none;background:#dcfce7;color:#15803d;border-radius:12px;padding:9px 12px;font-weight:950">📨 Mesaj Merkezi</a><div>👤 <span id="userName">Oturum Kullanıcısı</span></div></div></div><section class="hero"><h1>Aktivite Merkezi</h1><p>Kim, ne yaptı, ne zaman yaptı kayıtları.</p></section><section class="panel"><div id="table" class="empty">Yükleniyor...</div></section></main><script src="assets/js/config/api-client.js"></script><script>
-const api=window.GDNL_API;function val(x,...k){for(const key of k){if(x?.[key])return x[key]}return""}async function boot(){let rows=[];try{rows=api.asArray(await api.get("/activity-feed"))}catch(e){rows=[]}if(!rows.length){table.innerHTML='<div class="empty">Aktivite kaydı bulunamadı.</div>';return}table.innerHTML='<table><thead><tr><th>Kişi</th><th>İşlem</th><th>Modül</th><th>Kayıt</th><th>Tarih</th></tr></thead><tbody>'+rows.slice(0,200).map(r=>`<tr><td>${val(r,"user_name","user","created_by")||"Oturum Kullanıcısı"}</td><td>${val(r,"action","title","activity_type")||"-"}</td><td>${val(r,"module")||"-"}</td><td>${val(r,"record_no","related_id")||"-"}</td><td>${val(r,"created_at","date")||"-"}</td></tr>`).join("")+'</tbody></table>'}boot();
-</script><script src="assets/js/ui/maturity-widgets.js"></script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL EQMS | Aktivite Merkezi</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:#071b34;
+  --blue:#0f4c81;
+  --green:#35a852;
+  --bg:#f4f9ff;
+  --card:#ffffff;
+  --line:#dfe9f5;
+  --muted:#64748b;
+  --text:#172033;
+  --soft:#f8fbff;
+  --danger:#dc2626;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Inter,Arial,sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+.main{
+  max-width:1440px;
+  margin:0 auto;
+  padding:24px;
+}
+
+.topbar,
+.panel,
+.stat{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 16px 42px rgba(7,27,52,.07);
+}
+
+.topbar{
+  min-height:72px;
+  padding:14px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  margin-bottom:22px;
+}
+
+.brand{
+  font-size:24px;
+  font-weight:950;
+  color:var(--navy);
+  text-decoration:none;
+  letter-spacing:-.5px;
+}
+
+.brand span{
+  color:var(--green);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:0;
+  text-decoration:none;
+  cursor:pointer;
+  border-radius:14px;
+  padding:10px 14px;
+  font-size:13px;
+  font-weight:950;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.2s ease;
+}
+
+.btn-green{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.btn-blue{
+  background:#e0f2fe;
+  color:#075985;
+}
+
+.btn-red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(.98);
+}
+
+.userbox{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:13px;
+  font-weight:900;
+  color:#334155;
+}
+
+.hero{
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:34px;
+  font-weight:950;
+  color:var(--navy);
+  letter-spacing:-.8px;
+}
+
+.hero p{
+  margin-top:8px;
+  color:#617086;
+  font-weight:800;
+  line-height:1.5;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.stat{
+  padding:16px;
+}
+
+.stat small{
+  display:block;
+  color:#64748b;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.stat strong{
+  font-size:24px;
+  font-weight:950;
+  color:var(--navy);
+}
+
+.panel{
+  padding:18px;
+  overflow:auto;
+}
+
+.panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.panel-title{
+  font-size:18px;
+  font-weight:950;
+  color:var(--navy);
+}
+
+.searchbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.searchbar input,
+.searchbar select{
+  height:42px;
+  border:1px solid #dbe7f3;
+  background:#fff;
+  border-radius:14px;
+  padding:0 12px;
+  font-size:13px;
+  font-weight:800;
+  outline:none;
+  color:#172033;
+}
+
+.searchbar input{
+  min-width:260px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:920px;
+}
+
+th,
+td{
+  padding:13px 12px;
+  border-bottom:1px solid #edf2f7;
+  text-align:left;
+  font-size:13px;
+  vertical-align:top;
+}
+
+th{
+  color:#617086;
+  background:#f8fbff;
+  font-weight:950;
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+
+td{
+  color:#263449;
+  font-weight:750;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.badge-green{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-gray{
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.empty{
+  padding:28px;
+  text-align:center;
+  color:#64748b;
+  font-weight:950;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.error{
+  padding:18px;
+  color:#991b1b;
+  font-weight:950;
+  background:#fee2e2;
+  border:1px solid #fecaca;
+  border-radius:18px;
+}
+
+.footer-note{
+  margin-top:14px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:800;
+}
+
+@media(max-width:900px){
+  .main{
+    padding:16px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .top-actions{
+    width:100%;
+  }
+
+  .btn,
+  .userbox{
+    flex:1;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .searchbar,
+  .searchbar input,
+  .searchbar select{
+    width:100%;
+  }
+}
+
+@media(max-width:560px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .brand{
+    font-size:22px;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="main">
+
+  <div class="topbar">
+    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
+
+    <div class="top-actions">
+      <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
+      <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
+      <button class="btn btn-red" onclick="logout()">Çıkış</button>
+      <div class="userbox">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <h1>Aktivite Merkezi</h1>
+    <p>Sistemde yapılan tüm işlemler, kullanıcı hareketleri, modül değişiklikleri ve kayıt bazlı aktiviteler D1 üzerinden izlenir.</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <small>Toplam Aktivite</small>
+      <strong id="totalCount">0</strong>
+    </div>
+    <div class="stat">
+      <small>Bugünkü Kayıt</small>
+      <strong id="todayCount">0</strong>
+    </div>
+    <div class="stat">
+      <small>Modül Sayısı</small>
+      <strong id="moduleCount">0</strong>
+    </div>
+    <div class="stat">
+      <small>Son Kayıt</small>
+      <strong id="lastRecord">-</strong>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div class="panel-title">Aktivite Kayıtları</div>
+
+      <div class="searchbar">
+        <input id="searchInput" type="search" placeholder="Kişi, işlem, modül veya kayıt ara...">
+        <select id="moduleFilter">
+          <option value="">Tüm Modüller</option>
+        </select>
+        <button class="btn btn-blue" onclick="loadActivities()">Yenile</button>
+      </div>
+    </div>
+
+    <div id="table" class="empty">Yükleniyor...</div>
+
+    <div class="footer-note">
+      Bu ekran kritik kalite kayıtları için LocalStorage kullanmaz. Ana veri kaynağı Cloudflare D1 aktivite kayıtlarıdır.
+    </div>
+  </section>
+
+</main>
+
+<script src="assets/js/config/api-client.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let allRows = [];
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function val(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return escapeHtml(value);
+
+  return date.toLocaleString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function todayKey(){
+  return new Date().toISOString().slice(0,10);
+}
+
+function isToday(value){
+  if(!value) return false;
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return false;
+  return date.toISOString().slice(0,10) === todayKey();
+}
+
+function normalizeText(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function getCurrentUser(){
+  try{
+    const sessionUser =
+      window.GDNL_CURRENT_USER ||
+      window.currentUser ||
+      null;
+
+    if(sessionUser){
+      return val(sessionUser,"full_name","fullname","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setUserName(){
+  const el = document.getElementById("userName");
+  if(el) el.textContent = getCurrentUser();
+}
+
+function updateStats(rows){
+  const total = rows.length;
+  const today = rows.filter(r => isToday(val(r,"created_at","date","timestamp"))).length;
+
+  const modules = new Set(
+    rows
+      .map(r => val(r,"module","module_name","source_module"))
+      .filter(Boolean)
+  );
+
+  const latest = rows[0] ? formatDate(val(rows[0],"created_at","date","timestamp")) : "-";
+
+  document.getElementById("totalCount").textContent = total;
+  document.getElementById("todayCount").textContent = today;
+  document.getElementById("moduleCount").textContent = modules.size;
+  document.getElementById("lastRecord").textContent = latest;
+}
+
+function updateModuleFilter(rows){
+  const select = document.getElementById("moduleFilter");
+  const selected = select.value;
+
+  const modules = [...new Set(
+    rows
+      .map(r => val(r,"module","module_name","source_module"))
+      .filter(Boolean)
+  )].sort((a,b) => String(a).localeCompare(String(b),"tr"));
+
+  select.innerHTML = '<option value="">Tüm Modüller</option>' +
+    modules.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join("");
+
+  if(modules.includes(selected)){
+    select.value = selected;
+  }
+}
+
+function renderRows(){
+  const table = document.getElementById("table");
+  const search = normalizeText(document.getElementById("searchInput").value);
+  const moduleValue = document.getElementById("moduleFilter").value;
+
+  let rows = [...allRows];
+
+  if(moduleValue){
+    rows = rows.filter(r => String(val(r,"module","module_name","source_module")) === moduleValue);
+  }
+
+  if(search){
+    rows = rows.filter(r => {
+      const merged = [
+        val(r,"user_name","user","created_by","created_by_name","fullname"),
+        val(r,"action","title","activity_type","event_type","description"),
+        val(r,"module","module_name","source_module"),
+        val(r,"record_no","record_id","related_id","entity_id"),
+        val(r,"created_at","date","timestamp")
+      ].join(" ");
+      return normalizeText(merged).includes(search);
+    });
+  }
+
+  if(!rows.length){
+    table.innerHTML = '<div class="empty">Arama kriterine uygun aktivite kaydı bulunamadı.</div>';
+    updateStats([]);
+    return;
+  }
+
+  updateStats(rows);
+
+  table.className = "";
+  table.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Kişi</th>
+          <th>İşlem</th>
+          <th>Modül</th>
+          <th>Kayıt</th>
+          <th>Detay</th>
+          <th>Tarih</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.slice(0,200).map(r => {
+          const user = val(r,"user_name","user","created_by_name","created_by","fullname") || "Oturum Kullanıcısı";
+          const action = val(r,"action","title","activity_type","event_type") || "-";
+          const module = val(r,"module","module_name","source_module") || "-";
+          const record = val(r,"record_no","record_id","related_id","entity_id") || "-";
+          const detail = val(r,"description","detail","message","changed_field") || "-";
+          const date = val(r,"created_at","date","timestamp");
+
+          return `
+            <tr>
+              <td>${escapeHtml(user)}</td>
+              <td><span class="badge badge-green">${escapeHtml(action)}</span></td>
+              <td><span class="badge">${escapeHtml(module)}</span></td>
+              <td><span class="badge badge-gray">${escapeHtml(record)}</span></td>
+              <td>${escapeHtml(detail)}</td>
+              <td>${formatDate(date)}</td>
+            </tr>
+          `;
+        }).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+async function loadActivities(){
+  const table = document.getElementById("table");
+  table.className = "empty";
+  table.innerHTML = "Yükleniyor...";
+
+  try{
+    if(!api || typeof api.get !== "function"){
+      throw new Error("GDNL API istemcisi bulunamadı.");
+    }
+
+    const response = await api.get("/activity-feed");
+    allRows = api.asArray ? api.asArray(response) : Array.isArray(response) ? response : [];
+
+    allRows.sort((a,b) => {
+      const da = new Date(val(a,"created_at","date","timestamp")).getTime() || 0;
+      const db = new Date(val(b,"created_at","date","timestamp")).getTime() || 0;
+      return db - da;
+    });
+
+    updateModuleFilter(allRows);
+
+    if(!allRows.length){
+      table.className = "empty";
+      table.innerHTML = "Aktivite kaydı bulunamadı.";
+      updateStats([]);
+      return;
+    }
+
+    renderRows();
+
+  }catch(error){
+    console.error(error);
+    table.className = "error";
+    table.innerHTML = "Aktivite kayıtları alınamadı. API bağlantısı, /activity-feed endpoint’i veya oturum doğrulaması kontrol edilmelidir.";
+    updateStats([]);
+  }
+}
+
+function logout(){
+  try{
+    if(window.navigateRoute){
+      window.navigateRoute("index.html?logout=1");
+      return;
+    }
+  }catch(e){}
+
+  window.location.href = "index.html?logout=1";
+}
+
+document.getElementById("searchInput").addEventListener("input", renderRows);
+document.getElementById("moduleFilter").addEventListener("change", renderRows);
+
+setUserName();
+loadActivities();
+</script>
+
+<script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
-</body></html>
+
+</body>
+</html>
