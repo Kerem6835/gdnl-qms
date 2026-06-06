@@ -35,76 +35,33 @@
       <div>
         <span class="hero-kicker">İnsan Kaynakları</span>
         <h1 id="pageTitle">Bordro Hazırlığı</h1>
-        <p id="pageDesc">Bu ekran kurumsal süreç kaydı, takip, sorumluluk, dosya ve aksiyon yönetimi için hazırlanmıştır.</p>
+        <p id="pageDesc">Resmi bordro değildir; iç hazırlık için çalışma saati, fazla/eksik saat ve mesai etkisi izlenir.</p>
       </div>
       <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Yeni Kayıt</button>
+        <button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Yeni Bordro Hazırlığı</button>
         <button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button>
       </div>
     </section>
 
-    <section id="metricCards" class="cards" aria-label="Özet kartları"></section>
+    <section id="metricCards" class="cards" aria-label="Bordro Hazırlığı göstergeleri"></section>
 
     <section class="workspace-grid">
       <section class="panel process-panel">
-        <div class="panel-head">
-          <div>
-            <h2 id="summaryTitle">Süreç Özeti</h2>
-            <p id="summaryDesc">Takip edilmesi gereken başlıklar ve açık noktalar.</p>
-          </div>
-          <span class="status-pill">Canlı API hazır</span>
-        </div>
+        <div class="panel-head"><div><h2 id="summaryTitle">Bordro Hazırlığı Öncelikleri</h2><p id="summaryDesc">Bordro Hazırlığı için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Bordro Hazırlığı aktif takip</span></div>
         <div id="summaryList" class="list"></div>
       </section>
 
       <section class="panel form-panel">
-        <div class="panel-head">
-          <div>
-            <h2 id="formTitle">Kayıt Formu</h2>
-            <p>Sorumlu, departman, durum, öncelik ve ek dosya alanları ile kayıt hazırlayın.</p>
-          </div>
-        </div>
+        <div class="panel-head"><div><h2 id="formTitle">Bordro Hazırlığı kaydı</h2><p id="formDesc">Bordro Hazırlığı için Personel, Ay, Normal Çalışma Saati, Fazla Mesai alanları tek ekranda hazırlanır.</p></div></div>
         <div id="hrForm" class="form"></div>
-        <div class="file-box">
-          <h3 id="fileTitle">Ek Dosyalar</h3>
-          <p id="fileDesc">Bu kayda ait dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p>
-          <div class="form compact">
-            <div class="field"><label>Kategori</label><select id="fileCategory"></select></div>
-            <div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div>
-            <div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div>
-          </div>
-        </div>
-        <div class="actions">
-          <button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Kaydı Hazırla</button>
-          <button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırlığı</button>
-          <button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button>
-        </div>
+        <div class="file-box"><h3 id="fileTitle">Bordro Hazırlığı Ek Dosyaları</h3><p id="fileDesc">Bordro Hazırlığı ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div>
+        <div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Bordro Hazırlığı Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div>
       </section>
     </section>
 
-    <section class="panel records-panel">
-      <div class="panel-head">
-        <div>
-          <h2 id="recordsTitle">Kayıt Listesi</h2>
-          <p id="recordsDesc">Canlı veri yoksa ekran güvenli boş durum gösterir.</p>
-        </div>
-        <div class="toolbar">
-          <select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select>
-          <select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select>
-        </div>
-      </div>
-      <div id="recordList" class="record-list"></div>
-    </section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Bordro Hazırlığı Listesi</h2><p id="recordsDesc">Bordro Hazırlığı kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
 
-    <section class="panel audit-panel">
-      <div class="panel-head">
-        <div>
-          <h2>Activity / Audit Hazırlığı</h2>
-          <p>Bu sayfada oluşturulan kayıtlar activity-feed ve audit-log mantığına uyumlu payload hazırlar.</p>
-        </div>
-      </div>
-      <div id="auditPreview" class="audit-preview empty">Henüz işlem yapılmadı.</div>
-    </section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Bordro Hazırlığı İşlem Geçmişi</h2><p id="auditDesc">Bordro Hazırlığı üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Bordro Hazırlığı için henüz işlem kaydı hazırlanmadı.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>
