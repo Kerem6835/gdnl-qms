@@ -4,152 +4,1122 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EQMS | AI Asistan</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
-html{min-height:100%;min-height:100svh;min-height:100dvh}
-body{background:#f4f9ff;color:#172033;min-height:100vh;min-height:100svh;min-height:100dvh;overflow-x:hidden}
-.main{max-width:1440px;margin:0 auto;padding:clamp(16px,2vw,24px)}
-.topbar,.panel,.card,.composer{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:22px;box-shadow:0 16px 42px rgba(7,27,52,.07)}
-.topbar{min-height:64px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;position:sticky;top:10px;z-index:20;backdrop-filter:blur(18px)}
-.brand{font-size:24px;font-weight:950;color:#071b34;text-decoration:none;white-space:nowrap}.brand span{color:#35a852}
-.top-actions{display:flex;align-items:center;gap:10px;min-width:0}.user{font-weight:900;color:#071b34;white-space:nowrap}.btn{height:40px;border:none;border-radius:12px;padding:0 13px;font-weight:950;cursor:pointer;background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff}.btn.secondary{background:#dcfce7;color:#15803d}.btn.dark{background:#071b34;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}
-.hero{margin-bottom:18px}.hero h1{font-size:clamp(28px,4vw,42px);font-weight:950;color:#071b34;letter-spacing:0}.hero p{margin-top:8px;color:#617086;font-weight:850;line-height:1.55;max-width:900px}
-.layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;align-items:start}
-.panel{padding:18px;overflow:auto}.panel h2,.panel h3{font-size:18px;font-weight:950;color:#071b34;margin-bottom:12px}
-.mode-list{display:grid;gap:8px}.mode{width:100%;border:1px solid #e5edf6;background:#f8fbff;color:#536176;border-radius:14px;padding:11px 12px;text-align:left;font-size:13px;font-weight:950;cursor:pointer}.mode.active{background:#e8f7ee;color:#1f7d3d;border-color:#bfe8cc}.mode small{display:block;margin-top:3px;font-size:11px;color:#7b8798;font-weight:850}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}.card{padding:15px}.card small{display:block;color:#617086;font-weight:950;margin-bottom:7px}.card b{font-size:24px;color:#1f7d3d;font-weight:950}
-.composer{padding:16px;margin-bottom:16px}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:950;color:#617086}.field input,.field select,.field textarea{width:100%;border:1px solid #d8e4ef;border-radius:13px;padding:10px 12px;font-weight:850;color:#172033;background:#fff;outline:none}.field input,.field select{height:42px}.field textarea{min-height:130px;resize:vertical;line-height:1.5}.field input:focus,.field select:focus,.field textarea:focus{border-color:#35a852;box-shadow:0 0 0 4px rgba(53,168,82,.12)}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.messages{display:grid;gap:12px}.message{border:1px solid #edf2f7;background:#fff;border-radius:16px;padding:14px}.message.user{border-color:#c7ebd2;background:#f6fff8}.message b{display:block;color:#071b34;margin-bottom:6px}.message small{display:block;color:#617086;font-weight:850;margin-bottom:6px}.message pre{white-space:pre-wrap;font:inherit;line-height:1.55;color:#334155}
-.hint-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.hint{border:1px solid #e5edf6;background:#f8fbff;border-radius:15px;padding:12px;color:#536176;font-size:12px;font-weight:850;line-height:1.45}.hint b{display:block;color:#071b34;margin-bottom:5px}
-.tag{display:inline-flex;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950;margin:0 6px 6px 0}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}.toast{position:fixed;right:18px;bottom:18px;z-index:50;background:#071b34;color:#fff;border-radius:14px;padding:12px 14px;font-weight:900;box-shadow:0 18px 45px rgba(7,27,52,.18);display:none}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.topbar{top:0;border-radius:18px;flex-wrap:wrap}.top-actions{width:100%;justify-content:space-between}.form{grid-template-columns:1fr}.main{padding:16px}.panel,.composer{border-radius:18px}}
-@media(max-width:520px){.hero h1{font-size:27px}.btn{width:100%}.actions{display:grid}.user{max-width:100%;overflow:hidden;text-overflow:ellipsis}.brand{font-size:21px}}
+:root{
+  --navy:#071b34;
+  --green:#35a852;
+  --bg:#f4f9ff;
+  --card:#ffffff;
+  --line:#dfe9f5;
+  --muted:#64748b;
+  --text:#172033;
+  --soft:#f8fbff;
+  --blue:#0f4c81;
+  --danger:#dc2626;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Inter,Arial,sans-serif;
+}
+
+html{
+  min-height:100%;
+  min-height:100svh;
+  min-height:100dvh;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+
+.main{
+  max-width:1440px;
+  margin:0 auto;
+  padding:clamp(16px,2vw,24px);
+}
+
+.topbar,
+.panel,
+.card,
+.composer{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 16px 42px rgba(7,27,52,.07);
+}
+
+.topbar{
+  min-height:72px;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:20px;
+  position:sticky;
+  top:10px;
+  z-index:20;
+  backdrop-filter:blur(18px);
+}
+
+.brand{
+  font-size:24px;
+  font-weight:950;
+  color:var(--navy);
+  text-decoration:none;
+  white-space:nowrap;
+  letter-spacing:-.5px;
+}
+
+.brand span{
+  color:var(--green);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  flex-wrap:wrap;
+}
+
+.user{
+  font-weight:900;
+  color:var(--navy);
+  white-space:nowrap;
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:13px;
+}
+
+.btn{
+  min-height:42px;
+  border:none;
+  border-radius:14px;
+  padding:0 14px;
+  font-weight:950;
+  cursor:pointer;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  color:#fff;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.2s ease;
+  font-size:13px;
+}
+
+.btn.secondary{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.btn.blue{
+  background:#e0f2fe;
+  color:#075985;
+}
+
+.btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(.98);
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.hero{
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:clamp(28px,4vw,42px);
+  font-weight:950;
+  color:var(--navy);
+  letter-spacing:-.8px;
+}
+
+.hero p{
+  margin-top:8px;
+  color:#617086;
+  font-weight:850;
+  line-height:1.55;
+  max-width:980px;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:320px minmax(0,1fr);
+  gap:16px;
+  align-items:start;
+}
+
+.panel{
+  padding:18px;
+  overflow:auto;
+}
+
+.panel h2,
+.panel h3{
+  font-size:18px;
+  font-weight:950;
+  color:var(--navy);
+  margin-bottom:12px;
+}
+
+.mode-list{
+  display:grid;
+  gap:8px;
+}
+
+.mode{
+  width:100%;
+  border:1px solid #e5edf6;
+  background:#f8fbff;
+  color:#536176;
+  border-radius:15px;
+  padding:12px;
+  text-align:left;
+  font-size:13px;
+  font-weight:950;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.mode:hover{
+  border-color:#bfe8cc;
+  background:#f3fff6;
+}
+
+.mode.active{
+  background:#e8f7ee;
+  color:#1f7d3d;
+  border-color:#bfe8cc;
+}
+
+.mode small{
+  display:block;
+  margin-top:4px;
+  font-size:11px;
+  color:#7b8798;
+  font-weight:850;
+  line-height:1.35;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.card{
+  padding:16px;
+}
+
+.card small{
+  display:block;
+  color:#617086;
+  font-weight:950;
+  margin-bottom:7px;
+  font-size:12px;
+}
+
+.card b{
+  font-size:24px;
+  color:#1f7d3d;
+  font-weight:950;
+}
+
+.composer{
+  padding:16px;
+  margin-bottom:16px;
+}
+
+.form{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:12px;
+  font-weight:950;
+  color:#617086;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid #d8e4ef;
+  border-radius:13px;
+  padding:10px 12px;
+  font-weight:850;
+  color:#172033;
+  background:#fff;
+  outline:none;
+}
+
+.field input,
+.field select{
+  min-height:42px;
+}
+
+.field select[multiple]{
+  min-height:118px;
+}
+
+.field textarea{
+  min-height:140px;
+  resize:vertical;
+  line-height:1.5;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:#35a852;
+  box-shadow:0 0 0 4px rgba(53,168,82,.12);
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.messages{
+  display:grid;
+  gap:12px;
+}
+
+.message{
+  border:1px solid #edf2f7;
+  background:#fff;
+  border-radius:16px;
+  padding:14px;
+}
+
+.message.user-message{
+  border-color:#c7ebd2;
+  background:#f6fff8;
+}
+
+.message b{
+  display:block;
+  color:#071b34;
+  margin-bottom:6px;
+}
+
+.message small{
+  display:block;
+  color:#617086;
+  font-weight:850;
+  margin-bottom:6px;
+}
+
+.message pre{
+  white-space:pre-wrap;
+  font:inherit;
+  line-height:1.55;
+  color:#334155;
+}
+
+.hint-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:10px;
+}
+
+.hint{
+  border:1px solid #e5edf6;
+  background:#f8fbff;
+  border-radius:15px;
+  padding:12px;
+  color:#536176;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+  cursor:pointer;
+  text-align:left;
+}
+
+.hint:hover{
+  background:#f3fff6;
+  border-color:#bfe8cc;
+}
+
+.hint b{
+  display:block;
+  color:#071b34;
+  margin-bottom:5px;
+}
+
+.tag{
+  display:inline-flex;
+  border-radius:999px;
+  background:#e8f7ee;
+  color:#1f7d3d;
+  padding:5px 9px;
+  font-size:11px;
+  font-weight:950;
+  margin:0 6px 6px 0;
+}
+
+.empty{
+  padding:24px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:50;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.status-note{
+  margin-top:12px;
+  font-size:12px;
+  color:#64748b;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:900px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    top:0;
+    border-radius:18px;
+    flex-wrap:wrap;
+  }
+
+  .top-actions{
+    width:100%;
+    justify-content:space-between;
+  }
+
+  .form{
+    grid-template-columns:1fr;
+  }
+
+  .main{
+    padding:16px;
+  }
+
+  .panel,
+  .composer{
+    border-radius:18px;
+  }
+}
+
+@media(max-width:520px){
+  .hero h1{
+    font-size:27px;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .actions{
+    display:grid;
+  }
+
+  .user{
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .brand{
+    font-size:21px;
+  }
+}
 </style>
 </head>
+
 <body>
 <main class="main">
-<div class="topbar">
-<a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
-<div class="top-actions">
-<button class="btn secondary" onclick="window.location.href='search.html'">Arama</button>
-<a class="btn secondary" href="mailbox.html" style="text-decoration:none;display:inline-flex;align-items:center">📨 Mesaj Merkezi</a>
-<div class="user"><span id="userName">Oturum Kullanıcısı</span></div>
-</div>
-</div>
 
-<section class="hero">
-<h1>AI Asistan</h1>
-<p>Kalite, denetim, CAPA, risk, doküman, eğitim, kalibrasyon, tedarikçi, müşteri şikayeti ve yönetim özetleri için öneri üretir. Karar her zaman kullanıcıdadır.</p>
-</section>
+  <div class="topbar">
+    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
 
-<section class="cards">
-<div class="card"><small>Arama Kapsamı</small><b>10</b></div>
-<div class="card"><small>Kalite Asistanı</small><b>12</b></div>
-<div class="card"><small>Dosya Analizi</small><b>R2</b></div>
-<div class="card"><small>Karar Yetkisi</small><b>İnsan Onayı</b></div>
-</section>
+    <div class="top-actions">
+      <a class="btn blue" href="dashboard.html">← Dashboard</a>
+      <button class="btn secondary" onclick="goToSearch()">Arama</button>
+      <a class="btn secondary" href="mailbox.html">📨 Mesaj Merkezi</a>
+      <button class="btn red" onclick="logout()">Çıkış</button>
+      <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+    </div>
+  </div>
 
-<section class="layout">
-<aside class="panel">
-<h2>Asistan Modları</h2>
-<div class="mode-list" id="modeList"></div>
-</aside>
+  <section class="hero">
+    <h1>AI Asistan</h1>
+    <p>Kalite, denetim, CAPA, risk, doküman, eğitim, kalibrasyon, tedarikçi, müşteri şikayeti ve yönetim özetleri için öneri üretir. Karar ve onay her zaman kullanıcıdadır.</p>
+  </section>
 
-<section>
-<div class="composer">
-<div class="form">
-<div class="field">
-<label>Mod</label>
-<select id="modeSelect"></select>
-</div>
-<div class="field">
-<label>Kapsam</label>
-<select id="scopeSelect" multiple size="1">
-<option value="users">Kişiler</option>
-<option value="departments">Departman</option>
-<option value="documents">Doküman</option>
-<option value="capa">CAPA</option>
-<option value="risks">Risk</option>
-<option value="actions">Aksiyon</option>
-<option value="trainings">Eğitim</option>
-<option value="audits">Denetim</option>
-<option value="suppliers">Tedarikçi</option>
-<option value="customers">Müşteri Şikayetleri</option>
-</select>
-</div>
-<div class="field full">
-<label>Soru veya Talep</label>
-<textarea id="prompt" placeholder="Örn: Son 30 gündeki açık CAPA'ları göster"></textarea>
-</div>
-<div class="field">
-<label>Bağlam Dosyası</label>
-<input id="contextFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
-</div>
-<div class="field">
-<label>Bağlı Kayıt</label>
-<input id="recordRef" placeholder="Doküman, CAPA, risk veya denetim no">
-</div>
-</div>
-<div class="actions">
-<button class="btn" id="sendBtn" onclick="sendPrompt()">Öneri Al</button>
-<button class="btn secondary" onclick="runSemanticSearch()">Semantik Ara</button>
-<button class="btn dark" onclick="clearChat()">Temizle</button>
-</div>
-</div>
+  <section class="cards">
+    <div class="card"><small>Asistan Modu</small><b id="modeCount">0</b></div>
+    <div class="card"><small>Veri Kaynağı</small><b>D1</b></div>
+    <div class="card"><small>Dosya Analizi</small><b>R2</b></div>
+    <div class="card"><small>Karar Yetkisi</small><b>İnsan Onayı</b></div>
+  </section>
 
-<div class="panel" style="margin-bottom:16px">
-<h3>Hazır Talep Örnekleri</h3>
-<div class="hint-grid" id="examples"></div>
-</div>
+  <section class="layout">
+    <aside class="panel">
+      <h2>Asistan Modları</h2>
+      <div class="mode-list" id="modeList"></div>
+    </aside>
 
-<div class="panel">
-<h3>Asistan Yanıtları</h3>
-<div class="messages" id="messages"><div class="empty">Soru yazıp öneri alın.</div></div>
-</div>
-</section>
-</section>
+    <section>
+      <div class="composer">
+        <div class="form">
+          <div class="field">
+            <label>Mod</label>
+            <select id="modeSelect"></select>
+          </div>
+
+          <div class="field">
+            <label>Kapsam</label>
+            <select id="scopeSelect" multiple>
+              <option value="users">Kişiler</option>
+              <option value="departments">Departmanlar</option>
+              <option value="documents">Dokümanlar</option>
+              <option value="capa">CAPA</option>
+              <option value="risks">Riskler</option>
+              <option value="actions">Aksiyonlar</option>
+              <option value="trainings">Eğitimler</option>
+              <option value="audits">Denetimler</option>
+              <option value="suppliers">Tedarikçiler</option>
+              <option value="customers">Müşteri Şikayetleri</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Soru veya Talep</label>
+            <textarea id="prompt" placeholder="Örn: Son 30 gündeki açık CAPA kayıtlarını özetle ve öncelik sırasına göre aksiyon öner."></textarea>
+          </div>
+
+          <div class="field">
+            <label>Bağlam Dosyası</label>
+            <input id="contextFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+          </div>
+
+          <div class="field">
+            <label>Bağlı Kayıt</label>
+            <input id="recordRef" placeholder="Doküman, CAPA, risk, denetim veya aksiyon no">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="sendBtn" onclick="sendPrompt()">Öneri Al</button>
+          <button class="btn secondary" id="searchBtn" onclick="runSemanticSearch()">Semantik Ara</button>
+          <button class="btn dark" onclick="clearChat()">Temizle</button>
+        </div>
+
+        <div class="status-note">
+          Bu ekran tarayıcıda API anahtarı tutmaz. AI istekleri GDNL EOS backend üzerinden yönetilir. Kritik kayıtlar LocalStorage’a yazılmaz.
+        </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:16px">
+        <h3>Hazır Talep Örnekleri</h3>
+        <div class="hint-grid" id="examples"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Asistan Yanıtları</h3>
+        <div class="messages" id="messages">
+          <div class="empty">Soru yazıp öneri alın.</div>
+        </div>
+      </div>
+    </section>
+  </section>
 </main>
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 <script src="assets/js/config/api-client.js"></script>
+
 <script>
-const api=window.GDNL_API;
-const modes=[
-{id:"global-search",name:"AI Global Search",endpoint:"/ai/search",hint:"Semantik arama",examples:["Son 30 gündeki açık CAPA'ları göster","Kalite departmanındaki geciken eğitimler","Revizyon bekleyen dokümanlar"]},
-{id:"chat",name:"AI Chat",endpoint:"/ai/chat",hint:"Doğal dil soru",examples:["Bu ay en riskli süreç hangisi?","En fazla bulgu hangi departmanda oluştu?","Kalibrasyonu yaklaşan ekipmanları göster"]},
-{id:"capa",name:"AI CAPA Yardımcısı",endpoint:"/ai/capa",hint:"CAPA önerileri",examples:["Bu probleme kök neden öner","Düzeltici ve önleyici faaliyet öner","Etkinlik doğrulama planı hazırla"]},
-{id:"five-why",name:"AI 5 Why Asistanı",endpoint:"/ai/five-why",hint:"Adım adım analiz",examples:["5 Why analizi başlat","Üçüncü neden için daha derin soru öner","Son nedeni doğrulama sorusu üret"]},
-{id:"ishikawa",name:"AI Ishikawa Asistanı",endpoint:"/ai/ishikawa",hint:"İnsan, Makine, Metot, Malzeme, Ölçüm, Çevre",examples:["Ishikawa kategorilerini doldur","Makine kaynaklı olası nedenleri öner","Ölçüm sistemi etkilerini listele"]},
-{id:"risk",name:"AI Risk Asistanı",endpoint:"/ai/risk",hint:"S/O/D ve RPN önerisi",examples:["Bu risk için S/O/D öner","Aksiyon sonrası RPN tahmini yap","Risk seviyesini yorumla"]},
-{id:"audit",name:"AI Denetim Asistanı",endpoint:"/ai/audit",hint:"NC, OFI ve standart maddesi",examples:["Bu bulgu NC mi OFI mi?","İlgili ISO 9001 maddesini öner","Kapanış kanıtı öner"]},
-{id:"apqp",name:"AI APQP Yardımcısı",endpoint:"/ai/apqp",hint:"Faz bazlı öneri",examples:["APQP Faz 2 çıktıları nelerdir?","PPAP için eksik kayıtları kontrol et","FMEA, SPC, MSA bağlantısını açıkla"]},
-{id:"document-summary",name:"AI Doküman Özetleme",endpoint:"/ai/document-summary",hint:"PDF, Word, Excel özet",examples:["Bu dokümanı özetle","Revizyon etkilerini çıkar","Ana aksiyon maddelerini listele"]},
-{id:"ocr",name:"AI OCR",endpoint:"/ai/ocr",hint:"PDF veya görsel metin çıkarma",examples:["Yüklenen görselden metin çıkar","PDF içindeki tabloyu oku","Sertifika metnini ayıkla"]},
-{id:"calibration",name:"AI Kalibrasyon Yardımcısı",endpoint:"/ai/calibration",hint:"Sertifika alanları",examples:["Cihaz adını ve sertifika tarihini çıkar","Geçerlilik tarihini belirle","Kalibrasyon sonucu uygun mu?"]},
-{id:"complaint",name:"AI Müşteri Şikayeti Analizi",endpoint:"/ai/customer-complaint",hint:"Kalite, teslimat, ambalaj, proses",examples:["Bu şikayeti sınıflandır","8D bağlantısı öner","Termin riskini yorumla"]},
-{id:"training",name:"AI Eğitim Önerileri",endpoint:"/ai/training",hint:"Role göre eğitim",examples:["Kalite mühendisi için eğitim öner","Denetçi yetkinlik boşluğunu çıkar","Geciken eğitimleri önceliklendir"]},
-{id:"kpi",name:"AI KPI Analizi",endpoint:"/ai/kpi",hint:"Dashboard yorumu",examples:["Bu ay CAPA trendini yorumla","Geciken aksiyon etkisini açıkla","KPI sapmasına aksiyon öner"]},
-{id:"management-summary",name:"AI Yönetim Özeti",endpoint:"/ai/management-summary",hint:"YGG öncesi özet",examples:["YGG için yönetim özeti hazırla","Yüksek riskleri özetle","Yaklaşan kalibrasyonları listele"]}
+const api = window.GDNL_API;
+
+const modes = [
+  {
+    id:"global-search",
+    name:"AI Global Search",
+    endpoint:"/ai/search",
+    hint:"D1 kayıtları üzerinde semantik arama",
+    examples:[
+      "Son 30 gündeki açık CAPA kayıtlarını göster",
+      "Kalite departmanındaki geciken eğitimleri özetle",
+      "Revizyon bekleyen dokümanları öncelik sırasına koy"
+    ]
+  },
+  {
+    id:"chat",
+    name:"AI Chat",
+    endpoint:"/ai/chat",
+    hint:"Doğal dil ile kalite sistemi sorgusu",
+    examples:[
+      "Bu ay en riskli süreç hangisi?",
+      "En fazla bulgu hangi departmanda oluştu?",
+      "Kalibrasyonu yaklaşan ekipmanları göster"
+    ]
+  },
+  {
+    id:"capa",
+    name:"AI CAPA Yardımcısı",
+    endpoint:"/ai/capa",
+    hint:"Kök neden, düzeltici faaliyet ve etkinlik önerisi",
+    examples:[
+      "Bu problem için kök neden öner",
+      "Düzeltici ve önleyici faaliyet öner",
+      "Etkinlik doğrulama planı hazırla"
+    ]
+  },
+  {
+    id:"five-why",
+    name:"AI 5 Why Asistanı",
+    endpoint:"/ai/five-why",
+    hint:"Adım adım 5 Why analizi",
+    examples:[
+      "5 Why analizi başlat",
+      "Üçüncü neden için daha derin soru öner",
+      "Son nedeni doğrulama sorusu üret"
+    ]
+  },
+  {
+    id:"ishikawa",
+    name:"AI Ishikawa Asistanı",
+    endpoint:"/ai/ishikawa",
+    hint:"İnsan, Makine, Metot, Malzeme, Ölçüm, Çevre analizi",
+    examples:[
+      "Ishikawa kategorilerini doldur",
+      "Makine kaynaklı olası nedenleri öner",
+      "Ölçüm sistemi etkilerini listele"
+    ]
+  },
+  {
+    id:"risk",
+    name:"AI Risk Asistanı",
+    endpoint:"/ai/risk",
+    hint:"S/O/D, RPN ve aksiyon sonrası risk yorumu",
+    examples:[
+      "Bu risk için S/O/D öner",
+      "Aksiyon sonrası RPN tahmini yap",
+      "Risk seviyesini yorumla"
+    ]
+  },
+  {
+    id:"audit",
+    name:"AI Denetim Asistanı",
+    endpoint:"/ai/audit",
+    hint:"NC, OFI, standart maddesi ve kapanış kanıtı",
+    examples:[
+      "Bu bulgu NC mi OFI mi?",
+      "İlgili ISO 9001 maddesini öner",
+      "Kapanış kanıtı öner"
+    ]
+  },
+  {
+    id:"apqp",
+    name:"AI APQP Yardımcısı",
+    endpoint:"/ai/apqp",
+    hint:"APQP fazları, PPAP ve otomotiv kalite çıktıları",
+    examples:[
+      "APQP Faz 2 çıktıları nelerdir?",
+      "PPAP için eksik kayıtları kontrol et",
+      "FMEA, SPC, MSA bağlantısını açıkla"
+    ]
+  },
+  {
+    id:"document-summary",
+    name:"AI Doküman Özetleme",
+    endpoint:"/ai/document-summary",
+    hint:"PDF, Word ve Excel dosya özeti",
+    examples:[
+      "Bu dokümanı özetle",
+      "Revizyon etkilerini çıkar",
+      "Ana aksiyon maddelerini listele"
+    ]
+  },
+  {
+    id:"ocr",
+    name:"AI OCR",
+    endpoint:"/ai/ocr",
+    hint:"PDF veya görsel üzerinden metin çıkarma",
+    examples:[
+      "Yüklenen görselden metin çıkar",
+      "PDF içindeki tabloyu oku",
+      "Sertifika metnini ayıkla"
+    ]
+  },
+  {
+    id:"calibration",
+    name:"AI Kalibrasyon Yardımcısı",
+    endpoint:"/ai/calibration",
+    hint:"Kalibrasyon sertifikası ve cihaz uygunluk yorumu",
+    examples:[
+      "Cihaz adını ve sertifika tarihini çıkar",
+      "Geçerlilik tarihini belirle",
+      "Kalibrasyon sonucu uygun mu?"
+    ]
+  },
+  {
+    id:"complaint",
+    name:"AI Müşteri Şikayeti Analizi",
+    endpoint:"/ai/customer-complaint",
+    hint:"Şikayet sınıflandırma, 8D ve termin riski",
+    examples:[
+      "Bu şikayeti sınıflandır",
+      "8D bağlantısı öner",
+      "Termin riskini yorumla"
+    ]
+  },
+  {
+    id:"training",
+    name:"AI Eğitim Önerileri",
+    endpoint:"/ai/training",
+    hint:"Role, yetkinliğe ve gecikmeye göre eğitim önerisi",
+    examples:[
+      "Kalite mühendisi için eğitim öner",
+      "Denetçi yetkinlik boşluğunu çıkar",
+      "Geciken eğitimleri önceliklendir"
+    ]
+  },
+  {
+    id:"kpi",
+    name:"AI KPI Analizi",
+    endpoint:"/ai/kpi",
+    hint:"KPI trendi, sapma ve aksiyon yorumu",
+    examples:[
+      "Bu ay CAPA trendini yorumla",
+      "Geciken aksiyon etkisini açıkla",
+      "KPI sapmasına aksiyon öner"
+    ]
+  },
+  {
+    id:"management-summary",
+    name:"AI Yönetim Özeti",
+    endpoint:"/ai/management-summary",
+    hint:"YGG ve üst yönetim özeti",
+    examples:[
+      "YGG için yönetim özeti hazırla",
+      "Yüksek riskleri özetle",
+      "Yaklaşan kalibrasyonları listele"
+    ]
+  }
 ];
-let activeMode=modes[0],chat=[];
-const esc=value=>String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-function selectedScopes(){return Array.from(scopeSelect.selectedOptions||[]).map(o=>o.value)}
-function setMode(id){activeMode=modes.find(m=>m.id===id)||modes[0];modeSelect.value=activeMode.id;renderModes();renderExamples()}
-function renderModes(){modeList.innerHTML=modes.map(m=>`<button class="mode ${m.id===activeMode.id?"active":""}" onclick="setMode('${m.id}')">${esc(m.name)}<small>${esc(m.hint)}</small></button>`).join("")}
-function renderSelect(){modeSelect.innerHTML=modes.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join("");modeSelect.onchange=()=>setMode(modeSelect.value)}
-function renderExamples(){examples.innerHTML=activeMode.examples.map(x=>`<button class="hint" onclick="useExample('${esc(x)}')"><b>${esc(activeMode.name)}</b>${esc(x)}</button>`).join("")}
-function useExample(text){prompt.value=text;prompt.focus()}
-function addMessage(role,text,meta){chat.push({role,text,meta,date:new Date().toLocaleString("tr-TR")});renderMessages()}
-function renderMessages(){messages.innerHTML=chat.length?chat.map(m=>`<div class="message ${m.role==="user"?"user":""}"><b>${m.role==="user"?"Oturum Kullanıcısı":"AI Asistan"}</b><small>${esc(m.date)}${m.meta?` · ${esc(m.meta)}`:""}</small><pre>${esc(m.text)}</pre></div>`).join(""):'<div class="empty">Soru yazıp öneri alın.</div>'}
-function clearChat(){chat=[];renderMessages()}
-function toastMsg(text){if(api?.showToast){api.showToast(text);return}toast.textContent=text;toast.style.display="block";setTimeout(()=>toast.style.display="none",2400)}
-async function uploadContextFile(){const file=contextFile.files?.[0];if(!file)return null;try{return await api.uploadToR2(file,{module:"AI_ASSISTANT",related_id:recordRef.value||activeMode.id,uploaded_by:window.GDNL_CURRENT_USER?.fullname||""})}catch(err){toastMsg("Bağlam dosyası R2 yükleme bekliyor");return null}}
-async function callAi(endpoint,body){return await api.post(endpoint,body,{fallbackOnNotFound:false})}
-async function sendPrompt(){const text=prompt.value.trim();if(!text)return toastMsg("Soru yaz");sendBtn.disabled=true;addMessage("user",text,activeMode.name);try{const file=await uploadContextFile();const payload={mode:activeMode.id,prompt:text,scope:selectedScopes(),record_ref:recordRef.value.trim(),file,decision_policy:"suggest_only",autonomous_actions:false};const res=await callAi(activeMode.endpoint,payload);const data=api.responseData(res)||res;addMessage("assistant",data.answer||data.summary||data.text||JSON.stringify(data,null,2),activeMode.name)}catch(err){addMessage("assistant","AI backend endpointi hazır olduğunda bu mod canlı öneri döndürecek. Tarayıcıda API anahtarı tutulmaz; istek GDNL EOS backend üzerinden OpenAI API uyumlu mimariye gönderilmelidir.",activeMode.name)}finally{sendBtn.disabled=false}}
-async function runSemanticSearch(){const text=prompt.value.trim();if(!text)return toastMsg("Arama metni yaz");setMode("global-search");sendBtn.disabled=true;addMessage("user",text,"Semantik arama");try{const res=await callAi("/ai/search",{query:text,scope:selectedScopes(),semantic:true});const data=api.responseData(res)||res;addMessage("assistant",data.answer||data.summary||JSON.stringify(data,null,2),"Semantik arama")}catch(err){try{const fallback=await api.get("/search?q="+encodeURIComponent(text));addMessage("assistant",JSON.stringify(api.asArray(fallback).slice(0,20),null,2),"Mevcut arama")}catch(inner){addMessage("assistant","Semantik arama backend endpointi bekleniyor. Mevcut /search endpointi de yanıt vermedi.","Semantik arama")}}finally{sendBtn.disabled=false}}
-function boot(){if(api?.applyCurrentUser)api.applyCurrentUser(window.GDNL_CURRENT_USER||{});renderSelect();renderModes();renderExamples()}
+
+let activeMode = modes[0];
+let chat = [];
+
+function esc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function val(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function selectedScopes(){
+  return Array.from(document.getElementById("scopeSelect").selectedOptions || []).map(option => option.value);
+}
+
+function currentUserName(){
+  try{
+    const user =
+      window.GDNL_CURRENT_USER ||
+      window.currentUser ||
+      null;
+
+    if(user){
+      return val(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setUserName(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function setMode(id){
+  activeMode = modes.find(mode => mode.id === id) || modes[0];
+
+  const modeSelect = document.getElementById("modeSelect");
+  if(modeSelect) modeSelect.value = activeMode.id;
+
+  renderModes();
+  renderExamples();
+}
+
+function renderModes(){
+  const modeList = document.getElementById("modeList");
+
+  modeList.innerHTML = modes.map(mode => `
+    <button class="mode ${mode.id === activeMode.id ? "active" : ""}" data-mode-id="${esc(mode.id)}">
+      ${esc(mode.name)}
+      <small>${esc(mode.hint)}</small>
+    </button>
+  `).join("");
+
+  modeList.querySelectorAll(".mode").forEach(button => {
+    button.addEventListener("click", () => setMode(button.dataset.modeId));
+  });
+}
+
+function renderSelect(){
+  const modeSelect = document.getElementById("modeSelect");
+
+  modeSelect.innerHTML = modes.map(mode => `
+    <option value="${esc(mode.id)}">${esc(mode.name)}</option>
+  `).join("");
+
+  modeSelect.value = activeMode.id;
+  modeSelect.addEventListener("change", () => setMode(modeSelect.value));
+}
+
+function renderExamples(){
+  const examples = document.getElementById("examples");
+
+  examples.innerHTML = activeMode.examples.map((text,index) => `
+    <button class="hint" data-example-index="${index}">
+      <b>${esc(activeMode.name)}</b>
+      ${esc(text)}
+    </button>
+  `).join("");
+
+  examples.querySelectorAll(".hint").forEach(button => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.exampleIndex);
+      useExample(activeMode.examples[index] || "");
+    });
+  });
+}
+
+function useExample(text){
+  const prompt = document.getElementById("prompt");
+  prompt.value = text;
+  prompt.focus();
+}
+
+function addMessage(role,text,meta){
+  chat.push({
+    role,
+    text,
+    meta,
+    date:new Date().toLocaleString("tr-TR")
+  });
+
+  renderMessages();
+}
+
+function renderMessages(){
+  const messages = document.getElementById("messages");
+
+  if(!chat.length){
+    messages.innerHTML = '<div class="empty">Soru yazıp öneri alın.</div>';
+    return;
+  }
+
+  messages.innerHTML = chat.map(message => `
+    <div class="message ${message.role === "user" ? "user-message" : ""}">
+      <b>${message.role === "user" ? "Oturum Kullanıcısı" : "AI Asistan"}</b>
+      <small>${esc(message.date)}${message.meta ? ` · ${esc(message.meta)}` : ""}</small>
+      <pre>${esc(message.text)}</pre>
+    </div>
+  `).join("");
+}
+
+function clearChat(){
+  chat = [];
+  renderMessages();
+}
+
+function toastMsg(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("toast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+async function uploadContextFile(){
+  const fileInput = document.getElementById("contextFile");
+  const recordRef = document.getElementById("recordRef");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    toastMsg("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"AI_ASSISTANT",
+      related_id:recordRef.value || activeMode.id,
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    toastMsg("Bağlam dosyası R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function callAi(endpoint,body){
+  if(!api || typeof api.post !== "function"){
+    throw new Error("GDNL API istemcisi bulunamadı.");
+  }
+
+  return await api.post(endpoint,body,{fallbackOnNotFound:false});
+}
+
+function responseData(response){
+  if(api && typeof api.responseData === "function"){
+    return api.responseData(response);
+  }
+
+  return response;
+}
+
+async function sendPrompt(){
+  const prompt = document.getElementById("prompt");
+  const recordRef = document.getElementById("recordRef");
+  const sendBtn = document.getElementById("sendBtn");
+
+  const text = prompt.value.trim();
+
+  if(!text){
+    toastMsg("Soru yaz");
+    return;
+  }
+
+  sendBtn.disabled = true;
+  addMessage("user",text,activeMode.name);
+
+  try{
+    const file = await uploadContextFile();
+
+    const payload = {
+      mode:activeMode.id,
+      prompt:text,
+      scope:selectedScopes(),
+      record_ref:recordRef.value.trim(),
+      file:file,
+      decision_policy:"suggest_only",
+      autonomous_actions:false,
+      source:"GDNL_EQMS_AI_ASSISTANT",
+      user:currentUserName()
+    };
+
+    const response = await callAi(activeMode.endpoint,payload);
+    const data = responseData(response) || {};
+
+    const answer =
+      data.answer ||
+      data.summary ||
+      data.text ||
+      data.message ||
+      JSON.stringify(data,null,2);
+
+    addMessage("assistant",answer,activeMode.name);
+
+  }catch(error){
+    console.error(error);
+
+    addMessage(
+      "assistant",
+      "AI backend endpointi hazır olduğunda bu mod canlı öneri döndürecek. Tarayıcıda API anahtarı tutulmaz; istek GDNL EOS backend üzerinden OpenAI API uyumlu mimariye gönderilmelidir.",
+      activeMode.name
+    );
+  }finally{
+    sendBtn.disabled = false;
+  }
+}
+
+async function runSemanticSearch(){
+  const prompt = document.getElementById("prompt");
+  const searchBtn = document.getElementById("searchBtn");
+  const text = prompt.value.trim();
+
+  if(!text){
+    toastMsg("Arama metni yaz");
+    return;
+  }
+
+  setMode("global-search");
+  searchBtn.disabled = true;
+
+  addMessage("user",text,"Semantik arama");
+
+  try{
+    const response = await callAi("/ai/search",{
+      query:text,
+      scope:selectedScopes(),
+      semantic:true,
+      source:"GDNL_EQMS_AI_ASSISTANT",
+      user:currentUserName()
+    });
+
+    const data = responseData(response) || {};
+
+    const answer =
+      data.answer ||
+      data.summary ||
+      data.text ||
+      data.message ||
+      JSON.stringify(data,null,2);
+
+    addMessage("assistant",answer,"Semantik arama");
+
+  }catch(error){
+    console.error(error);
+
+    try{
+      if(!api || typeof api.get !== "function"){
+        throw new Error("Arama API istemcisi bulunamadı.");
+      }
+
+      const fallback = await api.get("/search?q=" + encodeURIComponent(text));
+      const rows = api.asArray ? api.asArray(fallback) : Array.isArray(fallback) ? fallback : [];
+
+      addMessage(
+        "assistant",
+        JSON.stringify(rows.slice(0,20),null,2),
+        "Mevcut arama"
+      );
+
+    }catch(innerError){
+      console.error(innerError);
+
+      addMessage(
+        "assistant",
+        "Semantik arama backend endpointi bekleniyor. Mevcut /search endpointi de yanıt vermedi.",
+        "Semantik arama"
+      );
+    }
+  }finally{
+    searchBtn.disabled = false;
+  }
+}
+
+function goToSearch(){
+  try{
+    if(window.navigateRoute){
+      window.navigateRoute("search.html");
+      return;
+    }
+  }catch(e){}
+
+  window.location.href = "search.html";
+}
+
+function logout(){
+  try{
+    if(window.navigateRoute){
+      window.navigateRoute("index.html?logout=1");
+      return;
+    }
+  }catch(e){}
+
+  window.location.href = "index.html?logout=1";
+}
+
+function boot(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  document.getElementById("modeCount").textContent = modes.length;
+
+  setUserName();
+  renderSelect();
+  renderModes();
+  renderExamples();
+}
+
 boot();
 </script>
+
 </body>
 </html>
