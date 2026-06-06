@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="hrLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">İnsan Kaynakları</span>
-        <h1 id="pageTitle">İşten Ayrılış Süreci</h1>
-        <p id="pageDesc">Çıkış checklist, zimmet iade, evrak, son görüşme ve kapanış durumu yönetilir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Yeni İşten Ayrılış Süreci</button>
-        <button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
+    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">İşten Ayrılış Süreci</h1><p id="pageDesc">Çıkış checklist, zimmet iade, evrak, BT hesap kapatma bildirimi, çıkış görüşmesi ve kapanış durumunun izlendiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">İşten Ayrılış Süreci Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
     <section id="metricCards" class="cards" aria-label="İşten Ayrılış Süreci göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">İşten Ayrılış Süreci Öncelikleri</h2><p id="summaryDesc">İşten Ayrılış Süreci için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">İşten Ayrılış Süreci aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">İşten Ayrılış Süreci kaydı</h2><p id="formDesc">İşten Ayrılış Süreci için Personel, Çıkış Tarihi, Çıkış Nedeni, Sorumlu Kişi alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="hrForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">İşten Ayrılış Süreci Ek Dosyaları</h3><p id="fileDesc">İşten Ayrılış Süreci ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İşten Ayrılış Süreci Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İşten Ayrılış Süreci Listesi</h2><p id="recordsDesc">İşten Ayrılış Süreci kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İşten Ayrılış Süreci İşlem Geçmişi</h2><p id="auditDesc">İşten Ayrılış Süreci üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">İşten Ayrılış Süreci için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Çıkış Süreci Akışı</h2><p id="summaryDesc">Ayrılış bildirimi, zimmet iade, evrak ve kapanış adımları birlikte takip edilir.</p></div><span id="statusPill" class="status-pill">İşten Ayrılış Süreci aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">İşten Ayrılış Kaydı</h2><p id="formDesc">Çıkış tarihi, neden, zimmet ve kapanış bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İşten Ayrılış Süreci Ek Dosyaları</h3><p id="fileDesc">İşten Ayrılış Süreci ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İşten Ayrılış Süreci Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İşten Ayrılış Panosu</h2><p id="recordsDesc">Çıkış süreçleri personel, zimmet, BT bildirimi ve kapanış durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İşten Ayrılış İşlem Geçmişi</h2><p id="auditDesc">Çıkış bildirimi, zimmet, BT ve kapanış işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz işten ayrılış kaydı bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Puantaj ve Devam</title>
+<title>GDNL EOS | Puantaj ve Devam Takibi</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
 </head>
 <body>
@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="hrLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">İnsan Kaynakları</span>
-        <h1 id="pageTitle">Puantaj ve Devam</h1>
-        <p id="pageDesc">Giriş/çıkış, geç kalma, erken çıkış, tolerans, devamsızlık ve aylık toplam saat izlenir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Yeni Puantaj ve Devam</button>
-        <button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
-    <section id="metricCards" class="cards" aria-label="Puantaj ve Devam göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">Puantaj ve Devam Öncelikleri</h2><p id="summaryDesc">Puantaj ve Devam için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Puantaj ve Devam aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">Puantaj ve Devam kaydı</h2><p id="formDesc">Puantaj ve Devam için Personel, Tarih, Planlanan Giriş, Gerçek Giriş alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="hrForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">Puantaj ve Devam Ek Dosyaları</h3><p id="fileDesc">Puantaj ve Devam ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Puantaj ve Devam Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Puantaj ve Devam Listesi</h2><p id="recordsDesc">Puantaj ve Devam kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Puantaj ve Devam İşlem Geçmişi</h2><p id="auditDesc">Puantaj ve Devam üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Puantaj ve Devam için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">Puantaj ve Devam Takibi</h1><p id="pageDesc">Giriş/çıkış, geç kalma, erken çıkış, tolerans, devamsızlık ve aylık toplam saat izlenir. Günlük tolerans ve aylık eksik/fazla süre hesapları kurum içi hesaplama parametreleriyle yapılır.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Puantaj ve Devam Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+    <section id="metricCards" class="cards" aria-label="Puantaj ve Devam Takibi göstergeleri"></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Puantaj Kontrol Akışı</h2><p id="summaryDesc">Günlük giriş/çıkış ve tolerans durumları aylık toplamlarla birlikte izlenir.</p></div><span id="statusPill" class="status-pill">Puantaj ve Devam Takibi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Puantaj Kaydı</h2><p id="formDesc">Personel tarih ve giriş/çıkış bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Puantaj ve Devam Takibi Ek Dosyaları</h3><p id="fileDesc">Puantaj ve Devam Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Puantaj ve Devam Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Puantaj Takip Panosu</h2><p id="recordsDesc">Personel devam kayıtları gecikme, devamsızlık ve onay durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Puantaj İşlem Geçmişi</h2><p id="auditDesc">Giriş/çıkış, tolerans, onay ve açıklama değişiklikleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz puantaj kaydı bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

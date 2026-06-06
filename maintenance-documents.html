@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">Bakım Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.maintenanceRunSearch && window.maintenanceRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="maintenanceLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">Bakım Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.maintenanceRunSearch && window.maintenanceRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="maintenanceLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">Bakım</span>
-        <h1 id="pageTitle">Bakım Dokümanları</h1>
-        <p id="pageDesc">Kullanım kılavuzu, elektrik şeması, servis formu, bakım talimatı ve revizyon yönetilir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.maintenanceFocusForm && window.maintenanceFocusForm()">Yeni Bakım Dokümanları</button>
-        <button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
+    <section class="hero"><div><span class="hero-kicker">Bakım</span><h1 id="pageTitle">Bakım Dokümanları</h1><p id="pageDesc">Bakım talimatları, kullanım kılavuzları, elektrik/hidrolik/pnömatik şemalar, servis raporları, teknik çizimler ve periyodik bakım formlarının takip edildiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.maintenanceFocusForm && window.maintenanceFocusForm()">Bakım Dokümanları Hazırla</button><button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırla</button></div></section>
     <section id="metricCards" class="cards" aria-label="Bakım Dokümanları göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">Bakım Dokümanları Öncelikleri</h2><p id="summaryDesc">Bakım Dokümanları için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Bakım Dokümanları aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">Bakım Dokümanları kaydı</h2><p id="formDesc">Bakım Dokümanları için Doküman Adı, Doküman Türü, Makine, Revizyon alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="maintenanceForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">Bakım Dokümanları Ek Dosyaları</h3><p id="fileDesc">Bakım Dokümanları ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="maintenanceFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.maintenanceSaveDraft && window.maintenanceSaveDraft()">Bakım Dokümanları Hazırla</button><button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.maintenanceClearForm && window.maintenanceClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Bakım Dokümanları Listesi</h2><p id="recordsDesc">Bakım Dokümanları kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Bakım Dokümanları İşlem Geçmişi</h2><p id="auditDesc">Bakım Dokümanları üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Bakım Dokümanları için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Bakım Doküman Akışı</h2><p id="summaryDesc">Bakım dokümanları kategori, makine, revizyon ve dosya bilgisiyle izlenir.</p></div><span id="statusPill" class="status-pill">Bakım Dokümanları aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Bakım Doküman Kaydı</h2><p id="formDesc">Doküman adı, kategori, makine, revizyon ve dosya bilgisini girin.</p></div></div><div id="maintenanceForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Bakım Dokümanları Ek Dosyaları</h3><p id="fileDesc">Bakım Dokümanları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="maintenanceFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.maintenanceSaveDraft && window.maintenanceSaveDraft()">Bakım Dokümanları Hazırla</button><button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.maintenanceClearForm && window.maintenanceClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Bakım Dokümanları Panosu</h2><p id="recordsDesc">Bakım dokümanları kategori, makine, revizyon ve durum bilgisiyle izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Bakım Doküman Geçmişi</h2><p id="auditDesc">Doküman, revizyon, kategori ve dosya işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz bakım dokümanı bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

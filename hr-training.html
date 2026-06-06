@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | İK Eğitim Planı</title>
+<title>GDNL EOS | İK Eğitim Takibi</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
 </head>
 <body>
@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="hrLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">İnsan Kaynakları</span>
-        <h1 id="pageTitle">İK Eğitim Planı</h1>
-        <p id="pageDesc">Eğitim adı, katılımcı, tarih, sonuç ve sertifika yönetilir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Yeni İK Eğitim Planı</button>
-        <button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
-    <section id="metricCards" class="cards" aria-label="İK Eğitim Planı göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">İK Eğitim Planı Öncelikleri</h2><p id="summaryDesc">İK Eğitim Planı için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">İK Eğitim Planı aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">İK Eğitim Planı kaydı</h2><p id="formDesc">İK Eğitim Planı için Eğitim Adı, Eğitmen, Katılımcılar, Tarih alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="hrForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">İK Eğitim Planı Ek Dosyaları</h3><p id="fileDesc">İK Eğitim Planı ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İK Eğitim Planı Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İK Eğitim Planı Listesi</h2><p id="recordsDesc">İK Eğitim Planı kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İK Eğitim Planı İşlem Geçmişi</h2><p id="auditDesc">İK Eğitim Planı üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">İK Eğitim Planı için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">İK Eğitim Takibi</h1><p id="pageDesc">Eğitim planı, eğitmen, katılımcılar, tarih, sınav puanı, sertifika ve geçerlilik tarihinin izlendiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">İK Eğitim Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+    <section id="metricCards" class="cards" aria-label="İK Eğitim Takibi göstergeleri"></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Eğitim Takip Akışı</h2><p id="summaryDesc">Eğitim katılımı, sertifika ve geçerlilik tarihleri İK bakış açısıyla izlenir.</p></div><span id="statusPill" class="status-pill">İK Eğitim Takibi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Eğitim Kaydı</h2><p id="formDesc">Eğitim, eğitmen, katılımcılar ve sertifika bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İK Eğitim Takibi Ek Dosyaları</h3><p id="fileDesc">İK Eğitim Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İK Eğitim Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İK Eğitim Panosu</h2><p id="recordsDesc">Eğitim kayıtları katılımcı, sertifika ve geçerlilik durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Eğitim İşlem Geçmişi</h2><p id="auditDesc">Eğitim, katılımcı, sertifika ve geçerlilik işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz İK eğitim kaydı bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

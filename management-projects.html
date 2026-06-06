@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Stratejik Projeler</title>
+<title>GDNL EOS | Stratejik Proje Takibi</title>
 <link rel="stylesheet" href="assets/css/management-suite.css">
 </head>
 <body>
@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">Yönetim Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">Yönetim Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">Yönetim</span>
-        <h1 id="pageTitle">Stratejik Projeler</h1>
-        <p id="pageDesc">Proje fazları, sorumlular, bütçe, risk, termin ve ilerleme oranı takip edilir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Yeni Stratejik Projeler</button>
-        <button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
-    <section id="metricCards" class="cards" aria-label="Stratejik Projeler göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">Proje portföy akışı</h2><p id="summaryDesc">Stratejik Projeler için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Stratejik Projeler aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">Stratejik proje kaydı</h2><p id="formDesc">Stratejik Projeler için Proje Adı, Proje Fazı, Sorumlu Kişiler, Sorumlu Departman alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="managementForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">Stratejik Projeler Ek Dosyaları</h3><p id="fileDesc">Stratejik Projeler ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Stratejik Projeler Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Stratejik Projeler Listesi</h2><p id="recordsDesc">Stratejik Projeler kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Stratejik Projeler İşlem Geçmişi</h2><p id="auditDesc">Stratejik Projeler üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Stratejik Projeler için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="hero"><div><span class="hero-kicker">Yönetim</span><h1 id="pageTitle">Stratejik Proje Takibi</h1><p id="pageDesc">Stratejik projeler, APQP özetleri, yatırım projeleri ve dijital dönüşüm çalışmalarının yönetim seviyesinde takip edildiği proje ekranı.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Stratejik Proje Takibi Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button></div></section>
+    <section id="metricCards" class="cards" aria-label="Stratejik Proje Takibi göstergeleri"></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Proje Yönetim Takibi</h2><p id="summaryDesc">Projeler tür, sorumlu, risk, termin ve ilerleme durumuna göre izlenir.</p></div><span id="statusPill" class="status-pill">Stratejik Proje Takibi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Stratejik Proje Kaydı</h2><p id="formDesc">Proje türü, sorumlu, risk seviyesi ve bağlı aksiyon bilgisini girin.</p></div></div><div id="managementForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Stratejik Proje Takibi Ek Dosyaları</h3><p id="fileDesc">Stratejik Proje Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Stratejik Proje Takibi Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Stratejik Projeler Panosu</h2><p id="recordsDesc">Stratejik, APQP, yatırım ve dijital dönüşüm projeleri yönetim seviyesinde izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Proje Durum Geçmişi</h2><p id="auditDesc">Proje fazı, risk, termin ve durum değişiklikleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz stratejik proje kaydı bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

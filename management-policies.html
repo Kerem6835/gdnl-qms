@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Politikalar</title>
+<title>GDNL EOS | Kurumsal Politika Merkezi</title>
 <link rel="stylesheet" href="assets/css/management-suite.css">
 </head>
 <body>
@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">Yönetim Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">Yönetim Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">Yönetim</span>
-        <h1 id="pageTitle">Politikalar</h1>
-        <p id="pageDesc">Politika sahibi, revizyon, yayın tarihi, onay durumu ve dağıtım kayıtları yönetilir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Yeni Politikalar</button>
-        <button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
-    <section id="metricCards" class="cards" aria-label="Politikalar göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">Politika yayın akışı</h2><p id="summaryDesc">Politikalar için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Politikalar aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">Politika kaydı</h2><p id="formDesc">Politikalar için Politika Adı, Politika Sahibi, Revizyon, Yayın Tarihi alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="managementForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">Politikalar Ek Dosyaları</h3><p id="fileDesc">Politikalar ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Politikalar Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Politikalar Listesi</h2><p id="recordsDesc">Politikalar kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Politikalar İşlem Geçmişi</h2><p id="auditDesc">Politikalar üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Politikalar için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="hero"><div><span class="hero-kicker">Yönetim</span><h1 id="pageTitle">Kurumsal Politika Merkezi</h1><p id="pageDesc">Kalite, çevre, İSG, enerji, bilgi güvenliği, müşteri memnuniyeti ve etik politikalarının yönetim seviyesinde takip edildiği politika merkezi.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Kurumsal Politika Merkezi Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button></div></section>
+    <section id="metricCards" class="cards" aria-label="Kurumsal Politika Merkezi göstergeleri"></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Politika Yönetim Akışı</h2><p id="summaryDesc">Politikalar revizyon, onay, dağıtım ve gözden geçirme tarihleriyle takip edilir.</p></div><span id="statusPill" class="status-pill">Kurumsal Politika Merkezi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Politika Kaydı</h2><p id="formDesc">Politika türü, revizyon no, sorumlu ve gözden geçirme tarihini girin.</p></div></div><div id="managementForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Kurumsal Politika Merkezi Ek Dosyaları</h3><p id="fileDesc">Kurumsal Politika Merkezi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Kurumsal Politika Merkezi Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Kurumsal Politikalar Panosu</h2><p id="recordsDesc">Politikalar tür, revizyon, onay ve gözden geçirme tarihine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Politika Revizyon Geçmişi</h2><p id="auditDesc">Politika revizyonu, onay durumu ve dağıtım işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz kurumsal politika kaydı bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

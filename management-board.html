@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">Yönetim Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">Yönetim Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">Yönetim</span>
-        <h1 id="pageTitle">Yönetim Kurulu Toplantıları</h1>
-        <p id="pageDesc">Gündem, katılımcı, karar, aksiyon ve toplantı dosyaları yönetilir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Yeni Yönetim Kurulu Toplantıları</button>
-        <button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
+    <section class="hero"><div><span class="hero-kicker">Yönetim</span><h1 id="pageTitle">Yönetim Kurulu Toplantıları</h1><p id="pageDesc">Yönetim kurulu ve üst yönetim toplantılarının gündem, karar, aksiyon ve ek dosyalarla takip edildiği toplantı merkezi.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Yönetim Kurulu Toplantıları Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button></div></section>
     <section id="metricCards" class="cards" aria-label="Yönetim Kurulu Toplantıları göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">Toplantı akışı</h2><p id="summaryDesc">Yönetim Kurulu Toplantıları için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Yönetim Kurulu Toplantıları aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">Yeni toplantı kaydı</h2><p id="formDesc">Yönetim Kurulu Toplantıları için Toplantı No, Toplantı Adı, Tarih, Saat alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="managementForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">Yönetim Kurulu Toplantıları Ek Dosyaları</h3><p id="fileDesc">Yönetim Kurulu Toplantıları ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Yönetim Kurulu Toplantıları Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Yönetim Kurulu Toplantıları Listesi</h2><p id="recordsDesc">Yönetim Kurulu Toplantıları kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Yönetim Kurulu Toplantıları İşlem Geçmişi</h2><p id="auditDesc">Yönetim Kurulu Toplantıları üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Yönetim Kurulu Toplantıları için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Toplantı Yönetimi Akışı</h2><p id="summaryDesc">Toplantı hazırlığı, gündem, karar ve aksiyon atama adımları birlikte yönetilir.</p></div><span id="statusPill" class="status-pill">Yönetim Kurulu Toplantıları aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Toplantı Kaydı</h2><p id="formDesc">Yönetim kurulu toplantısı için gündem, katılımcı ve karar bilgilerini girin.</p></div></div><div id="managementForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Yönetim Kurulu Toplantıları Ek Dosyaları</h3><p id="fileDesc">Yönetim Kurulu Toplantıları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Yönetim Kurulu Toplantıları Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Toplantı Takip Panosu</h2><p id="recordsDesc">Planlı ve tamamlanan yönetim toplantıları gündem ve aksiyon durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Toplantı İşlem Geçmişi</h2><p id="auditDesc">Toplantı gündemi, kararları, aksiyonları ve ek dosyaları için işlem geçmişi hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz yönetim kurulu toplantısı kaydı yok.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

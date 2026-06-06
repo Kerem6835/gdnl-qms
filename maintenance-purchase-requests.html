@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">Bakım Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.maintenanceRunSearch && window.maintenanceRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="maintenanceLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">Bakım Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.maintenanceRunSearch && window.maintenanceRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="maintenanceLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">Bakım</span>
-        <h1 id="pageTitle">Bakım Satınalma Talepleri</h1>
-        <p id="pageDesc">Parça/hizmet, teknik açıklama, aciliyet, ilgili makine/arıza/iş emri ve satınalma aktarım hazırlığı yapılır.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.maintenanceFocusForm && window.maintenanceFocusForm()">Yeni Bakım Satınalma Talepleri</button>
-        <button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
+    <section class="hero"><div><span class="hero-kicker">Bakım</span><h1 id="pageTitle">Bakım Satınalma Talepleri</h1><p id="pageDesc">Bakım kaynaklı parça/hizmet ihtiyaçlarının talep no, makine, arıza/iş emri, miktar, aciliyet, gerekçe ve teknik açıklamayla kayıt altına alındığı ekran. Bakım satınalma yapmaz; sadece bakım kaynaklı ihtiyaç talebi oluşturur. Satınalma Suite ile ileride bağlanır.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.maintenanceFocusForm && window.maintenanceFocusForm()">Bakım Satınalma Talepleri Hazırla</button><button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırla</button></div></section>
     <section id="metricCards" class="cards" aria-label="Bakım Satınalma Talepleri göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">Bakım Satınalma Talepleri Öncelikleri</h2><p id="summaryDesc">Bakım Satınalma Talepleri için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Bakım Satınalma Talepleri aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">Bakım Satınalma Talepleri kaydı</h2><p id="formDesc">Bakım Satınalma Talepleri için Talep No, Parça / Hizmet, İlgili Makine, İlgili Arıza / İş Emri alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="maintenanceForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">Bakım Satınalma Talepleri Ek Dosyaları</h3><p id="fileDesc">Bakım Satınalma Talepleri ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="maintenanceFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.maintenanceSaveDraft && window.maintenanceSaveDraft()">Bakım Satınalma Talepleri Hazırla</button><button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.maintenanceClearForm && window.maintenanceClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Bakım Satınalma Talepleri Listesi</h2><p id="recordsDesc">Bakım Satınalma Talepleri kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Bakım Satınalma Talepleri İşlem Geçmişi</h2><p id="auditDesc">Bakım Satınalma Talepleri üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Bakım Satınalma Talepleri için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Bakım Talep Akışı</h2><p id="summaryDesc">Bakım ihtiyaçları satınalma sürecine aktarılmaya hazır talep kaydı olarak izlenir.</p></div><span id="statusPill" class="status-pill">Bakım Satınalma Talepleri aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Bakım Satınalma Talebi</h2><p id="formDesc">Parça/hizmet, makine, gerekçe, miktar ve aciliyet bilgilerini girin.</p></div></div><div id="maintenanceForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Bakım Satınalma Talepleri Ek Dosyaları</h3><p id="fileDesc">Bakım Satınalma Talepleri ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="maintenanceFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.maintenanceSaveDraft && window.maintenanceSaveDraft()">Bakım Satınalma Talepleri Hazırla</button><button class="btn" type="button" onclick="window.maintenanceMessagePrep && window.maintenanceMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.maintenanceClearForm && window.maintenanceClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Bakım Satınalma Talepleri Panosu</h2><p id="recordsDesc">Bakım talepleri makine, arıza/iş emri, aciliyet ve durum bilgisiyle izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Bakım Talebi İşlem Geçmişi</h2><p id="auditDesc">Talep oluşturma, teknik açıklama, dosya ve durum işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz bakım satınalma talebi bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

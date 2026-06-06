@@ -468,6 +468,712 @@
     }
   }
 };
+  const pageConfigs = {
+  "management-dashboard.html": {
+    "pageTitle": "Yönetim Merkezi",
+    "pageDescription": "CEO, Genel Müdür ve üst yönetim için şirketin kritik süreçlerini tek ekranda gösteren yönetim merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık yönetim kararı",
+      "Geciken aksiyon",
+      "Kritik risk",
+      "Açık CAPA",
+      "Yaklaşan toplantı",
+      "KPI sapması"
+    ],
+    "summaryTitle": "Bugün Yönetimin Dikkat Etmesi Gerekenler",
+    "summaryDescription": "Stratejik öncelikler, kritik riskler ve bekleyen yönetim aksiyonları tek bakışta izlenir.",
+    "summaryItems": [
+      "Kritik risk ve geciken aksiyonları gözden geçir",
+      "Yaklaşan toplantı ve YGG başlıklarını kontrol et",
+      "KPI sapmalarını ve açık CAPA özetini değerlendir",
+      "Mesaj Merkezi bildirimlerini takip et"
+    ],
+    "formTitle": "Yönetim Notu Hazırlığı",
+    "formDescription": "Hızlı yönetim notu veya gündem maddesi hazırlayın.",
+    "formFields": [
+      "Yönetim notu",
+      "Gündem konusu",
+      "Sorumlu kişi",
+      "İlgili departman",
+      "Öncelik",
+      "Termin",
+      "Açıklama"
+    ],
+    "fileTitle": "Yönetim Merkezi Ek Dosyaları",
+    "fileDescription": "Yönetim Merkezi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Yönetim sunumu",
+      "KPI raporu",
+      "Toplantı eki",
+      "Strateji belgesi"
+    ],
+    "recordTitle": "Yönetim Notları",
+    "recordDescription": "Üst yönetim notları, gündem maddeleri ve takip aksiyonları burada izlenir.",
+    "emptyState": "Henüz yönetim notu veya gündem maddesi bulunmuyor.",
+    "auditTitle": "Yönetim Merkezi İşlem Geçmişi",
+    "auditDescription": "Yönetim notu, gündem ve takip işlemlerinin denetim izi burada hazırlanır.",
+    "primaryActionLabel": "Yönetim Merkezi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-board.html": {
+    "pageTitle": "Yönetim Kurulu Toplantıları",
+    "pageDescription": "Yönetim kurulu ve üst yönetim toplantılarının gündem, karar, aksiyon ve ek dosyalarla takip edildiği toplantı merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Planlı toplantı",
+      "Tamamlanan toplantı",
+      "Açık gündem",
+      "Açık aksiyon"
+    ],
+    "summaryTitle": "Toplantı Yönetimi Akışı",
+    "summaryDescription": "Toplantı hazırlığı, gündem, karar ve aksiyon atama adımları birlikte yönetilir.",
+    "summaryItems": [
+      "Toplantı no ve tarih bilgisini oluştur",
+      "Katılımcıları /users üzerinden seç",
+      "Gündem ve karar maddelerini kaydet",
+      "Aksiyonları sorumlu ve termin ile bağla"
+    ],
+    "formTitle": "Toplantı Kaydı",
+    "formDescription": "Yönetim kurulu toplantısı için gündem, katılımcı ve karar bilgilerini girin.",
+    "formFields": [
+      "Toplantı no",
+      "Toplantı adı",
+      "Tarih",
+      "Saat",
+      "Katılımcılar",
+      "Gündem maddeleri",
+      "Kararlar",
+      "Sorumlular",
+      "Termin",
+      "Durum"
+    ],
+    "fileTitle": "Yönetim Kurulu Toplantıları Ek Dosyaları",
+    "fileDescription": "Yönetim Kurulu Toplantıları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Toplantı tutanağı",
+      "Sunum",
+      "Gündem dosyası",
+      "Karar eki"
+    ],
+    "recordTitle": "Toplantı Takip Panosu",
+    "recordDescription": "Planlı ve tamamlanan yönetim toplantıları gündem ve aksiyon durumuyla izlenir.",
+    "emptyState": "Henüz yönetim kurulu toplantısı kaydı yok.",
+    "auditTitle": "Toplantı İşlem Geçmişi",
+    "auditDescription": "Toplantı gündemi, kararları, aksiyonları ve ek dosyaları için işlem geçmişi hazırlanır.",
+    "primaryActionLabel": "Yönetim Kurulu Toplantıları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-decisions.html": {
+    "pageTitle": "Yönetim Kararları",
+    "pageDescription": "Yönetim Kurulu, CEO ve Genel Müdür kararlarının sorumlu, termin, öncelik ve kapanış durumuyla takip edildiği karar merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık karar",
+      "Geciken karar",
+      "Kritik karar",
+      "Kapanan karar"
+    ],
+    "summaryTitle": "Karar Yaşam Döngüsü",
+    "summaryDescription": "Kararlar alınma, uygulama, gecikme ve kapanış aşamalarına göre yönetilir.",
+    "summaryItems": [
+      "Karar no ve karar tarihini kaydet",
+      "Sorumlu kişi ve ilgili departmanı ata",
+      "Termin ve öncelik seviyesini belirle",
+      "Kapanış açıklaması ve bağlı aksiyonu takip et"
+    ],
+    "formTitle": "Yönetim Kararı Kaydı",
+    "formDescription": "Kararı alan kurul/kişi, sorumlu, termin ve bağlı aksiyon bilgilerini girin.",
+    "formFields": [
+      "Karar no",
+      "Karar konusu",
+      "Karar açıklaması",
+      "Karar tarihi",
+      "Kararı alan kurul/kişi",
+      "Sorumlu kişi",
+      "İlgili departman",
+      "Termin",
+      "Öncelik",
+      "Durum",
+      "Bağlı aksiyon"
+    ],
+    "fileTitle": "Yönetim Kararları Ek Dosyaları",
+    "fileDescription": "Yönetim Kararları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Karar eki",
+      "Onay yazısı",
+      "Toplantı tutanağı",
+      "Destekleyici rapor"
+    ],
+    "recordTitle": "Yönetim Karar Takibi",
+    "recordDescription": "Yönetim kararları sorumlu, termin, öncelik ve kapanış durumuyla izlenir.",
+    "emptyState": "Henüz yönetim kararı kaydı bulunmuyor.",
+    "auditTitle": "Karar İşlem Geçmişi",
+    "auditDescription": "Karar oluşturma, durum değişikliği, dosya ve kapanış işlemleri burada izlenir.",
+    "primaryActionLabel": "Yönetim Kararları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-kpi.html": {
+    "pageTitle": "Stratejik KPI Takibi",
+    "pageDescription": "Şirket hedeflerine bağlı stratejik KPI’ların hedef, gerçekleşen, sapma ve sorumlu bazında izlendiği performans ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Hedefte KPI",
+      "Sapmalı KPI",
+      "Kritik KPI",
+      "İyileşen KPI"
+    ],
+    "summaryTitle": "KPI Performans Okuması",
+    "summaryDescription": "Hedef, gerçekleşen, sapma ve trend bilgileri yönetim seviyesinde sadeleştirilir.",
+    "summaryItems": [
+      "KPI dönemini ve hedef değerini belirle",
+      "Gerçekleşen değeri ve sapmayı izle",
+      "Trend yönünü ve kritik KPI durumunu değerlendir",
+      "Sorumlu departman ve kişiyle aksiyonu bağla"
+    ],
+    "formTitle": "KPI Güncelleme Kaydı",
+    "formDescription": "KPI hedef, gerçekleşen, sapma ve sorumlu bilgilerini güncelleyin.",
+    "formFields": [
+      "KPI adı",
+      "Dönem",
+      "Hedef",
+      "Gerçekleşen",
+      "Sapma",
+      "Trend",
+      "Sorumlu departman",
+      "Sorumlu kişi",
+      "Açıklama"
+    ],
+    "fileTitle": "Stratejik KPI Takibi Ek Dosyaları",
+    "fileDescription": "Stratejik KPI Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "KPI raporu",
+      "Grafik çıktısı",
+      "Analiz dosyası",
+      "Sunum"
+    ],
+    "recordTitle": "Stratejik KPI Panosu",
+    "recordDescription": "KPI’lar hedef, gerçekleşen, sapma ve trend durumuna göre listelenir.",
+    "emptyState": "Henüz stratejik KPI kaydı bulunmuyor.",
+    "auditTitle": "KPI Güncelleme Geçmişi",
+    "auditDescription": "KPI hedef, gerçekleşen, sapma ve açıklama değişiklikleri izlenir.",
+    "primaryActionLabel": "Stratejik KPI Takibi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-goals.html": {
+    "pageTitle": "Hedef Yönetimi",
+    "pageDescription": "Yıllık, aylık ve departman bazlı şirket hedeflerinin sorumlu, KPI bağlantısı ve gerçekleşme oranıyla takip edildiği hedef merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık hedef",
+      "Tamamlanan hedef",
+      "Geciken hedef",
+      "Kritik sapma"
+    ],
+    "summaryTitle": "Hedef Takip Akışı",
+    "summaryDescription": "Şirket hedefleri KPI bağlantısı, termin ve gerçekleşme oranıyla takip edilir.",
+    "summaryItems": [
+      "Yıllık ve aylık hedefleri tanımla",
+      "Gerçekleşme oranını ve sapmayı izle",
+      "Sorumlu departman ve kişiyi ata",
+      "Bağlı KPI ve aksiyon planını güncelle"
+    ],
+    "formTitle": "Hedef Kaydı",
+    "formDescription": "Yıllık/aylık hedef, gerçekleşme oranı ve bağlı KPI bilgisini girin.",
+    "formFields": [
+      "Hedef adı",
+      "Hedef tipi",
+      "Yıllık hedef",
+      "Aylık hedef",
+      "Gerçekleşme oranı",
+      "Sorumlu departman",
+      "Sorumlu kişi",
+      "Termin",
+      "Bağlı KPI",
+      "Durum"
+    ],
+    "fileTitle": "Hedef Yönetimi Ek Dosyaları",
+    "fileDescription": "Hedef Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Hedef kartı",
+      "Aksiyon planı",
+      "Performans raporu"
+    ],
+    "recordTitle": "Şirket Hedefleri Panosu",
+    "recordDescription": "Hedefler sorumlu, KPI bağlantısı, termin ve gerçekleşme oranıyla izlenir.",
+    "emptyState": "Henüz hedef kaydı bulunmuyor.",
+    "auditTitle": "Hedef Değişiklik Geçmişi",
+    "auditDescription": "Hedef değeri, sorumluluk, termin ve gerçekleşme değişiklikleri izlenir.",
+    "primaryActionLabel": "Hedef Yönetimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-budget.html": {
+    "pageTitle": "Bütçe ve Yatırım Özeti",
+    "pageDescription": "Üst yönetim için bütçe, yatırım ve harcama sapmalarının özet olarak izlendiği finansal yönetim ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Planlanan bütçe",
+      "Gerçekleşen harcama",
+      "Bütçe sapması",
+      "Açık yatırım"
+    ],
+    "summaryTitle": "Bütçe İzleme Akışı",
+    "summaryDescription": "Yatırım ve bütçe kalemleri plan, gerçekleşme ve sapma odaklı izlenir.",
+    "summaryItems": [
+      "Planlanan bütçeyi ve yatırım projesini gir",
+      "Gerçekleşen harcamayı takip et",
+      "Sapma oranını ve kritik yatırım durumunu değerlendir",
+      "Sorumlu departman ve kişiyi ata"
+    ],
+    "formTitle": "Bütçe / Yatırım Kaydı",
+    "formDescription": "Bütçe kalemi, yatırım projesi, harcama ve sapma bilgisini hazırlayın.",
+    "formFields": [
+      "Bütçe kalemi",
+      "Yatırım projesi",
+      "Planlanan bütçe",
+      "Gerçekleşen harcama",
+      "Sapma",
+      "Sorumlu departman",
+      "Sorumlu kişi",
+      "Durum",
+      "Açıklama"
+    ],
+    "fileTitle": "Bütçe ve Yatırım Özeti Ek Dosyaları",
+    "fileDescription": "Bütçe ve Yatırım Özeti ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Teklif",
+      "Yatırım dosyası",
+      "Bütçe raporu",
+      "Maliyet analizi"
+    ],
+    "recordTitle": "Bütçe ve Yatırım Panosu",
+    "recordDescription": "Bütçe kalemleri ve yatırım talepleri harcama sapmasıyla izlenir.",
+    "emptyState": "Henüz bütçe veya yatırım kaydı bulunmuyor.",
+    "auditTitle": "Bütçe İşlem Geçmişi",
+    "auditDescription": "Bütçe kalemi, yatırım dosyası, harcama ve sapma işlemleri izlenir.",
+    "primaryActionLabel": "Bütçe ve Yatırım Özeti Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-workforce.html": {
+    "pageTitle": "İnsan Kaynağı Yönetim Özeti",
+    "pageDescription": "Üst yönetim için personel sayısı, açık pozisyon, eğitim, oryantasyon ve yetkinlik durumunun özetlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Toplam çalışan",
+      "Açık pozisyon",
+      "Oryantasyondaki personel",
+      "Kritik yetkinlik eksiği"
+    ],
+    "summaryTitle": "İnsan Kaynağı Yönetim Gündemi",
+    "summaryDescription": "Kadro ihtiyacı, yetkinlik eksiği ve eğitim durumu yönetim özeti olarak izlenir.",
+    "summaryItems": [
+      "Açık pozisyon ve kritik kadro ihtiyacını kontrol et",
+      "Oryantasyon ve eğitim durumunu izle",
+      "Yetkinlik eksiklerini departman bazında değerlendir",
+      "İK aksiyonlarını yönetim gündemine al"
+    ],
+    "formTitle": "İnsan Kaynağı Notu",
+    "formDescription": "Yönetim için İK notu, konu ve sorumlu bilgilerini hazırlayın.",
+    "formFields": [
+      "İnsan kaynağı notu",
+      "İlgili departman",
+      "Konu",
+      "Sorumlu kişi",
+      "Termin",
+      "Durum"
+    ],
+    "fileTitle": "İnsan Kaynağı Yönetim Özeti Ek Dosyaları",
+    "fileDescription": "İnsan Kaynağı Yönetim Özeti ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "İK raporu",
+      "Organizasyon çıktısı",
+      "Eğitim raporu"
+    ],
+    "recordTitle": "İnsan Kaynağı Özetleri",
+    "recordDescription": "İK yönetim notları, kadro ihtiyaçları ve kritik yetkinlik başlıkları izlenir.",
+    "emptyState": "Henüz insan kaynağı yönetim notu bulunmuyor.",
+    "auditTitle": "İnsan Kaynağı Özet Geçmişi",
+    "auditDescription": "İnsan kaynağı notları, sorumlular ve durum değişiklikleri izlenir.",
+    "primaryActionLabel": "İnsan Kaynağı Yönetim Özeti Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-projects.html": {
+    "pageTitle": "Stratejik Proje Takibi",
+    "pageDescription": "Stratejik projeler, APQP özetleri, yatırım projeleri ve dijital dönüşüm çalışmalarının yönetim seviyesinde takip edildiği proje ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık proje",
+      "Geciken proje",
+      "Kritik proje",
+      "Tamamlanan proje"
+    ],
+    "summaryTitle": "Proje Yönetim Takibi",
+    "summaryDescription": "Projeler tür, sorumlu, risk, termin ve ilerleme durumuna göre izlenir.",
+    "summaryItems": [
+      "Proje türünü ve kapsamını belirle",
+      "Sorumlu kişi ve departmanı ata",
+      "Risk seviyesi ve termin durumunu izle",
+      "Bağlı aksiyon ve APQP özetlerini takip et"
+    ],
+    "formTitle": "Stratejik Proje Kaydı",
+    "formDescription": "Proje türü, sorumlu, risk seviyesi ve bağlı aksiyon bilgisini girin.",
+    "formFields": [
+      "Proje adı",
+      "Proje türü",
+      "Sorumlu kişi",
+      "İlgili departman",
+      "Başlangıç",
+      "Termin",
+      "Risk seviyesi",
+      "Durum",
+      "Bağlı aksiyon"
+    ],
+    "fileTitle": "Stratejik Proje Takibi Ek Dosyaları",
+    "fileDescription": "Stratejik Proje Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Proje planı",
+      "APQP özeti",
+      "Yatırım dosyası",
+      "Proje sunumu"
+    ],
+    "recordTitle": "Stratejik Projeler Panosu",
+    "recordDescription": "Stratejik, APQP, yatırım ve dijital dönüşüm projeleri yönetim seviyesinde izlenir.",
+    "emptyState": "Henüz stratejik proje kaydı bulunmuyor.",
+    "auditTitle": "Proje Durum Geçmişi",
+    "auditDescription": "Proje fazı, risk, termin ve durum değişiklikleri izlenir.",
+    "primaryActionLabel": "Stratejik Proje Takibi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-reports.html": {
+    "pageTitle": "Yönetim Rapor Merkezi",
+    "pageDescription": "KPI, CAPA, risk, denetim, eğitim, tedarikçi ve müşteri şikayeti raporlarının yönetim için toplandığı rapor merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Hazır rapor",
+      "Bekleyen rapor",
+      "Kritik rapor",
+      "Dışa aktarım hazırlığı"
+    ],
+    "summaryTitle": "Rapor Hazırlama Akışı",
+    "summaryDescription": "Yönetim raporları dönem, departman, rapor tipi ve hazırlayan kişiyle takip edilir.",
+    "summaryItems": [
+      "Rapor tipini ve dönem aralığını seç",
+      "Departman filtresi ve açıklamayı gir",
+      "Hazırlayan kişiyi ve durumu takip et",
+      "PDF/Excel dışa aktarım hazırlığını kontrol et"
+    ],
+    "formTitle": "Yönetim Raporu Kaydı",
+    "formDescription": "Rapor adı, tipi, dönem ve hazırlayan kişi bilgilerini girin.",
+    "formFields": [
+      "Rapor adı",
+      "Rapor tipi",
+      "Dönem",
+      "Departman filtresi",
+      "Açıklama",
+      "Hazırlayan kişi",
+      "Durum"
+    ],
+    "fileTitle": "Yönetim Rapor Merkezi Ek Dosyaları",
+    "fileDescription": "Yönetim Rapor Merkezi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "PDF rapor",
+      "Excel rapor",
+      "Sunum",
+      "Analiz dosyası"
+    ],
+    "recordTitle": "Yönetim Raporları Panosu",
+    "recordDescription": "Yönetim raporları tip, dönem, hazırlayan ve durum bilgisine göre izlenir.",
+    "emptyState": "Henüz yönetim raporu kaydı bulunmuyor.",
+    "auditTitle": "Rapor Hazırlama Geçmişi",
+    "auditDescription": "Rapor hazırlama, dosya ekleme ve dışa aktarım hazırlığı işlemleri izlenir.",
+    "primaryActionLabel": "Yönetim Rapor Merkezi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-calendar.html": {
+    "pageTitle": "Yönetim Takvimi",
+    "pageDescription": "Toplantılar, YGG, denetimler, kritik aksiyonlar, CAPA terminleri ve proje kilometre taşlarının takip edildiği yönetim takvimi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Bugünkü etkinlik",
+      "Bu hafta etkinlik",
+      "Geciken termin",
+      "Kritik hatırlatma"
+    ],
+    "summaryTitle": "Takvim Öncelikleri",
+    "summaryDescription": "Kritik tarih, toplantı, YGG ve termin hatırlatmaları yönetim takviminde izlenir.",
+    "summaryItems": [
+      "Bugünkü ve haftalık etkinlikleri kontrol et",
+      "Geciken terminleri önceliklendir",
+      "Kritik CAPA ve aksiyon tarihlerini izle",
+      "Proje kilometre taşlarını yönetime bildir"
+    ],
+    "formTitle": "Takvim Etkinliği",
+    "formDescription": "Etkinlik adı, tipi, tarih ve sorumlu bilgisini girin.",
+    "formFields": [
+      "Etkinlik adı",
+      "Etkinlik tipi",
+      "Tarih",
+      "Saat",
+      "Sorumlu kişi",
+      "İlgili departman",
+      "Açıklama",
+      "Durum"
+    ],
+    "fileTitle": "Yönetim Takvimi Ek Dosyaları",
+    "fileDescription": "Yönetim Takvimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Toplantı eki",
+      "Takvim çıktısı",
+      "Hatırlatma notu"
+    ],
+    "recordTitle": "Yönetim Takvimi Panosu",
+    "recordDescription": "Toplantı, YGG, denetim, CAPA ve proje tarihleri birlikte izlenir.",
+    "emptyState": "Henüz yönetim takvimi etkinliği bulunmuyor.",
+    "auditTitle": "Takvim İşlem Geçmişi",
+    "auditDescription": "Takvim etkinliği, hatırlatma ve termin değişiklikleri izlenir.",
+    "primaryActionLabel": "Yönetim Takvimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-organization.html": {
+    "pageTitle": "Organizasyon Şeması",
+    "pageDescription": "Yönetim Kurulu, CEO, Genel Müdür, direktörler, müdürler ve süreç liderlerinin organizasyon yapısını gösteren yönetim ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif departman",
+      "Yönetici sayısı",
+      "Süreç lideri",
+      "Boş pozisyon"
+    ],
+    "summaryTitle": "Organizasyon İzleme Akışı",
+    "summaryDescription": "Pozisyon, bağlı yönetici, rol ve vekalet bilgileri yönetim seviyesinde izlenir.",
+    "summaryItems": [
+      "Pozisyon ve bağlı olduğu rolü belirle",
+      "Kişi ve departman bilgisini /users ile eşleştir",
+      "Yetki seviyesi ve görev tanımı bağlantısını takip et",
+      "Boş pozisyon ve vekalet durumunu güncelle"
+    ],
+    "formTitle": "Organizasyon Kaydı",
+    "formDescription": "Pozisyon, bağlı olduğu pozisyon, kişi ve görev tanımı bağlantısını girin.",
+    "formFields": [
+      "Pozisyon adı",
+      "Bağlı olduğu pozisyon",
+      "Kişi",
+      "Departman",
+      "Rol",
+      "Görev tanımı bağlantısı",
+      "Durum"
+    ],
+    "fileTitle": "Organizasyon Şeması Ek Dosyaları",
+    "fileDescription": "Organizasyon Şeması ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Organizasyon şeması",
+      "Görev tanımı",
+      "Yetki matrisi"
+    ],
+    "recordTitle": "Organizasyon Yapısı Panosu",
+    "recordDescription": "Pozisyonlar, yöneticiler, süreç liderleri ve boş pozisyonlar izlenir.",
+    "emptyState": "Henüz organizasyon kaydı bulunmuyor.",
+    "auditTitle": "Organizasyon Değişiklik Geçmişi",
+    "auditDescription": "Pozisyon, bağlı yönetici, rol ve vekalet değişiklikleri izlenir.",
+    "primaryActionLabel": "Organizasyon Şeması Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "management-policies.html": {
+    "pageTitle": "Kurumsal Politika Merkezi",
+    "pageDescription": "Kalite, çevre, İSG, enerji, bilgi güvenliği, müşteri memnuniyeti ve etik politikalarının yönetim seviyesinde takip edildiği politika merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif politika",
+      "Revizyon bekleyen politika",
+      "Onaylı politika",
+      "Gözden geçirme tarihi yaklaşan politika"
+    ],
+    "summaryTitle": "Politika Yönetim Akışı",
+    "summaryDescription": "Politikalar revizyon, onay, dağıtım ve gözden geçirme tarihleriyle takip edilir.",
+    "summaryItems": [
+      "Politika türünü ve sorumlusunu belirle",
+      "Revizyon no ve gözden geçirme tarihini takip et",
+      "Onay durumunu ve dağıtım hazırlığını kontrol et",
+      "Doküman bağlantısı ve onay geçmişini izleme al"
+    ],
+    "formTitle": "Politika Kaydı",
+    "formDescription": "Politika türü, revizyon no, sorumlu ve gözden geçirme tarihini girin.",
+    "formFields": [
+      "Politika adı",
+      "Politika türü",
+      "Revizyon no",
+      "Sorumlu kişi",
+      "Gözden geçirme tarihi",
+      "Durum",
+      "Açıklama"
+    ],
+    "fileTitle": "Kurumsal Politika Merkezi Ek Dosyaları",
+    "fileDescription": "Kurumsal Politika Merkezi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Politika dokümanı",
+      "Revizyon dosyası",
+      "Onay kaydı"
+    ],
+    "recordTitle": "Kurumsal Politikalar Panosu",
+    "recordDescription": "Politikalar tür, revizyon, onay ve gözden geçirme tarihine göre izlenir.",
+    "emptyState": "Henüz kurumsal politika kaydı bulunmuyor.",
+    "auditTitle": "Politika Revizyon Geçmişi",
+    "auditDescription": "Politika revizyonu, onay durumu ve dağıtım işlemleri izlenir.",
+    "primaryActionLabel": "Kurumsal Politika Merkezi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  }
+};
+  suite.configs = Object.fromEntries(Object.entries(pageConfigs).map(([page, c]) => [page, {
+    pageTitle: c.pageTitle, pageDescription: c.pageDescription, heroKicker: c.heroKicker, metricCards: c.metricCards, summaryItems: c.summaryItems, formFields: c.formFields,
+    title: c.pageTitle, desc: c.pageDescription, metrics: c.metricCards, summaryTitle: c.summaryTitle, summaryDesc: c.summaryDescription, process: c.summaryItems,
+    formTitle: c.formTitle, formDesc: c.formDescription, fields: c.formFields, fileTitle: c.fileTitle, fileDesc: c.fileDescription, fileCategories: c.fileCategories,
+    recordsTitle: c.recordTitle, recordsDesc: c.recordDescription, emptyText: c.emptyState, auditTitle: c.auditTitle, auditDesc: c.auditDescription,
+    primaryActionLabel: c.primaryActionLabel, secondaryActionLabel: c.secondaryActionLabel, statusOptions: c.statusOptions, priorityOptions: c.priorityOptions
+  }]));
   const page = (location.pathname.split('/').pop() || suite.home);
   const config = suite.configs[page] || suite.configs[suite.home];
   const state = { users: [], departments: [], records: [], attachments: [], lastPayload: null };

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Bütçe ve Yatırım Talepleri</title>
+<title>GDNL EOS | Bütçe ve Yatırım Özeti</title>
 <link rel="stylesheet" href="assets/css/management-suite.css">
 </head>
 <body>
@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">Yönetim Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">Yönetim Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">Yönetim</span>
-        <h1 id="pageTitle">Bütçe ve Yatırım Talepleri</h1>
-        <p id="pageDesc">Yatırım konusu, tahmini maliyet, ROI, onay durumu ve ek dosyalar yönetilir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Yeni Bütçe ve Yatırım Talepleri</button>
-        <button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
-    <section id="metricCards" class="cards" aria-label="Bütçe ve Yatırım Talepleri göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">Bütçe karar akışı</h2><p id="summaryDesc">Bütçe ve Yatırım Talepleri için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">Bütçe ve Yatırım Talepleri aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">Bütçe / yatırım talebi</h2><p id="formDesc">Bütçe ve Yatırım Talepleri için Yatırım Konusu, Tahmini Maliyet, Geri Dönüş / ROI, Sorumlu Kişi alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="managementForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">Bütçe ve Yatırım Talepleri Ek Dosyaları</h3><p id="fileDesc">Bütçe ve Yatırım Talepleri ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Bütçe ve Yatırım Talepleri Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Bütçe ve Yatırım Talepleri Listesi</h2><p id="recordsDesc">Bütçe ve Yatırım Talepleri kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Bütçe ve Yatırım Talepleri İşlem Geçmişi</h2><p id="auditDesc">Bütçe ve Yatırım Talepleri üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">Bütçe ve Yatırım Talepleri için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="hero"><div><span class="hero-kicker">Yönetim</span><h1 id="pageTitle">Bütçe ve Yatırım Özeti</h1><p id="pageDesc">Üst yönetim için bütçe, yatırım ve harcama sapmalarının özet olarak izlendiği finansal yönetim ekranı.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Bütçe ve Yatırım Özeti Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button></div></section>
+    <section id="metricCards" class="cards" aria-label="Bütçe ve Yatırım Özeti göstergeleri"></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Bütçe İzleme Akışı</h2><p id="summaryDesc">Yatırım ve bütçe kalemleri plan, gerçekleşme ve sapma odaklı izlenir.</p></div><span id="statusPill" class="status-pill">Bütçe ve Yatırım Özeti aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Bütçe / Yatırım Kaydı</h2><p id="formDesc">Bütçe kalemi, yatırım projesi, harcama ve sapma bilgisini hazırlayın.</p></div></div><div id="managementForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Bütçe ve Yatırım Özeti Ek Dosyaları</h3><p id="fileDesc">Bütçe ve Yatırım Özeti ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Bütçe ve Yatırım Özeti Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Bütçe ve Yatırım Panosu</h2><p id="recordsDesc">Bütçe kalemleri ve yatırım talepleri harcama sapmasıyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Bütçe İşlem Geçmişi</h2><p id="auditDesc">Bütçe kalemi, yatırım dosyası, harcama ve sapma işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz bütçe veya yatırım kaydı bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

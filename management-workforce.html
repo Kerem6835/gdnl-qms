@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | İnsan Kaynağı Üst Yönetim Özeti</title>
+<title>GDNL EOS | İnsan Kaynağı Yönetim Özeti</title>
 <link rel="stylesheet" href="assets/css/management-suite.css">
 </head>
 <body>
@@ -14,54 +14,15 @@
   </aside>
   <main class="main">
     <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">Yönetim Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
-      </div>
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button>
-      </div>
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button>
-      </div>
+      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">Yönetim Suite</div><div class="user">👤 <span id="userName">Oturum Sahibi</span></div></div>
+      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button></div>
+      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button></div>
     </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">Yönetim</span>
-        <h1 id="pageTitle">İnsan Kaynağı Üst Yönetim Özeti</h1>
-        <p id="pageDesc">Kadro ihtiyacı, kritik pozisyonlar, devamsızlık, eğitim ve performans özetleri izlenir.</p>
-      </div>
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Yeni İnsan Kaynağı Üst Yönetim Özeti</button>
-        <button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
-    <section id="metricCards" class="cards" aria-label="İnsan Kaynağı Üst Yönetim Özeti göstergeleri"></section>
-
-    <section class="workspace-grid">
-      <section class="panel process-panel">
-        <div class="panel-head"><div><h2 id="summaryTitle">İnsan kaynağı yönetim görünümü</h2><p id="summaryDesc">İnsan Kaynağı Üst Yönetim Özeti için sorumluluk, termin, durum ve kapanış adımları izlenir.</p></div><span id="statusPill" class="status-pill">İnsan Kaynağı Üst Yönetim Özeti aktif takip</span></div>
-        <div id="summaryList" class="list"></div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head"><div><h2 id="formTitle">İnsan kaynağı yönetim notu</h2><p id="formDesc">İnsan Kaynağı Üst Yönetim Özeti için Başlık, Kritik Pozisyon, Sorumlu Kişi, Sorumlu Departman alanları tek ekranda hazırlanır.</p></div></div>
-        <div id="managementForm" class="form"></div>
-        <div class="file-box"><h3 id="fileTitle">İnsan Kaynağı Üst Yönetim Özeti Ek Dosyaları</h3><p id="fileDesc">İnsan Kaynağı Üst Yönetim Özeti ile ilgili dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div>
-        <div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">İnsan Kaynağı Üst Yönetim Özeti Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırlığı</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div>
-      </section>
-    </section>
-
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İnsan Kaynağı Üst Yönetim Özeti Listesi</h2><p id="recordsDesc">İnsan Kaynağı Üst Yönetim Özeti kayıtları durum, öncelik, sorumlu ve departman bilgisine göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İnsan Kaynağı Üst Yönetim Özeti İşlem Geçmişi</h2><p id="auditDesc">İnsan Kaynağı Üst Yönetim Özeti üzerinde yapılan mesaj, dosya ve durum işlemleri denetim izine hazırlanır.</p></div></div><div id="auditPreview" class="audit-preview empty">İnsan Kaynağı Üst Yönetim Özeti için henüz işlem kaydı hazırlanmadı.</div></section>
+    <section class="hero"><div><span class="hero-kicker">Yönetim</span><h1 id="pageTitle">İnsan Kaynağı Yönetim Özeti</h1><p id="pageDesc">Üst yönetim için personel sayısı, açık pozisyon, eğitim, oryantasyon ve yetkinlik durumunun özetlendiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">İnsan Kaynağı Yönetim Özeti Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button></div></section>
+    <section id="metricCards" class="cards" aria-label="İnsan Kaynağı Yönetim Özeti göstergeleri"></section>
+    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">İnsan Kaynağı Yönetim Gündemi</h2><p id="summaryDesc">Kadro ihtiyacı, yetkinlik eksiği ve eğitim durumu yönetim özeti olarak izlenir.</p></div><span id="statusPill" class="status-pill">İnsan Kaynağı Yönetim Özeti aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">İnsan Kaynağı Notu</h2><p id="formDesc">Yönetim için İK notu, konu ve sorumlu bilgilerini hazırlayın.</p></div></div><div id="managementForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İnsan Kaynağı Yönetim Özeti Ek Dosyaları</h3><p id="fileDesc">İnsan Kaynağı Yönetim Özeti ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">İnsan Kaynağı Yönetim Özeti Hazırla</button><button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button></div></section></section>
+    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İnsan Kaynağı Özetleri</h2><p id="recordsDesc">İK yönetim notları, kadro ihtiyaçları ve kritik yetkinlik başlıkları izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
+    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İnsan Kaynağı Özet Geçmişi</h2><p id="auditDesc">İnsan kaynağı notları, sorumlular ve durum değişiklikleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz insan kaynağı yönetim notu bulunmuyor.</div></section>
   </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>

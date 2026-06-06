@@ -748,6 +748,1013 @@
     }
   }
 };
+  const pageConfigs = {
+  "hr-dashboard.html": {
+    "pageTitle": "İK Genel Durum Ekranı",
+    "pageDescription": "Personel, işe alım, oryantasyon, devamsızlık, mesai, izin ve bordro hazırlık durumunu tek ekranda gösteren İK merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Toplam personel",
+      "Yeni başlayan",
+      "İzinli personel",
+      "Geç kalan",
+      "Bordro bekleyen",
+      "Açık pozisyon"
+    ],
+    "summaryTitle": "Bugün İK’nın Dikkat Etmesi Gerekenler",
+    "summaryDescription": "İK ekibi için günlük kritik personel, puantaj ve süreç başlıkları özetlenir.",
+    "summaryItems": [
+      "Yeni başlayan ve oryantasyondaki personeli kontrol et",
+      "İzinli, geç kalan ve eksik puantaj kayıtlarını izle",
+      "Açık pozisyon ve işe alım taleplerini takip et",
+      "Bordro hazırlık bekleyen kayıtları gözden geçir"
+    ],
+    "formTitle": "İK Günlük Notu",
+    "formDescription": "İK ekibi için hızlı not, sorumlu ve termin bilgisi hazırlayın.",
+    "formFields": [
+      "İK notu",
+      "İlgili departman",
+      "Sorumlu kişi",
+      "Öncelik",
+      "Termin",
+      "Durum",
+      "Açıklama"
+    ],
+    "fileTitle": "İK Genel Durum Ekranı Ek Dosyaları",
+    "fileDescription": "İK Genel Durum Ekranı ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "İK raporu",
+      "Personel listesi",
+      "Puantaj çıktısı",
+      "Bordro hazırlık eki"
+    ],
+    "recordTitle": "İK Günlük Takip Panosu",
+    "recordDescription": "İK notları, kritik personel süreçleri ve bekleyen aksiyonlar izlenir.",
+    "emptyState": "Henüz İK günlük takip kaydı bulunmuyor.",
+    "auditTitle": "İK İşlem Geçmişi",
+    "auditDescription": "İK notu, sorumluluk, dosya ve durum işlemleri izlenir.",
+    "primaryActionLabel": "İK Genel Durum Ekranı Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-employees.html": {
+    "pageTitle": "Personel Kartları",
+    "pageDescription": "Personel kimlik, iletişim, pozisyon, departman, evrak ve çalışma durumu bilgilerinin yönetildiği personel kart ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif personel",
+      "Pasif personel",
+      "Eksik evrak",
+      "Yaklaşan sözleşme"
+    ],
+    "summaryTitle": "Personel Kartı Kontrolü",
+    "summaryDescription": "Personel bilgileri, evrakları ve çalışma durumu tek kayıt üzerinden takip edilir.",
+    "summaryItems": [
+      "Personel temel bilgilerini güncelle",
+      "Departman, pozisyon ve yönetici bilgisini eşleştir",
+      "Eksik evrak ve sertifika durumunu izle",
+      "Personel evraklarını R2 standardıyla ilişkilendir"
+    ],
+    "formTitle": "Personel Kartı",
+    "formDescription": "Personel no, ad soyad, departman, pozisyon ve iletişim bilgilerini girin.",
+    "formFields": [
+      "Personel no",
+      "Ad soyad",
+      "Departman",
+      "Pozisyon",
+      "İşe giriş tarihi",
+      "Çalışma tipi",
+      "Yönetici",
+      "Durum",
+      "Telefon",
+      "Acil kişi"
+    ],
+    "fileTitle": "Personel Kartları Ek Dosyaları",
+    "fileDescription": "Personel Kartları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Sağlık raporu",
+      "Sözleşme",
+      "Kimlik evrakı",
+      "Sertifika",
+      "Zimmet formu",
+      "İzin evrakı",
+      "Performans belgesi"
+    ],
+    "recordTitle": "Personel Kartları Panosu",
+    "recordDescription": "Personel kayıtları departman, pozisyon, durum ve evrak bilgisiyle izlenir.",
+    "emptyState": "Henüz personel kartı bulunmuyor.",
+    "auditTitle": "Personel Kartı Geçmişi",
+    "auditDescription": "Personel bilgisi, evrak, durum ve yönetici değişiklikleri izlenir.",
+    "primaryActionLabel": "Personel Kartları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-recruitment.html": {
+    "pageTitle": "İşe Alım Süreci",
+    "pageDescription": "Pozisyon talebinden aday havuzu, mülakat, teklif, evrak ve işe başlatma adımlarına kadar işe alım sürecinin yönetildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık pozisyon",
+      "Mülakat bekleyen",
+      "Teklif aşaması",
+      "Evrak bekleyen"
+    ],
+    "summaryTitle": "İşe Alım Akışı",
+    "summaryDescription": "Talep, aday, mülakat, teklif ve işe başlatma adımları birlikte izlenir.",
+    "summaryItems": [
+      "Pozisyon talebini ve departmanı belirle",
+      "Aday ve mülakat tarihini kaydet",
+      "Değerlendirici ve teklif durumunu takip et",
+      "Başlangıç tarihi ve evrak durumunu tamamla"
+    ],
+    "formTitle": "İşe Alım Kaydı",
+    "formDescription": "Pozisyon, aday, mülakat ve teklif bilgilerini girin.",
+    "formFields": [
+      "Pozisyon",
+      "Talep eden departman",
+      "Aday adı",
+      "Mülakat tarihi",
+      "Değerlendirici",
+      "Teklif durumu",
+      "Başlangıç tarihi",
+      "Evrak durumu"
+    ],
+    "fileTitle": "İşe Alım Süreci Ek Dosyaları",
+    "fileDescription": "İşe Alım Süreci ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Aday CV",
+      "Mülakat formu",
+      "Teklif dosyası",
+      "Evrak listesi"
+    ],
+    "recordTitle": "İşe Alım Takip Panosu",
+    "recordDescription": "Açık pozisyonlar aday, mülakat ve teklif durumuna göre izlenir.",
+    "emptyState": "Henüz işe alım kaydı bulunmuyor.",
+    "auditTitle": "İşe Alım İşlem Geçmişi",
+    "auditDescription": "Talep, mülakat, teklif ve evrak işlemleri izlenir.",
+    "primaryActionLabel": "İşe Alım Süreci Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-internship.html": {
+    "pageTitle": "Stajyer Yönetimi",
+    "pageDescription": "Stajyer başvurusu, okul/bölüm bilgisi, staj dönemi, mentor, evrak, devam ve değerlendirme bilgilerinin takip edildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif stajyer",
+      "Başlayan staj",
+      "Biten staj",
+      "Evrak bekleyen"
+    ],
+    "summaryTitle": "Stajyer Takip Akışı",
+    "summaryDescription": "Staj kabul, mentor atama, devam ve değerlendirme adımları izlenir.",
+    "summaryItems": [
+      "Stajyer okul ve bölüm bilgisini kaydet",
+      "Staj dönemini ve departmanı belirle",
+      "Mentor ve devam durumunu takip et",
+      "Bitiş değerlendirmesini ve evrakları tamamla"
+    ],
+    "formTitle": "Stajyer Kaydı",
+    "formDescription": "Stajyer, okul, bölüm, dönem, mentor ve değerlendirme bilgilerini girin.",
+    "formFields": [
+      "Stajyer adı",
+      "Okul",
+      "Bölüm",
+      "Staj tipi",
+      "Başlangıç",
+      "Bitiş",
+      "Departman",
+      "Mentor",
+      "Devam durumu",
+      "Değerlendirme"
+    ],
+    "fileTitle": "Stajyer Yönetimi Ek Dosyaları",
+    "fileDescription": "Stajyer Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Staj başvuru evrakı",
+      "Okul yazısı",
+      "Devam formu",
+      "Değerlendirme formu"
+    ],
+    "recordTitle": "Stajyer Takip Panosu",
+    "recordDescription": "Stajyerler dönem, mentor, devam ve değerlendirme durumuyla izlenir.",
+    "emptyState": "Henüz stajyer kaydı bulunmuyor.",
+    "auditTitle": "Stajyer İşlem Geçmişi",
+    "auditDescription": "Staj kabul, mentor, evrak ve değerlendirme işlemleri izlenir.",
+    "primaryActionLabel": "Stajyer Yönetimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-onboarding.html": {
+    "pageTitle": "Oryantasyon Süreci",
+    "pageDescription": "Yeni çalışanın ilk gün hazırlığı, eğitimleri, evrak teslimi, departman tanıtımı, görev tanımı ve zimmet adımlarının izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Oryantasyondaki personel",
+      "Eksik eğitim",
+      "Eksik evrak",
+      "Tamamlanan oryantasyon"
+    ],
+    "summaryTitle": "Oryantasyon Kontrol Akışı",
+    "summaryDescription": "Yeni çalışan için ilk gün, eğitim, evrak ve zimmet adımları takip edilir.",
+    "summaryItems": [
+      "Yeni çalışan ve İK sorumlusunu ata",
+      "İSG ve kalite eğitimlerini kontrol et",
+      "Görev tanımı ve departman tanıtımını tamamla",
+      "Zimmet ve evrak teslimini kapat"
+    ],
+    "formTitle": "Oryantasyon Planı",
+    "formDescription": "Yeni çalışan, İK sorumlusu, mentor, eğitim ve tamamlanma bilgilerini girin.",
+    "formFields": [
+      "Yeni çalışan",
+      "İK sorumlusu",
+      "Departman mentoru",
+      "İSG eğitimi",
+      "Kalite eğitimi",
+      "Görev tanımı",
+      "Zimmet",
+      "Tamamlanma oranı",
+      "Durum"
+    ],
+    "fileTitle": "Oryantasyon Süreci Ek Dosyaları",
+    "fileDescription": "Oryantasyon Süreci ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Oryantasyon checklist",
+      "Eğitim katılım formu",
+      "Görev tanımı",
+      "Zimmet formu"
+    ],
+    "recordTitle": "Oryantasyon Takip Panosu",
+    "recordDescription": "Oryantasyon kayıtları eğitim, evrak, zimmet ve tamamlanma durumuyla izlenir.",
+    "emptyState": "Henüz oryantasyon kaydı bulunmuyor.",
+    "auditTitle": "Oryantasyon İşlem Geçmişi",
+    "auditDescription": "Oryantasyon adımı, eğitim, evrak ve zimmet işlemleri izlenir.",
+    "primaryActionLabel": "Oryantasyon Süreci Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-attendance.html": {
+    "pageTitle": "Puantaj ve Devam Takibi",
+    "pageDescription": "Giriş/çıkış, geç kalma, erken çıkış, tolerans, devamsızlık ve aylık toplam saat izlenir. Günlük tolerans ve aylık eksik/fazla süre hesapları kurum içi hesaplama parametreleriyle yapılır.",
+    "heroKicker": "",
+    "metricCards": [
+      "Eksik puantaj",
+      "Geç kalan",
+      "Devamsızlık",
+      "Onay bekleyen"
+    ],
+    "summaryTitle": "Puantaj Kontrol Akışı",
+    "summaryDescription": "Günlük giriş/çıkış ve tolerans durumları aylık toplamlarla birlikte izlenir.",
+    "summaryItems": [
+      "Planlanan ve gerçek giriş/çıkış saatlerini karşılaştır",
+      "Geç kalma ve erken çıkış süresini hesapla",
+      "Devamsızlık ve onay durumunu takip et",
+      "Aylık eksik/fazla süre özetini hazırla"
+    ],
+    "formTitle": "Puantaj Kaydı",
+    "formDescription": "Personel tarih ve giriş/çıkış bilgilerini girin.",
+    "formFields": [
+      "Personel",
+      "Tarih",
+      "Planlanan giriş",
+      "Gerçek giriş",
+      "Planlanan çıkış",
+      "Gerçek çıkış",
+      "Geç kalma",
+      "Erken çıkış",
+      "Devamsızlık",
+      "Onay durumu"
+    ],
+    "fileTitle": "Puantaj ve Devam Takibi Ek Dosyaları",
+    "fileDescription": "Puantaj ve Devam Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Puantaj çıktısı",
+      "Devam formu",
+      "Onay belgesi",
+      "Açıklama eki"
+    ],
+    "recordTitle": "Puantaj Takip Panosu",
+    "recordDescription": "Personel devam kayıtları gecikme, devamsızlık ve onay durumuyla izlenir.",
+    "emptyState": "Henüz puantaj kaydı bulunmuyor.",
+    "auditTitle": "Puantaj İşlem Geçmişi",
+    "auditDescription": "Giriş/çıkış, tolerans, onay ve açıklama değişiklikleri izlenir.",
+    "primaryActionLabel": "Puantaj ve Devam Takibi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-shift-planning.html": {
+    "pageTitle": "Vardiya Planlama",
+    "pageDescription": "Günlük ve haftalık vardiya planı, çalışan atama, mola, gece vardiyası ve çakışma kontrolünün yapıldığı ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif vardiya",
+      "Atanmamış personel",
+      "Çakışma uyarısı",
+      "Gece vardiyası"
+    ],
+    "summaryTitle": "Vardiya Planlama Akışı",
+    "summaryDescription": "Vardiya saatleri, personel atamaları ve çakışma uyarıları birlikte izlenir.",
+    "summaryItems": [
+      "Vardiya adı, başlangıç ve bitiş saatini belirle",
+      "Departman ve personel atamalarını yap",
+      "Mola ve gece vardiyası bilgisini gir",
+      "Haftalık çalışma günleri ve çakışmaları kontrol et"
+    ],
+    "formTitle": "Vardiya Kaydı",
+    "formDescription": "Vardiya saati, mola, departman ve personel atamasını hazırlayın.",
+    "formFields": [
+      "Vardiya adı",
+      "Başlangıç",
+      "Bitiş",
+      "Mola",
+      "Departman",
+      "Personeller",
+      "Haftalık çalışma günleri",
+      "Gece vardiyası",
+      "Durum"
+    ],
+    "fileTitle": "Vardiya Planlama Ek Dosyaları",
+    "fileDescription": "Vardiya Planlama ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Vardiya planı",
+      "Haftalık çizelge",
+      "Çakışma raporu"
+    ],
+    "recordTitle": "Vardiya Planları Panosu",
+    "recordDescription": "Vardiyalar departman, personel, saat ve çakışma durumuyla izlenir.",
+    "emptyState": "Henüz vardiya planı bulunmuyor.",
+    "auditTitle": "Vardiya İşlem Geçmişi",
+    "auditDescription": "Vardiya saatleri, personel ataması ve çakışma işlemleri izlenir.",
+    "primaryActionLabel": "Vardiya Planlama Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-overtime.html": {
+    "pageTitle": "Mesai Yönetimi",
+    "pageDescription": "Fazla mesai talebi, planlanan/gerçek mesai, kota, tolerans, onay ve aylık toplamların izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Mesai talebi",
+      "Onay bekleyen",
+      "Fazla mesai",
+      "Eksik mesai"
+    ],
+    "summaryTitle": "Mesai Kontrol Akışı",
+    "summaryDescription": "Mesai talepleri planlanan/gerçek süre ve onay durumuyla takip edilir.",
+    "summaryItems": [
+      "Personel ve mesai tarihini belirle",
+      "Planlanan ve gerçek mesai süresini karşılaştır",
+      "Onaylayan yönetici ve durum bilgisini izle",
+      "Aylık toplam ve kota etkisini kontrol et"
+    ],
+    "formTitle": "Mesai Kaydı",
+    "formDescription": "Personel, tarih, mesai tipi ve onay bilgilerini girin.",
+    "formFields": [
+      "Personel",
+      "Tarih",
+      "Mesai tipi",
+      "Planlanan mesai",
+      "Gerçek mesai",
+      "Fazla mesai",
+      "Eksik mesai",
+      "Onaylayan",
+      "Durum"
+    ],
+    "fileTitle": "Mesai Yönetimi Ek Dosyaları",
+    "fileDescription": "Mesai Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Mesai formu",
+      "Onay belgesi",
+      "Aylık mesai raporu"
+    ],
+    "recordTitle": "Mesai Takip Panosu",
+    "recordDescription": "Mesai kayıtları personel, süre, onay ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz mesai kaydı bulunmuyor.",
+    "auditTitle": "Mesai İşlem Geçmişi",
+    "auditDescription": "Mesai talebi, onay, süre ve durum değişiklikleri izlenir.",
+    "primaryActionLabel": "Mesai Yönetimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-payroll.html": {
+    "pageTitle": "Bordro Hazırlığı",
+    "pageDescription": "Resmi bordro yerine geçmeyen; muhasebe/finans bordrosu için İK hazırlık verisi üreten çalışma saati, mesai, izin ve kesinti özet ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Hazırlık bekleyen",
+      "Onay bekleyen",
+      "Eksik veri",
+      "Tamamlanan hazırlık"
+    ],
+    "summaryTitle": "Bordro Hazırlık Akışı",
+    "summaryDescription": "Aylık çalışma, mesai, eksik süre, izin ve kesinti verileri hazırlanır.",
+    "summaryItems": [
+      "Personel ve ay bilgisini seç",
+      "Normal çalışma ve fazla mesai sürelerini hesapla",
+      "İzin, devamsızlık ve kesinti etkisini kontrol et",
+      "Hazırlık özetini onay durumuna bağla"
+    ],
+    "formTitle": "Bordro Hazırlık Kaydı",
+    "formDescription": "Aylık çalışma saati, mesai, izin ve hazırlık özetini girin.",
+    "formFields": [
+      "Personel",
+      "Ay",
+      "Normal çalışma saati",
+      "Fazla mesai",
+      "Eksik çalışma",
+      "Geç kalma",
+      "İzin",
+      "Devamsızlık",
+      "Ek ödeme",
+      "Kesinti",
+      "Hazırlık özeti"
+    ],
+    "fileTitle": "Bordro Hazırlığı Ek Dosyaları",
+    "fileDescription": "Bordro Hazırlığı ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Bordro hazırlık çıktısı",
+      "Mesai raporu",
+      "Puantaj raporu",
+      "Kesinti eki"
+    ],
+    "recordTitle": "Bordro Hazırlık Panosu",
+    "recordDescription": "Bordro hazırlık kayıtları ay, personel, eksik veri ve onay durumuyla izlenir.",
+    "emptyState": "Henüz bordro hazırlık kaydı bulunmuyor.",
+    "auditTitle": "Bordro Hazırlık Geçmişi",
+    "auditDescription": "Çalışma saati, mesai, izin ve hazırlık özeti değişiklikleri izlenir.",
+    "primaryActionLabel": "Bordro Hazırlığı Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-leave.html": {
+    "pageTitle": "İzin Yönetimi",
+    "pageDescription": "İzin taleplerinin izin türü, tarih aralığı, gün hesabı, onaylayan ve durum bilgisiyle izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık izin talebi",
+      "Onay bekleyen",
+      "Bu ay izinli",
+      "Kapanan izin"
+    ],
+    "summaryTitle": "İzin Onay Akışı",
+    "summaryDescription": "İzin talebi, tarih aralığı, gün hesabı ve onay durumu birlikte izlenir.",
+    "summaryItems": [
+      "Personel ve izin türünü seç",
+      "Başlangıç/bitiş tarihleriyle gün sayısını hesapla",
+      "Onaylayan ve durum bilgisini takip et",
+      "Personel izin geçmişini kayıt altına al"
+    ],
+    "formTitle": "İzin Talebi",
+    "formDescription": "Personel, izin türü, tarih aralığı ve onay bilgilerini girin.",
+    "formFields": [
+      "Personel",
+      "İzin türü",
+      "Başlangıç",
+      "Bitiş",
+      "Gün sayısı",
+      "Onaylayan",
+      "Durum",
+      "Açıklama"
+    ],
+    "fileTitle": "İzin Yönetimi Ek Dosyaları",
+    "fileDescription": "İzin Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "İzin formu",
+      "Rapor belgesi",
+      "Onay yazısı"
+    ],
+    "recordTitle": "İzin Talepleri Panosu",
+    "recordDescription": "İzin talepleri personel, tür, tarih ve onay durumuyla izlenir.",
+    "emptyState": "Henüz izin talebi bulunmuyor.",
+    "auditTitle": "İzin İşlem Geçmişi",
+    "auditDescription": "İzin talebi, onay, tarih ve açıklama değişiklikleri izlenir.",
+    "primaryActionLabel": "İzin Yönetimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-performance.html": {
+    "pageTitle": "Performans Değerlendirme",
+    "pageDescription": "Personel hedefleri, yetkinlikleri, yönetici notu, puan ve gelişim planının takip edildiği performans ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık değerlendirme",
+      "Tamamlanan değerlendirme",
+      "Gelişim planı",
+      "Düşük performans uyarısı"
+    ],
+    "summaryTitle": "Performans Değerlendirme Akışı",
+    "summaryDescription": "Değerlendirme dönemi, hedefler, yetkinlikler ve gelişim planları izlenir.",
+    "summaryItems": [
+      "Personel ve değerlendirme dönemini seç",
+      "Hedef ve yetkinlik başlıklarını gir",
+      "Puan ve yönetici notunu tamamla",
+      "Gelişim aksiyonunu takip et"
+    ],
+    "formTitle": "Performans Kaydı",
+    "formDescription": "Personel, dönem, değerlendirici, puan ve gelişim planını girin.",
+    "formFields": [
+      "Personel",
+      "Dönem",
+      "Değerlendiren",
+      "Hedefler",
+      "Yetkinlikler",
+      "Puan",
+      "Gelişim planı",
+      "Durum"
+    ],
+    "fileTitle": "Performans Değerlendirme Ek Dosyaları",
+    "fileDescription": "Performans Değerlendirme ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Performans formu",
+      "Gelişim planı",
+      "Değerlendirme eki"
+    ],
+    "recordTitle": "Performans Panosu",
+    "recordDescription": "Performans kayıtları dönem, puan, değerlendirici ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz performans değerlendirme kaydı bulunmuyor.",
+    "auditTitle": "Performans İşlem Geçmişi",
+    "auditDescription": "Puan, hedef, yetkinlik ve gelişim planı değişiklikleri izlenir.",
+    "primaryActionLabel": "Performans Değerlendirme Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-competency.html": {
+    "pageTitle": "Yetkinlik Yönetimi",
+    "pageDescription": "Rol bazlı yetkinlik, mevcut seviye, hedef seviye, eğitim ihtiyacı ve değerlendiren bilgisinin izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Eksik yetkinlik",
+      "Kritik rol",
+      "Eğitim ihtiyacı",
+      "Tamamlanan yetkinlik"
+    ],
+    "summaryTitle": "Yetkinlik Matrisi Akışı",
+    "summaryDescription": "Pozisyonlara göre gerekli yetkinlikler, seviye farkı ve eğitim ihtiyacı takip edilir.",
+    "summaryItems": [
+      "Personel ve pozisyon bilgisini seç",
+      "Gerekli ve mevcut yetkinlik seviyesini karşılaştır",
+      "Eğitim ihtiyacını belirle",
+      "Değerlendiren ve tarih bilgisini kaydet"
+    ],
+    "formTitle": "Yetkinlik Kaydı",
+    "formDescription": "Personel, pozisyon, yetkinlik seviyesi ve eğitim ihtiyacını girin.",
+    "formFields": [
+      "Personel",
+      "Pozisyon",
+      "Gerekli yetkinlik",
+      "Mevcut seviye",
+      "Hedef seviye",
+      "Eğitim ihtiyacı",
+      "Değerlendiren"
+    ],
+    "fileTitle": "Yetkinlik Yönetimi Ek Dosyaları",
+    "fileDescription": "Yetkinlik Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Yetkinlik matrisi",
+      "Eğitim ihtiyacı raporu",
+      "Değerlendirme formu"
+    ],
+    "recordTitle": "Yetkinlik Panosu",
+    "recordDescription": "Yetkinlik kayıtları pozisyon, seviye farkı ve eğitim ihtiyacıyla izlenir.",
+    "emptyState": "Henüz yetkinlik kaydı bulunmuyor.",
+    "auditTitle": "Yetkinlik İşlem Geçmişi",
+    "auditDescription": "Yetkinlik seviyesi, eğitim ihtiyacı ve değerlendirme değişiklikleri izlenir.",
+    "primaryActionLabel": "Yetkinlik Yönetimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-training.html": {
+    "pageTitle": "İK Eğitim Takibi",
+    "pageDescription": "Eğitim planı, eğitmen, katılımcılar, tarih, sınav puanı, sertifika ve geçerlilik tarihinin izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Planlı eğitim",
+      "Katılımcı",
+      "Sertifika bekleyen",
+      "Geçerlilik yaklaşan"
+    ],
+    "summaryTitle": "Eğitim Takip Akışı",
+    "summaryDescription": "Eğitim katılımı, sertifika ve geçerlilik tarihleri İK bakış açısıyla izlenir.",
+    "summaryItems": [
+      "Eğitim adı ve eğitmeni belirle",
+      "Katılımcıları /users üzerinden seç",
+      "Sınav puanı ve sertifika durumunu kaydet",
+      "Geçerlilik tarihini takip et"
+    ],
+    "formTitle": "Eğitim Kaydı",
+    "formDescription": "Eğitim, eğitmen, katılımcılar ve sertifika bilgilerini girin.",
+    "formFields": [
+      "Eğitim adı",
+      "Eğitmen",
+      "Katılımcılar",
+      "Tarih",
+      "Süre",
+      "Sınav puanı",
+      "Sertifika",
+      "Geçerlilik tarihi",
+      "Durum"
+    ],
+    "fileTitle": "İK Eğitim Takibi Ek Dosyaları",
+    "fileDescription": "İK Eğitim Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Eğitim sunumu",
+      "Katılım formu",
+      "Sertifika",
+      "Sınav sonucu"
+    ],
+    "recordTitle": "İK Eğitim Panosu",
+    "recordDescription": "Eğitim kayıtları katılımcı, sertifika ve geçerlilik durumuyla izlenir.",
+    "emptyState": "Henüz İK eğitim kaydı bulunmuyor.",
+    "auditTitle": "Eğitim İşlem Geçmişi",
+    "auditDescription": "Eğitim, katılımcı, sertifika ve geçerlilik işlemleri izlenir.",
+    "primaryActionLabel": "İK Eğitim Takibi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-assets.html": {
+    "pageTitle": "Zimmet Yönetimi",
+    "pageDescription": "Personel zimmetleri, verilen cihaz/ekipman, teslim/iade tarihi, hasar/kayıp ve durum bilgilerinin yönetildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif zimmet",
+      "İade bekleyen",
+      "Hasar bildirimi",
+      "Kayıp ekipman"
+    ],
+    "summaryTitle": "Zimmet Takip Akışı",
+    "summaryDescription": "Zimmet teslimi, iadesi, hasar/kayıp durumu ve dosyaları takip edilir.",
+    "summaryItems": [
+      "Personel ve zimmet tipini seç",
+      "Cihaz/ekipman ve seri no bilgisini gir",
+      "Teslim ve iade tarihini takip et",
+      "Hasar/kayıp durumunu kayıt altına al"
+    ],
+    "formTitle": "Zimmet Kaydı",
+    "formDescription": "Personel, ekipman, seri no ve teslim/iade bilgilerini girin.",
+    "formFields": [
+      "Personel",
+      "Zimmet tipi",
+      "Cihaz/ekipman",
+      "Seri no",
+      "Teslim tarihi",
+      "İade tarihi",
+      "Durum"
+    ],
+    "fileTitle": "Zimmet Yönetimi Ek Dosyaları",
+    "fileDescription": "Zimmet Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Zimmet formu",
+      "Cihaz fotoğrafı",
+      "İade tutanağı",
+      "Hasar raporu"
+    ],
+    "recordTitle": "Zimmet Panosu",
+    "recordDescription": "Zimmet kayıtları personel, ekipman, iade ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz zimmet kaydı bulunmuyor.",
+    "auditTitle": "Zimmet İşlem Geçmişi",
+    "auditDescription": "Zimmet teslim, iade, hasar ve dosya işlemleri izlenir.",
+    "primaryActionLabel": "Zimmet Yönetimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-exit.html": {
+    "pageTitle": "İşten Ayrılış Süreci",
+    "pageDescription": "Çıkış checklist, zimmet iade, evrak, BT hesap kapatma bildirimi, çıkış görüşmesi ve kapanış durumunun izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık çıkış süreci",
+      "Zimmet bekleyen",
+      "BT bildirim bekleyen",
+      "Kapanan çıkış"
+    ],
+    "summaryTitle": "Çıkış Süreci Akışı",
+    "summaryDescription": "Ayrılış bildirimi, zimmet iade, evrak ve kapanış adımları birlikte takip edilir.",
+    "summaryItems": [
+      "Personel ve çıkış tarihini belirle",
+      "Çıkış nedeni ve görüşme notunu kaydet",
+      "Zimmet ve evrak iade durumunu takip et",
+      "BT hesap kapatma bildirimini hazırla"
+    ],
+    "formTitle": "İşten Ayrılış Kaydı",
+    "formDescription": "Çıkış tarihi, neden, zimmet ve kapanış bilgilerini girin.",
+    "formFields": [
+      "Personel",
+      "Çıkış tarihi",
+      "Çıkış nedeni",
+      "Zimmet durumu",
+      "BT hesap kapatma durumu",
+      "Çıkış görüşmesi",
+      "Kapanış durumu"
+    ],
+    "fileTitle": "İşten Ayrılış Süreci Ek Dosyaları",
+    "fileDescription": "İşten Ayrılış Süreci ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Çıkış formu",
+      "Zimmet iade tutanağı",
+      "Görüşme notu",
+      "Evrak teslim formu"
+    ],
+    "recordTitle": "İşten Ayrılış Panosu",
+    "recordDescription": "Çıkış süreçleri personel, zimmet, BT bildirimi ve kapanış durumuyla izlenir.",
+    "emptyState": "Henüz işten ayrılış kaydı bulunmuyor.",
+    "auditTitle": "İşten Ayrılış İşlem Geçmişi",
+    "auditDescription": "Çıkış bildirimi, zimmet, BT ve kapanış işlemleri izlenir.",
+    "primaryActionLabel": "İşten Ayrılış Süreci Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-reports.html": {
+    "pageTitle": "İK Raporları",
+    "pageDescription": "Personel, işe alım, stajyer, oryantasyon, puantaj, mesai, bordro hazırlık, izin, performans, yetkinlik, eğitim, zimmet ve çıkış raporlarının hazırlandığı ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Hazır rapor",
+      "Bekleyen rapor",
+      "Kritik rapor",
+      "Dışa aktarım hazırlığı"
+    ],
+    "summaryTitle": "İK Rapor Hazırlığı",
+    "summaryDescription": "İK raporları rapor tipi, dönem, departman ve hazırlayan kişiyle takip edilir.",
+    "summaryItems": [
+      "Rapor tipini ve dönem aralığını seç",
+      "Departman filtresini belirle",
+      "Hazırlayan kişi ve açıklamayı gir",
+      "PDF/Excel hazırlık dosyalarını ilişkilendir"
+    ],
+    "formTitle": "İK Rapor Kaydı",
+    "formDescription": "Rapor adı, tipi, dönem ve hazırlayan kişi bilgilerini girin.",
+    "formFields": [
+      "Rapor adı",
+      "Rapor tipi",
+      "Dönem",
+      "Departman filtresi",
+      "Hazırlayan kişi",
+      "Açıklama",
+      "Durum"
+    ],
+    "fileTitle": "İK Raporları Ek Dosyaları",
+    "fileDescription": "İK Raporları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Personel raporu",
+      "Puantaj raporu",
+      "Mesai raporu",
+      "İzin raporu",
+      "Eğitim raporu"
+    ],
+    "recordTitle": "İK Rapor Panosu",
+    "recordDescription": "İK raporları tip, dönem, hazırlayan ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz İK raporu bulunmuyor.",
+    "auditTitle": "İK Rapor Geçmişi",
+    "auditDescription": "Rapor hazırlama, dosya ekleme ve dışa aktarım hazırlığı işlemleri izlenir.",
+    "primaryActionLabel": "İK Raporları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "hr-policies.html": {
+    "pageTitle": "İK Politikaları",
+    "pageDescription": "İşe alım, oryantasyon, mesai, izin, performans, zimmet, disiplin ve stajyer politikalarının takip edildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif politika",
+      "Revizyon bekleyen",
+      "Okundu bekleyen",
+      "Onaylı politika"
+    ],
+    "summaryTitle": "İK Politika Akışı",
+    "summaryDescription": "İK politikaları revizyon, dağıtım, okundu bilgisi ve onay durumuyla izlenir.",
+    "summaryItems": [
+      "Politika türünü ve sorumlusunu belirle",
+      "Revizyon ve yayın tarihini takip et",
+      "Dağıtım ve okundu durumunu kontrol et",
+      "Doküman Yönetimi bağlantısını hazırla"
+    ],
+    "formTitle": "İK Politika Kaydı",
+    "formDescription": "Politika adı, türü, revizyon ve sorumlu bilgilerini girin.",
+    "formFields": [
+      "Politika adı",
+      "Politika türü",
+      "Revizyon no",
+      "Sorumlu kişi",
+      "Yayın tarihi",
+      "Okundu bilgisi",
+      "Durum"
+    ],
+    "fileTitle": "İK Politikaları Ek Dosyaları",
+    "fileDescription": "İK Politikaları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "İşe alım politikası",
+      "Oryantasyon politikası",
+      "Mesai politikası",
+      "İzin politikası",
+      "Performans politikası",
+      "Zimmet politikası",
+      "Disiplin politikası",
+      "Stajyer politikası"
+    ],
+    "recordTitle": "İK Politikaları Panosu",
+    "recordDescription": "İK politikaları tür, revizyon, dağıtım ve okundu durumuyla izlenir.",
+    "emptyState": "Henüz İK politikası bulunmuyor.",
+    "auditTitle": "İK Politika Geçmişi",
+    "auditDescription": "Politika revizyonu, dağıtım ve okundu işlemleri izlenir.",
+    "primaryActionLabel": "İK Politikaları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  }
+};
+  suite.configs = Object.fromEntries(Object.entries(pageConfigs).map(([page, c]) => [page, {
+    pageTitle: c.pageTitle, pageDescription: c.pageDescription, heroKicker: c.heroKicker, metricCards: c.metricCards, summaryItems: c.summaryItems, formFields: c.formFields,
+    title: c.pageTitle, desc: c.pageDescription, metrics: c.metricCards, summaryTitle: c.summaryTitle, summaryDesc: c.summaryDescription, process: c.summaryItems,
+    formTitle: c.formTitle, formDesc: c.formDescription, fields: c.formFields, fileTitle: c.fileTitle, fileDesc: c.fileDescription, fileCategories: c.fileCategories,
+    recordsTitle: c.recordTitle, recordsDesc: c.recordDescription, emptyText: c.emptyState, auditTitle: c.auditTitle, auditDesc: c.auditDescription,
+    primaryActionLabel: c.primaryActionLabel, secondaryActionLabel: c.secondaryActionLabel, statusOptions: c.statusOptions, priorityOptions: c.priorityOptions
+  }]));
   const page = (location.pathname.split('/').pop() || suite.home);
   const config = suite.configs[page] || suite.configs[suite.home];
   const state = { users: [], departments: [], records: [], attachments: [], lastPayload: null };

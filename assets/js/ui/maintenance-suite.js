@@ -448,6 +448,608 @@
     }
   }
 };
+  const pageConfigs = {
+  "maintenance-dashboard.html": {
+    "pageTitle": "Bakım Genel Durum Ekranı",
+    "pageDescription": "Aktif makineler, açık arızalar, planlı bakım işleri, geciken bakımlar, kritik makineler ve yedek parça alarmlarını gösteren bakım merkezi.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif makine",
+      "Açık arıza",
+      "Kritik arıza",
+      "Bugünkü bakım",
+      "Geciken bakım",
+      "Kritik parça eksiği"
+    ],
+    "summaryTitle": "Bugün Bakım Ekibinin Dikkat Etmesi Gerekenler",
+    "summaryDescription": "Açık arıza, geciken bakım, kritik parça ve bugünkü iş emirleri hızlıca izlenir.",
+    "summaryItems": [
+      "Kritik arızaları ve duruş etkisini kontrol et",
+      "Bugünkü planlı bakım işlerini takip et",
+      "Geciken bakım ve iş emirlerini önceliklendir",
+      "Kritik yedek parça eksiklerini gözden geçir"
+    ],
+    "formTitle": "Bakım Günlük Notu",
+    "formDescription": "Bakım ekibi için hızlı not, sorumlu ve termin bilgisi hazırlayın.",
+    "formFields": [
+      "Bakım notu",
+      "İlgili makine",
+      "Sorumlu kişi",
+      "Öncelik",
+      "Termin",
+      "Durum",
+      "Açıklama"
+    ],
+    "fileTitle": "Bakım Genel Durum Ekranı Ek Dosyaları",
+    "fileDescription": "Bakım Genel Durum Ekranı ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Bakım raporu",
+      "Duruş özeti",
+      "Yedek parça listesi",
+      "Günlük kontrol formu"
+    ],
+    "recordTitle": "Bakım Günlük Takip Panosu",
+    "recordDescription": "Bakım notları, kritik arızalar ve bekleyen işler izlenir.",
+    "emptyState": "Henüz bakım günlük takip kaydı bulunmuyor.",
+    "auditTitle": "Bakım Merkezi İşlem Geçmişi",
+    "auditDescription": "Bakım notu, sorumlu, dosya ve durum işlemleri izlenir.",
+    "primaryActionLabel": "Bakım Genel Durum Ekranı Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-machines.html": {
+    "pageTitle": "Makine Kartları",
+    "pageDescription": "Makine kodu, lokasyon, sorumlu, marka/model, seri no, kritik seviye, durum, teknik doküman ve bakım geçmişinin yönetildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif makine",
+      "Kritik makine",
+      "Eksik doküman",
+      "Bakım planı olmayan"
+    ],
+    "summaryTitle": "Makine Kartı Kontrolü",
+    "summaryDescription": "Makine kimliği, kritik seviyesi, sorumlusu ve teknik dokümanları izlenir.",
+    "summaryItems": [
+      "Makine kodu ve lokasyon bilgisini gir",
+      "Sorumlu kişi ve departmanı ata",
+      "Kritik seviye ve durum bilgisini takip et",
+      "Teknik dokümanları R2 dosyalarıyla ilişkilendir"
+    ],
+    "formTitle": "Makine Kartı",
+    "formDescription": "Makine kodu, ad, lokasyon, sorumlu ve teknik bilgileri girin.",
+    "formFields": [
+      "Makine kodu",
+      "Makine adı",
+      "Lokasyon",
+      "Departman",
+      "Sorumlu kişi",
+      "Marka/model",
+      "Seri no",
+      "Kurulum tarihi",
+      "Kritik seviye",
+      "Durum"
+    ],
+    "fileTitle": "Makine Kartları Ek Dosyaları",
+    "fileDescription": "Makine Kartları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Kullanım kılavuzu",
+      "Bakım talimatı",
+      "Elektrik şeması",
+      "Hidrolik/pnömatik şema",
+      "Servis raporu"
+    ],
+    "recordTitle": "Makine Kartları Panosu",
+    "recordDescription": "Makine kayıtları lokasyon, sorumlu, kritik seviye ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz makine kartı bulunmuyor.",
+    "auditTitle": "Makine Kartı Geçmişi",
+    "auditDescription": "Makine bilgisi, sorumlu, durum ve teknik doküman işlemleri izlenir.",
+    "primaryActionLabel": "Makine Kartları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-breakdowns.html": {
+    "pageTitle": "Arıza Bildirimleri",
+    "pageDescription": "Makine arızalarının bildiren kişi, açıklama, aciliyet, duruş süresi, kök neden, yapılan işlem ve durum bilgisiyle yönetildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Yeni arıza",
+      "Kritik arıza",
+      "Duruşlu arıza",
+      "Kapanan arıza"
+    ],
+    "summaryTitle": "Arıza Müdahale Akışı",
+    "summaryDescription": "Arıza bildirimi, duruş etkisi, kök neden ve yapılan işlem birlikte takip edilir.",
+    "summaryItems": [
+      "Arıza no ve makine bilgisini kaydet",
+      "Bildiren kişi ve arıza açıklamasını gir",
+      "Duruş başlangıç/bitiş ve müdahale eden kişiyi takip et",
+      "Kök neden, yapılan işlem ve kapanış durumunu tamamla"
+    ],
+    "formTitle": "Arıza Bildirimi Kaydı",
+    "formDescription": "Arıza no, makine, duruş ve müdahale bilgilerini girin.",
+    "formFields": [
+      "Arıza no",
+      "Makine",
+      "Bildiren kişi",
+      "Arıza açıklaması",
+      "Öncelik",
+      "Duruş var mı",
+      "Duruş başlangıç",
+      "Duruş bitiş",
+      "Müdahale eden",
+      "Kök neden",
+      "Yapılan işlem",
+      "Durum"
+    ],
+    "fileTitle": "Arıza Bildirimleri Ek Dosyaları",
+    "fileDescription": "Arıza Bildirimleri ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Arıza fotoğrafı",
+      "Servis raporu",
+      "Kök neden eki",
+      "Bakım kanıtı"
+    ],
+    "recordTitle": "Arıza Bildirimleri Panosu",
+    "recordDescription": "Arızalar makine, öncelik, duruş, müdahale ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz arıza bildirimi bulunmuyor.",
+    "auditTitle": "Arıza İşlem Geçmişi",
+    "auditDescription": "Arıza bildirimi, müdahale, kök neden ve kapanış işlemleri izlenir.",
+    "primaryActionLabel": "Arıza Bildirimleri Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-preventive.html": {
+    "pageTitle": "Periyodik Bakım Planları",
+    "pageDescription": "Makine bazlı bakım planı, bakım tipi, periyot, son/sonraki bakım tarihi, sorumlu, checklist ve durum bilgisinin izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Yaklaşan bakım",
+      "Geciken bakım",
+      "Tamamlanan bakım",
+      "Checklist bekleyen"
+    ],
+    "summaryTitle": "Periyodik Bakım Akışı",
+    "summaryDescription": "Bakım planları periyot, checklist, sorumlu ve tarih bilgisiyle yönetilir.",
+    "summaryItems": [
+      "Bakım planı ve makine bilgisini seç",
+      "Bakım tipi, periyot ve son bakım tarihini gir",
+      "Sorumlu teknisyen ve checklist başlıklarını belirle",
+      "Yaklaşan/geciken bakım durumunu takip et"
+    ],
+    "formTitle": "Periyodik Bakım Planı",
+    "formDescription": "Bakım planı, makine, periyot, tarih ve checklist bilgilerini girin.",
+    "formFields": [
+      "Bakım planı",
+      "Makine",
+      "Bakım tipi",
+      "Periyot",
+      "Son bakım",
+      "Sonraki bakım",
+      "Sorumlu",
+      "Checklist",
+      "Durum"
+    ],
+    "fileTitle": "Periyodik Bakım Planları Ek Dosyaları",
+    "fileDescription": "Periyodik Bakım Planları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Bakım checklist’i",
+      "Bakım kanıtı",
+      "Kontrol formu"
+    ],
+    "recordTitle": "Periyodik Bakım Panosu",
+    "recordDescription": "Bakım planları makine, periyot, sonraki bakım tarihi ve durumuyla izlenir.",
+    "emptyState": "Henüz periyodik bakım planı bulunmuyor.",
+    "auditTitle": "Periyodik Bakım Geçmişi",
+    "auditDescription": "Bakım planı, checklist, tarih ve tamamlanma işlemleri izlenir.",
+    "primaryActionLabel": "Periyodik Bakım Planları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-work-orders.html": {
+    "pageTitle": "Bakım İş Emirleri",
+    "pageDescription": "Arıza, periyodik bakım, revizyon ve parça değişimi iş emirlerinin teknisyen, öncelik, süre, durum ve kapanış notuyla yönetildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık iş emri",
+      "Kritik iş emri",
+      "Geciken iş emri",
+      "Kapanan iş emri"
+    ],
+    "summaryTitle": "İş Emri Yönetim Akışı",
+    "summaryDescription": "Bakım iş emirleri makine, teknisyen, öncelik, süre ve kapanış notuyla takip edilir.",
+    "summaryItems": [
+      "İş emri no ve tipini oluştur",
+      "Makine ve arıza/bakım planı bağlantısını kur",
+      "Sorumlu teknisyen ve işçilik süresini takip et",
+      "Kapanış notu ve durum bilgisini tamamla"
+    ],
+    "formTitle": "Bakım İş Emri",
+    "formDescription": "İş emri no, makine, teknisyen, süre ve kapanış bilgisini girin.",
+    "formFields": [
+      "İş emri no",
+      "İş emri tipi",
+      "Makine",
+      "Arıza bağlantısı",
+      "Bakım planı bağlantısı",
+      "Sorumlu teknisyen",
+      "Başlangıç",
+      "Bitiş",
+      "İşçilik süresi",
+      "Durum"
+    ],
+    "fileTitle": "Bakım İş Emirleri Ek Dosyaları",
+    "fileDescription": "Bakım İş Emirleri ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "İş emri eki",
+      "Teknik fotoğraf",
+      "Parça değişim kanıtı"
+    ],
+    "recordTitle": "Bakım İş Emirleri Panosu",
+    "recordDescription": "İş emirleri makine, teknisyen, öncelik, süre ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz bakım iş emri bulunmuyor.",
+    "auditTitle": "İş Emri İşlem Geçmişi",
+    "auditDescription": "İş emri açma, teknisyen atama, süre ve kapanış işlemleri izlenir.",
+    "primaryActionLabel": "Bakım İş Emirleri Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-spare-parts.html": {
+    "pageTitle": "Yedek Parça Yönetimi",
+    "pageDescription": "Yedek parçaların parça kodu, makine ilişkisi, kritik seviye, minimum/mevcut stok, lokasyon, tedarikçi ve durum bilgisiyle izlendiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Kritik parça",
+      "Minimum altı stok",
+      "Sipariş bekleyen",
+      "Aktif parça"
+    ],
+    "summaryTitle": "Yedek Parça Stok Akışı",
+    "summaryDescription": "Parçalar stok seviyesi, kritik durum ve tedarik bilgisiyle takip edilir.",
+    "summaryItems": [
+      "Parça kodu ve makine ilişkisini tanımla",
+      "Minimum ve mevcut stok seviyesini takip et",
+      "Raf/lokasyon ve tedarikçi bilgisini gir",
+      "Satınalma talebi hazırlığını kontrol et"
+    ],
+    "formTitle": "Yedek Parça Kaydı",
+    "formDescription": "Parça kodu, stok, lokasyon ve tedarikçi bilgisini girin.",
+    "formFields": [
+      "Parça kodu",
+      "Parça adı",
+      "Makine ilişkisi",
+      "Kritik seviye",
+      "Minimum stok",
+      "Mevcut stok",
+      "Birim",
+      "Raf/lokasyon",
+      "Tedarikçi",
+      "Durum"
+    ],
+    "fileTitle": "Yedek Parça Yönetimi Ek Dosyaları",
+    "fileDescription": "Yedek Parça Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Parça fotoğrafı",
+      "Teknik çizim",
+      "Tedarikçi dokümanı"
+    ],
+    "recordTitle": "Yedek Parça Panosu",
+    "recordDescription": "Yedek parçalar stok, kritik seviye, makine ilişkisi ve tedarik durumuyla izlenir.",
+    "emptyState": "Henüz yedek parça kaydı bulunmuyor.",
+    "auditTitle": "Yedek Parça İşlem Geçmişi",
+    "auditDescription": "Stok, lokasyon, tedarikçi ve kritik seviye değişiklikleri izlenir.",
+    "primaryActionLabel": "Yedek Parça Yönetimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-purchase-requests.html": {
+    "pageTitle": "Bakım Satınalma Talepleri",
+    "pageDescription": "Bakım kaynaklı parça/hizmet ihtiyaçlarının talep no, makine, arıza/iş emri, miktar, aciliyet, gerekçe ve teknik açıklamayla kayıt altına alındığı ekran. Bakım satınalma yapmaz; sadece bakım kaynaklı ihtiyaç talebi oluşturur. Satınalma Suite ile ileride bağlanır.",
+    "heroKicker": "",
+    "metricCards": [
+      "Açık talep",
+      "Acil talep",
+      "Satınalmaya gönderilen",
+      "Kapanan talep"
+    ],
+    "summaryTitle": "Bakım Talep Akışı",
+    "summaryDescription": "Bakım ihtiyaçları satınalma sürecine aktarılmaya hazır talep kaydı olarak izlenir.",
+    "summaryItems": [
+      "Talep no ve talep eden kişiyi belirle",
+      "Makine, arıza veya iş emri bağlantısını kur",
+      "Parça/hizmet, miktar ve aciliyet bilgisini gir",
+      "Teknik açıklama ve ek dosyaları tamamla"
+    ],
+    "formTitle": "Bakım Satınalma Talebi",
+    "formDescription": "Parça/hizmet, makine, gerekçe, miktar ve aciliyet bilgilerini girin.",
+    "formFields": [
+      "Talep no",
+      "Talep eden",
+      "İlgili makine",
+      "İlgili arıza/iş emri",
+      "Parça/hizmet adı",
+      "Miktar",
+      "Aciliyet",
+      "Gerekçe",
+      "Teknik açıklama",
+      "Durum"
+    ],
+    "fileTitle": "Bakım Satınalma Talepleri Ek Dosyaları",
+    "fileDescription": "Bakım Satınalma Talepleri ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Teknik şartname",
+      "Teklif eki",
+      "Fotoğraf",
+      "Servis önerisi"
+    ],
+    "recordTitle": "Bakım Satınalma Talepleri Panosu",
+    "recordDescription": "Bakım talepleri makine, arıza/iş emri, aciliyet ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz bakım satınalma talebi bulunmuyor.",
+    "auditTitle": "Bakım Talebi İşlem Geçmişi",
+    "auditDescription": "Talep oluşturma, teknik açıklama, dosya ve durum işlemleri izlenir.",
+    "primaryActionLabel": "Bakım Satınalma Talepleri Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-calendar.html": {
+    "pageTitle": "Bakım Takvimi",
+    "pageDescription": "Planlı bakım, arıza takip, servis ziyareti, planlı duruş ve hatırlatma kayıtlarının izlendiği bakım takvim ekranı.",
+    "heroKicker": "",
+    "metricCards": [
+      "Yaklaşan bakım",
+      "Geciken bakım",
+      "Planlı duruş",
+      "Kritik arıza"
+    ],
+    "summaryTitle": "Bakım Takvim Akışı",
+    "summaryDescription": "Bakım etkinlikleri tarih, makine, sorumlu ve durum bilgisiyle takip edilir.",
+    "summaryItems": [
+      "Yaklaşan bakım ve servis tarihlerini kontrol et",
+      "Geciken bakım ve kritik arızaları öne çıkar",
+      "Planlı duruş ve hatırlatmaları yönet",
+      "Sorumlu kişi ve makine bilgisini güncelle"
+    ],
+    "formTitle": "Bakım Takvim Etkinliği",
+    "formDescription": "Etkinlik, makine, bakım tipi, tarih ve sorumlu bilgilerini girin.",
+    "formFields": [
+      "Etkinlik adı",
+      "Makine",
+      "Bakım tipi",
+      "Tarih",
+      "Sorumlu",
+      "Durum",
+      "Açıklama"
+    ],
+    "fileTitle": "Bakım Takvimi Ek Dosyaları",
+    "fileDescription": "Bakım Takvimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Takvim çıktısı",
+      "Servis planı",
+      "Hatırlatma notu"
+    ],
+    "recordTitle": "Bakım Takvimi Panosu",
+    "recordDescription": "Bakım etkinlikleri makine, tarih, bakım tipi ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz bakım takvimi etkinliği bulunmuyor.",
+    "auditTitle": "Bakım Takvimi İşlem Geçmişi",
+    "auditDescription": "Bakım etkinliği, tarih, sorumlu ve hatırlatma değişiklikleri izlenir.",
+    "primaryActionLabel": "Bakım Takvimi Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-reports.html": {
+    "pageTitle": "Bakım Raporları",
+    "pageDescription": "Açık arızalar, geciken bakımlar, makine duruşları, kullanılan yedek parçalar, iş emirleri, kritik makineler ve aylık bakım özetlerinin hazırlandığı ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Hazır rapor",
+      "Bekleyen rapor",
+      "Kritik makine raporu",
+      "Aylık özet"
+    ],
+    "summaryTitle": "Bakım Rapor Akışı",
+    "summaryDescription": "Bakım raporları rapor tipi, dönem, makine ve hazırlayan bilgisiyle takip edilir.",
+    "summaryItems": [
+      "Rapor tipini ve dönemini belirle",
+      "Makine veya departman filtresini seç",
+      "Hazırlayan kişi ve açıklamayı gir",
+      "PDF/Excel hazırlık dosyalarını ilişkilendir"
+    ],
+    "formTitle": "Bakım Rapor Kaydı",
+    "formDescription": "Rapor tipi, dönem, makine filtresi ve hazırlayan bilgisini girin.",
+    "formFields": [
+      "Rapor adı",
+      "Rapor tipi",
+      "Dönem",
+      "Makine filtresi",
+      "Hazırlayan kişi",
+      "Açıklama",
+      "Durum"
+    ],
+    "fileTitle": "Bakım Raporları Ek Dosyaları",
+    "fileDescription": "Bakım Raporları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Arıza analizi",
+      "MTTR/MTBF hazırlık",
+      "Duruş raporu",
+      "Maliyet raporu",
+      "Aylık bakım özeti"
+    ],
+    "recordTitle": "Bakım Raporları Panosu",
+    "recordDescription": "Bakım raporları tip, dönem, makine ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz bakım raporu bulunmuyor.",
+    "auditTitle": "Bakım Rapor Geçmişi",
+    "auditDescription": "Rapor hazırlama, dosya ekleme ve dışa aktarım hazırlığı işlemleri izlenir.",
+    "primaryActionLabel": "Bakım Raporları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  },
+  "maintenance-documents.html": {
+    "pageTitle": "Bakım Dokümanları",
+    "pageDescription": "Bakım talimatları, kullanım kılavuzları, elektrik/hidrolik/pnömatik şemalar, servis raporları, teknik çizimler ve periyodik bakım formlarının takip edildiği ekran.",
+    "heroKicker": "",
+    "metricCards": [
+      "Aktif doküman",
+      "Revizyon bekleyen",
+      "Eksik makine dokümanı",
+      "Servis raporu"
+    ],
+    "summaryTitle": "Bakım Doküman Akışı",
+    "summaryDescription": "Bakım dokümanları kategori, makine, revizyon ve dosya bilgisiyle izlenir.",
+    "summaryItems": [
+      "Doküman kategorisini ve ilgili makineyi seç",
+      "Revizyon ve yayın tarihini takip et",
+      "R2 dosya bağlantısını ve açıklamayı gir",
+      "Bakım ekibinin kullanımına hazır durumu kontrol et"
+    ],
+    "formTitle": "Bakım Doküman Kaydı",
+    "formDescription": "Doküman adı, kategori, makine, revizyon ve dosya bilgisini girin.",
+    "formFields": [
+      "Doküman adı",
+      "Kategori",
+      "İlgili makine",
+      "Revizyon no",
+      "Sorumlu kişi",
+      "Yayın tarihi",
+      "Durum",
+      "Açıklama"
+    ],
+    "fileTitle": "Bakım Dokümanları Ek Dosyaları",
+    "fileDescription": "Bakım Dokümanları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.",
+    "fileCategories": [
+      "Bakım talimatları",
+      "Kullanım kılavuzları",
+      "Elektrik şemaları",
+      "Hidrolik/pnömatik şemalar",
+      "Servis raporları",
+      "Teknik çizimler",
+      "Periyodik bakım formları"
+    ],
+    "recordTitle": "Bakım Dokümanları Panosu",
+    "recordDescription": "Bakım dokümanları kategori, makine, revizyon ve durum bilgisiyle izlenir.",
+    "emptyState": "Henüz bakım dokümanı bulunmuyor.",
+    "auditTitle": "Bakım Doküman Geçmişi",
+    "auditDescription": "Doküman, revizyon, kategori ve dosya işlemleri izlenir.",
+    "primaryActionLabel": "Bakım Dokümanları Hazırla",
+    "secondaryActionLabel": "Mesaj Hazırla",
+    "statusOptions": [
+      "Açık",
+      "Bekliyor",
+      "Gecikti",
+      "Tamamlandı",
+      "Arşivlendi"
+    ],
+    "priorityOptions": [
+      "Normal",
+      "Yüksek",
+      "Kritik"
+    ]
+  }
+};
+  suite.configs = Object.fromEntries(Object.entries(pageConfigs).map(([page, c]) => [page, {
+    pageTitle: c.pageTitle, pageDescription: c.pageDescription, heroKicker: c.heroKicker, metricCards: c.metricCards, summaryItems: c.summaryItems, formFields: c.formFields,
+    title: c.pageTitle, desc: c.pageDescription, metrics: c.metricCards, summaryTitle: c.summaryTitle, summaryDesc: c.summaryDescription, process: c.summaryItems,
+    formTitle: c.formTitle, formDesc: c.formDescription, fields: c.formFields, fileTitle: c.fileTitle, fileDesc: c.fileDescription, fileCategories: c.fileCategories,
+    recordsTitle: c.recordTitle, recordsDesc: c.recordDescription, emptyText: c.emptyState, auditTitle: c.auditTitle, auditDesc: c.auditDescription,
+    primaryActionLabel: c.primaryActionLabel, secondaryActionLabel: c.secondaryActionLabel, statusOptions: c.statusOptions, priorityOptions: c.priorityOptions
+  }]));
   const page = (location.pathname.split('/').pop() || suite.home);
   const config = suite.configs[page] || suite.configs[suite.home];
   const state = { users: [], departments: [], records: [], attachments: [], lastPayload: null };
