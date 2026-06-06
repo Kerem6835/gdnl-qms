@@ -1,146 +1,503 @@
 ;(function(){
   "use strict";
   const api = window.GDNL_API;
-  const page = location.pathname.split("/").pop() || "management-dashboard.html";
-  const nav = [
-    ["management-dashboard.html","Yönetim Dashboard"],
-    ["management-board.html","Yönetim Kurulu"],
-    ["management-decisions.html","Kararlar"],
-    ["management-kpi.html","Stratejik KPI"],
-    ["management-goals.html","Hedefler"],
-    ["management-budget.html","Bütçe & Yatırım"],
-    ["management-workforce.html","İnsan Kaynağı Özeti"],
-    ["management-projects.html","Stratejik Projeler"],
-    ["management-reports.html","Rapor Merkezi"],
-    ["management-calendar.html","Yönetim Takvimi"],
-    ["management-organization.html","Organizasyon"],
-    ["management-policies.html","Politikalar"],
-    ["mailbox.html","📨 Mesaj Merkezi"],
-    ["department-gateway.html","Departman Merkezi"]
-  ];
-  const configs = {
+  const suite = {
+  "name": "Yönetim Suite",
+  "prefix": "management",
+  "home": "management-dashboard.html",
+  "navId": "managementNav",
+  "formId": "managementForm",
+  "fileId": "managementFile",
+  "endpoints": [
+    "/actions",
+    "/risks",
+    "/capa",
+    "/notifications"
+  ],
+  "fileCategories": [
+    "Yönetim Raporu",
+    "Toplantı Dosyası",
+    "Karar Eki",
+    "Bütçe Eki",
+    "Politika",
+    "Sunum",
+    "Diğer"
+  ],
+  "nav": [
+    [
+      "management-dashboard.html",
+      "Yönetim Dashboard"
+    ],
+    [
+      "management-board.html",
+      "Yönetim Kurulu"
+    ],
+    [
+      "management-decisions.html",
+      "Kararlar"
+    ],
+    [
+      "management-kpi.html",
+      "Stratejik KPI"
+    ],
+    [
+      "management-goals.html",
+      "Hedefler"
+    ],
+    [
+      "management-budget.html",
+      "Bütçe & Yatırım"
+    ],
+    [
+      "management-workforce.html",
+      "İnsan Kaynağı Özeti"
+    ],
+    [
+      "management-projects.html",
+      "Stratejik Projeler"
+    ],
+    [
+      "management-reports.html",
+      "Rapor Merkezi"
+    ],
+    [
+      "management-calendar.html",
+      "Yönetim Takvimi"
+    ],
+    [
+      "management-organization.html",
+      "Organizasyon"
+    ],
+    [
+      "management-policies.html",
+      "Politikalar"
+    ],
+    [
+      "mailbox.html",
+      "📨 Mesaj Merkezi"
+    ],
+    [
+      "department-gateway.html",
+      "Departman Merkezi"
+    ]
+  ],
+  "configs": {
     "management-dashboard.html": {
-      title:"Yönetim Dashboard",
-      desc:"CEO / Genel Müdür için şirketin genel durum ekranı.",
-      metrics:["Açık aksiyonlar","Geciken aksiyonlar","Kritik riskler","Açık CAPA","Açık müşteri şikayetleri","Yaklaşan denetimler","Yaklaşan kalibrasyonlar","Eğitim tamamlama oranı","Tedarikçi performansı"],
-      summary:"Bugün dikkat edilmesi gerekenler",
-      rows:["Departman bazlı genel durum","Son yönetim kararları","Yaklaşan toplantılar","Mesaj Merkezi son bildirimleri"],
-      formTitle:"Yönetim notu hazırlığı",
-      fields:["Başlık","Açıklama","Sorumlu Kişi","İlgili Departman","Öncelik","Ek Dosya"]
+      "title": "Yönetim Ana Paneli",
+      "desc": "Stratejik hedefler, KPI, kararlar, riskler ve yönetim aksiyonları tek ekranda izlenir.",
+      "metrics": [
+        "Stratejik hedef",
+        "KPI sapması",
+        "Bekleyen karar",
+        "Açık yönetim aksiyonu",
+        "Kritik risk",
+        "YGG başlığı",
+        "Son faaliyet",
+        "Hızlı geçiş"
+      ],
+      "summaryTitle": "Bugün yönetimin dikkat etmesi gerekenler",
+      "process": [
+        "Stratejik hedef özetini gözden geçir",
+        "Bekleyen kararları ve onayları takip et",
+        "Risk / uygunsuzluk / YGG özetlerini izle",
+        "Son faaliyet ve mesaj bildirimlerini kontrol et"
+      ],
+      "formTitle": "Yönetim aksiyonu hazırlığı",
+      "fields": [
+        "Başlık",
+        "Sorumlu Kişi",
+        "İlgili Departman",
+        "Öncelik",
+        "Durum",
+        "Termin",
+        "Açıklama",
+        "Ek Dosya"
+      ],
+      "sampleRecords": [
+        {
+          "title": "Yönetim aksiyonu bekliyor",
+          "description": "Onay bekleyen üst yönetim kararı",
+          "status": "Bekliyor",
+          "priority": "Yüksek"
+        }
+      ]
     },
     "management-board.html": {
-      title:"Yönetim Kurulu Toplantıları",
-      desc:"Yönetim Kurulu / Üst Yönetim toplantılarını yönetmek.",
-      metrics:["Planlanan toplantı","Açık gündem","Alınan karar","Bekleyen aksiyon"],
-      summary:"Toplantı gündemi",
-      rows:["Toplantı no","Toplantı adı","Tarih / saat","Katılımcılar","Gündem maddeleri","Kararlar","Aksiyonlar","Sorumlular","Termin","Toplantı durumu","Approval History"],
-      formTitle:"Yeni toplantı oluştur",
-      fields:["Toplantı No","Toplantı Adı","Tarih","Saat","Katılımcılar","Gündem Maddeleri","Kararlar","Aksiyonlar","Sorumlular","Termin","Toplantı Durumu","Ek Dosya","Toplantı Notları"]
+      "title": "Yönetim Kurulu Toplantıları",
+      "desc": "Gündem, katılımcı, karar, aksiyon ve toplantı dosyaları yönetilir.",
+      "metrics": [
+        "Planlanan toplantı",
+        "Açık gündem",
+        "Karar kaydı",
+        "Aksiyon atama",
+        "Dosya eki"
+      ],
+      "summaryTitle": "Toplantı akışı",
+      "process": [
+        "Toplantı no ve adı oluştur",
+        "Katılımcıları /users üzerinden seç",
+        "Gündem maddelerini ve kararları kaydet",
+        "Aksiyonları sorumlu ve termin ile bağla",
+        "Toplantı dosyalarını R2 standardıyla ekle"
+      ],
+      "formTitle": "Yeni toplantı kaydı",
+      "fields": [
+        "Toplantı No",
+        "Toplantı Adı",
+        "Tarih",
+        "Saat",
+        "Katılımcılar",
+        "Gündem Maddeleri",
+        "Kararlar",
+        "Aksiyonlar",
+        "Sorumlu Kişi",
+        "Termin",
+        "Durum",
+        "Ek Dosya",
+        "Toplantı Notları"
+      ]
     },
     "management-decisions.html": {
-      title:"Karar Takip Sistemi",
-      desc:"Yönetim kararlarını kayıt altına almak ve takip etmek.",
-      metrics:["Taslak","Onaylandı","Uygulamada","Gecikti","Kapatıldı"],
-      summary:"Karar takip görünümü",
-      rows:["Karar no","Karar konusu","Karar açıklaması","Karar tarihi","Kararı alan kurul/kişi","Sorumlu kişi","İlgili departman","Termin","Durum","Öncelik","Bağlı aksiyon","Kapanış açıklaması","Approval History"],
-      formTitle:"Karar kaydı hazırlığı",
-      fields:["Karar No","Karar Konusu","Karar Açıklaması","Karar Tarihi","Kararı Alan Kurul/Kişi","Sorumlu Kişi","İlgili Departman","Termin","Durum","Öncelik","Bağlı Aksiyon","Ek Dosya","Kapanış Açıklaması"]
+      "title": "Karar Takip Sistemi",
+      "desc": "Yönetim kararları gecikme, etki alanı, sorumlu ve kapanış geçmişiyle takip edilir.",
+      "metrics": [
+        "Taslak",
+        "Onaylandı",
+        "Uygulamada",
+        "Gecikti",
+        "Kapatıldı"
+      ],
+      "summaryTitle": "Karar yaşam döngüsü",
+      "process": [
+        "Karar no ve konu oluştur",
+        "Sorumlu ve etki alanını belirle",
+        "Termin ve gecikme göstergesini izle",
+        "Karar geçmişini ve kapanışı kaydet"
+      ],
+      "formTitle": "Karar kaydı",
+      "fields": [
+        "Karar No",
+        "Konu",
+        "Karar Açıklaması",
+        "Sorumlu Kişi",
+        "İlgili Departman",
+        "Etki Alanı",
+        "Termin",
+        "Öncelik",
+        "Durum",
+        "Gecikme Göstergesi",
+        "Karar Geçmişi",
+        "Ek Dosya"
+      ]
     },
     "management-kpi.html": {
-      title:"Stratejik KPI",
-      desc:"Üst yönetim KPI takibini yapmak.",
-      metrics:["OTD","PPM","Hurda oranı","Açık CAPA","Geciken aksiyon","Müşteri şikayeti","Eğitim tamamlama oranı","Tedarikçi performansı","Risk seviyesi","Denetim bulguları"],
-      summary:"Hedef / gerçekleşen karşılaştırması",
-      rows:["KPI adı","Hedef","Gerçekleşen","Sapma","Trend","Sorumlu departman","Sorumlu kişi","Açıklama"],
-      formTitle:"KPI güncelleme hazırlığı",
-      fields:["KPI Adı","Hedef","Gerçekleşen","Sapma","Trend","Sorumlu Departman","Sorumlu Kişi","Açıklama"]
+      "title": "Stratejik KPI Yönetimi",
+      "desc": "Hedef / gerçekleşen, sapma, trend, sorumlu departman ve aksiyon bağlantısı izlenir.",
+      "metrics": [
+        "OTD",
+        "PPM",
+        "Hurda oranı",
+        "Açık CAPA",
+        "Geciken aksiyon",
+        "Trend"
+      ],
+      "summaryTitle": "KPI takip modeli",
+      "process": [
+        "KPI tanımını ve periyodu belirle",
+        "Hedef ve gerçekleşen değerleri gir",
+        "Sapma ve trendi değerlendir",
+        "Sorumlu departman ve aksiyon bağlantısını oluştur"
+      ],
+      "formTitle": "KPI tanımı",
+      "fields": [
+        "KPI Adı",
+        "Hedef Değer",
+        "Gerçekleşen Değer",
+        "Sapma",
+        "Trend",
+        "Sorumlu Departman",
+        "Sorumlu Kişi",
+        "Periyot",
+        "Bağlı Aksiyon",
+        "Durum",
+        "Açıklama"
+      ]
     },
     "management-goals.html": {
-      title:"Hedef Yönetimi",
-      desc:"Yıllık ve aylık şirket hedeflerini yönetmek.",
-      metrics:["Yıllık hedef","Aylık hedef","Gerçekleşme","Geciken hedef"],
-      summary:"Hedef takip görünümü",
-      rows:["Hedef adı","Hedef tipi","Yıllık hedef","Aylık hedef","Gerçekleşme","Sorumlu departman","Sorumlu kişi","Termin","Durum","Bağlı KPI","Bağlı aksiyon"],
-      formTitle:"Hedef kaydı hazırlığı",
-      fields:["Hedef Adı","Hedef Tipi","Yıllık Hedef","Aylık Hedef","Gerçekleşme","Sorumlu Departman","Sorumlu Kişi","Termin","Durum","Bağlı KPI","Bağlı Aksiyon"]
+      "title": "Şirket Hedefleri",
+      "desc": "SMART hedef yapısı, hedef sahibi, tarih aralığı, KPI ve aksiyon planı yönetilir.",
+      "metrics": [
+        "Yıllık hedef",
+        "Aylık hedef",
+        "Gerçekleşme",
+        "Geciken hedef",
+        "Bağlı KPI"
+      ],
+      "summaryTitle": "SMART hedef yapısı",
+      "process": [
+        "Hedefin ölçülebilir tanımını yaz",
+        "Hedef sahibi ve departmanı ata",
+        "Başlangıç / bitiş tarihini belirle",
+        "KPI bağlantısı ve aksiyon planı oluştur"
+      ],
+      "formTitle": "Hedef kaydı",
+      "fields": [
+        "Hedef Adı",
+        "SMART Açıklama",
+        "Hedef Sahibi",
+        "Sorumlu Departman",
+        "Başlangıç Tarihi",
+        "Bitiş Tarihi",
+        "Durum",
+        "Bağlı KPI",
+        "Aksiyon Planı",
+        "Öncelik",
+        "Ek Dosya"
+      ]
     },
     "management-budget.html": {
-      title:"Bütçe ve Yatırım Özeti",
-      desc:"Yönetim seviyesinde bütçe ve yatırım takibi.",
-      metrics:["Toplam bütçe","Harcanan","Kalan","Sapma","Kritik yatırım"],
-      summary:"Bütçe özeti",
-      rows:["Bütçe kalemi","Yatırım projesi","Planlanan bütçe","Gerçekleşen harcama","Sapma","Sorumlu departman","Sorumlu kişi","Durum","Açıklama"],
-      formTitle:"Bütçe kalemi hazırlığı",
-      fields:["Bütçe Kalemi","Yatırım Projesi","Planlanan Bütçe","Gerçekleşen Harcama","Sapma","Sorumlu Departman","Sorumlu Kişi","Durum","Açıklama","Ek Dosya"]
+      "title": "Bütçe ve Yatırım Talepleri",
+      "desc": "Yatırım konusu, tahmini maliyet, ROI, onay durumu ve ek dosyalar yönetilir.",
+      "metrics": [
+        "Talep",
+        "Onay bekleyen",
+        "Tahmini maliyet",
+        "ROI takibi",
+        "Dosya eki"
+      ],
+      "summaryTitle": "Bütçe karar akışı",
+      "process": [
+        "Yatırım konusunu ve gerekçesini yaz",
+        "Tahmini maliyet ve geri dönüşü belirle",
+        "Onay durumunu takip et",
+        "Destek dosyalarını ekle"
+      ],
+      "formTitle": "Bütçe / yatırım talebi",
+      "fields": [
+        "Yatırım Konusu",
+        "Tahmini Maliyet",
+        "Geri Dönüş / ROI",
+        "Sorumlu Kişi",
+        "Sorumlu Departman",
+        "Onay Durumu",
+        "Öncelik",
+        "Açıklama",
+        "Ek Dosya"
+      ]
     },
     "management-workforce.html": {
-      title:"İnsan Kaynağı Özeti",
-      desc:"CEO / Yönetim için insan kaynağı genel durumu.",
-      metrics:["Toplam çalışan","Departman dağılımı","Açık pozisyonlar","Oryantasyon durumu","Eğitim tamamlama oranı","Kritik yetkinlik eksikleri","Ayrılış trendi","Devamsızlık/izin özeti"],
-      summary:"İnsan kaynağı yönetim özeti",
-      rows:["Departman dağılımı","Kritik yetkinlik eksikleri","Oryantasyon durumu","Eğitim tamamlanma oranı"],
-      formTitle:"İnsan kaynağı aksiyon hazırlığı",
-      fields:["Başlık","Sorumlu Departman","Sorumlu Kişi","Termin","Durum","Açıklama"]
+      "title": "İnsan Kaynağı Üst Yönetim Özeti",
+      "desc": "Kadro ihtiyacı, kritik pozisyonlar, devamsızlık, eğitim ve performans özetleri izlenir.",
+      "metrics": [
+        "Toplam kadro",
+        "Kritik pozisyon",
+        "Kadro ihtiyacı",
+        "Devamsızlık",
+        "Eğitim oranı",
+        "Performans özeti"
+      ],
+      "summaryTitle": "İnsan kaynağı yönetim görünümü",
+      "process": [
+        "Kadro ihtiyacını analiz et",
+        "Kritik pozisyonları belirle",
+        "Devamsızlık ve izin özetini izle",
+        "Eğitim / performans bağlantısını kur"
+      ],
+      "formTitle": "İnsan kaynağı yönetim notu",
+      "fields": [
+        "Başlık",
+        "Kritik Pozisyon",
+        "Sorumlu Kişi",
+        "Sorumlu Departman",
+        "Durum",
+        "Termin",
+        "Açıklama",
+        "Ek Dosya"
+      ]
     },
     "management-projects.html": {
-      title:"Stratejik Proje Takibi",
-      desc:"Yönetim seviyesinde stratejik proje ve APQP özetlerini takip etmek.",
-      metrics:["Açık stratejik proje","Geciken proje","APQP proje özeti","Yatırım projesi","Risk seviyesi"],
-      summary:"Proje portföyü",
-      rows:["Proje türü","Sorumlu kişiler","Durum","Termin","Risk seviyesi","Bağlı aksiyonlar"],
-      formTitle:"Proje özeti hazırlığı",
-      fields:["Proje Adı","Proje Türü","Sorumlu Kişiler","Durum","Termin","Risk Seviyesi","Bağlı Aksiyonlar","Açıklama"]
+      "title": "Stratejik Projeler",
+      "desc": "Proje fazları, sorumlular, bütçe, risk, termin ve ilerleme oranı takip edilir.",
+      "metrics": [
+        "Açık proje",
+        "Geciken proje",
+        "Bütçe riski",
+        "Kritik risk",
+        "İlerleme"
+      ],
+      "summaryTitle": "Proje portföy akışı",
+      "process": [
+        "Proje türünü ve fazını seç",
+        "Sorumluları ve terminleri ata",
+        "Bütçe ve risk durumunu izle",
+        "İlerleme oranı ve bağlı aksiyonları güncelle"
+      ],
+      "formTitle": "Stratejik proje kaydı",
+      "fields": [
+        "Proje Adı",
+        "Proje Fazı",
+        "Sorumlu Kişiler",
+        "Sorumlu Departman",
+        "Bütçe",
+        "Risk",
+        "Termin",
+        "İlerleme Oranı",
+        "Durum",
+        "Aksiyon Planı",
+        "Ek Dosya"
+      ]
     },
     "management-reports.html": {
-      title:"Yönetim Rapor Merkezi",
-      desc:"Yönetim için rapor merkezi.",
-      metrics:["Yönetim özeti","KPI raporu","CAPA raporu","Risk raporu","Audit raporu","Eğitim raporu","Tedarikçi raporu","Müşteri şikayeti raporu","YGG raporu"],
-      summary:"Rapor hazırlığı",
-      rows:["PDF export hazırlığı","Excel export hazırlığı","Tarih aralığı filtresi","Departman filtresi","Rapor açıklaması"],
-      formTitle:"Rapor talebi hazırlığı",
-      fields:["Rapor Türü","Başlangıç Tarihi","Bitiş Tarihi","Departman","Rapor Açıklaması"]
+      "title": "Yönetim Rapor Merkezi",
+      "desc": "Haftalık/aylık rapor, rapor sahibi, dağıtım ve arşiv hazırlığı yönetilir.",
+      "metrics": [
+        "Aylık rapor",
+        "Haftalık rapor",
+        "Dağıtım",
+        "Arşiv",
+        "PDF/Excel"
+      ],
+      "summaryTitle": "Rapor hazırlık akışı",
+      "process": [
+        "Rapor türü ve tarih aralığını seç",
+        "Rapor sahibini ve dağıtım listesini belirle",
+        "PDF/Excel hazırlık alanını doldur",
+        "Raporu arşiv ve dosya ekiyle bağla"
+      ],
+      "formTitle": "Rapor kaydı",
+      "fields": [
+        "Rapor Türü",
+        "Rapor Sahibi",
+        "Başlangıç Tarihi",
+        "Bitiş Tarihi",
+        "Dağıtım",
+        "Durum",
+        "Açıklama",
+        "Ek Dosya"
+      ]
     },
     "management-calendar.html": {
-      title:"Yönetim Takvimi",
-      desc:"Yönetim takvimini merkezi göstermek.",
-      metrics:["Yönetim toplantıları","YGG","Denetimler","Kritik aksiyon terminleri","CAPA terminleri","Eğitim tarihleri","Kalibrasyon uyarıları","Proje kilometre taşları"],
-      summary:"Yaklaşan tarihler",
-      rows:["Günlük görünüm hazırlığı","Haftalık görünüm hazırlığı","Aylık görünüm hazırlığı","Termin yaklaşma uyarısı","Mesaj Merkezi hatırlatma hazırlığı"],
-      formTitle:"Takvim kaydı hazırlığı",
-      fields:["Etkinlik Adı","Etkinlik Tipi","Tarih","Saat","Sorumlu Kişi","İlgili Departman","Açıklama"]
+      "title": "Yönetim Takvimi",
+      "desc": "Toplantı, denetim, YGG, proje milestone ve hatırlatmalar merkezi izlenir.",
+      "metrics": [
+        "Toplantı",
+        "Denetim",
+        "YGG",
+        "Milestone",
+        "Hatırlatma"
+      ],
+      "summaryTitle": "Takvim başlıkları",
+      "process": [
+        "Etkinlik tipini seç",
+        "Tarih / saat ve sorumlu belirle",
+        "Hatırlatma ve mesaj hazırlığı oluştur",
+        "Kritik terminleri görünür tut"
+      ],
+      "formTitle": "Takvim kaydı",
+      "fields": [
+        "Etkinlik Adı",
+        "Etkinlik Tipi",
+        "Tarih",
+        "Saat",
+        "Sorumlu Kişi",
+        "Sorumlu Departman",
+        "Öncelik",
+        "Durum",
+        "Açıklama"
+      ]
     },
     "management-organization.html": {
-      title:"Organizasyon Şeması",
-      desc:"Şirket organizasyon yapısını yönetim seviyesinde göstermek.",
-      metrics:["Yönetim Kurulu Başkanı","CEO / Genel Müdür","Fabrika Müdürü","Direktörler","Departman Müdürleri","Süreç Liderleri"],
-      summary:"Organizasyon görünümü",
-      rows:["users ve departments verisinden beslenir","Görev tanımı bağlantısı hazırlığı","Departman merkezine bağlantı","Boş veride nötr durum"],
-      formTitle:"Organizasyon bağlantısı hazırlığı",
-      fields:["Rol / Ünvan","Kullanıcı","Departman","Görev Tanımı Bağlantısı","Açıklama"]
+      "title": "Organizasyon Yapısı",
+      "desc": "Rol, sorumluluk, bağlı yönetici, yetki seviyesi ve vekalet bilgileri yönetilir.",
+      "metrics": [
+        "Rol",
+        "Yönetici bağlantısı",
+        "Yetki seviyesi",
+        "Vekalet",
+        "Departman"
+      ],
+      "summaryTitle": "Organizasyon yönetimi",
+      "process": [
+        "Rol ve sorumluluğu tanımla",
+        "Bağlı olduğu yöneticiyi seç",
+        "Yetki seviyesi ve vekalet bilgisini gir",
+        "Departman merkezi bağlantısını koru"
+      ],
+      "formTitle": "Organizasyon kaydı",
+      "fields": [
+        "Rol / Ünvan",
+        "Sorumlu Kişi",
+        "Bağlı Olduğu Yönetici",
+        "Sorumlu Departman",
+        "Yetki Seviyesi",
+        "Vekalet",
+        "Durum",
+        "Açıklama",
+        "Ek Dosya"
+      ]
     },
     "management-policies.html": {
-      title:"Kurumsal Politika Merkezi",
-      desc:"Üst yönetim politikalarını tek merkezde göstermek.",
-      metrics:["Kalite Politikası","Çevre Politikası","İSG Politikası","Enerji Politikası","Bilgi Güvenliği Politikası","Müşteri Memnuniyeti Politikası","Etik ve Uyum Politikası"],
-      summary:"Politika görünümü",
-      rows:["Doküman yönetimi bağlantı hazırlığı","Onay geçmişi","Revizyon bilgisi","R2 dosya görüntüleme hazırlığı"],
-      formTitle:"Politika görünümü hazırlığı",
-      fields:["Politika Adı","Revizyon","Onay Durumu","İlgili Doküman","Sorumlu Kişi","Açıklama","Ek Dosya"]
+      "title": "Politikalar",
+      "desc": "Politika sahibi, revizyon, yayın tarihi, onay durumu ve dağıtım kayıtları yönetilir.",
+      "metrics": [
+        "Politika",
+        "Revizyon",
+        "Onay",
+        "Dağıtım",
+        "Okundu bilgisi"
+      ],
+      "summaryTitle": "Politika yayın akışı",
+      "process": [
+        "Politika türünü ve sahibini belirle",
+        "Revizyon / yayın tarihini takip et",
+        "Onay durumunu görünür tut",
+        "Dağıtım ve okundu bilgisi hazırlığını bağla"
+      ],
+      "formTitle": "Politika kaydı",
+      "fields": [
+        "Politika Adı",
+        "Politika Sahibi",
+        "Revizyon",
+        "Yayın Tarihi",
+        "Onay Durumu",
+        "Dağıtım Kayıtları",
+        "Durum",
+        "Açıklama",
+        "Ek Dosya"
+      ]
     }
-  };
-  const config = configs[page] || configs["management-dashboard.html"];
-  let users = [];
-  let departments = [];
-  function esc(value){return String(value||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-  function optionList(items,type){return items.map(item=>{const u=type==="user"?api.normalizeUser(item):item;const label=type==="user"?(u.fullname||u.username||"Oturum Kullanıcısı"):(item.department_name||item.name||item.department||"");const value=type==="user"?(u.id||u.username||label):(item.id||label);return label?`<option value="${esc(value)}">${esc(label)}</option>`:""}).join("")}
-  function inputFor(name){const key=name.toLocaleLowerCase("tr-TR");if(key.includes("kişi")||key.includes("katılımcı")||key.includes("sorumlu")||key.includes("kurul"))return `<select multiple data-field="${esc(name)}">${optionList(users,"user")}</select>`;if(key.includes("departman"))return `<select data-field="${esc(name)}"><option value="">Departman seç</option>${optionList(departments,"department")}</select>`;if(key.includes("tarih")||key.includes("termin")||key.includes("başlangıç")||key.includes("bitiş"))return `<input type="date" data-field="${esc(name)}">`;if(key.includes("saat"))return `<input type="time" data-field="${esc(name)}">`;if(key.includes("ek dosya"))return `<input type="file" id="managementFile">`;if(key.includes("açıklama")||key.includes("not")||key.includes("gündem")||key.includes("karar")||key.includes("aksiyon"))return `<textarea data-field="${esc(name)}"></textarea>`;return `<input data-field="${esc(name)}">`}
-  function renderShell(){document.title="GDNL EOS | "+config.title;document.getElementById("managementNav").innerHTML=nav.map(([href,label])=>`<a class="${href===page?"active":""}" href="${href}">${esc(label)}</a>`).join("");document.getElementById("pageTitle").textContent=config.title;document.getElementById("pageDesc").textContent=config.desc;document.getElementById("metricCards").innerHTML=config.metrics.map((m,i)=>`<article class="card"><small>${esc(m)}</small><h2 data-metric="${i}">0</h2><span class="badge ${i%5===1?"warn":i%5===2?"danger":""}">Hazır</span></article>`).join("");document.getElementById("summaryTitle").textContent=config.summary;document.getElementById("summaryList").innerHTML=config.rows.map(row=>`<div class="row">${esc(row)}</div>`).join("");document.getElementById("formTitle").textContent=config.formTitle;document.getElementById("managementForm").innerHTML=config.fields.map(f=>`<div class="field ${f.includes("Açıklama")||f.includes("Not")||f.includes("Gündem")?"full":""}"><label>${esc(f)}</label>${inputFor(f)}</div>`).join("")}
-  function setMetric(index,value){const el=document.querySelector(`[data-metric="${index}"]`);if(el)el.textContent=String(value)}
-  async function loadData(){const safeApi={redirectOnUnauthorized:false};try{users=await api.loadUsers(safeApi)}catch(e){users=[]}try{departments=await api.loadDepartments(safeApi)}catch(e){departments=[]}renderShell();try{const [actions,risks,capa,notifications]=await Promise.allSettled([api.get("/actions",safeApi),api.get("/risks",safeApi),api.get("/capa",safeApi),api.get("/notifications",safeApi)]);const actionRows=actions.status==="fulfilled"?api.asArray(actions.value):[];const riskRows=risks.status==="fulfilled"?api.asArray(risks.value):[];const capaRows=capa.status==="fulfilled"?api.asArray(capa.value):[];const notificationRows=notifications.status==="fulfilled"?api.asArray(notifications.value):[];setMetric(0,actionRows.length);setMetric(1,actionRows.filter(x=>String(x.status||"").toLocaleLowerCase("tr-TR").includes("gec")).length);setMetric(2,riskRows.filter(x=>Number(x.rpn||x.risk_score||0)>=200).length);setMetric(3,capaRows.length);if(page==="management-dashboard.html"){document.getElementById("summaryList").innerHTML=(notificationRows.slice(0,4).map(n=>`<div class="row">${esc(n.title||n.message||"Mesaj Merkezi bildirimi")}</div>`).join("")||'<div class="empty">Sistemde henüz yönetim verisi bulunmuyor.</div>')}}catch(e){document.getElementById("summaryList").innerHTML+='<div class="empty">Sistemde henüz yönetim verisi bulunmuyor.</div>'}}
-  async function uploadIfNeeded(){const file=document.getElementById("managementFile")?.files?.[0];if(!file)return null;return api.uploadToR2(file,{module:"YONETIM_SUITE",related_module:page,uploaded_by:window.GDNL_CURRENT_USER?.fullname||window.GDNL_CURRENT_USER?.username||"Oturum Kullanıcısı"})}
-  async function log(action,payload){const body={module:"Yönetim Suite",related_module:page,action,description:config.title,user_id:window.GDNL_CURRENT_USER?.id||"",user_name:window.GDNL_CURRENT_USER?.fullname||window.GDNL_CURRENT_USER?.username||"Oturum Kullanıcısı",payload,created_at:new Date().toISOString()};api.post("/activity-feed",body).catch(()=>{});api.post("/audit-logs",body).catch(()=>{})}
-  async function saveDraft(){const payload={page,title:config.title,fields:{},created_at:new Date().toISOString()};document.querySelectorAll("[data-field]").forEach(el=>{payload.fields[el.dataset.field]=el.multiple?Array.from(el.selectedOptions).map(o=>o.value):el.value});try{payload.attachment=await uploadIfNeeded()}catch(e){}await log(config.formTitle,payload);api.showToast("Yönetim kaydı hazırlandı")}
-  function messagePrep(){api.showToast("Mesaj Merkezi bilgilendirme hazırlığı tamam");api.post("/notifications",{type:"message",related_module:"management",related_record_id:page,title:config.title,message:"Yönetim bilgilendirme hazırlığı",is_read:false,created_at:new Date().toISOString()}).catch(()=>{})}
-  window.managementSaveDraft=saveDraft;window.managementMessagePrep=messagePrep;window.managementLogout=function(){api?.logout?api.logout():window.location.href="index.html"};
+  }
+};
+  const page = (location.pathname.split('/').pop() || suite.home);
+  const config = suite.configs[page] || suite.configs[suite.home];
+  const state = { users: [], departments: [], records: [], attachments: [], lastPayload: null };
+  const safeApi = { redirectOnUnauthorized: false };
+
+  function esc(value){return String(value ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;')}
+  function text(id,value){const el=document.getElementById(id);if(el)el.textContent=value}
+  function currentUser(){return window.GDNL_CURRENT_USER || {}}
+  function userName(user=currentUser()){return user.fullname || user.name || user.username || user.email || 'Oturum Sahibi'}
+  function normalizeDepartment(dep){return dep?.department_name || dep?.name || dep?.department || ''}
+  function optionList(items,type){return items.map(item=>{const u=type==='user'?api.normalizeUser(item):item;const label=type==='user'?userName(u):normalizeDepartment(item);const value=type==='user'?(u.id||u.username||u.email||label):(item.id||label);return label?'<option value="'+esc(value)+'" data-label="'+esc(label)+'">'+esc(label)+'</option>':''}).join('')}
+  function fieldType(name){const key=name.toLocaleLowerCase('tr-TR');if(key.includes('açıklama')||key.includes('not')||key.includes('gerekçe')||key.includes('plan')||key.includes('checklist')||key.includes('gündem')||key.includes('geçmiş')||key.includes('kök neden')||key.includes('aksiyon'))return 'textarea';if(key.includes('tarih')||key.includes('termin')||key.includes('başlangıç')||key.includes('bitiş')||key.includes('yayın'))return 'date';if(key.includes('saat'))return 'time';if(key.includes('maliyet')||key.includes('bütçe')||key.includes('oran')||key.includes('saat')||key.includes('süre')||key.includes('rpn')||key.includes('stok')||key.includes('seviye')||key.includes('sapma')||key.includes('değer')||key.includes('miktar')||key.includes('roi')||key.includes('ilerleme'))return 'number';return 'text'}
+  function inputFor(name){const key=name.toLocaleLowerCase('tr-TR');const full=key.includes('açıklama')||key.includes('not')||key.includes('plan')||key.includes('checklist')||key.includes('gündem')||key.includes('geçmiş')||key.includes('kök neden')||key.includes('aksiyon');if(key.includes('kişi')||key.includes('katılımcı')||key.includes('sorumlu')||key.includes('teknisyen')||key.includes('personel')||key.includes('sahibi')||key.includes('yönetici')||key.includes('değerlendiren')||key.includes('mentor')||key.includes('eğitmen'))return '<div class="field '+(full?'full':'')+'"><label>'+esc(name)+'</label><select '+(key.includes('katılımcı')||key.includes('sorumlular')||key.includes('personeller')?'multiple':'')+' data-field="'+esc(name)+'"><option value="">Kişi seç</option>'+optionList(state.users,'user')+'</select></div>';if(key.includes('departman'))return '<div class="field"><label>'+esc(name)+'</label><select data-field="'+esc(name)+'"><option value="">Departman seç</option>'+optionList(state.departments,'department')+'</select></div>';if(key.includes('durum'))return '<div class="field"><label>'+esc(name)+'</label><select data-field="'+esc(name)+'"><option>Açık</option><option>Bekliyor</option><option>Onayda</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select></div>';if(key.includes('öncelik')||key.includes('aciliyet'))return '<div class="field"><label>'+esc(name)+'</label><select data-field="'+esc(name)+'"><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div>';if(key.includes('ek dosya')||key.includes('dosya eki'))return '';const type=fieldType(name);if(type==='textarea')return '<div class="field full"><label>'+esc(name)+'</label><textarea data-field="'+esc(name)+'"></textarea></div>';return '<div class="field"><label>'+esc(name)+'</label><input type="'+type+'" data-field="'+esc(name)+'"></div>'}
+  function renderNav(){const nav=document.getElementById(suite.navId);if(!nav)return;nav.innerHTML=suite.nav.map(([href,label])=>'<a class="'+(href===page?'active ':'')+(href==='mailbox.html'||href==='department-gateway.html'?'external':'')+'" href="'+href+'">'+esc(label)+'</a>').join('')}
+  function renderCards(){const box=document.getElementById('metricCards');if(!box)return;box.innerHTML=config.metrics.map((m,i)=>'<article class="card"><small>'+esc(m.label||m)+'</small><h2 data-metric="'+i+'">'+esc(m.value ?? '0')+'</h2><span class="badge '+(m.level||(['','warn','danger','blue'][i%4]))+'">'+esc(m.status||'Hazır')+'</span></article>').join('')}
+  function renderSummary(){text('summaryTitle',config.summaryTitle||'Süreç Özeti');text('summaryDesc',config.summaryDesc||'Takip edilmesi gereken başlıklar.');const box=document.getElementById('summaryList');if(box)box.innerHTML=(config.process||[]).map((row,i)=>'<div class="row"><div>'+esc(row)+'</div><span>'+esc(config.processStatus?.[i]||'Takipte')+'</span></div>').join('') || '<div class="empty">Bu süreç için henüz başlık tanımlı değil.</div>'}
+  function renderForm(){text('formTitle',config.formTitle||'Kayıt Formu');const form=document.getElementById(suite.formId);if(!form)return;form.innerHTML=(config.fields||[]).map(inputFor).join('') || '<div class="empty">Form alanı hazırlanıyor.</div>';text('fileTitle',config.fileTitle||'Ek Dosyalar');text('fileDesc',config.fileDesc||'Bu kayda ait dış formları, raporları ve destekleyici evrakları yükleyin.');const cat=document.getElementById('fileCategory');if(cat)cat.innerHTML=(config.fileCategories||suite.fileCategories).map(c=>'<option>'+esc(c)+'</option>').join('')}
+  function badge(value){const lower=String(value||'').toLocaleLowerCase('tr-TR');const cls=lower.includes('gec')||lower.includes('kritik')?'danger':lower.includes('bek')||lower.includes('risk')?'warn':'blue';return '<span class="badge '+cls+'">'+esc(value||'Açık')+'</span>'}
+  function recordRows(){const q=(document.getElementById('suiteSearch')?.value||'').toLocaleLowerCase('tr-TR');const sf=document.getElementById('statusFilter')?.value||'';const pf=document.getElementById('priorityFilter')?.value||'';return state.records.filter(r=>{const hay=JSON.stringify(r).toLocaleLowerCase('tr-TR');return (!q||hay.includes(q))&&(!sf||String(r.status||'').includes(sf))&&(!pf||String(r.priority||'').includes(pf))})}
+  function renderRecords(){const box=document.getElementById('recordList');if(!box)return;const rows=recordRows();if(!rows.length){box.innerHTML='<div class="empty">Canlı veri bulunamadı. Yeni kayıt hazırlayabilir veya filtreleri temizleyebilirsiniz.</div>';return}box.innerHTML=rows.slice(0,30).map(r=>'<article class="record-card"><div><h3>'+esc(r.title||r.subject||r.name||r.code||config.title)+'</h3><p>'+esc(r.description||r.detail||r.note||r.owner||config.desc)+'</p><div class="meta">'+badge(r.status||'Açık')+badge(r.priority||'Normal')+'<span class="badge">'+esc(r.department||r.related_module||suite.name)+'</span></div></div><button class="btn" type="button" onclick="'+suite.prefix+'MessagePrep()">Mesaj</button></article>').join('')}
+  function collectForm(){const payload={id:suite.prefix.toUpperCase()+'-'+Date.now(),module:suite.name,page,related_module:suite.prefix,fields:{},status:'Açık',priority:'Normal',created_at:new Date().toISOString(),created_by:userName()};document.querySelectorAll('[data-field]').forEach(el=>{const value=el.multiple?Array.from(el.selectedOptions).map(o=>({id:o.value,fullname:o.dataset.label||o.textContent})):el.value;payload.fields[el.dataset.field]=value;if(/durum/i.test(el.dataset.field))payload.status=el.value;if(/öncelik|aciliyet/i.test(el.dataset.field))payload.priority=el.value});return payload}
+  async function uploadIfNeeded(recordId){const input=document.getElementById(suite.fileId);const file=input?.files?.[0];if(!file)return null;return api.uploadToR2(file,{module:suite.name,record_id:recordId,related_module:page,category:document.getElementById('fileCategory')?.value||'Diğer',description:document.getElementById('fileDescription')?.value||'',uploaded_by:userName()})}
+  async function log(action,payload){const body={module:suite.name,related_module:page,related_record_id:payload?.id||'',action,description:config.title,user_id:currentUser().id||'',user_name:userName(),payload,created_at:new Date().toISOString()};api.post('/activity-feed',body,safeApi).catch(()=>{});api.post('/audit-logs',body,safeApi).catch(()=>{});const preview=document.getElementById('auditPreview');if(preview){preview.classList.remove('empty');preview.textContent=JSON.stringify(body,null,2)}}
+  async function saveDraft(){const payload=collectForm();try{payload.attachment=await uploadIfNeeded(payload.id)}catch(e){api.showToast('R2 dosya yükleme endpointi bekleniyor')}state.records.unshift({title:config.title+' kaydı',description:Object.values(payload.fields).flat().filter(Boolean).slice(0,3).join(' / ')||config.desc,status:payload.status,priority:payload.priority,department:payload.fields['Departman']||payload.fields['İlgili Departman']||suite.name});state.lastPayload=payload;await log(config.formTitle||'Kayıt hazırlandı',payload);renderRecords();api.showToast('Kayıt hazırlandı')}
+  function clearForm(){document.querySelectorAll('[data-field]').forEach(el=>{if(el.multiple)Array.from(el.options).forEach(o=>o.selected=false);else el.value=''});const file=document.getElementById(suite.fileId);if(file)file.value='';const desc=document.getElementById('fileDescription');if(desc)desc.value=''}
+  function messagePrep(){const payload=state.lastPayload||collectForm();api.post('/notifications',{type:'message',related_module:suite.prefix,related_record_id:payload.id,title:config.title,message:config.title+' için bilgilendirme hazırlığı',is_read:false,created_at:new Date().toISOString()},safeApi).catch(()=>{});api.showToast('Mesaj Merkezi hazırlığı tamam')}
+  function runSearch(){renderRecords();const box=document.getElementById('recordList');if(box)box.scrollIntoView({behavior:'smooth',block:'start'})}
+  function focusForm(){document.getElementById(suite.formId)?.scrollIntoView({behavior:'smooth',block:'start'})}
+  async function loadData(){renderNav();renderCards();renderSummary();renderForm();state.records=config.sampleRecords||[];renderRecords();try{state.users=await api.loadUsers(safeApi)}catch(e){state.users=[]}try{state.departments=await api.loadDepartments(safeApi)}catch(e){state.departments=[]}renderForm();try{const endpoints=config.endpoints||suite.endpoints||[];const loaded=await Promise.allSettled(endpoints.map(x=>api.get(x,safeApi)));state.records=loaded.flatMap(x=>x.status==='fulfilled'?api.asArray(x.value):[]).map((r,i)=>({title:r.title||r.name||r.subject||r.code||r.documentName||config.sampleRecords?.[i%config.sampleRecords.length]?.title,description:r.description||r.detail||r.note||r.status||config.sampleRecords?.[i%config.sampleRecords.length]?.description,status:r.status||config.sampleRecords?.[i%config.sampleRecords.length]?.status,priority:r.priority||config.sampleRecords?.[i%config.sampleRecords.length]?.priority,department:r.department||r.related_module||suite.name})).filter(r=>r.title||r.description);if(!state.records.length)state.records=config.sampleRecords||[]}catch(e){state.records=config.sampleRecords||[]}renderRecords();}
+  window[suite.prefix+'SaveDraft']=saveDraft;window[suite.prefix+'MessagePrep']=messagePrep;window[suite.prefix+'ClearForm']=clearForm;window[suite.prefix+'RunSearch']=runSearch;window[suite.prefix+'FocusForm']=focusForm;window[suite.prefix+'Logout']=function(){api?.logout?api.logout():window.location.href='index.html?logout=1'};
+  document.getElementById('suiteSearch')?.addEventListener('input',renderRecords);document.getElementById('statusFilter')?.addEventListener('change',renderRecords);document.getElementById('priorityFilter')?.addEventListener('change',renderRecords);
   loadData();
 })();

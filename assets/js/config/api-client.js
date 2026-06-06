@@ -357,26 +357,26 @@
         const holder = user.closest(".user") || user.parentElement;
         if (holder) holder.classList.add("gdnl-global-user");
       }
-      const mailbox = ensureAction(actionHost, 'a[href="mailbox.html"],button[aria-label*="Mesaj"],button[onclick*="mailbox.html"]', '<a href="mailbox.html">📨 Mesaj Merkezi</a>', (el) => {
+      const mailbox = ensureAction(actionHost, '.gdnl-message-link,a[href="mailbox.html"],a[href$="/mailbox.html"],button[aria-label*="Mesaj"],button[onclick*="mailbox.html"]', '<a class="gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>', (el) => {
         if (el.tagName === "A") el.href = routeHref("mailbox.html");
         else el.onclick = () => { global.location.href = routeHref("mailbox.html"); };
         el.classList.add("gdnl-global-action", "gdnl-global-icon");
         el.setAttribute("aria-label", "Mesaj Merkezi");
         if (!/Mesaj/i.test(el.textContent || "")) el.textContent = "📨";
       });
-      const notify = ensureAction(actionHost, 'a[href="notification-center.html"],button[aria-label*="Bildirim"],button[onclick*="notification-center.html"]', '<a href="notification-center.html">🔔</a>', (el) => {
+      const notify = ensureAction(actionHost, '.gdnl-notification-link,a[href="notification-center.html"],a[href$="/notification-center.html"],button[aria-label*="Bildirim"],button[onclick*="notification-center.html"]', '<a class="gdnl-notification-link" href="notification-center.html">🔔</a>', (el) => {
         if (el.tagName === "A") el.href = routeHref("notification-center.html");
         else el.onclick = () => { global.location.href = routeHref("notification-center.html"); };
         el.classList.add("gdnl-global-action", "gdnl-global-icon");
         el.setAttribute("aria-label", "Bildirim Merkezi");
       });
-      if (!bar.querySelector('a[href="department-gateway.html"],button[onclick*="department-gateway.html"]') && currentPageName() !== "department-gateway.html") {
+      if (!bar.querySelector('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]') && currentPageName() !== "department-gateway.html") {
         ensureAction(actionHost, ".gdnl-department-home", '<a class="gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>', (el) => {
           el.href = routeHref("department-gateway.html");
           el.classList.add("gdnl-global-action", "primary");
         });
       } else {
-        bar.querySelectorAll('a[href="department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => {
+        bar.querySelectorAll('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => {
           if (el.tagName === "A") el.href = routeHref("department-gateway.html");
           else el.onclick = () => { global.location.href = routeHref("department-gateway.html"); };
           el.classList.add("gdnl-global-action", "primary");

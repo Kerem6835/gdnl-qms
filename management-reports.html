@@ -7,14 +7,105 @@
 <link rel="stylesheet" href="assets/css/management-suite.css">
 </head>
 <body>
-<div class="app">
-<aside class="sidebar"><a class="brand" href="management-dashboard.html">GDNL <span>EOS</span></a><nav id="managementNav" class="nav"></nav></aside>
-<main class="main">
-<header class="topbar"><div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div><div class="topbar-actions"><a class="icon-link" href="department-gateway.html">Departman Merkezi</a><a class="icon-link" href="mailbox.html">📨 Mesaj Merkezi</a><button class="logout" onclick="managementLogout()">Çıkış Yap</button></div></header>
-<section class="hero"><h1 id="pageTitle">Rapor Merkezi</h1><p id="pageDesc"></p></section>
-<section id="metricCards" class="cards"></section>
-<section class="grid"><div class="panel"><h2 id="summaryTitle"></h2><div id="summaryList" class="list"></div></div><div class="panel"><h2 id="formTitle"></h2><div id="managementForm" class="form"></div><div class="actions"><button class="btn primary" onclick="managementSaveDraft()">Kaydı Hazırla</button><button class="btn" onclick="managementMessagePrep()">Mesaj Hazırlığı</button></div></div></section>
-</main>
+<div class="app" data-suite="management" data-page="management-reports.html">
+  <aside class="sidebar" aria-label="Yönetim Suite menüsü">
+    <a class="brand" href="management-dashboard.html">GDNL <span>Yönetim</span></a>
+    <nav id="managementNav" class="nav"></nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">Yönetim Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Sahibi</span></div>
+      </div>
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.managementRunSearch && window.managementRunSearch()">Ara</button>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezine Dön</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="managementLogout()">Çıkış Yap</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">Yönetim</span>
+        <h1 id="pageTitle">Rapor Merkezi</h1>
+        <p id="pageDesc">Bu ekran kurumsal süreç kaydı, takip, sorumluluk, dosya ve aksiyon yönetimi için hazırlanmıştır.</p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="window.managementFocusForm && window.managementFocusForm()">Yeni Kayıt</button>
+        <button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section id="metricCards" class="cards" aria-label="Özet kartları"></section>
+
+    <section class="workspace-grid">
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Süreç Özeti</h2>
+            <p id="summaryDesc">Takip edilmesi gereken başlıklar ve açık noktalar.</p>
+          </div>
+          <span class="status-pill">Canlı API hazır</span>
+        </div>
+        <div id="summaryList" class="list"></div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">Kayıt Formu</h2>
+            <p>Sorumlu, departman, durum, öncelik ve ek dosya alanları ile kayıt hazırlayın.</p>
+          </div>
+        </div>
+        <div id="managementForm" class="form"></div>
+        <div class="file-box">
+          <h3 id="fileTitle">Ek Dosyalar</h3>
+          <p id="fileDesc">Bu kayda ait dış formları, raporları, fotoğrafları ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+          <div class="form compact">
+            <div class="field"><label>Kategori</label><select id="fileCategory"></select></div>
+            <div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div>
+            <div class="field full"><label>Dosya</label><input id="managementFile" type="file"></div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="window.managementSaveDraft && window.managementSaveDraft()">Kaydı Hazırla</button>
+          <button class="btn" type="button" onclick="window.managementMessagePrep && window.managementMessagePrep()">Mesaj Hazırlığı</button>
+          <button class="btn ghost" type="button" onclick="window.managementClearForm && window.managementClearForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">Kayıt Listesi</h2>
+          <p id="recordsDesc">Canlı veri yoksa ekran güvenli boş durum gösterir.</p>
+        </div>
+        <div class="toolbar">
+          <select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select>
+          <select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select>
+        </div>
+      </div>
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2>Activity / Audit Hazırlığı</h2>
+          <p>Bu sayfada oluşturulan kayıtlar activity-feed ve audit-log mantığına uyumlu payload hazırlar.</p>
+        </div>
+      </div>
+      <div id="auditPreview" class="audit-preview empty">Henüz işlem yapılmadı.</div>
+    </section>
+  </main>
 </div>
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/management-suite.js"></script>
