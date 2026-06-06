@@ -102,12 +102,111 @@ paths:
       responses:
         "200":
           description: Message detail
+    put:
+      summary: Update internal message or draft
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message updated
+    delete:
+      summary: Delete internal message
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message deleted
+  /messages/{id}/read:
+    put:
+      summary: Mark internal message as read
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message read state updated
+  /messages/{id}/trash:
+    put:
+      summary: Move internal message to trash
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message moved to trash
+  /messages/{id}/restore:
+    put:
+      summary: Restore internal message from trash
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message restored
+  /message-recipients:
+    get:
+      summary: List internal message recipients
+      responses:
+        "200":
+          description: Message recipients
+  /message-attachments:
+    get:
+      summary: List internal message attachments
+      responses:
+        "200":
+          description: Message attachments
   /notifications:
     get:
       summary: List notifications
       responses:
         "200":
           description: Notifications
+    post:
+      summary: Create notification
+      responses:
+        "201":
+          description: Notification created
+  /notifications/{id}/read:
+    put:
+      summary: Mark notification as read
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Notification read state updated
+  /activity-feed:
+    get:
+      summary: List activity feed
+      responses:
+        "200":
+          description: Activity feed
+  /audit-logs:
+    get:
+      summary: List audit logs
+      responses:
+        "200":
+          description: Audit logs
   /search:
     get:
       summary: Global search
@@ -163,4 +262,3 @@ components:
           type: boolean
         error:
           type: object
-

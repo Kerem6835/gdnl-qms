@@ -759,7 +759,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
     </div>
 
     <div class="user-panel">
-<div class="topbar-actions" aria-label="Mesaj ve bildirim kısayolları"><button class="topbar-icon-btn" type="button" aria-label="Mesajlar">✉</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
+<div class="topbar-actions" aria-label="Mesaj ve bildirim kısayolları"><button class="topbar-icon-btn" type="button" aria-label="Mesaj Merkezi" onclick="window.location.href='mailbox.html'">📨</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
       <div class="avatar" id="avatar" aria-label="Kullanıcı"></div>
       <div class="user-meta">
         <b id="userName"></b>
@@ -841,7 +841,7 @@ const state = {
 };
 
 const MODULE_MAP = {
-  "Yönetim":["management-review.html","kpi-reports.html","action-center.html","dashboard.html"],
+  "Yönetim":["management-dashboard.html","management-board.html","management-decisions.html","management-kpi.html","management-goals.html","management-budget.html","management-workforce.html","management-projects.html","management-reports.html","management-calendar.html","management-organization.html","management-policies.html"],
   "Kalite":["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html","approval.html","archive.html"],
   "Kalite Yönetimi":["documents.html","capa.html","risk-register.html","audit.html","standards-compliance.html","approval.html","archive.html"],
   "Üretim":["process-management.html","control-plan.html","spc.html","capa.html"],
@@ -851,7 +851,7 @@ const MODULE_MAP = {
   "Tedarik Zinciri":["supplier-management.html","action-center.html","kpi-reports.html"],
   "Tedarik":["supplier-management.html","action-center.html","kpi-reports.html"],
   "Depo":["distribution.html","process-management.html","action-center.html"],
-  "İnsan Kaynakları":["training-management.html","competency-matrix.html","users.html"],
+  "İnsan Kaynakları":["hr-dashboard.html","hr-employees.html","hr-recruitment.html","hr-internship.html","hr-onboarding.html","hr-attendance.html","hr-shift-planning.html","hr-overtime.html","hr-payroll.html","hr-leave.html","hr-performance.html","hr-competency.html","hr-training.html","hr-assets.html","hr-exit.html","hr-reports.html","hr-policies.html"],
   "Laboratuvar":["calibration-management.html","msa.html","standards-compliance.html"],
   "Bilgi Teknolojileri":["users.html","security-continuity-center.html","legal-compliance.html"],
   "Finans":["kpi-reports.html","approval.html","documents.html"],
@@ -860,8 +860,8 @@ const MODULE_MAP = {
   "Pazarlama":["customer-management.html","kpi-reports.html","capa.html"],
   "Satış Pazarlama":["customer-management.html","kpi-reports.html","capa.html"],
   "İdari İşler":["company-assets-documents.html","documents.html","action-center.html"],
-  "Bakım":["calibration-management.html","process-management.html","action-center.html"],
-  "Bakım & Teknik":["calibration-management.html","process-management.html","action-center.html"],
+  "Bakım":["maintenance-dashboard.html","maintenance-machines.html","maintenance-breakdowns.html","maintenance-preventive.html","maintenance-work-orders.html","maintenance-spare-parts.html","maintenance-purchase-requests.html","maintenance-calendar.html","maintenance-reports.html","maintenance-documents.html"],
+  "Bakım & Teknik":["maintenance-dashboard.html","maintenance-machines.html","maintenance-breakdowns.html","maintenance-preventive.html","maintenance-work-orders.html","maintenance-spare-parts.html","maintenance-purchase-requests.html","maintenance-calendar.html","maintenance-reports.html","maintenance-documents.html"],
   "Kalıphane":["calibration-management.html","process-management.html","action-center.html","documents.html"],
   "Enerji":["kpi-reports.html","continuous-improvement.html","legal-compliance.html"],
   "İSG":["legal-compliance.html","risk-register.html","action-center.html"],
@@ -997,6 +997,21 @@ function normalizeUser(row){
   };
 }
 
+function isManagementDepartmentName(name){
+  const value = String(name || "").trim().toLocaleLowerCase("tr-TR");
+  return value === "yönetim" || value === "yonetim" || value.includes("yönetim merkezi") || value.includes("yonetim merkezi");
+}
+
+function isHrDepartmentName(name){
+  const value = String(name || "").trim().toLocaleLowerCase("tr-TR");
+  return value === "insan kaynakları" || value === "insan kaynaklari" || value === "ik" || value.includes("insan kaynak");
+}
+
+function isMaintenanceDepartmentName(name){
+  const value = String(name || "").trim().toLocaleLowerCase("tr-TR");
+  return value === "bakım" || value === "bakim" || value.includes("bakım") || value.includes("bakim");
+}
+
 function normalizeDepartment(row){
   const name = row.department_name || row.name || row.key || row.title ||"";
   const cleanName = String(name).trim();
@@ -1008,7 +1023,7 @@ function normalizeDepartment(row){
     department_name:cleanName,
     status:row.status || "Aktif",
     icon:row.icon || ICON_MAP[cleanName] || "▦",
-    modules:parseModules(row.modules) || MODULE_MAP[cleanName] || ["dashboard.html"]
+    modules:isManagementDepartmentName(cleanName) ? MODULE_MAP["Yönetim"] : (isHrDepartmentName(cleanName) ? MODULE_MAP["İnsan Kaynakları"] : (isMaintenanceDepartmentName(cleanName) ? MODULE_MAP["Bakım"] : (parseModules(row.modules) || MODULE_MAP[cleanName] || ["dashboard.html"])))
   };
 }
 
@@ -1193,7 +1208,8 @@ async function openDepartment(departmentId){
     createNotificationIfNeeded(dept)
   ]);
 
-  const target = new URL("dashboard.html", window.location.href);
+  const targetPage = isManagementDepartmentName(dept.department_name) ? "management-dashboard.html" : (isHrDepartmentName(dept.department_name) ? "hr-dashboard.html" : (isMaintenanceDepartmentName(dept.department_name) ? "maintenance-dashboard.html" : "dashboard.html"));
+  const target = new URL(targetPage, window.location.href);
   target.searchParams.set("department", dept.department_name);
   target.searchParams.set("department_id", dept.id);
   target.searchParams.set("source", "department-gateway");

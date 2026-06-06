@@ -22,5 +22,4 @@ Risk kayitlari S/O/D/RPN, risk seviyesi, heat map ve aksiyon sonrasi RPN uzerind
 
 ## Mailbox
 
-Mailbox sadece GDNL EOS ic mesajlasma icindir. Gmail, Outlook, IMAP veya POP okumaz.
-
+Mesaj Merkezi sadece GDNL EOS ic mesajlasma icindir. Harici e-posta hesabi okumaz.

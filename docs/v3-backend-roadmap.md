@@ -69,7 +69,7 @@ Ozellikler:
 - Taslak
 - Okundu bilgisi
 - R2 ek dosyalari
-- Gmail, Outlook, IMAP, POP yok
+- Harici e-posta hesabi okuma yok; sadece GDNL EOS ic mesajlasma vardir.
 
 ## 5. Activity Log Backend
 
@@ -131,4 +131,3 @@ Kategori sistemi D1 metadata uzerinden calisir. Gercek dosya R2 icinde kalir.
 ## 10. OpenAPI / Swagger
 
 OpenAPI taslagi `docs/openapi.yaml` icinde hazirlandi.
-

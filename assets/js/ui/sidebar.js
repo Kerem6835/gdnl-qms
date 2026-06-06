@@ -64,7 +64,8 @@
         { label: "KPI ve Raporlar", route: "kpi-reports.html" },
         { label: "YGG Yönetimi", route: "management-review.html" },
         { label: "Aksiyon Merkezi", route: "action-center.html" },
-        { label: "Bildirim Merkezi", route: "notification-center.html" }
+        { label: "Bildirim Merkezi", route: "notification-center.html" },
+        { label: "Mesaj Merkezi", route: "mailbox.html" }
       ]
     },
     {

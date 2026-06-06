@@ -21,6 +21,5 @@ Cloudflare:
 
 - `api/worker.js`, `api/schema.sql`, `api/seed.sql`, `api/README.md` referans/iskelettir.
 - Canli Worker bu dosyalarla ezilmemelidir.
-- `workers.dev` kullanilmaz.
+- Gecici Worker alt alan adi kullanilmaz.
 - Auth, cookie, `/me`, `/logout` yapisi korunur.
-

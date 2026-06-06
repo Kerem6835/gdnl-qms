@@ -19,9 +19,8 @@ Coklu rol destegi canli Worker middleware seviyesinde uygulanmalidir.
 
 ## Dosya Yonetimi
 
-Dosya icerigi R2 icinde, metadata D1 icinde tutulur. Base64 kullanilmaz.
+Dosya icerigi R2 icinde, metadata D1 icinde tutulur. Dosya icerigi metin olarak forma gomulmez.
 
 ## Denetim Izi
 
 Tum kritik islemler `audit_logs` ve `activity_logs` icine yazilmalidir.
-
