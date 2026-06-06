@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL EQMS | Dosya Merkezi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{background:#f4f9ff;color:#172033;min-height:100vh;overflow-x:hidden}.main{max-width:1440px;margin:0 auto;padding:24px}.topbar,.panel,.card{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:22px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:64px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}.brand{font-size:24px;font-weight:950;color:#071b34;text-decoration:none}.brand span{color:#35a852}.search{height:40px;border:1px solid #d8e4ef;border-radius:12px;padding:0 12px;font-weight:800;min-width:260px}.user{display:inline-flex;align-items:center;gap:7px;font-weight:900;color:#071b34}.hero{margin-bottom:20px}.hero h1{font-size:34px;font-weight:950;color:#071b34}.hero p{margin-top:8px;color:#617086;font-weight:800}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}.card{padding:18px}.card small{font-weight:950;color:#617086}.card h2{font-size:34px;color:#1f7d3d}.panel{padding:18px;overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid #edf2f7;text-align:left;font-size:13px}th{color:#617086;background:#f8fbff}.btn{border:none;border-radius:11px;padding:9px 12px;background:#dcfce7;color:#15803d;font-weight:950;cursor:pointer}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}@media(max-width:720px){.topbar{flex-wrap:wrap}.search{width:100%;min-width:0}.hero h1{font-size:28px}.main{padding:16px}}
+</style>
+</head>
+<body>
+<main class="main">
+<div class="topbar"><a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a><input id="globalSearch" class="search" placeholder="Ara..."><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
+<section class="hero"><h1>Dosya Merkezi</h1><p>PDF, Excel, Word ve resim dosyaları R2 metadata kayıtları üzerinden izlenir.</p></section>
+<section class="cards"><div class="card"><small>Toplam Dosya</small><h2 id="totalFiles">0</h2></div><div class="card"><small>PDF</small><h2 id="pdfFiles">0</h2></div><div class="card"><small>Excel</small><h2 id="excelFiles">0</h2></div><div class="card"><small>Word</small><h2 id="wordFiles">0</h2></div></section>
+<section class="panel"><div id="fileTable" class="empty">Yükleniyor...</div></section>
+</main>
+<script src="assets/js/config/api-client.js"></script>
+<script>
+const api=window.GDNL_API;
+let files=[];
+function asFile(x){return{ id:x.id||x.file_id||"", name:x.file_name||x.fileName||x.name||"Dosya", type:x.file_type||x.fileType||x.mime_type||"", module:x.module||"", record:x.record_no||x.related_id||"", r2:x.r2_key||x.key||"", url:x.signed_url||x.url||"" }}
+function openFile(f){const url=f.url||(f.r2?window.GDNL_API_BASE+"/file/"+encodeURIComponent(f.r2):"");if(url)window.open(url,"_blank")}
+function render(){const q=globalSearch.value.toLowerCase();const rows=files.filter(f=>`${f.name} ${f.type} ${f.module} ${f.record}`.toLowerCase().includes(q));totalFiles.textContent=files.length;pdfFiles.textContent=files.filter(f=>f.type.includes("pdf")||f.name.toLowerCase().endsWith(".pdf")).length;excelFiles.textContent=files.filter(f=>/excel|spreadsheet|xlsx|xls/i.test(f.type+" "+f.name)).length;wordFiles.textContent=files.filter(f=>/word|docx|doc/i.test(f.type+" "+f.name)).length;if(!rows.length){fileTable.innerHTML='<div class="empty">Dosya bulunamadı.</div>';return}fileTable.innerHTML='<table><thead><tr><th>Dosya</th><th>Tip</th><th>Modül</th><th>Kayıt</th><th>Aksiyon</th></tr></thead><tbody>'+rows.map((f,i)=>`<tr><td>${f.name}</td><td>${f.type||"-"}</td><td>${f.module||"-"}</td><td>${f.record||"-"}</td><td><button class="btn" onclick="openFile(files[${files.indexOf(f)}])">Aç</button></td></tr>`).join("")+'</tbody></table>'}
+async function boot(){try{files=api.asArray(await api.get("/files")).map(asFile)}catch(e){files=[]}render();globalSearch.addEventListener("input",render)}
+boot();
+</script>
+<script src="assets/js/ui/maturity-widgets.js"></script>
+<script src="assets/js/ui/enterprise-tools.js"></script>
+</body>
+</html>

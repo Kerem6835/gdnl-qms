@@ -151,6 +151,219 @@ tr:hover td{background:#f7fbf8}
 .user-option{padding:11px 12px;border-bottom:1px solid #eef2f7;cursor:pointer;font-size:12px;font-weight:900;color:#536176}
 .user-option:hover{background:#f7fbf8;color:#1f7d3d}
 
+
+
+/* === GDNL PREMIUM TOPBAR STANDARD === */
+html,body{max-width:100%!important;overflow-x:hidden!important}
+.topbar{
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-height:64px!important;
+  height:auto!important;
+  padding:10px 12px!important;
+  gap:10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:nowrap!important;
+  background:rgba(255,255,255,.78)!important;
+  border:1px solid rgba(223,233,245,.92)!important;
+  border-radius:20px!important;
+  box-shadow:0 16px 42px rgba(7,27,52,.07)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+  overflow:visible!important;
+}
+.topbar .mobile-menu-btn{flex:0 0 auto!important}
+.topbar .search-wrap{
+  flex:1 1 360px!important;
+  max-width:min(440px,42vw)!important;
+  min-width:190px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+.topbar .search{
+  width:100%!important;
+  height:40px!important;
+  border-radius:12px!important;
+  padding:0 12px!important;
+  font-size:13px!important;
+  font-weight:750!important;
+  background:rgba(248,251,255,.88)!important;
+  border:1px solid #dbe6f2!important;
+  box-shadow:none!important;
+}
+.topbar .search-btn,
+.topbar #searchBtn,
+.topbar .btn#searchBtn{
+  height:40px!important;
+  min-width:44px!important;
+  padding:0 13px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  box-shadow:0 10px 22px rgba(34,177,76,.16)!important;
+  white-space:nowrap!important;
+}
+.topbar .profile,
+.topbar .profile-bar,
+.topbar .user-panel{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  margin-left:auto!important;
+  min-width:0!important;
+  flex:0 1 auto!important;
+  white-space:nowrap!important;
+}
+.topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+}
+.topbar-icon-btn{
+  width:38px;
+  height:38px;
+  border:1px solid #dfe9f5;
+  border-radius:12px;
+  background:rgba(255,255,255,.72);
+  color:#35506b;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(7,27,52,.055);
+  transition:.18s ease;
+}
+.topbar-icon-btn:hover{transform:translateY(-1px);background:#fff;border-color:#bfe7ca;color:#1f8f43}
+.topbar .avatar,
+.topbar .user-chip,
+.topbar #userChip{
+  width:auto!important;
+  min-width:0!important;
+  max-width:220px!important;
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 12px!important;
+  border-radius:999px!important;
+  border:1px solid #dfe9f5!important;
+  background:rgba(255,255,255,.78)!important;
+  color:#071b34!important;
+  box-shadow:0 10px 24px rgba(7,27,52,.06)!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.topbar .avatar::before,
+.topbar .user-chip::before,
+.topbar #userChip::before{
+  content:"👤";
+  font-size:14px;
+  line-height:1;
+  flex:0 0 auto;
+}
+.topbar .avatar span,
+.topbar .user-chip span,
+.topbar #userChip span{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.topbar #userAvatar:not(:has(span)),
+.topbar #avatar{
+  font-size:0!important;
+  width:40px!important;
+  max-width:40px!important;
+  padding:0!important;
+}
+.topbar #userAvatar:not(:has(span))::before,
+.topbar #avatar::before{margin:0!important}
+.topbar .user-meta{display:flex!important;align-items:center!important;min-width:0!important;max-width:220px!important}
+.topbar .user-meta b{display:inline-flex!important;align-items:center!important;gap:7px!important;font-size:13px!important;color:#071b34!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.topbar .user-meta b::before{content:"👤";font-size:14px;line-height:1;flex:0 0 auto}
+.topbar .user-meta span{display:none!important}
+.topbar .logout-btn,
+.topbar .logout{
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 13px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  box-shadow:none!important;
+  white-space:nowrap!important;
+}
+.topbar .department-switch,
+.topbar .department-chip{
+  height:40px!important;
+  min-height:40px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 12px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+  box-shadow:0 10px 24px rgba(7,27,52,.055)!important;
+}
+.topbar .department-chip{max-width:210px!important;overflow:hidden!important;text-overflow:ellipsis!important}
+@media(max-width:1280px){
+  .topbar{padding:9px 10px!important;gap:8px!important}
+  .topbar .search-wrap{max-width:330px!important;flex-basis:280px!important;min-width:160px!important}
+  .topbar .department-switch,.topbar .department-chip,.topbar .logout-btn,.topbar .logout{padding:0 10px!important;font-size:12px!important}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:180px!important;padding:0 10px!important;font-size:12px!important}
+}
+@media(max-width:850px){
+  .app,.main{min-width:0!important;max-width:100vw!important;overflow-x:hidden!important}
+  .topbar{
+    position:sticky!important;
+    top:0!important;
+    z-index:40!important;
+    min-height:64px!important;
+    padding:10px!important;
+    border-radius:18px!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+  }
+  .topbar .search-wrap{
+    order:2!important;
+    flex:1 1 100%!important;
+    max-width:none!important;
+    width:100%!important;
+    min-width:0!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+  }
+  .topbar .search{height:40px!important;font-size:13px!important}
+  .topbar .search-btn,.topbar #searchBtn,.topbar .btn#searchBtn{height:40px!important;min-width:50px!important;padding:0 12px!important}
+  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{display:flex!important;gap:6px!important;margin-left:auto!important;flex:1 1 auto!important;justify-content:flex-end!important;min-width:0!important}
+  .topbar-actions{gap:5px}
+  .topbar-icon-btn{width:36px;height:36px;border-radius:11px}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{display:inline-flex!important;height:36px!important;min-height:36px!important;max-width:170px!important;font-size:12px!important}
+  .topbar #userAvatar:not(:has(span)),.topbar #avatar{width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important}
+  .topbar .logout-btn,.topbar .logout{display:inline-flex!important;height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important}
+  .topbar .department-switch,.topbar .department-chip{height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important;max-width:100%!important}
+}
+@media(max-width:520px){
+  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{flex-wrap:wrap!important;justify-content:flex-start!important;width:100%!important;order:3!important;margin-left:0!important}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:calc(100vw - 126px)!important}
+  .topbar .department-switch,.topbar .department-chip{flex:1 1 auto!important}
+}
+
 </style>
 </head>
 
@@ -319,12 +532,13 @@ tr:hover td{background:#f7fbf8}
 <header class="topbar">
 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
 <div class="search-wrap">
-<input class="search" id="globalSearch" placeholder="Revizyon no, doküman, talep eden, departman veya durum ara">
+<input class="search" id="globalSearch" placeholder="Ara...">
 <button class="search-btn" onclick="runSearch()">Ara</button>
 </div>
 <div class="profile">
+<div class="topbar-actions" aria-label="Mesaj ve bildirim kısayolları"><button class="topbar-icon-btn" type="button" aria-label="Mesajlar">✉</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
 <div class="avatar" onclick="window.location.href='dashboard.html'">
-<span id="userName">Kerem Güdenli</span>
+<span id="userName"></span>
 </div>
 <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
@@ -530,8 +744,9 @@ tr:hover td{background:#f7fbf8}
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
 
+<script src="assets/js/config/api-client.js"></script>
 <script>
-const GDNL_API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const GDNL_API_BASE = window.GDNL_API_BASE;
 const state={currentKullanıcı:null,users:[],departments:[],documents:[],revisions:[],approvals:[],notifications:[],auditLogs:[],activityFeed:[],selectedRevizyonId:null};
 
 function getCookie(name){return document.cookie.split(";").map(x=>x.trim()).find(x=>x.startsWith(name+"="))?.split("=").slice(1).join("=")||""}
@@ -545,7 +760,7 @@ function isPassive(r){const s=String(r?.status||r?.record_status||r?.state||"").
 function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
 function escapeHTML(value){return String(value??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
-function normalizeKullanıcı(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"GDNL Kullanıcısı",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeKullanıcı(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
 function normalizeDepartment(d){return{id:d?.id||d?.department_id||"",department_name:d?.department_name||d?.name||d?.department||""}}
 function normalizeDocument(d){return{id:d?.id||d?.document_id||d?.systemId||"",code:d?.code||d?.document_code||d?.documentCode||"",name:d?.name||d?.document_name||d?.documentName||"",rev:d?.rev||d?.revision||d?.revision_no||"R00",status:d?.status||"Yayında",owner:d?.owner||d?.department||d?.department_name||"",owner_id:d?.owner_id||"",mailGroups:d?.mailGroups||d?.mail_groups||"",smsGroups:d?.smsGroups||d?.sms_groups||"",r2_key:d?.r2_key||d?.file_key||""}}
 function normalizeRevizyon(r){return{id:r?.id||r?.revision_id||r?.revisionNo||r?.revision_no||"",revisionNo:r?.revisionNo||r?.revision_no||"",workflowId:r?.workflowId||r?.workflow_id||"",documentCode:r?.documentCode||r?.document_code||"",documentName:r?.documentName||r?.document_name||"",oldRev:r?.oldRev||r?.old_rev||"",newRev:r?.newRev||r?.new_rev||"",requester:r?.requester||r?.requester_name||"",requester_id:r?.requester_id||"",department:r?.department||r?.department_name||"",status:r?.status||"İncelemede",requestDate:r?.requestDate||r?.request_date||"",reason:r?.reason||"",changeDescription:r?.changeDescription||r?.change_description||"",affectedDepartments:r?.affectedDepartments||r?.affected_departments||"",qualityImpact:r?.qualityImpact||r?.quality_impact||"Yok",customerImpact:r?.customerImpact||r?.customer_impact||"Yok",legalImpact:r?.legalImpact||r?.legal_impact||"Yok",preparedBy:r?.preparedBy||r?.prepared_by_name||"",departmentApprover:r?.departmentApprover||r?.department_approver_name||"",managerApprover:r?.managerApprover||r?.manager_approver_name||"",qualityApprover:r?.qualityApprover||r?.quality_approver_name||"",qualityAdmin:r?.qualityAdmin||r?.quality_admin_name||"",createdAt:r?.createdAt||r?.created_at||""}}
@@ -562,8 +777,8 @@ state.approvals=activeOnly(approvals);
 state.notifications=activeOnly(notifications);
 state.auditLogs=activeOnly(auditLogs);
 state.activityFeed=activeOnly(activityFeed);
-state.currentKullanıcı=state.users[0]||{id:"",fullname:"GDNL Kullanıcısı",role:"Kullanıcı",department:""};
-document.getElementById("userName").textContent=state.currentKullanıcı.fullname||"GDNL Kullanıcısı";
+state.currentKullanıcı=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
+document.getElementById("userName").textContent=state.currentKullanıcı.fullname||"";
 }
 
 function searchKullanıcıs(term){const q=String(term||"").toLowerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,12)}
@@ -573,7 +788,7 @@ function populateDepartments(){const el=document.getElementById("department");if
 function setDepartmentValue(value){const el=document.getElementById("department");if(!el)return;if(value&&!Array.from(el.options).some(o=>o.value===value))el.innerHTML+=`<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`;el.value=value||""}
 async function getSequence(moduleName){const seq=await safeGet("/sequence?module="+encodeURIComponent(moduleName));return seq?.number||seq?.sequence||seq?.data?.number||""}
 async function generateRevizyonNo(){const no=await getSequence("REVISION");document.getElementById("revisionNo").value=no||"REV-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6)}
-async function generateİş AkışıId(){const no=await getSequence("WORKFLOW");document.getElementById("workflowId").value=no||"WF-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6)}
+async function generateIsAkisiId(){const no=await getSequence("WORKFLOW");document.getElementById("workflowId").value=no||"WF-"+new Date().getFullYear()+"-"+String(Date.now()).slice(-6)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function nextRevizyon(current){const n=parseInt(String(current||"R00").replace("R",""),10);if(isNaN(n))return"R01";return"R"+String(n+1).padStart(2,"0")}
 function statusClass(status){if(status==="İş Akışı Başlatıldı"||status==="Onaylandı"||status==="Yayınlandı")return"green";if(status==="Reddedildi")return"red";if(status==="Onay Bekliyor"||status==="İncelemede")return"orange";return"blue"}
@@ -582,26 +797,26 @@ function impactClass(value){if(value==="Kritik")return"red";if(value==="Yüksek"
 function loadDocuments(){const select=document.getElementById("documentSelect");const docs=state.documents.filter(d=>!["Pasif","Arşiv","Silindi","İptal"].includes(d.status));select.innerHTML="";if(!docs.length){select.innerHTML='<option value="">D1 üzerinde aktif doküman yok</option>';return}select.innerHTML=docs.map(doc=>`<option value="${escapeHTML(doc.code)}">${escapeHTML(doc.code)} - ${escapeHTML(doc.name)}</option>`).join("");fillDocumentInfo()}
 function selectedDoc(){const code=document.getElementById("documentSelect").value;return state.documents.find(d=>d.code===code)}
 function fillDocumentInfo(){const doc=selectedDoc();if(!doc)return;document.getElementById("documentCode").value=doc.code||"";document.getElementById("documentName").value=doc.name||"";document.getElementById("currentRev").value=doc.rev||"R00";document.getElementById("newRev").value=nextRevizyon(doc.rev||"R00");document.getElementById("docOwner").value=doc.owner||"";setDepartmentValue(doc.owner||state.currentKullanıcı.department||"");document.getElementById("preparedBy").value=state.currentKullanıcı.fullname||"";document.getElementById("preparedBy").dataset.userId=state.currentKullanıcı.id||"";document.getElementById("mailGroups").value=doc.mailGroups||"";document.getElementById("smsGroups").value=doc.smsGroups||""}
-function collectRevizyon(startİş Akışı){const doc=selectedDoc();return{revisionNo:document.getElementById("revisionNo").value.trim(),workflowId:document.getElementById("workflowId").value.trim(),document_id:doc?.id||"",documentCode:doc?.code||"",documentName:doc?.name||"",oldRev:doc?.rev||"R00",newRev:document.getElementById("newRev").value.trim(),requester:document.getElementById("requester").value.trim(),requester_id:document.getElementById("requester").dataset.userId||"",department:document.getElementById("department").value,department_name:document.getElementById("department").value,status:startİş Akışı?"İş Akışı Başlatıldı":document.getElementById("revisionStatus").value,requestDate:document.getElementById("requestDate").value,reason:document.getElementById("reason").value.trim(),changeDescription:document.getElementById("changeDescription").value.trim(),affectedDepartments:document.getElementById("affectedDepartments").value.trim(),qualityImpact:document.getElementById("qualityImpact").value,customerImpact:document.getElementById("customerImpact").value,legalImpact:document.getElementById("legalImpact").value,preparedBy:document.getElementById("preparedBy").value.trim(),prepared_by_id:document.getElementById("preparedBy").dataset.userId||"",departmentApprover:document.getElementById("departmentApprover").value.trim(),department_approver_id:document.getElementById("departmentApprover").dataset.userId||"",managerApprover:document.getElementById("managerApprover").value.trim(),manager_approver_id:document.getElementById("managerApprover").dataset.userId||"",qualityApprover:document.getElementById("qualityApprover").value.trim(),quality_approver_id:document.getElementById("qualityApprover").dataset.userId||"",qualityAdmin:document.getElementById("qualityAdmin").value.trim(),quality_admin_id:document.getElementById("qualityAdmin").dataset.userId||"",notificationType:document.getElementById("notificationType").value,mailGroups:document.getElementById("mailGroups").value.trim(),smsGroups:document.getElementById("smsGroups").value.trim(),created_by:state.currentKullanıcı.id||"",created_by_name:state.currentKullanıcı.fullname||"",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),status_fields:{closed_at:null,deleted_by:null,deleted_at:null,archived_by:null,archived_at:null,restored_by:null,restored_at:null,archive_reason:null,delete_reason:null}}}
+function collectRevizyon(startIsAkisi){const doc=selectedDoc();return{revisionNo:document.getElementById("revisionNo").value.trim(),workflowId:document.getElementById("workflowId").value.trim(),document_id:doc?.id||"",documentCode:doc?.code||"",documentName:doc?.name||"",oldRev:doc?.rev||"R00",newRev:document.getElementById("newRev").value.trim(),requester:document.getElementById("requester").value.trim(),requester_id:document.getElementById("requester").dataset.userId||"",department:document.getElementById("department").value,department_name:document.getElementById("department").value,status:startIsAkisi?"İş Akışı Başlatıldı":document.getElementById("revisionStatus").value,requestDate:document.getElementById("requestDate").value,reason:document.getElementById("reason").value.trim(),changeDescription:document.getElementById("changeDescription").value.trim(),affectedDepartments:document.getElementById("affectedDepartments").value.trim(),qualityImpact:document.getElementById("qualityImpact").value,customerImpact:document.getElementById("customerImpact").value,legalImpact:document.getElementById("legalImpact").value,preparedBy:document.getElementById("preparedBy").value.trim(),prepared_by_id:document.getElementById("preparedBy").dataset.userId||"",departmentApprover:document.getElementById("departmentApprover").value.trim(),department_approver_id:document.getElementById("departmentApprover").dataset.userId||"",managerApprover:document.getElementById("managerApprover").value.trim(),manager_approver_id:document.getElementById("managerApprover").dataset.userId||"",qualityApprover:document.getElementById("qualityApprover").value.trim(),quality_approver_id:document.getElementById("qualityApprover").dataset.userId||"",qualityAdmin:document.getElementById("qualityAdmin").value.trim(),quality_admin_id:document.getElementById("qualityAdmin").dataset.userId||"",notificationType:document.getElementById("notificationType").value,mailGroups:document.getElementById("mailGroups").value.trim(),smsGroups:document.getElementById("smsGroups").value.trim(),created_by:state.currentKullanıcı.id||"",created_by_name:state.currentKullanıcı.fullname||"",createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),status_fields:{closed_at:null,deleted_by:null,deleted_at:null,archived_by:null,archived_at:null,restored_by:null,restored_at:null,archive_reason:null,delete_reason:null}}}
 function validateRevizyon(p){if(!p.revisionNo){showToast("Revizyon no zorunlu");return false}if(!p.documentCode){showToast("Doküman seçilmedi");return false}if(!/^R\d{2}$/.test(p.newRev)){showToast("Yeni revizyon R01 formatında olmalı");return false}if(!p.requester){showToast("Talep eden zorunlu");return false}if(!p.department){showToast("Departman zorunlu");return false}if(p.reason.length<10){showToast("Revizyon sebebi en az 10 karakter olmalı");return false}if(p.changeDescription.length<10){showToast("Değişiklik açıklaması en az 10 karakter olmalı");return false}if(state.revisions.some(r=>(r.revisionNo||"").toLowerCase()===p.revisionNo.toLowerCase())){showToast("Bu revizyon no zaten var");return false}return true}
 function buildApprovalSteps(p){return[{step_no:1,step_name:"Departman Onayı",approver_id:p.department_approver_id,approver_name:p.departmentApprover,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Bekliyor",approved_at:null,rejected_at:null,comment:""},{step_no:2,step_name:"Müdür Onayı",approver_id:p.manager_approver_id,approver_name:p.managerApprover,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Sırada",approved_at:null,rejected_at:null,comment:""},{step_no:3,step_name:"Kalite Onayı",approver_id:p.quality_approver_id,approver_name:p.qualityApprover,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Sırada",approved_at:null,rejected_at:null,comment:""},{step_no:4,step_name:"Kalite Admin / Yayın",approver_id:p.quality_admin_id,approver_name:p.qualityAdmin,approver_department:p.department,approval_type:"Sıralı",required:true,status:"Sırada",approved_at:null,rejected_at:null,comment:""}]}
-function buildİş AkışıSteps(){const now=new Date().toISOString();return[{step_no:1,step_name:"Revizyon Talebi",previous_step:null,next_step:2,required:true,status:"Tamamlandı",created_at:now,completed_at:now},{step_no:2,step_name:"Etki Analizi",previous_step:1,next_step:3,required:true,status:"Tamamlandı",created_at:now,completed_at:now},{step_no:3,step_name:"Onay Akışı",previous_step:2,next_step:4,required:true,status:"Açık",created_at:now,completed_at:null},{step_no:4,step_name:"Yayın ve Dağıtım",previous_step:3,next_step:null,required:true,status:"Sırada",created_at:now,completed_at:null}]}
+function buildIsAkisiSteps(){const now=new Date().toISOString();return[{step_no:1,step_name:"Revizyon Talebi",previous_step:null,next_step:2,required:true,status:"Tamamlandı",created_at:now,completed_at:now},{step_no:2,step_name:"Etki Analizi",previous_step:1,next_step:3,required:true,status:"Tamamlandı",created_at:now,completed_at:now},{step_no:3,step_name:"Onay Akışı",previous_step:2,next_step:4,required:true,status:"Açık",created_at:now,completed_at:null},{step_no:4,step_name:"Yayın ve Dağıtım",previous_step:3,next_step:null,required:true,status:"Sırada",created_at:now,completed_at:null}]}
 
-async function saveRevizyon(startİş Akışı){const p=collectRevizyon(startİş Akışı);if(!validateRevizyon(p))return;const body={...p,approval_steps:startİş Akışı?buildApprovalSteps(p):[],workflow_steps:startİş Akışı?buildİş AkışıSteps():[],physical_delete:false,archive_fields:p.status_fields};const saved=await safePost("/document_versions",body)||await safePost("/documents/"+encodeURIComponent(p.documentCode)+"/revisions",body)||await safePost("/documents",body);if(startİş Akışı){await createApprovalQueueFromRevizyon(p);await createİş AkışıRecord(p);await createNotification(p,"Revizyon iş akışı başlatıldı")}await writeAudit("Revizyon Yönetimi","Oluşturma",p.revisionNo,null,body,"revision");await writeActivity("Revizyon Yönetimi","Revizyon kaydı oluşturuldu",p.revisionNo,null,body,"revision");state.revisions.unshift(normalizeRevizyon(body));await markDocumentRevizyon(p);showToast(saved?"Revizyon D1 üzerine kaydedildi":"Revizyon ekranda oluşturuldu, API kaydı kontrol edilmeli");await resetForm();renderRevizyons();loadDocuments()}
-async function createApprovalQueueFromRevizyon(p){const payload={module:"Revizyon Yönetimi",record_no:p.revisionNo,workflow_id:p.workflowId,document_code:p.documentCode,document_name:p.documentName,rev:p.newRev,status:"Bekliyor",current_step:"Departman Onayı",approval_steps:buildApprovalSteps(p),approval_history:[{action:"Revizyon iş akışı başlatıldı",user_id:state.currentKullanıcı.id,user_name:state.currentKullanıcı.fullname,note:p.reason,date:new Date().toISOString()}],signature:{signature_id:"SIG-"+Date.now(),signature_hash:"",approval_token:"",signed_at:null,signed_by:null,department:p.department,operation_type:"Revizyon Onayı",note:p.reason}};return await safePost("/approvals",payload)}
-async function createİş AkışıRecord(p){return await safePost("/workflows",{module:"Revizyon Yönetimi",record_no:p.revisionNo,workflow_id:p.workflowId,status:"Açık",workflow_steps:buildİş AkışıSteps(),created_by:state.currentKullanıcı.id,created_at:new Date().toISOString()})}
+async function saveRevizyon(startIsAkisi){const p=collectRevizyon(startIsAkisi);if(!validateRevizyon(p))return;const body={...p,approval_steps:startIsAkisi?buildApprovalSteps(p):[],workflow_steps:startIsAkisi?buildIsAkisiSteps():[],physical_delete:false,archive_fields:p.status_fields};const saved=await safePost("/document_versions",body)||await safePost("/documents/"+encodeURIComponent(p.documentCode)+"/revisions",body)||await safePost("/documents",body);if(startIsAkisi){await createApprovalQueueFromRevizyon(p);await createIsAkisiRecord(p);await createNotification(p,"Revizyon iş akışı başlatıldı")}await writeAudit("Revizyon Yönetimi","Oluşturma",p.revisionNo,null,body,"revision");await writeActivity("Revizyon Yönetimi","Revizyon kaydı oluşturuldu",p.revisionNo,null,body,"revision");state.revisions.unshift(normalizeRevizyon(body));await markDocumentRevizyon(p);showToast(saved?"Revizyon D1 üzerine kaydedildi":"Revizyon ekranda oluşturuldu, API kaydı kontrol edilmeli");await resetForm();renderRevizyons();loadDocuments()}
+async function createApprovalQueueFromRevizyon(p){const payload={module:"Revizyon Yönetimi",record_no:p.revisionNo,workflow_id:p.workflowId,document_code:p.documentCode,document_name:p.documentName,rev:p.newRev,status:"Bekliyor",current_step:"Departman Onayı",approval_steps:buildApprovalSteps(p),approval_history:[{action:"Revizyon iş akışı başlatıldı",user_id:state.currentKullanıcı.id,user_name:state.currentKullanıcı.fullname,note:p.reason,date:new Date().toISOString()}],approval_record:{department:p.department,operation_type:"Revizyon Onayı",note:p.reason}};return await safePost("/approvals",payload)}
+async function createIsAkisiRecord(p){return await safePost("/workflows",{module:"Revizyon Yönetimi",record_no:p.revisionNo,workflow_id:p.workflowId,status:"Açık",workflow_steps:buildIsAkisiSteps(),created_by:state.currentKullanıcı.id,created_at:new Date().toISOString()})}
 async function createNotification(p,message){return await safePost("/notifications",{module:"Revizyon Yönetimi",type:p.notificationType,record_no:p.revisionNo,documentCode:p.documentCode,documentName:p.documentName,mailGroups:p.mailGroups,smsGroups:p.smsGroups,distributionPoints:p.affectedDepartments,message,status:"Kuyrukta",is_read:false,read_by:null,read_at:null,created_by:state.currentKullanıcı.fullname,created_at:new Date().toISOString()})}
 async function writeAudit(module,action,recordNo,oldValue,newValue,field){return await safePost("/audit-logs",{module,action,record_no:recordNo,old_value:oldValue,new_value:newValue,changed_field:field,user_id:state.currentKullanıcı.id,user_name:state.currentKullanıcı.fullname,ip_address:"",user_agent:navigator.userAgent,session_id:getCookie("gdnl_eos_token")||getCookie("gdnl_eqms_token"),created_at:new Date().toISOString()})}
 async function writeActivity(module,action,recordNo,oldValue,newValue,field){return await safePost("/activity-feed",{module,action,record_no:recordNo,description:action,old_value:oldValue,new_value:newValue,changed_field:field,user_id:state.currentKullanıcı.id,user_name:state.currentKullanıcı.fullname,created_at:new Date().toISOString()})}
 async function markDocumentRevizyon(p){await safePost("/documents/"+encodeURIComponent(p.documentCode)+"/status",{status:"Revizyon",workflow_status:p.status,pending_revision_no:p.revisionNo,pending_new_rev:p.newRev,updated_by:state.currentKullanıcı.id,updated_at:new Date().toISOString()})}
 async function rejectRevizyon(index){const r=state.revisions[index];if(!r)return;const old={...r};r.status="Reddedildi";await safePost("/document_versions/"+encodeURIComponent(r.revisionNo)+"/reject",{status:"Reddedildi",updated_by:state.currentKullanıcı.id,updated_at:new Date().toISOString()});await writeAudit("Revizyon Yönetimi","Reddetme",r.revisionNo,old,r,"status");await writeActivity("Revizyon Yönetimi","Revizyon reddedildi",r.revisionNo,old.status,r.status,"status");renderRevizyons();showToast("Revizyon reddedildi")}
-async function startİş AkışıFromRecord(index){const r=state.revisions[index];if(!r)return;if(r.status==="İş Akışı Başlatıldı"){showToast("İş akışı zaten başlatılmış");return}const old={...r};r.workflowId=r.workflowId||await getSequence("WORKFLOW")||"WF-"+Date.now();r.status="İş Akışı Başlatıldı";await createApprovalQueueFromRevizyon({...r,department_approver_id:"",manager_approver_id:"",quality_approver_id:"",quality_admin_id:"",departmentApprover:r.departmentApprover,managerApprover:r.managerApprover,qualityApprover:r.qualityApprover,qualityAdmin:r.qualityAdmin,notificationType:"Mail + SMS",mailGroups:"",smsGroups:""});await createİş AkışıRecord(r);await writeAudit("Revizyon Yönetimi","İş Akışı Başlatma",r.revisionNo,old,r,"status");await writeActivity("Revizyon Yönetimi","Revizyon iş akışı başlatıldı",r.revisionNo,old.status,r.status,"status");renderRevizyons();showToast("İş akışı onay kuyruğuna aktarıldı")}
+async function startIsAkisiFromRecord(index){const r=state.revisions[index];if(!r)return;if(r.status==="İş Akışı Başlatıldı"){showToast("İş akışı zaten başlatılmış");return}const old={...r};r.workflowId=r.workflowId||await getSequence("WORKFLOW")||"WF-"+Date.now();r.status="İş Akışı Başlatıldı";await createApprovalQueueFromRevizyon({...r,department_approver_id:"",manager_approver_id:"",quality_approver_id:"",quality_admin_id:"",departmentApprover:r.departmentApprover,managerApprover:r.managerApprover,qualityApprover:r.qualityApprover,qualityAdmin:r.qualityAdmin,notificationType:"Mail + SMS",mailGroups:"",smsGroups:""});await createIsAkisiRecord(r);await writeAudit("Revizyon Yönetimi","İş Akışı Başlatma",r.revisionNo,old,r,"status");await writeActivity("Revizyon Yönetimi","Revizyon iş akışı başlatıldı",r.revisionNo,old.status,r.status,"status");renderRevizyons();showToast("İş akışı onay kuyruğuna aktarıldı")}
 function openDocumentByRevizyon(index){const r=state.revisions[index];if(!r)return;window.location.href="document-viewer.html?document_code="+encodeURIComponent(r.documentCode)}
 function openSelectedDocument(){const doc=selectedDoc();if(!doc){showToast("Doküman seçilmedi");return}window.location.href="document-viewer.html?document_code="+encodeURIComponent(doc.code)}
 
-function renderRevizyons(){const q=(document.getElementById("globalSearch").value||"").toLowerCase();const sf=document.getElementById("statusFilter").value;const filtered=state.revisions.filter(r=>`${r.revisionNo} ${r.workflowId} ${r.documentCode} ${r.documentName} ${r.requester} ${r.department} ${r.status}`.toLowerCase().includes(q)&&(!sf||r.status===sf));updateCards(state.revisions);const area=document.getElementById("revisionTable");if(!filtered.length){area.innerHTML='<div class="empty">Revizyon kaydı bulunamadı.</div>';return}let html=`<table><thead><tr><th>Revizyon No</th><th>İş Akışı</th><th>Doküman</th><th>Geçiş</th><th>Talep Eden</th><th>Durum</th><th>Kalite</th><th>Müşteri</th><th>Yasal</th><th>Aksiyon</th></tr></thead><tbody>`;filtered.forEach(r=>{const index=state.revisions.findIndex(x=>x.revisionNo===r.revisionNo&&x.createdAt===r.createdAt);html+=`<tr><td>${escapeHTML(r.revisionNo)}</td><td>${escapeHTML(r.workflowId||"-")}</td><td>${escapeHTML(r.documentCode)}<br><small>${escapeHTML(r.documentName)}</small></td><td>${escapeHTML(r.oldRev)} → ${escapeHTML(r.newRev)}</td><td>${escapeHTML(r.requester)}</td><td><span class="status ${statusClass(r.status)}">${escapeHTML(r.status)}</span></td><td><span class="status ${impactClass(r.qualityImpact)}">${escapeHTML(r.qualityImpact)}</span></td><td><span class="status ${impactClass(r.customerImpact)}">${escapeHTML(r.customerImpact)}</span></td><td><span class="status ${impactClass(r.legalImpact)}">${escapeHTML(r.legalImpact)}</span></td><td><div class="row-actions"><button class="small-btn view" onclick="openDocumentByRevizyon(${index})">Gör</button><button class="small-btn flow" onclick="startİş AkışıFromRecord(${index})">İş Akışı</button><button class="small-btn reject" onclick="rejectRevizyon(${index})">Reddet</button></div></td></tr>`});area.innerHTML=html+"</tbody></table>"}
+function renderRevizyons(){const q=(document.getElementById("globalSearch").value||"").toLowerCase();const sf=document.getElementById("statusFilter").value;const filtered=state.revisions.filter(r=>`${r.revisionNo} ${r.workflowId} ${r.documentCode} ${r.documentName} ${r.requester} ${r.department} ${r.status}`.toLowerCase().includes(q)&&(!sf||r.status===sf));updateCards(state.revisions);const area=document.getElementById("revisionTable");if(!filtered.length){area.innerHTML='<div class="empty">Revizyon kaydı bulunamadı.</div>';return}let html=`<table><thead><tr><th>Revizyon No</th><th>İş Akışı</th><th>Doküman</th><th>Geçiş</th><th>Talep Eden</th><th>Durum</th><th>Kalite</th><th>Müşteri</th><th>Yasal</th><th>Aksiyon</th></tr></thead><tbody>`;filtered.forEach(r=>{const index=state.revisions.findIndex(x=>x.revisionNo===r.revisionNo&&x.createdAt===r.createdAt);html+=`<tr><td>${escapeHTML(r.revisionNo)}</td><td>${escapeHTML(r.workflowId||"-")}</td><td>${escapeHTML(r.documentCode)}<br><small>${escapeHTML(r.documentName)}</small></td><td>${escapeHTML(r.oldRev)} → ${escapeHTML(r.newRev)}</td><td>${escapeHTML(r.requester)}</td><td><span class="status ${statusClass(r.status)}">${escapeHTML(r.status)}</span></td><td><span class="status ${impactClass(r.qualityImpact)}">${escapeHTML(r.qualityImpact)}</span></td><td><span class="status ${impactClass(r.customerImpact)}">${escapeHTML(r.customerImpact)}</span></td><td><span class="status ${impactClass(r.legalImpact)}">${escapeHTML(r.legalImpact)}</span></td><td><div class="row-actions"><button class="small-btn view" onclick="openDocumentByRevizyon(${index})">Gör</button><button class="small-btn flow" onclick="startIsAkisiFromRecord(${index})">İş Akışı</button><button class="small-btn reject" onclick="rejectRevizyon(${index})">Reddet</button></div></td></tr>`});area.innerHTML=html+"</tbody></table>"}
 function updateCards(items){document.getElementById("totalRevizyons").textContent=items.length;document.getElementById("pendingRevizyons").textContent=items.filter(x=>x.status==="İncelemede"||x.status==="Onay Bekliyor").length;document.getElementById("workflowRevizyons").textContent=items.filter(x=>x.status==="İş Akışı Başlatıldı").length;document.getElementById("rejectedRevizyons").textContent=items.filter(x=>x.status==="Reddedildi").length}
-async function resetForm(){await generateRevizyonNo();await generateİş AkışıId();document.getElementById("requester").value=state.currentKullanıcı.fullname||"";document.getElementById("requester").dataset.userId=state.currentKullanıcı.id||"";document.getElementById("requestDate").value=todayISO();document.getElementById("revisionStatus").value="İncelemede";["reason","changeDescription","affectedDepartments","managerApprover","departmentApprover","qualityApprover","qualityAdmin"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""});document.getElementById("qualityImpact").value="Yok";document.getElementById("customerImpact").value="Yok";document.getElementById("legalImpact").value="Yok";document.getElementById("notificationType").value="Mail + SMS";fillDocumentInfo()}
+async function resetForm(){await generateRevizyonNo();await generateIsAkisiId();document.getElementById("requester").value=state.currentKullanıcı.fullname||"";document.getElementById("requester").dataset.userId=state.currentKullanıcı.id||"";document.getElementById("requestDate").value=todayISO();document.getElementById("revisionStatus").value="İncelemede";["reason","changeDescription","affectedDepartments","managerApprover","departmentApprover","qualityApprover","qualityAdmin"].forEach(id=>{const el=document.getElementById(id);if(el)el.value=""});document.getElementById("qualityImpact").value="Yok";document.getElementById("customerImpact").value="Yok";document.getElementById("legalImpact").value="Yok";document.getElementById("notificationType").value="Mail + SMS";fillDocumentInfo()}
 
 async function runSearch(){const input=document.getElementById("globalSearch");const text=input.value.trim().toLowerCase();if(!text){clearSearchResults();input.focus();renderRevizyons();return}let results=[];const cloud=await safeGet("/search?q="+encodeURIComponent(text)+"&module=revision");results=asArray(cloud).filter(x=>!isPassive(x)).map(x=>({type:"page",module:x.module||"Revizyon Yönetimi",title:x.title||x.name||x.code||"Kayıt",detail:x.description||x.detail||"",go:x.url||"#"}));state.revisions.forEach(r=>{const fullText=JSON.stringify(r).toLowerCase();if(fullText.includes(text))results.push({type:"record",module:"Revizyon Yönetimi",title:r.revisionNo||"Revizyon",detail:`${r.documentCode||""} ${r.documentName||""} ${r.oldRev||""} → ${r.newRev||""} ${r.requester||""} ${r.department||""} ${r.status||""}`,id:r.revisionNo})});state.documents.forEach(d=>{const fullText=JSON.stringify(d).toLowerCase();if(fullText.includes(text))results.push({type:"page",module:"Doküman Yönetimi",go:"document-viewer.html?document_code="+encodeURIComponent(d.code||""),title:d.name||d.code||"Doküman",detail:`${d.code||""} ${d.owner||""} ${d.status||""} ${d.rev||""}`})});results=results.concat(collectPageSearchResults(text));renderSearchResults(text,results)}
 function collectPageSearchResults(keyword){const results=[];const seen=new Set();document.querySelectorAll(".menu a,.mobile-drawer-menu a").forEach(el=>{const label=el.textContent.trim();const href=el.getAttribute("href")||"";if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Menü",title:label,detail:href,go:href||"#"})}}});document.querySelectorAll(".card").forEach((el,index)=>{const title=(el.querySelector("small")?.textContent||"Kart").trim();const value=(el.querySelector("h2")?.textContent||"").trim();const detail=(el.querySelector("p")?.textContent||"").trim();if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}});document.querySelectorAll(".panel").forEach((el,index)=>{if(el.id==="searchResultsPanel")return;const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title,detail,selector:`.panel[data-search-panel="${index}"]`})}});return results}
@@ -610,7 +825,7 @@ function openSearchResult(index){const r=(window.gdnlSearchResults||[])[index];i
 function clearSearchResults(){document.getElementById("globalSearch").value="";document.getElementById("searchResultsPanel").classList.remove("active");document.getElementById("searchResultsArea").innerHTML="";renderRevizyons()}
 function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
 function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
-function logout(){clearAuthCookie();window.location.href="index.html"}
+function logout(){if(window.GDNL_API?.logout){window.GDNL_API.logout();return}window.location.href="index.html"}
 function showToast(message){const toast=document.getElementById("toast");toast.textContent=message;toast.style.display="block";setTimeout(()=>toast.style.display="none",2500)}
 function initLockedAccordionMenu(){document.querySelectorAll(".menu-group").forEach(btn=>{btn.addEventListener("click",function(){const submenu=this.nextElementSibling;if(!submenu||!submenu.classList.contains("submenu"))return;const container=this.closest("nav");if(container){container.querySelectorAll(".submenu").forEach(menu=>{if(menu!==submenu)menu.classList.remove("open")});container.querySelectorAll(".menu-group").forEach(group=>{if(group!==this)group.classList.remove("active-group")})}submenu.classList.toggle("open");this.classList.toggle("active-group",submenu.classList.contains("open"))})})}
 
@@ -621,5 +836,6 @@ async function boot(){initLockedAccordionMenu();await loadCloudData();populateDe
 boot();
 </script>
 
+<script src="assets/js/ui/maturity-widgets.js"></script>
 </body>
 </html>

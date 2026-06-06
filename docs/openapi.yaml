@@ -1,0 +1,166 @@
+openapi: 3.0.3
+info:
+  title: GDNL EOS Enterprise API
+  version: 3.0.0
+  description: Cloudflare Worker API for GDNL EQMS / GDNL EOS Enterprise.
+servers:
+  - url: https://api.gdnldigital.com/api
+security:
+  - cookieAuth: []
+paths:
+  /auth/me:
+    get:
+      summary: Current session user
+      responses:
+        "200":
+          description: Current user
+  /auth/logout:
+    post:
+      summary: Logout current session
+      responses:
+        "200":
+          description: Logout completed
+  /users:
+    get:
+      summary: List users
+      responses:
+        "200":
+          description: Users
+  /departments:
+    get:
+      summary: List departments
+      responses:
+        "200":
+          description: Departments
+  /documents:
+    get:
+      summary: List documents
+      responses:
+        "200":
+          description: Documents
+    post:
+      summary: Create document
+      responses:
+        "201":
+          description: Created
+  /capa:
+    get:
+      summary: List CAPA records
+      responses:
+        "200":
+          description: CAPA records
+  /risks:
+    get:
+      summary: List risks
+      responses:
+        "200":
+          description: Risks
+  /actions:
+    get:
+      summary: List actions
+      responses:
+        "200":
+          description: Actions
+  /audits:
+    get:
+      summary: List audits
+      responses:
+        "200":
+          description: Audits
+  /trainings:
+    get:
+      summary: List trainings
+      responses:
+        "200":
+          description: Trainings
+  /suppliers:
+    get:
+      summary: List suppliers
+      responses:
+        "200":
+          description: Suppliers
+  /messages:
+    get:
+      summary: List internal mailbox messages
+      responses:
+        "200":
+          description: Messages
+    post:
+      summary: Create or send internal message
+      responses:
+        "201":
+          description: Message created
+  /messages/{id}:
+    get:
+      summary: Get message
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Message detail
+  /notifications:
+    get:
+      summary: List notifications
+      responses:
+        "200":
+          description: Notifications
+  /search:
+    get:
+      summary: Global search
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Search results
+  /files/upload:
+    post:
+      summary: Upload file to R2
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                module:
+                  type: string
+                related_id:
+                  type: string
+      responses:
+        "201":
+          description: File uploaded
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: gdnl_eos_token
+  schemas:
+    ApiSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+        message:
+          type: string
+    ApiError:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: object
+

@@ -120,6 +120,219 @@ tr:hover td{background:#f7fbf8}
 @media(max-width:1200px){.cards{grid-template-columns:repeat(2,1fr)}.search{width:320px}}
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}.actions .btn{width:100%}}
 
+
+
+/* === GDNL PREMIUM TOPBAR STANDARD === */
+html,body{max-width:100%!important;overflow-x:hidden!important}
+.topbar{
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-height:64px!important;
+  height:auto!important;
+  padding:10px 12px!important;
+  gap:10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:nowrap!important;
+  background:rgba(255,255,255,.78)!important;
+  border:1px solid rgba(223,233,245,.92)!important;
+  border-radius:20px!important;
+  box-shadow:0 16px 42px rgba(7,27,52,.07)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+  overflow:visible!important;
+}
+.topbar .mobile-menu-btn{flex:0 0 auto!important}
+.topbar .search-wrap{
+  flex:1 1 360px!important;
+  max-width:min(440px,42vw)!important;
+  min-width:190px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+.topbar .search{
+  width:100%!important;
+  height:40px!important;
+  border-radius:12px!important;
+  padding:0 12px!important;
+  font-size:13px!important;
+  font-weight:750!important;
+  background:rgba(248,251,255,.88)!important;
+  border:1px solid #dbe6f2!important;
+  box-shadow:none!important;
+}
+.topbar .search-btn,
+.topbar #searchBtn,
+.topbar .btn#searchBtn{
+  height:40px!important;
+  min-width:44px!important;
+  padding:0 13px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  box-shadow:0 10px 22px rgba(34,177,76,.16)!important;
+  white-space:nowrap!important;
+}
+.topbar .profile,
+.topbar .profile-bar,
+.topbar .user-panel{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  margin-left:auto!important;
+  min-width:0!important;
+  flex:0 1 auto!important;
+  white-space:nowrap!important;
+}
+.topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+}
+.topbar-icon-btn{
+  width:38px;
+  height:38px;
+  border:1px solid #dfe9f5;
+  border-radius:12px;
+  background:rgba(255,255,255,.72);
+  color:#35506b;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(7,27,52,.055);
+  transition:.18s ease;
+}
+.topbar-icon-btn:hover{transform:translateY(-1px);background:#fff;border-color:#bfe7ca;color:#1f8f43}
+.topbar .avatar,
+.topbar .user-chip,
+.topbar #userChip{
+  width:auto!important;
+  min-width:0!important;
+  max-width:220px!important;
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 12px!important;
+  border-radius:999px!important;
+  border:1px solid #dfe9f5!important;
+  background:rgba(255,255,255,.78)!important;
+  color:#071b34!important;
+  box-shadow:0 10px 24px rgba(7,27,52,.06)!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.topbar .avatar::before,
+.topbar .user-chip::before,
+.topbar #userChip::before{
+  content:"👤";
+  font-size:14px;
+  line-height:1;
+  flex:0 0 auto;
+}
+.topbar .avatar span,
+.topbar .user-chip span,
+.topbar #userChip span{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.topbar #userAvatar:not(:has(span)),
+.topbar #avatar{
+  font-size:0!important;
+  width:40px!important;
+  max-width:40px!important;
+  padding:0!important;
+}
+.topbar #userAvatar:not(:has(span))::before,
+.topbar #avatar::before{margin:0!important}
+.topbar .user-meta{display:flex!important;align-items:center!important;min-width:0!important;max-width:220px!important}
+.topbar .user-meta b{display:inline-flex!important;align-items:center!important;gap:7px!important;font-size:13px!important;color:#071b34!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.topbar .user-meta b::before{content:"👤";font-size:14px;line-height:1;flex:0 0 auto}
+.topbar .user-meta span{display:none!important}
+.topbar .logout-btn,
+.topbar .logout{
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 13px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  box-shadow:none!important;
+  white-space:nowrap!important;
+}
+.topbar .department-switch,
+.topbar .department-chip{
+  height:40px!important;
+  min-height:40px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 12px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+  box-shadow:0 10px 24px rgba(7,27,52,.055)!important;
+}
+.topbar .department-chip{max-width:210px!important;overflow:hidden!important;text-overflow:ellipsis!important}
+@media(max-width:1280px){
+  .topbar{padding:9px 10px!important;gap:8px!important}
+  .topbar .search-wrap{max-width:330px!important;flex-basis:280px!important;min-width:160px!important}
+  .topbar .department-switch,.topbar .department-chip,.topbar .logout-btn,.topbar .logout{padding:0 10px!important;font-size:12px!important}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:180px!important;padding:0 10px!important;font-size:12px!important}
+}
+@media(max-width:850px){
+  .app,.main{min-width:0!important;max-width:100vw!important;overflow-x:hidden!important}
+  .topbar{
+    position:sticky!important;
+    top:0!important;
+    z-index:40!important;
+    min-height:64px!important;
+    padding:10px!important;
+    border-radius:18px!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+  }
+  .topbar .search-wrap{
+    order:2!important;
+    flex:1 1 100%!important;
+    max-width:none!important;
+    width:100%!important;
+    min-width:0!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+  }
+  .topbar .search{height:40px!important;font-size:13px!important}
+  .topbar .search-btn,.topbar #searchBtn,.topbar .btn#searchBtn{height:40px!important;min-width:50px!important;padding:0 12px!important}
+  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{display:flex!important;gap:6px!important;margin-left:auto!important;flex:1 1 auto!important;justify-content:flex-end!important;min-width:0!important}
+  .topbar-actions{gap:5px}
+  .topbar-icon-btn{width:36px;height:36px;border-radius:11px}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{display:inline-flex!important;height:36px!important;min-height:36px!important;max-width:170px!important;font-size:12px!important}
+  .topbar #userAvatar:not(:has(span)),.topbar #avatar{width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important}
+  .topbar .logout-btn,.topbar .logout{display:inline-flex!important;height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important}
+  .topbar .department-switch,.topbar .department-chip{height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important;max-width:100%!important}
+}
+@media(max-width:520px){
+  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{flex-wrap:wrap!important;justify-content:flex-start!important;width:100%!important;order:3!important;margin-left:0!important}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:calc(100vw - 126px)!important}
+  .topbar .department-switch,.topbar .department-chip{flex:1 1 auto!important}
+}
+
 </style>
 </head>
 
@@ -280,12 +493,13 @@ tr:hover td{background:#f7fbf8}
 <header class="topbar">
 <button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
 <div class="search-wrap">
-<input class="search" id="globalSearch" placeholder="Onay süreci no, doküman kodu, ad, onaycı veya durum ara">
+<input class="search" id="globalSearch" placeholder="Ara...">
 <button class="search-btn" onclick="runSearch()">Ara</button>
 </div>
 <div class="profile">
+<div class="topbar-actions" aria-label="Mesaj ve bildirim kısayolları"><button class="topbar-icon-btn" type="button" aria-label="Mesajlar">✉</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
 <div class="avatar" onclick="window.location.href='dashboard.html'">
-<span id="userName">Kerem Güdenli</span>
+<span id="userName"></span>
 </div>
 <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
 </div>
@@ -311,7 +525,7 @@ tr:hover td{background:#f7fbf8}
 </section>
 <section class="cards">
 <div class="card"><small>Toplam Onay Süreci</small><h2 id="totalApprovals">0</h2><p>Onay kuyruğu</p></div>
-<div class="card"><small>Bekleyen</small><h2 id="pendingApprovals">0</h2><p>İmza bekleyen</p></div>
+<div class="card"><small>Bekleyen</small><h2 id="pendingApprovals">0</h2><p>Onay bekleyen</p></div>
 <div class="card"><small>Tamamlanan</small><h2 id="approvedApprovals">0</h2><p>Yayınlanan / tamamlanan</p></div>
 <div class="card"><small>Reddedilen</small><h2 id="rejectedApprovals">0</h2><p>Red / revizyon isteği</p></div>
 </section>
@@ -442,8 +656,8 @@ tr:hover td{background:#f7fbf8}
 <input id="activeApproverDepartment" class="readonly-field" placeholder="Kullanıcı seçilince otomatik dolar" readonly>
 </div>
 <div class="field">
-<label>Elektronik İmza / Kullanıcı</label>
-<input id="signatureInput" placeholder="İmza / PIN / kullanıcı adı">
+<label>Onaylayan Kullanıcı</label>
+<input id="signatureInput" placeholder="Onaylayan kullanıcı adı">
 </div>
 <div class="field">
 <label>İşlem Notu</label>
@@ -467,12 +681,11 @@ tr:hover td{background:#f7fbf8}
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
+<script src="assets/js/config/api-client.js"></script>
 <script>
-const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
-const session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_eqms_session")||"null")||{name:"Kerem Güdenli",role:"Super Administrator",loginAt:new Date().toISOString()};
-if(!session.name||session.name==="Kerem Admin")session.name="Kerem Güdenli";
-localStorage.setItem("gdnl_qdms_session",JSON.stringify(session));
-document.getElementById("userName").textContent=session.name||"Kerem Güdenli";
+const API_BASE = window.GDNL_API_BASE;
+const session=window.GDNL_API?.normalizeUser(window.GDNL_CURRENT_USER||{})||{};
+document.getElementById("userName").textContent=session.name||"";
 
 let selectedApprovalIndex=null;
 let cloudReady=false;
@@ -488,8 +701,8 @@ let cloudRolePermissions=[];
 let dashboardKpiSyncEnabled=true;
 let selectedUsers={};
 
-function getLS(k){try{return JSON.parse(localStorage.getItem(k))||[]}catch(e){return[]}}
-function setLS(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function getLS(k){try{return JSON.parse(window.GDNL_LEGACY_STORAGE.getItem(k))||[]}catch(e){return[]}}
+function setLS(k,v){window.GDNL_LEGACY_STORAGE.setItem(k,JSON.stringify(v))}
 function uid(prefix="ID"){return prefix+"-"+Date.now()+"-"+Math.random().toString(16).slice(2,8)}
 function todayISO(){return new Date().toISOString().split("T")[0]}
 function nowISO(){return new Date().toISOString()}
@@ -590,7 +803,7 @@ async function writeActivity(type,module,relatedId,title,description="",oldValue
   };
   try{await postJSON("/activity-feed",payload)}catch(e){const q=getLS("gdnl_pending_activity_feed");q.unshift(payload);setLS("gdnl_pending_activity_feed",q)}
 }
-async function writeApprovalHistory(a,action,step,note="",signature=""){
+async function writeApprovalHistory(a,action,step,note="",approverName=""){
   const activeStep=(a.steps||[]).find(s=>s.step===step)||{};
   const payload={
     id:uid("APH"),
@@ -603,12 +816,8 @@ async function writeApprovalHistory(a,action,step,note="",signature=""){
     user_id:getUserId(),
     user_name:getUserName(),
     department:session.department||"",
-    signature,
-    signature_id:uid("SIG"),
-    signature_hash:btoa(unescape(encodeURIComponent(`${a.approvalId}|${step}|${action}|${getUserId()}|${nowISO()}`))).slice(0,48),
-    approval_token:btoa(unescape(encodeURIComponent(`${a.approvalId}|${Date.now()}`))).slice(0,32),
-    signed_at:nowISO(),
-    signed_by:getUserName(),
+    approver_name:approverName||getUserName(),
+    approved_at:nowISO(),
     note,
     status:a.status,
     created_at:nowISO()
@@ -676,7 +885,7 @@ async function uploadFileToR2(file,relatedId){
   fd.append("module","ONAY_YONETIMI");
   fd.append("related_id",relatedId||"REFERANS-YOK");
   fd.append("uploaded_by",getUserName());
-  const data=await apiFetch("/upload",{method:"POST",body:fd});
+  const data=await apiFetch("/api/files/upload",{method:"POST",body:fd});
   await writeAudit("UPLOAD_APPROVAL_FILE","Onay Yönetimi",relatedId,{fileName:file.name,r2Key:data.file?.r2_key});
   return data.file||data;
 }
@@ -809,11 +1018,11 @@ renderSearchResults(text,unique);
 function collectPageSearchResults(keyword){const results=[];const seen=new Set();document.querySelectorAll(".menu a").forEach(el=>{const label=el.textContent.trim();const href=el.getAttribute("href")||"";if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"})}}});document.querySelectorAll(".card").forEach((el,index)=>{const title=(el.querySelector("small")?.textContent||"Kart").trim();const value=(el.querySelector("h2")?.textContent||"").trim();const detail=(el.querySelector("p")?.textContent||"").trim();if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}});document.querySelectorAll(".panel").forEach((el,index)=>{if(el.id==="searchResultsPanel")return;const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`})}});return results}
 function highlightText(value,keyword){const safe=escapeHTML(value);if(!keyword)return safe;const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");return safe.replace(new RegExp(escaped,"gi"),m=>`<mark>${m}</mark>`)}
 function renderSearchResults(keyword,results){const panel=document.getElementById("searchResultsPanel"),area=document.getElementById("searchResultsArea"),count=document.getElementById("searchResultCount"),key=document.getElementById("searchKeyword");panel.classList.add("active");key.textContent=keyword;count.textContent=results.length+" sonuç";if(!results.length){area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;panel.scrollIntoView({behavior:"smooth",block:"start"});return}area.innerHTML=results.slice(0,80).map((r,index)=>`<div class="result-card"><div><span class="status blue">${escapeHTML(r.module)}</span></div><div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div><button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button></div>`).join("");window.gdnlSearchResults=results.slice(0,80);panel.scrollIntoView({behavior:"smooth",block:"start"})}
-function openSearchResult(index){const r=(window.gdnlSearchResults||[])[index];if(!r)return;if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}if(r.store)localStorage.setItem(r.store,r.selected||"");if(r.module==="Onay Yönetimi"){const approvals=filteredActiveApprovals();const idx=approvals.findIndex(x=>x.approvalId===r.selected||x.workflowId===r.selected);if(idx!==-1){clearSearchResults();renderApprovals();openDrawer(idx)}return}if(r.go&&r.go!=="#")window.location.href=r.go}
+function openSearchResult(index){const r=(window.gdnlSearchResults||[])[index];if(!r)return;if(r.type==="scroll"&&r.selector){const target=document.querySelector(r.selector);if(target){target.scrollIntoView({behavior:"smooth",block:"center"});target.style.outline="3px solid #35a852";target.style.outlineOffset="4px";setTimeout(()=>{target.style.outline="";target.style.outlineOffset=""},2200)}return}if(r.store)window.GDNL_LEGACY_STORAGE.setItem(r.store,r.selected||"");if(r.module==="Onay Yönetimi"){const approvals=filteredActiveApprovals();const idx=approvals.findIndex(x=>x.approvalId===r.selected||x.workflowId===r.selected);if(idx!==-1){clearSearchResults();renderApprovals();openDrawer(idx)}return}if(r.go&&r.go!=="#")window.location.href=r.go}
 function clearSearchResults(){document.getElementById("globalSearch").value="";document.getElementById("searchResultsPanel").classList.remove("active");document.getElementById("searchResultsArea").innerHTML="";renderApprovals()}
 
 function initAccordionMenus(){document.querySelectorAll(".menu-group").forEach(btn=>{const submenu=btn.nextElementSibling;if(submenu&&submenu.classList.contains("open"))btn.classList.add("open");btn.addEventListener("click",()=>{const parent=btn.closest("nav");const current=btn.nextElementSibling;if(!current)return;parent.querySelectorAll(".submenu").forEach(menu=>{if(menu!==current)menu.classList.remove("open")});parent.querySelectorAll(".menu-group").forEach(group=>{if(group!==btn)group.classList.remove("open")});current.classList.toggle("open");btn.classList.toggle("open")})})}
-function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_eqms_session");window.location.href="index.html"}
+function logout(){if(window.GDNL_API?.logout){window.GDNL_API.logout();return}window.location.href="index.html"}
 function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
 function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMobileMenu()});
@@ -827,7 +1036,7 @@ const activeIdx=getCurrentStepIndex(a);const activeApprover=activeIdx!==-1?a.ste
 fillAuditIntegrationFields(a);
 let html="";
 html+=`<div class="step active"><b>Doküman:</b> ${escapeHTML(a.documentCode)} - ${escapeHTML(a.documentName)}<br><b>Revizyon:</b> ${escapeHTML(a.rev)}<br><b>Mevcut Adım:</b> ${escapeHTML(a.currentStep)}</div>`;
-a.steps.forEach(s=>{let cls="step";if(s.status==="Onaylandı")cls+=" ok";else if(s.status==="Bekliyor")cls+=" active";else if(s.status==="Reddedildi"||s.status==="Revizyon İstendi")cls+=" red";html+=`<div class="${cls}"><b>${escapeHTML(s.step)}</b><br>Onaycı: ${escapeHTML(s.approver||"-")}<br>Durum: ${escapeHTML(s.status)}<br>Tarih: ${escapeHTML(s.date||"-")}${s.department?`<br>Departman: ${escapeHTML(s.department)}`:""}${s.signedBy?`<br>İmza: ${escapeHTML(s.signedBy)}`:""}</div>`});
+a.steps.forEach(s=>{let cls="step";if(s.status==="Onaylandı")cls+=" ok";else if(s.status==="Bekliyor")cls+=" active";else if(s.status==="Reddedildi"||s.status==="Revizyon İstendi")cls+=" red";html+=`<div class="${cls}"><b>${escapeHTML(s.step)}</b><br>Onaycı: ${escapeHTML(s.approver||"-")}<br>Durum: ${escapeHTML(s.status)}<br>Tarih: ${escapeHTML(s.date||"-")}${s.department?`<br>Departman: ${escapeHTML(s.department)}`:""}${s.approvedBy?`<br>Onaylayan: ${escapeHTML(s.approvedBy)}`:""}</div>`});
 html+=`<div class="step"><b>Dağıtım:</b><br>${escapeHTML(doc&&doc.distributionPoints?doc.distributionPoints:"Dağıtım noktası girilmemiş")}<br><br><b>E-posta:</b> ${escapeHTML(doc&&doc.mailGroups?doc.mailGroups:"-")}<br><b>SMS:</b> ${escapeHTML(doc&&doc.smsGroups?doc.smsGroups:"-")}</div>`;
 if(a.auditIntegration&&Object.keys(a.auditIntegration).length){const ai=a.auditIntegration;html+=`<div class="step"><b>İç Denetim Entegrasyonu:</b><br>Kaynak: ${escapeHTML(ai.auditSource||"-")}<br>Denetim No: ${escapeHTML(ai.relatedAuditNo||"-")}<br>Bulgu No: ${escapeHTML(ai.relatedFindingNo||"-")}<br>Sorumlu: ${escapeHTML(ai.responsibleName||"-")}<br>Departman: ${escapeHTML(ai.responsibleDepartment||"-")}<br>Durum: ${escapeHTML(ai.status||"-")}<br>Not: ${escapeHTML(ai.note||"-")}</div>`}
 if(a.history&&a.history.length){html+=`<div class="step"><b>Geçmiş:</b><br>${a.history.map(h=>`${escapeHTML(h.date)} - ${escapeHTML(h.action)} - ${escapeHTML(h.user)} - ${escapeHTML(h.note||"")}`).join("<br>")}</div>`}
@@ -864,11 +1073,11 @@ await writeActivity("UPDATE_APPROVER","Onay Yönetimi",a.approvalId,"Onaycı gü
 renderApprovals();openDrawer(selectedApprovalIndex);showToast("Onaycı güncellendi");
 }
 
-async function approveCurrent(){if(selectedApprovalIndex===null)return;const signature=document.getElementById("signatureInput").value.trim();if(!signature){showToast("Elektronik imza zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);if(idx===-1){showToast("Aktif adım bulunamadı");return}const old=JSON.stringify(a);a.steps[idx].status="Onaylandı";a.steps[idx].date=todayISO();a.steps[idx].signedBy=signature;a.steps[idx].signedUser=getUserName();a.steps[idx].signedUserId=getUserId();a.steps[idx].signedAt=nowISO();a.steps[idx].signedBrowser=navigator.userAgent;a.steps[idx].signatureType="Elektronik İmza";a.history.unshift({action:"Onaylandı",step:a.steps[idx].step,user:getUserName(),signature,note:document.getElementById("actionNote").value.trim(),date:nowISO()});if(idx<a.steps.length-1){a.steps[idx+1].status="Bekliyor";a.currentStep=a.steps[idx+1].step;a.status="Devam Ediyor";updateDocumentWorkflow(a.documentCode,"Onayda",a.currentStep);await createNotification(a,"Onay bir sonraki adıma aktarıldı: "+a.currentStep);await createAssignmentForStep(a)}else{a.currentStep="Kalite Final Onayı";a.status="Yayınlandı";await finalPublish(a)}a.updatedAt=nowISO();replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Onaylandı",a.steps[idx].step,document.getElementById("actionNote").value.trim(),signature);await writeAudit("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,{step:a.steps[idx].step,signature},old,JSON.stringify(a));await writeActivity("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay verildi",a.currentStep);renderApprovals();openDrawer(selectedApprovalIndex);showToast(a.status==="Yayınlandı"?"Onay süreci tamamlandı ve yayınlandı":"Onaylandı, sonraki adıma aktarıldı")}
+async function approveCurrent(){if(selectedApprovalIndex===null)return;const approverName=document.getElementById("signatureInput").value.trim()||getUserName();const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);if(idx===-1){showToast("Aktif adım bulunamadı");return}const old=JSON.stringify(a);a.steps[idx].status="Onaylandı";a.steps[idx].date=todayISO();a.steps[idx].approvedBy=approverName;a.steps[idx].approvedUser=getUserName();a.steps[idx].approvedUserId=getUserId();a.steps[idx].approvedAt=nowISO();a.history.unshift({action:"Onaylandı",step:a.steps[idx].step,user:getUserName(),approver:approverName,note:document.getElementById("actionNote").value.trim(),date:nowISO()});if(idx<a.steps.length-1){a.steps[idx+1].status="Bekliyor";a.currentStep=a.steps[idx+1].step;a.status="Devam Ediyor";updateDocumentWorkflow(a.documentCode,"Onayda",a.currentStep);await createNotification(a,"Onay bir sonraki adıma aktarıldı: "+a.currentStep);await createAssignmentForStep(a)}else{a.currentStep="Kalite Final Onayı";a.status="Yayınlandı";await finalPublish(a)}a.updatedAt=nowISO();replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Onaylandı",a.steps[idx].step,document.getElementById("actionNote").value.trim(),approverName);await writeAudit("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,{step:a.steps[idx].step,approver:approverName},old,JSON.stringify(a));await writeActivity("APPROVE_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay verildi",a.currentStep);renderApprovals();openDrawer(selectedApprovalIndex);showToast(a.status==="Yayınlandı"?"Onay süreci tamamlandı ve yayınlandı":"Onaylandı, sonraki adıma aktarıldı")}
 async function finalPublish(a){const docs=getDocuments();const index=docs.findIndex(d=>d.code===a.documentCode||d.documentCode===a.documentCode);if(index!==-1){docs[index].status="Yayında";docs[index].workflowStatus="Yayında";docs[index].lastApprovalId=a.approvalId;docs[index].publishedAt=nowISO();docs[index].updatedAt=nowISO();docs[index].updatedBy=getUserName();setDocuments(docs);await updateDocumentToCloud(docs[index]);createDistributionQueue(docs[index],a);await createNotification(a,"Doküman yayınlandı ve dağıtım kuyruğuna aktarıldı")}}
 function createDistributionQueue(doc,a){const dist=getDistribution();const exists=dist.some(x=>x.documentCode===doc.code&&x.workflowId===a.workflowId);if(exists)return;dist.unshift({distributionId:"DST-"+Date.now(),workflowId:a.workflowId,documentCode:doc.code,documentName:doc.name,rev:doc.rev,status:"Dağıtım Bekliyor",distributionPoints:doc.distributionPoints||"",mailGroups:doc.mailGroups||"",smsGroups:doc.smsGroups||"",notificationType:doc.notificationType||"E-posta + SMS",readTracking:[],createdBy:getUserName(),createdAt:nowISO(),updatedAt:nowISO()});setDistribution(dist)}
-async function rejectCurrent(){if(selectedApprovalIndex===null)return;const reason=document.getElementById("rejectReason").value.trim();if(reason.length<5){showToast("Red gerekçesi zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);const old=JSON.stringify(a);if(idx!==-1){a.steps[idx].status="Reddedildi";a.steps[idx].date=todayISO();a.steps[idx].signedUser=getUserName()}a.status="Reddedildi";a.history.unshift({action:"Reddedildi",step:a.currentStep,user:getUserName(),note:reason,date:nowISO()});a.updatedAt=nowISO();updateDocumentWorkflow(a.documentCode,"Revizyon","Reddedildi");await createNotification(a,"Onay süreci reddedildi: "+reason);replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Reddedildi",a.currentStep,reason);await writeAudit("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,reason,old,JSON.stringify(a));await writeActivity("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay süreci reddedildi",reason);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Onay süreci reddedildi")}
-async function requestRevision(){if(selectedApprovalIndex===null)return;const reason=document.getElementById("rejectReason").value.trim();if(reason.length<5){showToast("Revizyon gerekçesi zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);const old=JSON.stringify(a);if(idx!==-1){a.steps[idx].status="Revizyon İstendi";a.steps[idx].date=todayISO();a.steps[idx].signedUser=getUserName()}a.status="Revizyon İstendi";a.history.unshift({action:"Revizyon İstendi",step:a.currentStep,user:getUserName(),note:reason,date:nowISO()});a.updatedAt=nowISO();updateDocumentWorkflow(a.documentCode,"Revizyon","Revizyon İstendi");await createNotification(a,"Revizyon istendi: "+reason);replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Revizyon İstendi",a.currentStep,reason);await writeAudit("REQUEST_REVISION","Onay Yönetimi",a.approvalId,reason,old,JSON.stringify(a));await writeActivity("REQUEST_REVISION","Onay Yönetimi",a.approvalId,"Revizyon istendi",reason);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Revizyon istendi")}
+async function rejectCurrent(){if(selectedApprovalIndex===null)return;const reason=document.getElementById("rejectReason").value.trim();if(reason.length<5){showToast("Red gerekçesi zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);const old=JSON.stringify(a);if(idx!==-1){a.steps[idx].status="Reddedildi";a.steps[idx].date=todayISO();a.steps[idx].approvalUser=getUserName()}a.status="Reddedildi";a.history.unshift({action:"Reddedildi",step:a.currentStep,user:getUserName(),note:reason,date:nowISO()});a.updatedAt=nowISO();updateDocumentWorkflow(a.documentCode,"Revizyon","Reddedildi");await createNotification(a,"Onay süreci reddedildi: "+reason);replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Reddedildi",a.currentStep,reason);await writeAudit("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,reason,old,JSON.stringify(a));await writeActivity("REJECT_WORKFLOW","Onay Yönetimi",a.approvalId,"Onay süreci reddedildi",reason);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Onay süreci reddedildi")}
+async function requestRevision(){if(selectedApprovalIndex===null)return;const reason=document.getElementById("rejectReason").value.trim();if(reason.length<5){showToast("Revizyon gerekçesi zorunlu");return}const approvals=filteredActiveApprovals();const a=approvals[selectedApprovalIndex];const idx=getCurrentStepIndex(a);const old=JSON.stringify(a);if(idx!==-1){a.steps[idx].status="Revizyon İstendi";a.steps[idx].date=todayISO();a.steps[idx].approvalUser=getUserName()}a.status="Revizyon İstendi";a.history.unshift({action:"Revizyon İstendi",step:a.currentStep,user:getUserName(),note:reason,date:nowISO()});a.updatedAt=nowISO();updateDocumentWorkflow(a.documentCode,"Revizyon","Revizyon İstendi");await createNotification(a,"Revizyon istendi: "+reason);replaceApproval(a);await saveApprovalToCloud(a);await writeApprovalHistory(a,"Revizyon İstendi",a.currentStep,reason);await writeAudit("REQUEST_REVISION","Onay Yönetimi",a.approvalId,reason,old,JSON.stringify(a));await writeActivity("REQUEST_REVISION","Onay Yönetimi",a.approvalId,"Revizyon istendi",reason);renderApprovals();openDrawer(selectedApprovalIndex);showToast("Revizyon istendi")}
 
 function getCurrentApprovalForIntegration(){
   if(selectedApprovalIndex!==null){
@@ -927,7 +1136,7 @@ async function saveAuditIntegration(){
 }
 function openRelatedAudit(){
   const no=(document.getElementById("relatedAuditNo")?.value||"").trim();
-  if(no)localStorage.setItem("gdnl_selected_audit_no",no);
+  if(no)window.GDNL_LEGACY_STORAGE.setItem("gdnl_selected_audit_no",no);
   window.location.href="audit.html";
 }
 async function createCapaFromApproval(){
@@ -995,7 +1204,7 @@ async function archiveCurrentApproval(){
   await createNotification(a,"Onay süreci arşivlendi: "+reason);
   closeDrawer();renderApprovals();showToast("Onay süreci arşivlendi")
 }
-function openDocument(){if(selectedApprovalIndex===null)return;const a=filteredActiveApprovals()[selectedApprovalIndex];localStorage.setItem("gdnl_selected_document_code",a.documentCode);window.location.href="document-viewer.html"}
+function openDocument(){if(selectedApprovalIndex===null)return;const a=filteredActiveApprovals()[selectedApprovalIndex];window.GDNL_LEGACY_STORAGE.setItem("gdnl_selected_document_code",a.documentCode);window.location.href="document-viewer.html"}
 
 function renderApprovals(){const approvals=filteredActiveApprovals();const q=document.getElementById("globalSearch").value.toLowerCase();const statusFilter=document.getElementById("statusFilter").value;const stepFilter=document.getElementById("stepFilter").value;const filtered=approvals.filter(a=>{const text=`${a.workflowId} ${a.documentCode} ${a.documentName} ${a.rev} ${a.currentStep} ${a.status} ${a.steps.map(s=>s.approver).join(" ")} ${JSON.stringify(a.auditIntegration||{})}`.toLowerCase();return text.includes(q)&&(!statusFilter||a.status===statusFilter)&&(!stepFilter||a.currentStep===stepFilter)});updateCards(approvals);const area=document.getElementById("approvalTable");if(filtered.length===0){area.innerHTML=`<div class="empty">Bekleyen onay kaydı yok. Yeni Doküman ekranından “Onay Süreci Başlat” yapınca buraya düşer.</div>`;return}let html=`<table><thead><tr><th>Onay Süreci</th><th>Doküman</th><th>Rev.</th><th>Mevcut Adım</th><th>Onaycı</th><th>Durum</th><th>Son Güncelleme</th><th>Aksiyon</th></tr></thead><tbody>`;filtered.forEach(a=>{const index=approvals.findIndex(x=>x.approvalId===a.approvalId);const idx=getCurrentStepIndex(a);const approver=idx!==-1?a.steps[idx].approver:"-";html+=`<tr><td>${escapeHTML(a.workflowId)}</td><td>${escapeHTML(a.documentCode)}<br><small>${escapeHTML(a.documentName)}</small></td><td>${escapeHTML(a.rev)}</td><td>${escapeHTML(a.currentStep)}</td><td>${escapeHTML(approver)}</td><td><span class="status ${statusClass(a.status)}">${escapeHTML(a.status)}</span></td><td>${new Date(a.updatedAt).toLocaleDateString("tr-TR")}</td><td><div class="row-actions"><button class="small-btn view" onclick="openDrawer(${index})">İncele</button>${hasPermission("Arşivleme",a)?`<button class="small-btn rev" onclick="openDrawer(${index});setTimeout(()=>archiveCurrentApproval(),50)">Arşivle</button>`:""}</div></td></tr>`});html+=`</tbody></table>`;area.innerHTML=html}
 function updateCards(items){document.getElementById("totalApprovals").textContent=items.length;document.getElementById("pendingApprovals").textContent=items.filter(x=>x.status==="Bekliyor"||x.status==="Devam Ediyor").length;document.getElementById("approvedApprovals").textContent=items.filter(x=>x.status==="Yayınlandı"||x.status==="Onaylandı").length;document.getElementById("rejectedApprovals").textContent=items.filter(x=>x.status==="Reddedildi"||x.status==="Revizyon İstendi").length}
@@ -1023,7 +1232,7 @@ function buildApprovalSteps(a){
     approval_type:s.approval_type||"Sıralı",
     required:s.required!==false,
     status:s.status||"Sırada",
-    approved_at:s.approved_at||s.signedAt||s.date||"",
+    approved_at:s.approved_at||s.approvalAt||s.date||"",
     rejected_at:s.rejected_at||"",
     comment:s.comment||s.note||""
   }));
@@ -1038,7 +1247,7 @@ function buildWorkflowSteps(a){
     required:s.required!==false,
     status:s.status||"Sırada",
     created_at:a.createdAt||a.created_at||nowISO(),
-    completed_at:s.signedAt||s.approved_at||s.rejected_at||""
+    completed_at:s.approvalAt||s.approved_at||s.rejected_at||""
   }));
 }
 function hasPermission(permissionName,record){
@@ -1108,7 +1317,7 @@ async function linkDocumentFromApproval(){
   const a=getCurrentApprovalForIntegration();if(!a){showToast("Onay süreci seçili değil");return}
   await writeAudit("LINK_DOCUMENT_FROM_AUDIT","Onay Yönetimi",a.approvalId,{documentCode:a.documentCode});
   await writeActivity("LINK_DOCUMENT_FROM_AUDIT","Onay Yönetimi",a.approvalId,"Doküman bağlantısı oluşturuldu",a.documentCode);
-  localStorage.setItem("gdnl_selected_document_code",a.documentCode||"");
+  window.GDNL_LEGACY_STORAGE.setItem("gdnl_selected_document_code",a.documentCode||"");
   showToast("Doküman bağlantısı hazırlandı");
 }
 async function createTrainingFromApproval(){
@@ -1137,5 +1346,6 @@ loadCloudData();
 renderApprovals();
 console.log("GDNL EQMS Onay Yönetimi Cloud Ready Loaded");
 </script>
+<script src="assets/js/ui/maturity-widgets.js"></script>
 </body>
 </html>

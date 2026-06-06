@@ -689,6 +689,219 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
 .cloud-comment-box{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:10px}
 .cloud-comment-box textarea{min-height:70px;border:1px solid #d8e4ef;border-radius:14px;padding:12px;background:#fff;resize:vertical;color:#0f1b2f;font-weight:900}
 
+
+
+/* === GDNL PREMIUM TOPBAR STANDARD === */
+html,body{max-width:100%!important;overflow-x:hidden!important}
+.topbar{
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-height:64px!important;
+  height:auto!important;
+  padding:10px 12px!important;
+  gap:10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:nowrap!important;
+  background:rgba(255,255,255,.78)!important;
+  border:1px solid rgba(223,233,245,.92)!important;
+  border-radius:20px!important;
+  box-shadow:0 16px 42px rgba(7,27,52,.07)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+  overflow:visible!important;
+}
+.topbar .mobile-menu-btn{flex:0 0 auto!important}
+.topbar .search-wrap{
+  flex:1 1 360px!important;
+  max-width:min(440px,42vw)!important;
+  min-width:190px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+.topbar .search{
+  width:100%!important;
+  height:40px!important;
+  border-radius:12px!important;
+  padding:0 12px!important;
+  font-size:13px!important;
+  font-weight:750!important;
+  background:rgba(248,251,255,.88)!important;
+  border:1px solid #dbe6f2!important;
+  box-shadow:none!important;
+}
+.topbar .search-btn,
+.topbar #searchBtn,
+.topbar .btn#searchBtn{
+  height:40px!important;
+  min-width:44px!important;
+  padding:0 13px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  box-shadow:0 10px 22px rgba(34,177,76,.16)!important;
+  white-space:nowrap!important;
+}
+.topbar .profile,
+.topbar .profile-bar,
+.topbar .user-panel{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  margin-left:auto!important;
+  min-width:0!important;
+  flex:0 1 auto!important;
+  white-space:nowrap!important;
+}
+.topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+}
+.topbar-icon-btn{
+  width:38px;
+  height:38px;
+  border:1px solid #dfe9f5;
+  border-radius:12px;
+  background:rgba(255,255,255,.72);
+  color:#35506b;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(7,27,52,.055);
+  transition:.18s ease;
+}
+.topbar-icon-btn:hover{transform:translateY(-1px);background:#fff;border-color:#bfe7ca;color:#1f8f43}
+.topbar .avatar,
+.topbar .user-chip,
+.topbar #userChip{
+  width:auto!important;
+  min-width:0!important;
+  max-width:220px!important;
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 12px!important;
+  border-radius:999px!important;
+  border:1px solid #dfe9f5!important;
+  background:rgba(255,255,255,.78)!important;
+  color:#071b34!important;
+  box-shadow:0 10px 24px rgba(7,27,52,.06)!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.topbar .avatar::before,
+.topbar .user-chip::before,
+.topbar #userChip::before{
+  content:"👤";
+  font-size:14px;
+  line-height:1;
+  flex:0 0 auto;
+}
+.topbar .avatar span,
+.topbar .user-chip span,
+.topbar #userChip span{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.topbar #userAvatar:not(:has(span)),
+.topbar #avatar{
+  font-size:0!important;
+  width:40px!important;
+  max-width:40px!important;
+  padding:0!important;
+}
+.topbar #userAvatar:not(:has(span))::before,
+.topbar #avatar::before{margin:0!important}
+.topbar .user-meta{display:flex!important;align-items:center!important;min-width:0!important;max-width:220px!important}
+.topbar .user-meta b{display:inline-flex!important;align-items:center!important;gap:7px!important;font-size:13px!important;color:#071b34!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.topbar .user-meta b::before{content:"👤";font-size:14px;line-height:1;flex:0 0 auto}
+.topbar .user-meta span{display:none!important}
+.topbar .logout-btn,
+.topbar .logout{
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 13px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  box-shadow:none!important;
+  white-space:nowrap!important;
+}
+.topbar .department-switch,
+.topbar .department-chip{
+  height:40px!important;
+  min-height:40px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 12px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+  box-shadow:0 10px 24px rgba(7,27,52,.055)!important;
+}
+.topbar .department-chip{max-width:210px!important;overflow:hidden!important;text-overflow:ellipsis!important}
+@media(max-width:1280px){
+  .topbar{padding:9px 10px!important;gap:8px!important}
+  .topbar .search-wrap{max-width:330px!important;flex-basis:280px!important;min-width:160px!important}
+  .topbar .department-switch,.topbar .department-chip,.topbar .logout-btn,.topbar .logout{padding:0 10px!important;font-size:12px!important}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:180px!important;padding:0 10px!important;font-size:12px!important}
+}
+@media(max-width:850px){
+  .app,.main{min-width:0!important;max-width:100vw!important;overflow-x:hidden!important}
+  .topbar{
+    position:sticky!important;
+    top:0!important;
+    z-index:40!important;
+    min-height:64px!important;
+    padding:10px!important;
+    border-radius:18px!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+  }
+  .topbar .search-wrap{
+    order:2!important;
+    flex:1 1 100%!important;
+    max-width:none!important;
+    width:100%!important;
+    min-width:0!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+  }
+  .topbar .search{height:40px!important;font-size:13px!important}
+  .topbar .search-btn,.topbar #searchBtn,.topbar .btn#searchBtn{height:40px!important;min-width:50px!important;padding:0 12px!important}
+  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{display:flex!important;gap:6px!important;margin-left:auto!important;flex:1 1 auto!important;justify-content:flex-end!important;min-width:0!important}
+  .topbar-actions{gap:5px}
+  .topbar-icon-btn{width:36px;height:36px;border-radius:11px}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{display:inline-flex!important;height:36px!important;min-height:36px!important;max-width:170px!important;font-size:12px!important}
+  .topbar #userAvatar:not(:has(span)),.topbar #avatar{width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important}
+  .topbar .logout-btn,.topbar .logout{display:inline-flex!important;height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important}
+  .topbar .department-switch,.topbar .department-chip{height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important;max-width:100%!important}
+}
+@media(max-width:520px){
+  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{flex-wrap:wrap!important;justify-content:flex-start!important;width:100%!important;order:3!important;margin-left:0!important}
+  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:calc(100vw - 126px)!important}
+  .topbar .department-switch,.topbar .department-chip{flex:1 1 auto!important}
+}
+
 </style>
 </head>
 <body>
@@ -879,11 +1092,12 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
     <header class="topbar">
       <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menüyü aç" aria-expanded="false">☰</button>
       <div class="search-wrap">
-        <input class="search" id="globalSearch" placeholder="APQP no, müşteri, proje, parça ara..." aria-label="Proje ara">
+        <input class="search" id="globalSearch" placeholder="Ara..." aria-label="Proje ara">
         <button class="btn" id="searchBtn" aria-label="Ara">🔍</button>
       </div>
       <div class="profile-bar">
-        <div class="avatar" id="userName" aria-live="polite">—</div>
+<div class="topbar-actions" aria-label="Mesaj ve bildirim kısayolları"><button class="topbar-icon-btn" type="button" aria-label="Mesajlar">✉</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
+        <div class="avatar" onclick="window.location.href='dashboard.html'" aria-live="polite"><span id="userName"></span></div>
         <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
       </div>
     </header>
@@ -1137,10 +1351,11 @@ b,strong,h1,h2,h3,h4,label,.btn,.pill,.status-badge{font-weight:950}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
  
 <!-- ═══════════ JAVASCRIPT ═══════════ -->
+<script src="assets/js/config/api-client.js"></script>
 <script>
 /* GDNL EOS / GDNL EQMS Enterprise Cloud Ready Standardı aktif */
 /* ── API & yardımcılar ── */
-const API_BASE="https://gdnl-eos-api.keremgudenli.workers.dev";
+const API_BASE = window.GDNL_API_BASE;
 const $=id=>document.getElementById(id);
 const today=new Date().toISOString().slice(0,10);
  
@@ -1237,12 +1452,12 @@ function closeMobileMenu(){
   $("drawer").classList.remove("active");$("overlay").classList.remove("active");document.body.style.overflow="";
   document.querySelector(".mobile-menu-btn")?.setAttribute("aria-expanded","false");
 }
-function logout(){localStorage.removeItem("gdnl_qdms_session");localStorage.removeItem("gdnl_ems_session");location.href="index.html"}
+function logout(){window.GDNL_LEGACY_STORAGE.removeItem("gdnl_qdms_session");window.GDNL_LEGACY_STORAGE.removeItem("gdnl_ems_session");location.href="index.html"}
 function toast(t,dur=3000){$("toast").textContent=t;$("toast").style.display="block";clearTimeout(window._toastT);window._toastT=setTimeout(()=>$("toast").style.display="none",dur)}
  
 /* Oturum */
-let session=JSON.parse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_ems_session")||"null")||{name:""};
-$("userName").textContent=session.name||session.username||"Kerem Güdenli";
+let session=window.GDNL_API?.normalizeUser(window.GDNL_CURRENT_USER||{})||{};
+$("userName").textContent=session.name||session.username||"";
  
 /* ── APQP faz tanımları ── */
 const phaseData=[
@@ -1296,7 +1511,7 @@ const approvalSteps=[
   {name:"PPAP Aktarım",desc:"PPAP paketi nihai transfer"}
 ];
  
-/* ── Cloud veri yardımcıları: D1 ana kaynak, localStorage sadece geçici yedek ── */
+/* ── Cloud veri yardımcıları: D1 ana kaynak, geçici UI yedeği sadece merkezi shim üzerinden ── */
 const CLOUD={ready:false,projects:[],archives:[],actions:[],revisions:[],comments:[],files:[],sequence:{}};
 const PASSIVE_STATUS=["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","iptal"];
 function nowISO(){return new Date().toISOString()}
@@ -1304,28 +1519,28 @@ function normTR(v){return String(v||"").toLocaleLowerCase("tr-TR").normalize("NF
 function isPassiveStatus(v){return PASSIVE_STATUS.includes(normTR(v))}
 function activeRecords(arr){return (arr||[]).filter(x=>!isPassiveStatus(x.status))}
 function safeArray(v){return Array.isArray(v)?v:[]}
-function getLS(k){try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}}
-function setLS(k,v){localStorage.setItem(k,JSON.stringify(v));syncKnownCollection(k,v);renderProjects();updateStats()}
+function getLS(k){try{return JSON.parse(window.GDNL_LEGACY_STORAGE.getItem(k)||"[]")}catch(e){return[]}}
+function setLS(k,v){window.GDNL_LEGACY_STORAGE.setItem(k,JSON.stringify(v));syncKnownCollection(k,v);renderProjects();updateStats()}
 function syncKnownCollection(k,v){if(k==="gdnl_apqp_projects")CLOUD.projects=safeArray(v);if(k==="gdnl_apqp_actions")CLOUD.actions=safeArray(v);if(k==="gdnl_apqp_revisions")CLOUD.revisions=safeArray(v)}
 function getProjects(){return activeRecords(CLOUD.projects.length?CLOUD.projects:getLS("gdnl_apqp_projects"))}
 function getAllProjects(){return CLOUD.projects.length?CLOUD.projects:getLS("gdnl_apqp_projects")}
 function getArchives(){return CLOUD.archives.length?CLOUD.archives:getLS("gdnl_archive")}
 function getTeam(){return getLS("gdnl_apqp_team")}
-function setTeam(v){localStorage.setItem("gdnl_apqp_team",JSON.stringify(v));renderTeam();updateStats()}
+function setTeam(v){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_team",JSON.stringify(v));renderTeam();updateStats()}
 function getActions(){return activeRecords(CLOUD.actions.length?CLOUD.actions:getLS("gdnl_apqp_actions"))}
-function setActions(v){CLOUD.actions=safeArray(v);localStorage.setItem("gdnl_apqp_actions",JSON.stringify(v));renderActions();updateStats()}
+function setActions(v){CLOUD.actions=safeArray(v);window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_actions",JSON.stringify(v));renderActions();updateStats()}
 function getRevisions(){return activeRecords(CLOUD.revisions.length?CLOUD.revisions:getLS("gdnl_apqp_revisions"))}
-function setRevisions(v){CLOUD.revisions=safeArray(v);localStorage.setItem("gdnl_apqp_revisions",JSON.stringify(v));renderRevisions();updateStats()}
-function getPpapStatus(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_ppap_status")||"{}")}catch(e){return{}}}
-function setPpapStatus(v){localStorage.setItem("gdnl_apqp_ppap_status",JSON.stringify(v))}
-function getGateMap(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_gate_status")||"{}")}catch(e){return{}}}
-function setGateMap(v){localStorage.setItem("gdnl_apqp_gate_status",JSON.stringify(v))}
-function getApprovalIndex(){return Number(localStorage.getItem("gdnl_apqp_approval_index")||"0")}
-function setApprovalIndex(v){localStorage.setItem("gdnl_apqp_approval_index",String(v))}
+function setRevisions(v){CLOUD.revisions=safeArray(v);window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_revisions",JSON.stringify(v));renderRevisions();updateStats()}
+function getPpapStatus(){try{return JSON.parse(window.GDNL_LEGACY_STORAGE.getItem("gdnl_apqp_ppap_status")||"{}")}catch(e){return{}}}
+function setPpapStatus(v){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_ppap_status",JSON.stringify(v))}
+function getGateMap(){try{return JSON.parse(window.GDNL_LEGACY_STORAGE.getItem("gdnl_apqp_gate_status")||"{}")}catch(e){return{}}}
+function setGateMap(v){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_gate_status",JSON.stringify(v))}
+function getApprovalIndex(){return Number(window.GDNL_LEGACY_STORAGE.getItem("gdnl_apqp_approval_index")||"0")}
+function setApprovalIndex(v){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_approval_index",String(v))}
 function getApprovedWorkflows(){return getLS("gdnl_apqp_approved_workflows")}
-function setApprovedWorkflows(v){localStorage.setItem("gdnl_apqp_approved_workflows",JSON.stringify(v));renderApprovedWorkflowList()}
-function getTaskStatus(){try{return JSON.parse(localStorage.getItem("gdnl_apqp_task_status")||"{}")}catch(e){return{}}}
-function setTaskStatus(v){localStorage.setItem("gdnl_apqp_task_status",JSON.stringify(v))}
+function setApprovedWorkflows(v){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_approved_workflows",JSON.stringify(v));renderApprovedWorkflowList()}
+function getTaskStatus(){try{return JSON.parse(window.GDNL_LEGACY_STORAGE.getItem("gdnl_apqp_task_status")||"{}")}catch(e){return{}}}
+function setTaskStatus(v){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_task_status",JSON.stringify(v))}
 async function apiFetch(path,options={}){const res=await fetch(API_BASE+path,options);const ct=res.headers.get("content-type")||"";const data=ct.includes("application/json")?await res.json():await res.text();if(!res.ok)throw new Error(typeof data==="string"?data:(data.message||data.detail||"API hatası"));return data}
 function postJSON(path,payload){return apiFetch(path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})}
 function putJSON(path,payload){return apiFetch(path,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})}
@@ -1333,21 +1548,21 @@ async function tryMany(list,payload){let last=null;for(const x of list){try{retu
 function getUserId(){return String(session.id||session.user_id||session.username||session.name||"")}
 function getUserName(){return session.name||session.fullname||session.username||"Bilinmeyen Kullanıcı"}
 function isSuperAdmin(){return String(session.role||"").toLowerCase().includes("super")||String(session.role||"").toLowerCase().includes("admin")}
-async function writeAudit(action,module,relatedId,detail,oldValue="",newValue=""){const payload={id:"LOG-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),action,module,related_id:relatedId||"",detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),old_value:oldValue,new_value:newValue,user_agent:navigator.userAgent,created_at:nowISO()};try{await postJSON("/audit-logs",payload)}catch(e){const q=getLS("gdnl_pending_audit_logs");q.unshift(payload);localStorage.setItem("gdnl_pending_audit_logs",JSON.stringify(q))}}
-async function writeActivity(type,module,relatedId,title,description=""){const payload={id:"ACT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),activity_type:type,module,related_id:relatedId||"",title:title||type,description:description||"",created_at:nowISO()};try{await postJSON("/activity-feed",payload)}catch(e){const q=getLS("gdnl_pending_activity_feed");q.unshift(payload);localStorage.setItem("gdnl_pending_activity_feed",JSON.stringify(q))}}
+async function writeAudit(action,module,relatedId,detail,oldValue="",newValue=""){const payload={id:"LOG-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),action,module,related_id:relatedId||"",detail:typeof detail==="string"?detail:JSON.stringify(detail||{}),old_value:oldValue,new_value:newValue,user_agent:navigator.userAgent,created_at:nowISO()};try{await postJSON("/audit-logs",payload)}catch(e){const q=getLS("gdnl_pending_audit_logs");q.unshift(payload);window.GDNL_LEGACY_STORAGE.setItem("gdnl_pending_audit_logs",JSON.stringify(q))}}
+async function writeActivity(type,module,relatedId,title,description=""){const payload={id:"ACT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:getUserId(),user_name:getUserName(),activity_type:type,module,related_id:relatedId||"",title:title||type,description:description||"",created_at:nowISO()};try{await postJSON("/activity-feed",payload)}catch(e){const q=getLS("gdnl_pending_activity_feed");q.unshift(payload);window.GDNL_LEGACY_STORAGE.setItem("gdnl_pending_activity_feed",JSON.stringify(q))}}
 async function notifyUsers(title,message,relatedId,userNames=[]){const users=(userNames||[]).length?userNames:[""];for(const user_name of users){const payload={id:"NTF-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),user_id:"",user_name,type:"APQP",title,message,module:"APQP ve PPAP",related_id:relatedId||"",status:"UNREAD",created_at:nowISO()};try{await postJSON("/notifications",payload)}catch(e){}}}
 async function addAssignment(sourceId,title,user,role="Sorumlu",due=""){const payload={id:"ASN-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),source_type:"APQP",source_id:sourceId||$("apqpNo")?.value||"",user_id:user.id||user.user_id||"",user_name:user.name||user.fullname||user.fullName||"",role,status:"Atandı",due_date:due,title,message:title,created_by:getUserName(),created_at:nowISO()};try{await postJSON("/assignments",payload)}catch(e){}}
-async function addComment(relatedId,comment){const payload={id:"CMT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),module:"APQP ve PPAP",related_id:relatedId||$("apqpNo")?.value||"",user_id:getUserId(),user_name:getUserName(),comment,created_at:nowISO()};try{await postJSON("/comments",payload)}catch(e){const q=getLS("gdnl_apqp_comments");q.unshift(payload);localStorage.setItem("gdnl_apqp_comments",JSON.stringify(q))}CLOUD.comments.unshift(payload);renderApqpComments()}
-async function uploadFileToR2(file,relatedId){const fd=new FormData();fd.append("file",file);fd.append("module","APQP_PPAP");fd.append("related_id",relatedId||$("apqpNo")?.value||"REFERANS-YOK");fd.append("uploaded_by",getUserName());const data=await apiFetch("/upload",{method:"POST",body:fd});const f=data.file||data;await writeAudit("DOSYA_YUKLE","APQP ve PPAP",relatedId,{fileName:file.name,r2_key:f.r2_key});return f}
+async function addComment(relatedId,comment){const payload={id:"CMT-"+Date.now()+"-"+Math.random().toString(16).slice(2,7),module:"APQP ve PPAP",related_id:relatedId||$("apqpNo")?.value||"",user_id:getUserId(),user_name:getUserName(),comment,created_at:nowISO()};try{await postJSON("/comments",payload)}catch(e){const q=getLS("gdnl_apqp_comments");q.unshift(payload);window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_comments",JSON.stringify(q))}CLOUD.comments.unshift(payload);renderApqpComments()}
+async function uploadFileToR2(file,relatedId){const fd=new FormData();fd.append("file",file);fd.append("module","APQP_PPAP");fd.append("related_id",relatedId||$("apqpNo")?.value||"REFERANS-YOK");fd.append("uploaded_by",getUserName());const data=await apiFetch("/api/files/upload",{method:"POST",body:fd});const f=data.file||data;await writeAudit("DOSYA_YUKLE","APQP ve PPAP",relatedId,{fileName:file.name,r2_key:f.r2_key});return f}
 async function saveApqpToCloud(record){const payload={...record,id:record.id||record.apqpNo,apqp_no:record.apqpNo,ppap_no:record.ppapNo,module:"APQP ve PPAP",title:record.projectName||record.apqpNo,status:record.status||"Aktif",description:JSON.stringify(record),created_by:record.createdBy||getUserName(),updated_by:getUserName(),updated_at:nowISO()};return tryMany([{path:"/apqp-projects",method:"POST"},{path:"/projects",method:"POST"}],payload)}
 async function updateApqpToCloud(record){const payload={...record,id:record.id||record.apqpNo,apqp_no:record.apqpNo,ppap_no:record.ppapNo,module:"APQP ve PPAP",title:record.projectName||record.apqpNo,status:record.status||"Aktif",description:JSON.stringify(record),updated_by:getUserName(),updated_at:nowISO()};try{return await putJSON(`/apqp-projects/${encodeURIComponent(record.id||record.apqpNo)}`,payload)}catch(e){try{return await putJSON(`/projects/${encodeURIComponent(record.id||record.apqpNo)}`,payload)}catch(e2){return saveApqpToCloud(record)}}}
 function mapCloudProject(row){if(row.apqpNo||row.ppapNo)return row;let d={};try{d=JSON.parse(row.description||"{}")}catch(e){}return {...d,id:d.id||row.id,apqpNo:d.apqpNo||row.apqp_no||row.id,ppapNo:d.ppapNo||row.ppap_no||"",projectName:d.projectName||row.title||"",status:row.status||d.status||"Aktif",createdAt:row.created_at||d.createdAt,updatedAt:row.updated_at||d.updatedAt}}
 function mapCloudArchive(row){if(row.archiveNo||row.original_id)return row;let d={};try{d=JSON.parse(row.description||"{}")}catch(e){}return {...d,id:d.id||row.id,archiveNo:d.archiveNo||row.id,sourceId:d.sourceId||row.related_id||row.original_id,status:row.status||d.status||"Arşivlendi",module:row.module||d.module||"APQP ve PPAP",createdAt:row.created_at||d.createdAt,archived_at:row.archived_at||d.archived_at}}
-async function loadCloudModuleData(){try{const a=await apiFetch("/apqp-projects");CLOUD.projects=(a.apqp_projects||a.projects||a.results||a||[]).map(mapCloudProject);localStorage.setItem("gdnl_apqp_projects",JSON.stringify(CLOUD.projects));CLOUD.ready=true}catch(e){try{const p=await apiFetch("/projects");CLOUD.projects=(p.projects||p.results||p||[]).filter(x=>String(x.module||"").includes("APQP")).map(mapCloudProject);localStorage.setItem("gdnl_apqp_projects",JSON.stringify(CLOUD.projects));CLOUD.ready=true}catch(e2){CLOUD.projects=getLS("gdnl_apqp_projects")}}
-try{const ar=await apiFetch("/archive?module=APQP_PPAP");CLOUD.archives=(ar.archive||ar.archives||ar.results||ar||[]).map(mapCloudArchive);localStorage.setItem("gdnl_archive",JSON.stringify(CLOUD.archives))}catch(e){CLOUD.archives=getLS("gdnl_archive")}
+async function loadCloudModuleData(){try{const a=await apiFetch("/apqp-projects");CLOUD.projects=(a.apqp_projects||a.projects||a.results||a||[]).map(mapCloudProject);window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_projects",JSON.stringify(CLOUD.projects));CLOUD.ready=true}catch(e){try{const p=await apiFetch("/projects");CLOUD.projects=(p.projects||p.results||p||[]).filter(x=>String(x.module||"").includes("APQP")).map(mapCloudProject);window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_projects",JSON.stringify(CLOUD.projects));CLOUD.ready=true}catch(e2){CLOUD.projects=getLS("gdnl_apqp_projects")}}
+try{const ar=await apiFetch("/archive?module=APQP_PPAP");CLOUD.archives=(ar.archive||ar.archives||ar.results||ar||[]).map(mapCloudArchive);window.GDNL_LEGACY_STORAGE.setItem("gdnl_archive",JSON.stringify(CLOUD.archives))}catch(e){CLOUD.archives=getLS("gdnl_archive")}
 try{const c=await apiFetch("/comments?module=APQP_PPAP");CLOUD.comments=c.comments||c.results||[]}catch(e){CLOUD.comments=getLS("gdnl_apqp_comments")}
 renderProjects();renderApqpComments();nextNo();updateStats()}
-async function archiveRecord(record,reason="Kullanıcı tarafından arşivlendi"){if(!isSuperAdmin()&&String(record.createdBy||record.preparedBy||"")!==getUserName()){toast("⛔ Bu kaydı arşivleme yetkiniz yok.");return false}const old=JSON.stringify(record);record.status="Arşivlendi";record.archived_by=getUserName();record.archived_at=nowISO();record.archiveReason=reason;record.updatedAt=nowISO();await updateApqpToCloud(record);const archiveItem={id:"ARS-"+Date.now(),archiveNo:"ARS-"+Date.now(),module:"APQP ve PPAP",recordType:"APQP Projesi",sourceId:record.id||record.apqpNo,apqpNo:record.apqpNo,ppapNo:record.ppapNo,documentCode:record.apqpNo,documentName:record.projectName,status:"Arşivlendi",reason,archived_by:getUserName(),archived_at:nowISO(),sourceRecord:record,createdAt:nowISO()};CLOUD.archives.unshift(archiveItem);localStorage.setItem("gdnl_archive",JSON.stringify(CLOUD.archives));try{await postJSON("/archive",archiveItem)}catch(e){}await writeAudit("ARSIVLE","APQP ve PPAP",record.apqpNo,reason,old,JSON.stringify(record));await writeActivity("ARSIVLE","APQP ve PPAP",record.apqpNo,"APQP kaydı arşivlendi",reason);await notifyUsers("APQP kaydı arşivlendi",`${record.apqpNo} arşive alındı.`,record.apqpNo);return true}
+async function archiveRecord(record,reason="Kullanıcı tarafından arşivlendi"){if(!isSuperAdmin()&&String(record.createdBy||record.preparedBy||"")!==getUserName()){toast("⛔ Bu kaydı arşivleme yetkiniz yok.");return false}const old=JSON.stringify(record);record.status="Arşivlendi";record.archived_by=getUserName();record.archived_at=nowISO();record.archiveReason=reason;record.updatedAt=nowISO();await updateApqpToCloud(record);const archiveItem={id:"ARS-"+Date.now(),archiveNo:"ARS-"+Date.now(),module:"APQP ve PPAP",recordType:"APQP Projesi",sourceId:record.id||record.apqpNo,apqpNo:record.apqpNo,ppapNo:record.ppapNo,documentCode:record.apqpNo,documentName:record.projectName,status:"Arşivlendi",reason,archived_by:getUserName(),archived_at:nowISO(),sourceRecord:record,createdAt:nowISO()};CLOUD.archives.unshift(archiveItem);window.GDNL_LEGACY_STORAGE.setItem("gdnl_archive",JSON.stringify(CLOUD.archives));try{await postJSON("/archive",archiveItem)}catch(e){}await writeAudit("ARSIVLE","APQP ve PPAP",record.apqpNo,reason,old,JSON.stringify(record));await writeActivity("ARSIVLE","APQP ve PPAP",record.apqpNo,"APQP kaydı arşivlendi",reason);await notifyUsers("APQP kaydı arşivlendi",`${record.apqpNo} arşive alındı.`,record.apqpNo);return true}
 async function restoreRecord(archiveItem){const rec=archiveItem.sourceRecord||archiveItem;rec.status=rec.previous_status||"Aktif";rec.restored_by=getUserName();rec.restored_at=nowISO();rec.updatedAt=nowISO();await updateApqpToCloud(rec);await writeAudit("GERI_YUKLE","APQP ve PPAP",rec.apqpNo,"Arşivden geri yüklendi");await writeActivity("GERI_YUKLE","APQP ve PPAP",rec.apqpNo,"APQP kaydı geri yüklendi");return rec}
 
 /* ── Gecikme kontrolü ── */
@@ -1817,11 +2032,11 @@ function extractUsersFromResponse(raw){
   return[];
 }
 function getSession(){
-  return safeJsonParse(localStorage.getItem("gdnl_qdms_session")||localStorage.getItem("gdnl_ems_session")||localStorage.getItem("gdnl_eqms_session")||"null",{})||{};
+  return window.GDNL_CURRENT_USER || {};
 }
 function sessionDisplayName(){
   const s=getSession();
-  return fixName(s.name||s.fullName||s.full_name||s.displayName||s.username||localStorage.getItem("gdnl_current_user_name"))||"Kerem Güdenli";
+  return fixName(s.fullname||s.name||s.fullName||s.full_name||s.displayName||s.username)||"";
 }
 function setHeaderUser(){
   const el=$("userName");
@@ -1839,7 +2054,7 @@ function uniqueUsers(arr){
 function readUsersFromLocalStorage(){
   const keys=["gdnl_users","gdnl_eqms_users","gdnl_qdms_users","gdnl_ems_users","gdnl_system_users","gdnl_user_list","gdnl_users_cache","gdnl_login_users","gdnl_eos_users","users","userList","USERS"];
   let merged=[];
-  keys.forEach(k=>{merged=merged.concat(extractUsersFromResponse(safeJsonParse(localStorage.getItem(k)||"",null))) });
+  keys.forEach(k=>{merged=merged.concat(extractUsersFromResponse(safeJsonParse(window.GDNL_LEGACY_STORAGE.getItem(k)||"",null))) });
   return uniqueUsers(merged);
 }
 async function apiRequest(path){
@@ -1854,8 +2069,8 @@ function setUsersPool(arr,source){
   const u=uniqueUsers(arr);
   window._gdnlUsers=u;
   if(u.length){
-    localStorage.setItem("gdnl_users_cache",JSON.stringify(u));
-    localStorage.setItem("gdnl_users",JSON.stringify(u));
+    window.GDNL_LEGACY_STORAGE.setItem("gdnl_users_cache",JSON.stringify(u));
+    window.GDNL_LEGACY_STORAGE.setItem("gdnl_users",JSON.stringify(u));
   }
   window._gdnlUsersSource=source||"";
   return u;
@@ -1863,7 +2078,7 @@ function setUsersPool(arr,source){
 async function loadApiUsers(){
   setHeaderUser();
   let localUsers=readUsersFromLocalStorage();
-  if(localUsers.length)setUsersPool(localUsers,"localStorage/users.html");
+  if(localUsers.length)setUsersPool(localUsers,"geçici kullanıcı yedeği");
 
   const paths=["/users","/users?status=active","/users?action=list","/api/users","/api/users?status=active","/api/users?action=list","/employees","/personnel"];
   let lastErr="";
@@ -1885,7 +2100,7 @@ async function loadApiUsers(){
     const s=getSession();
     const fallback=normalizeUser({name:sessionDisplayName(),username:s.username||"",email:s.email||"",role:s.role||"",department:s.department||""});
     setUsersPool([fallback],"session fallback");
-    toast("⚠ D1 kişi listesi alınamadı. Sayfayı canlı site domaininde aç; file:// modunda users.html localStorage ortak çalışmaz.",6500);
+    toast("⚠ D1 kişi listesi alınamadı. Sayfayı canlı site domaininde aç.",6500);
   }else{
     toast("👥 "+window._gdnlUsers.length+" kişi yerel havuzdan yüklendi");
   }
@@ -1926,8 +2141,8 @@ $("clearTeam").onclick=()=>{if(confirm("APQP ekibi temizlensin mi?")){setTeam([]
 $("copyMail").onclick=async()=>{let mails=getTeam().map(x=>x.email).filter(Boolean).join("; ");if(!mails){toast("Kopyalanacak mail yok.");return}await navigator.clipboard.writeText(mails);toast("✅ E-posta grubu kopyalandı.")};
  
 /* ── Person picker (proje lideri / hazırlayan) ── */
-function getSelectedPerson(type){try{return JSON.parse(localStorage.getItem("gdnl_apqp_"+type+"_person")||"null")}catch(e){return null}}
-function setSelectedPerson(type,u){localStorage.setItem("gdnl_apqp_"+type+"_person",JSON.stringify(u));$(type).value=u.name;renderSelectedPerson(type)}
+function getSelectedPerson(type){try{return JSON.parse(window.GDNL_LEGACY_STORAGE.getItem("gdnl_apqp_"+type+"_person")||"null")}catch(e){return null}}
+function setSelectedPerson(type,u){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_"+type+"_person",JSON.stringify(u));$(type).value=u.name;renderSelectedPerson(type)}
 function renderSelectedPerson(type){
   let u=getSelectedPerson(type),pill=$(type+"Pill");
   if(u){$(type).value=u.name;if(pill)pill.innerHTML=`<div class="selected-person-pill">${u.name} · ${u.position}</div>`}
@@ -1973,7 +2188,7 @@ $("createApqp").onclick=async()=>{
   clearFormData();nextNo();setApprovalIndex(0);toast("✅ APQP oluşturuldu.");
 };
 $("apqpForm").onsubmit=e=>{e.preventDefault();$("createApqp").click()};
-$("saveDraft").onclick=async()=>{localStorage.setItem("gdnl_apqp_draft",JSON.stringify(buildRecord()));await writeAudit("TASLAK_KAYDET","APQP ve PPAP",$("apqpNo").value,buildRecord());toast("💾 Taslak kaydedildi.")};
+$("saveDraft").onclick=async()=>{window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_draft",JSON.stringify(buildRecord()));await writeAudit("TASLAK_KAYDET","APQP ve PPAP",$("apqpNo").value,buildRecord());toast("💾 Taslak kaydedildi.")};
  
 $("openRevision").onclick=()=>{
   let cur=$("apqpRev").value||"R00",n=Number(cur.replace(/\D/g,"")||0)+1,rev="R"+String(n).padStart(2,"0");
@@ -2006,10 +2221,10 @@ $("autoAction").onclick=()=>{
   setActions(arr);toast("⚡ Eksik PPAP dokümanlarından aksiyon üretildi.");
 };
 $("transferPpap").onclick=async()=>{
-  localStorage.setItem("gdnl_ppap_from_apqp",JSON.stringify({ppapNo:$("ppapNo").value,apqpNo:$("apqpNo").value,level:$("ppapSeviye").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,drawingRev:$("drawingRev").value,ppapStatus:getPpapStatus(),source:"APQP",createdAt:new Date().toISOString()}));
+  window.GDNL_LEGACY_STORAGE.setItem("gdnl_ppap_from_apqp",JSON.stringify({ppapNo:$("ppapNo").value,apqpNo:$("apqpNo").value,level:$("ppapSeviye").value,customer:$("customer").value,projectName:$("projectName").value,partName:$("partName").value,partNo:$("partNo").value,drawingRev:$("drawingRev").value,ppapStatus:getPpapStatus(),source:"APQP",createdAt:new Date().toISOString()}));
   await writeAudit("PPAP_AKTAR","APQP ve PPAP",$("apqpNo").value,{ppapNo:$("ppapNo").value});await writeActivity("PPAP_AKTAR","APQP ve PPAP",$("apqpNo").value,"PPAP paketi hazırlandı",$("ppapNo").value);toast("📦 PPAP paketi hazırlandı.");
 };
-$("clearAll").onclick=async()=>{if(confirm("Tüm APQP kayıtları arşive alınsın mı? Fiziksel silme yapılmaz.")){let arr=getAllProjects();for(const p of arr.filter(x=>!isPassiveStatus(x.status))){await archiveRecord(p,"Toplu arşivleme")}CLOUD.projects=arr;localStorage.setItem("gdnl_apqp_projects",JSON.stringify(arr));clearFormData();nextNo();renderProjects();toast("Arşivleme tamamlandı.")}};
+$("clearAll").onclick=async()=>{if(confirm("Tüm APQP kayıtları arşive alınsın mı? Fiziksel silme yapılmaz.")){let arr=getAllProjects();for(const p of arr.filter(x=>!isPassiveStatus(x.status))){await archiveRecord(p,"Toplu arşivleme")}CLOUD.projects=arr;window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_projects",JSON.stringify(arr));clearFormData();nextNo();renderProjects();toast("Arşivleme tamamlandı.")}};
 $("exportJson").onclick=()=>{
   let blob=new Blob([JSON.stringify({projects:getProjects(),team:getTeam(),ppap:getPpapStatus(),actions:getActions(),gates:getGateMap(),revisions:getRevisions(),tasks:getTaskStatus()},null,2)],{type:"application/json"}),a=document.createElement("a");
   a.href=URL.createObjectURL(blob);a.download="gdnl-apqp-"+new Date().toISOString().slice(0,10)+".json";a.click();
@@ -2030,7 +2245,7 @@ function renderProjects(){
     </div>
   </div>`).join(""):`<div class="empty-state">APQP kaydı bulunamadı.</div>`;
 }
-window.deleteProject=async id=>{let all=getAllProjects();let p=all.find(x=>String(x.id)===String(id));if(!p)return;if(!confirm("Bu APQP kaydı Arşiv Merkezi’ne alınsın mı?"))return;const ok=await archiveRecord(p,"Kullanıcı tarafından arşive alındı");if(ok){localStorage.setItem("gdnl_apqp_projects",JSON.stringify(all));renderProjects();nextNo();toast("APQP kaydı arşive alındı.")}};
+window.deleteProject=async id=>{let all=getAllProjects();let p=all.find(x=>String(x.id)===String(id));if(!p)return;if(!confirm("Bu APQP kaydı Arşiv Merkezi’ne alınsın mı?"))return;const ok=await archiveRecord(p,"Kullanıcı tarafından arşive alındı");if(ok){window.GDNL_LEGACY_STORAGE.setItem("gdnl_apqp_projects",JSON.stringify(all));renderProjects();nextNo();toast("APQP kaydı arşive alındı.")}};
 window.loadProject=id=>{
   let p=getProjects().find(x=>x.id===id);if(!p)return;
   ["apqpNo","apqpRev","revDate","revReason","ppapNo","ppapSeviye","customer","projectName","partName","partNo","oemPartNo","drawingNo","drawingRev","phase","status","priority","leader","preparedBy","startDate","targetDate","scope"].forEach(k=>{
@@ -2094,19 +2309,19 @@ const ENTERPRISE_CLOUD_STANDARD={
     CHANGE:"CHANGE",
     MANAGEMENT_REVIEW:"YGG"
   },
-  roles:["Super Administrator","Administrator","Yönetici","Kalite Müdürü","Kalite Mühendisi","Denetçi","Kullanıcı","Misafir"],
+  roles:["admin","Administrator","Yönetici","Kalite Müdürü","Kalite Mühendisi","Denetçi","Kullanıcı","Misafir"],
   permissions:["Görüntüleme","Oluşturma","Düzenleme","Onaylama","Arşivleme","Geri Yükleme","Yetki Verme"],
   kpis:["Açık Aksiyonlar","Açık CAPA","Açık Riskler","Açık Denetimler","Açık Revizyonlar","Bekleyen Onaylar","Bekleyen Görevler","Yaklaşan Terminler"]
 };
 
 function getSessionId(){
-  let sid=session.session_id||session.sessionId||localStorage.getItem("gdnl_session_id");
-  if(!sid){sid="SES-"+Date.now()+"-"+Math.random().toString(16).slice(2,8);localStorage.setItem("gdnl_session_id",sid)}
+  let sid=session.session_id||session.sessionId||window.GDNL_LEGACY_STORAGE.getItem("gdnl_session_id");
+  if(!sid){sid="SES-"+Date.now()+"-"+Math.random().toString(16).slice(2,8);window.GDNL_LEGACY_STORAGE.setItem("gdnl_session_id",sid)}
   return sid;
 }
 function getClientIp(){return session.ip_address||session.ip||""}
 function normalizePermissionText(v){return String(v||"").toLocaleLowerCase("tr-TR").trim()}
-function currentRole(){return session.role||session.user_role||"Super Administrator"}
+function currentRole(){return session.role||session.user_role||"admin"}
 function can(permission){
   const role=String(currentRole()).toLowerCase();
   if(role.includes("super"))return true;
@@ -2237,7 +2452,7 @@ writeAudit=async function(action,module,relatedId,detail,oldValue="",newValue=""
   catch(e){
     const q=getLS("gdnl_pending_audit_logs");
     q.unshift(payload);
-    localStorage.setItem("gdnl_pending_audit_logs",JSON.stringify(q));
+    window.GDNL_LEGACY_STORAGE.setItem("gdnl_pending_audit_logs",JSON.stringify(q));
   }
 };
 const _gdnlOldWriteActivity=writeActivity;
@@ -2260,7 +2475,7 @@ writeActivity=async function(type,module,relatedId,title,description="",oldValue
   catch(e){
     const q=getLS("gdnl_pending_activity_feed");
     q.unshift(payload);
-    localStorage.setItem("gdnl_pending_activity_feed",JSON.stringify(q));
+    window.GDNL_LEGACY_STORAGE.setItem("gdnl_pending_activity_feed",JSON.stringify(q));
   }
 };
 async function notifyUsersExtended(title,message,relatedId,userNames=[]){
@@ -2339,7 +2554,7 @@ uploadFileToR2=async function(file,relatedId){
   fd.append("related_id",relatedId||$("apqpNo")?.value||"REFERANS-YOK");
   fd.append("uploaded_by",getUserName());
   fd.append("session_id",getSessionId());
-  const data=await apiFetch("/upload",{method:"POST",body:fd});
+  const data=await apiFetch("/api/files/upload",{method:"POST",body:fd});
   const f=data.file||data;
   try{
     await postJSON("/file-versions",{
