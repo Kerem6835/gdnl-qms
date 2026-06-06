@@ -322,13 +322,16 @@
     const style = document.createElement("style");
     style.id = "gdnlGlobalChromeStyles";
     style.textContent = `
-.gdnl-global-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;min-height:38px!important;padding:0 13px!important;border:1px solid rgba(216,228,239,.95)!important;border-radius:13px!important;background:rgba(255,255,255,.92)!important;color:#0f1b2f!important;text-decoration:none!important;font-weight:900!important;font-size:13px!important;line-height:1!important;box-shadow:0 10px 26px rgba(7,27,52,.08)!important;cursor:pointer!important;white-space:nowrap!important}
-.gdnl-global-action:hover{transform:translateY(-1px)!important;border-color:#b9d8c5!important;box-shadow:0 16px 32px rgba(7,27,52,.12)!important}
+.topbar-actions,.gdnl-global-actions-host{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;flex-wrap:wrap!important}
+.topbar{gap:12px!important}
+.gdnl-global-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;height:38px!important;min-height:38px!important;padding:0 12px!important;border:1px solid rgba(216,228,239,.95)!important;border-radius:12px!important;background:rgba(255,255,255,.94)!important;color:#0f1b2f!important;text-decoration:none!important;font-weight:900!important;font-size:12px!important;line-height:1!important;box-shadow:0 10px 24px rgba(7,27,52,.07)!important;cursor:pointer!important;white-space:nowrap!important;transition:.18s ease!important}
+.gdnl-global-action:hover{transform:translateY(-1px)!important;border-color:#b9d8c5!important;box-shadow:0 14px 28px rgba(7,27,52,.11)!important}
 .gdnl-global-action.primary{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f)!important;color:#fff!important;border-color:transparent!important}
-.gdnl-global-icon{min-width:42px!important;padding:0 11px!important;font-size:17px!important}
-.gdnl-global-user{display:inline-flex!important;align-items:center!important;gap:7px!important;font-weight:900!important;color:#0f1b2f!important;white-space:nowrap!important}
-.gdnl-global-search{min-width:46px!important}
-@media(max-width:850px){.gdnl-global-action{min-height:40px!important;padding:0 11px!important;font-size:12px!important}.gdnl-global-icon{min-width:40px!important}.gdnl-global-user{max-width:100%;white-space:normal!important}}`;
+.gdnl-global-icon{min-width:38px!important;padding:0 10px!important;font-size:14px!important}
+.gdnl-global-user{display:inline-flex!important;align-items:center!important;gap:7px!important;height:38px!important;min-height:38px!important;border:1px solid rgba(216,228,239,.95)!important;border-radius:12px!important;background:rgba(255,255,255,.7)!important;padding:0 12px!important;font-weight:900!important;color:#0f1b2f!important;white-space:nowrap!important;order:40!important}
+.gdnl-global-search{min-width:46px!important;order:5!important}
+.gdnl-department-home{order:10!important}.gdnl-message-link{order:20!important}.gdnl-notification-link{order:30!important}.gdnl-global-logout{order:50!important}
+@media(max-width:850px){.topbar-actions,.gdnl-global-actions-host{width:100%!important;justify-content:flex-start!important}.gdnl-global-action{height:36px!important;min-height:36px!important;padding:0 10px!important;font-size:11px!important}.gdnl-global-icon{min-width:36px!important}.gdnl-global-user{height:36px!important;min-height:36px!important;max-width:100%;white-space:normal!important}}`;
     document.head.appendChild(style);
   }
 
@@ -346,6 +349,30 @@
     return node;
   }
 
+  function isRouteElement(el, filename) {
+    if (!el) return false;
+    const href = el.getAttribute?.("href") || "";
+    const onclick = el.getAttribute?.("onclick") || "";
+    return href === filename || href.endsWith("/" + filename) || onclick.includes(filename);
+  }
+
+  function firstAction(actionHost, filename, selector) {
+    return actionHost.querySelector(selector) || Array.from(actionHost.querySelectorAll("a,button")).find((el) => isRouteElement(el, filename));
+  }
+
+  function removeDuplicateActions(actionHost, filename, keep) {
+    Array.from(actionHost.querySelectorAll("a,button")).forEach((el) => {
+      if (el !== keep && isRouteElement(el, filename)) el.remove();
+    });
+  }
+
+  function orderActionHost(actionHost, items) {
+    actionHost.classList.add("gdnl-global-actions-host");
+    items.filter(Boolean).forEach((el) => {
+      if (el.parentElement === actionHost) actionHost.appendChild(el);
+    });
+  }
+
   function enhanceTopbarLinks() {
     if (isLoginPage() || !document.body) return;
     injectChromeStyles();
@@ -353,34 +380,48 @@
     bars.forEach((bar) => {
       const actionHost = bar.querySelector(".topbar-actions") || bar;
       let user = bar.querySelector("#userName, #topUserName, #superAdminName");
+      let userHost = null;
       if (user) {
         const holder = user.closest(".user") || user.parentElement;
         if (holder) holder.classList.add("gdnl-global-user");
+        userHost = holder || user;
       }
       const mailbox = ensureAction(actionHost, '.gdnl-message-link,a[href="mailbox.html"],a[href$="/mailbox.html"],button[aria-label*="Mesaj"],button[onclick*="mailbox.html"]', '<a class="gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>', (el) => {
         if (el.tagName === "A") el.href = routeHref("mailbox.html");
         else el.onclick = () => { global.location.href = routeHref("mailbox.html"); };
-        el.classList.add("gdnl-global-action", "gdnl-global-icon");
+        el.classList.add("gdnl-message-link", "gdnl-global-action", "gdnl-global-icon");
         el.setAttribute("aria-label", "Mesaj Merkezi");
-        if (!/Mesaj/i.test(el.textContent || "")) el.textContent = "📨";
+        el.textContent = "📨 Mesaj Merkezi";
       });
       const notify = ensureAction(actionHost, '.gdnl-notification-link,a[href="notification-center.html"],a[href$="/notification-center.html"],button[aria-label*="Bildirim"],button[onclick*="notification-center.html"]', '<a class="gdnl-notification-link" href="notification-center.html">🔔</a>', (el) => {
         if (el.tagName === "A") el.href = routeHref("notification-center.html");
         else el.onclick = () => { global.location.href = routeHref("notification-center.html"); };
-        el.classList.add("gdnl-global-action", "gdnl-global-icon");
+        el.classList.add("gdnl-notification-link", "gdnl-global-action", "gdnl-global-icon");
         el.setAttribute("aria-label", "Bildirim Merkezi");
+        el.textContent = "🔔 Bildirim Merkezi";
       });
       if (!bar.querySelector('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]') && currentPageName() !== "department-gateway.html") {
         ensureAction(actionHost, ".gdnl-department-home", '<a class="gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>', (el) => {
           el.href = routeHref("department-gateway.html");
           el.classList.add("gdnl-global-action", "primary");
+          el.textContent = "Departman Merkezi";
         });
       } else {
         bar.querySelectorAll('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => {
           if (el.tagName === "A") el.href = routeHref("department-gateway.html");
           else el.onclick = () => { global.location.href = routeHref("department-gateway.html"); };
-          el.classList.add("gdnl-global-action", "primary");
+          el.classList.add("gdnl-department-home", "gdnl-global-action", "primary");
+          el.textContent = el.textContent.includes("Dön") ? "Departman Merkezine Dön" : "Departman Merkezi";
         });
+      }
+      const department = firstAction(actionHost, "department-gateway.html", ".gdnl-department-home");
+      removeDuplicateActions(actionHost, "department-gateway.html", department);
+      removeDuplicateActions(actionHost, "mailbox.html", mailbox);
+      removeDuplicateActions(actionHost, "notification-center.html", notify);
+      const logout = actionHost.querySelector(".logout,.logout-btn,.mobile-logout,.mobile-fixed-logout,button[onclick*='logout']");
+      if (logout) {
+        logout.classList.add("gdnl-global-action", "gdnl-global-logout");
+        logout.textContent = "Çıkış Yap";
       }
       if (!bar.querySelector(".search-btn,#searchBtn,.gdnl-global-search") && currentPageName() !== "search.html") {
         ensureAction(actionHost, ".gdnl-global-search", '<a class="gdnl-global-search" href="search.html">Ara</a>', (el) => {
@@ -388,6 +429,7 @@
           el.classList.add("gdnl-global-action");
         });
       }
+      orderActionHost(actionHost, [department, mailbox, notify, userHost, logout]);
       mailbox.title = "Mesaj Merkezi";
       notify.title = "Bildirim Merkezi";
     });
