@@ -1,31 +1,937 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EQMS | Dosya Merkezi</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{background:#f4f9ff;color:#172033;min-height:100vh;overflow-x:hidden}.main{max-width:1440px;margin:0 auto;padding:24px}.topbar,.panel,.card{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:22px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:64px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}.brand{font-size:24px;font-weight:950;color:#071b34;text-decoration:none}.brand span{color:#35a852}.search{height:40px;border:1px solid #d8e4ef;border-radius:12px;padding:0 12px;font-weight:800;min-width:260px}.user{display:inline-flex;align-items:center;gap:7px;font-weight:900;color:#071b34}.hero{margin-bottom:20px}.hero h1{font-size:34px;font-weight:950;color:#071b34}.hero p{margin-top:8px;color:#617086;font-weight:800}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:18px}.card{padding:18px}.card small{font-weight:950;color:#617086}.card h2{font-size:34px;color:#1f7d3d}.panel{padding:18px;overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid #edf2f7;text-align:left;font-size:13px}th{color:#617086;background:#f8fbff}.btn{border:none;border-radius:11px;padding:9px 12px;background:#dcfce7;color:#15803d;font-weight:950;cursor:pointer}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}@media(max-width:720px){.topbar{flex-wrap:wrap}.search{width:100%;min-width:0}.hero h1{font-size:28px}.main{padding:16px}}
+:root{
+  --navy:#071b34;
+  --green:#35a852;
+  --bg:#f4f9ff;
+  --card:#ffffff;
+  --line:#dfe9f5;
+  --muted:#64748b;
+  --text:#172033;
+  --soft:#f8fbff;
+  --blue:#0f4c81;
+  --danger:#dc2626;
+  --warning:#f59e0b;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Inter,Arial,sans-serif;
+}
+
+html{
+  min-height:100%;
+  min-height:100svh;
+  min-height:100dvh;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+
+.main{
+  max-width:1440px;
+  margin:0 auto;
+  padding:clamp(16px,2vw,24px);
+}
+
+.topbar,
+.panel,
+.card,
+.upload-panel{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 16px 42px rgba(7,27,52,.07);
+}
+
+.topbar{
+  min-height:72px;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:22px;
+  position:sticky;
+  top:10px;
+  z-index:20;
+  backdrop-filter:blur(18px);
+}
+
+.brand{
+  font-size:24px;
+  font-weight:950;
+  color:var(--navy);
+  text-decoration:none;
+  white-space:nowrap;
+  letter-spacing:-.5px;
+}
+
+.brand span{
+  color:var(--green);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.search{
+  height:42px;
+  border:1px solid #d8e4ef;
+  border-radius:14px;
+  padding:0 12px;
+  font-weight:850;
+  min-width:280px;
+  outline:none;
+  background:#fff;
+  color:#172033;
+}
+
+.search:focus{
+  border-color:#35a852;
+  box-shadow:0 0 0 4px rgba(53,168,82,.12);
+}
+
+.userbox{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-weight:900;
+  color:#071b34;
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+.btn{
+  min-height:42px;
+  border:0;
+  border-radius:14px;
+  padding:0 14px;
+  font-size:13px;
+  font-weight:950;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(.98);
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn-green{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.btn-blue{
+  background:#e0f2fe;
+  color:#075985;
+}
+
+.btn-dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.btn-red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.hero{
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:clamp(30px,4vw,42px);
+  font-weight:950;
+  color:#071b34;
+  letter-spacing:-.8px;
+}
+
+.hero p{
+  margin-top:8px;
+  color:#617086;
+  font-weight:850;
+  line-height:1.55;
+  max-width:980px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.card{
+  padding:18px;
+}
+
+.card small{
+  display:block;
+  font-weight:950;
+  color:#617086;
+  margin-bottom:8px;
+  font-size:12px;
+}
+
+.card h2{
+  font-size:34px;
+  color:#1f7d3d;
+  font-weight:950;
+}
+
+.upload-panel{
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.upload-title{
+  font-size:18px;
+  font-weight:950;
+  color:var(--navy);
+  margin-bottom:14px;
+}
+
+.upload-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field label{
+  font-size:12px;
+  font-weight:950;
+  color:#617086;
+}
+
+.field input,
+.field select{
+  width:100%;
+  min-height:42px;
+  border:1px solid #d8e4ef;
+  border-radius:13px;
+  padding:0 12px;
+  font-weight:850;
+  color:#172033;
+  background:#fff;
+  outline:none;
+}
+
+.field input[type="file"]{
+  padding:9px 12px;
+  height:auto;
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:#35a852;
+  box-shadow:0 0 0 4px rgba(53,168,82,.12);
+}
+
+.panel{
+  padding:18px;
+  overflow:auto;
+}
+
+.panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.panel-title{
+  font-size:18px;
+  font-weight:950;
+  color:var(--navy);
+}
+
+.filters{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.filters select{
+  height:42px;
+  border:1px solid #dbe7f3;
+  background:#fff;
+  border-radius:14px;
+  padding:0 12px;
+  font-size:13px;
+  font-weight:850;
+  outline:none;
+  color:#172033;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1080px;
+}
+
+th,
+td{
+  padding:13px 12px;
+  border-bottom:1px solid #edf2f7;
+  text-align:left;
+  font-size:13px;
+  vertical-align:top;
+}
+
+th{
+  color:#617086;
+  background:#f8fbff;
+  font-weight:950;
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+
+td{
+  color:#263449;
+  font-weight:750;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.badge-green{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-gray{
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.badge-yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.empty{
+  padding:28px;
+  text-align:center;
+  color:#64748b;
+  font-weight:950;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.error{
+  padding:18px;
+  color:#991b1b;
+  font-weight:950;
+  background:#fee2e2;
+  border:1px solid #fecaca;
+  border-radius:18px;
+}
+
+.footer-note{
+  margin-top:14px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+.toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:50;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+@media(max-width:1100px){
+  .upload-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .main{
+    padding:16px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+    top:0;
+    border-radius:18px;
+  }
+
+  .top-actions{
+    width:100%;
+  }
+
+  .search,
+  .btn,
+  .userbox{
+    width:100%;
+    min-width:0;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .upload-grid{
+    grid-template-columns:1fr;
+  }
+
+  .filters,
+  .filters select{
+    width:100%;
+  }
+}
 </style>
 </head>
+
 <body>
 <main class="main">
-<div class="topbar"><a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a><input id="globalSearch" class="search" placeholder="Ara..."><div class="user" style="gap:10px;flex-wrap:wrap"><a href="mailbox.html" style="text-decoration:none;background:#dcfce7;color:#15803d;border-radius:12px;padding:9px 12px;font-weight:950">📨 Mesaj Merkezi</a>👤 <span id="userName">Kullanıcı</span></div></div>
-<section class="hero"><h1>Dosya Merkezi</h1><p>PDF, Excel, Word ve resim dosyaları R2 metadata kayıtları üzerinden izlenir.</p></section>
-<section class="cards"><div class="card"><small>Toplam Dosya</small><h2 id="totalFiles">0</h2></div><div class="card"><small>PDF</small><h2 id="pdfFiles">0</h2></div><div class="card"><small>Excel</small><h2 id="excelFiles">0</h2></div><div class="card"><small>Word</small><h2 id="wordFiles">0</h2></div></section>
-<section class="panel"><div id="fileTable" class="empty">Yükleniyor...</div></section>
+
+  <div class="topbar">
+    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
+
+    <div class="top-actions">
+      <input id="globalSearch" class="search" placeholder="Dosya, modül, kayıt veya tip ara...">
+      <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
+      <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
+      <button class="btn btn-red" onclick="logout()">Çıkış</button>
+      <div class="userbox">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <h1>Dosya Merkezi</h1>
+    <p>PDF, Excel, Word, görsel ve sistem dosyaları Cloudflare R2 üzerinde tutulur; metadata kayıtları D1 üzerinden izlenir.</p>
+  </section>
+
+  <section class="cards">
+    <div class="card"><small>Toplam Dosya</small><h2 id="totalFiles">0</h2></div>
+    <div class="card"><small>PDF</small><h2 id="pdfFiles">0</h2></div>
+    <div class="card"><small>Excel</small><h2 id="excelFiles">0</h2></div>
+    <div class="card"><small>Word</small><h2 id="wordFiles">0</h2></div>
+    <div class="card"><small>Görsel</small><h2 id="imageFiles">0</h2></div>
+  </section>
+
+  <section class="upload-panel">
+    <div class="upload-title">R2 Dosya Yükleme</div>
+
+    <div class="upload-grid">
+      <div class="field">
+        <label>Dosya</label>
+        <input id="uploadFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+      </div>
+
+      <div class="field">
+        <label>Modül</label>
+        <select id="uploadModule">
+          <option value="DOCUMENT_CENTER">Doküman Merkezi</option>
+          <option value="ACTION_CENTER">Aksiyon Merkezi</option>
+          <option value="CAPA">CAPA</option>
+          <option value="RISK">Risk</option>
+          <option value="AUDIT">Denetim</option>
+          <option value="TRAINING">Eğitim</option>
+          <option value="CALIBRATION">Kalibrasyon</option>
+          <option value="SUPPLIER">Tedarikçi</option>
+          <option value="CUSTOMER_COMPLAINT">Müşteri Şikayeti</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Bağlı Kayıt</label>
+        <input id="uploadRecord" placeholder="Doküman, CAPA, risk veya aksiyon no">
+      </div>
+
+      <div class="field">
+        <label>İşlem</label>
+        <button class="btn btn-dark" id="uploadBtn" onclick="uploadSelectedFile()">R2’ye Yükle</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div class="panel-title">Dosya Listesi</div>
+
+      <div class="filters">
+        <select id="typeFilter">
+          <option value="">Tüm Tipler</option>
+          <option value="pdf">PDF</option>
+          <option value="excel">Excel</option>
+          <option value="word">Word</option>
+          <option value="image">Görsel</option>
+          <option value="other">Diğer</option>
+        </select>
+
+        <select id="moduleFilter">
+          <option value="">Tüm Modüller</option>
+        </select>
+
+        <button class="btn btn-blue" onclick="loadFiles()">Yenile</button>
+      </div>
+    </div>
+
+    <div id="fileTable" class="empty">Yükleniyor...</div>
+
+    <div class="footer-note">
+      Bu ekran kritik dosya kayıtlarında LocalStorage kullanmaz. Dosya içeriği R2 üzerinde, dosya metadata bilgileri D1 üzerinde yönetilir.
+    </div>
+  </section>
+
 </main>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
+
 <script>
-const api=window.GDNL_API;
-let files=[];
-function asFile(x){return{ id:x.id||x.file_id||"", name:x.file_name||x.fileName||x.name||"Dosya", type:x.file_type||x.fileType||x.mime_type||"", module:x.module||"", record:x.record_no||x.related_id||"", r2:x.r2_key||x.key||"", url:x.signed_url||x.url||"" }}
-function openFile(f){const url=f.url||(f.r2?window.GDNL_API_BASE+"/file/"+encodeURIComponent(f.r2):"");if(url)window.open(url,"_blank")}
-function render(){const q=globalSearch.value.toLowerCase();const rows=files.filter(f=>`${f.name} ${f.type} ${f.module} ${f.record}`.toLowerCase().includes(q));totalFiles.textContent=files.length;pdfFiles.textContent=files.filter(f=>f.type.includes("pdf")||f.name.toLowerCase().endsWith(".pdf")).length;excelFiles.textContent=files.filter(f=>/excel|spreadsheet|xlsx|xls/i.test(f.type+" "+f.name)).length;wordFiles.textContent=files.filter(f=>/word|docx|doc/i.test(f.type+" "+f.name)).length;if(!rows.length){fileTable.innerHTML='<div class="empty">Dosya bulunamadı.</div>';return}fileTable.innerHTML='<table><thead><tr><th>Dosya</th><th>Tip</th><th>Modül</th><th>Kayıt</th><th>Aksiyon</th></tr></thead><tbody>'+rows.map((f,i)=>`<tr><td>${f.name}</td><td>${f.type||"-"}</td><td>${f.module||"-"}</td><td>${f.record||"-"}</td><td><button class="btn" onclick="openFile(files[${files.indexOf(f)}])">Aç</button></td></tr>`).join("")+'</tbody></table>'}
-async function boot(){try{files=api.asArray(await api.get("/files")).map(asFile)}catch(e){files=[]}render();globalSearch.addEventListener("input",render)}
+const api = window.GDNL_API;
+
+let files = [];
+
+function esc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function val(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function normalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function getCurrentUser(){
+  try{
+    const user =
+      window.GDNL_CURRENT_USER ||
+      window.currentUser ||
+      null;
+
+    if(user){
+      return val(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setUserName(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = getCurrentUser();
+}
+
+function toastMsg(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("toast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function asFile(item){
+  return {
+    id:val(item,"id","file_id"),
+    name:val(item,"file_name","fileName","name","original_name") || "Dosya",
+    type:val(item,"file_type","fileType","mime_type","mime","content_type"),
+    size:val(item,"size","file_size","size_bytes"),
+    module:val(item,"module","source_module","module_name"),
+    record:val(item,"record_no","related_id","record_id","entity_id"),
+    r2:val(item,"r2_key","key","object_key","storage_key"),
+    url:val(item,"signed_url","url","download_url","public_url"),
+    uploadedBy:val(item,"uploaded_by","created_by","user_name"),
+    createdAt:val(item,"created_at","uploaded_at","date")
+  };
+}
+
+function fileCategory(file){
+  const name = normalize(file.name);
+  const type = normalize(file.type);
+
+  if(type.includes("pdf") || name.endsWith(".pdf")) return "pdf";
+  if(/excel|spreadsheet|xlsx|xls/.test(type + " " + name)) return "excel";
+  if(/word|docx|doc/.test(type + " " + name)) return "word";
+  if(/image|png|jpg|jpeg|webp/.test(type + " " + name)) return "image";
+
+  return "other";
+}
+
+function formatSize(value){
+  const size = Number(value || 0);
+
+  if(!size) return "-";
+  if(size < 1024) return size + " B";
+  if(size < 1024 * 1024) return (size / 1024).toFixed(1) + " KB";
+  if(size < 1024 * 1024 * 1024) return (size / 1024 / 1024).toFixed(1) + " MB";
+
+  return (size / 1024 / 1024 / 1024).toFixed(2) + " GB";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return esc(value);
+  }
+
+  return date.toLocaleString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function updateCards(){
+  document.getElementById("totalFiles").textContent = files.length;
+  document.getElementById("pdfFiles").textContent = files.filter(file => fileCategory(file) === "pdf").length;
+  document.getElementById("excelFiles").textContent = files.filter(file => fileCategory(file) === "excel").length;
+  document.getElementById("wordFiles").textContent = files.filter(file => fileCategory(file) === "word").length;
+  document.getElementById("imageFiles").textContent = files.filter(file => fileCategory(file) === "image").length;
+}
+
+function updateModuleFilter(){
+  const moduleFilter = document.getElementById("moduleFilter");
+  const selected = moduleFilter.value;
+
+  const modules = [...new Set(
+    files
+      .map(file => file.module)
+      .filter(Boolean)
+  )].sort((a,b) => String(a).localeCompare(String(b),"tr"));
+
+  moduleFilter.innerHTML = '<option value="">Tüm Modüller</option>' +
+    modules.map(module => `<option value="${esc(module)}">${esc(module)}</option>`).join("");
+
+  if(modules.includes(selected)){
+    moduleFilter.value = selected;
+  }
+}
+
+function filteredFiles(){
+  const query = normalize(document.getElementById("globalSearch").value);
+  const typeFilter = document.getElementById("typeFilter").value;
+  const moduleFilter = document.getElementById("moduleFilter").value;
+
+  return files.filter(file => {
+    const category = fileCategory(file);
+
+    if(typeFilter && category !== typeFilter){
+      return false;
+    }
+
+    if(moduleFilter && String(file.module) !== moduleFilter){
+      return false;
+    }
+
+    if(query){
+      const merged = normalize([
+        file.name,
+        file.type,
+        file.module,
+        file.record,
+        file.r2,
+        file.uploadedBy
+      ].join(" "));
+
+      if(!merged.includes(query)) return false;
+    }
+
+    return true;
+  });
+}
+
+function categoryLabel(category){
+  if(category === "pdf") return "PDF";
+  if(category === "excel") return "Excel";
+  if(category === "word") return "Word";
+  if(category === "image") return "Görsel";
+  return "Diğer";
+}
+
+function categoryClass(category){
+  if(category === "pdf") return "badge-yellow";
+  if(category === "excel") return "badge-green";
+  if(category === "word") return "";
+  if(category === "image") return "badge-green";
+  return "badge-gray";
+}
+
+function fileUrl(file){
+  if(file.url) return file.url;
+
+  if(file.r2 && window.GDNL_API_BASE){
+    return window.GDNL_API_BASE + "/file/" + encodeURIComponent(file.r2);
+  }
+
+  return "";
+}
+
+function openFileByIndex(index){
+  const file = files[index];
+  if(!file){
+    toastMsg("Dosya bulunamadı.");
+    return;
+  }
+
+  const url = fileUrl(file);
+
+  if(!url){
+    toastMsg("Dosya bağlantısı bulunamadı.");
+    return;
+  }
+
+  window.open(url,"_blank","noopener,noreferrer");
+}
+
+function renderFiles(){
+  const fileTable = document.getElementById("fileTable");
+  const rows = filteredFiles();
+
+  updateCards();
+
+  if(!rows.length){
+    fileTable.className = "empty";
+    fileTable.innerHTML = "Dosya bulunamadı.";
+    return;
+  }
+
+  fileTable.className = "";
+  fileTable.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Dosya</th>
+          <th>Kategori</th>
+          <th>Tip</th>
+          <th>Boyut</th>
+          <th>Modül</th>
+          <th>Kayıt</th>
+          <th>Yükleyen</th>
+          <th>Tarih</th>
+          <th>Aksiyon</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map(file => {
+          const originalIndex = files.indexOf(file);
+          const category = fileCategory(file);
+
+          return `
+            <tr>
+              <td><strong>${esc(file.name)}</strong></td>
+              <td><span class="badge ${categoryClass(category)}">${categoryLabel(category)}</span></td>
+              <td>${esc(file.type || "-")}</td>
+              <td>${esc(formatSize(file.size))}</td>
+              <td><span class="badge">${esc(file.module || "-")}</span></td>
+              <td><span class="badge badge-gray">${esc(file.record || "-")}</span></td>
+              <td>${esc(file.uploadedBy || "-")}</td>
+              <td>${formatDate(file.createdAt)}</td>
+              <td><button class="btn btn-green" onclick="openFileByIndex(${originalIndex})">Aç</button></td>
+            </tr>
+          `;
+        }).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+async function loadFiles(){
+  const fileTable = document.getElementById("fileTable");
+
+  fileTable.className = "empty";
+  fileTable.innerHTML = "Yükleniyor...";
+
+  try{
+    if(!api || typeof api.get !== "function"){
+      throw new Error("GDNL API istemcisi bulunamadı.");
+    }
+
+    const response = await api.get("/files");
+    const rows = api.asArray ? api.asArray(response) : Array.isArray(response) ? response : [];
+
+    files = rows.map(asFile).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+    updateModuleFilter();
+    renderFiles();
+
+  }catch(error){
+    console.error(error);
+    files = [];
+    updateCards();
+
+    fileTable.className = "error";
+    fileTable.innerHTML = "Dosya kayıtları alınamadı. API bağlantısı, /files endpoint’i, R2 metadata kayıtları veya oturum doğrulaması kontrol edilmelidir.";
+  }
+}
+
+async function uploadSelectedFile(){
+  const fileInput = document.getElementById("uploadFile");
+  const moduleInput = document.getElementById("uploadModule");
+  const recordInput = document.getElementById("uploadRecord");
+  const uploadBtn = document.getElementById("uploadBtn");
+
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file){
+    toastMsg("Yüklenecek dosya seçin.");
+    return;
+  }
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    toastMsg("R2 yükleme fonksiyonu bulunamadı.");
+    return;
+  }
+
+  uploadBtn.disabled = true;
+
+  try{
+    await api.uploadToR2(file,{
+      module:moduleInput.value || "DOCUMENT_CENTER",
+      related_id:recordInput.value.trim(),
+      uploaded_by:getCurrentUser()
+    });
+
+    toastMsg("Dosya R2’ye yüklendi.");
+    fileInput.value = "";
+    recordInput.value = "";
+    await loadFiles();
+
+  }catch(error){
+    console.error(error);
+    toastMsg("Dosya yüklenemedi. R2 bağlantısı ve /upload endpoint’i kontrol edilmelidir.");
+  }finally{
+    uploadBtn.disabled = false;
+  }
+}
+
+function logout(){
+  try{
+    if(window.navigateRoute){
+      window.navigateRoute("index.html?logout=1");
+      return;
+    }
+  }catch(e){}
+
+  window.location.href = "index.html?logout=1";
+}
+
+function bindEvents(){
+  document.getElementById("globalSearch").addEventListener("input",renderFiles);
+  document.getElementById("typeFilter").addEventListener("change",renderFiles);
+  document.getElementById("moduleFilter").addEventListener("change",renderFiles);
+}
+
+function boot(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setUserName();
+  bindEvents();
+  loadFiles();
+}
+
 boot();
 </script>
+
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+
 </body>
 </html>
+```
