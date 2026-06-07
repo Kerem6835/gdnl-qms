@@ -5,27 +5,1139 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | İK Politikaları</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --pol-navy:#071b34;
+  --pol-green:#35a852;
+  --pol-line:#dfe9f5;
+  --pol-muted:#64748b;
+  --pol-danger:#dc2626;
+  --pol-warning:#f59e0b;
+  --pol-blue:#0f4c81;
+}
+
+.pol-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.pol-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--pol-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.pol-kpi-card small{
+  display:block;
+  color:var(--pol-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.pol-kpi-card strong{
+  display:block;
+  color:var(--pol-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.pol-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.pol-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.pol-status.open{background:#e0f2fe;color:#075985}
+.pol-status.waiting{background:#fef3c7;color:#92400e}
+.pol-status.late{background:#fee2e2;color:#991b1b}
+.pol-status.done{background:#dcfce7;color:#166534}
+.pol-status.archive{background:#f1f5f9;color:#475569}
+.pol-status.critical{background:#fee2e2;color:#991b1b}
+.pol-status.high{background:#fef3c7;color:#92400e}
+.pol-status.normal{background:#dcfce7;color:#166534}
+.pol-status.approved{background:#dcfce7;color:#166534}
+.pol-status.pending{background:#fef3c7;color:#92400e}
+.pol-status.missing{background:#fee2e2;color:#991b1b}
+.pol-status.active{background:#dcfce7;color:#166534}
+
+.pol-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.pol-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.pol-record-title{
+  color:var(--pol-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.pol-record-meta{
+  color:var(--pol-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.pol-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.pol-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.pol-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.pol-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.pol-bar{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.pol-bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  border-radius:999px;
+}
+
+.pol-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.pol-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.pol-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.pol-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.pol-small-btn.yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.pol-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.pol-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.pol-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .pol-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .pol-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .pol-record-head{
+    display:grid;
+  }
+
+  .pol-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-policies.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Politika, tür, revizyon, sorumlu veya durum ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">İK Politikaları</h1><p id="pageDesc">İşe alım, oryantasyon, mesai, izin, performans, zimmet, disiplin ve stajyer politikalarının takip edildiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">İK Politikaları Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">İK Politikaları</h1>
+        <p id="pageDesc">İşe alım, oryantasyon, mesai, izin, performans, zimmet, disiplin ve stajyer politikaları revizyon, dağıtım, okundu bilgisi ve onay durumuyla izlenir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusPolicyForm()">Yeni Politika Kaydı</button>
+        <button class="btn" type="button" onclick="policyMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="pol-kpi" aria-label="İK Politikaları göstergeleri">
+      <div class="pol-kpi-card"><small>Toplam Politika</small><strong id="kpiTotal">0</strong><span>Tüm politika kayıtları</span></div>
+      <div class="pol-kpi-card"><small>Aktif Revizyon</small><strong id="kpiActive">0</strong><span>Yayında olanlar</span></div>
+      <div class="pol-kpi-card"><small>Okunma Oranı</small><strong id="kpiReadRate">0%</strong><span>Ortalama dağıtım başarısı</span></div>
+      <div class="pol-kpi-card"><small>Revizyon Gecikmesi</small><strong id="kpiLate">0</strong><span>Termin aşımı</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="İK Politikaları göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">İK Politika Akışı</h2><p id="summaryDesc">İK politikaları revizyon, dağıtım, okundu bilgisi ve onay durumuyla izlenir.</p></div><span id="statusPill" class="status-pill">İK Politikaları aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">İK Politika Kaydı</h2><p id="formDesc">Politika adı, türü, revizyon ve sorumlu bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İK Politikaları Ek Dosyaları</h3><p id="fileDesc">İK Politikaları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İK Politikaları Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İK Politikaları Panosu</h2><p id="recordsDesc">İK politikaları tür, revizyon, dağıtım ve okundu durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İK Politika Geçmişi</h2><p id="auditDesc">Politika revizyonu, dağıtım ve okundu işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz İK politikası bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">İK Politika Akışı</h2>
+            <p id="summaryDesc">İK politikaları revizyon, dağıtım, okundu bilgisi, onay ve yürürlük durumuyla izlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">İK Politikaları aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="pol-record">
+            <div class="pol-record-title">1. Politika tanımı ve kapsamı belirlenir</div>
+            <div class="pol-record-meta">Politika türü, doküman kodu, revizyon, yürürlük tarihi, sorumlu ve hedef kitle kayıt altına alınır.</div>
+          </div>
+          <div class="pol-record">
+            <div class="pol-record-title">2. Onay, revizyon ve dağıtım yönetilir</div>
+            <div class="pol-record-meta">Onay durumu, revizyon nedeni, dağıtım kapsamı ve okundu oranı tek ekran üzerinden takip edilir.</div>
+          </div>
+          <div class="pol-record">
+            <div class="pol-record-title">3. Kanıt ve işlem geçmişi korunur</div>
+            <div class="pol-record-meta">Politika dosyaları R2 üzerinde, metadata ve işlem geçmişi D1 üzerinde güvenli şekilde saklanır.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">İK Politika Kaydı</h2>
+            <p id="formDesc">Politika adı, türü, revizyon, sorumlu, dağıtım ve okundu bilgilerini girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Politika Adı</label>
+            <input id="policyName" placeholder="Örn: İzin Yönetimi Politikası">
+          </div>
+
+          <div class="field">
+            <label>Politika Türü</label>
+            <select id="policyType">
+              <option value="İşe Alım">İşe Alım</option>
+              <option value="Oryantasyon">Oryantasyon</option>
+              <option value="Mesai">Mesai</option>
+              <option value="İzin">İzin</option>
+              <option value="Performans">Performans</option>
+              <option value="Zimmet">Zimmet</option>
+              <option value="Disiplin">Disiplin</option>
+              <option value="Stajyer">Stajyer</option>
+              <option value="Etik ve Uyum">Etik ve Uyum</option>
+              <option value="Genel İK">Genel İK</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Doküman Kodu</label>
+            <input id="documentCode" placeholder="Örn: POL-HR-001">
+          </div>
+
+          <div class="field">
+            <label>Revizyon No</label>
+            <input id="revisionNo" placeholder="Örn: Rev.00" value="Rev.00">
+          </div>
+
+          <div class="field">
+            <label>Yürürlük Tarihi</label>
+            <input id="effectiveDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Sonraki Gözden Geçirme</label>
+            <input id="reviewDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Sorumlu</label>
+            <input id="ownerName" placeholder="Politika sahibi / İK sorumlusu">
+          </div>
+
+          <div class="field">
+            <label>Onaylayan</label>
+            <input id="approverName" placeholder="Onaylayan kişi">
+          </div>
+
+          <div class="field">
+            <label>Onay Durumu</label>
+            <select id="approvalStatus">
+              <option value="Onay Bekliyor">Onay Bekliyor</option>
+              <option value="Onaylandı">Onaylandı</option>
+              <option value="Revizyon İstendi">Revizyon İstendi</option>
+              <option value="Yürürlükte">Yürürlükte</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Dağıtım Kapsamı</label>
+            <select id="distributionScope">
+              <option value="Tüm Çalışanlar">Tüm Çalışanlar</option>
+              <option value="Beyaz Yaka">Beyaz Yaka</option>
+              <option value="Mavi Yaka">Mavi Yaka</option>
+              <option value="Yöneticiler">Yöneticiler</option>
+              <option value="İK Ekibi">İK Ekibi</option>
+              <option value="Departman Bazlı">Departman Bazlı</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Dağıtılan Kişi</label>
+            <input id="distributedCount" type="number" min="0" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Okuyan / Onaylayan Kişi</label>
+            <input id="readCount" type="number" min="0" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="policyStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="policyPriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Revizyon / Politika Notu</label>
+            <textarea id="policyDescription" placeholder="Politika amacı, kapsamı, revizyon nedeni, dağıtım notu veya özel açıklama"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">İK Politikaları Ek Dosyaları</h3>
+          <p id="fileDesc">Politika dokümanı, revizyon kanıtı, dağıtım listesi, okundu/onay kanıtı ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="Politika Dokümanı">Politika Dokümanı</option>
+                <option value="Revizyon Kanıtı">Revizyon Kanıtı</option>
+                <option value="Dağıtım Listesi">Dağıtım Listesi</option>
+                <option value="Okundu Kanıtı">Okundu Kanıtı</option>
+                <option value="Onay Kanıtı">Onay Kanıtı</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="pol-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="savePolicyRecord()">İK Politika Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="policyMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearPolicyForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">İK Politikaları Panosu</h2>
+          <p id="recordsDesc">İK politikaları tür, revizyon, dağıtım, okundu oranı, onay ve yürürlük durumuyla izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadPolicyRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">İK Politika Geçmişi</h2>
+          <p id="auditDesc">Politika revizyonu, dağıtım, okundu, dosya ve onay işlemleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz İK politikası bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="policyToast" class="pol-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let policyRecords = [];
+
+function polEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function polVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function polNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function polToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("policyToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return polVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setPolicyUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "POL-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = polNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = polNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function approvalClass(status){
+  const value = polNormalize(status);
+
+  if(value === "onaylandı" || value === "yürürlükte") return "approved";
+  if(value === "revizyon istendi") return "missing";
+
+  return "pending";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return polEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function readRate(record){
+  const distributed = Number(record.distributedCount || 0);
+  const read = Number(record.readCount || 0);
+
+  if(distributed <= 0) return 0;
+
+  return Math.max(0,Math.min(100,Math.round((read / distributed) * 100)));
+}
+
+function isActivePolicy(record){
+  const approval = polNormalize(record.approvalStatus);
+  const status = polNormalize(record.status);
+
+  return (approval === "onaylandı" || approval === "yürürlükte") && status !== "arşivlendi";
+}
+
+function isLate(record){
+  if(polNormalize(record.status) === "tamamlandı" || polNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.reviewDate) return false;
+
+  const date = new Date(record.reviewDate);
+  const today = new Date();
+
+  date.setHours(23,59,59,999);
+
+  return !Number.isNaN(date.getTime()) && date < today;
+}
+
+function normalizePolicyRecord(record){
+  return {
+    id:polVal(record,"id","policy_id","record_id") || cryptoSafeId(),
+    policyName:polVal(record,"policy_name","policyName","title","name"),
+    policyType:polVal(record,"policy_type","policyType","type") || "Genel İK",
+    documentCode:polVal(record,"document_code","documentCode","code"),
+    revisionNo:polVal(record,"revision_no","revisionNo","revision") || "Rev.00",
+    effectiveDate:polVal(record,"effective_date","effectiveDate"),
+    reviewDate:polVal(record,"review_date","reviewDate","next_review_date"),
+    owner:polVal(record,"owner","owner_name","responsible"),
+    approver:polVal(record,"approver","approver_name"),
+    approvalStatus:polVal(record,"approval_status","approvalStatus") || "Onay Bekliyor",
+    distributionScope:polVal(record,"distribution_scope","distributionScope") || "Tüm Çalışanlar",
+    distributedCount:Number(polVal(record,"distributed_count","distributedCount") || 0),
+    readCount:Number(polVal(record,"read_count","readCount") || 0),
+    status:polVal(record,"status","policy_status") || "Açık",
+    priority:polVal(record,"priority") || "Normal",
+    description:polVal(record,"description","notes","note"),
+    createdAt:polVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:polVal(record,"created_by","owner_user","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    policy_name:document.getElementById("policyName").value.trim(),
+    policy_type:document.getElementById("policyType").value,
+    document_code:document.getElementById("documentCode").value.trim(),
+    revision_no:document.getElementById("revisionNo").value.trim(),
+    effective_date:document.getElementById("effectiveDate").value,
+    review_date:document.getElementById("reviewDate").value,
+    owner_name:document.getElementById("ownerName").value.trim(),
+    approver_name:document.getElementById("approverName").value.trim(),
+    approval_status:document.getElementById("approvalStatus").value,
+    distribution_scope:document.getElementById("distributionScope").value,
+    distributed_count:Number(document.getElementById("distributedCount").value || 0),
+    read_count:Number(document.getElementById("readCount").value || 0),
+    status:document.getElementById("policyStatus").value,
+    priority:document.getElementById("policyPriority").value,
+    description:document.getElementById("policyDescription").value.trim(),
+    module:"HR_POLICIES",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.policy_name) return "Politika adı zorunludur.";
+  if(!payload.document_code) return "Doküman kodu zorunludur.";
+  if(!payload.revision_no) return "Revizyon no zorunludur.";
+  if(!payload.owner_name) return "Sorumlu bilgisi zorunludur.";
+  if(!payload.approver_name) return "Onaylayan bilgisi zorunludur.";
+  if(payload.read_count > payload.distributed_count) return "Okuyan kişi sayısı dağıtılan kişi sayısından fazla olamaz.";
+
+  return "";
+}
+
+async function uploadPolicyFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    polToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_POLICIES",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    polToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function savePolicyRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    polToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizePolicyRecord(payload);
+  payload.read_rate = readRate(preview);
+  payload.is_active_policy = isActivePolicy(preview);
+
+  try{
+    const file = await uploadPolicyFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/policies",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/policies",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizePolicyRecord(saved || payload);
+    policyRecords.unshift(normalized);
+
+    renderPolicyRecords();
+    renderAuditPreview();
+    updatePolicyKpis();
+    clearPolicyForm(false);
+
+    polToast("İK politika kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    policyRecords.unshift(preview);
+
+    renderPolicyRecords();
+    renderAuditPreview();
+    updatePolicyKpis();
+
+    polToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadPolicyRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="pol-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/policies");
+      }catch(firstError){
+        response = await api.get("/policies");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    policyRecords = rows.map(normalizePolicyRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    policyRecords = [];
+  }
+
+  renderPolicyRecords();
+  renderAuditPreview();
+  updatePolicyKpis();
+}
+
+function filteredPolicyRecords(){
+  const q = polNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return policyRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = polNormalize([
+        record.policyName,
+        record.policyType,
+        record.documentCode,
+        record.revisionNo,
+        record.owner,
+        record.approver,
+        record.approvalStatus,
+        record.distributionScope,
+        record.status,
+        record.priority,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderPolicyRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredPolicyRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="pol-empty">İK politikası bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const rate = readRate(record);
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="pol-record">
+        <div class="pol-record-head">
+          <div>
+            <div class="pol-record-title">${polEsc(record.policyName || "İK Politikası")} · ${polEsc(record.documentCode || "-")}</div>
+            <div class="pol-record-meta">
+              Tür: ${polEsc(record.policyType || "-")} · Revizyon: ${polEsc(record.revisionNo || "-")} · Sorumlu: ${polEsc(record.owner || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="pol-status ${approvalClass(record.approvalStatus)}">${polEsc(record.approvalStatus)}</span>
+            <span class="pol-status ${statusClass(autoStatus)}">${polEsc(autoStatus)}</span>
+            <span class="pol-status ${priorityClass(record.priority)}">${polEsc(record.priority)}</span>
+            ${isActivePolicy(record) ? '<span class="pol-status active">Aktif</span>' : ''}
+          </div>
+        </div>
+
+        <div class="pol-mini-grid">
+          <div class="pol-metric"><small>Yürürlük</small><strong>${formatDate(record.effectiveDate)}</strong></div>
+          <div class="pol-metric"><small>Gözden Geçirme</small><strong>${formatDate(record.reviewDate)}</strong></div>
+          <div class="pol-metric"><small>Dağıtım</small><strong>${polEsc(record.distributionScope || "-")}</strong></div>
+          <div class="pol-metric"><small>Okundu Oranı</small><strong>${rate}%</strong><div class="pol-bar"><div class="pol-bar-fill" style="width:${rate}%"></div></div></div>
+          <div class="pol-metric"><small>Dağıtılan</small><strong>${record.distributedCount}</strong></div>
+          <div class="pol-metric"><small>Okuyan</small><strong>${record.readCount}</strong></div>
+          <div class="pol-metric"><small>Onaylayan</small><strong>${polEsc(record.approver || "-")}</strong></div>
+          <div class="pol-metric"><small>Oluşturan</small><strong>${polEsc(record.createdBy || "-")}</strong></div>
+        </div>
+
+        <div class="pol-record-meta">${polEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="pol-record-actions">
+          <button class="pol-small-btn" type="button" onclick="approvePolicy('${polEsc(record.id)}')">Yürürlüğe Al</button>
+          <button class="pol-small-btn yellow" type="button" onclick="requestPolicyRevision('${polEsc(record.id)}')">Revizyon İste</button>
+          <button class="pol-small-btn dark" type="button" onclick="copyPolicySummary('${polEsc(record.id)}')">Özet Kopyala</button>
+          <button class="pol-small-btn red" type="button" onclick="archivePolicy('${polEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updatePolicyKpis(){
+  const active = policyRecords.filter(isActivePolicy).length;
+  const avgRead = policyRecords.length
+    ? Math.round(policyRecords.reduce((sum,record) => sum + readRate(record),0) / policyRecords.length)
+    : 0;
+  const late = policyRecords.filter(isLate).length;
+
+  document.getElementById("kpiTotal").textContent = policyRecords.length;
+  document.getElementById("kpiActive").textContent = active;
+  document.getElementById("kpiReadRate").textContent = avgRead + "%";
+  document.getElementById("kpiLate").textContent = late;
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!policyRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz İK politikası bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = policyRecords.slice(0,8).map(record => `
+    <div class="pol-record-meta">
+      ${formatDate(record.createdAt)} · ${polEsc(record.createdBy || "Oturum Kullanıcısı")} · ${polEsc(record.policyName || "-")} ${polEsc(record.revisionNo || "-")} kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updatePolicy(id,changes){
+  const record = policyRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    polToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  Object.assign(record,changes);
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/policies/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/policies/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Politika güncelleme endpoint bekliyor",error);
+  }
+
+  renderPolicyRecords();
+  renderAuditPreview();
+  updatePolicyKpis();
+  polToast("İK politika kaydı güncellendi.");
+}
+
+function approvePolicy(id){
+  updatePolicy(id,{approvalStatus:"Yürürlükte",status:"Tamamlandı"});
+}
+
+function requestPolicyRevision(id){
+  updatePolicy(id,{approvalStatus:"Revizyon İstendi",status:"Bekliyor"});
+}
+
+function archivePolicy(id){
+  updatePolicy(id,{status:"Arşivlendi"});
+}
+
+function copyPolicySummary(id){
+  const record = policyRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    polToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const summary = [
+    "GDNL EOS İK Politikası Özeti",
+    "Politika Adı: " + (record.policyName || "-"),
+    "Politika Türü: " + (record.policyType || "-"),
+    "Doküman Kodu: " + (record.documentCode || "-"),
+    "Revizyon: " + (record.revisionNo || "-"),
+    "Yürürlük Tarihi: " + formatDate(record.effectiveDate),
+    "Sonraki Gözden Geçirme: " + formatDate(record.reviewDate),
+    "Sorumlu: " + (record.owner || "-"),
+    "Onaylayan: " + (record.approver || "-"),
+    "Onay Durumu: " + (record.approvalStatus || "-"),
+    "Dağıtım Kapsamı: " + (record.distributionScope || "-"),
+    "Dağıtılan Kişi: " + record.distributedCount,
+    "Okuyan / Onaylayan Kişi: " + record.readCount,
+    "Okundu Oranı: " + readRate(record) + "%",
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => polToast("Politika özeti kopyalandı."))
+    .catch(() => polToast("Kopyalama desteklenmiyor."));
+}
+
+function clearPolicyForm(showToast=true){
+  [
+    "policyName",
+    "documentCode",
+    "effectiveDate",
+    "reviewDate",
+    "ownerName",
+    "approverName",
+    "policyDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("policyType").value = "İşe Alım";
+  document.getElementById("revisionNo").value = "Rev.00";
+  document.getElementById("approvalStatus").value = "Onay Bekliyor";
+  document.getElementById("distributionScope").value = "Tüm Çalışanlar";
+  document.getElementById("distributedCount").value = "0";
+  document.getElementById("readCount").value = "0";
+  document.getElementById("policyStatus").value = "Açık";
+  document.getElementById("policyPriority").value = "Normal";
+  document.getElementById("fileCategory").value = "Politika Dokümanı";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) polToast("Form temizlendi.");
+}
+
+function focusPolicyForm(){
+  document.getElementById("policyName")?.focus();
+}
+
+function policyMessagePrep(){
+  const payload = formPayload();
+  const preview = normalizePolicyRecord(payload);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki İK politikası kaydı için bilgilendirme yapılmıştır:",
+    "",
+    "Politika Adı: " + (payload.policy_name || "-"),
+    "Politika Türü: " + (payload.policy_type || "-"),
+    "Doküman Kodu: " + (payload.document_code || "-"),
+    "Revizyon: " + (payload.revision_no || "-"),
+    "Yürürlük Tarihi: " + (payload.effective_date || "-"),
+    "Sonraki Gözden Geçirme: " + (payload.review_date || "-"),
+    "Sorumlu: " + (payload.owner_name || "-"),
+    "Onaylayan: " + (payload.approver_name || "-"),
+    "Onay Durumu: " + (payload.approval_status || "-"),
+    "Dağıtım Kapsamı: " + (payload.distribution_scope || "-"),
+    "Okundu Oranı: " + readRate(preview) + "%",
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => polToast("Mesaj metni kopyalandı."))
+    .catch(() => polToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindPolicyEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderPolicyRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderPolicyRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderPolicyRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusPolicyForm;
+  window.hrMessagePrep = window.hrMessagePrep || policyMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearPolicyForm;
+  window.hrSaveDraft = window.hrSaveDraft || savePolicyRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderPolicyRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootPolicyPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setPolicyUser();
+  ensureHrFallbacks();
+  bindPolicyEvents();
+  loadPolicyRecords();
+}
+
+bootPolicyPage();
+</script>
+
 </body>
 </html>
