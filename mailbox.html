@@ -101,6 +101,7 @@ let selectedMessageId = "";
 let attachmentFile = null;
 let userSearchTimer = null;
 let folderErrors = {};
+let unreadCount = null;
 
 const esc = (value) => String(value ?? "")
   .replaceAll("&", "&amp;")
@@ -217,10 +218,43 @@ function count(folder) {
 }
 
 function updateCounts() {
-  countInbox.textContent = count("inbox");
+  countInbox.textContent = unreadCount == null ? count("inbox") : unreadCount;
   countSent.textContent = count("sent");
   countDraft.textContent = count("draft");
   countTrash.textContent = count("trash");
+}
+
+function applyUnreadBadge(count) {
+  const value = Number(count || 0);
+  document.querySelectorAll('.gdnl-message-link,a[href="mailbox.html"],a[href$="/mailbox.html"]').forEach((link) => {
+    let badge = link.querySelector(".gdnl-mail-unread-badge");
+    if (!badge) {
+      badge = document.createElement("span");
+      badge.className = "gdnl-mail-unread-badge";
+      badge.setAttribute("aria-hidden", "true");
+      link.appendChild(badge);
+    }
+    if (value > 0) {
+      badge.textContent = value > 99 ? "99+" : String(value);
+      badge.classList.add("is-visible");
+    } else {
+      badge.textContent = "";
+      badge.classList.remove("is-visible");
+    }
+  });
+}
+
+async function refreshUnreadCount() {
+  try {
+    const payload = await api.get("/messages/unread-count", safeApi);
+    const data = api.responseData(payload) || {};
+    unreadCount = Number(data.unread_count || data.count || 0);
+    applyUnreadBadge(unreadCount);
+    countInbox.textContent = unreadCount;
+    return unreadCount;
+  } catch (error) {
+    return unreadCount;
+  }
 }
 
 function setNotice(message, isError = false) {
@@ -275,6 +309,7 @@ async function load() {
     }
   }
   messages = loaded.filter((message) => message.id);
+  await refreshUnreadCount();
   const failedFolders = Object.keys(folderErrors);
   setNotice(failedFolders.length ? failedFolders.map((folder) => folderLabel(folder) + ": " + folderErrors[folder]).join(" · ") : "", failedFolders.length > 0);
   render();
@@ -516,7 +551,7 @@ async function markRead(id, silent = false) {
   try {
     await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read: true, read_at: new Date().toISOString() });
     message.is_read = true;
-    window.GDNL_API?.updateMailboxUnreadBadge?.();
+    await refreshUnreadCount();
     await writeActivity("Mesaj okundu", message);
     if (!silent) api.showToast("Mesaj okundu olarak işaretlendi");
   } catch (error) {
