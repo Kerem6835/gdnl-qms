@@ -3,7 +3,6 @@ export default {
     const REQUEST_ORIGIN = request.headers.get("Origin") || "";
     const ALLOWED_ORIGINS = [
       "https://qms.gdnldigital.com",
-      "https://gdnl-eos-api.keremgudenli.workers.dev",
       "https://api.gdnldigital.com"
     ];
     const ORIGIN = ALLOWED_ORIGINS.includes(REQUEST_ORIGIN) ? REQUEST_ORIGIN : "https://qms.gdnldigital.com";
@@ -35,7 +34,7 @@ export default {
       GDNL EOS ROUTE FIX
       qms.gdnldigital.com/api/* Cloudflare route kullanÄ±ldÄ±ÄŸÄ±nda Worker'a path /api/login, /api/me gibi gelir.
       Eski kod sadece /login, /me beklediÄŸi iÃ§in oturum doÄŸrulama kÄ±rÄ±lÄ±yordu.
-      Bu normalizasyon hem /api/* hem de direkt workers.dev Ã¼zerindeki /* Ã§aÄŸrÄ±larÄ±nÄ± uyumlu Ã§alÄ±ÅŸtÄ±rÄ±r.
+      Bu normalizasyon hem /api/* hem de direkt api.gdnldigital.com Ã¼zerindeki /* Ã§aÄŸrÄ±larÄ±nÄ± uyumlu Ã§alÄ±ÅŸtÄ±rÄ±r.
     */
     const rawPath = url.pathname;
     const path = rawPath === "/api" ? "/" : (rawPath.startsWith("/api/") ? rawPath.slice(4) : rawPath);
@@ -346,7 +345,9 @@ const ensureMailboxSchema = async () => {
 
   await ensureMailboxColumn("message_recipients", "recipient_name", "TEXT");
   await ensureMailboxColumn("message_recipients", "recipient_email", "TEXT");
+  await ensureMailboxColumn("message_recipients", "user_id", "TEXT");
   await ensureMailboxColumn("message_recipients", "is_read", "INTEGER DEFAULT 0");
+  await ensureMailboxColumn("message_recipients", "status", "TEXT");
   await ensureMailboxColumn("message_recipients", "read_at", "TEXT");
   await ensureMailboxColumn("message_recipients", "created_at", "TEXT");
 
@@ -412,7 +413,7 @@ const hydrateMailboxMessage = async (message, user = null) => {
 };
 
 const assertMailboxAccess = async (messageId, user) => {
-  const message = await env.DB.prepare("SELECT * FROM messages WHERE id=? AND deleted_at IS NULL LIMIT 1")
+  const message = await env.DB.prepare("SELECT * FROM messages WHERE id=? LIMIT 1")
     .bind(String(messageId)).first();
   if (!message) return { message: null, isSender: false, isRecipient: false };
   const userId = String(user?.id || "");
@@ -651,6 +652,22 @@ try {
     await ensureMailboxSchema();
   }
 
+  if (path === "/messages/unread-count" && request.method === "GET") {
+    const user = await requireAuth();
+    const userId = String(user.id || "");
+    const row = await env.DB.prepare(`
+      SELECT COUNT(DISTINCT m.id) AS unread_count
+      FROM messages m
+      JOIN message_recipients r ON r.message_id = m.id
+      WHERE (CAST(r.recipient_id AS TEXT)=? OR CAST(r.user_id AS TEXT)=?)
+        AND (COALESCE(r.is_read, 0)=0 OR UPPER(COALESCE(r.status, ''))='UNREAD' OR r.read_at IS NULL)
+        AND COALESCE(m.status, 'sent') NOT IN ('draft', 'deleted', 'permanently_deleted')
+        AND COALESCE(m.folder_status, '') <> 'trash'
+        AND m.deleted_at IS NULL
+    `).bind(userId, userId).first();
+    return ok({ unread_count: Number(row?.unread_count || 0) }, "Okunmamış mesaj sayısı");
+  }
+
   if (path === "/message-recipients" && request.method === "GET") {
     await requireAuth();
     const messageId = String(url.searchParams.get("message_id") || "").trim();
@@ -815,6 +832,34 @@ try {
     await safeInsertMailboxLog(user, "MAIL_RESTORED", id, "Mesaj çöp kutusundan geri yüklendi");
     const message = await env.DB.prepare("SELECT * FROM messages WHERE id=? LIMIT 1").bind(String(id)).first();
     return ok(await hydrateMailboxMessage(message, user), "Mesaj geri yüklendi");
+  }
+
+  const messagePermanentDeleteMatch = path.match(/^\/messages\/([^/]+)\/permanent$/);
+  if (messagePermanentDeleteMatch && request.method === "DELETE") {
+    const user = await requireAuth();
+    const id = decodeURIComponent(messagePermanentDeleteMatch[1]);
+    const access = await assertMailboxAccess(id, user);
+    if (!access.message || (!access.isSender && !access.isRecipient)) return fail("Mesaj bulunamadı", 404, "MESSAGE_NOT_FOUND");
+
+    const { results: attachments } = await env.DB.prepare("SELECT * FROM message_attachments WHERE message_id=?")
+      .bind(String(id)).all();
+    const r2Errors = [];
+    for (const attachment of (attachments || [])) {
+      const key = String(attachment.r2_key || "").trim();
+      if (!key) continue;
+      try {
+        if (env.EQMS_FILES) await env.EQMS_FILES.delete(key);
+      } catch (error) {
+        r2Errors.push(`${key}: ${error.message || error}`);
+      }
+    }
+
+    await env.DB.prepare("DELETE FROM message_attachments WHERE message_id=?").bind(String(id)).run();
+    await env.DB.prepare("DELETE FROM message_recipients WHERE message_id=?").bind(String(id)).run();
+    await env.DB.prepare("DELETE FROM messages WHERE id=?").bind(String(id)).run();
+    const detail = `Kalıcı silme tamamlandı. R2 ek sayısı: ${(attachments || []).length}. R2 hata: ${r2Errors.length ? r2Errors.join(" | ") : "yok"}`;
+    await safeInsertMailboxLog(user, "MAIL_PERMANENT_DELETE", id, detail);
+    return ok({ id, deleted: true, attachments_deleted: (attachments || []).length, r2_errors: r2Errors }, "Mesaj kalıcı olarak silindi");
   }
 
   const messageOneMatch = path.match(/^\/messages\/([^/]+)$/);

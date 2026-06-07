@@ -315,7 +315,7 @@ function render() {
 
 function renderMessage(message) {
   const unread = message.is_read ? "" : "● ";
-  return `<article class="message ${message.id === selectedMessageId ? "active" : ""}" onclick="openMessage('${esc(message.id)}')"><b>${unread}${esc(message.subject || "(Konu yok)")}</b><small>${esc(message.from || "Kullanıcı")} · ${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</small><p>${esc(message.body).slice(0, 180)}</p><span class="badge">${esc(priorityLabel(message.priority))}</span> <span class="badge">${esc(message.related_module)}</span> ${(message.attachments || []).length ? `<span class="badge warn">${message.attachments.length} ek</span>` : ""}<div class="message-actions"><button class="mini-btn" onclick="event.stopPropagation();openMessage('${esc(message.id)}')">Detay</button><button class="mini-btn" onclick="event.stopPropagation();replyTo('${esc(message.id)}')">Yanıtla</button><button class="mini-btn" onclick="event.stopPropagation();markRead('${esc(message.id)}')">Okundu</button>${message.folder === "trash" ? `<button class="mini-btn" onclick="event.stopPropagation();restoreMessage('${esc(message.id)}')">Geri Yükle</button>` : `<button class="mini-btn danger" onclick="event.stopPropagation();moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></article>`;
+  return `<article class="message ${message.id === selectedMessageId ? "active" : ""}" onclick="openMessage('${esc(message.id)}')"><b>${unread}${esc(message.subject || "(Konu yok)")}</b><small>${esc(message.from || "Kullanıcı")} · ${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</small><p>${esc(message.body).slice(0, 180)}</p><span class="badge">${esc(priorityLabel(message.priority))}</span> <span class="badge">${esc(message.related_module)}</span> ${(message.attachments || []).length ? `<span class="badge warn">${message.attachments.length} ek</span>` : ""}<div class="message-actions"><button class="mini-btn" onclick="event.stopPropagation();openMessage('${esc(message.id)}')">Detay</button><button class="mini-btn" onclick="event.stopPropagation();replyTo('${esc(message.id)}')">Yanıtla</button><button class="mini-btn" onclick="event.stopPropagation();markRead('${esc(message.id)}')">Okundu</button>${message.folder === "trash" ? `<button class="mini-btn" onclick="event.stopPropagation();restoreMessage('${esc(message.id)}')">Geri Yükle</button><button class="mini-btn danger" onclick="event.stopPropagation();permanentDelete('${esc(message.id)}')">Kalıcı Sil</button>` : `<button class="mini-btn danger" onclick="event.stopPropagation();moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></article>`;
 }
 
 function renderDetail() {
@@ -326,7 +326,7 @@ function renderDetail() {
     return;
   }
   readState.textContent = message.is_read ? "Okundu" : "Okunmadı";
-  messageDetail.innerHTML = `<div class="detail"><div class="detail-grid"><b>Konu</b><span>${esc(message.subject || "(Konu yok)")}</span><b>Gönderen</b><span>${esc(message.from || "Kullanıcı")}</span><b>Tarih</b><span>${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</span><b>Öncelik</b><span>${esc(priorityLabel(message.priority))}</span><b>İlgili kayıt</b><span>${esc(message.related_module)} ${message.related_record_id ? "#" + esc(message.related_record_id) : ""}</span><b>Alıcılar</b><span>${(message.recipients || []).map((recipient) => `<span class="chip">${esc(userNameOf(recipient))}</span>`).join("") || "-"}</span></div><div class="detail-box">${esc(message.body || "")}</div>${(message.attachments || []).map((attachment) => `<div class="detail-box"><b>R2 Ek:</b> ${esc(attachment.filename)} ${attachment.size ? `(${esc(attachment.size)} byte)` : ""}</div>`).join("")}<div class="actions"><button class="btn secondary" onclick="replyTo('${esc(message.id)}')">Yanıtla</button>${message.folder === "trash" ? `<button class="btn secondary" onclick="restoreMessage('${esc(message.id)}')">Geri Yükle</button>` : `<button class="btn danger" onclick="moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></div>`;
+  messageDetail.innerHTML = `<div class="detail"><div class="detail-grid"><b>Konu</b><span>${esc(message.subject || "(Konu yok)")}</span><b>Gönderen</b><span>${esc(message.from || "Kullanıcı")}</span><b>Tarih</b><span>${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</span><b>Öncelik</b><span>${esc(priorityLabel(message.priority))}</span><b>İlgili kayıt</b><span>${esc(message.related_module)} ${message.related_record_id ? "#" + esc(message.related_record_id) : ""}</span><b>Alıcılar</b><span>${(message.recipients || []).map((recipient) => `<span class="chip">${esc(userNameOf(recipient))}</span>`).join("") || "-"}</span></div><div class="detail-box">${esc(message.body || "")}</div>${(message.attachments || []).map((attachment) => `<div class="detail-box"><b>R2 Ek:</b> ${esc(attachment.filename)} ${attachment.size ? `(${esc(attachment.size)} byte)` : ""}</div>`).join("")}<div class="actions"><button class="btn secondary" onclick="replyTo('${esc(message.id)}')">Yanıtla</button>${message.folder === "trash" ? `<button class="btn secondary" onclick="restoreMessage('${esc(message.id)}')">Geri Yükle</button><button class="btn danger" onclick="permanentDelete('${esc(message.id)}')">Kalıcı Sil</button>` : `<button class="btn danger" onclick="moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></div>`;
 }
 
 function renderRecipients() {
@@ -449,6 +449,7 @@ async function save(status) {
     selectedMessageId = savedMessage.id;
     api.showToast(status === "draft" ? "Taslak kaydedildi" : "Mesaj gönderildi");
     setNotice(status === "draft" ? "Taslak kaydedildi." : "Mesaj gönderildi.");
+    window.GDNL_API?.updateMailboxUnreadBadge?.();
     render();
   } catch (error) {
     const message = apiErrorMessage(error);
@@ -515,6 +516,7 @@ async function markRead(id, silent = false) {
   try {
     await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read: true, read_at: new Date().toISOString() });
     message.is_read = true;
+    window.GDNL_API?.updateMailboxUnreadBadge?.();
     await writeActivity("Mesaj okundu", message);
     if (!silent) api.showToast("Mesaj okundu olarak işaretlendi");
   } catch (error) {
@@ -533,6 +535,7 @@ async function moveTrash(id) {
     await load();
     selectedMessageId = id;
     api.showToast("Mesaj çöp kutusuna taşındı");
+    window.GDNL_API?.updateMailboxUnreadBadge?.();
   } catch (error) {
     api.showToast(apiErrorMessage(error));
   }
@@ -549,8 +552,31 @@ async function restoreMessage(id) {
     await load();
     selectedMessageId = id;
     api.showToast("Mesaj geri yüklendi");
+    window.GDNL_API?.updateMailboxUnreadBadge?.();
   } catch (error) {
     api.showToast(apiErrorMessage(error));
+  }
+  render();
+}
+
+async function permanentDelete(id) {
+  const message = messages.find((item) => item.id === id);
+  if (!message) return;
+  const approved = await api.showConfirm("Bu mesaj ve varsa ek dosyaları kalıcı olarak silinecek. Devam edilsin mi?");
+  if (!approved) return;
+  try {
+    await callApi("delete", "/messages/" + encodeURIComponent(id) + "/permanent");
+    await writeActivity("Mesaj kalıcı silindi", message);
+    selectedMessageId = "";
+    activeFolder = "trash";
+    await load();
+    api.showToast("Mesaj kalıcı olarak silindi");
+    setNotice("Mesaj ve ek dosya ilişkileri kalıcı olarak silindi.");
+    window.GDNL_API?.updateMailboxUnreadBadge?.();
+  } catch (error) {
+    const messageText = apiErrorMessage(error);
+    api.showToast(messageText);
+    setNotice(messageText, true);
   }
   render();
 }

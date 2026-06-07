@@ -140,9 +140,11 @@ CREATE TABLE IF NOT EXISTS message_recipients (
   id TEXT PRIMARY KEY,
   message_id TEXT NOT NULL,
   recipient_id TEXT,
+  user_id TEXT,
   recipient_name TEXT,
   recipient_email TEXT,
   is_read INTEGER DEFAULT 0,
+  status TEXT,
   read_at TEXT,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
