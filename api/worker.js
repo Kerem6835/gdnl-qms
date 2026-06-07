@@ -20,8 +20,10 @@ function ok(env, data = {}, message = "İşlem başarılı", status = 200) {
   return json(env, { success: true, data, message }, status);
 }
 
-function fail(env, status, code, message) {
-  return json(env, { success: false, error: { code, message } }, status);
+function fail(env, status, code, message, detail) {
+  const error = { code, message };
+  if (detail) error.detail = String(detail);
+  return json(env, { success: false, error }, status);
 }
 
 async function bodyJson(request) {
@@ -90,6 +92,115 @@ async function tableColumns(env, table) {
   }
 }
 
+let mailboxSchemaReady = false;
+
+const MAILBOX_CREATE_STATEMENTS = [
+  `CREATE TABLE IF NOT EXISTS messages (
+    id TEXT PRIMARY KEY,
+    subject TEXT,
+    body TEXT,
+    sender_id TEXT,
+    sender_name TEXT,
+    priority TEXT DEFAULT 'normal',
+    status TEXT DEFAULT 'sent',
+    folder_status TEXT DEFAULT 'sent',
+    related_module TEXT DEFAULT 'General',
+    related_record_id TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT,
+    sent_at TEXT,
+    deleted_at TEXT
+  )`,
+  `CREATE TABLE IF NOT EXISTS message_recipients (
+    id TEXT PRIMARY KEY,
+    message_id TEXT NOT NULL,
+    recipient_id TEXT,
+    recipient_name TEXT,
+    recipient_email TEXT,
+    is_read INTEGER DEFAULT 0,
+    read_at TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )`,
+  `CREATE TABLE IF NOT EXISTS message_attachments (
+    id TEXT PRIMARY KEY,
+    message_id TEXT NOT NULL,
+    file_name TEXT,
+    file_type TEXT,
+    file_size INTEGER,
+    r2_key TEXT,
+    url TEXT,
+    uploaded_by TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )`,
+  `CREATE TABLE IF NOT EXISTS activity_feed (
+    id TEXT PRIMARY KEY,
+    module TEXT,
+    action TEXT,
+    record_no TEXT,
+    user_id TEXT,
+    user_name TEXT,
+    detail TEXT,
+    status TEXT DEFAULT 'active',
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT,
+    created_by TEXT,
+    updated_by TEXT
+  )`
+];
+
+const MAILBOX_REQUIRED_COLUMNS = {
+  messages: {
+    subject: "TEXT",
+    body: "TEXT",
+    sender_id: "TEXT",
+    sender_name: "TEXT",
+    priority: "TEXT DEFAULT 'normal'",
+    status: "TEXT DEFAULT 'sent'",
+    folder_status: "TEXT DEFAULT 'sent'",
+    related_module: "TEXT DEFAULT 'General'",
+    related_record_id: "TEXT",
+    created_at: "TEXT",
+    updated_at: "TEXT",
+    sent_at: "TEXT",
+    deleted_at: "TEXT"
+  },
+  message_recipients: {
+    message_id: "TEXT",
+    recipient_id: "TEXT",
+    recipient_name: "TEXT",
+    recipient_email: "TEXT",
+    is_read: "INTEGER DEFAULT 0",
+    read_at: "TEXT",
+    created_at: "TEXT"
+  },
+  message_attachments: {
+    message_id: "TEXT",
+    file_name: "TEXT",
+    file_type: "TEXT",
+    file_size: "INTEGER",
+    r2_key: "TEXT",
+    url: "TEXT",
+    uploaded_by: "TEXT",
+    created_at: "TEXT"
+  }
+};
+
+async function ensureMailboxSchema(env) {
+  if (mailboxSchemaReady) return;
+  for (const statement of MAILBOX_CREATE_STATEMENTS) {
+    await env.DB.prepare(statement).run();
+  }
+  for (const [table, columns] of Object.entries(MAILBOX_REQUIRED_COLUMNS)) {
+    const existing = await tableColumns(env, table);
+    for (const [column, definition] of Object.entries(columns)) {
+      if (!existing.has(column)) {
+        await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();
+      }
+    }
+  }
+  mailboxSchemaReady = true;
+}
+
 async function insertFlexible(env, table, values) {
   const columns = await tableColumns(env, table);
   const entries = Object.entries(values).filter(([key, value]) => columns.has(key) && value !== undefined);
@@ -112,6 +223,7 @@ async function writeMailboxLog(env, user, action, messageId, detail) {
     created_at: new Date().toISOString(),
     created_by: user?.id || ""
   };
+  await insertFlexible(env, "activity_feed", values).catch(() => {});
   await insertFlexible(env, "activity_logs", values).catch(() => {});
   await insertFlexible(env, "audit_logs", { ...values, id: crypto.randomUUID() }).catch(() => {});
 }
@@ -213,6 +325,12 @@ async function replaceMessageAttachments(env, messageId, attachments, user) {
 }
 
 async function handleMessages(request, env, pathParts) {
+  try {
+    await ensureMailboxSchema(env);
+  } catch (error) {
+    return fail(env, 500, "MAILBOX_SCHEMA_ERROR", "Mesaj tabloları hazırlanamadı", error.message);
+  }
+
   const guard = await requirePermission("read")(request, env);
   if (guard.error) return guard.error;
   const user = guard.user;
@@ -529,10 +647,32 @@ async function route(request, env) {
     const id = crypto.randomUUID();
     const key = `${new Date().toISOString().slice(0, 10)}/${id}-${file.name}`;
     await env.EQMS_FILES.put(key, file.stream(), { httpMetadata: { contentType: file.type } });
-    await env.DB.prepare(
-      "INSERT INTO files (id,file_name,mime_type,file_size,r2_key,status,created_by,created_at) VALUES (?,?,?,?,?,'active',?,datetime('now'))"
-    ).bind(id, file.name, file.type, file.size, key, guard.user.id).run();
-    return ok(env, { id, r2_key: key, file_name: file.name });
+    const now = new Date().toISOString();
+    await insertFlexible(env, "files", {
+      id,
+      file_name: file.name,
+      filename: file.name,
+      name: file.name,
+      mime_type: file.type,
+      file_type: file.type,
+      type: file.type,
+      file_size: file.size,
+      size: file.size,
+      r2_key: key,
+      module: form.get("module") || "",
+      related_id: form.get("related_id") || form.get("record_id") || form.get("record_no") || "",
+      record_id: form.get("record_id") || form.get("related_id") || "",
+      record_no: form.get("record_no") || form.get("related_id") || "",
+      category: form.get("category") || "",
+      description: form.get("description") || "",
+      uploaded_by: form.get("uploaded_by") || userDisplayName(guard.user),
+      uploaded_at: now,
+      status: "active",
+      created_by: guard.user.id,
+      created_at: now,
+      updated_at: now
+    });
+    return ok(env, { id, file_id: id, r2_key: key, file_name: file.name, filename: file.name, file_type: file.type, mime_type: file.type, file_size: file.size, size: file.size });
   }
 
   if ((pathParts[0] === "files" || pathParts[0] === "file") && recordId && request.method === "GET") {
@@ -562,7 +702,7 @@ export default {
     try {
       return await route(request, env);
     } catch (error) {
-      return fail(env, 500, "SERVER_ERROR", error.message || "Sunucu hatası");
+      return fail(env, 500, "SERVER_ERROR", "Sunucu hatası", error.message || "");
     }
   }
 };
