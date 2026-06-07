@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | Mesaj Merkezi</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{min-height:100vh;background:#f4f9ff;color:#172033;overflow-x:hidden}.main{max-width:1480px;margin:0 auto;padding:22px}.topbar,.panel{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:20px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:72px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;border-radius:22px;box-shadow:0 18px 46px rgba(7,27,52,.08)}.brand{font-size:22px;font-weight:950;color:#071b34;text-decoration:none;white-space:nowrap}.brand span{color:#35a852}.search{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 12px;font-weight:850;width:280px;max-width:100%;background:#fff}.topbar-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.topbar-actions a,.topbar-actions button,.btn{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:#fff;color:#0f1b2f;text-decoration:none;font-weight:950;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;white-space:nowrap}.topbar-actions .primary,.btn.primary{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;border-color:transparent}.gdnl-message-link,.gdnl-notification-link{width:44px;min-width:44px;padding:0!important;font-size:18px}.topbar-actions button:last-child{background:#fff5f5;color:#b42318;border-color:#ffd5d5}.btn.secondary{background:#dcfce7;color:#15803d}.btn.danger{background:#fee2e2;color:#991b1b}.user{height:44px;display:inline-flex;align-items:center;gap:8px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:linear-gradient(135deg,#eff6ff,#f8fbff);font-weight:950;font-size:13px}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:6px 0 18px}.hero h1{font-size:34px;font-weight:950;color:#071b34}.hero p{margin-top:7px;color:#617086;font-weight:850;max-width:780px}.mail-shell{display:grid;grid-template-columns:230px minmax(320px,1fr) minmax(320px,.95fr);gap:14px;align-items:start}.panel{padding:16px;min-height:180px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.panel-filters select{height:34px;border:1px solid #d8e4ef;border-radius:11px;background:#fff;padding:0 9px;font-weight:850;color:#334155}.panel h2{font-size:17px;font-weight:950;color:#071b34}.folder{width:100%;height:42px;border:none;border-radius:12px;background:#f8fbff;color:#536176;font-weight:950;text-align:left;padding:0 12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}.folder.active{background:#e8f7ee;color:#1f7d3d}.folder.compose{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;text-align:center;justify-content:center}.badge{display:inline-flex;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.badge.warn{background:#ffedd5;color:#c2410c}.badge.danger{background:#fee2e2;color:#991b1b}.notice{padding:10px 12px;border-radius:12px;background:#f8fbff;border:1px solid #e5edf6;color:#617086;font-size:12px;font-weight:850;margin-bottom:12px}.message-list{display:grid;gap:10px}.message{border:1px solid #edf2f7;border-radius:15px;padding:13px;background:#fff;cursor:pointer;transition:.16s ease}.message:hover,.message.active{border-color:#35a852;box-shadow:0 12px 30px rgba(53,168,82,.12)}.message b{display:block;color:#071b34}.message small{display:block;margin-top:5px;color:#617086;font-weight:800}.message p{margin-top:8px;color:#475569;font-size:13px;line-height:1.45}.message-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.mini-btn{height:30px;border:none;border-radius:10px;padding:0 9px;font-size:11px;font-weight:950;cursor:pointer;background:#f1f5f9;color:#334155}.mini-btn.danger{background:#fee2e2;color:#991b1b}.compose-panel{display:none}.compose-panel.active{display:block}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:950;color:#617086}.field input,.field textarea,.field select{width:100%;border:1px solid #d8e4ef;border-radius:12px;padding:10px 11px;font-weight:800;background:#fff}.field input,.field select{height:40px}.field textarea{min-height:112px;resize:vertical}.recipient-wrap{position:relative}.suggest{position:absolute;left:0;right:0;top:66px;background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);display:none;z-index:20;max-height:230px;overflow:auto}.suggest div{padding:10px 12px;border-bottom:1px solid #edf2f7;cursor:pointer;font-size:12px;font-weight:900}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chip{display:inline-flex;gap:6px;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}.detail{line-height:1.6;color:#334155}.detail-grid{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 12px;margin-bottom:12px}.detail-grid b{color:#071b34}.detail-box{border:1px solid #edf2f7;border-radius:15px;padding:14px;background:#fff;margin-top:10px;white-space:pre-wrap}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.hidden{display:none!important}@media(max-width:1080px){.mail-shell{grid-template-columns:210px minmax(0,1fr)}.detail-panel{grid-column:1/-1}}@media(max-width:760px){.main{padding:14px}.topbar,.hero{align-items:flex-start;flex-direction:column}.search{width:100%;min-width:0}.topbar-actions{width:100%;justify-content:flex-start;gap:8px}.mail-shell{grid-template-columns:1fr}.panel{padding:14px}.hero h1{font-size:28px}}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{min-height:100vh;background:#f4f9ff;color:#172033;overflow-x:hidden}.main{max-width:1480px;margin:0 auto;padding:22px}.topbar,.panel{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:20px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:72px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;border-radius:22px;box-shadow:0 18px 46px rgba(7,27,52,.08)}.brand{font-size:22px;font-weight:950;color:#071b34;text-decoration:none;white-space:nowrap}.brand span{color:#35a852}.search{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 12px;font-weight:850;width:280px;max-width:100%;background:#fff}.topbar-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.topbar-actions a,.topbar-actions button,.btn{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:#fff;color:#0f1b2f;text-decoration:none;font-weight:950;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;white-space:nowrap}.topbar-actions .primary,.btn.primary{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;border-color:transparent}.gdnl-message-link,.gdnl-notification-link{width:44px;min-width:44px;padding:0!important;font-size:18px}.topbar-actions button:last-child{background:#fff5f5;color:#b42318;border-color:#ffd5d5}.btn.secondary{background:#dcfce7;color:#15803d}.btn.danger{background:#fee2e2;color:#991b1b}.user{height:44px;display:inline-flex;align-items:center;gap:8px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:linear-gradient(135deg,#eff6ff,#f8fbff);font-weight:950;font-size:13px}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:6px 0 18px}.hero h1{font-size:34px;font-weight:950;color:#071b34}.hero p{margin-top:7px;color:#617086;font-weight:850;max-width:780px}.mail-shell{display:grid;grid-template-columns:230px minmax(320px,1fr) minmax(320px,.95fr);gap:14px;align-items:start}.panel{padding:16px;min-height:180px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.panel-filters select{height:34px;border:1px solid #d8e4ef;border-radius:11px;background:#fff;padding:0 9px;font-weight:850;color:#334155}.panel h2{font-size:17px;font-weight:950;color:#071b34}.folder{width:100%;height:42px;border:none;border-radius:12px;background:#f8fbff;color:#536176;font-weight:950;text-align:left;padding:0 12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}.folder.active{background:#e8f7ee;color:#1f7d3d}.folder.compose{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;text-align:center;justify-content:center}.badge{display:inline-flex;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.badge.warn{background:#ffedd5;color:#c2410c}.badge.danger{background:#fee2e2;color:#991b1b}.notice{padding:10px 12px;border-radius:12px;background:#f8fbff;border:1px solid #e5edf6;color:#617086;font-size:12px;font-weight:850;margin-bottom:12px}.notice.error{background:#fff5f5;border-color:#ffd5d5;color:#b42318}.message-list{display:grid;gap:10px}.message{border:1px solid #edf2f7;border-radius:15px;padding:13px;background:#fff;cursor:pointer;transition:.16s ease}.message:hover,.message.active{border-color:#35a852;box-shadow:0 12px 30px rgba(53,168,82,.12)}.message b{display:block;color:#071b34}.message small{display:block;margin-top:5px;color:#617086;font-weight:800}.message p{margin-top:8px;color:#475569;font-size:13px;line-height:1.45}.message-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.mini-btn{height:30px;border:none;border-radius:10px;padding:0 9px;font-size:11px;font-weight:950;cursor:pointer;background:#f1f5f9;color:#334155}.mini-btn.danger{background:#fee2e2;color:#991b1b}.compose-panel{display:none}.compose-panel.active{display:block}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:950;color:#617086}.field input,.field textarea,.field select{width:100%;border:1px solid #d8e4ef;border-radius:12px;padding:10px 11px;font-weight:800;background:#fff}.field input,.field select{height:40px}.field textarea{min-height:112px;resize:vertical}.recipient-wrap{position:relative}.suggest{position:absolute;left:0;right:0;top:66px;background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);display:none;z-index:20;max-height:230px;overflow:auto}.suggest div{padding:10px 12px;border-bottom:1px solid #edf2f7;cursor:pointer;font-size:12px;font-weight:900}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chip{display:inline-flex;gap:6px;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}.detail{line-height:1.6;color:#334155}.detail-grid{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 12px;margin-bottom:12px}.detail-grid b{color:#071b34}.detail-box{border:1px solid #edf2f7;border-radius:15px;padding:14px;background:#fff;margin-top:10px;white-space:pre-wrap}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.api-status{margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px;border-radius:16px;background:#f8fbff;border:1px solid #e5edf6;color:#536176;font-size:11px;font-weight:850}.api-status b{display:block;color:#071b34;font-size:11px;margin-bottom:2px}.hidden{display:none!important}@media(max-width:1080px){.mail-shell{grid-template-columns:210px minmax(0,1fr)}.detail-panel{grid-column:1/-1}}@media(max-width:760px){.main{padding:14px}.topbar,.hero{align-items:flex-start;flex-direction:column}.search{width:100%;min-width:0}.topbar-actions{width:100%;justify-content:flex-start;gap:8px}.mail-shell{grid-template-columns:1fr}.panel{padding:14px}.hero h1{font-size:28px}.api-status{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -38,6 +38,12 @@
       <button class="folder" data-folder="trash">Çöp Kutusu <span id="countTrash" class="badge danger">0</span></button>
       <button class="folder compose" data-folder="compose">Yeni Mesaj Oluştur</button>
       <div id="endpointNotice" class="notice hidden"></div>
+      <div class="api-status" aria-label="API Durumu">
+        <div><b>Son endpoint</b><span id="apiLastEndpoint">-</span></div>
+        <div><b>HTTP status</b><span id="apiLastStatus">-</span></div>
+        <div><b>Son başarılı işlem</b><span id="apiLastSuccess">-</span></div>
+        <div><b>Son hata</b><span id="apiLastError">-</span></div>
+      </div>
     </aside>
 
     <section class="panel">
@@ -85,44 +91,457 @@
 
 <script src="assets/js/config/api-client.js"></script>
 <script>
-const api=window.GDNL_API;
-let users=[],messages=[],recipients=[],activeFolder="inbox",selectedMessageId="",attachmentFile=null,messagesEndpointReady=true,lastPreparedPayload=null;
-const safeApi={redirectOnUnauthorized:false};
-const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-const currentUser=()=>window.GDNL_CURRENT_USER||{};
-const userNameOf=u=>u?.fullname||u?.name||u?.username||u?.email||"Kullanıcı";
-function asFolder(m){if(m.folder==="drafts")return"draft";if(m.folder)return m.folder;if(m.status==="draft"||m.status==="trash")return m.status;if(String(m.sender_id||"")&&String(m.sender_id)===String(currentUser().id||""))return"sent";return"inbox"}
-function normalizeAttachment(file){const s=file||{};return{file_id:s.file_id||s.id||"",r2_key:s.r2_key||s.key||s.object_key||"",filename:s.filename||s.fileName||s.file_name||s.name||"Dosya",mime_type:s.mime_type||s.type||"",size:s.size||0}}
-function normalizeMessage(m){const at=Array.isArray(m.attachments)?m.attachments.map(normalizeAttachment):(m.attachment||m.file?[normalizeAttachment(m.attachment||m.file)]:[]);return{...m,id:String(m.id||m.message_id||"MSG-"+Date.now()),folder:asFolder(m),status:m.status||asFolder(m),subject:m.subject||"",body:m.body||m.message||"",recipients:Array.isArray(m.recipients)?m.recipients.map(api.normalizeUser):[],sender_id:m.sender_id||m.from_id||"",from:m.from||m.sender_name||m.created_by||"",is_read:Boolean(m.is_read),attachments:at,related_module:m.related_module||"General",related_record_id:m.related_record_id||"",priority:m.priority||"normal",created_at:m.created_at||new Date().toISOString()}}
-function folderLabel(f){return{inbox:"Gelen Kutusu",sent:"Giden Kutusu",draft:"Taslaklar",trash:"Çöp Kutusu",compose:"Yeni Mesaj Oluştur"}[f]||"Gelen Kutusu"}
-function priorityLabel(p){return{normal:"Normal",high:"Yüksek",critical:"Kritik"}[p]||"Normal"}
-function count(folder){return messages.filter(m=>m.folder===folder).length}
-function updateCounts(){countInbox.textContent=count("inbox");countSent.textContent=count("sent");countDraft.textContent=count("draft");countTrash.textContent=count("trash")}
-function apiFolder(folder){return folder==="draft"?"drafts":folder}
-function showEndpointNotice(){endpointNotice.classList.toggle("hidden",messagesEndpointReady);endpointNotice.textContent=messagesEndpointReady?"":"Canlı mesaj endpointi bulunamadı. Mesaj kayıtları D1 bağlantısı hazır olduğunda görüntülenecek."}
-async function load(){try{users=await api.loadUsers(safeApi)}catch(e){users=[]}try{const folders=["inbox","sent","draft","trash"];const batches=await Promise.all(folders.map(f=>api.get("/messages?folder="+encodeURIComponent(apiFolder(f)),safeApi).then(data=>api.asArray(data).map(m=>normalizeMessage({...m,folder:f})))));messages=batches.flat();messagesEndpointReady=true}catch(e){messages=[];messagesEndpointReady=false}showEndpointNotice();render()}
-function render(){updateCounts();document.querySelectorAll(".folder").forEach(b=>b.classList.toggle("active",b.dataset.folder===activeFolder));folderTitle.textContent=folderLabel(activeFolder);composePanel.classList.toggle("active",activeFolder==="compose");messageList.classList.toggle("hidden",activeFolder==="compose");folderState.textContent=messagesEndpointReady?"Canlı akış":"Bekleme modu";if(activeFolder==="compose"){messageList.innerHTML="";renderDetail();return}const q=(searchBox.value||"").toLocaleLowerCase("tr-TR");const p=priorityFilter.value;const mod=moduleFilter.value;const rows=messages.filter(m=>m.folder===activeFolder&&(!p||m.priority===p)&&(!mod||m.related_module===mod)&&`${m.subject} ${m.body} ${m.from} ${m.related_module} ${(m.recipients||[]).map(userNameOf).join(" ")}`.toLocaleLowerCase("tr-TR").includes(q));messageList.innerHTML=rows.length?rows.map(renderMessage).join(""):`<div class="empty">${folderLabel(activeFolder)} içinde mesaj bulunmuyor.</div>`;renderDetail()}
-function renderMessage(m){const unread=m.is_read?"":"● ";return `<article class="message ${m.id===selectedMessageId?"active":""}" onclick="openMessage('${esc(m.id)}')"><b>${unread}${esc(m.subject||"(Konu yok)")}</b><small>${esc(m.from||"Kullanıcı")} · ${esc(new Date(m.created_at).toLocaleString("tr-TR"))}</small><p>${esc(m.body).slice(0,180)}</p><span class="badge">${esc(priorityLabel(m.priority))}</span> <span class="badge">${esc(m.related_module)}</span> ${(m.attachments||[]).length?`<span class="badge warn">${m.attachments.length} ek</span>`:""}<div class="message-actions"><button class="mini-btn" onclick="event.stopPropagation();openMessage('${esc(m.id)}')">Detay</button><button class="mini-btn" onclick="event.stopPropagation();replyTo('${esc(m.id)}')">Yanıtla</button><button class="mini-btn" onclick="event.stopPropagation();markRead('${esc(m.id)}')">Okundu</button>${m.folder==="trash"?`<button class="mini-btn" onclick="event.stopPropagation();restoreMessage('${esc(m.id)}')">Geri Yükle</button>`:`<button class="mini-btn danger" onclick="event.stopPropagation();moveTrash('${esc(m.id)}')">Çöpe Taşı</button>`}</div></article>`}
-function renderPreparedPayload(){if(!lastPreparedPayload)return false;readState.textContent="Bekleme modu";messageDetail.innerHTML=`<div class="detail"><div class="notice">Canlı mesaj endpointi bulunamadı. Aşağıdaki mesaj payload'ı D1 bağlantısı hazır olduğunda POST /messages ile gönderilecek yapıdadır.</div><div class="detail-grid"><b>Konu</b><span>${esc(lastPreparedPayload.subject||"(Konu yok)")}</span><b>Alıcılar</b><span>${lastPreparedPayload.recipients.map(r=>`<span class="chip">${esc(userNameOf(r))}</span>`).join("")||"-"}</span><b>Durum</b><span>${esc(lastPreparedPayload.status)}</span><b>Öncelik</b><span>${esc(priorityLabel(lastPreparedPayload.priority))}</span><b>İlgili kayıt</b><span>${esc(lastPreparedPayload.related_module)} ${lastPreparedPayload.related_record_id?"#"+esc(lastPreparedPayload.related_record_id):""}</span></div><div class="detail-box">${esc(lastPreparedPayload.body||"")}</div></div>`;return true}
-function renderDetail(){const m=messages.find(x=>x.id===selectedMessageId);if(!m){if(renderPreparedPayload())return;readState.textContent="Seçilmedi";messageDetail.innerHTML='<div class="empty">Detay için bir mesaj seçin.</div>';return}lastPreparedPayload=null;readState.textContent=m.is_read?"Okundu":"Okunmadı";messageDetail.innerHTML=`<div class="detail"><div class="detail-grid"><b>Konu</b><span>${esc(m.subject||"(Konu yok)")}</span><b>Gönderen</b><span>${esc(m.from||"Kullanıcı")}</span><b>Tarih</b><span>${esc(new Date(m.created_at).toLocaleString("tr-TR"))}</span><b>Öncelik</b><span>${esc(priorityLabel(m.priority))}</span><b>İlgili kayıt</b><span>${esc(m.related_module)} ${m.related_record_id?"#"+esc(m.related_record_id):""}</span><b>Alıcılar</b><span>${(m.recipients||[]).map(r=>`<span class="chip">${esc(userNameOf(r))}</span>`).join("")||"-"}</span></div><div class="detail-box">${esc(m.body||"")}</div>${(m.attachments||[]).map(a=>`<div class="detail-box"><b>R2 Ek:</b> ${esc(a.filename)} ${a.size?`(${esc(a.size)} byte)`:""}</div>`).join("")}<div class="actions"><button class="btn secondary" onclick="replyTo('${esc(m.id)}')">Yanıtla</button>${m.folder==="trash"?`<button class="btn secondary" onclick="restoreMessage('${esc(m.id)}')">Geri Yükle</button>`:`<button class="btn danger" onclick="moveTrash('${esc(m.id)}')">Çöpe Taşı</button>`}</div></div>`}
-function renderRecipients(){recipientChips.innerHTML=recipients.map((u,i)=>`<span class="chip">${esc(userNameOf(u))}<button type="button" onclick="recipients.splice(${i},1);renderRecipients()" style="border:none;background:transparent;color:#991b1b;font-weight:950">×</button></span>`).join("")}
-recipientInput.addEventListener("input",()=>{const q=recipientInput.value.toLocaleLowerCase("tr-TR");const found=users.filter(u=>`${u.fullname} ${u.username} ${u.email} ${u.department}`.toLocaleLowerCase("tr-TR").includes(q)).slice(0,10);suggestions.innerHTML=found.map((u,i)=>`<div data-i="${i}">${esc(userNameOf(u))}<br><small>${esc(u.email||"")} · ${esc(u.department||"")}</small></div>`).join("");suggestions.style.display=found.length?"block":"none";suggestions.querySelectorAll("[data-i]").forEach(el=>el.onclick=()=>{const u=found[Number(el.dataset.i)];if(!recipients.some(r=>String(r.id)===String(u.id)))recipients.push(u);recipientInput.value="";suggestions.style.display="none";renderRecipients()})});
-attachment.addEventListener("change",e=>{attachmentFile=e.target.files[0]||null});
-function recipientPayload(){return recipients.map(api.normalizeUser).map(u=>({user_id:u.id,fullname:userNameOf(u),username:u.username,email:u.email,role:u.role,department:u.department}))}
-async function uploadAttachment(record){if(!attachmentFile)return null;try{return normalizeAttachment(await api.uploadToR2(attachmentFile,{module:"mailbox",record_id:record,category:"Mesaj Eki",uploaded_by:userNameOf(currentUser())}))}catch(e){api.showToast("R2 ek yükleme endpointi bekleniyor");return null}}
-async function buildPayload(status){const id="MSG-"+Date.now();const file=await uploadAttachment(id);return{id,subject:subject.value.trim(),body:body.value.trim(),recipients:recipientPayload(),priority:priority.value||"normal",status,folder:status==="sent"?"sent":status,related_module:relatedModule.value||"General",related_record_id:relatedRecordId.value.trim(),attachments:file?[file]:[],sender_id:currentUser().id||"",from:userNameOf(currentUser()),is_read:false,created_at:new Date().toISOString(),updated_at:new Date().toISOString()}}
-async function writeActivity(action,message){const payload={module:"mailbox",related_module:"mailbox",related_record_id:message?.id||"",action,description:message?.subject||"",user_id:currentUser().id||"",user_name:userNameOf(currentUser()),created_at:new Date().toISOString()};api.post("/activity-feed",payload,safeApi).catch(()=>{});api.post("/audit-logs",payload,safeApi).catch(()=>{})}
-function notifyRecipients(message){api.post("/notifications",{type:"message",title:"Yeni mesaj",message:message.subject||"Yeni mesaj",recipients:message.recipients,related_module:"mailbox",related_record_id:message.id,is_read:false,created_at:new Date().toISOString()},safeApi).catch(()=>{})}
-async function save(status){if(status==="sent"&&!recipients.length)return api.showToast("Alıcı seç");const payload=await buildPayload(status);try{const saved=await api.post("/messages",payload,safeApi);messagesEndpointReady=true;lastPreparedPayload=null;const savedMessage=normalizeMessage(api.responseData?api.responseData(saved):saved?.data||payload);selectedMessageId=savedMessage.id;await writeActivity(status==="draft"?"Taslak kaydedildi":"Mesaj gönderildi",savedMessage);if(savedMessage.attachments.length)await writeActivity("Dosya eki eklendi",savedMessage);activeFolder=status==="draft"?"draft":"sent";clearCompose(false);await load();selectedMessageId=savedMessage.id;render()}catch(e){messagesEndpointReady=false;lastPreparedPayload=payload;selectedMessageId="";api.showToast("Canlı mesaj endpointi bulunamadı; payload hazırlandı");showEndpointNotice();render()}}
-function sendMessage(){save("sent")}function saveDraft(){save("draft")}
-function clearCompose(show=true){recipients=[];subject.value="";body.value="";relatedModule.value="General";relatedRecordId.value="";priority.value="normal";attachment.value="";attachmentFile=null;renderRecipients();if(show)api.showToast("Mesaj formu temizlendi")}
-function openCompose(){activeFolder="compose";render()}
-async function openMessage(id){try{const detail=normalizeMessage(api.responseData(await api.get("/messages/"+encodeURIComponent(id),safeApi)));const idx=messages.findIndex(x=>x.id===detail.id);if(idx>=0)messages[idx]={...messages[idx],...detail};else messages.unshift(detail);selectedMessageId=detail.id;await markRead(id,true)}catch(e){selectedMessageId=id;api.showToast("Mesaj detayı alınamadı")}render()}
-function replyTo(id){const m=messages.find(x=>x.id===id);if(!m)return;recipients=m.sender_id||m.from?[api.normalizeUser({id:m.sender_id,fullname:m.from,email:m.from_email||""})]:[];subject.value=/^Yanıt:/i.test(m.subject)?m.subject:"Yanıt: "+(m.subject||"");body.value="\n\n--- Önceki Mesaj ---\n"+(m.body||"");relatedModule.value=m.related_module||"General";relatedRecordId.value=m.related_record_id||"";priority.value=m.priority||"normal";activeFolder="compose";renderRecipients();render()}
-async function markRead(id,silent=false){const m=messages.find(x=>x.id===id);if(!m)return;try{await api.put("/messages/"+encodeURIComponent(id)+"/read",{is_read:true,read_at:new Date().toISOString()},safeApi);m.is_read=true;await writeActivity("Mesaj okundu",m)}catch(e){api.showToast("Okundu bilgisi işlenemedi")}if(!silent)render()}
-async function moveTrash(id){const m=messages.find(x=>x.id===id);if(!m)return;try{await api.put("/messages/"+encodeURIComponent(id)+"/trash",{status:"trash",deleted_at:new Date().toISOString()},safeApi);m.previous_folder=m.folder;m.folder="trash";m.status="trash";await writeActivity("Mesaj çöpe taşındı",m);await load();activeFolder="trash";selectedMessageId=id}catch(e){api.showToast("Mesaj çöpe taşınamadı")}render()}
-async function restoreMessage(id){const m=messages.find(x=>x.id===id);if(!m)return;try{const restored=api.responseData(await api.put("/messages/"+encodeURIComponent(id)+"/restore",{status:m.status,deleted_at:null},safeApi));await writeActivity("Mesaj geri yüklendi",m);activeFolder=restored.folder==="sent"?"sent":"inbox";await load();selectedMessageId=id}catch(e){api.showToast("Mesaj geri yüklenemedi")}render()}
-document.querySelectorAll(".folder").forEach(btn=>btn.onclick=()=>{activeFolder=btn.dataset.folder;render()});searchBox.addEventListener("input",render);priorityFilter.addEventListener("change",render);moduleFilter.addEventListener("change",render);load();
+const api = window.GDNL_API;
+const safeApi = { redirectOnUnauthorized: false, fallbackOnNotFound: false };
+let users = [];
+let messages = [];
+let recipients = [];
+let activeFolder = "inbox";
+let selectedMessageId = "";
+let attachmentFile = null;
+let userSearchTimer = null;
+
+const esc = (value) => String(value ?? "")
+  .replaceAll("&", "&amp;")
+  .replaceAll("<", "&lt;")
+  .replaceAll(">", "&gt;")
+  .replaceAll('"', "&quot;")
+  .replaceAll("'", "&#039;");
+
+const currentUser = () => window.GDNL_CURRENT_USER || {};
+const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.email || "Kullanıcı";
+
+function apiErrorMessage(error) {
+  if (error?.status === 401) return "Oturum süresi doldu, tekrar giriş yapın.";
+  if (error?.status === 404) return "Mesaj endpointi bulunamadı.";
+  if (error?.status === 500) return "API hata verdi.";
+  if (error?.status === 0) return "Sunucuya ulaşılamıyor.";
+  return error?.message || "İşlem tamamlanamadı.";
+}
+
+function setApiStatus(endpoint, status, success, error) {
+  apiLastEndpoint.textContent = endpoint || "-";
+  apiLastStatus.textContent = status == null ? "-" : String(status);
+  if (success) apiLastSuccess.textContent = success;
+  if (error !== undefined) apiLastError.textContent = error || "-";
+}
+
+async function callApi(method, endpoint, body) {
+  setApiStatus(endpoint, "...", "", "-");
+  try {
+    const result = await api[method](endpoint, body, safeApi);
+    setApiStatus(endpoint, 200, endpoint + " başarılı", "-");
+    return result;
+  } catch (error) {
+    const message = apiErrorMessage(error);
+    setApiStatus(endpoint, error?.status || "Network", "", message);
+    throw error;
+  }
+}
+
+function apiFolder(folder) {
+  return folder === "draft" ? "drafts" : folder;
+}
+
+function asFolder(message, fallbackFolder) {
+  if (fallbackFolder === "drafts") return "draft";
+  if (fallbackFolder) return fallbackFolder;
+  if (message.folder === "drafts") return "draft";
+  if (message.folder) return message.folder;
+  if (message.status === "draft" || message.status === "trash") return message.status;
+  if (String(message.sender_id || "") && String(message.sender_id) === String(currentUser().id || "")) return "sent";
+  return "inbox";
+}
+
+function normalizeAttachment(file) {
+  const source = file || {};
+  return {
+    file_id: source.file_id || source.id || "",
+    r2_key: source.r2_key || source.key || source.object_key || "",
+    filename: source.filename || source.fileName || source.file_name || source.name || "Dosya",
+    mime_type: source.mime_type || source.file_type || source.type || "",
+    size: source.size || source.file_size || 0,
+    url: source.url || source.download_url || ""
+  };
+}
+
+function normalizeRecipient(recipient) {
+  const user = api.normalizeUser(recipient || {});
+  return {
+    id: user.id || recipient?.recipient_id || recipient?.user_id || "",
+    recipient_id: recipient?.recipient_id || user.id || recipient?.user_id || "",
+    recipient_name: recipient?.recipient_name || userNameOf(user),
+    recipient_email: recipient?.recipient_email || user.email || "",
+    fullname: recipient?.recipient_name || user.fullname || user.name || user.username || "",
+    username: user.username || "",
+    email: recipient?.recipient_email || user.email || "",
+    role: user.role || "",
+    department: user.department || ""
+  };
+}
+
+function normalizeMessage(message, fallbackFolder) {
+  const source = api.responseData(message) || {};
+  const attachments = Array.isArray(source.attachments) ? source.attachments.map(normalizeAttachment) : [];
+  const normalizedRecipients = Array.isArray(source.recipients) ? source.recipients.map(normalizeRecipient) : [];
+  return {
+    ...source,
+    id: String(source.id || source.message_id || ""),
+    folder: asFolder(source, fallbackFolder),
+    status: source.status || asFolder(source, fallbackFolder),
+    subject: source.subject || "",
+    body: source.body || source.message || "",
+    recipients: normalizedRecipients,
+    sender_id: source.sender_id || source.from_id || "",
+    from: source.from || source.sender_name || source.created_by || "",
+    is_read: source.is_read === true || source.is_read === 1 || source.is_read === "1",
+    attachments,
+    related_module: source.related_module || "General",
+    related_record_id: source.related_record_id || "",
+    priority: source.priority || "normal",
+    created_at: source.created_at || source.sent_at || source.updated_at || new Date().toISOString()
+  };
+}
+
+function folderLabel(folder) {
+  return { inbox: "Gelen Kutusu", sent: "Giden Kutusu", draft: "Taslaklar", trash: "Çöp Kutusu", compose: "Yeni Mesaj Oluştur" }[folder] || "Gelen Kutusu";
+}
+
+function priorityLabel(priority) {
+  return { normal: "Normal", high: "Yüksek", critical: "Kritik" }[priority] || "Normal";
+}
+
+function count(folder) {
+  return messages.filter((message) => message.folder === folder).length;
+}
+
+function updateCounts() {
+  countInbox.textContent = count("inbox");
+  countSent.textContent = count("sent");
+  countDraft.textContent = count("draft");
+  countTrash.textContent = count("trash");
+}
+
+function setNotice(message, isError = false) {
+  endpointNotice.classList.toggle("hidden", !message);
+  endpointNotice.classList.toggle("error", isError);
+  endpointNotice.textContent = message || "";
+}
+
+async function loadUsers(query = "") {
+  const endpoint = "/users" + (query ? "?q=" + encodeURIComponent(query) : "");
+  const payload = await callApi("get", endpoint);
+  users = api.asArray(payload).map(api.normalizeUser);
+  return users;
+}
+
+async function loadFolder(folder) {
+  const endpoint = "/messages?folder=" + encodeURIComponent(apiFolder(folder));
+  const payload = await callApi("get", endpoint);
+  return api.asArray(payload).map((message) => normalizeMessage(message, folder));
+}
+
+async function load() {
+  try {
+    await loadUsers();
+  } catch (error) {
+    users = [];
+  }
+
+  try {
+    const folders = ["inbox", "sent", "draft", "trash"];
+    const batches = await Promise.all(folders.map(loadFolder));
+    messages = batches.flat().filter((message) => message.id);
+    setNotice("");
+  } catch (error) {
+    messages = [];
+    setNotice(apiErrorMessage(error), true);
+  }
+  render();
+}
+
+function render() {
+  updateCounts();
+  document.querySelectorAll(".folder").forEach((button) => button.classList.toggle("active", button.dataset.folder === activeFolder));
+  folderTitle.textContent = folderLabel(activeFolder);
+  composePanel.classList.toggle("active", activeFolder === "compose");
+  messageList.classList.toggle("hidden", activeFolder === "compose");
+  folderState.textContent = activeFolder === "compose" ? "Hazır" : "Canlı API";
+
+  if (activeFolder === "compose") {
+    messageList.innerHTML = "";
+    renderDetail();
+    return;
+  }
+
+  const query = (searchBox.value || "").toLocaleLowerCase("tr-TR");
+  const priorityValue = priorityFilter.value;
+  const moduleValue = moduleFilter.value;
+  const rows = messages.filter((message) => (
+    message.folder === activeFolder &&
+    (!priorityValue || message.priority === priorityValue) &&
+    (!moduleValue || message.related_module === moduleValue) &&
+    `${message.subject} ${message.body} ${message.from} ${message.related_module} ${(message.recipients || []).map(userNameOf).join(" ")}`.toLocaleLowerCase("tr-TR").includes(query)
+  ));
+
+  messageList.innerHTML = rows.length ? rows.map(renderMessage).join("") : `<div class="empty">${folderLabel(activeFolder)} içinde mesaj bulunmuyor.</div>`;
+  renderDetail();
+}
+
+function renderMessage(message) {
+  const unread = message.is_read ? "" : "● ";
+  return `<article class="message ${message.id === selectedMessageId ? "active" : ""}" onclick="openMessage('${esc(message.id)}')"><b>${unread}${esc(message.subject || "(Konu yok)")}</b><small>${esc(message.from || "Kullanıcı")} · ${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</small><p>${esc(message.body).slice(0, 180)}</p><span class="badge">${esc(priorityLabel(message.priority))}</span> <span class="badge">${esc(message.related_module)}</span> ${(message.attachments || []).length ? `<span class="badge warn">${message.attachments.length} ek</span>` : ""}<div class="message-actions"><button class="mini-btn" onclick="event.stopPropagation();openMessage('${esc(message.id)}')">Detay</button><button class="mini-btn" onclick="event.stopPropagation();replyTo('${esc(message.id)}')">Yanıtla</button><button class="mini-btn" onclick="event.stopPropagation();markRead('${esc(message.id)}')">Okundu</button>${message.folder === "trash" ? `<button class="mini-btn" onclick="event.stopPropagation();restoreMessage('${esc(message.id)}')">Geri Yükle</button>` : `<button class="mini-btn danger" onclick="event.stopPropagation();moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></article>`;
+}
+
+function renderDetail() {
+  const message = messages.find((item) => item.id === selectedMessageId);
+  if (!message) {
+    readState.textContent = "Seçilmedi";
+    messageDetail.innerHTML = '<div class="empty">Detay için bir mesaj seçin.</div>';
+    return;
+  }
+  readState.textContent = message.is_read ? "Okundu" : "Okunmadı";
+  messageDetail.innerHTML = `<div class="detail"><div class="detail-grid"><b>Konu</b><span>${esc(message.subject || "(Konu yok)")}</span><b>Gönderen</b><span>${esc(message.from || "Kullanıcı")}</span><b>Tarih</b><span>${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</span><b>Öncelik</b><span>${esc(priorityLabel(message.priority))}</span><b>İlgili kayıt</b><span>${esc(message.related_module)} ${message.related_record_id ? "#" + esc(message.related_record_id) : ""}</span><b>Alıcılar</b><span>${(message.recipients || []).map((recipient) => `<span class="chip">${esc(userNameOf(recipient))}</span>`).join("") || "-"}</span></div><div class="detail-box">${esc(message.body || "")}</div>${(message.attachments || []).map((attachment) => `<div class="detail-box"><b>R2 Ek:</b> ${esc(attachment.filename)} ${attachment.size ? `(${esc(attachment.size)} byte)` : ""}</div>`).join("")}<div class="actions"><button class="btn secondary" onclick="replyTo('${esc(message.id)}')">Yanıtla</button>${message.folder === "trash" ? `<button class="btn secondary" onclick="restoreMessage('${esc(message.id)}')">Geri Yükle</button>` : `<button class="btn danger" onclick="moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></div>`;
+}
+
+function renderRecipients() {
+  recipientChips.innerHTML = recipients.map((recipient, index) => `<span class="chip">${esc(userNameOf(recipient))}<button type="button" onclick="removeRecipient(${index})" style="border:none;background:transparent;color:#991b1b;font-weight:950">×</button></span>`).join("");
+}
+
+function removeRecipient(index) {
+  recipients.splice(index, 1);
+  renderRecipients();
+}
+
+async function searchUsers() {
+  const query = recipientInput.value.trim();
+  try {
+    const found = await loadUsers(query);
+    suggestions.innerHTML = found.slice(0, 10).map((user, index) => `<div data-i="${index}">${esc(userNameOf(user))}<br><small>${esc(user.email || "")} · ${esc(user.department || "")}</small></div>`).join("");
+    suggestions.style.display = found.length ? "block" : "none";
+    suggestions.querySelectorAll("[data-i]").forEach((item) => {
+      item.onclick = () => {
+        const user = found[Number(item.dataset.i)];
+        if (user && !recipients.some((recipient) => String(recipient.id || recipient.recipient_id) === String(user.id))) recipients.push(user);
+        recipientInput.value = "";
+        suggestions.style.display = "none";
+        renderRecipients();
+      };
+    });
+  } catch (error) {
+    suggestions.style.display = "none";
+    setNotice(apiErrorMessage(error), true);
+  }
+}
+
+recipientInput.addEventListener("input", () => {
+  clearTimeout(userSearchTimer);
+  userSearchTimer = setTimeout(searchUsers, 220);
+});
+
+attachment.addEventListener("change", (event) => {
+  attachmentFile = event.target.files[0] || null;
+});
+
+function recipientPayload() {
+  return recipients.map(normalizeRecipient).map((recipient) => ({
+    recipient_id: recipient.recipient_id || recipient.id,
+    recipient_name: userNameOf(recipient),
+    recipient_email: recipient.recipient_email || recipient.email || ""
+  })).filter((recipient) => recipient.recipient_id);
+}
+
+async function uploadAttachment(recordId) {
+  if (!attachmentFile) return null;
+  const form = new FormData();
+  form.append("file", attachmentFile);
+  form.append("module", "mailbox");
+  form.append("related_id", recordId);
+  form.append("category", "Mesaj Eki");
+  form.append("uploaded_by", userNameOf(currentUser()));
+  setApiStatus("/upload", "...", "", "-");
+  try {
+    const payload = await api.request("/upload", { method: "POST", body: form, redirectOnUnauthorized: false, fallbackOnNotFound: false });
+    setApiStatus("/upload", 200, "Ek dosya R2'ye yüklendi", "-");
+    const data = api.responseData(payload);
+    return normalizeAttachment(data?.file || data);
+  } catch (error) {
+    const message = apiErrorMessage(error);
+    setApiStatus("/upload", error?.status || "Network", "", message);
+    throw error;
+  }
+}
+
+async function buildPayload(status) {
+  const id = "MSG-" + Date.now();
+  const attachments = [];
+  const uploaded = await uploadAttachment(id);
+  if (uploaded) attachments.push(uploaded);
+  return {
+    id,
+    subject: subject.value.trim(),
+    body: body.value.trim(),
+    recipients: recipientPayload(),
+    priority: priority.value || "normal",
+    status,
+    related_module: relatedModule.value || "General",
+    related_record_id: relatedRecordId.value.trim(),
+    attachments
+  };
+}
+
+function validatePayload(payload) {
+  if (payload.status === "sent" && !payload.recipients.length) return "Alıcı seçilmeden mesaj gönderilemez.";
+  if (payload.status === "sent" && !payload.subject) return "Konu girilmeden mesaj gönderilemez.";
+  if (payload.status === "sent" && !payload.body) return "Mesaj içeriği girilmeden mesaj gönderilemez.";
+  if (payload.recipients.some((recipient) => !recipient.recipient_id)) return "Alıcı kimliği eksik.";
+  return "";
+}
+
+async function writeActivity(action, message) {
+  const payload = { module: "mailbox", related_module: "mailbox", related_record_id: message?.id || "", action, description: message?.subject || "", user_id: currentUser().id || "", user_name: userNameOf(currentUser()), created_at: new Date().toISOString() };
+  api.post("/activity-feed", payload, safeApi).catch(() => {});
+  api.post("/audit-logs", payload, safeApi).catch(() => {});
+}
+
+async function save(status) {
+  const payload = await buildPayload(status);
+  const validation = validatePayload(payload);
+  if (validation) {
+    api.showToast(validation);
+    setNotice(validation, true);
+    return;
+  }
+
+  try {
+    const saved = await callApi("post", "/messages", payload);
+    const savedMessage = normalizeMessage(api.responseData(saved), status === "draft" ? "draft" : "sent");
+    await writeActivity(status === "draft" ? "Taslak kaydedildi" : "Mesaj gönderildi", savedMessage);
+    if (savedMessage.attachments.length) await writeActivity("Dosya eki eklendi", savedMessage);
+    clearCompose(false);
+    activeFolder = status === "draft" ? "draft" : "sent";
+    await load();
+    selectedMessageId = savedMessage.id;
+    api.showToast(status === "draft" ? "Taslak kaydedildi" : "Mesaj gönderildi");
+    setNotice(status === "draft" ? "Taslak kaydedildi." : "Mesaj gönderildi.");
+    render();
+  } catch (error) {
+    const message = apiErrorMessage(error);
+    api.showToast(message);
+    setNotice(message, true);
+    render();
+  }
+}
+
+function sendMessage() { save("sent"); }
+function saveDraft() { save("draft"); }
+
+function clearCompose(show = true) {
+  recipients = [];
+  subject.value = "";
+  body.value = "";
+  relatedModule.value = "General";
+  relatedRecordId.value = "";
+  priority.value = "normal";
+  attachment.value = "";
+  attachmentFile = null;
+  renderRecipients();
+  if (show) api.showToast("Mesaj formu temizlendi");
+}
+
+function openCompose() {
+  activeFolder = "compose";
+  selectedMessageId = "";
+  render();
+}
+
+async function openMessage(id) {
+  try {
+    const detail = normalizeMessage(await callApi("get", "/messages/" + encodeURIComponent(id)));
+    const index = messages.findIndex((message) => message.id === detail.id);
+    if (index >= 0) messages[index] = { ...messages[index], ...detail };
+    else messages.unshift(detail);
+    selectedMessageId = detail.id;
+    if (activeFolder === "inbox" && !detail.is_read) await markRead(id, true);
+  } catch (error) {
+    selectedMessageId = id;
+    api.showToast(apiErrorMessage(error));
+  }
+  render();
+}
+
+function replyTo(id) {
+  const message = messages.find((item) => item.id === id);
+  if (!message) return;
+  recipients = message.sender_id || message.from ? [normalizeRecipient({ id: message.sender_id, fullname: message.from, email: message.from_email || "" })] : [];
+  subject.value = /^Yanıt:/i.test(message.subject) ? message.subject : "Yanıt: " + (message.subject || "");
+  body.value = "\n\n--- Önceki Mesaj ---\n" + (message.body || "");
+  relatedModule.value = message.related_module || "General";
+  relatedRecordId.value = message.related_record_id || "";
+  priority.value = message.priority || "normal";
+  activeFolder = "compose";
+  renderRecipients();
+  render();
+}
+
+async function markRead(id, silent = false) {
+  const message = messages.find((item) => item.id === id);
+  if (!message) return;
+  try {
+    await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read: true, read_at: new Date().toISOString() });
+    message.is_read = true;
+    await writeActivity("Mesaj okundu", message);
+    if (!silent) api.showToast("Mesaj okundu olarak işaretlendi");
+  } catch (error) {
+    api.showToast(apiErrorMessage(error));
+  }
+  if (!silent) render();
+}
+
+async function moveTrash(id) {
+  const message = messages.find((item) => item.id === id);
+  if (!message) return;
+  try {
+    await callApi("put", "/messages/" + encodeURIComponent(id) + "/trash", { status: "trash", deleted_at: new Date().toISOString() });
+    await writeActivity("Mesaj çöpe taşındı", message);
+    activeFolder = "trash";
+    await load();
+    selectedMessageId = id;
+    api.showToast("Mesaj çöp kutusuna taşındı");
+  } catch (error) {
+    api.showToast(apiErrorMessage(error));
+  }
+  render();
+}
+
+async function restoreMessage(id) {
+  const message = messages.find((item) => item.id === id);
+  if (!message) return;
+  try {
+    const restored = normalizeMessage(await callApi("put", "/messages/" + encodeURIComponent(id) + "/restore", { deleted_at: null }));
+    await writeActivity("Mesaj geri yüklendi", message);
+    activeFolder = restored.folder === "sent" ? "sent" : "inbox";
+    await load();
+    selectedMessageId = id;
+    api.showToast("Mesaj geri yüklendi");
+  } catch (error) {
+    api.showToast(apiErrorMessage(error));
+  }
+  render();
+}
+
+document.querySelectorAll(".folder").forEach((button) => {
+  button.onclick = () => {
+    activeFolder = button.dataset.folder;
+    if (activeFolder !== "compose") selectedMessageId = "";
+    render();
+  };
+});
+searchBox.addEventListener("input", render);
+priorityFilter.addEventListener("change", render);
+moduleFilter.addEventListener("change", render);
+
+load();
 </script>
 </body>
 </html>
