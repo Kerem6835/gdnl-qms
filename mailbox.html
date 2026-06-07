@@ -267,7 +267,7 @@ async function refreshUnreadCount(options = {}) {
     const payload = await api.get("/messages/unread-count", safeApi);
     const data = api.responseData(payload) || {};
     const apiCount = Number(data.unread_count || data.count || 0);
-    unreadCount = apiCount;
+    unreadCount = messages.length ? localUnreadCount() : apiCount;
     if (options.readApplied && previous != null && apiCount >= previous) {
       unreadCount = Math.max(0, previous - 1);
     }
