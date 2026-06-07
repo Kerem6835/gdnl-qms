@@ -5,27 +5,1166 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | İK Raporları</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --rep-navy:#071b34;
+  --rep-green:#35a852;
+  --rep-line:#dfe9f5;
+  --rep-muted:#64748b;
+  --rep-danger:#dc2626;
+  --rep-warning:#f59e0b;
+  --rep-blue:#0f4c81;
+}
+
+.rep-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.rep-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--rep-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.rep-kpi-card small{
+  display:block;
+  color:var(--rep-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.rep-kpi-card strong{
+  display:block;
+  color:var(--rep-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.rep-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.rep-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.rep-status.open{background:#e0f2fe;color:#075985}
+.rep-status.waiting{background:#fef3c7;color:#92400e}
+.rep-status.late{background:#fee2e2;color:#991b1b}
+.rep-status.done{background:#dcfce7;color:#166534}
+.rep-status.archive{background:#f1f5f9;color:#475569}
+.rep-status.critical{background:#fee2e2;color:#991b1b}
+.rep-status.high{background:#fef3c7;color:#92400e}
+.rep-status.normal{background:#dcfce7;color:#166534}
+.rep-status.ready{background:#dcfce7;color:#166534}
+.rep-status.draft{background:#e0f2fe;color:#075985}
+.rep-status.review{background:#fef3c7;color:#92400e}
+
+.rep-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.rep-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.rep-record-title{
+  color:var(--rep-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.rep-record-meta{
+  color:var(--rep-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.rep-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.rep-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.rep-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.rep-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.rep-bar{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.rep-bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  border-radius:999px;
+}
+
+.rep-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.rep-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.rep-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.rep-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.rep-small-btn.yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.rep-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.rep-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.rep-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .rep-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .rep-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .rep-record-head{
+    display:grid;
+  }
+
+  .rep-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-reports.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Rapor adı, tip, dönem, departman veya hazırlayan ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">İK Raporları</h1><p id="pageDesc">Personel, işe alım, stajyer, oryantasyon, puantaj, mesai, bordro hazırlık, izin, performans, yetkinlik, eğitim, zimmet ve çıkış raporlarının hazırlandığı ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">İK Raporları Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">İK Raporları</h1>
+        <p id="pageDesc">Personel, işe alım, stajyer, oryantasyon, puantaj, mesai, bordro hazırlık, izin, performans, yetkinlik, eğitim, zimmet ve çıkış raporları D1/R2 standardıyla hazırlanır.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusReportForm()">Yeni İK Raporu</button>
+        <button class="btn" type="button" onclick="reportMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="rep-kpi" aria-label="İK Raporları göstergeleri">
+      <div class="rep-kpi-card"><small>Toplam Rapor</small><strong id="kpiTotal">0</strong><span>Tüm rapor kayıtları</span></div>
+      <div class="rep-kpi-card"><small>Hazır Rapor</small><strong id="kpiReady">0</strong><span>Dışa aktarıma hazır</span></div>
+      <div class="rep-kpi-card"><small>Ortalama Tamamlanma</small><strong id="kpiCompletion">0%</strong><span>Veri hazırlık oranı</span></div>
+      <div class="rep-kpi-card"><small>Geciken Rapor</small><strong id="kpiLate">0</strong><span>Termin aşımı</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="İK Raporları göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">İK Rapor Hazırlığı</h2><p id="summaryDesc">İK raporları rapor tipi, dönem, departman ve hazırlayan kişiyle takip edilir.</p></div><span id="statusPill" class="status-pill">İK Raporları aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">İK Rapor Kaydı</h2><p id="formDesc">Rapor adı, tipi, dönem ve hazırlayan kişi bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İK Raporları Ek Dosyaları</h3><p id="fileDesc">İK Raporları ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İK Raporları Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İK Rapor Panosu</h2><p id="recordsDesc">İK raporları tip, dönem, hazırlayan ve durum bilgisiyle izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İK Rapor Geçmişi</h2><p id="auditDesc">Rapor hazırlama, dosya ekleme ve dışa aktarım hazırlığı işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz İK raporu bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">İK Rapor Hazırlığı</h2>
+            <p id="summaryDesc">İK raporları rapor tipi, dönem, departman, hazırlayan kişi, veri tamlığı ve dışa aktarım durumuyla takip edilir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">İK Raporları aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="rep-record">
+            <div class="rep-record-title">1. Rapor kapsamı belirlenir</div>
+            <div class="rep-record-meta">Rapor adı, tipi, dönem, departman, hedef kitle ve hazırlayan kişi kayıt altına alınır.</div>
+          </div>
+          <div class="rep-record">
+            <div class="rep-record-title">2. Veri hazırlık ve doğrulama yapılır</div>
+            <div class="rep-record-meta">Personel, izin, mesai, bordro hazırlık, performans ve diğer İK verileri tamamlanma oranıyla izlenir.</div>
+          </div>
+          <div class="rep-record">
+            <div class="rep-record-title">3. Dışa aktarım ve kanıt dosyası korunur</div>
+            <div class="rep-record-meta">Rapor dosyası R2 üzerinde, metadata ve işlem geçmişi D1 üzerinde saklanır.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">İK Rapor Kaydı</h2>
+            <p id="formDesc">Rapor adı, tipi, dönem, hazırlayan kişi, veri tamlığı ve dışa aktarım bilgilerini girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Rapor Adı</label>
+            <input id="reportName" placeholder="Örn: Aylık İK Genel Durum Raporu">
+          </div>
+
+          <div class="field">
+            <label>Rapor Tipi</label>
+            <select id="reportType">
+              <option value="Personel Raporu">Personel Raporu</option>
+              <option value="İşe Alım Raporu">İşe Alım Raporu</option>
+              <option value="Stajyer Raporu">Stajyer Raporu</option>
+              <option value="Oryantasyon Raporu">Oryantasyon Raporu</option>
+              <option value="Puantaj Raporu">Puantaj Raporu</option>
+              <option value="Mesai Raporu">Mesai Raporu</option>
+              <option value="Bordro Hazırlık Raporu">Bordro Hazırlık Raporu</option>
+              <option value="İzin Raporu">İzin Raporu</option>
+              <option value="Performans Raporu">Performans Raporu</option>
+              <option value="Yetkinlik Raporu">Yetkinlik Raporu</option>
+              <option value="Eğitim Raporu">Eğitim Raporu</option>
+              <option value="Zimmet Raporu">Zimmet Raporu</option>
+              <option value="Çıkış Raporu">Çıkış Raporu</option>
+              <option value="Yönetim Özeti">Yönetim Özeti</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Dönem</label>
+            <input id="reportPeriod" placeholder="Örn: 2026-06 / 2026 Q2">
+          </div>
+
+          <div class="field">
+            <label>Departman</label>
+            <input id="departmentName" placeholder="Tüm departmanlar veya seçili departman">
+          </div>
+
+          <div class="field">
+            <label>Hazırlayan</label>
+            <input id="preparedBy" placeholder="Hazırlayan kişi">
+          </div>
+
+          <div class="field">
+            <label>Talep Eden</label>
+            <input id="requestedBy" placeholder="Yönetim / İK / Departman">
+          </div>
+
+          <div class="field">
+            <label>Hazırlık Tarihi</label>
+            <input id="preparedDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Hedef Yayın Tarihi</label>
+            <input id="targetPublishDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Veri Kaynağı</label>
+            <select id="dataSource">
+              <option value="D1">D1</option>
+              <option value="D1 + R2">D1 + R2</option>
+              <option value="Manuel Kontrol">Manuel Kontrol</option>
+              <option value="Harici Veri">Harici Veri</option>
+              <option value="Karma">Karma</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Veri Tamlığı / %</label>
+            <input id="dataCompletion" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Kontrol Durumu</label>
+            <select id="reviewStatus">
+              <option value="Taslak">Taslak</option>
+              <option value="Kontrol Bekliyor">Kontrol Bekliyor</option>
+              <option value="Kontrol Edildi">Kontrol Edildi</option>
+              <option value="Revizyon İstendi">Revizyon İstendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Dışa Aktarım</label>
+            <select id="exportStatus">
+              <option value="Hazırlanmadı">Hazırlanmadı</option>
+              <option value="Hazırlanıyor">Hazırlanıyor</option>
+              <option value="Hazır">Hazır</option>
+              <option value="Paylaşıldı">Paylaşıldı</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Format</label>
+            <select id="reportFormat">
+              <option value="PDF">PDF</option>
+              <option value="Excel">Excel</option>
+              <option value="Word">Word</option>
+              <option value="Dashboard">Dashboard</option>
+              <option value="Yönetim Özeti">Yönetim Özeti</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="reportStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="reportPriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Rapor Notu</label>
+            <textarea id="reportDescription" placeholder="Rapor kapsamı, veri eksikleri, yönetim notu, dışa aktarım açıklaması veya özel takip notu"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">İK Raporları Ek Dosyaları</h3>
+          <p id="fileDesc">İK raporu, veri çıktısı, analiz dosyası, yönetim özeti ve destekleyici kanıtları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="İK Raporu">İK Raporu</option>
+                <option value="Veri Çıktısı">Veri Çıktısı</option>
+                <option value="Analiz Dosyası">Analiz Dosyası</option>
+                <option value="Yönetim Özeti">Yönetim Özeti</option>
+                <option value="Sunum">Sunum</option>
+                <option value="Kanıt Dosyası">Kanıt Dosyası</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="rep-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveReportRecord()">İK Rapor Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="reportMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearReportForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">İK Rapor Panosu</h2>
+          <p id="recordsDesc">İK raporları tip, dönem, hazırlayan, veri tamlığı, dışa aktarım ve durum bilgisiyle izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadReportRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">İK Rapor Geçmişi</h2>
+          <p id="auditDesc">Rapor hazırlama, dosya ekleme, veri doğrulama ve dışa aktarım hazırlığı işlemleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz İK raporu bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="reportToast" class="rep-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let reportRecords = [];
+
+function repEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function repVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function repNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function repToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("reportToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return repVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setReportUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "REP-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = repNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = repNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function exportClass(exportStatus){
+  const value = repNormalize(exportStatus);
+
+  if(value === "hazır" || value === "paylaşıldı") return "ready";
+  if(value === "hazırlanıyor") return "review";
+
+  return "draft";
+}
+
+function reviewClass(reviewStatus){
+  const value = repNormalize(reviewStatus);
+
+  if(value === "kontrol edildi") return "ready";
+  if(value === "revizyon istendi") return "late";
+  if(value === "kontrol bekliyor") return "review";
+
+  return "draft";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return repEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function completion(record){
+  return Math.max(0,Math.min(100,Number(record.dataCompletion || 0)));
+}
+
+function isReady(record){
+  return completion(record) >= 100 && (repNormalize(record.exportStatus) === "hazır" || repNormalize(record.exportStatus) === "paylaşıldı");
+}
+
+function isLate(record){
+  if(repNormalize(record.status) === "tamamlandı" || repNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.targetPublishDate) return false;
+
+  const date = new Date(record.targetPublishDate);
+  const today = new Date();
+
+  date.setHours(23,59,59,999);
+
+  return !Number.isNaN(date.getTime()) && date < today;
+}
+
+function normalizeReportRecord(record){
+  return {
+    id:repVal(record,"id","report_id","record_id") || cryptoSafeId(),
+    reportName:repVal(record,"report_name","reportName","title","name"),
+    reportType:repVal(record,"report_type","reportType","type") || "Personel Raporu",
+    reportPeriod:repVal(record,"report_period","reportPeriod","period"),
+    department:repVal(record,"department","department_name"),
+    preparedBy:repVal(record,"prepared_by","preparedBy","owner","owner_name"),
+    requestedBy:repVal(record,"requested_by","requestedBy"),
+    preparedDate:repVal(record,"prepared_date","preparedDate"),
+    targetPublishDate:repVal(record,"target_publish_date","targetPublishDate","due_date"),
+    dataSource:repVal(record,"data_source","dataSource") || "D1",
+    dataCompletion:Number(repVal(record,"data_completion","dataCompletion") || 0),
+    reviewStatus:repVal(record,"review_status","reviewStatus") || "Taslak",
+    exportStatus:repVal(record,"export_status","exportStatus") || "Hazırlanmadı",
+    reportFormat:repVal(record,"report_format","reportFormat") || "PDF",
+    status:repVal(record,"status","report_status") || "Açık",
+    priority:repVal(record,"priority") || "Normal",
+    description:repVal(record,"description","notes","note"),
+    createdAt:repVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:repVal(record,"created_by","owner_user","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    report_name:document.getElementById("reportName").value.trim(),
+    report_type:document.getElementById("reportType").value,
+    report_period:document.getElementById("reportPeriod").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    prepared_by:document.getElementById("preparedBy").value.trim(),
+    requested_by:document.getElementById("requestedBy").value.trim(),
+    prepared_date:document.getElementById("preparedDate").value,
+    target_publish_date:document.getElementById("targetPublishDate").value,
+    data_source:document.getElementById("dataSource").value,
+    data_completion:Number(document.getElementById("dataCompletion").value || 0),
+    review_status:document.getElementById("reviewStatus").value,
+    export_status:document.getElementById("exportStatus").value,
+    report_format:document.getElementById("reportFormat").value,
+    status:document.getElementById("reportStatus").value,
+    priority:document.getElementById("reportPriority").value,
+    description:document.getElementById("reportDescription").value.trim(),
+    module:"HR_REPORTS",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.report_name) return "Rapor adı zorunludur.";
+  if(!payload.report_period) return "Dönem bilgisi zorunludur.";
+  if(!payload.department_name) return "Departman bilgisi zorunludur.";
+  if(!payload.prepared_by) return "Hazırlayan kişi zorunludur.";
+  if(!payload.prepared_date) return "Hazırlık tarihi zorunludur.";
+
+  return "";
+}
+
+async function uploadReportFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    repToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_REPORTS",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    repToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveReportRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    repToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizeReportRecord(payload);
+  payload.is_ready = isReady(preview);
+  payload.is_late = isLate(preview);
+
+  try{
+    const file = await uploadReportFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/reports",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/reports",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeReportRecord(saved || payload);
+    reportRecords.unshift(normalized);
+
+    renderReportRecords();
+    renderAuditPreview();
+    updateReportKpis();
+    clearReportForm(false);
+
+    repToast("İK rapor kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    reportRecords.unshift(preview);
+
+    renderReportRecords();
+    renderAuditPreview();
+    updateReportKpis();
+
+    repToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadReportRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="rep-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/reports");
+      }catch(firstError){
+        response = await api.get("/reports");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    reportRecords = rows.map(normalizeReportRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    reportRecords = [];
+  }
+
+  renderReportRecords();
+  renderAuditPreview();
+  updateReportKpis();
+}
+
+function filteredReportRecords(){
+  const q = repNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return reportRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = repNormalize([
+        record.reportName,
+        record.reportType,
+        record.reportPeriod,
+        record.department,
+        record.preparedBy,
+        record.requestedBy,
+        record.dataSource,
+        record.reviewStatus,
+        record.exportStatus,
+        record.reportFormat,
+        record.status,
+        record.priority,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderReportRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredReportRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="rep-empty">İK raporu bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const comp = completion(record);
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="rep-record">
+        <div class="rep-record-head">
+          <div>
+            <div class="rep-record-title">${repEsc(record.reportName || "İK Raporu")} · ${repEsc(record.reportPeriod || "-")}</div>
+            <div class="rep-record-meta">
+              Tip: ${repEsc(record.reportType || "-")} · Departman: ${repEsc(record.department || "-")} · Hazırlayan: ${repEsc(record.preparedBy || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="rep-status ${exportClass(record.exportStatus)}">${repEsc(record.exportStatus)}</span>
+            <span class="rep-status ${reviewClass(record.reviewStatus)}">${repEsc(record.reviewStatus)}</span>
+            <span class="rep-status ${statusClass(autoStatus)}">${repEsc(autoStatus)}</span>
+            <span class="rep-status ${priorityClass(record.priority)}">${repEsc(record.priority)}</span>
+          </div>
+        </div>
+
+        <div class="rep-mini-grid">
+          <div class="rep-metric"><small>Veri Tamlığı</small><strong>${comp}%</strong><div class="rep-bar"><div class="rep-bar-fill" style="width:${comp}%"></div></div></div>
+          <div class="rep-metric"><small>Veri Kaynağı</small><strong>${repEsc(record.dataSource || "-")}</strong></div>
+          <div class="rep-metric"><small>Format</small><strong>${repEsc(record.reportFormat || "-")}</strong></div>
+          <div class="rep-metric"><small>Talep Eden</small><strong>${repEsc(record.requestedBy || "-")}</strong></div>
+          <div class="rep-metric"><small>Hazırlık</small><strong>${formatDate(record.preparedDate)}</strong></div>
+          <div class="rep-metric"><small>Hedef Yayın</small><strong>${formatDate(record.targetPublishDate)}</strong></div>
+          <div class="rep-metric"><small>Dışa Aktarım</small><strong>${isReady(record) ? "Hazır" : "Bekliyor"}</strong></div>
+          <div class="rep-metric"><small>Oluşturan</small><strong>${repEsc(record.createdBy || "-")}</strong></div>
+        </div>
+
+        <div class="rep-record-meta">${repEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="rep-record-actions">
+          <button class="rep-small-btn" type="button" onclick="markReportReady('${repEsc(record.id)}')">Hazır Yap</button>
+          <button class="rep-small-btn yellow" type="button" onclick="requestReportRevision('${repEsc(record.id)}')">Revizyon</button>
+          <button class="rep-small-btn dark" type="button" onclick="copyReportSummary('${repEsc(record.id)}')">Özet Kopyala</button>
+          <button class="rep-small-btn red" type="button" onclick="archiveReport('${repEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateReportKpis(){
+  const ready = reportRecords.filter(isReady).length;
+  const avgCompletion = reportRecords.length
+    ? Math.round(reportRecords.reduce((sum,record) => sum + completion(record),0) / reportRecords.length)
+    : 0;
+  const late = reportRecords.filter(isLate).length;
+
+  document.getElementById("kpiTotal").textContent = reportRecords.length;
+  document.getElementById("kpiReady").textContent = ready;
+  document.getElementById("kpiCompletion").textContent = avgCompletion + "%";
+  document.getElementById("kpiLate").textContent = late;
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!reportRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz İK raporu bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = reportRecords.slice(0,8).map(record => `
+    <div class="rep-record-meta">
+      ${formatDate(record.createdAt)} · ${repEsc(record.createdBy || "Oturum Kullanıcısı")} · ${repEsc(record.reportName || "-")} rapor kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateReport(id,changes){
+  const record = reportRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    repToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  Object.assign(record,changes);
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/reports/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/reports/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("İK rapor güncelleme endpoint bekliyor",error);
+  }
+
+  renderReportRecords();
+  renderAuditPreview();
+  updateReportKpis();
+  repToast("İK rapor kaydı güncellendi.");
+}
+
+function markReportReady(id){
+  updateReport(id,{dataCompletion:100,reviewStatus:"Kontrol Edildi",exportStatus:"Hazır",status:"Tamamlandı"});
+}
+
+function requestReportRevision(id){
+  updateReport(id,{reviewStatus:"Revizyon İstendi",status:"Bekliyor"});
+}
+
+function archiveReport(id){
+  updateReport(id,{status:"Arşivlendi"});
+}
+
+function copyReportSummary(id){
+  const record = reportRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    repToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const summary = [
+    "GDNL EOS İK Raporu Özeti",
+    "Rapor Adı: " + (record.reportName || "-"),
+    "Rapor Tipi: " + (record.reportType || "-"),
+    "Dönem: " + (record.reportPeriod || "-"),
+    "Departman: " + (record.department || "-"),
+    "Hazırlayan: " + (record.preparedBy || "-"),
+    "Talep Eden: " + (record.requestedBy || "-"),
+    "Hazırlık Tarihi: " + formatDate(record.preparedDate),
+    "Hedef Yayın Tarihi: " + formatDate(record.targetPublishDate),
+    "Veri Kaynağı: " + (record.dataSource || "-"),
+    "Veri Tamlığı: " + completion(record) + "%",
+    "Kontrol Durumu: " + (record.reviewStatus || "-"),
+    "Dışa Aktarım: " + (record.exportStatus || "-"),
+    "Format: " + (record.reportFormat || "-"),
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => repToast("İK raporu özeti kopyalandı."))
+    .catch(() => repToast("Kopyalama desteklenmiyor."));
+}
+
+function clearReportForm(showToast=true){
+  [
+    "reportName",
+    "reportPeriod",
+    "departmentName",
+    "preparedBy",
+    "requestedBy",
+    "preparedDate",
+    "targetPublishDate",
+    "reportDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("reportType").value = "Personel Raporu";
+  document.getElementById("dataSource").value = "D1";
+  document.getElementById("dataCompletion").value = "0";
+  document.getElementById("reviewStatus").value = "Taslak";
+  document.getElementById("exportStatus").value = "Hazırlanmadı";
+  document.getElementById("reportFormat").value = "PDF";
+  document.getElementById("reportStatus").value = "Açık";
+  document.getElementById("reportPriority").value = "Normal";
+  document.getElementById("fileCategory").value = "İK Raporu";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) repToast("Form temizlendi.");
+}
+
+function focusReportForm(){
+  document.getElementById("reportName")?.focus();
+}
+
+function reportMessagePrep(){
+  const payload = formPayload();
+  const preview = normalizeReportRecord(payload);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki İK raporu için bilgilendirme yapılmıştır:",
+    "",
+    "Rapor Adı: " + (payload.report_name || "-"),
+    "Rapor Tipi: " + (payload.report_type || "-"),
+    "Dönem: " + (payload.report_period || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Hazırlayan: " + (payload.prepared_by || "-"),
+    "Talep Eden: " + (payload.requested_by || "-"),
+    "Hazırlık Tarihi: " + (payload.prepared_date || "-"),
+    "Hedef Yayın Tarihi: " + (payload.target_publish_date || "-"),
+    "Veri Kaynağı: " + (payload.data_source || "-"),
+    "Veri Tamlığı: " + completion(preview) + "%",
+    "Kontrol Durumu: " + (payload.review_status || "-"),
+    "Dışa Aktarım: " + (payload.export_status || "-"),
+    "Format: " + (payload.report_format || "-"),
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => repToast("Mesaj metni kopyalandı."))
+    .catch(() => repToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindReportEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderReportRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderReportRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderReportRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusReportForm;
+  window.hrMessagePrep = window.hrMessagePrep || reportMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearReportForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveReportRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderReportRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootReportPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setReportUser();
+  ensureHrFallbacks();
+  bindReportEvents();
+  loadReportRecords();
+}
+
+bootReportPage();
+</script>
+
 </body>
 </html>
