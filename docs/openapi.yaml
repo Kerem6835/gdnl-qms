@@ -82,6 +82,24 @@ paths:
   /messages:
     get:
       summary: List internal mailbox messages
+      parameters:
+        - in: query
+          name: folder
+          schema:
+            type: string
+            enum: [inbox, sent, drafts, trash]
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: status
+          schema:
+            type: string
+        - in: query
+          name: priority
+          schema:
+            type: string
       responses:
         "200":
           description: Messages
@@ -114,7 +132,7 @@ paths:
         "200":
           description: Message updated
     delete:
-      summary: Delete internal message
+      summary: Soft delete internal message
       parameters:
         - in: path
           name: id

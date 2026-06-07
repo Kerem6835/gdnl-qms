@@ -119,16 +119,72 @@ CREATE TABLE IF NOT EXISTS files (
   updated_by TEXT
 );
 
+CREATE TABLE IF NOT EXISTS messages (
+  id TEXT PRIMARY KEY,
+  subject TEXT,
+  body TEXT,
+  sender_id TEXT,
+  sender_name TEXT,
+  priority TEXT DEFAULT 'normal',
+  status TEXT DEFAULT 'sent',
+  folder_status TEXT DEFAULT 'sent',
+  related_module TEXT DEFAULT 'General',
+  related_record_id TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT,
+  sent_at TEXT,
+  deleted_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS message_recipients (
+  id TEXT PRIMARY KEY,
+  message_id TEXT NOT NULL,
+  recipient_id TEXT,
+  recipient_name TEXT,
+  recipient_email TEXT,
+  is_read INTEGER DEFAULT 0,
+  read_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS message_attachments (
+  id TEXT PRIMARY KEY,
+  message_id TEXT NOT NULL,
+  file_name TEXT,
+  file_type TEXT,
+  file_size INTEGER,
+  r2_key TEXT,
+  url TEXT,
+  uploaded_by TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS capa (id TEXT PRIMARY KEY, title TEXT, owner_id TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS risks (id TEXT PRIMARY KEY, title TEXT, owner_id TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS actions (id TEXT PRIMARY KEY, title TEXT, owner_id TEXT, due_date TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
-CREATE TABLE IF NOT EXISTS notifications (id TEXT PRIMARY KEY, title TEXT, message TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
+CREATE TABLE IF NOT EXISTS notifications (
+  id TEXT PRIMARY KEY,
+  title TEXT,
+  message TEXT,
+  type TEXT,
+  recipient_id TEXT,
+  related_module TEXT,
+  related_record_id TEXT,
+  is_read INTEGER DEFAULT 0,
+  read_at TEXT,
+  status TEXT DEFAULT 'active',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
 CREATE TABLE IF NOT EXISTS standards (id TEXT PRIMARY KEY, standard_name TEXT, clause_no TEXT, owner_id TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS audits (id TEXT PRIMARY KEY, audit_no TEXT, title TEXT, lead_auditor_id TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS trainings (id TEXT PRIMARY KEY, training_no TEXT, title TEXT, owner_id TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS suppliers (id TEXT PRIMARY KEY, supplier_name TEXT, owner_id TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS management_reviews (id TEXT PRIMARY KEY, review_no TEXT, title TEXT, owner_id TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS activity_logs (id TEXT PRIMARY KEY, module TEXT, action TEXT, record_no TEXT, user_id TEXT, user_name TEXT, detail TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
+CREATE TABLE IF NOT EXISTS audit_logs (id TEXT PRIMARY KEY, module TEXT, action TEXT, record_no TEXT, user_id TEXT, user_name TEXT, detail TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS role_permissions (id TEXT PRIMARY KEY, role_id TEXT, permission_id TEXT, permission TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS comments (id TEXT PRIMARY KEY, module TEXT, related_id TEXT, comment TEXT, user_id TEXT, user_name TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
 CREATE TABLE IF NOT EXISTS assignments (id TEXT PRIMARY KEY, module TEXT, record_no TEXT, title TEXT, assigned_to_id TEXT, assigned_to_name TEXT, assigned_department TEXT, status TEXT DEFAULT 'active', created_at TEXT DEFAULT CURRENT_TIMESTAMP, updated_at TEXT, created_by TEXT, updated_by TEXT);
