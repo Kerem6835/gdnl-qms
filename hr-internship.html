@@ -5,27 +5,1138 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | Stajyer Yönetimi</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --int-navy:#071b34;
+  --int-green:#35a852;
+  --int-line:#dfe9f5;
+  --int-muted:#64748b;
+  --int-danger:#dc2626;
+  --int-warning:#f59e0b;
+  --int-blue:#0f4c81;
+}
+
+.int-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.int-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--int-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.int-kpi-card small{
+  display:block;
+  color:var(--int-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.int-kpi-card strong{
+  display:block;
+  color:var(--int-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.int-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.int-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.int-status.open{background:#e0f2fe;color:#075985}
+.int-status.waiting{background:#fef3c7;color:#92400e}
+.int-status.late{background:#fee2e2;color:#991b1b}
+.int-status.done{background:#dcfce7;color:#166534}
+.int-status.archive{background:#f1f5f9;color:#475569}
+.int-status.critical{background:#fee2e2;color:#991b1b}
+.int-status.high{background:#fef3c7;color:#92400e}
+.int-status.normal{background:#dcfce7;color:#166534}
+.int-status.ok{background:#dcfce7;color:#166534}
+.int-status.missing{background:#fee2e2;color:#991b1b}
+.int-status.partial{background:#fef3c7;color:#92400e}
+
+.int-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.int-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.int-record-title{
+  color:var(--int-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.int-record-meta{
+  color:var(--int-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.int-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.int-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.int-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.int-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.int-progress{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.int-progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  border-radius:999px;
+}
+
+.int-checks{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.int-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.int-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.int-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.int-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.int-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.int-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.int-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .int-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .int-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .int-record-head{
+    display:grid;
+  }
+
+  .int-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-internship.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Stajyer, okul, bölüm, mentor veya dönem ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">Stajyer Yönetimi</h1><p id="pageDesc">Stajyer başvurusu, okul/bölüm bilgisi, staj dönemi, mentor, evrak, devam ve değerlendirme bilgilerinin takip edildiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Stajyer Yönetimi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">Stajyer Yönetimi</h1>
+        <p id="pageDesc">Stajyer başvurusu, okul/bölüm bilgisi, staj dönemi, mentor, evrak, devam, değerlendirme ve kapanış kanıtları D1/R2 standardıyla takip edilir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusInternshipForm()">Yeni Stajyer Kaydı</button>
+        <button class="btn" type="button" onclick="internshipMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="int-kpi" aria-label="Stajyer Yönetimi göstergeleri">
+      <div class="int-kpi-card"><small>Toplam Stajyer</small><strong id="kpiTotal">0</strong><span>Tüm kayıtlar</span></div>
+      <div class="int-kpi-card"><small>Aktif Staj</small><strong id="kpiActive">0</strong><span>Devam eden dönemler</span></div>
+      <div class="int-kpi-card"><small>Eksik Evrak</small><strong id="kpiMissingDocs">0</strong><span>Takip gereken</span></div>
+      <div class="int-kpi-card"><small>Kritik Öncelik</small><strong id="kpiCritical">0</strong><span>Yönetim dikkati</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="Stajyer Yönetimi göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Stajyer Takip Akışı</h2><p id="summaryDesc">Staj kabul, mentor atama, devam ve değerlendirme adımları izlenir.</p></div><span id="statusPill" class="status-pill">Stajyer Yönetimi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Stajyer Kaydı</h2><p id="formDesc">Stajyer, okul, bölüm, dönem, mentor ve değerlendirme bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Stajyer Yönetimi Ek Dosyaları</h3><p id="fileDesc">Stajyer Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Stajyer Yönetimi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Stajyer Takip Panosu</h2><p id="recordsDesc">Stajyerler dönem, mentor, devam ve değerlendirme durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Stajyer İşlem Geçmişi</h2><p id="auditDesc">Staj kabul, mentor, evrak ve değerlendirme işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz stajyer kaydı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Stajyer Takip Akışı</h2>
+            <p id="summaryDesc">Staj kabul, mentor atama, evrak, devam, değerlendirme ve kapanış adımları izlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">Stajyer Yönetimi aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="int-record">
+            <div class="int-record-title">1. Başvuru ve okul bilgisi alınır</div>
+            <div class="int-record-meta">Stajyer adı, okul, bölüm, sınıf, staj türü ve dönem tarihleri kayıt altına alınır.</div>
+          </div>
+          <div class="int-record">
+            <div class="int-record-title">2. Mentor, departman ve evrak takibi yapılır</div>
+            <div class="int-record-meta">Mentor ataması, departman, sigorta/okul evrakları ve başlangıç kontrolleri izlenir.</div>
+          </div>
+          <div class="int-record">
+            <div class="int-record-title">3. Devam, değerlendirme ve kapanış tamamlanır</div>
+            <div class="int-record-meta">Devam oranı, performans notu, değerlendirme sonucu ve dosya kanıtları D1/R2 standardında korunur.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">Stajyer Kaydı</h2>
+            <p id="formDesc">Stajyer, okul, bölüm, dönem, mentor, devam ve değerlendirme bilgilerini girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Stajyer</label>
+            <input id="internName" placeholder="Stajyer adı soyadı" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Okul</label>
+            <input id="schoolName" placeholder="Okul / üniversite adı">
+          </div>
+
+          <div class="field">
+            <label>Bölüm</label>
+            <input id="departmentOfStudy" placeholder="Bölüm / program">
+          </div>
+
+          <div class="field">
+            <label>Sınıf</label>
+            <select id="classLevel">
+              <option value="Hazırlık">Hazırlık</option>
+              <option value="1. Sınıf">1. Sınıf</option>
+              <option value="2. Sınıf">2. Sınıf</option>
+              <option value="3. Sınıf">3. Sınıf</option>
+              <option value="4. Sınıf">4. Sınıf</option>
+              <option value="Mezun">Mezun</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Şirket Departmanı</label>
+            <input id="companyDepartment" placeholder="Çalışacağı departman">
+          </div>
+
+          <div class="field">
+            <label>Mentor</label>
+            <input id="mentorName" placeholder="Mentor / sorumlu kişi">
+          </div>
+
+          <div class="field">
+            <label>Staj Türü</label>
+            <select id="internshipType">
+              <option value="Zorunlu Staj">Zorunlu Staj</option>
+              <option value="Gönüllü Staj">Gönüllü Staj</option>
+              <option value="Uzun Dönem">Uzun Dönem</option>
+              <option value="Kısa Dönem">Kısa Dönem</option>
+              <option value="Yaz Stajı">Yaz Stajı</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Başlangıç Tarihi</label>
+            <input id="startDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Bitiş Tarihi</label>
+            <input id="endDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Devam Oranı / %</label>
+            <input id="attendanceRate" type="number" min="0" max="100" step="1" value="100">
+          </div>
+
+          <div class="field">
+            <label>Değerlendirme Puanı / 100</label>
+            <input id="evaluationScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Evrak Durumu</label>
+            <select id="documentStatus">
+              <option value="Tam">Tam</option>
+              <option value="Eksik">Eksik</option>
+              <option value="Kontrol Bekliyor">Kontrol Bekliyor</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="internshipStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="internshipPriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Açıklama</label>
+            <textarea id="internshipDescription" placeholder="Staj hedefi, mentor notu, performans gözlemi, evrak veya özel açıklama"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">Stajyer Yönetimi Ek Dosyaları</h3>
+          <p id="fileDesc">Staj formu, okul yazısı, sigorta belgesi, değerlendirme formu, devam çizelgesi ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="Staj Formu">Staj Formu</option>
+                <option value="Okul Yazısı">Okul Yazısı</option>
+                <option value="Sigorta Belgesi">Sigorta Belgesi</option>
+                <option value="Devam Çizelgesi">Devam Çizelgesi</option>
+                <option value="Değerlendirme Formu">Değerlendirme Formu</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="int-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveInternshipRecord()">Stajyer Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="internshipMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearInternshipForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">Stajyer Takip Panosu</h2>
+          <p id="recordsDesc">Stajyerler dönem, mentor, okul, devam, evrak ve değerlendirme durumuyla izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadInternshipRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">Stajyer İşlem Geçmişi</h2>
+          <p id="auditDesc">Staj kabul, mentor, evrak, devam, değerlendirme, dosya ve durum işlemleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz stajyer kaydı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="internshipToast" class="int-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let internshipRecords = [];
+
+function intEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function intVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function intNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function intToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("internshipToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return intVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setInternshipUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "INT-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = intNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = intNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function documentStatusClass(status){
+  const value = intNormalize(status);
+
+  if(value === "tam") return "ok";
+  if(value === "eksik") return "missing";
+
+  return "partial";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return intEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function isActiveInternship(record){
+  const status = intNormalize(record.status);
+  const today = new Date();
+  const start = record.startDate ? new Date(record.startDate) : null;
+  const end = record.endDate ? new Date(record.endDate) : null;
+
+  if(status === "tamamlandı" || status === "arşivlendi") return false;
+
+  if(start && end && !Number.isNaN(start.getTime()) && !Number.isNaN(end.getTime())){
+    start.setHours(0,0,0,0);
+    end.setHours(23,59,59,999);
+    return today >= start && today <= end;
+  }
+
+  return status === "açık" || status === "bekliyor";
+}
+
+function isLate(record){
+  if(intNormalize(record.status) === "tamamlandı" || intNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.endDate) return false;
+
+  const end = new Date(record.endDate);
+  const today = new Date();
+
+  end.setHours(23,59,59,999);
+
+  return !Number.isNaN(end.getTime()) && end < today;
+}
+
+function internshipProgress(record){
+  if(!record.startDate || !record.endDate) return 0;
+
+  const start = new Date(record.startDate);
+  const end = new Date(record.endDate);
+  const today = new Date();
+
+  if(Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 0;
+
+  const total = end.getTime() - start.getTime();
+  if(total <= 0) return 100;
+
+  const current = today.getTime() - start.getTime();
+  return Math.max(0,Math.min(100,Math.round((current / total) * 100)));
+}
+
+function normalizeInternshipRecord(record){
+  return {
+    id:intVal(record,"id","internship_id","record_id") || cryptoSafeId(),
+    internName:intVal(record,"intern_name","intern","employee_name","name"),
+    school:intVal(record,"school","school_name","university"),
+    studyDepartment:intVal(record,"department_of_study","study_department","program"),
+    classLevel:intVal(record,"class_level","class") || "3. Sınıf",
+    companyDepartment:intVal(record,"company_department","department","department_name"),
+    mentor:intVal(record,"mentor","mentor_name","responsible"),
+    internshipType:intVal(record,"internship_type","type") || "Zorunlu Staj",
+    startDate:intVal(record,"start_date","startDate"),
+    endDate:intVal(record,"end_date","endDate","due_date"),
+    attendanceRate:Number(intVal(record,"attendance_rate","attendanceRate") || 100),
+    evaluationScore:Number(intVal(record,"evaluation_score","evaluationScore") || 0),
+    documentStatus:intVal(record,"document_status","docs_status") || "Kontrol Bekliyor",
+    status:intVal(record,"status","internship_status") || "Açık",
+    priority:intVal(record,"priority") || "Normal",
+    description:intVal(record,"description","notes","note"),
+    createdAt:intVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:intVal(record,"created_by","owner","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    intern_name:document.getElementById("internName").value.trim(),
+    school_name:document.getElementById("schoolName").value.trim(),
+    department_of_study:document.getElementById("departmentOfStudy").value.trim(),
+    class_level:document.getElementById("classLevel").value,
+    company_department:document.getElementById("companyDepartment").value.trim(),
+    mentor_name:document.getElementById("mentorName").value.trim(),
+    internship_type:document.getElementById("internshipType").value,
+    start_date:document.getElementById("startDate").value,
+    end_date:document.getElementById("endDate").value,
+    attendance_rate:Number(document.getElementById("attendanceRate").value || 0),
+    evaluation_score:Number(document.getElementById("evaluationScore").value || 0),
+    document_status:document.getElementById("documentStatus").value,
+    status:document.getElementById("internshipStatus").value,
+    priority:document.getElementById("internshipPriority").value,
+    description:document.getElementById("internshipDescription").value.trim(),
+    module:"HR_INTERNSHIP",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.intern_name) return "Stajyer adı zorunludur.";
+  if(!payload.school_name) return "Okul bilgisi zorunludur.";
+  if(!payload.department_of_study) return "Bölüm bilgisi zorunludur.";
+  if(!payload.company_department) return "Şirket departmanı zorunludur.";
+  if(!payload.mentor_name) return "Mentor bilgisi zorunludur.";
+  if(!payload.start_date) return "Başlangıç tarihi zorunludur.";
+  if(!payload.end_date) return "Bitiş tarihi zorunludur.";
+
+  return "";
+}
+
+async function uploadInternshipFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    intToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_INTERNSHIP",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    intToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveInternshipRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    intToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizeInternshipRecord(payload);
+  payload.progress_percent = internshipProgress(preview);
+  payload.is_active = isActiveInternship(preview);
+
+  try{
+    const file = await uploadInternshipFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/internships",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/internships",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeInternshipRecord(saved || payload);
+    internshipRecords.unshift(normalized);
+
+    renderInternshipRecords();
+    renderAuditPreview();
+    updateInternshipKpis();
+    clearInternshipForm(false);
+
+    intToast("Stajyer kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    internshipRecords.unshift(preview);
+
+    renderInternshipRecords();
+    renderAuditPreview();
+    updateInternshipKpis();
+
+    intToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadInternshipRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="int-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/internships");
+      }catch(firstError){
+        response = await api.get("/internships");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    internshipRecords = rows.map(normalizeInternshipRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    internshipRecords = [];
+  }
+
+  renderInternshipRecords();
+  renderAuditPreview();
+  updateInternshipKpis();
+}
+
+function filteredInternshipRecords(){
+  const q = intNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return internshipRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = intNormalize([
+        record.internName,
+        record.school,
+        record.studyDepartment,
+        record.classLevel,
+        record.companyDepartment,
+        record.mentor,
+        record.internshipType,
+        record.documentStatus,
+        record.status,
+        record.priority,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderInternshipRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredInternshipRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="int-empty">Stajyer kaydı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const progress = internshipProgress(record);
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="int-record">
+        <div class="int-record-head">
+          <div>
+            <div class="int-record-title">${intEsc(record.internName || "Stajyer Kaydı")} · ${intEsc(record.school || "-")}</div>
+            <div class="int-record-meta">
+              Bölüm: ${intEsc(record.studyDepartment || "-")} · Şirket Departmanı: ${intEsc(record.companyDepartment || "-")} · Mentor: ${intEsc(record.mentor || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="int-status ${statusClass(autoStatus)}">${intEsc(autoStatus)}</span>
+            <span class="int-status ${priorityClass(record.priority)}">${intEsc(record.priority)}</span>
+            <span class="int-status ${documentStatusClass(record.documentStatus)}">${intEsc(record.documentStatus)}</span>
+          </div>
+        </div>
+
+        <div class="int-mini-grid">
+          <div class="int-metric"><small>Staj Türü</small><strong>${intEsc(record.internshipType || "-")}</strong></div>
+          <div class="int-metric"><small>Başlangıç</small><strong>${formatDate(record.startDate)}</strong></div>
+          <div class="int-metric"><small>Bitiş</small><strong>${formatDate(record.endDate)}</strong></div>
+          <div class="int-metric"><small>İlerleme</small><strong>${progress}%</strong><div class="int-progress"><div class="int-progress-fill" style="width:${progress}%"></div></div></div>
+          <div class="int-metric"><small>Devam Oranı</small><strong>${record.attendanceRate}%</strong></div>
+          <div class="int-metric"><small>Değerlendirme</small><strong>${record.evaluationScore}/100</strong></div>
+          <div class="int-metric"><small>Sınıf</small><strong>${intEsc(record.classLevel || "-")}</strong></div>
+          <div class="int-metric"><small>Oluşturan</small><strong>${intEsc(record.createdBy || "-")}</strong></div>
+        </div>
+
+        <div class="int-record-meta">${intEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="int-record-actions">
+          <button class="int-small-btn" type="button" onclick="markInternshipDone('${intEsc(record.id)}')">Tamamlandı</button>
+          <button class="int-small-btn dark" type="button" onclick="copyInternshipSummary('${intEsc(record.id)}')">Özet Kopyala</button>
+          <button class="int-small-btn red" type="button" onclick="archiveInternship('${intEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateInternshipKpis(){
+  document.getElementById("kpiTotal").textContent = internshipRecords.length;
+  document.getElementById("kpiActive").textContent = internshipRecords.filter(isActiveInternship).length;
+  document.getElementById("kpiMissingDocs").textContent = internshipRecords.filter(record => intNormalize(record.documentStatus) === "eksik" || intNormalize(record.documentStatus) === "kontrol bekliyor").length;
+  document.getElementById("kpiCritical").textContent = internshipRecords.filter(record => intNormalize(record.priority) === "kritik").length;
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!internshipRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz stajyer kaydı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = internshipRecords.slice(0,8).map(record => `
+    <div class="int-record-meta">
+      ${formatDate(record.createdAt)} · ${intEsc(record.createdBy || "Oturum Kullanıcısı")} · ${intEsc(record.internName || "-")} için stajyer kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateInternshipStatus(id,status){
+  const record = internshipRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    intToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  record.status = status;
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/internships/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/internships/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Durum güncelleme endpoint bekliyor",error);
+  }
+
+  renderInternshipRecords();
+  renderAuditPreview();
+  updateInternshipKpis();
+  intToast("Stajyer durumu güncellendi.");
+}
+
+function markInternshipDone(id){
+  updateInternshipStatus(id,"Tamamlandı");
+}
+
+function archiveInternship(id){
+  updateInternshipStatus(id,"Arşivlendi");
+}
+
+function copyInternshipSummary(id){
+  const record = internshipRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    intToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const summary = [
+    "GDNL EOS Stajyer Yönetimi Özeti",
+    "Stajyer: " + (record.internName || "-"),
+    "Okul: " + (record.school || "-"),
+    "Bölüm: " + (record.studyDepartment || "-"),
+    "Sınıf: " + (record.classLevel || "-"),
+    "Şirket Departmanı: " + (record.companyDepartment || "-"),
+    "Mentor: " + (record.mentor || "-"),
+    "Staj Türü: " + (record.internshipType || "-"),
+    "Başlangıç: " + formatDate(record.startDate),
+    "Bitiş: " + formatDate(record.endDate),
+    "İlerleme: " + internshipProgress(record) + "%",
+    "Devam Oranı: " + record.attendanceRate + "%",
+    "Değerlendirme: " + record.evaluationScore + "/100",
+    "Evrak Durumu: " + (record.documentStatus || "-"),
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => intToast("Stajyer özeti kopyalandı."))
+    .catch(() => intToast("Kopyalama desteklenmiyor."));
+}
+
+function clearInternshipForm(showToast=true){
+  [
+    "internName",
+    "schoolName",
+    "departmentOfStudy",
+    "companyDepartment",
+    "mentorName",
+    "startDate",
+    "endDate",
+    "internshipDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("classLevel").value = "Hazırlık";
+  document.getElementById("internshipType").value = "Zorunlu Staj";
+  document.getElementById("attendanceRate").value = "100";
+  document.getElementById("evaluationScore").value = "0";
+  document.getElementById("documentStatus").value = "Tam";
+  document.getElementById("internshipStatus").value = "Açık";
+  document.getElementById("internshipPriority").value = "Normal";
+  document.getElementById("fileCategory").value = "Staj Formu";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) intToast("Form temizlendi.");
+}
+
+function focusInternshipForm(){
+  document.getElementById("internName")?.focus();
+}
+
+function internshipMessagePrep(){
+  const payload = formPayload();
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki stajyer kaydı için bilgilendirme yapılmıştır:",
+    "",
+    "Stajyer: " + (payload.intern_name || "-"),
+    "Okul: " + (payload.school_name || "-"),
+    "Bölüm: " + (payload.department_of_study || "-"),
+    "Şirket Departmanı: " + (payload.company_department || "-"),
+    "Mentor: " + (payload.mentor_name || "-"),
+    "Staj Türü: " + (payload.internship_type || "-"),
+    "Başlangıç: " + (payload.start_date || "-"),
+    "Bitiş: " + (payload.end_date || "-"),
+    "Devam Oranı: " + payload.attendance_rate + "%",
+    "Değerlendirme: " + payload.evaluation_score + "/100",
+    "Evrak Durumu: " + (payload.document_status || "-"),
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => intToast("Mesaj metni kopyalandı."))
+    .catch(() => intToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindInternshipEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderInternshipRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderInternshipRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderInternshipRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusInternshipForm;
+  window.hrMessagePrep = window.hrMessagePrep || internshipMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearInternshipForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveInternshipRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderInternshipRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootInternshipPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setInternshipUser();
+  ensureHrFallbacks();
+  bindInternshipEvents();
+  loadInternshipRecords();
+}
+
+bootInternshipPage();
+</script>
+
 </body>
 </html>
