@@ -504,8 +504,8 @@ body{
       <a class="btn blue" href="dashboard.html">← Dashboard</a>
       <button class="btn secondary" onclick="goToSearch()">Arama</button>
       <a class="btn secondary" href="mailbox.html">📨 Mesaj Merkezi</a>
-      <button class="btn red" onclick="logout()">Çıkış</button>
-      <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      <button class="btn red" onclick="logout()">Oturumu Kapat</button>
+      <div class="user">👤 <span id="userName">Kullanıcı</span></div>
     </div>
   </div>
 
@@ -801,11 +801,11 @@ function currentUserName(){
       null;
 
     if(user){
-      return val(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+      return val(user,"fullname","full_name","name","username","email") || "Kullanıcı";
     }
   }catch(e){}
 
-  return "Oturum Kullanıcısı";
+  return "Kullanıcı";
 }
 
 function setUserName(){
@@ -894,7 +894,7 @@ function renderMessages(){
 
   messages.innerHTML = chat.map(message => `
     <div class="message ${message.role === "user" ? "user-message" : ""}">
-      <b>${message.role === "user" ? "Oturum Kullanıcısı" : "AI Asistan"}</b>
+      <b>${message.role === "user" ? "Kullanıcı" : "AI Asistan"}</b>
       <small>${esc(message.date)}${message.meta ? ` · ${esc(message.meta)}` : ""}</small>
       <pre>${esc(message.text)}</pre>
     </div>

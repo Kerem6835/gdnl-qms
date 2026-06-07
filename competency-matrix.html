@@ -336,7 +336,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <a href="msa.html">MSA</a>
 </div>
 </nav>
-  <div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Çıkış Yap</button></div>
+  <div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Oturumu Kapat</button></div>
 </aside>
 <aside class="sidebar">
 <div>
@@ -424,7 +424,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="avatar" onclick="window.location.href='dashboard.html'"><span id="userName"></span></div>
 <span id="userRole" style="display:none"></span>
 <span id="userAvatar" style="display:none"></span>
-<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+<button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
 </div>
 </header>
 
@@ -593,7 +593,7 @@ function toggleMenuGroup(btn){
 function openMobileMenu(){document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active");}
 function closeMobileMenu(){document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active");}
 const session=window.GDNL_API?.normalizeUser(window.GDNL_CURRENT_USER||{})||{};
-userName.textContent=session.name||"";userRole.textContent=session.role||"Oturum Kullanıcısı";userAvatar.textContent="";
+userName.textContent=session.name||"";userRole.textContent=session.role||"Kullanıcı";userAvatar.textContent="";
 
 let uploadedEvidence=null,selectedAssignmentId=null;
 
@@ -833,7 +833,7 @@ n.unshift(payload);setNotifications(n);cloudNotify(payload);cloudAudit("Bildirim
 }
 
 async function loadComments(recordNo){try{cloudComments=await apiGet("/comments?module=Yetkinlik%20Matrisi&related_id="+encodeURIComponent(recordNo));}catch(e){cloudComments=getLS("gdnl_comments").filter(c=>c.module==="Yetkinlik Matrisi"&&c.related_id===recordNo)}renderComments(recordNo)}
-function renderComments(recordNo){const panel=document.getElementById("commentPanel"),list=document.getElementById("commentList");if(!panel||!list)return;panel.style.display="block";const rows=(cloudComments||[]).filter(c=>String(c.related_id||c.record_no||"")===String(recordNo));list.innerHTML=rows.length?rows.map(c=>`<div class="comment-item"><b>${escapeHTML(c.user_name||c.created_by||c.user||"Oturum Kullanıcısı")}</b> · <small>${formatDateTR(c.created_at||c.createdAt)}</small><br>${escapeHTML(c.comment||c.text||c.message||"")}</div>`).join(""):'<div class="empty">Henüz yorum yok.</div>'}
+function renderComments(recordNo){const panel=document.getElementById("commentPanel"),list=document.getElementById("commentList");if(!panel||!list)return;panel.style.display="block";const rows=(cloudComments||[]).filter(c=>String(c.related_id||c.record_no||"")===String(recordNo));list.innerHTML=rows.length?rows.map(c=>`<div class="comment-item"><b>${escapeHTML(c.user_name||c.created_by||c.user||"Kullanıcı")}</b> · <small>${formatDateTR(c.created_at||c.createdAt)}</small><br>${escapeHTML(c.comment||c.text||c.message||"")}</div>`).join(""):'<div class="empty">Henüz yorum yok.</div>'}
 async function addCommentToCurrent(){if(!selectedAssignmentId)return;const txt=document.getElementById("commentText").value.trim();if(!txt)return showToast("Yorum yaz");const row={module:"Yetkinlik Matrisi",related_id:selectedAssignmentId,comment:txt,user_id:session.id,user_name:session.fullname||session.name,created_at:new Date().toISOString()};cloudComments.unshift(row);const all=getLS("gdnl_comments");all.unshift(row);setLS("gdnl_comments",all);try{await apiPost("/comments",row)}catch(e){}cloudAudit("Yorum eklendi",selectedAssignmentId,null,row);cloudActivity("Yorum eklendi",selectedAssignmentId,txt,null,row,"comments");document.getElementById("commentText").value="";renderComments(selectedAssignmentId);showToast("Yorum eklendi")}
 async function softArchiveAssignment(id,reason="Kullanıcı arşivledi"){const items=getAssignments();const i=items.findIndex(x=>x.id===id);if(i<0)return;if(![items[i].createdBy,session.name,session.fullname].includes(items[i].createdBy)&&session.role!=="admin")return showToast("Bu kayıt için arşiv yetkin yok");items[i].status="Arşivlendi";items[i].archived_by=session.fullname||session.name;items[i].archived_at=new Date().toISOString();items[i].archive_reason=reason;setAssignments(items);try{await apiPost("/archive",{module:"Yetkinlik Matrisi",related_id:id,reason,archived_by:session.fullname||session.name})}catch(e){}cloudAudit("Kayıt arşivlendi",id,null,items[i]);cloudActivity("Kayıt arşivlendi",id,reason,null,items[i],"status");renderAll()}
 async function restoreAssignment(id){try{await apiPost("/restore",{module:"Yetkinlik Matrisi",related_id:id,restored_by:session.fullname||session.name})}catch(e){}cloudAudit("Kayıt geri yüklendi",id,null,{status:"Aktif"});cloudActivity("Kayıt geri yüklendi",id,"Arşivden geri yüklendi",null,{status:"Aktif"},"status");renderAll()}

@@ -412,7 +412,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
+    <button class="mobile-logout" onclick="logout()">Oturumu Kapat</button>
   </div>
 </aside>
 <aside class="sidebar">
@@ -514,7 +514,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName"></span>
 </div>
-<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+<button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
 </div>
 </header>
 
@@ -716,7 +716,7 @@ function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(to
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function showToast(message){const t=document.getElementById("toast");t.textContent=message;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
-function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Oturum Kullanıcısı",department:u?.department||u?.department_name||""}}
+function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
 function normalizeSupplier(s){s=s||{};s.documents=asArray(s.documents);s.events=asArray(s.events);s.timeline=asArray(s.timeline);return s}
 function statusClass(s){if(["Onaylı","Geçerli","Tamamlandı","Kapalı","Aktif"].includes(s))return"green";if(["Blokeli","Diskalifiye","Süresi Doldu","Reddedildi","Gecikti"].includes(s))return"red";if(["Şartlı Onaylı","Geliştirme Tedarikçisi","Süresi Yaklaşıyor","İncelemede","Devam Ediyor","Açık"].includes(s))return"orange";return"blue"}
 
@@ -728,7 +728,7 @@ state.users=activeOnly(u).map(normalizeUser);
 state.departments=activeOnly(d).map(x=>({id:x.id,department_name:x.department_name||x.name||x.department||""}));
 state.suppliers=activeOnly(s).map(normalizeSupplier);
 state.notifications=activeOnly(n);state.auditLogs=activeOnly(a);state.activityFeed=activeOnly(af);state.comments=activeOnly(c);state.assignments=activeOnly(as);state.approvals=activeOnly(ap);state.approvalHistory=activeOnly(aph);state.workflowHistory=activeOnly(wfh);state.files=activeOnly(files);state.archive=asArray(arch);
-state.currentUser=state.users[0]||{id:"",fullname:"",role:"Oturum Kullanıcısı",department:""};
+state.currentUser=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
 document.getElementById("userName").textContent=state.currentUser.fullname||"";
 }
 

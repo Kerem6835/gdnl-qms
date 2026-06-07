@@ -413,7 +413,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
+    <button class="mobile-logout" onclick="logout()">Oturumu Kapat</button>
   </div>
 </aside>
 
@@ -503,7 +503,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName"></span>
 </div>
-<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+<button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
 </div>
 </header>
 
@@ -1047,7 +1047,7 @@ html+=renderEvidence(a);
 document.getElementById("drawerContent").innerHTML=html;document.getElementById("drawer").classList.add("active");
 }
 function closeDrawer(){document.getElementById("drawer").classList.remove("active");selectedApprovalIndex=null}
-function renderComments(a){return `<div class="step"><b>Yorumlar</b><div class="comment-list">${(a.comments||[]).length?(a.comments||[]).map(c=>`<div class="comment-item"><b>${escapeHTML(c.user||"Oturum Kullanıcısı")}</b><small>${new Date(c.createdAt||c.date||nowISO()).toLocaleString("tr-TR")}</small><p>${escapeHTML(c.comment||c.text||"")}</p></div>`).join(""):`<div class="empty" style="padding:14px">Henüz yorum yok.</div>`}</div><div class="comment-box"><textarea id="workflowCommentInput" placeholder="Bu onay süreci için yorum yaz"></textarea><button class="btn primary" onclick="addWorkflowComment()">Yorum Ekle</button></div></div>`}
+function renderComments(a){return `<div class="step"><b>Yorumlar</b><div class="comment-list">${(a.comments||[]).length?(a.comments||[]).map(c=>`<div class="comment-item"><b>${escapeHTML(c.user||"Kullanıcı")}</b><small>${new Date(c.createdAt||c.date||nowISO()).toLocaleString("tr-TR")}</small><p>${escapeHTML(c.comment||c.text||"")}</p></div>`).join(""):`<div class="empty" style="padding:14px">Henüz yorum yok.</div>`}</div><div class="comment-box"><textarea id="workflowCommentInput" placeholder="Bu onay süreci için yorum yaz"></textarea><button class="btn primary" onclick="addWorkflowComment()">Yorum Ekle</button></div></div>`}
 function renderEvidence(a){return `<div class="evidence-box"><b>Onay Kanıtı</b><div style="margin-top:8px;font-size:12px;font-weight:800;color:#64748b">Dosya R2 alanına yüklenir ve kayıt D1 dosya tablosuna yazılır.</div><div class="evidence-row"><input id="approvalEvidenceFile" type="file" style="max-width:100%"><button class="btn primary" onclick="uploadApprovalEvidence()">Kanıt Yükle</button></div>${(a.evidence||[]).length?`<div class="comment-list">${a.evidence.map(e=>`<div class="comment-item"><b>${escapeHTML(e.fileName||e.name||"Dosya")}</b><small>${escapeHTML(e.uploadedBy||"")} · ${new Date(e.createdAt||nowISO()).toLocaleString("tr-TR")}</small>${e.url?`<p><a href="${escapeHTML(e.url)}" target="_blank">Dosyayı Aç</a></p>`:""}</div>`).join("")}</div>`:""}</div>`}
 function getSelectedApproval(){if(selectedApprovalIndex===null)return null;return filteredActiveApprovals()[selectedApprovalIndex]||null}
 function replaceApproval(updated){const approvals=getApprovals().map(normalizeApproval);const idx=approvals.findIndex(x=>x.approvalId===updated.approvalId);if(idx!==-1)approvals[idx]=updated;else approvals.unshift(updated);setApprovals(approvals)}

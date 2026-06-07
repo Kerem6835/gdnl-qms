@@ -446,7 +446,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
   </nav>
   <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Çıkış Yap</button>
+    <button class="mobile-logout" onclick="logout()">Oturumu Kapat</button>
   </div>
 </aside>
 <aside class="sidebar">
@@ -535,7 +535,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="avatar" onclick="window.location.href='dashboard.html'">
 <span id="userName"></span>
 </div>
-<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+<button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
 </div>
 </header>
 
@@ -711,7 +711,7 @@ async function safePatch(path,body){try{return await apiRequest(path,{method:"PA
 function asArray(p){if(Array.isArray(p))return p;if(p&&Array.isArray(p.data))return p.data;if(p&&Array.isArray(p.items))return p.items;if(p&&Array.isArray(p.rows))return p.rows;if(p&&Array.isArray(p.results))return p.results;return[]}
 function isPassive(r){const s=String(r?.status||r?.riskStatus||r?.record_status||"").toLowerCase();return["deleted","silindi","arşivlendi","arsivlendi","iptal","iptal edildi","cancelled","archived","arşiv"].includes(s)||!!r?.deleted_at||!!r?.archived_at}
 function activeOnly(rows){return asArray(rows).filter(x=>!isPassive(x))}
-function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Oturum Kullanıcısı",department:u?.department||u?.department_name||""}}
+function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
 function statusClass(s){if(["Kapalı","Tamamlandı"].includes(s))return"green";if(["Gecikti","Acil Aksiyon","Kritik"].includes(s))return"red";if(["Aksiyon Bekliyor","Etkinlik Kontrolü","Kapanış Onayı","Devam Ediyor"].includes(s))return"orange";return"blue"}
 function levelClass(v){if(v==="Düşük")return"green";if(v==="İzlenmeli")return"blue";if(v==="Orta"||v==="Yüksek")return"orange";if(v==="Kritik"||v==="Acil Aksiyon")return"red";return"blue"}
 function riskScore(o,s,d){return Number(o||0)*Number(s||0)*Number(d||0)}
@@ -741,7 +741,7 @@ state.documents=activeOnly(documents);
 state.archive=asArray(archive);
 state.files=activeOnly(files);
 state.capa=activeOnly(capa);
-state.currentUser=state.users[0]||{id:"",fullname:"",role:"Oturum Kullanıcısı",department:""};
+state.currentUser=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
 qs("userName").textContent=state.currentUser.fullname||"";
 fillDepartments();
 }

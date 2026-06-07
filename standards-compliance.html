@@ -448,7 +448,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="sidebar-footer">GDNL EQMS Enterprise<br>Standart Uygunluk<br>ISO / IATF / CoP / EV</div>
 
 </aside>
-<button class="mobile-fixed-logout" onclick="logout()">Çıkış Yap</button>
+<button class="mobile-fixed-logout" onclick="logout()">Oturumu Kapat</button>
 <div class="app">
 <aside class="sidebar">
 <div>
@@ -552,7 +552,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="user-chip" onclick="navigateRoute('dashboard.html')">
 <span id="userName"></span>
 </button>
-<button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+<button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
 </div>
 </header>
 
@@ -769,7 +769,7 @@ function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(to
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function statusClass(s){if(["Uygun","Hazır","Onaylandı","Kapalı"].includes(s))return"green";if(["Kısmen Uygun","Aksiyon Bekliyor","Kanıt Eksik","Devam Ediyor","Onay Bekliyor"].includes(s))return"orange";if(["Eksik Var","Uygun Değil","Riskli","Gecikti","Reddedildi","Kritik"].includes(s))return"red";if(["Uygulanamaz","Yok"].includes(s))return"gray";return"blue"}
-function normalizeUser(u){return{id:u?.id||u?.user_id||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Oturum Kullanıcısı",department:u?.department||u?.department_name||""}}
+function normalizeUser(u){return{id:u?.id||u?.user_id||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
 function normalizeClause(c){
   c.id=c.id||c.document_id||c.clause_id||("STDID-"+Math.random());
   c.clauseRecordNo=c.clauseRecordNo||c.record_no||c.document_code||c.code||"";
@@ -814,7 +814,7 @@ async function loadBaseData(){
   ]);
   state.users=activeOnly(users).map(normalizeUser);
   state.departments=activeOnly(departments).map(d=>({id:d.id||d.department_id||"",department_name:d.department_name||d.name||d.department||""})).filter(d=>d.department_name);
-  state.currentUser=state.users[0]||{id:"",fullname:"",role:"Oturum Kullanıcısı",department:""};
+  state.currentUser=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
   state.notifications=activeOnly(notifications);
   state.files=activeOnly(files);
   state.actions=activeOnly(actions);

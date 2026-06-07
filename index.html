@@ -865,7 +865,7 @@ function mapD1UserToEOS(row){
   const fixed = deepRepairTR(row || {});
   const role = fixed.role || fixed.role_name || "KULLANICI";
   const department = fixed.department || fixed.department_name ||"";
-  const fullName = fixed.fullName || fixed.fullname || fixed.name || fixed.username || "Oturum Kullanıcısı";
+  const fullName = fixed.fullName || fixed.fullname || fixed.name || fixed.username || "Kullanıcı";
   const username = String(fixed.username || fixed.email ||"").trim().toLowerCase();
   const isFull =
     role === "SUPER_ADMIN" ||
