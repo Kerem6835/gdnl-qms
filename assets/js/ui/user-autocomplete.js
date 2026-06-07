@@ -202,6 +202,16 @@
   function setKnownHiddenFields(input, user) {
     const base = input.id || input.name || "";
     if (!base) return;
+    const bases = Array.from(new Set([
+      base,
+      base.replace(/(Search|Input|Picker|Name)$/i, "")
+    ].filter(Boolean)));
+    bases.forEach((candidate) => {
+      const direct = document.getElementById(candidate);
+      if (direct && direct !== input && "value" in direct && (direct.type === "hidden" || direct.dataset.userAutocompleteTarget === "fullname")) {
+        direct.value = user.fullname || "";
+      }
+    });
     const pairs = [
       ["id", user.id],
       ["user_id", user.id],
@@ -210,13 +220,15 @@
       ["role", user.role]
     ];
     pairs.forEach(([suffix, value]) => {
-      const camel = `${base}${suffix.charAt(0).toUpperCase()}${suffix.slice(1)}`;
-      const ids = suffix === "id"
-        ? [`${base}_id`, camel, `${base}Id`]
-        : [`${base}_${suffix}`, camel];
+      const ids = bases.flatMap((candidate) => {
+        const camel = `${candidate}${suffix.charAt(0).toUpperCase()}${suffix.slice(1)}`;
+        return suffix === "id"
+          ? [`${candidate}_id`, camel, `${candidate}Id`]
+          : [`${candidate}_${suffix}`, camel];
+      });
       ids.forEach((id) => {
         const el = document.getElementById(id);
-        if (el && "value" in el) el.value = value || "";
+        if (el && el !== input && "value" in el) el.value = value || "";
       });
     });
   }
