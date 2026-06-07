@@ -193,7 +193,10 @@
       ["role", user.role]
     ];
     pairs.forEach(([suffix, value]) => {
-      const ids = [`${base}_${suffix}`, `${base}${suffix.charAt(0).toUpperCase()}${suffix.slice(1)}`, `${base}Id`];
+      const camel = `${base}${suffix.charAt(0).toUpperCase()}${suffix.slice(1)}`;
+      const ids = suffix === "id"
+        ? [`${base}_id`, camel, `${base}Id`]
+        : [`${base}_${suffix}`, camel];
       ids.forEach((id) => {
         const el = document.getElementById(id);
         if (el && "value" in el) el.value = value || "";
