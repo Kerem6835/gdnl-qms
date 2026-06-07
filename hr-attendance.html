@@ -5,27 +5,1099 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | Puantaj ve Devam Takibi</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --att-navy:#071b34;
+  --att-green:#35a852;
+  --att-soft:#f4f9ff;
+  --att-line:#dfe9f5;
+  --att-muted:#64748b;
+  --att-danger:#dc2626;
+  --att-warning:#f59e0b;
+  --att-blue:#0f4c81;
+}
+
+.att-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.att-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--att-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.att-kpi-card small{
+  display:block;
+  color:var(--att-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.att-kpi-card strong{
+  display:block;
+  color:var(--att-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.att-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.att-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.att-status.open{background:#e0f2fe;color:#075985}
+.att-status.waiting{background:#fef3c7;color:#92400e}
+.att-status.late{background:#fee2e2;color:#991b1b}
+.att-status.done{background:#dcfce7;color:#166534}
+.att-status.archive{background:#f1f5f9;color:#475569}
+.att-status.critical{background:#fee2e2;color:#991b1b}
+.att-status.high{background:#fef3c7;color:#92400e}
+.att-status.normal{background:#dcfce7;color:#166534}
+
+.att-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.att-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.att-record-title{
+  color:var(--att-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.att-record-meta{
+  color:var(--att-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.att-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.att-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.att-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.att-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.att-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.att-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.att-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.att-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.att-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.att-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.att-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .att-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .att-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .att-record-head{
+    display:grid;
+  }
+
+  .att-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-attendance.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Personel, tarih, vardiya veya durum ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">Puantaj ve Devam Takibi</h1><p id="pageDesc">Giriş/çıkış, geç kalma, erken çıkış, tolerans, devamsızlık ve aylık toplam saat izlenir. Günlük tolerans ve aylık eksik/fazla süre hesapları kurum içi hesaplama parametreleriyle yapılır.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Puantaj ve Devam Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">Puantaj ve Devam Takibi</h1>
+        <p id="pageDesc">Giriş/çıkış, geç kalma, erken çıkış, tolerans, devamsızlık, fazla mesai, aylık eksik/fazla süre ve onay durumu D1/R2 standardıyla yönetilir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusAttendanceForm()">Yeni Puantaj Kaydı</button>
+        <button class="btn" type="button" onclick="attendanceMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="att-kpi" aria-label="Puantaj ve Devam Takibi göstergeleri">
+      <div class="att-kpi-card"><small>Toplam Kayıt</small><strong id="kpiTotal">0</strong><span>Tüm puantajlar</span></div>
+      <div class="att-kpi-card"><small>Geç Kalma</small><strong id="kpiLateIn">0</strong><span>Tolerans sonrası</span></div>
+      <div class="att-kpi-card"><small>Devamsızlık</small><strong id="kpiAbsent">0</strong><span>Giriş/çıkış yok</span></div>
+      <div class="att-kpi-card"><small>Fazla Mesai</small><strong id="kpiOvertime">0 dk</strong><span>Toplam fazla süre</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="Puantaj ve Devam Takibi göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Puantaj Kontrol Akışı</h2><p id="summaryDesc">Günlük giriş/çıkış ve tolerans durumları aylık toplamlarla birlikte izlenir.</p></div><span id="statusPill" class="status-pill">Puantaj ve Devam Takibi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Puantaj Kaydı</h2><p id="formDesc">Personel tarih ve giriş/çıkış bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Puantaj ve Devam Takibi Ek Dosyaları</h3><p id="fileDesc">Puantaj ve Devam Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Puantaj ve Devam Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Puantaj Takip Panosu</h2><p id="recordsDesc">Personel devam kayıtları gecikme, devamsızlık ve onay durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Puantaj İşlem Geçmişi</h2><p id="auditDesc">Giriş/çıkış, tolerans, onay ve açıklama değişiklikleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz puantaj kaydı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Puantaj Kontrol Akışı</h2>
+            <p id="summaryDesc">Günlük giriş/çıkış, tolerans, eksik/fazla süre ve onay durumu aylık toplamlarla birlikte izlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">Puantaj ve Devam Takibi aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="att-record">
+            <div class="att-record-title">1. Personel ve vardiya bilgisi alınır</div>
+            <div class="att-record-meta">Planlanan giriş/çıkış, fiili giriş/çıkış ve tolerans süresi doğrulanır.</div>
+          </div>
+          <div class="att-record">
+            <div class="att-record-title">2. Günlük süre farkı hesaplanır</div>
+            <div class="att-record-meta">Geç kalma, erken çıkış, eksik süre, fazla mesai ve devamsızlık otomatik yorumlanır.</div>
+          </div>
+          <div class="att-record">
+            <div class="att-record-title">3. Onay ve kanıt yönetilir</div>
+            <div class="att-record-meta">Açıklama, dosya kanıtı, onay durumu ve işlem geçmişi D1/R2 standardıyla takip edilir.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">Puantaj Kaydı</h2>
+            <p id="formDesc">Personel, tarih, vardiya, giriş/çıkış ve tolerans bilgilerini girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Personel</label>
+            <input id="employeeName" placeholder="Personel adı soyadı" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Departman</label>
+            <input id="departmentName" placeholder="Departman" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Tarih</label>
+            <input id="attendanceDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Vardiya</label>
+            <select id="shiftType">
+              <option value="Normal">Normal</option>
+              <option value="Sabah">Sabah</option>
+              <option value="Akşam">Akşam</option>
+              <option value="Gece">Gece</option>
+              <option value="Esnek">Esnek</option>
+              <option value="Uzaktan">Uzaktan</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Planlanan Giriş</label>
+            <input id="plannedIn" type="time" value="08:00">
+          </div>
+
+          <div class="field">
+            <label>Planlanan Çıkış</label>
+            <input id="plannedOut" type="time" value="18:00">
+          </div>
+
+          <div class="field">
+            <label>Fiili Giriş</label>
+            <input id="actualIn" type="time">
+          </div>
+
+          <div class="field">
+            <label>Fiili Çıkış</label>
+            <input id="actualOut" type="time">
+          </div>
+
+          <div class="field">
+            <label>Mola Süresi / dk</label>
+            <input id="breakMinutes" type="number" min="0" step="5" value="60">
+          </div>
+
+          <div class="field">
+            <label>Tolerans / dk</label>
+            <input id="toleranceMinutes" type="number" min="0" step="1" value="10">
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="attendanceStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="attendancePriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Açıklama</label>
+            <textarea id="attendanceDescription" placeholder="Geç kalma nedeni, izin açıklaması, fazla mesai notu veya onay açıklaması"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">Puantaj ve Devam Takibi Ek Dosyaları</h3>
+          <p id="fileDesc">Puantaj raporu, vardiya listesi, izin belgesi, doktor raporu ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="Puantaj Raporu">Puantaj Raporu</option>
+                <option value="Vardiya Listesi">Vardiya Listesi</option>
+                <option value="İzin Belgesi">İzin Belgesi</option>
+                <option value="Doktor Raporu">Doktor Raporu</option>
+                <option value="Fazla Mesai Onayı">Fazla Mesai Onayı</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="att-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveAttendanceRecord()">Puantaj Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="attendanceMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearAttendanceForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">Puantaj Takip Panosu</h2>
+          <p id="recordsDesc">Personel devam kayıtları gecikme, devamsızlık, fazla mesai, eksik süre ve onay durumuyla izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadAttendanceRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">Puantaj İşlem Geçmişi</h2>
+          <p id="auditDesc">Giriş/çıkış, tolerans, onay, açıklama, dosya ve durum değişiklikleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz puantaj kaydı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="attendanceToast" class="att-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let attendanceRecords = [];
+
+function attEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function attVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function attNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function attToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("attendanceToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return attVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setAttendanceUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "ATT-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function minutesFromTime(value){
+  if(!value || !value.includes(":")) return null;
+
+  const parts = value.split(":").map(Number);
+  if(parts.some(Number.isNaN)) return null;
+
+  return parts[0] * 60 + parts[1];
+}
+
+function minutesToText(minutes){
+  const value = Number(minutes || 0);
+  const sign = value < 0 ? "-" : "";
+  const abs = Math.abs(value);
+  const h = Math.floor(abs / 60);
+  const m = abs % 60;
+
+  if(h && m) return sign + h + " sa " + m + " dk";
+  if(h) return sign + h + " sa";
+  return sign + m + " dk";
+}
+
+function calculateAttendance(record){
+  const plannedIn = minutesFromTime(record.plannedIn);
+  const plannedOut = minutesFromTime(record.plannedOut);
+  const actualIn = minutesFromTime(record.actualIn);
+  const actualOut = minutesFromTime(record.actualOut);
+  const breakMinutes = Number(record.breakMinutes || 0);
+  const tolerance = Number(record.toleranceMinutes || 0);
+
+  const plannedWork = plannedIn !== null && plannedOut !== null
+    ? Math.max(0, plannedOut - plannedIn - breakMinutes)
+    : 0;
+
+  const actualWork = actualIn !== null && actualOut !== null
+    ? Math.max(0, actualOut - actualIn - breakMinutes)
+    : 0;
+
+  const absent = actualIn === null && actualOut === null;
+
+  const lateMinutes = actualIn !== null && plannedIn !== null
+    ? Math.max(0, actualIn - plannedIn - tolerance)
+    : 0;
+
+  const earlyLeaveMinutes = actualOut !== null && plannedOut !== null
+    ? Math.max(0, plannedOut - actualOut - tolerance)
+    : 0;
+
+  const diff = actualWork - plannedWork;
+  const overtime = Math.max(0,diff);
+  const missing = absent ? plannedWork : Math.max(0,-diff);
+
+  return {
+    plannedWork,
+    actualWork,
+    absent,
+    lateMinutes,
+    earlyLeaveMinutes,
+    overtime,
+    missing
+  };
+}
+
+function statusClass(status){
+  const value = attNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = attNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return attEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function normalizeAttendanceRecord(record){
+  return {
+    id:attVal(record,"id","attendance_id","record_id") || cryptoSafeId(),
+    employee:attVal(record,"employee","employee_name","personnel","personel","user_name"),
+    department:attVal(record,"department","department_name"),
+    date:attVal(record,"attendance_date","date","record_date"),
+    shiftType:attVal(record,"shift_type","shift") || "Normal",
+    plannedIn:attVal(record,"planned_in","plannedIn") || "08:00",
+    plannedOut:attVal(record,"planned_out","plannedOut") || "18:00",
+    actualIn:attVal(record,"actual_in","actualIn"),
+    actualOut:attVal(record,"actual_out","actualOut"),
+    breakMinutes:Number(attVal(record,"break_minutes","breakMinutes") || 60),
+    toleranceMinutes:Number(attVal(record,"tolerance_minutes","toleranceMinutes") || 10),
+    status:attVal(record,"status","attendance_status") || "Açık",
+    priority:attVal(record,"priority") || "Normal",
+    description:attVal(record,"description","notes","note"),
+    createdAt:attVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:attVal(record,"created_by","owner","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    employee_name:document.getElementById("employeeName").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    attendance_date:document.getElementById("attendanceDate").value,
+    shift_type:document.getElementById("shiftType").value,
+    planned_in:document.getElementById("plannedIn").value,
+    planned_out:document.getElementById("plannedOut").value,
+    actual_in:document.getElementById("actualIn").value,
+    actual_out:document.getElementById("actualOut").value,
+    break_minutes:Number(document.getElementById("breakMinutes").value || 0),
+    tolerance_minutes:Number(document.getElementById("toleranceMinutes").value || 0),
+    status:document.getElementById("attendanceStatus").value,
+    priority:document.getElementById("attendancePriority").value,
+    description:document.getElementById("attendanceDescription").value.trim(),
+    module:"HR_ATTENDANCE",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.employee_name) return "Personel adı zorunludur.";
+  if(!payload.attendance_date) return "Tarih zorunludur.";
+  if(!payload.planned_in) return "Planlanan giriş saati zorunludur.";
+  if(!payload.planned_out) return "Planlanan çıkış saati zorunludur.";
+
+  return "";
+}
+
+async function uploadAttendanceFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    attToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_ATTENDANCE",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    attToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveAttendanceRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    attToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const normalizedBeforeSave = normalizeAttendanceRecord(payload);
+  const calc = calculateAttendance(normalizedBeforeSave);
+
+  payload.planned_work_minutes = calc.plannedWork;
+  payload.actual_work_minutes = calc.actualWork;
+  payload.late_minutes = calc.lateMinutes;
+  payload.early_leave_minutes = calc.earlyLeaveMinutes;
+  payload.overtime_minutes = calc.overtime;
+  payload.missing_minutes = calc.missing;
+  payload.is_absent = calc.absent;
+
+  try{
+    const file = await uploadAttendanceFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/attendance",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/attendance",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeAttendanceRecord(saved || payload);
+    attendanceRecords.unshift(normalized);
+
+    renderAttendanceRecords();
+    renderAuditPreview();
+    updateAttendanceKpis();
+    clearAttendanceForm(false);
+
+    attToast("Puantaj kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    attendanceRecords.unshift(normalizedBeforeSave);
+
+    renderAttendanceRecords();
+    renderAuditPreview();
+    updateAttendanceKpis();
+
+    attToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadAttendanceRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="att-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/attendance");
+      }catch(firstError){
+        response = await api.get("/attendance");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    attendanceRecords = rows.map(normalizeAttendanceRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    attendanceRecords = [];
+  }
+
+  renderAttendanceRecords();
+  renderAuditPreview();
+  updateAttendanceKpis();
+}
+
+function filteredAttendanceRecords(){
+  const q = attNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return attendanceRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = attNormalize([
+        record.employee,
+        record.department,
+        record.date,
+        record.shiftType,
+        record.plannedIn,
+        record.plannedOut,
+        record.actualIn,
+        record.actualOut,
+        record.status,
+        record.priority,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderAttendanceRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredAttendanceRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="att-empty">Puantaj kaydı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const calc = calculateAttendance(record);
+    const autoStatus = calc.absent || calc.lateMinutes > 0 || calc.earlyLeaveMinutes > 0 ? "Gecikti" : record.status;
+
+    return `
+      <article class="att-record">
+        <div class="att-record-head">
+          <div>
+            <div class="att-record-title">${attEsc(record.employee || "Puantaj Kaydı")} · ${formatDate(record.date)}</div>
+            <div class="att-record-meta">
+              Departman: ${attEsc(record.department || "-")} · Vardiya: ${attEsc(record.shiftType || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="att-status ${statusClass(autoStatus)}">${attEsc(calc.absent ? "Devamsız" : autoStatus)}</span>
+            <span class="att-status ${priorityClass(record.priority)}">${attEsc(record.priority)}</span>
+          </div>
+        </div>
+
+        <div class="att-mini-grid">
+          <div class="att-metric"><small>Planlanan</small><strong>${attEsc(record.plannedIn || "-")} / ${attEsc(record.plannedOut || "-")}</strong></div>
+          <div class="att-metric"><small>Fiili</small><strong>${attEsc(record.actualIn || "-")} / ${attEsc(record.actualOut || "-")}</strong></div>
+          <div class="att-metric"><small>Geç Kalma</small><strong>${minutesToText(calc.lateMinutes)}</strong></div>
+          <div class="att-metric"><small>Erken Çıkış</small><strong>${minutesToText(calc.earlyLeaveMinutes)}</strong></div>
+          <div class="att-metric"><small>Planlanan Süre</small><strong>${minutesToText(calc.plannedWork)}</strong></div>
+          <div class="att-metric"><small>Fiili Süre</small><strong>${minutesToText(calc.actualWork)}</strong></div>
+          <div class="att-metric"><small>Fazla Mesai</small><strong>${minutesToText(calc.overtime)}</strong></div>
+          <div class="att-metric"><small>Eksik Süre</small><strong>${minutesToText(calc.missing)}</strong></div>
+        </div>
+
+        <div class="att-record-meta">${attEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="att-record-actions">
+          <button class="att-small-btn" type="button" onclick="markAttendanceDone('${attEsc(record.id)}')">Tamamlandı</button>
+          <button class="att-small-btn dark" type="button" onclick="copyAttendanceSummary('${attEsc(record.id)}')">Özet Kopyala</button>
+          <button class="att-small-btn red" type="button" onclick="archiveAttendance('${attEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateAttendanceKpis(){
+  const lateIn = attendanceRecords.filter(record => calculateAttendance(record).lateMinutes > 0).length;
+  const absent = attendanceRecords.filter(record => calculateAttendance(record).absent).length;
+  const overtime = attendanceRecords.reduce((sum,record) => sum + calculateAttendance(record).overtime,0);
+
+  document.getElementById("kpiTotal").textContent = attendanceRecords.length;
+  document.getElementById("kpiLateIn").textContent = lateIn;
+  document.getElementById("kpiAbsent").textContent = absent;
+  document.getElementById("kpiOvertime").textContent = minutesToText(overtime);
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!attendanceRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz puantaj kaydı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = attendanceRecords.slice(0,8).map(record => `
+    <div class="att-record-meta">
+      ${formatDate(record.createdAt)} · ${attEsc(record.createdBy || "Oturum Kullanıcısı")} · ${attEsc(record.employee || "-")} için ${formatDate(record.date)} tarihli puantaj kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateAttendanceStatus(id,status){
+  const record = attendanceRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    attToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  record.status = status;
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/attendance/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/attendance/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Durum güncelleme endpoint bekliyor",error);
+  }
+
+  renderAttendanceRecords();
+  renderAuditPreview();
+  updateAttendanceKpis();
+  attToast("Puantaj durumu güncellendi.");
+}
+
+function markAttendanceDone(id){
+  updateAttendanceStatus(id,"Tamamlandı");
+}
+
+function archiveAttendance(id){
+  updateAttendanceStatus(id,"Arşivlendi");
+}
+
+function copyAttendanceSummary(id){
+  const record = attendanceRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    attToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const calc = calculateAttendance(record);
+
+  const summary = [
+    "GDNL EOS Puantaj Özeti",
+    "Personel: " + (record.employee || "-"),
+    "Departman: " + (record.department || "-"),
+    "Tarih: " + formatDate(record.date),
+    "Vardiya: " + (record.shiftType || "-"),
+    "Planlanan: " + (record.plannedIn || "-") + " / " + (record.plannedOut || "-"),
+    "Fiili: " + (record.actualIn || "-") + " / " + (record.actualOut || "-"),
+    "Geç Kalma: " + minutesToText(calc.lateMinutes),
+    "Erken Çıkış: " + minutesToText(calc.earlyLeaveMinutes),
+    "Fazla Mesai: " + minutesToText(calc.overtime),
+    "Eksik Süre: " + minutesToText(calc.missing),
+    "Durum: " + (calc.absent ? "Devamsız" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => attToast("Puantaj özeti kopyalandı."))
+    .catch(() => attToast("Kopyalama desteklenmiyor."));
+}
+
+function clearAttendanceForm(showToast=true){
+  [
+    "employeeName",
+    "departmentName",
+    "attendanceDate",
+    "actualIn",
+    "actualOut",
+    "attendanceDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("shiftType").value = "Normal";
+  document.getElementById("plannedIn").value = "08:00";
+  document.getElementById("plannedOut").value = "18:00";
+  document.getElementById("breakMinutes").value = "60";
+  document.getElementById("toleranceMinutes").value = "10";
+  document.getElementById("attendanceStatus").value = "Açık";
+  document.getElementById("attendancePriority").value = "Normal";
+  document.getElementById("fileCategory").value = "Puantaj Raporu";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) attToast("Form temizlendi.");
+}
+
+function focusAttendanceForm(){
+  document.getElementById("employeeName")?.focus();
+}
+
+function attendanceMessagePrep(){
+  const payload = formPayload();
+  const normalized = normalizeAttendanceRecord(payload);
+  const calc = calculateAttendance(normalized);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki puantaj kaydı için bilgilendirme yapılmıştır:",
+    "",
+    "Personel: " + (payload.employee_name || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Tarih: " + (payload.attendance_date || "-"),
+    "Vardiya: " + (payload.shift_type || "-"),
+    "Planlanan Giriş/Çıkış: " + (payload.planned_in || "-") + " / " + (payload.planned_out || "-"),
+    "Fiili Giriş/Çıkış: " + (payload.actual_in || "-") + " / " + (payload.actual_out || "-"),
+    "Geç Kalma: " + minutesToText(calc.lateMinutes),
+    "Erken Çıkış: " + minutesToText(calc.earlyLeaveMinutes),
+    "Fazla Mesai: " + minutesToText(calc.overtime),
+    "Eksik Süre: " + minutesToText(calc.missing),
+    "Durum: " + (calc.absent ? "Devamsız" : payload.status),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => attToast("Mesaj metni kopyalandı."))
+    .catch(() => attToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindAttendanceEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderAttendanceRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderAttendanceRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderAttendanceRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusAttendanceForm;
+  window.hrMessagePrep = window.hrMessagePrep || attendanceMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearAttendanceForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveAttendanceRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderAttendanceRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootAttendancePage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setAttendanceUser();
+  ensureHrFallbacks();
+  bindAttendanceEvents();
+  loadAttendanceRecords();
+}
+
+bootAttendancePage();
+</script>
+
 </body>
 </html>
