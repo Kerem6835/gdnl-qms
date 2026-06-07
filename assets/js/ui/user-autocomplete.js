@@ -150,7 +150,7 @@
     if (!input || input.dataset.gdnlUserAutocomplete === "1") return false;
     if (input.closest(".topbar,.sidebar,.mobile-drawer,.search-results,.gdnl-user-autocomplete-list")) return false;
     if (EXCLUDED_IDS.includes(input.id) || EXCLUDED_IDS.includes(input.name)) return false;
-    if (input.type && !["text", "search", "email", ""].includes(input.type)) return false;
+    if (input.tagName === "INPUT" && input.type && !["text", "search", "email", ""].includes(input.type)) return false;
     if (input.readOnly || input.disabled) return false;
     const text = fieldText(input);
     if (!text || /global search|genel arama|ara\\.\\.\\.|arama|searchbox|suite search/.test(text)) return false;

@@ -7,7 +7,7 @@
 </style>
 </head>
 <body><main class="main"><div class="topbar"><a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a><div class="user" style="gap:10px;flex-wrap:wrap"><a href="mailbox.html" style="text-decoration:none;background:#dcfce7;color:#15803d;border-radius:12px;padding:9px 12px;font-weight:950">📨 Mesaj Merkezi</a>👤 <span id="userName">Kullanıcı</span></div></div><section class="hero"><h1>Global Arama</h1><p>Kullanıcı, doküman, risk, CAPA, aksiyon, eğitim ve denetim kayıtlarında arama yap.</p><input id="q" class="search" placeholder="Ara..."></section><section class="panel"><div id="results" class="empty">Arama için metin yaz.</div></section></main><script src="assets/js/config/api-client.js"></script>
-<script src="assets/js/ui/user-autocomplete.js?v=quality-users-3"></script><script>
+<script src="assets/js/ui/user-autocomplete.js?v=quality-users-4"></script><script>
 const api=window.GDNL_API;const endpoints=[["Kullanıcı","/users"],["Doküman","/documents"],["Risk","/risks"],["CAPA","/capas"],["Aksiyon","/actions"],["Eğitim","/trainings"],["Denetim","/audits"]];let cache=[];
 function text(x){return JSON.stringify(x||{}).toLowerCase()}function title(x){return x.fullname||x.username||x.document_name||x.documentName||x.title||x.name||x.riskNo||x.risk_no||x.capaNo||x.capa_no||x.auditNo||x.audit_no||x.trainingNo||x.training_no||x.id||"Kayıt"}
 async function load(){const chunks=await Promise.all(endpoints.map(async e=>{try{return api.asArray(await api.get(e[1])).map(x=>({module:e[0],item:x}))}catch(err){return[]}}));cache=chunks.flat()}
