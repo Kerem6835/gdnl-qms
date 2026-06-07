@@ -178,7 +178,10 @@ function normalizeRecipient(recipient) {
     username: user.username || "",
     email: recipient?.recipient_email || user.email || "",
     role: user.role || "",
-    department: user.department || ""
+    department: user.department || "",
+    status: recipient?.status || "",
+    is_read: recipient?.is_read === true || recipient?.is_read === 1 || recipient?.is_read === "1",
+    read_at: recipient?.read_at || ""
   };
 }
 
@@ -217,6 +220,20 @@ function count(folder) {
   return messages.filter((message) => message.folder === folder).length;
 }
 
+function messageCountsAsUnread(message) {
+  if (!message || message.folder !== "inbox") return false;
+  if (!message.is_read) return true;
+  const userId = String(currentUser().id || "");
+  return (message.recipients || []).some((recipient) => (
+    String(recipient.recipient_id || recipient.id || "") === userId &&
+    String(recipient.status || "").toUpperCase() === "UNREAD"
+  ));
+}
+
+function localUnreadCount() {
+  return messages.filter(messageCountsAsUnread).length;
+}
+
 function updateCounts() {
   countInbox.textContent = unreadCount == null ? count("inbox") : unreadCount;
   countSent.textContent = count("sent");
@@ -253,6 +270,9 @@ async function refreshUnreadCount(options = {}) {
     unreadCount = apiCount;
     if (options.readApplied && previous != null && apiCount >= previous) {
       unreadCount = Math.max(0, previous - 1);
+    }
+    if (options.readApplied) {
+      unreadCount = Math.min(unreadCount, localUnreadCount());
     }
     applyUnreadBadge(unreadCount);
     countInbox.textContent = unreadCount;
@@ -528,7 +548,7 @@ async function openMessage(id) {
     if (index >= 0) messages[index] = { ...messages[index], ...detail };
     else messages.unshift(detail);
     selectedMessageId = detail.id;
-    if (activeFolder === "inbox" && !detail.is_read) await markRead(id, true);
+    if (activeFolder === "inbox" && messageCountsAsUnread(detail)) await markRead(id, true);
   } catch (error) {
     selectedMessageId = id;
     api.showToast(apiErrorMessage(error));
@@ -553,10 +573,17 @@ function replyTo(id) {
 async function markRead(id, silent = false) {
   const message = messages.find((item) => item.id === id);
   if (!message) return;
-  const wasUnread = !message.is_read;
+  const wasUnread = messageCountsAsUnread(message);
   try {
     await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read: true, read_at: new Date().toISOString() });
     message.is_read = true;
+    (message.recipients || []).forEach((recipient) => {
+      if (String(recipient.recipient_id || recipient.id || "") === String(currentUser().id || "")) {
+        recipient.is_read = true;
+        recipient.status = "READ";
+        recipient.read_at = new Date().toISOString();
+      }
+    });
     await refreshUnreadCount({ readApplied: wasUnread });
     await writeActivity("Mesaj okundu", message);
     if (!silent) api.showToast("Mesaj okundu olarak işaretlendi");
