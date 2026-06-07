@@ -100,6 +100,7 @@ let activeFolder = "inbox";
 let selectedMessageId = "";
 let attachmentFile = null;
 let userSearchTimer = null;
+let folderErrors = {};
 
 const esc = (value) => String(value ?? "")
   .replaceAll("&", "&amp;")
@@ -235,6 +236,20 @@ async function loadUsers(query = "") {
   return users;
 }
 
+async function initSessionUser() {
+  try {
+    const payload = await callApi("get", "/me");
+    const data = api.responseData(payload);
+    const user = api.normalizeUser(data?.user || data || {});
+    window.GDNL_CURRENT_USER = user;
+    userName.textContent = userNameOf(user);
+    return user;
+  } catch (error) {
+    userName.textContent = "Kullanıcı";
+    return {};
+  }
+}
+
 async function loadFolder(folder) {
   const endpoint = "/messages?folder=" + encodeURIComponent(apiFolder(folder));
   const payload = await callApi("get", endpoint);
@@ -242,21 +257,26 @@ async function loadFolder(folder) {
 }
 
 async function load() {
+  await initSessionUser();
   try {
     await loadUsers();
   } catch (error) {
     users = [];
   }
 
-  try {
-    const folders = ["inbox", "sent", "draft", "trash"];
-    const batches = await Promise.all(folders.map(loadFolder));
-    messages = batches.flat().filter((message) => message.id);
-    setNotice("");
-  } catch (error) {
-    messages = [];
-    setNotice(apiErrorMessage(error), true);
+  const folders = ["inbox", "sent", "draft", "trash"];
+  const loaded = [];
+  folderErrors = {};
+  for (const folder of folders) {
+    try {
+      loaded.push(...await loadFolder(folder));
+    } catch (error) {
+      folderErrors[folder] = apiErrorMessage(error);
+    }
   }
+  messages = loaded.filter((message) => message.id);
+  const failedFolders = Object.keys(folderErrors);
+  setNotice(failedFolders.length ? failedFolders.map((folder) => folderLabel(folder) + ": " + folderErrors[folder]).join(" · ") : "", failedFolders.length > 0);
   render();
 }
 
@@ -266,10 +286,15 @@ function render() {
   folderTitle.textContent = folderLabel(activeFolder);
   composePanel.classList.toggle("active", activeFolder === "compose");
   messageList.classList.toggle("hidden", activeFolder === "compose");
-  folderState.textContent = activeFolder === "compose" ? "Hazır" : "Canlı API";
+  folderState.textContent = activeFolder === "compose" ? "Hazır" : (folderErrors[activeFolder] ? "API Hatası" : "Canlı API");
 
   if (activeFolder === "compose") {
     messageList.innerHTML = "";
+    renderDetail();
+    return;
+  }
+  if (folderErrors[activeFolder]) {
+    messageList.innerHTML = `<div class="empty">${esc(folderErrors[activeFolder])}</div>`;
     renderDetail();
     return;
   }
