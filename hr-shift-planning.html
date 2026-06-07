@@ -5,27 +5,1191 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | Vardiya Planlama</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --shift-navy:#071b34;
+  --shift-green:#35a852;
+  --shift-line:#dfe9f5;
+  --shift-muted:#64748b;
+  --shift-danger:#dc2626;
+  --shift-warning:#f59e0b;
+  --shift-blue:#0f4c81;
+}
+
+.shift-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.shift-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--shift-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.shift-kpi-card small{
+  display:block;
+  color:var(--shift-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.shift-kpi-card strong{
+  display:block;
+  color:var(--shift-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.shift-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.shift-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.shift-status.open{background:#e0f2fe;color:#075985}
+.shift-status.waiting{background:#fef3c7;color:#92400e}
+.shift-status.late{background:#fee2e2;color:#991b1b}
+.shift-status.done{background:#dcfce7;color:#166534}
+.shift-status.archive{background:#f1f5f9;color:#475569}
+.shift-status.critical{background:#fee2e2;color:#991b1b}
+.shift-status.high{background:#fef3c7;color:#92400e}
+.shift-status.normal{background:#dcfce7;color:#166534}
+.shift-status.night{background:#ede9fe;color:#5b21b6}
+.shift-status.conflict{background:#fee2e2;color:#991b1b}
+.shift-status.clean{background:#dcfce7;color:#166534}
+
+.shift-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.shift-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.shift-record-title{
+  color:var(--shift-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.shift-record-meta{
+  color:var(--shift-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.shift-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.shift-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.shift-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.shift-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.shift-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.shift-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.shift-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.shift-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.shift-small-btn.yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.shift-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.shift-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.shift-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .shift-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .shift-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .shift-record-head{
+    display:grid;
+  }
+
+  .shift-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-shift-planning.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Personel, departman, vardiya, ekip veya tarih ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">Vardiya Planlama</h1><p id="pageDesc">Günlük ve haftalık vardiya planı, çalışan atama, mola, gece vardiyası ve çakışma kontrolünün yapıldığı ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Vardiya Planlama Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">Vardiya Planlama</h1>
+        <p id="pageDesc">Günlük ve haftalık vardiya planı, çalışan atama, mola, gece vardiyası, çakışma kontrolü ve onay durumu D1/R2 standardıyla yönetilir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusShiftForm()">Yeni Vardiya Kaydı</button>
+        <button class="btn" type="button" onclick="shiftMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="shift-kpi" aria-label="Vardiya Planlama göstergeleri">
+      <div class="shift-kpi-card"><small>Toplam Vardiya</small><strong id="kpiTotal">0</strong><span>Tüm vardiya kayıtları</span></div>
+      <div class="shift-kpi-card"><small>Gece Vardiyası</small><strong id="kpiNight">0</strong><span>22:00 sonrası takip</span></div>
+      <div class="shift-kpi-card"><small>Çakışma Riski</small><strong id="kpiConflict">0</strong><span>Aynı personel/saat</span></div>
+      <div class="shift-kpi-card"><small>Toplam Net Saat</small><strong id="kpiHours">0 sa</strong><span>Mola düşülmüş süre</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="Vardiya Planlama göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Vardiya Planlama Akışı</h2><p id="summaryDesc">Vardiya saatleri, personel atamaları ve çakışma uyarıları birlikte izlenir.</p></div><span id="statusPill" class="status-pill">Vardiya Planlama aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Vardiya Kaydı</h2><p id="formDesc">Vardiya saati, mola, departman ve personel atamasını hazırlayın.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Vardiya Planlama Ek Dosyaları</h3><p id="fileDesc">Vardiya Planlama ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Vardiya Planlama Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Vardiya Planları Panosu</h2><p id="recordsDesc">Vardiyalar departman, personel, saat ve çakışma durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Vardiya İşlem Geçmişi</h2><p id="auditDesc">Vardiya saatleri, personel ataması ve çakışma işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz vardiya planı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Vardiya Planlama Akışı</h2>
+            <p id="summaryDesc">Vardiya saatleri, personel atamaları, mola, ekip bilgisi, gece vardiyası ve çakışma uyarıları birlikte izlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">Vardiya Planlama aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="shift-record">
+            <div class="shift-record-title">1. Vardiya planı oluşturulur</div>
+            <div class="shift-record-meta">Departman, ekip, personel, vardiya tipi, tarih ve saat aralığı kayıt altına alınır.</div>
+          </div>
+          <div class="shift-record">
+            <div class="shift-record-title">2. Süre, mola ve gece vardiyası hesaplanır</div>
+            <div class="shift-record-meta">Başlangıç/bitiş saatine göre vardiya süresi, mola düşümü ve gece vardiyası etiketi otomatik yorumlanır.</div>
+          </div>
+          <div class="shift-record">
+            <div class="shift-record-title">3. Çakışma ve onay durumu takip edilir</div>
+            <div class="shift-record-meta">Aynı personelin aynı tarihte saat çakışması, onay durumu ve kanıt dosyaları D1/R2 standardında izlenir.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">Vardiya Kaydı</h2>
+            <p id="formDesc">Vardiya saati, mola, departman, ekip ve personel atamasını hazırlayın.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Personel</label>
+            <input id="employeeName" placeholder="Personel adı soyadı" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Departman</label>
+            <input id="departmentName" placeholder="Departman">
+          </div>
+
+          <div class="field">
+            <label>Ekip / Hat</label>
+            <input id="teamName" placeholder="Ekip, hat veya çalışma alanı">
+          </div>
+
+          <div class="field">
+            <label>Vardiya Tipi</label>
+            <select id="shiftType">
+              <option value="Gündüz">Gündüz</option>
+              <option value="Akşam">Akşam</option>
+              <option value="Gece">Gece</option>
+              <option value="Hafta Sonu">Hafta Sonu</option>
+              <option value="Resmi Tatil">Resmi Tatil</option>
+              <option value="Esnek">Esnek</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Vardiya Tarihi</label>
+            <input id="shiftDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Başlangıç Saati</label>
+            <input id="startTime" type="time">
+          </div>
+
+          <div class="field">
+            <label>Bitiş Saati</label>
+            <input id="endTime" type="time">
+          </div>
+
+          <div class="field">
+            <label>Mola / dk</label>
+            <input id="breakMinutes" type="number" min="0" step="5" value="45">
+          </div>
+
+          <div class="field">
+            <label>Plan Sorumlusu</label>
+            <input id="plannerName" placeholder="Vardiya planlayan / sorumlu">
+          </div>
+
+          <div class="field">
+            <label>Onaylayan</label>
+            <input id="approverName" placeholder="Yönetici / onaylayan">
+          </div>
+
+          <div class="field">
+            <label>Onay Durumu</label>
+            <select id="approvalStatus">
+              <option value="Onay Bekliyor">Onay Bekliyor</option>
+              <option value="Onaylandı">Onaylandı</option>
+              <option value="Revizyon İstendi">Revizyon İstendi</option>
+              <option value="İptal Edildi">İptal Edildi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Çakışma Kontrolü</label>
+            <select id="conflictStatus">
+              <option value="Kontrol Edilmedi">Kontrol Edilmedi</option>
+              <option value="Çakışma Yok">Çakışma Yok</option>
+              <option value="Çakışma Var">Çakışma Var</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="shiftStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="shiftPriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Açıklama</label>
+            <textarea id="shiftDescription" placeholder="Vardiya notu, çakışma açıklaması, mola düzeni, ekip ihtiyacı veya özel açıklama"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">Vardiya Planlama Ek Dosyaları</h3>
+          <p id="fileDesc">Vardiya planı, personel listesi, onay kanıtı, çakışma raporu ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="Vardiya Planı">Vardiya Planı</option>
+                <option value="Personel Listesi">Personel Listesi</option>
+                <option value="Onay Kanıtı">Onay Kanıtı</option>
+                <option value="Çakışma Raporu">Çakışma Raporu</option>
+                <option value="Haftalık Plan">Haftalık Plan</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="shift-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveShiftRecord()">Vardiya Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="shiftMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearShiftForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">Vardiya Planları Panosu</h2>
+          <p id="recordsDesc">Vardiyalar departman, ekip, personel, saat, gece vardiyası, net süre ve çakışma durumuyla izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadShiftRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">Vardiya İşlem Geçmişi</h2>
+          <p id="auditDesc">Vardiya saatleri, personel ataması, mola, çakışma, dosya ve onay işlemleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz vardiya planı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="shiftToast" class="shift-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let shiftRecords = [];
+
+function shiftEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function shiftVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function shiftNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function shiftToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("shiftToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return shiftVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setShiftUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "SHIFT-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = shiftNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = shiftNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function conflictClass(conflict){
+  return shiftNormalize(conflict) === "çakışma var" ? "conflict" : "clean";
+}
+
+function approvalClass(status){
+  const value = shiftNormalize(status);
+
+  if(value === "onaylandı") return "done";
+  if(value === "revizyon istendi" || value === "iptal edildi") return "late";
+
+  return "waiting";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return shiftEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function minutesFromTime(value){
+  if(!value || !value.includes(":")) return null;
+
+  const parts = value.split(":").map(Number);
+  if(parts.some(Number.isNaN)) return null;
+
+  return parts[0] * 60 + parts[1];
+}
+
+function durationMinutes(start,end,breakMinutes=0){
+  const s = minutesFromTime(start);
+  const e = minutesFromTime(end);
+
+  if(s === null || e === null) return 0;
+
+  let diff = e - s;
+
+  if(diff < 0){
+    diff += 24 * 60;
+  }
+
+  return Math.max(0,diff - Number(breakMinutes || 0));
+}
+
+function minutesToText(minutes){
+  const value = Number(minutes || 0);
+  const h = Math.floor(value / 60);
+  const m = value % 60;
+
+  if(h && m) return h + " sa " + m + " dk";
+  if(h) return h + " sa";
+  return m + " dk";
+}
+
+function decimalHours(minutes){
+  return Math.round((Number(minutes || 0) / 60) * 100) / 100;
+}
+
+function isNightShift(record){
+  const start = minutesFromTime(record.startTime);
+  const end = minutesFromTime(record.endTime);
+  const nightStart = 22 * 60;
+  const nightEnd = 6 * 60;
+
+  if(shiftNormalize(record.shiftType) === "gece") return true;
+  if(start === null || end === null) return false;
+
+  return start >= nightStart || start < nightEnd || end <= nightEnd || end < start;
+}
+
+function rangesOverlap(aStart,aEnd,bStart,bEnd){
+  if(aStart === null || aEnd === null || bStart === null || bEnd === null) return false;
+
+  let ae = aEnd;
+  let be = bEnd;
+
+  if(ae <= aStart) ae += 24 * 60;
+  if(be <= bStart) be += 24 * 60;
+
+  return aStart < be && bStart < ae;
+}
+
+function hasConflict(record){
+  if(shiftNormalize(record.conflictStatus) === "çakışma var") return true;
+
+  return shiftRecords.some(other => {
+    if(String(other.id) === String(record.id)) return false;
+    if(shiftNormalize(other.employee) !== shiftNormalize(record.employee)) return false;
+    if(String(other.shiftDate || "") !== String(record.shiftDate || "")) return false;
+
+    return rangesOverlap(
+      minutesFromTime(record.startTime),
+      minutesFromTime(record.endTime),
+      minutesFromTime(other.startTime),
+      minutesFromTime(other.endTime)
+    );
+  });
+}
+
+function isLate(record){
+  if(shiftNormalize(record.status) === "tamamlandı" || shiftNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.shiftDate) return false;
+
+  const date = new Date(record.shiftDate);
+  const today = new Date();
+
+  date.setHours(23,59,59,999);
+
+  return !Number.isNaN(date.getTime()) && date < today && shiftNormalize(record.approvalStatus) === "onay bekliyor";
+}
+
+function normalizeShiftRecord(record){
+  return {
+    id:shiftVal(record,"id","shift_id","record_id") || cryptoSafeId(),
+    employee:shiftVal(record,"employee","employee_name","personnel","user_name"),
+    department:shiftVal(record,"department","department_name"),
+    team:shiftVal(record,"team","team_name","line_name"),
+    shiftType:shiftVal(record,"shift_type","shiftType","type") || "Gündüz",
+    shiftDate:shiftVal(record,"shift_date","shiftDate","date"),
+    startTime:shiftVal(record,"start_time","startTime"),
+    endTime:shiftVal(record,"end_time","endTime"),
+    breakMinutes:Number(shiftVal(record,"break_minutes","breakMinutes") || 45),
+    planner:shiftVal(record,"planner","planner_name","prepared_by"),
+    approver:shiftVal(record,"approver","approver_name"),
+    approvalStatus:shiftVal(record,"approval_status","approvalStatus") || "Onay Bekliyor",
+    conflictStatus:shiftVal(record,"conflict_status","conflictStatus") || "Kontrol Edilmedi",
+    status:shiftVal(record,"status","shift_status") || "Açık",
+    priority:shiftVal(record,"priority") || "Normal",
+    description:shiftVal(record,"description","notes","note"),
+    createdAt:shiftVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:shiftVal(record,"created_by","owner","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    employee_name:document.getElementById("employeeName").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    team_name:document.getElementById("teamName").value.trim(),
+    shift_type:document.getElementById("shiftType").value,
+    shift_date:document.getElementById("shiftDate").value,
+    start_time:document.getElementById("startTime").value,
+    end_time:document.getElementById("endTime").value,
+    break_minutes:Number(document.getElementById("breakMinutes").value || 0),
+    planner_name:document.getElementById("plannerName").value.trim(),
+    approver_name:document.getElementById("approverName").value.trim(),
+    approval_status:document.getElementById("approvalStatus").value,
+    conflict_status:document.getElementById("conflictStatus").value,
+    status:document.getElementById("shiftStatus").value,
+    priority:document.getElementById("shiftPriority").value,
+    description:document.getElementById("shiftDescription").value.trim(),
+    module:"HR_SHIFT_PLANNING",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.employee_name) return "Personel adı zorunludur.";
+  if(!payload.department_name) return "Departman bilgisi zorunludur.";
+  if(!payload.shift_date) return "Vardiya tarihi zorunludur.";
+  if(!payload.start_time) return "Başlangıç saati zorunludur.";
+  if(!payload.end_time) return "Bitiş saati zorunludur.";
+  if(!payload.planner_name) return "Plan sorumlusu zorunludur.";
+  if(!payload.approver_name) return "Onaylayan bilgisi zorunludur.";
+
+  return "";
+}
+
+async function uploadShiftFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    shiftToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_SHIFT_PLANNING",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    shiftToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveShiftRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    shiftToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizeShiftRecord(payload);
+  payload.net_minutes = durationMinutes(preview.startTime,preview.endTime,preview.breakMinutes);
+  payload.is_night_shift = isNightShift(preview);
+  payload.has_conflict = hasConflict(preview);
+
+  try{
+    const file = await uploadShiftFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/shift-planning",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/shift-planning",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeShiftRecord(saved || payload);
+    shiftRecords.unshift(normalized);
+
+    renderShiftRecords();
+    renderAuditPreview();
+    updateShiftKpis();
+    clearShiftForm(false);
+
+    shiftToast("Vardiya kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    shiftRecords.unshift(preview);
+
+    renderShiftRecords();
+    renderAuditPreview();
+    updateShiftKpis();
+
+    shiftToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadShiftRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="shift-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/shift-planning");
+      }catch(firstError){
+        response = await api.get("/shift-planning");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    shiftRecords = rows.map(normalizeShiftRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    shiftRecords = [];
+  }
+
+  renderShiftRecords();
+  renderAuditPreview();
+  updateShiftKpis();
+}
+
+function filteredShiftRecords(){
+  const q = shiftNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return shiftRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = shiftNormalize([
+        record.employee,
+        record.department,
+        record.team,
+        record.shiftType,
+        record.shiftDate,
+        record.planner,
+        record.approver,
+        record.approvalStatus,
+        record.conflictStatus,
+        record.status,
+        record.priority,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderShiftRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredShiftRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="shift-empty">Vardiya planı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const net = durationMinutes(record.startTime,record.endTime,record.breakMinutes);
+    const night = isNightShift(record);
+    const conflict = hasConflict(record);
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="shift-record">
+        <div class="shift-record-head">
+          <div>
+            <div class="shift-record-title">${shiftEsc(record.employee || "Vardiya Kaydı")} · ${formatDate(record.shiftDate)}</div>
+            <div class="shift-record-meta">
+              Departman: ${shiftEsc(record.department || "-")} · Ekip: ${shiftEsc(record.team || "-")} · Plan Sorumlusu: ${shiftEsc(record.planner || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="shift-status ${approvalClass(record.approvalStatus)}">${shiftEsc(record.approvalStatus)}</span>
+            <span class="shift-status ${statusClass(autoStatus)}">${shiftEsc(autoStatus)}</span>
+            <span class="shift-status ${priorityClass(record.priority)}">${shiftEsc(record.priority)}</span>
+            ${night ? '<span class="shift-status night">Gece</span>' : ''}
+            <span class="shift-status ${conflict ? "conflict" : "clean"}">${conflict ? "Çakışma Var" : "Çakışma Yok"}</span>
+          </div>
+        </div>
+
+        <div class="shift-mini-grid">
+          <div class="shift-metric"><small>Vardiya Tipi</small><strong>${shiftEsc(record.shiftType || "-")}</strong></div>
+          <div class="shift-metric"><small>Saat Aralığı</small><strong>${shiftEsc(record.startTime || "-")} / ${shiftEsc(record.endTime || "-")}</strong></div>
+          <div class="shift-metric"><small>Mola</small><strong>${record.breakMinutes} dk</strong></div>
+          <div class="shift-metric"><small>Net Süre</small><strong>${minutesToText(net)}</strong></div>
+          <div class="shift-metric"><small>Onaylayan</small><strong>${shiftEsc(record.approver || "-")}</strong></div>
+          <div class="shift-metric"><small>Çakışma Kontrolü</small><strong>${shiftEsc(record.conflictStatus || "-")}</strong></div>
+          <div class="shift-metric"><small>Oluşturan</small><strong>${shiftEsc(record.createdBy || "-")}</strong></div>
+          <div class="shift-metric"><small>Gece Vardiyası</small><strong>${night ? "Evet" : "Hayır"}</strong></div>
+        </div>
+
+        <div class="shift-record-meta">${shiftEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="shift-record-actions">
+          <button class="shift-small-btn" type="button" onclick="approveShift('${shiftEsc(record.id)}')">Onayla</button>
+          <button class="shift-small-btn yellow" type="button" onclick="requestShiftRevision('${shiftEsc(record.id)}')">Revizyon</button>
+          <button class="shift-small-btn dark" type="button" onclick="copyShiftSummary('${shiftEsc(record.id)}')">Özet Kopyala</button>
+          <button class="shift-small-btn red" type="button" onclick="archiveShift('${shiftEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateShiftKpis(){
+  const nightCount = shiftRecords.filter(isNightShift).length;
+  const conflictCount = shiftRecords.filter(hasConflict).length;
+  const totalMinutes = shiftRecords.reduce((sum,record) => sum + durationMinutes(record.startTime,record.endTime,record.breakMinutes),0);
+
+  document.getElementById("kpiTotal").textContent = shiftRecords.length;
+  document.getElementById("kpiNight").textContent = nightCount;
+  document.getElementById("kpiConflict").textContent = conflictCount;
+  document.getElementById("kpiHours").textContent = decimalHours(totalMinutes) + " sa";
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!shiftRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz vardiya planı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = shiftRecords.slice(0,8).map(record => `
+    <div class="shift-record-meta">
+      ${formatDate(record.createdAt)} · ${shiftEsc(record.createdBy || "Oturum Kullanıcısı")} · ${shiftEsc(record.employee || "-")} için ${formatDate(record.shiftDate)} vardiya kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateShift(id,changes){
+  const record = shiftRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    shiftToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  Object.assign(record,changes);
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/shift-planning/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/shift-planning/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Vardiya güncelleme endpoint bekliyor",error);
+  }
+
+  renderShiftRecords();
+  renderAuditPreview();
+  updateShiftKpis();
+  shiftToast("Vardiya kaydı güncellendi.");
+}
+
+function approveShift(id){
+  updateShift(id,{approvalStatus:"Onaylandı",conflictStatus:"Çakışma Yok",status:"Tamamlandı"});
+}
+
+function requestShiftRevision(id){
+  updateShift(id,{approvalStatus:"Revizyon İstendi",status:"Bekliyor"});
+}
+
+function archiveShift(id){
+  updateShift(id,{status:"Arşivlendi"});
+}
+
+function copyShiftSummary(id){
+  const record = shiftRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    shiftToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const net = durationMinutes(record.startTime,record.endTime,record.breakMinutes);
+
+  const summary = [
+    "GDNL EOS Vardiya Planlama Özeti",
+    "Personel: " + (record.employee || "-"),
+    "Departman: " + (record.department || "-"),
+    "Ekip / Hat: " + (record.team || "-"),
+    "Vardiya Tipi: " + (record.shiftType || "-"),
+    "Tarih: " + formatDate(record.shiftDate),
+    "Saat: " + (record.startTime || "-") + " / " + (record.endTime || "-"),
+    "Mola: " + record.breakMinutes + " dk",
+    "Net Süre: " + minutesToText(net),
+    "Gece Vardiyası: " + (isNightShift(record) ? "Evet" : "Hayır"),
+    "Çakışma: " + (hasConflict(record) ? "Var" : "Yok"),
+    "Plan Sorumlusu: " + (record.planner || "-"),
+    "Onaylayan: " + (record.approver || "-"),
+    "Onay Durumu: " + (record.approvalStatus || "-"),
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => shiftToast("Vardiya özeti kopyalandı."))
+    .catch(() => shiftToast("Kopyalama desteklenmiyor."));
+}
+
+function clearShiftForm(showToast=true){
+  [
+    "employeeName",
+    "departmentName",
+    "teamName",
+    "shiftDate",
+    "startTime",
+    "endTime",
+    "plannerName",
+    "approverName",
+    "shiftDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("shiftType").value = "Gündüz";
+  document.getElementById("breakMinutes").value = "45";
+  document.getElementById("approvalStatus").value = "Onay Bekliyor";
+  document.getElementById("conflictStatus").value = "Kontrol Edilmedi";
+  document.getElementById("shiftStatus").value = "Açık";
+  document.getElementById("shiftPriority").value = "Normal";
+  document.getElementById("fileCategory").value = "Vardiya Planı";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) shiftToast("Form temizlendi.");
+}
+
+function focusShiftForm(){
+  document.getElementById("employeeName")?.focus();
+}
+
+function shiftMessagePrep(){
+  const payload = formPayload();
+  const preview = normalizeShiftRecord(payload);
+  const net = durationMinutes(preview.startTime,preview.endTime,preview.breakMinutes);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki vardiya planı için bilgilendirme yapılmıştır:",
+    "",
+    "Personel: " + (payload.employee_name || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Ekip / Hat: " + (payload.team_name || "-"),
+    "Vardiya Tipi: " + (payload.shift_type || "-"),
+    "Tarih: " + (payload.shift_date || "-"),
+    "Saat: " + (payload.start_time || "-") + " / " + (payload.end_time || "-"),
+    "Mola: " + payload.break_minutes + " dk",
+    "Net Süre: " + minutesToText(net),
+    "Gece Vardiyası: " + (isNightShift(preview) ? "Evet" : "Hayır"),
+    "Plan Sorumlusu: " + (payload.planner_name || "-"),
+    "Onaylayan: " + (payload.approver_name || "-"),
+    "Onay Durumu: " + (payload.approval_status || "-"),
+    "Çakışma Kontrolü: " + (payload.conflict_status || "-"),
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => shiftToast("Mesaj metni kopyalandı."))
+    .catch(() => shiftToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindShiftEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderShiftRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderShiftRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderShiftRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusShiftForm;
+  window.hrMessagePrep = window.hrMessagePrep || shiftMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearShiftForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveShiftRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderShiftRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootShiftPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setShiftUser();
+  ensureHrFallbacks();
+  bindShiftEvents();
+  loadShiftRecords();
+}
+
+bootShiftPage();
+</script>
+
 </body>
 </html>
