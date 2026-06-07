@@ -56,3 +56,28 @@ CREATE TABLE IF NOT EXISTS activity_feed (
   created_by TEXT,
   updated_by TEXT
 );
+
+-- Live D1 mailbox column fix.
+-- Apply only to databases where PRAGMA table_info shows these columns missing.
+-- The Worker also performs the same checks at runtime and adds only missing columns.
+
+ALTER TABLE messages ADD COLUMN sender_name TEXT;
+ALTER TABLE messages ADD COLUMN priority TEXT DEFAULT 'normal';
+ALTER TABLE messages ADD COLUMN folder_status TEXT DEFAULT 'sent';
+ALTER TABLE messages ADD COLUMN related_module TEXT DEFAULT 'General';
+ALTER TABLE messages ADD COLUMN related_record_id TEXT;
+ALTER TABLE messages ADD COLUMN updated_at TEXT;
+ALTER TABLE messages ADD COLUMN sent_at TEXT;
+ALTER TABLE messages ADD COLUMN deleted_at TEXT;
+
+ALTER TABLE message_recipients ADD COLUMN recipient_name TEXT;
+ALTER TABLE message_recipients ADD COLUMN recipient_email TEXT;
+ALTER TABLE message_recipients ADD COLUMN is_read INTEGER DEFAULT 0;
+ALTER TABLE message_recipients ADD COLUMN read_at TEXT;
+ALTER TABLE message_recipients ADD COLUMN created_at TEXT;
+
+ALTER TABLE message_attachments ADD COLUMN file_type TEXT;
+ALTER TABLE message_attachments ADD COLUMN file_size INTEGER;
+ALTER TABLE message_attachments ADD COLUMN url TEXT;
+ALTER TABLE message_attachments ADD COLUMN uploaded_by TEXT;
+ALTER TABLE message_attachments ADD COLUMN created_at TEXT;
