@@ -282,6 +282,14 @@ async function refreshUnreadCount(options = {}) {
   }
 }
 
+function scheduleUnreadRefresh() {
+  refreshUnreadCount();
+  [300, 1000, 2500].forEach((delay) => setTimeout(refreshUnreadCount, delay));
+  if (!window.__gdnlMailboxLocalUnreadTimer) {
+    window.__gdnlMailboxLocalUnreadTimer = setInterval(refreshUnreadCount, 60000);
+  }
+}
+
 function setNotice(message, isError = false) {
   endpointNotice.classList.toggle("hidden", !message);
   endpointNotice.classList.toggle("error", isError);
@@ -338,6 +346,7 @@ async function load() {
   const failedFolders = Object.keys(folderErrors);
   setNotice(failedFolders.length ? failedFolders.map((folder) => folderLabel(folder) + ": " + folderErrors[folder]).join(" · ") : "", failedFolders.length > 0);
   render();
+  scheduleUnreadRefresh();
 }
 
 function render() {
