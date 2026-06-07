@@ -5,27 +5,1111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | Yetkinlik Yönetimi</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --comp-navy:#071b34;
+  --comp-green:#35a852;
+  --comp-soft:#f4f9ff;
+  --comp-line:#dfe9f5;
+  --comp-muted:#64748b;
+  --comp-danger:#dc2626;
+  --comp-warning:#f59e0b;
+  --comp-blue:#0f4c81;
+}
+
+.comp-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.comp-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--comp-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.comp-kpi-card small{
+  display:block;
+  color:var(--comp-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.comp-kpi-card strong{
+  display:block;
+  color:var(--comp-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.comp-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.comp-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.comp-status.open{background:#e0f2fe;color:#075985}
+.comp-status.waiting{background:#fef3c7;color:#92400e}
+.comp-status.late{background:#fee2e2;color:#991b1b}
+.comp-status.done{background:#dcfce7;color:#166534}
+.comp-status.archive{background:#f1f5f9;color:#475569}
+.comp-status.critical{background:#fee2e2;color:#991b1b}
+.comp-status.high{background:#fef3c7;color:#92400e}
+.comp-status.normal{background:#dcfce7;color:#166534}
+.comp-status.gap{background:#fee2e2;color:#991b1b}
+.comp-status.ok{background:#dcfce7;color:#166534}
+
+.comp-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.comp-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.comp-record-title{
+  color:var(--comp-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.comp-record-meta{
+  color:var(--comp-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.comp-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.comp-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.comp-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.comp-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.comp-bar{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.comp-bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  border-radius:999px;
+}
+
+.comp-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.comp-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.comp-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.comp-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.comp-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.comp-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.comp-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .comp-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .comp-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .comp-record-head{
+    display:grid;
+  }
+
+  .comp-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-competency.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Personel, pozisyon, yetkinlik veya değerlendirici ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">Yetkinlik Yönetimi</h1><p id="pageDesc">Rol bazlı yetkinlik, mevcut seviye, hedef seviye, eğitim ihtiyacı ve değerlendiren bilgisinin izlendiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Yetkinlik Yönetimi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">Yetkinlik Yönetimi</h1>
+        <p id="pageDesc">Rol bazlı yetkinlik, mevcut seviye, hedef seviye, seviye farkı, eğitim ihtiyacı, değerlendirici ve kanıt dosyaları D1/R2 standardıyla yönetilir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusCompetencyForm()">Yeni Yetkinlik Kaydı</button>
+        <button class="btn" type="button" onclick="competencyMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="comp-kpi" aria-label="Yetkinlik Yönetimi göstergeleri">
+      <div class="comp-kpi-card"><small>Toplam Kayıt</small><strong id="kpiTotal">0</strong><span>Tüm yetkinlik kayıtları</span></div>
+      <div class="comp-kpi-card"><small>Seviye Açığı</small><strong id="kpiGap">0</strong><span>Hedefin altında</span></div>
+      <div class="comp-kpi-card"><small>Eğitim İhtiyacı</small><strong id="kpiTraining">0</strong><span>Eğitim gerekli</span></div>
+      <div class="comp-kpi-card"><small>Ortalama Uyum</small><strong id="kpiCompliance">0%</strong><span>Mevcut / hedef oranı</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="Yetkinlik Yönetimi göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Yetkinlik Matrisi Akışı</h2><p id="summaryDesc">Pozisyonlara göre gerekli yetkinlikler, seviye farkı ve eğitim ihtiyacı takip edilir.</p></div><span id="statusPill" class="status-pill">Yetkinlik Yönetimi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Yetkinlik Kaydı</h2><p id="formDesc">Personel, pozisyon, yetkinlik seviyesi ve eğitim ihtiyacını girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Yetkinlik Yönetimi Ek Dosyaları</h3><p id="fileDesc">Yetkinlik Yönetimi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Yetkinlik Yönetimi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Yetkinlik Panosu</h2><p id="recordsDesc">Yetkinlik kayıtları pozisyon, seviye farkı ve eğitim ihtiyacıyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Yetkinlik İşlem Geçmişi</h2><p id="auditDesc">Yetkinlik seviyesi, eğitim ihtiyacı ve değerlendirme değişiklikleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz yetkinlik kaydı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Yetkinlik Matrisi Akışı</h2>
+            <p id="summaryDesc">Pozisyonlara göre gerekli yetkinlikler, seviye farkı, eğitim ihtiyacı ve değerlendirme kanıtları takip edilir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">Yetkinlik Yönetimi aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="comp-record">
+            <div class="comp-record-title">1. Rol ve kritik yetkinlik tanımlanır</div>
+            <div class="comp-record-meta">Pozisyon, yetkinlik alanı, beklenen seviye ve değerlendirme kriteri belirlenir.</div>
+          </div>
+          <div class="comp-record">
+            <div class="comp-record-title">2. Mevcut seviye hedefle karşılaştırılır</div>
+            <div class="comp-record-meta">Seviye farkı, risk, eğitim ihtiyacı ve geliştirme önceliği otomatik yorumlanır.</div>
+          </div>
+          <div class="comp-record">
+            <div class="comp-record-title">3. Eğitim ve kanıt takip edilir</div>
+            <div class="comp-record-meta">Eğitim planı, değerlendiren, termin, kanıt dosyası ve işlem geçmişi D1/R2 standardında yönetilir.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">Yetkinlik Kaydı</h2>
+            <p id="formDesc">Personel, pozisyon, yetkinlik, mevcut/hedef seviye ve eğitim ihtiyacını girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Personel</label>
+            <input id="employeeName" placeholder="Personel adı soyadı" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Departman</label>
+            <input id="departmentName" placeholder="Departman" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Pozisyon</label>
+            <input id="positionName" placeholder="Pozisyon / görev adı">
+          </div>
+
+          <div class="field">
+            <label>Yetkinlik Alanı</label>
+            <select id="competencyArea">
+              <option value="Teknik Yetkinlik">Teknik Yetkinlik</option>
+              <option value="Kalite Sistemi">Kalite Sistemi</option>
+              <option value="Liderlik">Liderlik</option>
+              <option value="İletişim">İletişim</option>
+              <option value="Problem Çözme">Problem Çözme</option>
+              <option value="İş Sağlığı ve Güvenliği">İş Sağlığı ve Güvenliği</option>
+              <option value="Bilgi Güvenliği">Bilgi Güvenliği</option>
+              <option value="Diğer">Diğer</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Yetkinlik Adı</label>
+            <input id="competencyName" placeholder="Örn: 8D, FMEA, İç Denetim, Excel, Liderlik">
+          </div>
+
+          <div class="field">
+            <label>Mevcut Seviye / 1-5</label>
+            <select id="currentLevel">
+              <option value="1">1 - Başlangıç</option>
+              <option value="2">2 - Temel</option>
+              <option value="3">3 - Uygulayıcı</option>
+              <option value="4">4 - İleri</option>
+              <option value="5">5 - Uzman</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Hedef Seviye / 1-5</label>
+            <select id="targetLevel">
+              <option value="1">1 - Başlangıç</option>
+              <option value="2">2 - Temel</option>
+              <option value="3" selected>3 - Uygulayıcı</option>
+              <option value="4">4 - İleri</option>
+              <option value="5">5 - Uzman</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Değerlendiren</label>
+            <input id="evaluatorName" placeholder="Değerlendiren kişi">
+          </div>
+
+          <div class="field">
+            <label>Son Değerlendirme Tarihi</label>
+            <input id="evaluationDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Sonraki Gözden Geçirme</label>
+            <input id="reviewDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="competencyStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="competencyPriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Eğitim / Gelişim Planı</label>
+            <textarea id="trainingPlan" placeholder="Gerekli eğitim, mentorluk, uygulama, sınav veya değerlendirme planı"></textarea>
+          </div>
+
+          <div class="field full">
+            <label>Açıklama</label>
+            <textarea id="competencyDescription" placeholder="Değerlendirme notu, kanıt, gözlem veya özel açıklama"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">Yetkinlik Yönetimi Ek Dosyaları</h3>
+          <p id="fileDesc">Yetkinlik matrisi, eğitim sertifikası, sınav sonucu, değerlendirme formu ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="Yetkinlik Matrisi">Yetkinlik Matrisi</option>
+                <option value="Eğitim Sertifikası">Eğitim Sertifikası</option>
+                <option value="Değerlendirme Formu">Değerlendirme Formu</option>
+                <option value="Sınav Sonucu">Sınav Sonucu</option>
+                <option value="Kanıt Dosyası">Kanıt Dosyası</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="comp-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveCompetencyRecord()">Yetkinlik Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="competencyMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearCompetencyForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">Yetkinlik Panosu</h2>
+          <p id="recordsDesc">Yetkinlik kayıtları pozisyon, seviye farkı, eğitim ihtiyacı, değerlendiren ve durum bilgisiyle izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadCompetencyRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">Yetkinlik İşlem Geçmişi</h2>
+          <p id="auditDesc">Yetkinlik seviyesi, eğitim ihtiyacı, değerlendirici, açıklama, dosya ve durum değişiklikleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz yetkinlik kaydı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="competencyToast" class="comp-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let competencyRecords = [];
+
+function compEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function compVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function compNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function compToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("competencyToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return compVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setCompetencyUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "COMP-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = compNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = compNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return compEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function competencyGap(record){
+  const current = Number(record.currentLevel || 0);
+  const target = Number(record.targetLevel || 0);
+  return Math.max(0,target-current);
+}
+
+function competencyCompliance(record){
+  const current = Number(record.currentLevel || 0);
+  const target = Number(record.targetLevel || 0);
+
+  if(!target) return 0;
+
+  return Math.min(100,Math.round((current / target) * 100));
+}
+
+function trainingNeeded(record){
+  return competencyGap(record) > 0 || compNormalize(record.priority) === "kritik";
+}
+
+function isReviewLate(record){
+  if(compNormalize(record.status) === "tamamlandı" || compNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.reviewDate) return false;
+
+  const date = new Date(record.reviewDate);
+  const today = new Date();
+
+  date.setHours(23,59,59,999);
+
+  return !Number.isNaN(date.getTime()) && date < today;
+}
+
+function normalizeCompetencyRecord(record){
+  return {
+    id:compVal(record,"id","competency_id","record_id") || cryptoSafeId(),
+    employee:compVal(record,"employee","employee_name","personnel","personel","user_name"),
+    department:compVal(record,"department","department_name"),
+    position:compVal(record,"position","position_name","job_title"),
+    area:compVal(record,"competency_area","area","category") || "Teknik Yetkinlik",
+    competency:compVal(record,"competency_name","competency","title"),
+    currentLevel:Number(compVal(record,"current_level","currentLevel") || 1),
+    targetLevel:Number(compVal(record,"target_level","targetLevel") || 3),
+    evaluator:compVal(record,"evaluator","evaluator_name","reviewer"),
+    evaluationDate:compVal(record,"evaluation_date","date"),
+    reviewDate:compVal(record,"review_date","next_review_date","due_date"),
+    trainingPlan:compVal(record,"training_plan","training","development_plan"),
+    status:compVal(record,"status","competency_status") || "Açık",
+    priority:compVal(record,"priority") || "Normal",
+    description:compVal(record,"description","notes","note"),
+    createdAt:compVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:compVal(record,"created_by","owner","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    employee_name:document.getElementById("employeeName").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    position_name:document.getElementById("positionName").value.trim(),
+    competency_area:document.getElementById("competencyArea").value,
+    competency_name:document.getElementById("competencyName").value.trim(),
+    current_level:Number(document.getElementById("currentLevel").value || 1),
+    target_level:Number(document.getElementById("targetLevel").value || 3),
+    evaluator_name:document.getElementById("evaluatorName").value.trim(),
+    evaluation_date:document.getElementById("evaluationDate").value,
+    review_date:document.getElementById("reviewDate").value,
+    status:document.getElementById("competencyStatus").value,
+    priority:document.getElementById("competencyPriority").value,
+    training_plan:document.getElementById("trainingPlan").value.trim(),
+    description:document.getElementById("competencyDescription").value.trim(),
+    module:"HR_COMPETENCY",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.employee_name) return "Personel adı zorunludur.";
+  if(!payload.position_name) return "Pozisyon bilgisi zorunludur.";
+  if(!payload.competency_name) return "Yetkinlik adı zorunludur.";
+  if(!payload.evaluator_name) return "Değerlendiren bilgisi zorunludur.";
+
+  return "";
+}
+
+async function uploadCompetencyFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    compToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_COMPETENCY",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    compToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveCompetencyRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    compToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizeCompetencyRecord(payload);
+  payload.level_gap = competencyGap(preview);
+  payload.compliance_percent = competencyCompliance(preview);
+  payload.training_needed = trainingNeeded(preview);
+
+  try{
+    const file = await uploadCompetencyFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/competency",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/competency",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeCompetencyRecord(saved || payload);
+    competencyRecords.unshift(normalized);
+
+    renderCompetencyRecords();
+    renderAuditPreview();
+    updateCompetencyKpis();
+    clearCompetencyForm(false);
+
+    compToast("Yetkinlik kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    competencyRecords.unshift(preview);
+
+    renderCompetencyRecords();
+    renderAuditPreview();
+    updateCompetencyKpis();
+
+    compToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadCompetencyRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="comp-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/competency");
+      }catch(firstError){
+        response = await api.get("/competency");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    competencyRecords = rows.map(normalizeCompetencyRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    competencyRecords = [];
+  }
+
+  renderCompetencyRecords();
+  renderAuditPreview();
+  updateCompetencyKpis();
+}
+
+function filteredCompetencyRecords(){
+  const q = compNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return competencyRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = compNormalize([
+        record.employee,
+        record.department,
+        record.position,
+        record.area,
+        record.competency,
+        record.evaluator,
+        record.status,
+        record.priority,
+        record.trainingPlan,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderCompetencyRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredCompetencyRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="comp-empty">Yetkinlik kaydı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const gap = competencyGap(record);
+    const compliance = competencyCompliance(record);
+    const needTraining = trainingNeeded(record);
+    const autoStatus = isReviewLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="comp-record">
+        <div class="comp-record-head">
+          <div>
+            <div class="comp-record-title">${compEsc(record.employee || "Yetkinlik Kaydı")} · ${compEsc(record.competency || "-")}</div>
+            <div class="comp-record-meta">
+              Pozisyon: ${compEsc(record.position || "-")} · Departman: ${compEsc(record.department || "-")} · Değerlendiren: ${compEsc(record.evaluator || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="comp-status ${statusClass(autoStatus)}">${compEsc(autoStatus)}</span>
+            <span class="comp-status ${priorityClass(record.priority)}">${compEsc(record.priority)}</span>
+            <span class="comp-status ${gap > 0 ? "gap" : "ok"}">${gap > 0 ? "Seviye Açığı: " + gap : "Hedef Uygun"}</span>
+          </div>
+        </div>
+
+        <div class="comp-mini-grid">
+          <div class="comp-metric"><small>Alan</small><strong>${compEsc(record.area || "-")}</strong></div>
+          <div class="comp-metric"><small>Mevcut Seviye</small><strong>${record.currentLevel}/5</strong></div>
+          <div class="comp-metric"><small>Hedef Seviye</small><strong>${record.targetLevel}/5</strong></div>
+          <div class="comp-metric"><small>Uyum</small><strong>${compliance}%</strong><div class="comp-bar"><div class="comp-bar-fill" style="width:${compliance}%"></div></div></div>
+          <div class="comp-metric"><small>Eğitim İhtiyacı</small><strong>${needTraining ? "Var" : "Yok"}</strong></div>
+          <div class="comp-metric"><small>Değerlendirme</small><strong>${formatDate(record.evaluationDate)}</strong></div>
+          <div class="comp-metric"><small>Gözden Geçirme</small><strong>${formatDate(record.reviewDate)}</strong></div>
+          <div class="comp-metric"><small>Seviye Farkı</small><strong>${gap}</strong></div>
+        </div>
+
+        <div class="comp-record-meta"><strong>Eğitim / Gelişim Planı:</strong> ${compEsc(record.trainingPlan || "Plan girilmedi.")}</div>
+        <div class="comp-record-meta">${compEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="comp-record-actions">
+          <button class="comp-small-btn" type="button" onclick="markCompetencyDone('${compEsc(record.id)}')">Tamamlandı</button>
+          <button class="comp-small-btn dark" type="button" onclick="copyCompetencySummary('${compEsc(record.id)}')">Özet Kopyala</button>
+          <button class="comp-small-btn red" type="button" onclick="archiveCompetency('${compEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateCompetencyKpis(){
+  const gapCount = competencyRecords.filter(record => competencyGap(record) > 0).length;
+  const trainingCount = competencyRecords.filter(trainingNeeded).length;
+  const avgCompliance = competencyRecords.length
+    ? Math.round(competencyRecords.reduce((sum,record) => sum + competencyCompliance(record),0) / competencyRecords.length)
+    : 0;
+
+  document.getElementById("kpiTotal").textContent = competencyRecords.length;
+  document.getElementById("kpiGap").textContent = gapCount;
+  document.getElementById("kpiTraining").textContent = trainingCount;
+  document.getElementById("kpiCompliance").textContent = avgCompliance + "%";
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!competencyRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz yetkinlik kaydı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = competencyRecords.slice(0,8).map(record => `
+    <div class="comp-record-meta">
+      ${formatDate(record.createdAt)} · ${compEsc(record.createdBy || "Oturum Kullanıcısı")} · ${compEsc(record.employee || "-")} için ${compEsc(record.competency || "-")} yetkinlik kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateCompetencyStatus(id,status){
+  const record = competencyRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    compToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  record.status = status;
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/competency/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/competency/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Durum güncelleme endpoint bekliyor",error);
+  }
+
+  renderCompetencyRecords();
+  renderAuditPreview();
+  updateCompetencyKpis();
+  compToast("Yetkinlik durumu güncellendi.");
+}
+
+function markCompetencyDone(id){
+  updateCompetencyStatus(id,"Tamamlandı");
+}
+
+function archiveCompetency(id){
+  updateCompetencyStatus(id,"Arşivlendi");
+}
+
+function copyCompetencySummary(id){
+  const record = competencyRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    compToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const summary = [
+    "GDNL EOS Yetkinlik Özeti",
+    "Personel: " + (record.employee || "-"),
+    "Departman: " + (record.department || "-"),
+    "Pozisyon: " + (record.position || "-"),
+    "Yetkinlik Alanı: " + (record.area || "-"),
+    "Yetkinlik: " + (record.competency || "-"),
+    "Mevcut Seviye: " + record.currentLevel + "/5",
+    "Hedef Seviye: " + record.targetLevel + "/5",
+    "Seviye Farkı: " + competencyGap(record),
+    "Uyum: " + competencyCompliance(record) + "%",
+    "Eğitim İhtiyacı: " + (trainingNeeded(record) ? "Var" : "Yok"),
+    "Değerlendiren: " + (record.evaluator || "-"),
+    "Son Değerlendirme: " + formatDate(record.evaluationDate),
+    "Sonraki Gözden Geçirme: " + formatDate(record.reviewDate),
+    "Durum: " + (isReviewLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Eğitim Planı: " + (record.trainingPlan || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => compToast("Yetkinlik özeti kopyalandı."))
+    .catch(() => compToast("Kopyalama desteklenmiyor."));
+}
+
+function clearCompetencyForm(showToast=true){
+  [
+    "employeeName",
+    "departmentName",
+    "positionName",
+    "competencyName",
+    "evaluatorName",
+    "evaluationDate",
+    "reviewDate",
+    "trainingPlan",
+    "competencyDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("competencyArea").value = "Teknik Yetkinlik";
+  document.getElementById("currentLevel").value = "1";
+  document.getElementById("targetLevel").value = "3";
+  document.getElementById("competencyStatus").value = "Açık";
+  document.getElementById("competencyPriority").value = "Normal";
+  document.getElementById("fileCategory").value = "Yetkinlik Matrisi";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) compToast("Form temizlendi.");
+}
+
+function focusCompetencyForm(){
+  document.getElementById("employeeName")?.focus();
+}
+
+function competencyMessagePrep(){
+  const payload = formPayload();
+  const preview = normalizeCompetencyRecord(payload);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki yetkinlik kaydı için bilgilendirme yapılmıştır:",
+    "",
+    "Personel: " + (payload.employee_name || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Pozisyon: " + (payload.position_name || "-"),
+    "Yetkinlik: " + (payload.competency_name || "-"),
+    "Mevcut Seviye: " + payload.current_level + "/5",
+    "Hedef Seviye: " + payload.target_level + "/5",
+    "Seviye Farkı: " + competencyGap(preview),
+    "Eğitim İhtiyacı: " + (trainingNeeded(preview) ? "Var" : "Yok"),
+    "Değerlendiren: " + (payload.evaluator_name || "-"),
+    "Sonraki Gözden Geçirme: " + (payload.review_date || "-"),
+    "Durum: " + (payload.status || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => compToast("Mesaj metni kopyalandı."))
+    .catch(() => compToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindCompetencyEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderCompetencyRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderCompetencyRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderCompetencyRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusCompetencyForm;
+  window.hrMessagePrep = window.hrMessagePrep || competencyMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearCompetencyForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveCompetencyRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderCompetencyRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootCompetencyPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setCompetencyUser();
+  ensureHrFallbacks();
+  bindCompetencyEvents();
+  loadCompetencyRecords();
+}
+
+bootCompetencyPage();
+</script>
+
 </body>
 </html>
