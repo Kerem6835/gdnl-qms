@@ -226,7 +226,7 @@ function messageCountsAsUnread(message) {
   const userId = String(currentUser().id || "");
   return (message.recipients || []).some((recipient) => (
     String(recipient.recipient_id || recipient.id || "") === userId &&
-    String(recipient.status || "").toUpperCase() === "UNREAD"
+    (recipient.is_read === false || !recipient.read_at)
   ));
 }
 
