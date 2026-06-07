@@ -72,13 +72,30 @@
     return data?.users || data?.data || data?.records || data?.results || [];
   }
 
+  function apiBaseUrl() {
+    return String(global.GDNL_API_BASE || global.API_BASE_URL || "https://api.gdnldigital.com").replace(/\/+$/, "");
+  }
+
+  async function requestUsers(endpoint) {
+    if (api.get) {
+      return api.get(endpoint, { redirectOnUnauthorized: false, fallbackOnNotFound: false });
+    }
+    const response = await fetch(apiBaseUrl() + endpoint, {
+      credentials: "include",
+      headers: { "Accept": "application/json" }
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload?.error?.message || payload?.message || `HTTP ${response.status}`);
+    return payload;
+  }
+
   async function fetchUsers(query) {
     const q = String(query || "").trim();
     const key = q.toLocaleLowerCase("tr-TR");
     if (queryCache.has(key)) return queryCache.get(key);
     try {
       const endpoint = "/users" + (q ? "?q=" + encodeURIComponent(q) : "");
-      const payload = api.get ? await api.get(endpoint, { redirectOnUnauthorized: false, fallbackOnNotFound: false }) : await fetch(endpoint, { credentials: "include" }).then((res) => res.json());
+      const payload = await requestUsers(endpoint);
       const users = asArray(payload).map(normalizeUser).filter((user) => (user.id || user.fullname || user.username) && isActiveUser(user));
       if (!q) userCache = users;
       queryCache.set(key, users);
