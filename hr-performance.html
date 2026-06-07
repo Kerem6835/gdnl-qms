@@ -5,27 +5,1163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | Performans Değerlendirme</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --perf-navy:#071b34;
+  --perf-green:#35a852;
+  --perf-line:#dfe9f5;
+  --perf-muted:#64748b;
+  --perf-danger:#dc2626;
+  --perf-warning:#f59e0b;
+  --perf-blue:#0f4c81;
+}
+
+.perf-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.perf-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--perf-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.perf-kpi-card small{
+  display:block;
+  color:var(--perf-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.perf-kpi-card strong{
+  display:block;
+  color:var(--perf-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.perf-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.perf-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.perf-status.open{background:#e0f2fe;color:#075985}
+.perf-status.waiting{background:#fef3c7;color:#92400e}
+.perf-status.late{background:#fee2e2;color:#991b1b}
+.perf-status.done{background:#dcfce7;color:#166534}
+.perf-status.archive{background:#f1f5f9;color:#475569}
+.perf-status.critical{background:#fee2e2;color:#991b1b}
+.perf-status.high{background:#fef3c7;color:#92400e}
+.perf-status.normal{background:#dcfce7;color:#166534}
+.perf-status.excellent{background:#dcfce7;color:#166534}
+.perf-status.good{background:#e0f2fe;color:#075985}
+.perf-status.risk{background:#fee2e2;color:#991b1b}
+.perf-status.develop{background:#fef3c7;color:#92400e}
+
+.perf-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.perf-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.perf-record-title{
+  color:var(--perf-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.perf-record-meta{
+  color:var(--perf-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.perf-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.perf-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.perf-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.perf-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.perf-bar{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.perf-bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  border-radius:999px;
+}
+
+.perf-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.perf-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.perf-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.perf-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.perf-small-btn.yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.perf-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.perf-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.perf-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .perf-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .perf-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .perf-record-head{
+    display:grid;
+  }
+
+  .perf-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-performance.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Personel, dönem, değerlendirici, sonuç veya durum ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">Performans Değerlendirme</h1><p id="pageDesc">Personel hedefleri, yetkinlikleri, yönetici notu, puan ve gelişim planının takip edildiği performans ekranı.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">Performans Değerlendirme Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">Performans Değerlendirme</h1>
+        <p id="pageDesc">Personel hedefleri, yetkinlikleri, yönetici notu, puan, sonuç sınıfı ve gelişim planı D1/R2 standardıyla takip edilir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusPerformanceForm()">Yeni Performans Kaydı</button>
+        <button class="btn" type="button" onclick="performanceMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="perf-kpi" aria-label="Performans Değerlendirme göstergeleri">
+      <div class="perf-kpi-card"><small>Toplam Değerlendirme</small><strong id="kpiTotal">0</strong><span>Tüm performans kayıtları</span></div>
+      <div class="perf-kpi-card"><small>Ortalama Puan</small><strong id="kpiAvgScore">0</strong><span>100 üzerinden</span></div>
+      <div class="perf-kpi-card"><small>Gelişim İhtiyacı</small><strong id="kpiDevelopment">0</strong><span>Plan gereken kayıt</span></div>
+      <div class="perf-kpi-card"><small>Kritik Öncelik</small><strong id="kpiCritical">0</strong><span>Yönetim dikkati</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="Performans Değerlendirme göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Performans Değerlendirme Akışı</h2><p id="summaryDesc">Değerlendirme dönemi, hedefler, yetkinlikler ve gelişim planları izlenir.</p></div><span id="statusPill" class="status-pill">Performans Değerlendirme aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Performans Kaydı</h2><p id="formDesc">Personel, dönem, değerlendirici, puan ve gelişim planını girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">Performans Değerlendirme Ek Dosyaları</h3><p id="fileDesc">Performans Değerlendirme ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">Performans Değerlendirme Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">Performans Panosu</h2><p id="recordsDesc">Performans kayıtları dönem, puan, değerlendirici ve durum bilgisiyle izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Performans İşlem Geçmişi</h2><p id="auditDesc">Puan, hedef, yetkinlik ve gelişim planı değişiklikleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz performans değerlendirme kaydı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Performans Değerlendirme Akışı</h2>
+            <p id="summaryDesc">Değerlendirme dönemi, hedefler, yetkinlikler, yönetici notu ve gelişim planları izlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">Performans Değerlendirme aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="perf-record">
+            <div class="perf-record-title">1. Dönem ve hedefler tanımlanır</div>
+            <div class="perf-record-meta">Personel, dönem, hedef puanı, KPI gerçekleşmesi ve değerlendirici bilgisi kayıt altına alınır.</div>
+          </div>
+          <div class="perf-record">
+            <div class="perf-record-title">2. Yetkinlik ve davranış puanı eklenir</div>
+            <div class="perf-record-meta">Yetkinlik, kalite, iletişim, disiplin ve takım çalışması puanları değerlendirmeye dahil edilir.</div>
+          </div>
+          <div class="perf-record">
+            <div class="perf-record-title">3. Gelişim planı ve kapanış onayı yönetilir</div>
+            <div class="perf-record-meta">Final puan, sonuç sınıfı, gelişim planı, dosya kanıtı ve işlem geçmişi D1/R2 standardında korunur.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">Performans Kaydı</h2>
+            <p id="formDesc">Personel, dönem, değerlendirici, hedef/yetkinlik puanı ve gelişim planını girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Personel</label>
+            <input id="employeeName" placeholder="Personel adı soyadı" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Departman</label>
+            <input id="departmentName" placeholder="Departman">
+          </div>
+
+          <div class="field">
+            <label>Pozisyon</label>
+            <input id="positionName" placeholder="Pozisyon / görev">
+          </div>
+
+          <div class="field">
+            <label>Değerlendirme Dönemi</label>
+            <input id="periodName" placeholder="Örn: 2026 Q1, 2026 Yıl Sonu">
+          </div>
+
+          <div class="field">
+            <label>Değerlendirici</label>
+            <input id="reviewerName" placeholder="Yönetici / değerlendirici">
+          </div>
+
+          <div class="field">
+            <label>Değerlendirme Tarihi</label>
+            <input id="reviewDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Hedef Puanı / 100</label>
+            <input id="targetScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Yetkinlik Puanı / 100</label>
+            <input id="competencyScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Davranış Puanı / 100</label>
+            <input id="behaviorScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Kalite / Disiplin Puanı / 100</label>
+            <input id="qualityScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Hedef Ağırlığı / %</label>
+            <input id="targetWeight" type="number" min="0" max="100" step="1" value="40">
+          </div>
+
+          <div class="field">
+            <label>Yetkinlik Ağırlığı / %</label>
+            <input id="competencyWeight" type="number" min="0" max="100" step="1" value="30">
+          </div>
+
+          <div class="field">
+            <label>Davranış Ağırlığı / %</label>
+            <input id="behaviorWeight" type="number" min="0" max="100" step="1" value="20">
+          </div>
+
+          <div class="field">
+            <label>Kalite Ağırlığı / %</label>
+            <input id="qualityWeight" type="number" min="0" max="100" step="1" value="10">
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="performanceStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="performancePriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Yönetici Notu</label>
+            <textarea id="managerNote" placeholder="Yönetici değerlendirme notu, güçlü yönler, iyileştirme alanları"></textarea>
+          </div>
+
+          <div class="field full">
+            <label>Gelişim Planı</label>
+            <textarea id="developmentPlan" placeholder="Eğitim, mentorluk, hedef, takip tarihi veya gelişim aksiyonu"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">Performans Değerlendirme Ek Dosyaları</h3>
+          <p id="fileDesc">Performans formu, hedef kanıtı, KPI raporu, gelişim planı ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="Performans Formu">Performans Formu</option>
+                <option value="Hedef Kanıtı">Hedef Kanıtı</option>
+                <option value="KPI Raporu">KPI Raporu</option>
+                <option value="Gelişim Planı">Gelişim Planı</option>
+                <option value="Yönetici Notu">Yönetici Notu</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="perf-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="savePerformanceRecord()">Performans Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="performanceMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearPerformanceForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">Performans Panosu</h2>
+          <p id="recordsDesc">Performans kayıtları dönem, puan, sonuç sınıfı, değerlendirici, gelişim planı ve durum bilgisiyle izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadPerformanceRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">Performans İşlem Geçmişi</h2>
+          <p id="auditDesc">Puan, hedef, yetkinlik, yönetici notu, gelişim planı, dosya ve durum değişiklikleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz performans değerlendirme kaydı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="performanceToast" class="perf-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let performanceRecords = [];
+
+function perfEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function perfVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function perfNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function perfToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("performanceToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return perfVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setPerformanceUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "PERF-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = perfNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = perfNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return perfEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function num(value){
+  return Number(value || 0);
+}
+
+function calculatePerformance(record){
+  const totalWeight = num(record.targetWeight) + num(record.competencyWeight) + num(record.behaviorWeight) + num(record.qualityWeight);
+
+  if(!totalWeight){
+    return 0;
+  }
+
+  const weighted =
+    num(record.targetScore) * num(record.targetWeight) +
+    num(record.competencyScore) * num(record.competencyWeight) +
+    num(record.behaviorScore) * num(record.behaviorWeight) +
+    num(record.qualityScore) * num(record.qualityWeight);
+
+  return Math.round((weighted / totalWeight) * 10) / 10;
+}
+
+function performanceClass(score){
+  if(score >= 90) return "Mükemmel";
+  if(score >= 75) return "İyi";
+  if(score >= 60) return "Gelişim Gerekli";
+  return "Riskli";
+}
+
+function performanceBadgeClass(score){
+  if(score >= 90) return "excellent";
+  if(score >= 75) return "good";
+  if(score >= 60) return "develop";
+  return "risk";
+}
+
+function developmentNeeded(record){
+  const score = calculatePerformance(record);
+  return score < 75 || perfNormalize(record.priority) === "kritik";
+}
+
+function isLate(record){
+  if(perfNormalize(record.status) === "tamamlandı" || perfNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.reviewDate) return false;
+
+  const date = new Date(record.reviewDate);
+  const today = new Date();
+
+  date.setHours(23,59,59,999);
+
+  return !Number.isNaN(date.getTime()) && date < today;
+}
+
+function normalizePerformanceRecord(record){
+  return {
+    id:perfVal(record,"id","performance_id","record_id") || cryptoSafeId(),
+    employee:perfVal(record,"employee","employee_name","personnel","user_name"),
+    department:perfVal(record,"department","department_name"),
+    position:perfVal(record,"position","position_name","job_title"),
+    period:perfVal(record,"period","period_name","review_period"),
+    reviewer:perfVal(record,"reviewer","reviewer_name","manager"),
+    reviewDate:perfVal(record,"review_date","reviewDate"),
+    targetScore:Number(perfVal(record,"target_score","targetScore") || 0),
+    competencyScore:Number(perfVal(record,"competency_score","competencyScore") || 0),
+    behaviorScore:Number(perfVal(record,"behavior_score","behaviorScore") || 0),
+    qualityScore:Number(perfVal(record,"quality_score","qualityScore") || 0),
+    targetWeight:Number(perfVal(record,"target_weight","targetWeight") || 40),
+    competencyWeight:Number(perfVal(record,"competency_weight","competencyWeight") || 30),
+    behaviorWeight:Number(perfVal(record,"behavior_weight","behaviorWeight") || 20),
+    qualityWeight:Number(perfVal(record,"quality_weight","qualityWeight") || 10),
+    status:perfVal(record,"status","performance_status") || "Açık",
+    priority:perfVal(record,"priority") || "Normal",
+    managerNote:perfVal(record,"manager_note","managerNote","review_note"),
+    developmentPlan:perfVal(record,"development_plan","developmentPlan","action_plan"),
+    createdAt:perfVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:perfVal(record,"created_by","owner","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    employee_name:document.getElementById("employeeName").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    position_name:document.getElementById("positionName").value.trim(),
+    period_name:document.getElementById("periodName").value.trim(),
+    reviewer_name:document.getElementById("reviewerName").value.trim(),
+    review_date:document.getElementById("reviewDate").value,
+    target_score:Number(document.getElementById("targetScore").value || 0),
+    competency_score:Number(document.getElementById("competencyScore").value || 0),
+    behavior_score:Number(document.getElementById("behaviorScore").value || 0),
+    quality_score:Number(document.getElementById("qualityScore").value || 0),
+    target_weight:Number(document.getElementById("targetWeight").value || 0),
+    competency_weight:Number(document.getElementById("competencyWeight").value || 0),
+    behavior_weight:Number(document.getElementById("behaviorWeight").value || 0),
+    quality_weight:Number(document.getElementById("qualityWeight").value || 0),
+    status:document.getElementById("performanceStatus").value,
+    priority:document.getElementById("performancePriority").value,
+    manager_note:document.getElementById("managerNote").value.trim(),
+    development_plan:document.getElementById("developmentPlan").value.trim(),
+    module:"HR_PERFORMANCE",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.employee_name) return "Personel adı zorunludur.";
+  if(!payload.department_name) return "Departman bilgisi zorunludur.";
+  if(!payload.position_name) return "Pozisyon bilgisi zorunludur.";
+  if(!payload.period_name) return "Değerlendirme dönemi zorunludur.";
+  if(!payload.reviewer_name) return "Değerlendirici bilgisi zorunludur.";
+  if(!payload.review_date) return "Değerlendirme tarihi zorunludur.";
+
+  const totalWeight = payload.target_weight + payload.competency_weight + payload.behavior_weight + payload.quality_weight;
+
+  if(totalWeight <= 0){
+    return "Ağırlık toplamı 0 olamaz.";
+  }
+
+  return "";
+}
+
+async function uploadPerformanceFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    perfToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_PERFORMANCE",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    perfToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function savePerformanceRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    perfToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizePerformanceRecord(payload);
+  const finalScore = calculatePerformance(preview);
+
+  payload.final_score = finalScore;
+  payload.performance_class = performanceClass(finalScore);
+  payload.development_needed = developmentNeeded(preview);
+
+  try{
+    const file = await uploadPerformanceFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/performance",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/performance",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizePerformanceRecord(saved || payload);
+    performanceRecords.unshift(normalized);
+
+    renderPerformanceRecords();
+    renderAuditPreview();
+    updatePerformanceKpis();
+    clearPerformanceForm(false);
+
+    perfToast("Performans kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    performanceRecords.unshift(preview);
+
+    renderPerformanceRecords();
+    renderAuditPreview();
+    updatePerformanceKpis();
+
+    perfToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadPerformanceRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="perf-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/performance");
+      }catch(firstError){
+        response = await api.get("/performance");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    performanceRecords = rows.map(normalizePerformanceRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    performanceRecords = [];
+  }
+
+  renderPerformanceRecords();
+  renderAuditPreview();
+  updatePerformanceKpis();
+}
+
+function filteredPerformanceRecords(){
+  const q = perfNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return performanceRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = perfNormalize([
+        record.employee,
+        record.department,
+        record.position,
+        record.period,
+        record.reviewer,
+        record.status,
+        record.priority,
+        record.managerNote,
+        record.developmentPlan,
+        performanceClass(calculatePerformance(record))
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderPerformanceRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredPerformanceRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="perf-empty">Performans değerlendirme kaydı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const finalScore = calculatePerformance(record);
+    const result = performanceClass(finalScore);
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="perf-record">
+        <div class="perf-record-head">
+          <div>
+            <div class="perf-record-title">${perfEsc(record.employee || "Performans Kaydı")} · ${perfEsc(record.period || "-")}</div>
+            <div class="perf-record-meta">
+              Departman: ${perfEsc(record.department || "-")} · Pozisyon: ${perfEsc(record.position || "-")} · Değerlendirici: ${perfEsc(record.reviewer || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="perf-status ${performanceBadgeClass(finalScore)}">${perfEsc(result)}</span>
+            <span class="perf-status ${statusClass(autoStatus)}">${perfEsc(autoStatus)}</span>
+            <span class="perf-status ${priorityClass(record.priority)}">${perfEsc(record.priority)}</span>
+          </div>
+        </div>
+
+        <div class="perf-mini-grid">
+          <div class="perf-metric"><small>Final Puan</small><strong>${finalScore}/100</strong><div class="perf-bar"><div class="perf-bar-fill" style="width:${finalScore}%"></div></div></div>
+          <div class="perf-metric"><small>Hedef</small><strong>${record.targetScore}/100 · %${record.targetWeight}</strong></div>
+          <div class="perf-metric"><small>Yetkinlik</small><strong>${record.competencyScore}/100 · %${record.competencyWeight}</strong></div>
+          <div class="perf-metric"><small>Davranış</small><strong>${record.behaviorScore}/100 · %${record.behaviorWeight}</strong></div>
+          <div class="perf-metric"><small>Kalite</small><strong>${record.qualityScore}/100 · %${record.qualityWeight}</strong></div>
+          <div class="perf-metric"><small>Değerlendirme</small><strong>${formatDate(record.reviewDate)}</strong></div>
+          <div class="perf-metric"><small>Gelişim İhtiyacı</small><strong>${developmentNeeded(record) ? "Var" : "Yok"}</strong></div>
+          <div class="perf-metric"><small>Oluşturan</small><strong>${perfEsc(record.createdBy || "-")}</strong></div>
+        </div>
+
+        <div class="perf-record-meta"><strong>Yönetici Notu:</strong> ${perfEsc(record.managerNote || "-")}</div>
+        <div class="perf-record-meta"><strong>Gelişim Planı:</strong> ${perfEsc(record.developmentPlan || "-")}</div>
+
+        <div class="perf-record-actions">
+          <button class="perf-small-btn" type="button" onclick="markPerformanceDone('${perfEsc(record.id)}')">Tamamlandı</button>
+          <button class="perf-small-btn yellow" type="button" onclick="requestPerformanceRevision('${perfEsc(record.id)}')">Revizyon</button>
+          <button class="perf-small-btn dark" type="button" onclick="copyPerformanceSummary('${perfEsc(record.id)}')">Özet Kopyala</button>
+          <button class="perf-small-btn red" type="button" onclick="archivePerformance('${perfEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updatePerformanceKpis(){
+  const avgScore = performanceRecords.length
+    ? Math.round(performanceRecords.reduce((sum,record) => sum + calculatePerformance(record),0) / performanceRecords.length)
+    : 0;
+
+  document.getElementById("kpiTotal").textContent = performanceRecords.length;
+  document.getElementById("kpiAvgScore").textContent = avgScore;
+  document.getElementById("kpiDevelopment").textContent = performanceRecords.filter(developmentNeeded).length;
+  document.getElementById("kpiCritical").textContent = performanceRecords.filter(record => perfNormalize(record.priority) === "kritik").length;
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!performanceRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz performans değerlendirme kaydı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = performanceRecords.slice(0,8).map(record => `
+    <div class="perf-record-meta">
+      ${formatDate(record.createdAt)} · ${perfEsc(record.createdBy || "Oturum Kullanıcısı")} · ${perfEsc(record.employee || "-")} için ${perfEsc(record.period || "-")} performans kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updatePerformanceStatus(id,status){
+  const record = performanceRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    perfToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  record.status = status;
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/performance/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/performance/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Performans güncelleme endpoint bekliyor",error);
+  }
+
+  renderPerformanceRecords();
+  renderAuditPreview();
+  updatePerformanceKpis();
+  perfToast("Performans durumu güncellendi.");
+}
+
+function markPerformanceDone(id){
+  updatePerformanceStatus(id,"Tamamlandı");
+}
+
+function requestPerformanceRevision(id){
+  updatePerformanceStatus(id,"Bekliyor");
+}
+
+function archivePerformance(id){
+  updatePerformanceStatus(id,"Arşivlendi");
+}
+
+function copyPerformanceSummary(id){
+  const record = performanceRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    perfToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const finalScore = calculatePerformance(record);
+
+  const summary = [
+    "GDNL EOS Performans Değerlendirme Özeti",
+    "Personel: " + (record.employee || "-"),
+    "Departman: " + (record.department || "-"),
+    "Pozisyon: " + (record.position || "-"),
+    "Dönem: " + (record.period || "-"),
+    "Değerlendirici: " + (record.reviewer || "-"),
+    "Değerlendirme Tarihi: " + formatDate(record.reviewDate),
+    "Hedef Puanı: " + record.targetScore + "/100",
+    "Yetkinlik Puanı: " + record.competencyScore + "/100",
+    "Davranış Puanı: " + record.behaviorScore + "/100",
+    "Kalite / Disiplin Puanı: " + record.qualityScore + "/100",
+    "Final Puan: " + finalScore + "/100",
+    "Sonuç Sınıfı: " + performanceClass(finalScore),
+    "Gelişim İhtiyacı: " + (developmentNeeded(record) ? "Var" : "Yok"),
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Yönetici Notu: " + (record.managerNote || "-"),
+    "Gelişim Planı: " + (record.developmentPlan || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => perfToast("Performans özeti kopyalandı."))
+    .catch(() => perfToast("Kopyalama desteklenmiyor."));
+}
+
+function clearPerformanceForm(showToast=true){
+  [
+    "employeeName",
+    "departmentName",
+    "positionName",
+    "periodName",
+    "reviewerName",
+    "reviewDate",
+    "managerNote",
+    "developmentPlan",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("targetScore").value = "0";
+  document.getElementById("competencyScore").value = "0";
+  document.getElementById("behaviorScore").value = "0";
+  document.getElementById("qualityScore").value = "0";
+  document.getElementById("targetWeight").value = "40";
+  document.getElementById("competencyWeight").value = "30";
+  document.getElementById("behaviorWeight").value = "20";
+  document.getElementById("qualityWeight").value = "10";
+  document.getElementById("performanceStatus").value = "Açık";
+  document.getElementById("performancePriority").value = "Normal";
+  document.getElementById("fileCategory").value = "Performans Formu";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) perfToast("Form temizlendi.");
+}
+
+function focusPerformanceForm(){
+  document.getElementById("employeeName")?.focus();
+}
+
+function performanceMessagePrep(){
+  const payload = formPayload();
+  const preview = normalizePerformanceRecord(payload);
+  const finalScore = calculatePerformance(preview);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki performans değerlendirme kaydı için bilgilendirme yapılmıştır:",
+    "",
+    "Personel: " + (payload.employee_name || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Pozisyon: " + (payload.position_name || "-"),
+    "Dönem: " + (payload.period_name || "-"),
+    "Değerlendirici: " + (payload.reviewer_name || "-"),
+    "Değerlendirme Tarihi: " + (payload.review_date || "-"),
+    "Final Puan: " + finalScore + "/100",
+    "Sonuç Sınıfı: " + performanceClass(finalScore),
+    "Gelişim İhtiyacı: " + (developmentNeeded(preview) ? "Var" : "Yok"),
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => perfToast("Mesaj metni kopyalandı."))
+    .catch(() => perfToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindPerformanceEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderPerformanceRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderPerformanceRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderPerformanceRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusPerformanceForm;
+  window.hrMessagePrep = window.hrMessagePrep || performanceMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearPerformanceForm;
+  window.hrSaveDraft = window.hrSaveDraft || savePerformanceRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderPerformanceRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootPerformancePage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setPerformanceUser();
+  ensureHrFallbacks();
+  bindPerformanceEvents();
+  loadPerformanceRecords();
+}
+
+bootPerformancePage();
+</script>
+
 </body>
 </html>
