@@ -1,9 +1,886 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>GDNL EQMS | Departmanlar</title><style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{background:#f4f9ff;color:#172033;overflow-x:hidden}.main{max-width:1440px;margin:0 auto;padding:24px}.topbar,.panel{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:22px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:64px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-size:24px;font-weight:950;color:#071b34;text-decoration:none}.brand span{color:#35a852}.panel{padding:18px;overflow:auto}.hero h1{font-size:34px;font-weight:950}.hero p{margin:8px 0 18px;color:#617086;font-weight:800}table{width:100%;border-collapse:collapse}th,td{padding:12px;border-bottom:1px solid #edf2f7;text-align:left;font-size:13px}th{color:#617086;background:#f8fbff}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}</style></head>
-<body><main class="main"><div class="topbar"><a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><a href="mailbox.html" style="text-decoration:none;background:#dcfce7;color:#15803d;border-radius:12px;padding:9px 12px;font-weight:950">📨 Mesaj Merkezi</a><div>👤 <span id="userName">Kullanıcı</span></div></div></div><section class="hero"><h1>Departmanlar</h1><p>Departman listesi ve çoklu rol/yetki görünümü.</p></section><section class="panel"><div id="table" class="empty">Yükleniyor...</div></section></main><script src="assets/js/config/api-client.js"></script><script>
-const api=window.GDNL_API;async function boot(){let deps=[],users=[];try{deps=await api.loadDepartments();users=await api.loadUsers()}catch(e){}if(!deps.length){table.innerHTML='<div class="empty">Departman bulunamadı.</div>';return}table.innerHTML='<table><thead><tr><th>Departman</th><th>Kişi</th><th>Roller</th><th>Durum</th></tr></thead><tbody>'+deps.map(d=>{const name=d.department_name;const members=users.filter(u=>u.department===name);const roles=[...new Set(members.map(u=>u.role).filter(Boolean))].join(", ");return`<tr><td>${name}</td><td>${members.length}</td><td>${roles||"-"}</td><td>${d.status||"Aktif"}</td></tr>`}).join("")+'</tbody></table>'}boot();
-</script><script src="assets/js/ui/maturity-widgets.js"></script>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDNL EQMS | Departmanlar</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --navy:#071b34;
+  --green:#35a852;
+  --bg:#f4f9ff;
+  --card:#ffffff;
+  --line:#dfe9f5;
+  --muted:#64748b;
+  --text:#172033;
+  --soft:#f8fbff;
+  --blue:#0f4c81;
+  --danger:#dc2626;
+  --warning:#f59e0b;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Inter,Arial,sans-serif;
+}
+
+html{
+  min-height:100%;
+  min-height:100svh;
+  min-height:100dvh;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  min-height:100svh;
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+
+.main{
+  max-width:1440px;
+  margin:0 auto;
+  padding:clamp(16px,2vw,24px);
+}
+
+.topbar,
+.panel,
+.stat,
+.form-panel{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 16px 42px rgba(7,27,52,.07);
+}
+
+.topbar{
+  min-height:72px;
+  padding:14px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  margin-bottom:22px;
+  position:sticky;
+  top:10px;
+  z-index:20;
+  backdrop-filter:blur(18px);
+}
+
+.brand{
+  font-size:24px;
+  font-weight:950;
+  color:var(--navy);
+  text-decoration:none;
+  letter-spacing:-.5px;
+  white-space:nowrap;
+}
+
+.brand span{
+  color:var(--green);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  min-height:42px;
+  border:0;
+  border-radius:14px;
+  padding:0 14px;
+  font-size:13px;
+  font-weight:950;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(.98);
+}
+
+.btn-green{
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.btn-blue{
+  background:#e0f2fe;
+  color:#075985;
+}
+
+.btn-dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.btn-red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.userbox{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:13px;
+  font-weight:900;
+  color:#334155;
+  white-space:nowrap;
+}
+
+.hero{
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:clamp(30px,4vw,42px);
+  font-weight:950;
+  color:var(--navy);
+  letter-spacing:-.8px;
+}
+
+.hero p{
+  margin-top:8px;
+  color:#617086;
+  font-weight:850;
+  line-height:1.55;
+  max-width:980px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.stat{
+  padding:16px;
+}
+
+.stat small{
+  display:block;
+  color:#64748b;
+  font-size:12px;
+  font-weight:950;
+  margin-bottom:8px;
+}
+
+.stat strong{
+  font-size:24px;
+  font-weight:950;
+  color:var(--navy);
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:16px;
+}
+
+.form-panel{
+  padding:18px;
+}
+
+.form-title{
+  font-size:18px;
+  font-weight:950;
+  color:var(--navy);
+  margin-bottom:14px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field label{
+  font-size:12px;
+  font-weight:950;
+  color:#617086;
+}
+
+.field input,
+.field select{
+  width:100%;
+  height:42px;
+  border:1px solid #d8e4ef;
+  border-radius:13px;
+  padding:0 12px;
+  font-weight:850;
+  color:#172033;
+  background:#fff;
+  outline:none;
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:#35a852;
+  box-shadow:0 0 0 4px rgba(53,168,82,.12);
+}
+
+.panel{
+  padding:18px;
+  overflow:auto;
+}
+
+.panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.panel-title{
+  font-size:18px;
+  font-weight:950;
+  color:var(--navy);
+}
+
+.searchbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.searchbar input,
+.searchbar select{
+  height:42px;
+  border:1px solid #dbe7f3;
+  background:#fff;
+  border-radius:14px;
+  padding:0 12px;
+  font-size:13px;
+  font-weight:800;
+  outline:none;
+  color:#172033;
+}
+
+.searchbar input{
+  min-width:280px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1000px;
+}
+
+th,
+td{
+  padding:13px 12px;
+  border-bottom:1px solid #edf2f7;
+  text-align:left;
+  font-size:13px;
+  vertical-align:top;
+}
+
+th{
+  color:#617086;
+  background:#f8fbff;
+  font-weight:950;
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+
+td{
+  color:#263449;
+  font-weight:750;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+  margin:0 4px 4px 0;
+}
+
+.badge-green{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-gray{
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.badge-yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.empty{
+  padding:28px;
+  text-align:center;
+  color:#64748b;
+  font-weight:950;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.error{
+  padding:18px;
+  color:#991b1b;
+  font-weight:950;
+  background:#fee2e2;
+  border:1px solid #fecaca;
+  border-radius:18px;
+}
+
+.footer-note{
+  margin-top:14px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+.toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:50;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+@media(max-width:1100px){
+  .form-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .main{
+    padding:16px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+    top:0;
+    border-radius:18px;
+  }
+
+  .top-actions{
+    width:100%;
+  }
+
+  .btn,
+  .userbox{
+    flex:1;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .form-grid,
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .searchbar,
+  .searchbar input,
+  .searchbar select{
+    width:100%;
+  }
+}
+
+@media(max-width:520px){
+  .brand{
+    font-size:22px;
+  }
+
+  .btn{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="main">
+
+  <div class="topbar">
+    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
+
+    <div class="top-actions">
+      <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
+      <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
+      <button class="btn btn-red" onclick="logout()">Çıkış</button>
+      <div class="userbox">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+    </div>
+  </div>
+
+  <section class="hero">
+    <h1>Departmanlar</h1>
+    <p>Kurumsal organizasyon yapısı, departman kullanıcıları, roller, durum bilgileri ve D1 üzerinden yönetilen yetki görünümü.</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <small>Toplam Departman</small>
+      <strong id="departmentCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Toplam Kullanıcı</small>
+      <strong id="userCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Aktif Departman</small>
+      <strong id="activeCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Boş Departman</small>
+      <strong id="emptyCount">0</strong>
+    </div>
+  </section>
+
+  <section class="form-panel">
+    <div class="form-title">Departman Görünümü</div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label>Departman Ara</label>
+        <input id="departmentSearch" type="search" placeholder="Departman adı yazın...">
+      </div>
+
+      <div class="field">
+        <label>Durum</label>
+        <select id="statusFilter">
+          <option value="">Tüm Durumlar</option>
+          <option value="Aktif">Aktif</option>
+          <option value="Pasif">Pasif</option>
+          <option value="Arşiv">Arşiv</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Rol Ara</label>
+        <input id="roleSearch" type="search" placeholder="Rol adı yazın...">
+      </div>
+
+      <div class="field">
+        <label>İşlem</label>
+        <button class="btn btn-dark" onclick="loadDepartments()">D1 Verilerini Yenile</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="layout">
+    <section class="panel">
+      <div class="panel-head">
+        <div class="panel-title">Departman Listesi</div>
+
+        <div class="searchbar">
+          <input id="globalSearch" type="search" placeholder="Departman, kişi, rol veya durum ara...">
+          <button class="btn btn-blue" onclick="renderDepartments()">Ara</button>
+        </div>
+      </div>
+
+      <div id="table" class="empty">Yükleniyor...</div>
+
+      <div class="footer-note">
+        Bu ekran kritik kayıtlar için LocalStorage kullanmaz. Departman ve kullanıcı verileri Cloudflare D1 üzerinden okunur. Kullanıcı, rol ve departman eşleşmesi canlı veri mantığına göre yorumlanır.
+      </div>
+    </section>
+  </section>
+
+</main>
+
+<div class="toast" id="toast">İşlem tamamlandı</div>
+
+<script src="assets/js/config/api-client.js"></script>
+
+<script>
+const api = window.GDNL_API;
+
+let departments = [];
+let users = [];
+
+function esc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function val(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function normalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function getCurrentUser(){
+  try{
+    const user =
+      window.GDNL_CURRENT_USER ||
+      window.currentUser ||
+      null;
+
+    if(user){
+      return val(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setUserName(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = getCurrentUser();
+}
+
+function toastMsg(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("toast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function departmentName(department){
+  return val(
+    department,
+    "department_name",
+    "name",
+    "title",
+    "department",
+    "label"
+  ) || "-";
+}
+
+function departmentCode(department){
+  return val(
+    department,
+    "department_code",
+    "code",
+    "department_no",
+    "short_code"
+  ) || "-";
+}
+
+function departmentStatus(department){
+  return val(department,"status","state","is_active") || "Aktif";
+}
+
+function userDepartment(user){
+  return val(
+    user,
+    "department",
+    "department_name",
+    "department_title",
+    "department_id",
+    "department_code"
+  );
+}
+
+function userRole(user){
+  return val(user,"role","role_name","title","position","job_title");
+}
+
+function userName(user){
+  return val(user,"fullname","full_name","name","username","email") || "-";
+}
+
+function isSameDepartment(user,department){
+  const depName = departmentName(department);
+  const depCode = departmentCode(department);
+  const depId = val(department,"id","department_id");
+
+  const userDep = userDepartment(user);
+
+  return (
+    normalize(userDep) === normalize(depName) ||
+    normalize(userDep) === normalize(depCode) ||
+    String(userDep || "") === String(depId || "")
+  );
+}
+
+function departmentMembers(department){
+  return users.filter(user => isSameDepartment(user,department));
+}
+
+function uniqueRoles(members){
+  return [...new Set(
+    members
+      .map(user => userRole(user))
+      .filter(Boolean)
+  )];
+}
+
+function updateStats(filteredDepartments){
+  const totalDepartments = departments.length;
+  const totalUsers = users.length;
+
+  const activeDepartments = departments.filter(dep => {
+    const status = normalize(departmentStatus(dep));
+    return status === "aktif" || status === "true" || status === "1";
+  }).length;
+
+  const emptyDepartments = departments.filter(dep => departmentMembers(dep).length === 0).length;
+
+  document.getElementById("departmentCount").textContent = totalDepartments;
+  document.getElementById("userCount").textContent = totalUsers;
+  document.getElementById("activeCount").textContent = activeDepartments;
+  document.getElementById("emptyCount").textContent = emptyDepartments;
+}
+
+function filteredRows(){
+  const departmentSearch = normalize(document.getElementById("departmentSearch").value);
+  const roleSearch = normalize(document.getElementById("roleSearch").value);
+  const statusFilter = normalize(document.getElementById("statusFilter").value);
+  const globalSearch = normalize(document.getElementById("globalSearch").value);
+
+  return departments.filter(department => {
+    const name = departmentName(department);
+    const code = departmentCode(department);
+    const status = departmentStatus(department);
+    const members = departmentMembers(department);
+    const roles = uniqueRoles(members).join(", ");
+    const memberNames = members.map(user => userName(user)).join(", ");
+
+    if(departmentSearch && !normalize(name + " " + code).includes(departmentSearch)){
+      return false;
+    }
+
+    if(statusFilter && normalize(status) !== statusFilter){
+      return false;
+    }
+
+    if(roleSearch && !normalize(roles).includes(roleSearch)){
+      return false;
+    }
+
+    if(globalSearch){
+      const merged = normalize([name,code,status,roles,memberNames].join(" "));
+      if(!merged.includes(globalSearch)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderDepartments(){
+  const table = document.getElementById("table");
+  const rows = filteredRows();
+
+  updateStats(rows);
+
+  if(!rows.length){
+    table.className = "empty";
+    table.innerHTML = "Kriterlere uygun departman bulunamadı.";
+    return;
+  }
+
+  table.className = "";
+  table.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Departman</th>
+          <th>Kod</th>
+          <th>Kişi</th>
+          <th>Roller</th>
+          <th>Kullanıcılar</th>
+          <th>Durum</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map(department => {
+          const name = departmentName(department);
+          const code = departmentCode(department);
+          const status = departmentStatus(department);
+          const members = departmentMembers(department);
+          const roles = uniqueRoles(members);
+
+          const roleBadges = roles.length
+            ? roles.map(role => `<span class="badge">${esc(role)}</span>`).join("")
+            : '<span class="badge badge-gray">Rol yok</span>';
+
+          const memberBadges = members.length
+            ? members.slice(0,8).map(user => `<span class="badge badge-green">${esc(userName(user))}</span>`).join("") + (members.length > 8 ? `<span class="badge badge-yellow">+${members.length - 8}</span>` : "")
+            : '<span class="badge badge-gray">Kullanıcı yok</span>';
+
+          const statusClass = normalize(status) === "aktif" || normalize(status) === "true" || normalize(status) === "1"
+            ? "badge-green"
+            : "badge-gray";
+
+          return `
+            <tr>
+              <td><strong>${esc(name)}</strong></td>
+              <td>${esc(code)}</td>
+              <td>${members.length}</td>
+              <td>${roleBadges}</td>
+              <td>${memberBadges}</td>
+              <td><span class="badge ${statusClass}">${esc(status)}</span></td>
+            </tr>
+          `;
+        }).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+async function loadDepartments(){
+  const table = document.getElementById("table");
+
+  table.className = "empty";
+  table.innerHTML = "Yükleniyor...";
+
+  try{
+    if(!api){
+      throw new Error("GDNL API istemcisi bulunamadı.");
+    }
+
+    if(typeof api.loadDepartments === "function"){
+      departments = await api.loadDepartments();
+    }else if(typeof api.get === "function"){
+      departments = await api.get("/departments");
+      departments = api.asArray ? api.asArray(departments) : Array.isArray(departments) ? departments : [];
+    }else{
+      departments = [];
+    }
+
+    if(typeof api.loadUsers === "function"){
+      users = await api.loadUsers();
+    }else if(typeof api.get === "function"){
+      users = await api.get("/users");
+      users = api.asArray ? api.asArray(users) : Array.isArray(users) ? users : [];
+    }else{
+      users = [];
+    }
+
+    departments = Array.isArray(departments) ? departments : [];
+    users = Array.isArray(users) ? users : [];
+
+    departments.sort((a,b) => departmentName(a).localeCompare(departmentName(b),"tr"));
+
+    if(!departments.length){
+      table.className = "empty";
+      table.innerHTML = "Departman bulunamadı.";
+      updateStats([]);
+      return;
+    }
+
+    renderDepartments();
+    toastMsg("Departman verileri güncellendi.");
+
+  }catch(error){
+    console.error(error);
+    table.className = "error";
+    table.innerHTML = "Departman verileri alınamadı. API bağlantısı, /departments endpoint’i veya oturum doğrulaması kontrol edilmelidir.";
+    updateStats([]);
+  }
+}
+
+function logout(){
+  try{
+    if(window.navigateRoute){
+      window.navigateRoute("index.html?logout=1");
+      return;
+    }
+  }catch(e){}
+
+  window.location.href = "index.html?logout=1";
+}
+
+function bindEvents(){
+  ["departmentSearch","roleSearch","statusFilter","globalSearch"].forEach(id => {
+    const element = document.getElementById(id);
+    if(element){
+      element.addEventListener("input",renderDepartments);
+      element.addEventListener("change",renderDepartments);
+    }
+  });
+}
+
+function boot(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setUserName();
+  bindEvents();
+  loadDepartments();
+}
+
+boot();
+</script>
+
+<script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
-</body></html>
+
+</body>
+</html>
+```
