@@ -5,27 +5,1029 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | İK Genel Durum Ekranı</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --dash-navy:#071b34;
+  --dash-green:#35a852;
+  --dash-soft:#f4f9ff;
+  --dash-line:#dfe9f5;
+  --dash-muted:#64748b;
+  --dash-danger:#dc2626;
+  --dash-warning:#f59e0b;
+  --dash-blue:#0f4c81;
+}
+
+.hr-dash-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.hr-dash-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--dash-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.hr-dash-kpi-card small{
+  display:block;
+  color:var(--dash-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.hr-dash-kpi-card strong{
+  display:block;
+  color:var(--dash-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.hr-dash-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.hr-dash-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.hr-dash-status.open{background:#e0f2fe;color:#075985}
+.hr-dash-status.waiting{background:#fef3c7;color:#92400e}
+.hr-dash-status.late{background:#fee2e2;color:#991b1b}
+.hr-dash-status.done{background:#dcfce7;color:#166534}
+.hr-dash-status.archive{background:#f1f5f9;color:#475569}
+.hr-dash-status.critical{background:#fee2e2;color:#991b1b}
+.hr-dash-status.high{background:#fef3c7;color:#92400e}
+.hr-dash-status.normal{background:#dcfce7;color:#166534}
+
+.hr-dash-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.hr-dash-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.hr-dash-record-title{
+  color:var(--dash-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.hr-dash-record-meta{
+  color:var(--dash-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.hr-dash-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.hr-dash-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.hr-dash-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.hr-dash-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.hr-dash-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.hr-dash-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.hr-dash-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.hr-dash-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.hr-dash-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.hr-dash-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.hr-dash-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+.hr-dash-alert-list{
+  display:grid;
+  gap:10px;
+}
+
+.hr-dash-alert{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:16px;
+  padding:12px;
+}
+
+.hr-dash-alert strong{
+  display:block;
+  color:#071b34;
+  font-size:13px;
+  font-weight:950;
+  margin-bottom:4px;
+}
+
+.hr-dash-alert span{
+  display:block;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .hr-dash-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .hr-dash-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hr-dash-record-head{
+    display:grid;
+  }
+
+  .hr-dash-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-dashboard.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Personel, süreç, not, sorumlu veya durum ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">İK Genel Durum Ekranı</h1><p id="pageDesc">Personel, işe alım, oryantasyon, devamsızlık, mesai, izin ve bordro hazırlık durumunu tek ekranda gösteren İK merkezi.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">İK Genel Durum Ekranı Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">İK Genel Durum Ekranı</h1>
+        <p id="pageDesc">Personel, işe alım, oryantasyon, devamsızlık, mesai, izin, bordro hazırlığı, kritik İK notları ve bekleyen aksiyonlar tek merkezden izlenir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusHrDashboardForm()">Yeni İK Notu</button>
+        <button class="btn" type="button" onclick="hrDashboardMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="hr-dash-kpi" aria-label="İK Genel Durum Ekranı göstergeleri">
+      <div class="hr-dash-kpi-card"><small>Toplam İK Notu</small><strong id="kpiTotal">0</strong><span>Günlük takip kayıtları</span></div>
+      <div class="hr-dash-kpi-card"><small>Açık Aksiyon</small><strong id="kpiOpen">0</strong><span>Takip gereken işler</span></div>
+      <div class="hr-dash-kpi-card"><small>Geciken İş</small><strong id="kpiLate">0</strong><span>Termin aşımı</span></div>
+      <div class="hr-dash-kpi-card"><small>Kritik Öncelik</small><strong id="kpiCritical">0</strong><span>Yönetim dikkati</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="İK Genel Durum Ekranı göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Bugün İK’nın Dikkat Etmesi Gerekenler</h2><p id="summaryDesc">İK ekibi için günlük kritik personel, puantaj ve süreç başlıkları özetlenir.</p></div><span id="statusPill" class="status-pill">İK Genel Durum Ekranı aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">İK Günlük Notu</h2><p id="formDesc">İK ekibi için hızlı not, sorumlu ve termin bilgisi hazırlayın.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İK Genel Durum Ekranı Ek Dosyaları</h3><p id="fileDesc">İK Genel Durum Ekranı ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İK Genel Durum Ekranı Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İK Günlük Takip Panosu</h2><p id="recordsDesc">İK notları, kritik personel süreçleri ve bekleyen aksiyonlar izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İK İşlem Geçmişi</h2><p id="auditDesc">İK notu, sorumluluk, dosya ve durum işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz İK günlük takip kaydı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Bugün İK’nın Dikkat Etmesi Gerekenler</h2>
+            <p id="summaryDesc">İK ekibi için günlük kritik personel, puantaj, izin, bordro hazırlığı ve aksiyon başlıkları özetlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">İK Genel Durum Ekranı aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="hr-dash-alert-list">
+          <div class="hr-dash-alert">
+            <strong>1. Kritik personel süreçleri kontrol edilir</strong>
+            <span>Yeni işe giriş, çıkış, oryantasyon, eksik evrak ve sözleşme süreçleri günlük takip edilir.</span>
+          </div>
+          <div class="hr-dash-alert">
+            <strong>2. Puantaj, izin ve devamsızlık riskleri izlenir</strong>
+            <span>Geç kalma, erken çıkış, devamsızlık, fazla mesai ve izin onayları bordro hazırlığı öncesinde değerlendirilir.</span>
+          </div>
+          <div class="hr-dash-alert">
+            <strong>3. Açık aksiyonlar ve yönetim notları kapatılır</strong>
+            <span>Termin, sorumlu, öncelik, dosya kanıtı ve işlem geçmişi D1/R2 standardında takip edilir.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">İK Günlük Notu</h2>
+            <p id="formDesc">İK ekibi için hızlı not, süreç tipi, sorumlu, termin, durum ve öncelik bilgisi hazırlayın.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Konu Başlığı</label>
+            <input id="noteTitle" placeholder="Örn: Bordro öncesi puantaj kontrolü">
+          </div>
+
+          <div class="field">
+            <label>Süreç Tipi</label>
+            <select id="processType">
+              <option value="Personel">Personel</option>
+              <option value="İşe Alım">İşe Alım</option>
+              <option value="Oryantasyon">Oryantasyon</option>
+              <option value="Puantaj">Puantaj</option>
+              <option value="İzin">İzin</option>
+              <option value="Bordro">Bordro</option>
+              <option value="Eğitim">Eğitim</option>
+              <option value="Disiplin">Disiplin</option>
+              <option value="Genel İK">Genel İK</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Sorumlu</label>
+            <input id="ownerName" placeholder="Sorumlu kişi">
+          </div>
+
+          <div class="field">
+            <label>İlgili Departman</label>
+            <input id="departmentName" placeholder="Departman">
+          </div>
+
+          <div class="field">
+            <label>Termin</label>
+            <input id="dueDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="noteStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="notePriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Etki Alanı</label>
+            <select id="impactArea">
+              <option value="Operasyonel">Operasyonel</option>
+              <option value="Bordro">Bordro</option>
+              <option value="Uyum">Uyum</option>
+              <option value="Çalışan Deneyimi">Çalışan Deneyimi</option>
+              <option value="Yönetim">Yönetim</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Not / Açıklama</label>
+            <textarea id="noteDescription" placeholder="İK günlük notu, aksiyon açıklaması, risk, karar veya takip detayı"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">İK Genel Durum Ekranı Ek Dosyaları</h3>
+          <p id="fileDesc">İK notu, bordro hazırlığı, puantaj, izin, personel evrakı ve destekleyici kanıt dosyalarını R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="İK Notu">İK Notu</option>
+                <option value="Puantaj Raporu">Puantaj Raporu</option>
+                <option value="İzin Belgesi">İzin Belgesi</option>
+                <option value="Bordro Hazırlık">Bordro Hazırlık</option>
+                <option value="Personel Evrakı">Personel Evrakı</option>
+                <option value="Yönetim Notu">Yönetim Notu</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="hr-dash-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveHrDashboardRecord()">İK Notu Oluştur</button>
+          <button class="btn" type="button" onclick="hrDashboardMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearHrDashboardForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">İK Günlük Takip Panosu</h2>
+          <p id="recordsDesc">İK notları, kritik personel süreçleri, sorumlular, terminler ve bekleyen aksiyonlar izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadHrDashboardRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">İK İşlem Geçmişi</h2>
+          <p id="auditDesc">İK notu, sorumluluk, dosya, termin, öncelik ve durum işlemleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz İK günlük takip kaydı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="hrDashboardToast" class="hr-dash-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let hrDashboardRecords = [];
+
+function dashEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function dashVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function dashNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function dashToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("hrDashboardToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return dashVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setDashboardUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "HRDASH-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = dashNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = dashNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return dashEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function isLate(record){
+  if(dashNormalize(record.status) === "tamamlandı" || dashNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.dueDate) return false;
+
+  const due = new Date(record.dueDate);
+  const today = new Date();
+
+  due.setHours(23,59,59,999);
+
+  return !Number.isNaN(due.getTime()) && due < today;
+}
+
+function normalizeDashboardRecord(record){
+  return {
+    id:dashVal(record,"id","note_id","record_id") || cryptoSafeId(),
+    title:dashVal(record,"title","note_title","subject"),
+    processType:dashVal(record,"process_type","processType","category") || "Genel İK",
+    owner:dashVal(record,"owner","owner_name","responsible","responsible_name"),
+    department:dashVal(record,"department","department_name"),
+    dueDate:dashVal(record,"due_date","dueDate","termin"),
+    status:dashVal(record,"status","note_status") || "Açık",
+    priority:dashVal(record,"priority") || "Normal",
+    impactArea:dashVal(record,"impact_area","impactArea") || "Operasyonel",
+    description:dashVal(record,"description","notes","note"),
+    createdAt:dashVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:dashVal(record,"created_by","owner_user","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    title:document.getElementById("noteTitle").value.trim(),
+    process_type:document.getElementById("processType").value,
+    owner_name:document.getElementById("ownerName").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    due_date:document.getElementById("dueDate").value,
+    status:document.getElementById("noteStatus").value,
+    priority:document.getElementById("notePriority").value,
+    impact_area:document.getElementById("impactArea").value,
+    description:document.getElementById("noteDescription").value.trim(),
+    module:"HR_DASHBOARD",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.title) return "Konu başlığı zorunludur.";
+  if(!payload.owner_name) return "Sorumlu bilgisi zorunludur.";
+  if(!payload.due_date) return "Termin tarihi zorunludur.";
+  if(!payload.description) return "Not / açıklama zorunludur.";
+
+  return "";
+}
+
+async function uploadDashboardFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    dashToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_DASHBOARD",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    dashToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveHrDashboardRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    dashToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  try{
+    const file = await uploadDashboardFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/dashboard-notes",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/hr/notes",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeDashboardRecord(saved || payload);
+    hrDashboardRecords.unshift(normalized);
+
+    renderDashboardRecords();
+    renderAuditPreview();
+    updateDashboardKpis();
+    clearHrDashboardForm(false);
+
+    dashToast("İK günlük takip kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    const normalized = normalizeDashboardRecord(payload);
+    hrDashboardRecords.unshift(normalized);
+
+    renderDashboardRecords();
+    renderAuditPreview();
+    updateDashboardKpis();
+
+    dashToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadHrDashboardRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="hr-dash-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/dashboard-notes");
+      }catch(firstError){
+        response = await api.get("/hr/notes");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    hrDashboardRecords = rows.map(normalizeDashboardRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    hrDashboardRecords = [];
+  }
+
+  renderDashboardRecords();
+  renderAuditPreview();
+  updateDashboardKpis();
+}
+
+function filteredDashboardRecords(){
+  const q = dashNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return hrDashboardRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = dashNormalize([
+        record.title,
+        record.processType,
+        record.owner,
+        record.department,
+        record.dueDate,
+        record.status,
+        record.priority,
+        record.impactArea,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderDashboardRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredDashboardRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="hr-dash-empty">İK günlük takip kaydı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="hr-dash-record">
+        <div class="hr-dash-record-head">
+          <div>
+            <div class="hr-dash-record-title">${dashEsc(record.title || "İK Günlük Notu")}</div>
+            <div class="hr-dash-record-meta">
+              Süreç: ${dashEsc(record.processType || "-")} · Sorumlu: ${dashEsc(record.owner || "-")} · Departman: ${dashEsc(record.department || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="hr-dash-status ${statusClass(autoStatus)}">${dashEsc(autoStatus)}</span>
+            <span class="hr-dash-status ${priorityClass(record.priority)}">${dashEsc(record.priority)}</span>
+          </div>
+        </div>
+
+        <div class="hr-dash-mini-grid">
+          <div class="hr-dash-metric"><small>Etki Alanı</small><strong>${dashEsc(record.impactArea || "-")}</strong></div>
+          <div class="hr-dash-metric"><small>Termin</small><strong>${formatDate(record.dueDate)}</strong></div>
+          <div class="hr-dash-metric"><small>Oluşturan</small><strong>${dashEsc(record.createdBy || "-")}</strong></div>
+          <div class="hr-dash-metric"><small>Kayıt Tarihi</small><strong>${formatDate(record.createdAt)}</strong></div>
+        </div>
+
+        <div class="hr-dash-record-meta">${dashEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="hr-dash-record-actions">
+          <button class="hr-dash-small-btn" type="button" onclick="markDashboardDone('${dashEsc(record.id)}')">Tamamlandı</button>
+          <button class="hr-dash-small-btn dark" type="button" onclick="copyDashboardSummary('${dashEsc(record.id)}')">Özet Kopyala</button>
+          <button class="hr-dash-small-btn red" type="button" onclick="archiveDashboardRecord('${dashEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateDashboardKpis(){
+  document.getElementById("kpiTotal").textContent = hrDashboardRecords.length;
+  document.getElementById("kpiOpen").textContent = hrDashboardRecords.filter(record => dashNormalize(record.status) === "açık" || dashNormalize(record.status) === "bekliyor").length;
+  document.getElementById("kpiLate").textContent = hrDashboardRecords.filter(isLate).length;
+  document.getElementById("kpiCritical").textContent = hrDashboardRecords.filter(record => dashNormalize(record.priority) === "kritik").length;
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!hrDashboardRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz İK günlük takip kaydı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = hrDashboardRecords.slice(0,8).map(record => `
+    <div class="hr-dash-record-meta">
+      ${formatDate(record.createdAt)} · ${dashEsc(record.createdBy || "Oturum Kullanıcısı")} · ${dashEsc(record.processType || "Genel İK")} süreci için "${dashEsc(record.title || "-")}" kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateDashboardStatus(id,status){
+  const record = hrDashboardRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    dashToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  record.status = status;
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/dashboard-notes/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/dashboard-notes/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Durum güncelleme endpoint bekliyor",error);
+  }
+
+  renderDashboardRecords();
+  renderAuditPreview();
+  updateDashboardKpis();
+  dashToast("İK takip durumu güncellendi.");
+}
+
+function markDashboardDone(id){
+  updateDashboardStatus(id,"Tamamlandı");
+}
+
+function archiveDashboardRecord(id){
+  updateDashboardStatus(id,"Arşivlendi");
+}
+
+function copyDashboardSummary(id){
+  const record = hrDashboardRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    dashToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const summary = [
+    "GDNL EOS İK Günlük Takip Özeti",
+    "Konu: " + (record.title || "-"),
+    "Süreç Tipi: " + (record.processType || "-"),
+    "Sorumlu: " + (record.owner || "-"),
+    "Departman: " + (record.department || "-"),
+    "Termin: " + formatDate(record.dueDate),
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Etki Alanı: " + (record.impactArea || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => dashToast("İK takip özeti kopyalandı."))
+    .catch(() => dashToast("Kopyalama desteklenmiyor."));
+}
+
+function clearHrDashboardForm(showToast=true){
+  [
+    "noteTitle",
+    "ownerName",
+    "departmentName",
+    "dueDate",
+    "noteDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("processType").value = "Personel";
+  document.getElementById("noteStatus").value = "Açık";
+  document.getElementById("notePriority").value = "Normal";
+  document.getElementById("impactArea").value = "Operasyonel";
+  document.getElementById("fileCategory").value = "İK Notu";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) dashToast("Form temizlendi.");
+}
+
+function focusHrDashboardForm(){
+  document.getElementById("noteTitle")?.focus();
+}
+
+function hrDashboardMessagePrep(){
+  const payload = formPayload();
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki İK günlük takip kaydı için bilgilendirme yapılmıştır:",
+    "",
+    "Konu: " + (payload.title || "-"),
+    "Süreç Tipi: " + (payload.process_type || "-"),
+    "Sorumlu: " + (payload.owner_name || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Termin: " + (payload.due_date || "-"),
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "Etki Alanı: " + (payload.impact_area || "-"),
+    "",
+    "Açıklama:",
+    payload.description || "-",
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => dashToast("Mesaj metni kopyalandı."))
+    .catch(() => dashToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindDashboardEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderDashboardRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderDashboardRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderDashboardRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusHrDashboardForm;
+  window.hrMessagePrep = window.hrMessagePrep || hrDashboardMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearHrDashboardForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveHrDashboardRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderDashboardRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootHrDashboardPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setDashboardUser();
+  ensureHrFallbacks();
+  bindDashboardEvents();
+  loadHrDashboardRecords();
+}
+
+bootHrDashboardPage();
+</script>
+
 </body>
 </html>
