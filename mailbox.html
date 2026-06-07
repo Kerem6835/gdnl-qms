@@ -243,7 +243,7 @@ function updateCounts() {
 
 function applyUnreadBadge(count) {
   const value = Number(count || 0);
-  document.querySelectorAll('.gdnl-message-link,a[href="mailbox.html"],a[href$="/mailbox.html"]').forEach((link) => {
+  document.querySelectorAll('.gdnl-message-link,a[href*="mailbox"]').forEach((link) => {
     let badge = link.querySelector(".gdnl-mail-unread-badge");
     if (!badge) {
       badge = document.createElement("span");
