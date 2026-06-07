@@ -5,27 +5,1207 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | İşe Alım Süreci</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --rec-navy:#071b34;
+  --rec-green:#35a852;
+  --rec-line:#dfe9f5;
+  --rec-muted:#64748b;
+  --rec-danger:#dc2626;
+  --rec-warning:#f59e0b;
+  --rec-blue:#0f4c81;
+}
+
+.rec-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.rec-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--rec-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.rec-kpi-card small{
+  display:block;
+  color:var(--rec-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.rec-kpi-card strong{
+  display:block;
+  color:var(--rec-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.rec-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.rec-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.rec-status.open{background:#e0f2fe;color:#075985}
+.rec-status.waiting{background:#fef3c7;color:#92400e}
+.rec-status.late{background:#fee2e2;color:#991b1b}
+.rec-status.done{background:#dcfce7;color:#166534}
+.rec-status.archive{background:#f1f5f9;color:#475569}
+.rec-status.critical{background:#fee2e2;color:#991b1b}
+.rec-status.high{background:#fef3c7;color:#92400e}
+.rec-status.normal{background:#dcfce7;color:#166534}
+.rec-status.good{background:#dcfce7;color:#166534}
+.rec-status.mid{background:#fef3c7;color:#92400e}
+.rec-status.bad{background:#fee2e2;color:#991b1b}
+.rec-status.offer{background:#dcfce7;color:#166534}
+.rec-status.interview{background:#e0f2fe;color:#075985}
+
+.rec-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.rec-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.rec-record-title{
+  color:var(--rec-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.rec-record-meta{
+  color:var(--rec-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.rec-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.rec-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.rec-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.rec-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.rec-bar{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.rec-bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  border-radius:999px;
+}
+
+.rec-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.rec-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.rec-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.rec-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.rec-small-btn.yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.rec-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.rec-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.rec-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .rec-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .rec-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .rec-record-head{
+    display:grid;
+  }
+
+  .rec-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-recruitment.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Pozisyon, aday, mülakat, teklif veya durum ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">İşe Alım Süreci</h1><p id="pageDesc">Pozisyon talebinden aday havuzu, mülakat, teklif, evrak ve işe başlatma adımlarına kadar işe alım sürecinin yönetildiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">İşe Alım Süreci Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">İşe Alım Süreci</h1>
+        <p id="pageDesc">Pozisyon talebinden aday havuzu, mülakat, teklif, evrak ve işe başlatma adımlarına kadar işe alım süreci D1/R2 standardıyla yönetilir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusRecruitmentForm()">Yeni İşe Alım Kaydı</button>
+        <button class="btn" type="button" onclick="recruitmentMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="rec-kpi" aria-label="İşe Alım Süreci göstergeleri">
+      <div class="rec-kpi-card"><small>Toplam Süreç</small><strong id="kpiTotal">0</strong><span>Tüm işe alım kayıtları</span></div>
+      <div class="rec-kpi-card"><small>Açık Pozisyon</small><strong id="kpiOpen">0</strong><span>Kapanmamış süreçler</span></div>
+      <div class="rec-kpi-card"><small>Teklif Aşaması</small><strong id="kpiOffer">0</strong><span>Teklif bekleyen/verilen</span></div>
+      <div class="rec-kpi-card"><small>Ortalama Aday Skoru</small><strong id="kpiAvgScore">0</strong><span>100 üzerinden</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="İşe Alım Süreci göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">İşe Alım Akışı</h2><p id="summaryDesc">Talep, aday, mülakat, teklif ve işe başlatma adımları birlikte izlenir.</p></div><span id="statusPill" class="status-pill">İşe Alım Süreci aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">İşe Alım Kaydı</h2><p id="formDesc">Pozisyon, aday, mülakat ve teklif bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İşe Alım Süreci Ek Dosyaları</h3><p id="fileDesc">İşe Alım Süreci ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İşe Alım Süreci Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İşe Alım Takip Panosu</h2><p id="recordsDesc">Açık pozisyonlar aday, mülakat ve teklif durumuna göre izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">İşe Alım İşlem Geçmişi</h2><p id="auditDesc">Talep, mülakat, teklif ve evrak işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz işe alım kaydı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">İşe Alım Akışı</h2>
+            <p id="summaryDesc">Talep, aday, ön eleme, mülakat, teklif, evrak ve işe başlatma adımları birlikte izlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">İşe Alım Süreci aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="rec-record">
+            <div class="rec-record-title">1. Pozisyon talebi açılır</div>
+            <div class="rec-record-meta">Departman, pozisyon, talep eden, istihdam tipi, bütçe durumu ve hedef işe başlama tarihi kayıt altına alınır.</div>
+          </div>
+          <div class="rec-record">
+            <div class="rec-record-title">2. Aday havuzu ve mülakatlar yürütülür</div>
+            <div class="rec-record-meta">Aday kaynağı, ön eleme, teknik/İK mülakat, aday skoru ve mülakat notları izlenir.</div>
+          </div>
+          <div class="rec-record">
+            <div class="rec-record-title">3. Teklif, evrak ve işe başlatma kapatılır</div>
+            <div class="rec-record-meta">Teklif durumu, evrak kontrolü, işe başlatma tarihi, R2 dosya kanıtı ve D1 işlem geçmişi yönetilir.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">İşe Alım Kaydı</h2>
+            <p id="formDesc">Pozisyon, aday, mülakat, teklif ve işe başlatma bilgilerini girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Pozisyon</label>
+            <input id="positionName" placeholder="Örn: Kalite Mühendisi">
+          </div>
+
+          <div class="field">
+            <label>Departman</label>
+            <input id="departmentName" placeholder="Departman">
+          </div>
+
+          <div class="field">
+            <label>Talep Eden</label>
+            <input id="requesterName" placeholder="Talep eden yönetici">
+          </div>
+
+          <div class="field">
+            <label>İstihdam Tipi</label>
+            <select id="employmentType">
+              <option value="Tam Zamanlı">Tam Zamanlı</option>
+              <option value="Yarı Zamanlı">Yarı Zamanlı</option>
+              <option value="Dönemsel">Dönemsel</option>
+              <option value="Stajyer">Stajyer</option>
+              <option value="Danışman">Danışman</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Aday Adı Soyadı</label>
+            <input id="candidateName" placeholder="Aday adı soyadı" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Aday Kaynağı</label>
+            <select id="candidateSource">
+              <option value="Kariyer Sitesi">Kariyer Sitesi</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="Referans">Referans</option>
+              <option value="İç Aday">İç Aday</option>
+              <option value="Ajans">Ajans</option>
+              <option value="Diğer">Diğer</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Başvuru Tarihi</label>
+            <input id="applicationDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Hedef İşe Başlama</label>
+            <input id="targetStartDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Süreç Aşaması</label>
+            <select id="recruitmentStage">
+              <option value="Pozisyon Talebi">Pozisyon Talebi</option>
+              <option value="Aday Havuzu">Aday Havuzu</option>
+              <option value="Ön Eleme">Ön Eleme</option>
+              <option value="İK Mülakatı">İK Mülakatı</option>
+              <option value="Teknik Mülakat">Teknik Mülakat</option>
+              <option value="Referans Kontrolü">Referans Kontrolü</option>
+              <option value="Teklif">Teklif</option>
+              <option value="Evrak">Evrak</option>
+              <option value="İşe Başlatma">İşe Başlatma</option>
+              <option value="Kapatıldı">Kapatıldı</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Mülakat Tarihi</label>
+            <input id="interviewDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>İK Mülakat Skoru / 100</label>
+            <input id="hrScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Teknik Skor / 100</label>
+            <input id="technicalScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Kültür Uyum Skoru / 100</label>
+            <input id="cultureScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Teklif Durumu</label>
+            <select id="offerStatus">
+              <option value="Yok">Yok</option>
+              <option value="Hazırlanıyor">Hazırlanıyor</option>
+              <option value="Gönderildi">Gönderildi</option>
+              <option value="Kabul Edildi">Kabul Edildi</option>
+              <option value="Reddedildi">Reddedildi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Evrak Durumu</label>
+            <select id="documentStatus">
+              <option value="Yok">Yok</option>
+              <option value="Bekliyor">Bekliyor</option>
+              <option value="Eksik">Eksik</option>
+              <option value="Tamamlandı">Tamamlandı</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="recruitmentStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="recruitmentPriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Mülakat / Süreç Notu</label>
+            <textarea id="recruitmentDescription" placeholder="Aday notu, mülakat sonucu, teklif detayı, evrak açıklaması veya özel takip notu"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">İşe Alım Süreci Ek Dosyaları</h3>
+          <p id="fileDesc">CV, pozisyon talep formu, mülakat notu, teklif mektubu, evrak ve destekleyici kanıtları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="CV">CV</option>
+                <option value="Pozisyon Talep Formu">Pozisyon Talep Formu</option>
+                <option value="Mülakat Notu">Mülakat Notu</option>
+                <option value="Teklif Mektubu">Teklif Mektubu</option>
+                <option value="Evrak">Evrak</option>
+                <option value="Referans Kontrolü">Referans Kontrolü</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="rec-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveRecruitmentRecord()">İşe Alım Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="recruitmentMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearRecruitmentForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">İşe Alım Takip Panosu</h2>
+          <p id="recordsDesc">Açık pozisyonlar aday, mülakat, skor, teklif, evrak ve işe başlatma durumuna göre izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadRecruitmentRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">İşe Alım İşlem Geçmişi</h2>
+          <p id="auditDesc">Talep, aday, mülakat, teklif, evrak, dosya ve işe başlatma işlemleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz işe alım kaydı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="recruitmentToast" class="rec-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let recruitmentRecords = [];
+
+function recEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function recVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function recNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function recToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("recruitmentToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return recVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setRecruitmentUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "REC-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = recNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = recNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function scoreClass(score){
+  const value = Number(score || 0);
+
+  if(value >= 80) return "good";
+  if(value >= 60) return "mid";
+
+  return "bad";
+}
+
+function stageClass(stage){
+  const value = recNormalize(stage);
+
+  if(value.includes("teklif")) return "offer";
+  if(value.includes("mülakat")) return "interview";
+  if(value.includes("başlatma") || value.includes("kapatıldı")) return "good";
+
+  return "open";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return recEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function avgCandidateScore(record){
+  const scores = [
+    Number(record.hrScore || 0),
+    Number(record.technicalScore || 0),
+    Number(record.cultureScore || 0)
+  ].filter(score => score > 0);
+
+  if(!scores.length) return 0;
+
+  return Math.round(scores.reduce((sum,score) => sum + score,0) / scores.length);
+}
+
+function isOpenRecruitment(record){
+  const status = recNormalize(record.status);
+  const stage = recNormalize(record.recruitmentStage);
+
+  return status !== "tamamlandı" && status !== "arşivlendi" && stage !== "kapatıldı";
+}
+
+function isOfferStage(record){
+  const stage = recNormalize(record.recruitmentStage);
+  const offer = recNormalize(record.offerStatus);
+
+  return stage.includes("teklif") || offer === "hazırlanıyor" || offer === "gönderildi";
+}
+
+function isLate(record){
+  if(!isOpenRecruitment(record)){
+    return false;
+  }
+
+  if(!record.targetStartDate) return false;
+
+  const target = new Date(record.targetStartDate);
+  const today = new Date();
+
+  target.setHours(23,59,59,999);
+
+  return !Number.isNaN(target.getTime()) && target < today;
+}
+
+function normalizeRecruitmentRecord(record){
+  return {
+    id:recVal(record,"id","recruitment_id","record_id") || cryptoSafeId(),
+    position:recVal(record,"position","position_name","job_title"),
+    department:recVal(record,"department","department_name"),
+    requester:recVal(record,"requester","requester_name","requested_by"),
+    employmentType:recVal(record,"employment_type","employmentType") || "Tam Zamanlı",
+    candidate:recVal(record,"candidate","candidate_name","employee_name","name"),
+    candidateSource:recVal(record,"candidate_source","candidateSource") || "Kariyer Sitesi",
+    applicationDate:recVal(record,"application_date","applicationDate"),
+    targetStartDate:recVal(record,"target_start_date","targetStartDate","due_date"),
+    recruitmentStage:recVal(record,"recruitment_stage","recruitmentStage","stage") || "Pozisyon Talebi",
+    interviewDate:recVal(record,"interview_date","interviewDate"),
+    hrScore:Number(recVal(record,"hr_score","hrScore") || 0),
+    technicalScore:Number(recVal(record,"technical_score","technicalScore") || 0),
+    cultureScore:Number(recVal(record,"culture_score","cultureScore") || 0),
+    offerStatus:recVal(record,"offer_status","offerStatus") || "Yok",
+    documentStatus:recVal(record,"document_status","documentStatus") || "Yok",
+    status:recVal(record,"status","recruitment_status") || "Açık",
+    priority:recVal(record,"priority") || "Normal",
+    description:recVal(record,"description","notes","note"),
+    createdAt:recVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:recVal(record,"created_by","owner","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    position_name:document.getElementById("positionName").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    requester_name:document.getElementById("requesterName").value.trim(),
+    employment_type:document.getElementById("employmentType").value,
+    candidate_name:document.getElementById("candidateName").value.trim(),
+    candidate_source:document.getElementById("candidateSource").value,
+    application_date:document.getElementById("applicationDate").value,
+    target_start_date:document.getElementById("targetStartDate").value,
+    recruitment_stage:document.getElementById("recruitmentStage").value,
+    interview_date:document.getElementById("interviewDate").value,
+    hr_score:Number(document.getElementById("hrScore").value || 0),
+    technical_score:Number(document.getElementById("technicalScore").value || 0),
+    culture_score:Number(document.getElementById("cultureScore").value || 0),
+    offer_status:document.getElementById("offerStatus").value,
+    document_status:document.getElementById("documentStatus").value,
+    status:document.getElementById("recruitmentStatus").value,
+    priority:document.getElementById("recruitmentPriority").value,
+    description:document.getElementById("recruitmentDescription").value.trim(),
+    module:"HR_RECRUITMENT",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.position_name) return "Pozisyon bilgisi zorunludur.";
+  if(!payload.department_name) return "Departman bilgisi zorunludur.";
+  if(!payload.requester_name) return "Talep eden bilgisi zorunludur.";
+  if(!payload.candidate_name) return "Aday adı zorunludur.";
+  if(!payload.application_date) return "Başvuru tarihi zorunludur.";
+
+  return "";
+}
+
+async function uploadRecruitmentFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    recToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_RECRUITMENT",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    recToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveRecruitmentRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    recToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizeRecruitmentRecord(payload);
+  payload.candidate_score = avgCandidateScore(preview);
+  payload.is_open = isOpenRecruitment(preview);
+  payload.is_late = isLate(preview);
+
+  try{
+    const file = await uploadRecruitmentFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/recruitment",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/recruitment",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeRecruitmentRecord(saved || payload);
+    recruitmentRecords.unshift(normalized);
+
+    renderRecruitmentRecords();
+    renderAuditPreview();
+    updateRecruitmentKpis();
+    clearRecruitmentForm(false);
+
+    recToast("İşe alım kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    recruitmentRecords.unshift(preview);
+
+    renderRecruitmentRecords();
+    renderAuditPreview();
+    updateRecruitmentKpis();
+
+    recToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadRecruitmentRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="rec-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/recruitment");
+      }catch(firstError){
+        response = await api.get("/recruitment");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    recruitmentRecords = rows.map(normalizeRecruitmentRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    recruitmentRecords = [];
+  }
+
+  renderRecruitmentRecords();
+  renderAuditPreview();
+  updateRecruitmentKpis();
+}
+
+function filteredRecruitmentRecords(){
+  const q = recNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return recruitmentRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = recNormalize([
+        record.position,
+        record.department,
+        record.requester,
+        record.employmentType,
+        record.candidate,
+        record.candidateSource,
+        record.recruitmentStage,
+        record.offerStatus,
+        record.documentStatus,
+        record.status,
+        record.priority,
+        record.description
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderRecruitmentRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredRecruitmentRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="rec-empty">İşe alım kaydı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const candidateScore = avgCandidateScore(record);
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="rec-record">
+        <div class="rec-record-head">
+          <div>
+            <div class="rec-record-title">${recEsc(record.position || "İşe Alım Kaydı")} · ${recEsc(record.candidate || "-")}</div>
+            <div class="rec-record-meta">
+              Departman: ${recEsc(record.department || "-")} · Talep Eden: ${recEsc(record.requester || "-")} · Kaynak: ${recEsc(record.candidateSource || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="rec-status ${stageClass(record.recruitmentStage)}">${recEsc(record.recruitmentStage)}</span>
+            <span class="rec-status ${statusClass(autoStatus)}">${recEsc(autoStatus)}</span>
+            <span class="rec-status ${priorityClass(record.priority)}">${recEsc(record.priority)}</span>
+            <span class="rec-status ${scoreClass(candidateScore)}">Skor: ${candidateScore}</span>
+          </div>
+        </div>
+
+        <div class="rec-mini-grid">
+          <div class="rec-metric"><small>İstihdam Tipi</small><strong>${recEsc(record.employmentType || "-")}</strong></div>
+          <div class="rec-metric"><small>Başvuru</small><strong>${formatDate(record.applicationDate)}</strong></div>
+          <div class="rec-metric"><small>Hedef Başlama</small><strong>${formatDate(record.targetStartDate)}</strong></div>
+          <div class="rec-metric"><small>Aday Skoru</small><strong>${candidateScore}/100</strong><div class="rec-bar"><div class="rec-bar-fill" style="width:${candidateScore}%"></div></div></div>
+          <div class="rec-metric"><small>İK Skoru</small><strong>${record.hrScore}/100</strong></div>
+          <div class="rec-metric"><small>Teknik Skor</small><strong>${record.technicalScore}/100</strong></div>
+          <div class="rec-metric"><small>Kültür Uyum</small><strong>${record.cultureScore}/100</strong></div>
+          <div class="rec-metric"><small>Teklif / Evrak</small><strong>${recEsc(record.offerStatus)} / ${recEsc(record.documentStatus)}</strong></div>
+        </div>
+
+        <div class="rec-record-meta">${recEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="rec-record-actions">
+          <button class="rec-small-btn" type="button" onclick="moveRecruitmentOffer('${recEsc(record.id)}')">Teklif Aşaması</button>
+          <button class="rec-small-btn yellow" type="button" onclick="markRecruitmentWaiting('${recEsc(record.id)}')">Beklet</button>
+          <button class="rec-small-btn" type="button" onclick="markRecruitmentDone('${recEsc(record.id)}')">İşe Başlat</button>
+          <button class="rec-small-btn dark" type="button" onclick="copyRecruitmentSummary('${recEsc(record.id)}')">Özet Kopyala</button>
+          <button class="rec-small-btn red" type="button" onclick="archiveRecruitment('${recEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateRecruitmentKpis(){
+  const openCount = recruitmentRecords.filter(isOpenRecruitment).length;
+  const offerCount = recruitmentRecords.filter(isOfferStage).length;
+  const scored = recruitmentRecords.map(avgCandidateScore).filter(score => score > 0);
+  const avgScore = scored.length
+    ? Math.round(scored.reduce((sum,score) => sum + score,0) / scored.length)
+    : 0;
+
+  document.getElementById("kpiTotal").textContent = recruitmentRecords.length;
+  document.getElementById("kpiOpen").textContent = openCount;
+  document.getElementById("kpiOffer").textContent = offerCount;
+  document.getElementById("kpiAvgScore").textContent = avgScore;
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!recruitmentRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz işe alım kaydı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = recruitmentRecords.slice(0,8).map(record => `
+    <div class="rec-record-meta">
+      ${formatDate(record.createdAt)} · ${recEsc(record.createdBy || "Oturum Kullanıcısı")} · ${recEsc(record.position || "-")} için ${recEsc(record.candidate || "-")} aday kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateRecruitment(id,changes){
+  const record = recruitmentRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    recToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  Object.assign(record,changes);
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/recruitment/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/recruitment/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("İşe alım güncelleme endpoint bekliyor",error);
+  }
+
+  renderRecruitmentRecords();
+  renderAuditPreview();
+  updateRecruitmentKpis();
+  recToast("İşe alım kaydı güncellendi.");
+}
+
+function moveRecruitmentOffer(id){
+  updateRecruitment(id,{recruitmentStage:"Teklif",offerStatus:"Hazırlanıyor",status:"Bekliyor"});
+}
+
+function markRecruitmentWaiting(id){
+  updateRecruitment(id,{status:"Bekliyor"});
+}
+
+function markRecruitmentDone(id){
+  updateRecruitment(id,{recruitmentStage:"İşe Başlatma",offerStatus:"Kabul Edildi",documentStatus:"Tamamlandı",status:"Tamamlandı"});
+}
+
+function archiveRecruitment(id){
+  updateRecruitment(id,{status:"Arşivlendi"});
+}
+
+function copyRecruitmentSummary(id){
+  const record = recruitmentRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    recToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const summary = [
+    "GDNL EOS İşe Alım Süreci Özeti",
+    "Pozisyon: " + (record.position || "-"),
+    "Departman: " + (record.department || "-"),
+    "Talep Eden: " + (record.requester || "-"),
+    "İstihdam Tipi: " + (record.employmentType || "-"),
+    "Aday: " + (record.candidate || "-"),
+    "Aday Kaynağı: " + (record.candidateSource || "-"),
+    "Başvuru Tarihi: " + formatDate(record.applicationDate),
+    "Hedef İşe Başlama: " + formatDate(record.targetStartDate),
+    "Süreç Aşaması: " + (record.recruitmentStage || "-"),
+    "Mülakat Tarihi: " + formatDate(record.interviewDate),
+    "İK Skoru: " + record.hrScore + "/100",
+    "Teknik Skor: " + record.technicalScore + "/100",
+    "Kültür Uyum Skoru: " + record.cultureScore + "/100",
+    "Aday Ortalama Skor: " + avgCandidateScore(record) + "/100",
+    "Teklif Durumu: " + (record.offerStatus || "-"),
+    "Evrak Durumu: " + (record.documentStatus || "-"),
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => recToast("İşe alım özeti kopyalandı."))
+    .catch(() => recToast("Kopyalama desteklenmiyor."));
+}
+
+function clearRecruitmentForm(showToast=true){
+  [
+    "positionName",
+    "departmentName",
+    "requesterName",
+    "candidateName",
+    "applicationDate",
+    "targetStartDate",
+    "interviewDate",
+    "recruitmentDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("employmentType").value = "Tam Zamanlı";
+  document.getElementById("candidateSource").value = "Kariyer Sitesi";
+  document.getElementById("recruitmentStage").value = "Pozisyon Talebi";
+  document.getElementById("hrScore").value = "0";
+  document.getElementById("technicalScore").value = "0";
+  document.getElementById("cultureScore").value = "0";
+  document.getElementById("offerStatus").value = "Yok";
+  document.getElementById("documentStatus").value = "Yok";
+  document.getElementById("recruitmentStatus").value = "Açık";
+  document.getElementById("recruitmentPriority").value = "Normal";
+  document.getElementById("fileCategory").value = "CV";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) recToast("Form temizlendi.");
+}
+
+function focusRecruitmentForm(){
+  document.getElementById("positionName")?.focus();
+}
+
+function recruitmentMessagePrep(){
+  const payload = formPayload();
+  const preview = normalizeRecruitmentRecord(payload);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki işe alım süreci için bilgilendirme yapılmıştır:",
+    "",
+    "Pozisyon: " + (payload.position_name || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Talep Eden: " + (payload.requester_name || "-"),
+    "Aday: " + (payload.candidate_name || "-"),
+    "Aday Kaynağı: " + (payload.candidate_source || "-"),
+    "Başvuru Tarihi: " + (payload.application_date || "-"),
+    "Hedef İşe Başlama: " + (payload.target_start_date || "-"),
+    "Süreç Aşaması: " + (payload.recruitment_stage || "-"),
+    "Aday Ortalama Skor: " + avgCandidateScore(preview) + "/100",
+    "Teklif Durumu: " + (payload.offer_status || "-"),
+    "Evrak Durumu: " + (payload.document_status || "-"),
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => recToast("Mesaj metni kopyalandı."))
+    .catch(() => recToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindRecruitmentEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderRecruitmentRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderRecruitmentRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderRecruitmentRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusRecruitmentForm;
+  window.hrMessagePrep = window.hrMessagePrep || recruitmentMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearRecruitmentForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveRecruitmentRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderRecruitmentRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootRecruitmentPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setRecruitmentUser();
+  ensureHrFallbacks();
+  bindRecruitmentEvents();
+  loadRecruitmentRecords();
+}
+
+bootRecruitmentPage();
+</script>
+
 </body>
 </html>
