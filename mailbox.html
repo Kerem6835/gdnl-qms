@@ -3,982 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Zimmet Yönetimi</title>
-<link rel="stylesheet" href="assets/css/hr-suite.css">
-
+<title>GDNL EOS | Mesaj Merkezi</title>
 <style>
-:root{
-  --asset-navy:#071b34;
-  --asset-green:#35a852;
-  --asset-soft:#f4f9ff;
-  --asset-line:#dfe9f5;
-  --asset-muted:#64748b;
-  --asset-danger:#dc2626;
-  --asset-warning:#f59e0b;
-  --asset-blue:#0f4c81;
-}
-
-.asset-kpi{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:14px;
-}
-
-.asset-kpi-card{
-  background:rgba(255,255,255,.96);
-  border:1px solid var(--asset-line);
-  border-radius:20px;
-  padding:16px;
-  box-shadow:0 14px 36px rgba(7,27,52,.06);
-}
-
-.asset-kpi-card small{
-  display:block;
-  color:var(--asset-muted);
-  font-size:12px;
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.asset-kpi-card strong{
-  display:block;
-  color:var(--asset-navy);
-  font-size:26px;
-  font-weight:950;
-}
-
-.asset-kpi-card span{
-  display:block;
-  color:#6b7280;
-  font-size:12px;
-  font-weight:800;
-  margin-top:4px;
-}
-
-.asset-mini-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-
-.asset-status{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:999px;
-  padding:6px 10px;
-  font-size:12px;
-  font-weight:950;
-  background:#eef6ff;
-  color:#075985;
-  white-space:nowrap;
-}
-
-.asset-status.open{background:#e0f2fe;color:#075985}
-.asset-status.waiting{background:#fef3c7;color:#92400e}
-.asset-status.late{background:#fee2e2;color:#991b1b}
-.asset-status.done{background:#dcfce7;color:#166534}
-.asset-status.archive{background:#f1f5f9;color:#475569}
-.asset-status.critical{background:#fee2e2;color:#991b1b}
-.asset-status.high{background:#fef3c7;color:#92400e}
-.asset-status.normal{background:#dcfce7;color:#166534}
-
-.asset-record{
-  border:1px solid #e8eef6;
-  background:#fff;
-  border-radius:18px;
-  padding:14px;
-  display:grid;
-  gap:10px;
-}
-
-.asset-record-head{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.asset-record-title{
-  color:var(--asset-navy);
-  font-size:15px;
-  font-weight:950;
-}
-
-.asset-record-meta{
-  color:var(--asset-muted);
-  font-size:12px;
-  font-weight:850;
-  line-height:1.5;
-}
-
-.asset-record-actions{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.asset-small-btn{
-  border:0;
-  border-radius:12px;
-  padding:8px 10px;
-  font-size:12px;
-  font-weight:950;
-  cursor:pointer;
-  background:#dcfce7;
-  color:#15803d;
-}
-
-.asset-small-btn.dark{
-  background:#071b34;
-  color:#fff;
-}
-
-.asset-small-btn.red{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.asset-empty{
-  padding:22px;
-  text-align:center;
-  color:#64748b;
-  font-weight:900;
-  background:#f8fbff;
-  border:1px dashed #dbe7f3;
-  border-radius:18px;
-}
-
-.asset-toast{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:90;
-  background:#071b34;
-  color:#fff;
-  border-radius:14px;
-  padding:12px 14px;
-  font-weight:900;
-  box-shadow:0 18px 45px rgba(7,27,52,.18);
-  display:none;
-}
-
-.asset-file-note{
-  margin-top:10px;
-  color:#64748b;
-  font-size:12px;
-  font-weight:850;
-  line-height:1.45;
-}
-
-@media(max-width:760px){
-  .asset-mini-grid{
-    grid-template-columns:1fr;
-  }
-
-  .asset-record-head{
-    display:grid;
-  }
-
-  .asset-record-actions{
-    display:grid;
-  }
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{min-height:100vh;background:#f4f9ff;color:#172033;overflow-x:hidden}.main{max-width:1480px;margin:0 auto;padding:22px}.topbar,.panel{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:20px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:72px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;border-radius:22px;box-shadow:0 18px 46px rgba(7,27,52,.08)}.brand{font-size:22px;font-weight:950;color:#071b34;text-decoration:none;white-space:nowrap}.brand span{color:#35a852}.search{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 12px;font-weight:850;width:280px;max-width:100%;background:#fff}.topbar-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.topbar-actions a,.topbar-actions button,.btn{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:#fff;color:#0f1b2f;text-decoration:none;font-weight:950;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;white-space:nowrap}.topbar-actions .primary,.btn.primary{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;border-color:transparent}.gdnl-message-link,.gdnl-notification-link{width:44px;min-width:44px;padding:0!important;font-size:18px}.topbar-actions button:last-child{background:#fff5f5;color:#b42318;border-color:#ffd5d5}.btn.secondary{background:#dcfce7;color:#15803d}.btn.danger{background:#fee2e2;color:#991b1b}.user{height:44px;display:inline-flex;align-items:center;gap:8px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:linear-gradient(135deg,#eff6ff,#f8fbff);font-weight:950;font-size:13px}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:6px 0 18px}.hero h1{font-size:34px;font-weight:950;color:#071b34}.hero p{margin-top:7px;color:#617086;font-weight:850;max-width:780px}.mail-shell{display:grid;grid-template-columns:230px minmax(320px,1fr) minmax(320px,.95fr);gap:14px;align-items:start}.panel{padding:16px;min-height:180px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.panel-filters select{height:34px;border:1px solid #d8e4ef;border-radius:11px;background:#fff;padding:0 9px;font-weight:850;color:#334155}.panel h2{font-size:17px;font-weight:950;color:#071b34}.folder{width:100%;height:42px;border:none;border-radius:12px;background:#f8fbff;color:#536176;font-weight:950;text-align:left;padding:0 12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}.folder.active{background:#e8f7ee;color:#1f7d3d}.folder.compose{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;text-align:center;justify-content:center}.badge{display:inline-flex;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.badge.warn{background:#ffedd5;color:#c2410c}.badge.danger{background:#fee2e2;color:#991b1b}.notice{padding:10px 12px;border-radius:12px;background:#f8fbff;border:1px solid #e5edf6;color:#617086;font-size:12px;font-weight:850;margin-bottom:12px}.message-list{display:grid;gap:10px}.message{border:1px solid #edf2f7;border-radius:15px;padding:13px;background:#fff;cursor:pointer;transition:.16s ease}.message:hover,.message.active{border-color:#35a852;box-shadow:0 12px 30px rgba(53,168,82,.12)}.message b{display:block;color:#071b34}.message small{display:block;margin-top:5px;color:#617086;font-weight:800}.message p{margin-top:8px;color:#475569;font-size:13px;line-height:1.45}.message-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.mini-btn{height:30px;border:none;border-radius:10px;padding:0 9px;font-size:11px;font-weight:950;cursor:pointer;background:#f1f5f9;color:#334155}.mini-btn.danger{background:#fee2e2;color:#991b1b}.compose-panel{display:none}.compose-panel.active{display:block}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:950;color:#617086}.field input,.field textarea,.field select{width:100%;border:1px solid #d8e4ef;border-radius:12px;padding:10px 11px;font-weight:800;background:#fff}.field input,.field select{height:40px}.field textarea{min-height:112px;resize:vertical}.recipient-wrap{position:relative}.suggest{position:absolute;left:0;right:0;top:66px;background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);display:none;z-index:20;max-height:230px;overflow:auto}.suggest div{padding:10px 12px;border-bottom:1px solid #edf2f7;cursor:pointer;font-size:12px;font-weight:900}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chip{display:inline-flex;gap:6px;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}.detail{line-height:1.6;color:#334155}.detail-grid{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 12px;margin-bottom:12px}.detail-grid b{color:#071b34}.detail-box{border:1px solid #edf2f7;border-radius:15px;padding:14px;background:#fff;margin-top:10px;white-space:pre-wrap}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.hidden{display:none!important}@media(max-width:1080px){.mail-shell{grid-template-columns:210px minmax(0,1fr)}.detail-panel{grid-column:1/-1}}@media(max-width:760px){.main{padding:14px}.topbar,.hero{align-items:flex-start;flex-direction:column}.search{width:100%;min-width:0}.topbar-actions{width:100%;justify-content:flex-start;gap:8px}.mail-shell{grid-template-columns:1fr}.panel{padding:14px}.hero h1{font-size:28px}}
 </style>
 </head>
-
 <body>
-<div class="app" data-suite="hr" data-page="hr-assets.html">
+<main class="main">
+  <header class="topbar">
+    <a class="brand" href="department-gateway.html">GDNL <span>EOS</span></a>
+    <input id="searchBox" class="search" placeholder="Ara..." autocomplete="off">
+    <div class="topbar-actions">
+      <a class="primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+      <a class="gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi" title="Mesaj Merkezi">📨</a>
+      <a class="gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi" title="Bildirim Merkezi">🔔</a>
+      <div class="user">👤 <span id="userName">Kullanıcı</span></div>
+      <button type="button" onclick="window.GDNL_API && window.GDNL_API.logout()">Oturumu Kapat</button>
+    </div>
+  </header>
 
-  <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
-    <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
-    <nav id="hrNav" class="nav"></nav>
-  </aside>
+  <section class="hero">
+    <div>
+      <h1>Mesaj Merkezi</h1>
+      <p>Kurumsal Haberleşme. GDNL EOS içinde çoklu alıcı, taslak, okundu bilgisi, R2 ek dosya ve işlem geçmişiyle iç mesajlaşma yönetilir.</p>
+    </div>
+    <button class="btn primary" type="button" onclick="openCompose()">Yeni Mesaj Oluştur</button>
+  </section>
 
-  <main class="main">
+  <section class="mail-shell">
+    <aside class="panel">
+      <button class="folder active" data-folder="inbox">Gelen Kutusu <span id="countInbox" class="badge">0</span></button>
+      <button class="folder" data-folder="sent">Giden Kutusu <span id="countSent" class="badge">0</span></button>
+      <button class="folder" data-folder="draft">Taslaklar <span id="countDraft" class="badge warn">0</span></button>
+      <button class="folder" data-folder="trash">Çöp Kutusu <span id="countTrash" class="badge danger">0</span></button>
+      <button class="folder compose" data-folder="compose">Yeni Mesaj Oluştur</button>
+      <div id="endpointNotice" class="notice hidden"></div>
+    </aside>
 
-    <header class="topbar">
-      <div class="topbar-left">
-        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
-        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
-      </div>
-
-      <div class="search-wrap">
-        <input id="suiteSearch" class="search" type="search" placeholder="Zimmet, personel, seri no veya ekipman ara..." autocomplete="off">
-        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
-      </div>
-
-      <div class="topbar-actions">
-        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
-        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
-        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
-        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
-      </div>
-    </header>
-
-    <section class="hero">
-      <div>
-        <span class="hero-kicker">İnsan Kaynakları</span>
-        <h1 id="pageTitle">Zimmet Yönetimi</h1>
-        <p id="pageDesc">Personel zimmetleri, verilen cihaz/ekipman, teslim-iade süreci, hasar, kayıp, dosya kanıtları ve işlem geçmişi D1/R2 standardıyla yönetilir.</p>
-      </div>
-
-      <div class="hero-actions">
-        <button class="btn primary" type="button" onclick="focusAssetForm()">Yeni Zimmet Kaydı</button>
-        <button class="btn" type="button" onclick="assetMessagePrep()">Mesaj Hazırla</button>
-      </div>
-    </section>
-
-    <section class="asset-kpi" aria-label="Zimmet Yönetimi göstergeleri">
-      <div class="asset-kpi-card"><small>Toplam Zimmet</small><strong id="kpiTotal">0</strong><span>Tüm kayıtlar</span></div>
-      <div class="asset-kpi-card"><small>Açık Zimmet</small><strong id="kpiOpen">0</strong><span>İade bekleyen</span></div>
-      <div class="asset-kpi-card"><small>Geciken İade</small><strong id="kpiLate">0</strong><span>Termin aşımı</span></div>
-      <div class="asset-kpi-card"><small>Kritik Öncelik</small><strong id="kpiCritical">0</strong><span>Yüksek riskli</span></div>
-    </section>
-
-    <section id="metricCards" class="cards" aria-label="Zimmet Yönetimi göstergeleri"></section>
-
-    <section class="workspace-grid">
-
-      <section class="panel process-panel">
-        <div class="panel-head">
-          <div>
-            <h2 id="summaryTitle">Zimmet Takip Akışı</h2>
-            <p id="summaryDesc">Teslim, kullanım, iade, hasar/kayıp, dosya kanıtı ve işlem geçmişi uçtan uca takip edilir.</p>
-          </div>
-          <span id="statusPill" class="status-pill">Zimmet Yönetimi aktif takip</span>
+    <section class="panel">
+      <div class="panel-head">
+        <h2 id="folderTitle">Gelen Kutusu</h2>
+        <div class="panel-filters">
+          <select id="priorityFilter" aria-label="Öncelik filtresi"><option value="">Tüm öncelikler</option><option value="normal">Normal</option><option value="high">Yüksek</option><option value="critical">Kritik</option></select>
+          <select id="moduleFilter" aria-label="Modül filtresi"><option value="">Tüm modüller</option><option>General</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer Complaint</option><option>Calibration</option><option>Maintenance</option><option>Action</option></select>
+          <span id="folderState" class="badge">Hazır</span>
         </div>
-
-        <div id="summaryList" class="list">
-          <div class="asset-record">
-            <div class="asset-record-title">1. Personel ve ekipman bilgisi alınır</div>
-            <div class="asset-record-meta">Personel, departman, ekipman, marka/model, seri no ve zimmet tarihi doğrulanır.</div>
+      </div>
+      <div id="composePanel" class="compose-panel">
+        <div class="form">
+          <div class="field full recipient-wrap">
+            <label>Alıcılar</label>
+            <input id="recipientInput" autocomplete="off" placeholder="Kişi ara ve seç">
+            <div id="suggestions" class="suggest"></div>
+            <div id="recipientChips" class="chips"></div>
           </div>
-          <div class="asset-record">
-            <div class="asset-record-title">2. Teslim kanıtı oluşturulur</div>
-            <div class="asset-record-meta">Zimmet formu, görsel, tutanak veya ek dosya R2 standardında yüklenir.</div>
-          </div>
-          <div class="asset-record">
-            <div class="asset-record-title">3. İade ve durum takibi yapılır</div>
-            <div class="asset-record-meta">İade tarihi, gecikme, hasar/kayıp ve kapanış durumu D1 kayıtları üzerinden izlenir.</div>
-          </div>
+          <div class="field full"><label>Konu</label><input id="subject" placeholder="Mesaj konusu"></div>
+          <div class="field full"><label>Mesaj İçeriği</label><textarea id="body" placeholder="Mesajınızı yazın"></textarea></div>
+          <div class="field"><label>Öncelik</label><select id="priority"><option value="normal">Normal</option><option value="high">Yüksek</option><option value="critical">Kritik</option></select></div>
+          <div class="field"><label>İlgili Modül</label><select id="relatedModule"><option>General</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer Complaint</option><option>Calibration</option><option>Maintenance</option><option>Action</option></select></div>
+          <div class="field"><label>İlgili Kayıt No</label><input id="relatedRecordId" placeholder="Kayıt no"></div>
+          <div class="field full"><label>R2 Ek Dosya</label><input id="attachment" type="file"></div>
         </div>
-      </section>
-
-      <section class="panel form-panel">
-        <div class="panel-head">
-          <div>
-            <h2 id="formTitle">Zimmet Kaydı</h2>
-            <p id="formDesc">Personel, ekipman, seri no, teslim/iade bilgileri ve dosya kanıtlarını girin.</p>
-          </div>
-        </div>
-
-        <div id="hrForm" class="form">
-          <div class="field">
-            <label>Personel</label>
-            <input id="employeeName" placeholder="Personel adı soyadı" autocomplete="off">
-          </div>
-
-          <div class="field">
-            <label>Departman</label>
-            <input id="departmentName" placeholder="Departman" autocomplete="off">
-          </div>
-
-          <div class="field">
-            <label>Ekipman Türü</label>
-            <select id="assetType">
-              <option value="Bilgisayar">Bilgisayar</option>
-              <option value="Telefon">Telefon</option>
-              <option value="Tablet">Tablet</option>
-              <option value="Ekipman">Ekipman</option>
-              <option value="Kart">Kart</option>
-              <option value="Araç">Araç</option>
-              <option value="Diğer">Diğer</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label>Ekipman Adı</label>
-            <input id="assetName" placeholder="Örn: MacBook Pro, iPhone, ölçüm cihazı">
-          </div>
-
-          <div class="field">
-            <label>Marka / Model</label>
-            <input id="assetModel" placeholder="Marka ve model">
-          </div>
-
-          <div class="field">
-            <label>Seri No</label>
-            <input id="serialNo" placeholder="Seri numarası">
-          </div>
-
-          <div class="field">
-            <label>Teslim Tarihi</label>
-            <input id="deliveryDate" type="date">
-          </div>
-
-          <div class="field">
-            <label>Planlanan İade Tarihi</label>
-            <input id="returnDate" type="date">
-          </div>
-
-          <div class="field">
-            <label>Durum</label>
-            <select id="assetStatus">
-              <option>Açık</option>
-              <option>Bekliyor</option>
-              <option>Gecikti</option>
-              <option>Tamamlandı</option>
-              <option>Arşivlendi</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label>Öncelik</label>
-            <select id="assetPriority">
-              <option>Normal</option>
-              <option>Yüksek</option>
-              <option>Kritik</option>
-            </select>
-          </div>
-
-          <div class="field full">
-            <label>Açıklama</label>
-            <textarea id="assetDescription" placeholder="Teslim koşulu, aksesuarlar, hasar notu, iade şartı veya özel açıklama"></textarea>
-          </div>
-        </div>
-
-        <div class="file-box">
-          <h3 id="fileTitle">Zimmet Yönetimi Ek Dosyaları</h3>
-          <p id="fileDesc">Zimmet formu, teslim tutanağı, iade kanıtı, hasar fotoğrafı ve destekleyici evrakları R2 standardıyla yükleyin.</p>
-
-          <div class="form compact">
-            <div class="field">
-              <label>Kategori</label>
-              <select id="fileCategory">
-                <option value="Zimmet Formu">Zimmet Formu</option>
-                <option value="Teslim Kanıtı">Teslim Kanıtı</option>
-                <option value="İade Kanıtı">İade Kanıtı</option>
-                <option value="Hasar/Kayıp Tutanağı">Hasar/Kayıp Tutanağı</option>
-                <option value="Diğer">Diğer</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Açıklama</label>
-              <input id="fileDescription" placeholder="Dosya açıklaması">
-            </div>
-
-            <div class="field full">
-              <label>Dosya</label>
-              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp">
-            </div>
-          </div>
-
-          <div class="asset-file-note">Dosya yükleme R2 üzerinden, metadata kaydı D1 üzerinden yönetilir. Endpoint hazır değilse ekran güvenli şekilde bekleme moduna geçer.</div>
-        </div>
-
         <div class="actions">
-          <button class="btn primary" type="button" onclick="saveAssetRecord()">Zimmet Kaydı Oluştur</button>
-          <button class="btn" type="button" onclick="assetMessagePrep()">Mesaj Hazırla</button>
-          <button class="btn ghost" type="button" onclick="clearAssetForm()">Temizle</button>
-        </div>
-      </section>
-    </section>
-
-    <section class="panel records-panel">
-      <div class="panel-head">
-        <div>
-          <h2 id="recordsTitle">Zimmet Panosu</h2>
-          <p id="recordsDesc">Zimmet kayıtları personel, ekipman, seri no, iade tarihi, öncelik ve durum bilgisiyle izlenir.</p>
-        </div>
-
-        <div class="toolbar">
-          <select id="statusFilter">
-            <option value="">Tüm Durumlar</option>
-            <option>Açık</option>
-            <option>Bekliyor</option>
-            <option>Gecikti</option>
-            <option>Tamamlandı</option>
-            <option>Arşivlendi</option>
-          </select>
-
-          <select id="priorityFilter">
-            <option value="">Tüm Öncelikler</option>
-            <option>Normal</option>
-            <option>Yüksek</option>
-            <option>Kritik</option>
-          </select>
-
-          <button class="btn" type="button" onclick="loadAssetRecords()">Yenile</button>
+          <button class="btn primary" type="button" onclick="sendMessage()">Gönder</button>
+          <button class="btn secondary" type="button" onclick="saveDraft()">Taslak Kaydet</button>
+          <button class="btn danger" type="button" onclick="clearCompose()">Temizle</button>
         </div>
       </div>
-
-      <div id="recordList" class="record-list"></div>
+      <div id="messageList" class="message-list"></div>
     </section>
 
-    <section class="panel audit-panel">
+    <section class="panel detail-panel">
       <div class="panel-head">
-        <div>
-          <h2 id="auditTitle">Zimmet İşlem Geçmişi</h2>
-          <p id="auditDesc">Zimmet teslim, iade, hasar, kayıp, dosya ve durum değişikliği işlemleri izlenir.</p>
-        </div>
+        <h2>Mesaj Detayı</h2>
+        <span id="readState" class="badge">Seçilmedi</span>
       </div>
-
-      <div id="auditPreview" class="audit-preview empty">Henüz zimmet kaydı bulunmuyor.</div>
+      <div id="messageDetail" class="empty">Detay için bir mesaj seçin.</div>
     </section>
-
-  </main>
-</div>
-
-<div id="assetToast" class="asset-toast">İşlem tamamlandı</div>
+  </section>
+</main>
 
 <script src="assets/js/config/api-client.js"></script>
-<script src="assets/js/ui/hr-suite.js"></script>
-
 <script>
-const api = window.GDNL_API;
-let assetRecords = [];
-
-function assetEsc(value){
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-function assetVal(obj,...keys){
-  for(const key of keys){
-    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
-      return obj[key];
-    }
-  }
-  return "";
-}
-
-function assetNormalize(value){
-  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
-}
-
-function assetToast(text){
-  if(api && typeof api.showToast === "function"){
-    api.showToast(text);
-    return;
-  }
-
-  const toast = document.getElementById("assetToast");
-  toast.textContent = text;
-  toast.style.display = "block";
-
-  setTimeout(() => {
-    toast.style.display = "none";
-  },2400);
-}
-
-function currentUserName(){
-  try{
-    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
-    if(user){
-      return assetVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
-    }
-  }catch(e){}
-
-  return "Oturum Kullanıcısı";
-}
-
-function setAssetUser(){
-  const userName = document.getElementById("userName");
-  if(userName) userName.textContent = currentUserName();
-}
-
-function statusClass(status){
-  const value = assetNormalize(status);
-
-  if(value === "açık") return "open";
-  if(value === "bekliyor") return "waiting";
-  if(value === "gecikti") return "late";
-  if(value === "tamamlandı") return "done";
-  if(value === "arşivlendi") return "archive";
-
-  return "open";
-}
-
-function priorityClass(priority){
-  const value = assetNormalize(priority);
-
-  if(value === "kritik") return "critical";
-  if(value === "yüksek") return "high";
-
-  return "normal";
-}
-
-function formatDate(value){
-  if(!value) return "-";
-
-  const date = new Date(value);
-
-  if(Number.isNaN(date.getTime())){
-    return assetEsc(value);
-  }
-
-  return date.toLocaleDateString("tr-TR",{
-    year:"numeric",
-    month:"2-digit",
-    day:"2-digit"
-  });
-}
-
-function isLate(record){
-  const status = assetVal(record,"status","asset_status");
-  const returnDate = assetVal(record,"return_date","planned_return_date","due_date");
-
-  if(assetNormalize(status) === "tamamlandı" || assetNormalize(status) === "arşivlendi"){
-    return false;
-  }
-
-  if(!returnDate) return false;
-
-  const due = new Date(returnDate);
-  const today = new Date();
-
-  due.setHours(23,59,59,999);
-  return !Number.isNaN(due.getTime()) && due < today;
-}
-
-function normalizeAssetRecord(record){
-  return {
-    id:assetVal(record,"id","asset_id","record_id") || cryptoSafeId(),
-    employee:assetVal(record,"employee","employee_name","personnel","personel","user_name"),
-    department:assetVal(record,"department","department_name"),
-    assetType:assetVal(record,"asset_type","type","equipment_type"),
-    assetName:assetVal(record,"asset_name","equipment","equipment_name","device_name"),
-    model:assetVal(record,"asset_model","model","brand_model"),
-    serialNo:assetVal(record,"serial_no","serial","serial_number"),
-    deliveryDate:assetVal(record,"delivery_date","assigned_at","start_date"),
-    returnDate:assetVal(record,"return_date","planned_return_date","due_date"),
-    status:assetVal(record,"status","asset_status") || "Açık",
-    priority:assetVal(record,"priority") || "Normal",
-    description:assetVal(record,"description","notes","note"),
-    createdAt:assetVal(record,"created_at","date") || new Date().toISOString(),
-    createdBy:assetVal(record,"created_by","owner","uploaded_by") || currentUserName()
-  };
-}
-
-function cryptoSafeId(){
-  try{
-    if(window.crypto && crypto.randomUUID){
-      return crypto.randomUUID();
-    }
-  }catch(e){}
-
-  return "ASSET-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
-}
-
-function formPayload(){
-  return {
-    employee_name:document.getElementById("employeeName").value.trim(),
-    department_name:document.getElementById("departmentName").value.trim(),
-    asset_type:document.getElementById("assetType").value,
-    asset_name:document.getElementById("assetName").value.trim(),
-    asset_model:document.getElementById("assetModel").value.trim(),
-    serial_no:document.getElementById("serialNo").value.trim(),
-    delivery_date:document.getElementById("deliveryDate").value,
-    return_date:document.getElementById("returnDate").value,
-    status:document.getElementById("assetStatus").value,
-    priority:document.getElementById("assetPriority").value,
-    description:document.getElementById("assetDescription").value.trim(),
-    module:"HR_ASSETS",
-    created_by:currentUserName()
-  };
-}
-
-function validatePayload(payload){
-  if(!payload.employee_name) return "Personel adı zorunludur.";
-  if(!payload.asset_name) return "Ekipman adı zorunludur.";
-  if(!payload.serial_no) return "Seri no zorunludur.";
-  if(!payload.delivery_date) return "Teslim tarihi zorunludur.";
-
-  return "";
-}
-
-async function uploadAssetFile(recordId){
-  const fileInput = document.getElementById("hrFile");
-  const file = fileInput.files && fileInput.files[0];
-
-  if(!file) return null;
-
-  if(!api || typeof api.uploadToR2 !== "function"){
-    assetToast("R2 yükleme fonksiyonu bulunamadı.");
-    return null;
-  }
-
-  const fileCategory = document.getElementById("fileCategory").value;
-  const fileDescription = document.getElementById("fileDescription").value.trim();
-
-  try{
-    return await api.uploadToR2(file,{
-      module:"HR_ASSETS",
-      related_id:recordId,
-      category:fileCategory,
-      description:fileDescription,
-      uploaded_by:currentUserName()
-    });
-  }catch(error){
-    console.error(error);
-    assetToast("Dosya R2 yükleme sırasında beklemeye alındı.");
-    return null;
-  }
-}
-
-async function saveAssetRecord(){
-  const payload = formPayload();
-  const validation = validatePayload(payload);
-
-  if(validation){
-    assetToast(validation);
-    return;
-  }
-
-  const recordId = cryptoSafeId();
-  payload.id = recordId;
-
-  try{
-    const file = await uploadAssetFile(recordId);
-    payload.file = file;
-
-    let saved = null;
-
-    if(api && typeof api.post === "function"){
-      try{
-        saved = await api.post("/hr/assets",payload,{fallbackOnNotFound:false});
-      }catch(firstError){
-        saved = await api.post("/assets",payload,{fallbackOnNotFound:false});
-      }
-    }
-
-    const normalized = normalizeAssetRecord(saved || payload);
-    assetRecords.unshift(normalized);
-
-    renderAssetRecords();
-    renderAuditPreview();
-    updateAssetKpis();
-    clearAssetForm(false);
-
-    assetToast("Zimmet kaydı oluşturuldu.");
-
-  }catch(error){
-    console.error(error);
-
-    const normalized = normalizeAssetRecord(payload);
-    assetRecords.unshift(normalized);
-
-    renderAssetRecords();
-    renderAuditPreview();
-    updateAssetKpis();
-
-    assetToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
-  }
-}
-
-async function loadAssetRecords(){
-  const recordList = document.getElementById("recordList");
-  recordList.innerHTML = '<div class="asset-empty">Yükleniyor...</div>';
-
-  try{
-    let response = null;
-
-    if(api && typeof api.get === "function"){
-      try{
-        response = await api.get("/hr/assets");
-      }catch(firstError){
-        response = await api.get("/assets");
-      }
-    }
-
-    const rows = api && typeof api.asArray === "function"
-      ? api.asArray(response)
-      : Array.isArray(response)
-        ? response
-        : [];
-
-    assetRecords = rows.map(normalizeAssetRecord).sort((a,b) => {
-      const da = new Date(a.createdAt).getTime() || 0;
-      const db = new Date(b.createdAt).getTime() || 0;
-      return db - da;
-    });
-
-  }catch(error){
-    console.error(error);
-    assetRecords = [];
-  }
-
-  renderAssetRecords();
-  renderAuditPreview();
-  updateAssetKpis();
-}
-
-function filteredAssetRecords(){
-  const q = assetNormalize(document.getElementById("suiteSearch").value);
-  const status = document.getElementById("statusFilter").value;
-  const priority = document.getElementById("priorityFilter").value;
-
-  return assetRecords.filter(record => {
-    if(status && record.status !== status) return false;
-    if(priority && record.priority !== priority) return false;
-
-    if(q){
-      const merged = assetNormalize([
-        record.employee,
-        record.department,
-        record.assetType,
-        record.assetName,
-        record.model,
-        record.serialNo,
-        record.status,
-        record.priority,
-        record.description
-      ].join(" "));
-
-      if(!merged.includes(q)) return false;
-    }
-
-    return true;
-  });
-}
-
-function renderAssetRecords(){
-  const recordList = document.getElementById("recordList");
-  const rows = filteredAssetRecords();
-
-  if(!rows.length){
-    recordList.innerHTML = '<div class="asset-empty">Zimmet kaydı bulunmuyor.</div>';
-    return;
-  }
-
-  recordList.innerHTML = rows.map(record => `
-    <article class="asset-record">
-      <div class="asset-record-head">
-        <div>
-          <div class="asset-record-title">${assetEsc(record.assetName || "Zimmet Kaydı")}</div>
-          <div class="asset-record-meta">
-            Personel: ${assetEsc(record.employee || "-")} · Departman: ${assetEsc(record.department || "-")} · Seri No: ${assetEsc(record.serialNo || "-")}
-          </div>
-        </div>
-
-        <div>
-          <span class="asset-status ${statusClass(isLate(record) ? "Gecikti" : record.status)}">${assetEsc(isLate(record) ? "Gecikti" : record.status)}</span>
-          <span class="asset-status ${priorityClass(record.priority)}">${assetEsc(record.priority)}</span>
-        </div>
-      </div>
-
-      <div class="asset-mini-grid">
-        <div class="asset-record-meta">Ekipman Türü: <strong>${assetEsc(record.assetType || "-")}</strong></div>
-        <div class="asset-record-meta">Marka / Model: <strong>${assetEsc(record.model || "-")}</strong></div>
-        <div class="asset-record-meta">Teslim Tarihi: <strong>${formatDate(record.deliveryDate)}</strong></div>
-        <div class="asset-record-meta">Planlanan İade: <strong>${formatDate(record.returnDate)}</strong></div>
-      </div>
-
-      <div class="asset-record-meta">${assetEsc(record.description || "Açıklama girilmedi.")}</div>
-
-      <div class="asset-record-actions">
-        <button class="asset-small-btn" type="button" onclick="markAssetDone('${assetEsc(record.id)}')">Tamamlandı</button>
-        <button class="asset-small-btn dark" type="button" onclick="copyAssetSummary('${assetEsc(record.id)}')">Özet Kopyala</button>
-        <button class="asset-small-btn red" type="button" onclick="archiveAsset('${assetEsc(record.id)}')">Arşivle</button>
-      </div>
-    </article>
-  `).join("");
-}
-
-function updateAssetKpis(){
-  document.getElementById("kpiTotal").textContent = assetRecords.length;
-  document.getElementById("kpiOpen").textContent = assetRecords.filter(r => assetNormalize(r.status) === "açık" || assetNormalize(r.status) === "bekliyor").length;
-  document.getElementById("kpiLate").textContent = assetRecords.filter(isLate).length;
-  document.getElementById("kpiCritical").textContent = assetRecords.filter(r => assetNormalize(r.priority) === "kritik").length;
-}
-
-function renderAuditPreview(){
-  const auditPreview = document.getElementById("auditPreview");
-
-  if(!assetRecords.length){
-    auditPreview.className = "audit-preview empty";
-    auditPreview.textContent = "Henüz zimmet kaydı bulunmuyor.";
-    return;
-  }
-
-  auditPreview.className = "audit-preview";
-  auditPreview.innerHTML = assetRecords.slice(0,8).map(record => `
-    <div class="asset-record-meta">
-      ${formatDate(record.createdAt)} · ${assetEsc(record.createdBy || "Oturum Kullanıcısı")} · ${assetEsc(record.employee || "-")} için ${assetEsc(record.assetName || "-")} zimmet kaydı oluşturuldu.
-    </div>
-  `).join("");
-}
-
-async function updateAssetStatus(id,status){
-  const record = assetRecords.find(item => String(item.id) === String(id));
-
-  if(!record){
-    assetToast("Kayıt bulunamadı.");
-    return;
-  }
-
-  record.status = status;
-
-  try{
-    if(api && typeof api.put === "function"){
-      await api.put("/hr/assets/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
-    }else if(api && typeof api.patch === "function"){
-      await api.patch("/hr/assets/" + encodeURIComponent(id),{status,updated_by:currentUserName()},{fallbackOnNotFound:false});
-    }
-  }catch(error){
-    console.warn("Durum güncelleme endpoint bekliyor",error);
-  }
-
-  renderAssetRecords();
-  renderAuditPreview();
-  updateAssetKpis();
-  assetToast("Zimmet durumu güncellendi.");
-}
-
-function markAssetDone(id){
-  updateAssetStatus(id,"Tamamlandı");
-}
-
-function archiveAsset(id){
-  updateAssetStatus(id,"Arşivlendi");
-}
-
-function copyAssetSummary(id){
-  const record = assetRecords.find(item => String(item.id) === String(id));
-
-  if(!record){
-    assetToast("Kayıt bulunamadı.");
-    return;
-  }
-
-  const summary = [
-    "GDNL EOS Zimmet Özeti",
-    "Personel: " + (record.employee || "-"),
-    "Departman: " + (record.department || "-"),
-    "Ekipman: " + (record.assetName || "-"),
-    "Tür: " + (record.assetType || "-"),
-    "Model: " + (record.model || "-"),
-    "Seri No: " + (record.serialNo || "-"),
-    "Teslim Tarihi: " + formatDate(record.deliveryDate),
-    "Planlanan İade: " + formatDate(record.returnDate),
-    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
-    "Öncelik: " + (record.priority || "-"),
-    "Açıklama: " + (record.description || "-")
-  ].join("\n");
-
-  navigator.clipboard?.writeText(summary)
-    .then(() => assetToast("Zimmet özeti kopyalandı."))
-    .catch(() => assetToast("Kopyalama desteklenmiyor."));
-}
-
-function clearAssetForm(showToast=true){
-  [
-    "employeeName",
-    "departmentName",
-    "assetName",
-    "assetModel",
-    "serialNo",
-    "deliveryDate",
-    "returnDate",
-    "assetDescription",
-    "fileDescription"
-  ].forEach(id => {
-    const element = document.getElementById(id);
-    if(element) element.value = "";
-  });
-
-  document.getElementById("assetType").value = "Bilgisayar";
-  document.getElementById("assetStatus").value = "Açık";
-  document.getElementById("assetPriority").value = "Normal";
-  document.getElementById("fileCategory").value = "Zimmet Formu";
-  document.getElementById("hrFile").value = "";
-
-  if(showToast) assetToast("Form temizlendi.");
-}
-
-function focusAssetForm(){
-  const employeeName = document.getElementById("employeeName");
-  employeeName?.focus();
-}
-
-function assetMessagePrep(){
-  const payload = formPayload();
-
-  const message = [
-    "Merhaba,",
-    "",
-    "Aşağıdaki zimmet kaydı için bilgilendirme yapılmıştır:",
-    "",
-    "Personel: " + (payload.employee_name || "-"),
-    "Departman: " + (payload.department_name || "-"),
-    "Ekipman: " + (payload.asset_name || "-"),
-    "Seri No: " + (payload.serial_no || "-"),
-    "Teslim Tarihi: " + (payload.delivery_date || "-"),
-    "Planlanan İade Tarihi: " + (payload.return_date || "-"),
-    "Durum: " + (payload.status || "-"),
-    "Öncelik: " + (payload.priority || "-"),
-    "",
-    "Bilgilerinize."
-  ].join("\n");
-
-  navigator.clipboard?.writeText(message)
-    .then(() => assetToast("Mesaj metni kopyalandı."))
-    .catch(() => assetToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
-}
-
-function bindAssetEvents(){
-  const suiteSearch = document.getElementById("suiteSearch");
-  const statusFilter = document.getElementById("statusFilter");
-  const priorityFilter = document.getElementById("priorityFilter");
-
-  if(suiteSearch) suiteSearch.addEventListener("input",renderAssetRecords);
-  if(statusFilter) statusFilter.addEventListener("change",renderAssetRecords);
-  if(priorityFilter) priorityFilter.addEventListener("change",renderAssetRecords);
-}
-
-function ensureHrFallbacks(){
-  window.hrFocusForm = window.hrFocusForm || focusAssetForm;
-  window.hrMessagePrep = window.hrMessagePrep || assetMessagePrep;
-  window.hrClearForm = window.hrClearForm || clearAssetForm;
-  window.hrSaveDraft = window.hrSaveDraft || saveAssetRecord;
-
-  window.hrRunSearch = window.hrRunSearch || function(){
-    renderAssetRecords();
-  };
-
-  window.hrLogout = window.hrLogout || function(){
-    try{
-      if(window.navigateRoute){
-        window.navigateRoute("index.html?logout=1");
-        return;
-      }
-    }catch(e){}
-
-    window.location.href = "index.html?logout=1";
-  };
-}
-
-function bootAssetPage(){
-  if(api && typeof api.applyCurrentUser === "function"){
-    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
-  }
-
-  setAssetUser();
-  ensureHrFallbacks();
-  bindAssetEvents();
-  loadAssetRecords();
-}
-
-bootAssetPage();
+const api=window.GDNL_API;
+let users=[],messages=[],recipients=[],activeFolder="inbox",selectedMessageId="",attachmentFile=null,messagesEndpointReady=true,lastPreparedPayload=null;
+const safeApi={redirectOnUnauthorized:false};
+const esc=v=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const currentUser=()=>window.GDNL_CURRENT_USER||{};
+const userNameOf=u=>u?.fullname||u?.name||u?.username||u?.email||"Kullanıcı";
+function asFolder(m){if(m.folder==="drafts")return"draft";if(m.folder)return m.folder;if(m.status==="draft"||m.status==="trash")return m.status;if(String(m.sender_id||"")&&String(m.sender_id)===String(currentUser().id||""))return"sent";return"inbox"}
+function normalizeAttachment(file){const s=file||{};return{file_id:s.file_id||s.id||"",r2_key:s.r2_key||s.key||s.object_key||"",filename:s.filename||s.fileName||s.file_name||s.name||"Dosya",mime_type:s.mime_type||s.type||"",size:s.size||0}}
+function normalizeMessage(m){const at=Array.isArray(m.attachments)?m.attachments.map(normalizeAttachment):(m.attachment||m.file?[normalizeAttachment(m.attachment||m.file)]:[]);return{...m,id:String(m.id||m.message_id||"MSG-"+Date.now()),folder:asFolder(m),status:m.status||asFolder(m),subject:m.subject||"",body:m.body||m.message||"",recipients:Array.isArray(m.recipients)?m.recipients.map(api.normalizeUser):[],sender_id:m.sender_id||m.from_id||"",from:m.from||m.sender_name||m.created_by||"",is_read:Boolean(m.is_read),attachments:at,related_module:m.related_module||"General",related_record_id:m.related_record_id||"",priority:m.priority||"normal",created_at:m.created_at||new Date().toISOString()}}
+function folderLabel(f){return{inbox:"Gelen Kutusu",sent:"Giden Kutusu",draft:"Taslaklar",trash:"Çöp Kutusu",compose:"Yeni Mesaj Oluştur"}[f]||"Gelen Kutusu"}
+function priorityLabel(p){return{normal:"Normal",high:"Yüksek",critical:"Kritik"}[p]||"Normal"}
+function count(folder){return messages.filter(m=>m.folder===folder).length}
+function updateCounts(){countInbox.textContent=count("inbox");countSent.textContent=count("sent");countDraft.textContent=count("draft");countTrash.textContent=count("trash")}
+function apiFolder(folder){return folder==="draft"?"drafts":folder}
+function showEndpointNotice(){endpointNotice.classList.toggle("hidden",messagesEndpointReady);endpointNotice.textContent=messagesEndpointReady?"":"Canlı mesaj endpointi bulunamadı. Mesaj kayıtları D1 bağlantısı hazır olduğunda görüntülenecek."}
+async function load(){try{users=await api.loadUsers(safeApi)}catch(e){users=[]}try{const folders=["inbox","sent","draft","trash"];const batches=await Promise.all(folders.map(f=>api.get("/messages?folder="+encodeURIComponent(apiFolder(f)),safeApi).then(data=>api.asArray(data).map(m=>normalizeMessage({...m,folder:f})))));messages=batches.flat();messagesEndpointReady=true}catch(e){messages=[];messagesEndpointReady=false}showEndpointNotice();render()}
+function render(){updateCounts();document.querySelectorAll(".folder").forEach(b=>b.classList.toggle("active",b.dataset.folder===activeFolder));folderTitle.textContent=folderLabel(activeFolder);composePanel.classList.toggle("active",activeFolder==="compose");messageList.classList.toggle("hidden",activeFolder==="compose");folderState.textContent=messagesEndpointReady?"Canlı akış":"Bekleme modu";if(activeFolder==="compose"){messageList.innerHTML="";renderDetail();return}const q=(searchBox.value||"").toLocaleLowerCase("tr-TR");const p=priorityFilter.value;const mod=moduleFilter.value;const rows=messages.filter(m=>m.folder===activeFolder&&(!p||m.priority===p)&&(!mod||m.related_module===mod)&&`${m.subject} ${m.body} ${m.from} ${m.related_module} ${(m.recipients||[]).map(userNameOf).join(" ")}`.toLocaleLowerCase("tr-TR").includes(q));messageList.innerHTML=rows.length?rows.map(renderMessage).join(""):`<div class="empty">${folderLabel(activeFolder)} içinde mesaj bulunmuyor.</div>`;renderDetail()}
+function renderMessage(m){const unread=m.is_read?"":"● ";return `<article class="message ${m.id===selectedMessageId?"active":""}" onclick="openMessage('${esc(m.id)}')"><b>${unread}${esc(m.subject||"(Konu yok)")}</b><small>${esc(m.from||"Kullanıcı")} · ${esc(new Date(m.created_at).toLocaleString("tr-TR"))}</small><p>${esc(m.body).slice(0,180)}</p><span class="badge">${esc(priorityLabel(m.priority))}</span> <span class="badge">${esc(m.related_module)}</span> ${(m.attachments||[]).length?`<span class="badge warn">${m.attachments.length} ek</span>`:""}<div class="message-actions"><button class="mini-btn" onclick="event.stopPropagation();openMessage('${esc(m.id)}')">Detay</button><button class="mini-btn" onclick="event.stopPropagation();replyTo('${esc(m.id)}')">Yanıtla</button><button class="mini-btn" onclick="event.stopPropagation();markRead('${esc(m.id)}')">Okundu</button>${m.folder==="trash"?`<button class="mini-btn" onclick="event.stopPropagation();restoreMessage('${esc(m.id)}')">Geri Yükle</button>`:`<button class="mini-btn danger" onclick="event.stopPropagation();moveTrash('${esc(m.id)}')">Çöpe Taşı</button>`}</div></article>`}
+function renderPreparedPayload(){if(!lastPreparedPayload)return false;readState.textContent="Bekleme modu";messageDetail.innerHTML=`<div class="detail"><div class="notice">Canlı mesaj endpointi bulunamadı. Aşağıdaki mesaj payload'ı D1 bağlantısı hazır olduğunda POST /messages ile gönderilecek yapıdadır.</div><div class="detail-grid"><b>Konu</b><span>${esc(lastPreparedPayload.subject||"(Konu yok)")}</span><b>Alıcılar</b><span>${lastPreparedPayload.recipients.map(r=>`<span class="chip">${esc(userNameOf(r))}</span>`).join("")||"-"}</span><b>Durum</b><span>${esc(lastPreparedPayload.status)}</span><b>Öncelik</b><span>${esc(priorityLabel(lastPreparedPayload.priority))}</span><b>İlgili kayıt</b><span>${esc(lastPreparedPayload.related_module)} ${lastPreparedPayload.related_record_id?"#"+esc(lastPreparedPayload.related_record_id):""}</span></div><div class="detail-box">${esc(lastPreparedPayload.body||"")}</div></div>`;return true}
+function renderDetail(){const m=messages.find(x=>x.id===selectedMessageId);if(!m){if(renderPreparedPayload())return;readState.textContent="Seçilmedi";messageDetail.innerHTML='<div class="empty">Detay için bir mesaj seçin.</div>';return}lastPreparedPayload=null;readState.textContent=m.is_read?"Okundu":"Okunmadı";messageDetail.innerHTML=`<div class="detail"><div class="detail-grid"><b>Konu</b><span>${esc(m.subject||"(Konu yok)")}</span><b>Gönderen</b><span>${esc(m.from||"Kullanıcı")}</span><b>Tarih</b><span>${esc(new Date(m.created_at).toLocaleString("tr-TR"))}</span><b>Öncelik</b><span>${esc(priorityLabel(m.priority))}</span><b>İlgili kayıt</b><span>${esc(m.related_module)} ${m.related_record_id?"#"+esc(m.related_record_id):""}</span><b>Alıcılar</b><span>${(m.recipients||[]).map(r=>`<span class="chip">${esc(userNameOf(r))}</span>`).join("")||"-"}</span></div><div class="detail-box">${esc(m.body||"")}</div>${(m.attachments||[]).map(a=>`<div class="detail-box"><b>R2 Ek:</b> ${esc(a.filename)} ${a.size?`(${esc(a.size)} byte)`:""}</div>`).join("")}<div class="actions"><button class="btn secondary" onclick="replyTo('${esc(m.id)}')">Yanıtla</button>${m.folder==="trash"?`<button class="btn secondary" onclick="restoreMessage('${esc(m.id)}')">Geri Yükle</button>`:`<button class="btn danger" onclick="moveTrash('${esc(m.id)}')">Çöpe Taşı</button>`}</div></div>`}
+function renderRecipients(){recipientChips.innerHTML=recipients.map((u,i)=>`<span class="chip">${esc(userNameOf(u))}<button type="button" onclick="recipients.splice(${i},1);renderRecipients()" style="border:none;background:transparent;color:#991b1b;font-weight:950">×</button></span>`).join("")}
+recipientInput.addEventListener("input",()=>{const q=recipientInput.value.toLocaleLowerCase("tr-TR");const found=users.filter(u=>`${u.fullname} ${u.username} ${u.email} ${u.department}`.toLocaleLowerCase("tr-TR").includes(q)).slice(0,10);suggestions.innerHTML=found.map((u,i)=>`<div data-i="${i}">${esc(userNameOf(u))}<br><small>${esc(u.email||"")} · ${esc(u.department||"")}</small></div>`).join("");suggestions.style.display=found.length?"block":"none";suggestions.querySelectorAll("[data-i]").forEach(el=>el.onclick=()=>{const u=found[Number(el.dataset.i)];if(!recipients.some(r=>String(r.id)===String(u.id)))recipients.push(u);recipientInput.value="";suggestions.style.display="none";renderRecipients()})});
+attachment.addEventListener("change",e=>{attachmentFile=e.target.files[0]||null});
+function recipientPayload(){return recipients.map(api.normalizeUser).map(u=>({user_id:u.id,fullname:userNameOf(u),username:u.username,email:u.email,role:u.role,department:u.department}))}
+async function uploadAttachment(record){if(!attachmentFile)return null;try{return normalizeAttachment(await api.uploadToR2(attachmentFile,{module:"mailbox",record_id:record,category:"Mesaj Eki",uploaded_by:userNameOf(currentUser())}))}catch(e){api.showToast("R2 ek yükleme endpointi bekleniyor");return null}}
+async function buildPayload(status){const id="MSG-"+Date.now();const file=await uploadAttachment(id);return{id,subject:subject.value.trim(),body:body.value.trim(),recipients:recipientPayload(),priority:priority.value||"normal",status,folder:status==="sent"?"sent":status,related_module:relatedModule.value||"General",related_record_id:relatedRecordId.value.trim(),attachments:file?[file]:[],sender_id:currentUser().id||"",from:userNameOf(currentUser()),is_read:false,created_at:new Date().toISOString(),updated_at:new Date().toISOString()}}
+async function writeActivity(action,message){const payload={module:"mailbox",related_module:"mailbox",related_record_id:message?.id||"",action,description:message?.subject||"",user_id:currentUser().id||"",user_name:userNameOf(currentUser()),created_at:new Date().toISOString()};api.post("/activity-feed",payload,safeApi).catch(()=>{});api.post("/audit-logs",payload,safeApi).catch(()=>{})}
+function notifyRecipients(message){api.post("/notifications",{type:"message",title:"Yeni mesaj",message:message.subject||"Yeni mesaj",recipients:message.recipients,related_module:"mailbox",related_record_id:message.id,is_read:false,created_at:new Date().toISOString()},safeApi).catch(()=>{})}
+async function save(status){if(status==="sent"&&!recipients.length)return api.showToast("Alıcı seç");const payload=await buildPayload(status);try{const saved=await api.post("/messages",payload,safeApi);messagesEndpointReady=true;lastPreparedPayload=null;const savedMessage=normalizeMessage(api.responseData?api.responseData(saved):saved?.data||payload);selectedMessageId=savedMessage.id;await writeActivity(status==="draft"?"Taslak kaydedildi":"Mesaj gönderildi",savedMessage);if(savedMessage.attachments.length)await writeActivity("Dosya eki eklendi",savedMessage);activeFolder=status==="draft"?"draft":"sent";clearCompose(false);await load();selectedMessageId=savedMessage.id;render()}catch(e){messagesEndpointReady=false;lastPreparedPayload=payload;selectedMessageId="";api.showToast("Canlı mesaj endpointi bulunamadı; payload hazırlandı");showEndpointNotice();render()}}
+function sendMessage(){save("sent")}function saveDraft(){save("draft")}
+function clearCompose(show=true){recipients=[];subject.value="";body.value="";relatedModule.value="General";relatedRecordId.value="";priority.value="normal";attachment.value="";attachmentFile=null;renderRecipients();if(show)api.showToast("Mesaj formu temizlendi")}
+function openCompose(){activeFolder="compose";render()}
+async function openMessage(id){try{const detail=normalizeMessage(api.responseData(await api.get("/messages/"+encodeURIComponent(id),safeApi)));const idx=messages.findIndex(x=>x.id===detail.id);if(idx>=0)messages[idx]={...messages[idx],...detail};else messages.unshift(detail);selectedMessageId=detail.id;await markRead(id,true)}catch(e){selectedMessageId=id;api.showToast("Mesaj detayı alınamadı")}render()}
+function replyTo(id){const m=messages.find(x=>x.id===id);if(!m)return;recipients=m.sender_id||m.from?[api.normalizeUser({id:m.sender_id,fullname:m.from,email:m.from_email||""})]:[];subject.value=/^Yanıt:/i.test(m.subject)?m.subject:"Yanıt: "+(m.subject||"");body.value="\n\n--- Önceki Mesaj ---\n"+(m.body||"");relatedModule.value=m.related_module||"General";relatedRecordId.value=m.related_record_id||"";priority.value=m.priority||"normal";activeFolder="compose";renderRecipients();render()}
+async function markRead(id,silent=false){const m=messages.find(x=>x.id===id);if(!m)return;try{await api.put("/messages/"+encodeURIComponent(id)+"/read",{is_read:true,read_at:new Date().toISOString()},safeApi);m.is_read=true;await writeActivity("Mesaj okundu",m)}catch(e){api.showToast("Okundu bilgisi işlenemedi")}if(!silent)render()}
+async function moveTrash(id){const m=messages.find(x=>x.id===id);if(!m)return;try{await api.put("/messages/"+encodeURIComponent(id)+"/trash",{status:"trash",deleted_at:new Date().toISOString()},safeApi);m.previous_folder=m.folder;m.folder="trash";m.status="trash";await writeActivity("Mesaj çöpe taşındı",m);await load();activeFolder="trash";selectedMessageId=id}catch(e){api.showToast("Mesaj çöpe taşınamadı")}render()}
+async function restoreMessage(id){const m=messages.find(x=>x.id===id);if(!m)return;try{const restored=api.responseData(await api.put("/messages/"+encodeURIComponent(id)+"/restore",{status:m.status,deleted_at:null},safeApi));await writeActivity("Mesaj geri yüklendi",m);activeFolder=restored.folder==="sent"?"sent":"inbox";await load();selectedMessageId=id}catch(e){api.showToast("Mesaj geri yüklenemedi")}render()}
+document.querySelectorAll(".folder").forEach(btn=>btn.onclick=()=>{activeFolder=btn.dataset.folder;render()});searchBox.addEventListener("input",render);priorityFilter.addEventListener("change",render);moduleFilter.addEventListener("change",render);load();
 </script>
-
 </body>
 </html>
