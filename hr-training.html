@@ -5,27 +5,1190 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | İK Eğitim Takibi</title>
 <link rel="stylesheet" href="assets/css/hr-suite.css">
+
+<style>
+:root{
+  --tr-navy:#071b34;
+  --tr-green:#35a852;
+  --tr-line:#dfe9f5;
+  --tr-muted:#64748b;
+  --tr-danger:#dc2626;
+  --tr-warning:#f59e0b;
+  --tr-blue:#0f4c81;
+}
+
+.tr-kpi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.tr-kpi-card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--tr-line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:0 14px 36px rgba(7,27,52,.06);
+}
+
+.tr-kpi-card small{
+  display:block;
+  color:var(--tr-muted);
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.tr-kpi-card strong{
+  display:block;
+  color:var(--tr-navy);
+  font-size:26px;
+  font-weight:950;
+}
+
+.tr-kpi-card span{
+  display:block;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.tr-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:950;
+  background:#eef6ff;
+  color:#075985;
+  white-space:nowrap;
+}
+
+.tr-status.open{background:#e0f2fe;color:#075985}
+.tr-status.waiting{background:#fef3c7;color:#92400e}
+.tr-status.late{background:#fee2e2;color:#991b1b}
+.tr-status.done{background:#dcfce7;color:#166534}
+.tr-status.archive{background:#f1f5f9;color:#475569}
+.tr-status.critical{background:#fee2e2;color:#991b1b}
+.tr-status.high{background:#fef3c7;color:#92400e}
+.tr-status.normal{background:#dcfce7;color:#166534}
+.tr-status.valid{background:#dcfce7;color:#166534}
+.tr-status.expiring{background:#fef3c7;color:#92400e}
+.tr-status.expired{background:#fee2e2;color:#991b1b}
+.tr-status.passed{background:#dcfce7;color:#166534}
+.tr-status.failed{background:#fee2e2;color:#991b1b}
+
+.tr-record{
+  border:1px solid #e8eef6;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+
+.tr-record-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.tr-record-title{
+  color:var(--tr-navy);
+  font-size:15px;
+  font-weight:950;
+}
+
+.tr-record-meta{
+  color:var(--tr-muted);
+  font-size:12px;
+  font-weight:850;
+  line-height:1.5;
+}
+
+.tr-mini-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+
+.tr-metric{
+  background:#f8fbff;
+  border:1px solid #e6eef8;
+  border-radius:14px;
+  padding:10px;
+}
+
+.tr-metric small{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.tr-metric strong{
+  display:block;
+  color:#071b34;
+  font-size:14px;
+  font-weight:950;
+}
+
+.tr-bar{
+  width:100%;
+  height:10px;
+  background:#eef2f7;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.tr-bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);
+  border-radius:999px;
+}
+
+.tr-record-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.tr-small-btn{
+  border:0;
+  border-radius:12px;
+  padding:8px 10px;
+  font-size:12px;
+  font-weight:950;
+  cursor:pointer;
+  background:#dcfce7;
+  color:#15803d;
+}
+
+.tr-small-btn.dark{
+  background:#071b34;
+  color:#fff;
+}
+
+.tr-small-btn.red{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.tr-small-btn.yellow{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.tr-empty{
+  padding:22px;
+  text-align:center;
+  color:#64748b;
+  font-weight:900;
+  background:#f8fbff;
+  border:1px dashed #dbe7f3;
+  border-radius:18px;
+}
+
+.tr-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:90;
+  background:#071b34;
+  color:#fff;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  box-shadow:0 18px 45px rgba(7,27,52,.18);
+  display:none;
+}
+
+.tr-file-note{
+  margin-top:10px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+@media(max-width:1100px){
+  .tr-mini-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .tr-mini-grid{
+    grid-template-columns:1fr;
+  }
+
+  .tr-record-head{
+    display:grid;
+  }
+
+  .tr-record-actions{
+    display:grid;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app" data-suite="hr" data-page="hr-training.html">
+
   <aside class="sidebar" aria-label="İnsan Kaynakları Suite menüsü">
     <a class="brand" href="hr-dashboard.html">GDNL <span>İnsan Kaynakları</span></a>
     <nav id="hrNav" class="nav"></nav>
   </aside>
+
   <main class="main">
+
     <header class="topbar">
-      <div class="topbar-left"><button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button><div class="suite-eyebrow">İnsan Kaynakları Suite</div><div class="user">👤 <span id="userName">Kullanıcı</span></div></div>
-      <div class="search-wrap"><input id="suiteSearch" class="search" type="search" placeholder="Ara..." autocomplete="off"><button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button></div>
-      <div class="topbar-actions"><a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a><a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a><a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a><button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button></div>
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
+        <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
+        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      </div>
+
+      <div class="search-wrap">
+        <input id="suiteSearch" class="search" type="search" placeholder="Eğitim, katılımcı, eğitmen, sertifika veya durum ara..." autocomplete="off">
+        <button class="search-btn" type="button" onclick="window.hrRunSearch && window.hrRunSearch()">Ara</button>
+      </div>
+
+      <div class="topbar-actions">
+        <a class="icon-link primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <a class="icon-link gdnl-message-link" href="mailbox.html">📨 Mesaj Merkezi</a>
+        <a class="icon-link gdnl-notification-link" href="notification-center.html">🔔 Bildirim Merkezi</a>
+        <button class="logout" type="button" onclick="hrLogout()">Oturumu Kapat</button>
+      </div>
     </header>
-    <section class="hero"><div><span class="hero-kicker">İnsan Kaynakları</span><h1 id="pageTitle">İK Eğitim Takibi</h1><p id="pageDesc">Eğitim planı, eğitmen, katılımcılar, tarih, sınav puanı, sertifika ve geçerlilik tarihinin izlendiği ekran.</p></div><div class="hero-actions"><button class="btn primary" type="button" onclick="window.hrFocusForm && window.hrFocusForm()">İK Eğitim Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button></div></section>
+
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">İnsan Kaynakları</span>
+        <h1 id="pageTitle">İK Eğitim Takibi</h1>
+        <p id="pageDesc">Eğitim planı, eğitmen, katılımcılar, tarih, sınav puanı, sertifika, geçerlilik tarihi ve yenileme ihtiyacı D1/R2 standardıyla izlenir.</p>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn primary" type="button" onclick="focusTrainingForm()">Yeni Eğitim Kaydı</button>
+        <button class="btn" type="button" onclick="trainingMessagePrep()">Mesaj Hazırla</button>
+      </div>
+    </section>
+
+    <section class="tr-kpi" aria-label="İK Eğitim Takibi göstergeleri">
+      <div class="tr-kpi-card"><small>Toplam Eğitim</small><strong id="kpiTotal">0</strong><span>Tüm eğitim kayıtları</span></div>
+      <div class="tr-kpi-card"><small>Geçerli Sertifika</small><strong id="kpiValid">0</strong><span>Süresi devam eden</span></div>
+      <div class="tr-kpi-card"><small>Yaklaşan Geçerlilik</small><strong id="kpiExpiring">0</strong><span>60 gün içinde</span></div>
+      <div class="tr-kpi-card"><small>Ortalama Puan</small><strong id="kpiAvgScore">0</strong><span>100 üzerinden</span></div>
+    </section>
+
     <section id="metricCards" class="cards" aria-label="İK Eğitim Takibi göstergeleri"></section>
-    <section class="workspace-grid"><section class="panel process-panel"><div class="panel-head"><div><h2 id="summaryTitle">Eğitim Takip Akışı</h2><p id="summaryDesc">Eğitim katılımı, sertifika ve geçerlilik tarihleri İK bakış açısıyla izlenir.</p></div><span id="statusPill" class="status-pill">İK Eğitim Takibi aktif takip</span></div><div id="summaryList" class="list"></div></section><section class="panel form-panel"><div class="panel-head"><div><h2 id="formTitle">Eğitim Kaydı</h2><p id="formDesc">Eğitim, eğitmen, katılımcılar ve sertifika bilgilerini girin.</p></div></div><div id="hrForm" class="form"></div><div class="file-box"><h3 id="fileTitle">İK Eğitim Takibi Ek Dosyaları</h3><p id="fileDesc">İK Eğitim Takibi ile ilgili formları, raporları, kanıtları ve destekleyici evrakları R2 standardıyla yükleyin.</p><div class="form compact"><div class="field"><label>Kategori</label><select id="fileCategory"></select></div><div class="field"><label>Açıklama</label><input id="fileDescription" placeholder="Dosya açıklaması"></div><div class="field full"><label>Dosya</label><input id="hrFile" type="file"></div></div></div><div class="actions"><button class="btn primary" type="button" onclick="window.hrSaveDraft && window.hrSaveDraft()">İK Eğitim Takibi Hazırla</button><button class="btn" type="button" onclick="window.hrMessagePrep && window.hrMessagePrep()">Mesaj Hazırla</button><button class="btn ghost" type="button" onclick="window.hrClearForm && window.hrClearForm()">Temizle</button></div></section></section>
-    <section class="panel records-panel"><div class="panel-head"><div><h2 id="recordsTitle">İK Eğitim Panosu</h2><p id="recordsDesc">Eğitim kayıtları katılımcı, sertifika ve geçerlilik durumuyla izlenir.</p></div><div class="toolbar"><select id="statusFilter"><option value="">Tüm Durumlar</option><option>Açık</option><option>Bekliyor</option><option>Gecikti</option><option>Tamamlandı</option><option>Arşivlendi</option></select><select id="priorityFilter"><option value="">Tüm Öncelikler</option><option>Normal</option><option>Yüksek</option><option>Kritik</option></select></div></div><div id="recordList" class="record-list"></div></section>
-    <section class="panel audit-panel"><div class="panel-head"><div><h2 id="auditTitle">Eğitim İşlem Geçmişi</h2><p id="auditDesc">Eğitim, katılımcı, sertifika ve geçerlilik işlemleri izlenir.</p></div></div><div id="auditPreview" class="audit-preview empty">Henüz İK eğitim kaydı bulunmuyor.</div></section>
+
+    <section class="workspace-grid">
+
+      <section class="panel process-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="summaryTitle">Eğitim Takip Akışı</h2>
+            <p id="summaryDesc">Eğitim planı, katılımcı, sınav puanı, sertifika ve geçerlilik tarihleri İK bakış açısıyla izlenir.</p>
+          </div>
+          <span id="statusPill" class="status-pill">İK Eğitim Takibi aktif takip</span>
+        </div>
+
+        <div id="summaryList" class="list">
+          <div class="tr-record">
+            <div class="tr-record-title">1. Eğitim planı oluşturulur</div>
+            <div class="tr-record-meta">Eğitim adı, türü, eğitmen, departman, katılımcı ve planlanan tarih kayıt altına alınır.</div>
+          </div>
+          <div class="tr-record">
+            <div class="tr-record-title">2. Katılım ve sınav sonucu takip edilir</div>
+            <div class="tr-record-meta">Katılım durumu, sınav puanı, başarı eşiği ve sertifika verilme durumu izlenir.</div>
+          </div>
+          <div class="tr-record">
+            <div class="tr-record-title">3. Sertifika geçerliliği ve yenileme yönetilir</div>
+            <div class="tr-record-meta">Geçerlilik tarihi, yaklaşan yenileme, kanıt dosyası ve işlem geçmişi D1/R2 standardında korunur.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div>
+            <h2 id="formTitle">Eğitim Kaydı</h2>
+            <p id="formDesc">Eğitim, eğitmen, katılımcılar, sınav puanı ve sertifika bilgilerini girin.</p>
+          </div>
+        </div>
+
+        <div id="hrForm" class="form">
+          <div class="field">
+            <label>Eğitim Adı</label>
+            <input id="trainingName" placeholder="Örn: İş Sağlığı ve Güvenliği Eğitimi">
+          </div>
+
+          <div class="field">
+            <label>Eğitim Türü</label>
+            <select id="trainingType">
+              <option value="Zorunlu Eğitim">Zorunlu Eğitim</option>
+              <option value="İSG Eğitimi">İSG Eğitimi</option>
+              <option value="Kalite Eğitimi">Kalite Eğitimi</option>
+              <option value="Teknik Eğitim">Teknik Eğitim</option>
+              <option value="Oryantasyon Eğitimi">Oryantasyon Eğitimi</option>
+              <option value="Yetkinlik Eğitimi">Yetkinlik Eğitimi</option>
+              <option value="KVKK / BGYS">KVKK / BGYS</option>
+              <option value="Diğer">Diğer</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Katılımcı</label>
+            <input id="participantName" placeholder="Katılımcı adı soyadı" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label>Departman</label>
+            <input id="departmentName" placeholder="Departman">
+          </div>
+
+          <div class="field">
+            <label>Eğitmen</label>
+            <input id="trainerName" placeholder="Eğitmen / kurum">
+          </div>
+
+          <div class="field">
+            <label>Eğitim Tarihi</label>
+            <input id="trainingDate" type="date">
+          </div>
+
+          <div class="field">
+            <label>Süre / saat</label>
+            <input id="durationHours" type="number" min="0" step="0.5" value="1">
+          </div>
+
+          <div class="field">
+            <label>Katılım Durumu</label>
+            <select id="attendanceStatus">
+              <option value="Katıldı">Katıldı</option>
+              <option value="Katılmadı">Katılmadı</option>
+              <option value="Planlandı">Planlandı</option>
+              <option value="Ertelendi">Ertelendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Sınav Puanı / 100</label>
+            <input id="examScore" type="number" min="0" max="100" step="1" value="0">
+          </div>
+
+          <div class="field">
+            <label>Başarı Eşiği / 100</label>
+            <input id="passScore" type="number" min="0" max="100" step="1" value="70">
+          </div>
+
+          <div class="field">
+            <label>Sertifika Durumu</label>
+            <select id="certificateStatus">
+              <option value="Verilmedi">Verilmedi</option>
+              <option value="Verildi">Verildi</option>
+              <option value="Bekliyor">Bekliyor</option>
+              <option value="Gerekli Değil">Gerekli Değil</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Sertifika No</label>
+            <input id="certificateNo" placeholder="Varsa sertifika no">
+          </div>
+
+          <div class="field">
+            <label>Geçerlilik Tarihi</label>
+            <input id="validUntil" type="date">
+          </div>
+
+          <div class="field">
+            <label>Yenileme Gerekli</label>
+            <select id="renewalRequired">
+              <option value="Hayır">Hayır</option>
+              <option value="Evet">Evet</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Durum</label>
+            <select id="trainingStatus">
+              <option>Açık</option>
+              <option>Bekliyor</option>
+              <option>Gecikti</option>
+              <option>Tamamlandı</option>
+              <option>Arşivlendi</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Öncelik</label>
+            <select id="trainingPriority">
+              <option>Normal</option>
+              <option>Yüksek</option>
+              <option>Kritik</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>Açıklama</label>
+            <textarea id="trainingDescription" placeholder="Eğitim notu, sınav açıklaması, sertifika bilgisi, yenileme ihtiyacı veya özel açıklama"></textarea>
+          </div>
+        </div>
+
+        <div class="file-box">
+          <h3 id="fileTitle">İK Eğitim Takibi Ek Dosyaları</h3>
+          <p id="fileDesc">Eğitim formu, katılım listesi, sınav sonucu, sertifika ve destekleyici evrakları R2 standardıyla yükleyin.</p>
+
+          <div class="form compact">
+            <div class="field">
+              <label>Kategori</label>
+              <select id="fileCategory">
+                <option value="Eğitim Formu">Eğitim Formu</option>
+                <option value="Katılım Listesi">Katılım Listesi</option>
+                <option value="Sınav Sonucu">Sınav Sonucu</option>
+                <option value="Sertifika">Sertifika</option>
+                <option value="Eğitim Materyali">Eğitim Materyali</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Açıklama</label>
+              <input id="fileDescription" placeholder="Dosya açıklaması">
+            </div>
+
+            <div class="field full">
+              <label>Dosya</label>
+              <input id="hrFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.webp">
+            </div>
+          </div>
+
+          <div class="tr-file-note">Dosya içeriği R2 üzerinde, metadata kaydı D1 üzerinde tutulur. Endpoint hazır değilse ekran güvenli önizleme moduna geçer.</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" type="button" onclick="saveTrainingRecord()">Eğitim Kaydı Oluştur</button>
+          <button class="btn" type="button" onclick="trainingMessagePrep()">Mesaj Hazırla</button>
+          <button class="btn ghost" type="button" onclick="clearTrainingForm()">Temizle</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel records-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="recordsTitle">İK Eğitim Panosu</h2>
+          <p id="recordsDesc">Eğitim kayıtları katılımcı, sınav puanı, sertifika, geçerlilik ve yenileme durumuyla izlenir.</p>
+        </div>
+
+        <div class="toolbar">
+          <select id="statusFilter">
+            <option value="">Tüm Durumlar</option>
+            <option>Açık</option>
+            <option>Bekliyor</option>
+            <option>Gecikti</option>
+            <option>Tamamlandı</option>
+            <option>Arşivlendi</option>
+          </select>
+
+          <select id="priorityFilter">
+            <option value="">Tüm Öncelikler</option>
+            <option>Normal</option>
+            <option>Yüksek</option>
+            <option>Kritik</option>
+          </select>
+
+          <button class="btn" type="button" onclick="loadTrainingRecords()">Yenile</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="record-list"></div>
+    </section>
+
+    <section class="panel audit-panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="auditTitle">Eğitim İşlem Geçmişi</h2>
+          <p id="auditDesc">Eğitim, katılımcı, sınav, sertifika, geçerlilik, dosya ve yenileme işlemleri izlenir.</p>
+        </div>
+      </div>
+
+      <div id="auditPreview" class="audit-preview empty">Henüz İK eğitim kaydı bulunmuyor.</div>
+    </section>
+
   </main>
 </div>
+
+<div id="trainingToast" class="tr-toast">İşlem tamamlandı</div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/hr-suite.js"></script>
+
+<script>
+const api = window.GDNL_API;
+let trainingRecords = [];
+
+function trEsc(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function trVal(obj,...keys){
+  for(const key of keys){
+    if(obj && obj[key] !== undefined && obj[key] !== null && obj[key] !== ""){
+      return obj[key];
+    }
+  }
+  return "";
+}
+
+function trNormalize(value){
+  return String(value ?? "").toLocaleLowerCase("tr-TR").trim();
+}
+
+function trToast(text){
+  if(api && typeof api.showToast === "function"){
+    api.showToast(text);
+    return;
+  }
+
+  const toast = document.getElementById("trainingToast");
+  toast.textContent = text;
+  toast.style.display = "block";
+
+  setTimeout(() => {
+    toast.style.display = "none";
+  },2400);
+}
+
+function currentUserName(){
+  try{
+    const user = window.GDNL_CURRENT_USER || window.currentUser || null;
+    if(user){
+      return trVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+    }
+  }catch(e){}
+
+  return "Oturum Kullanıcısı";
+}
+
+function setTrainingUser(){
+  const userName = document.getElementById("userName");
+  if(userName) userName.textContent = currentUserName();
+}
+
+function cryptoSafeId(){
+  try{
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+  }catch(e){}
+
+  return "TRN-" + Date.now() + "-" + Math.floor(Math.random() * 9999);
+}
+
+function statusClass(status){
+  const value = trNormalize(status);
+
+  if(value === "açık") return "open";
+  if(value === "bekliyor") return "waiting";
+  if(value === "gecikti") return "late";
+  if(value === "tamamlandı") return "done";
+  if(value === "arşivlendi") return "archive";
+
+  return "open";
+}
+
+function priorityClass(priority){
+  const value = trNormalize(priority);
+
+  if(value === "kritik") return "critical";
+  if(value === "yüksek") return "high";
+
+  return "normal";
+}
+
+function certificateClass(record){
+  const expiry = certificateExpiryStatus(record);
+
+  if(expiry === "Süresi Doldu") return "expired";
+  if(expiry === "Yaklaşıyor") return "expiring";
+
+  if(trNormalize(record.certificateStatus) === "verildi" || trNormalize(record.certificateStatus) === "gerekli değil"){
+    return "valid";
+  }
+
+  return "waiting";
+}
+
+function passClass(record){
+  return isPassed(record) ? "passed" : "failed";
+}
+
+function formatDate(value){
+  if(!value) return "-";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return trEsc(value);
+  }
+
+  return date.toLocaleDateString("tr-TR",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+function daysUntil(value){
+  if(!value) return null;
+
+  const date = new Date(value);
+  const today = new Date();
+
+  if(Number.isNaN(date.getTime())) return null;
+
+  date.setHours(23,59,59,999);
+  today.setHours(0,0,0,0);
+
+  return Math.ceil((date.getTime() - today.getTime()) / 86400000);
+}
+
+function isPassed(record){
+  const attendanceOk = trNormalize(record.attendanceStatus) === "katıldı";
+  const score = Number(record.examScore || 0);
+  const pass = Number(record.passScore || 70);
+
+  return attendanceOk && score >= pass;
+}
+
+function certificateExpiryStatus(record){
+  if(trNormalize(record.certificateStatus) === "gerekli değil") return "Gerekli Değil";
+  if(trNormalize(record.certificateStatus) !== "verildi") return "Bekliyor";
+
+  const days = daysUntil(record.validUntil);
+
+  if(days === null) return "Tarihsiz";
+  if(days < 0) return "Süresi Doldu";
+  if(days <= 60) return "Yaklaşıyor";
+
+  return "Geçerli";
+}
+
+function isLate(record){
+  if(trNormalize(record.status) === "tamamlandı" || trNormalize(record.status) === "arşivlendi"){
+    return false;
+  }
+
+  if(!record.trainingDate) return false;
+
+  const date = new Date(record.trainingDate);
+  const today = new Date();
+
+  date.setHours(23,59,59,999);
+
+  return !Number.isNaN(date.getTime()) && date < today && trNormalize(record.attendanceStatus) !== "katıldı";
+}
+
+function normalizeTrainingRecord(record){
+  return {
+    id:trVal(record,"id","training_id","record_id") || cryptoSafeId(),
+    trainingName:trVal(record,"training_name","trainingName","title","name"),
+    trainingType:trVal(record,"training_type","trainingType","type") || "Zorunlu Eğitim",
+    participant:trVal(record,"participant","participant_name","employee_name","user_name"),
+    department:trVal(record,"department","department_name"),
+    trainer:trVal(record,"trainer","trainer_name","instructor"),
+    trainingDate:trVal(record,"training_date","trainingDate","date"),
+    durationHours:Number(trVal(record,"duration_hours","durationHours") || 1),
+    attendanceStatus:trVal(record,"attendance_status","attendanceStatus") || "Planlandı",
+    examScore:Number(trVal(record,"exam_score","examScore") || 0),
+    passScore:Number(trVal(record,"pass_score","passScore") || 70),
+    certificateStatus:trVal(record,"certificate_status","certificateStatus") || "Verilmedi",
+    certificateNo:trVal(record,"certificate_no","certificateNo"),
+    validUntil:trVal(record,"valid_until","validUntil","expiry_date"),
+    renewalRequired:trVal(record,"renewal_required","renewalRequired") || "Hayır",
+    status:trVal(record,"status","training_status") || "Açık",
+    priority:trVal(record,"priority") || "Normal",
+    description:trVal(record,"description","notes","note"),
+    createdAt:trVal(record,"created_at","date_created") || new Date().toISOString(),
+    createdBy:trVal(record,"created_by","owner","uploaded_by") || currentUserName()
+  };
+}
+
+function formPayload(){
+  return {
+    training_name:document.getElementById("trainingName").value.trim(),
+    training_type:document.getElementById("trainingType").value,
+    participant_name:document.getElementById("participantName").value.trim(),
+    department_name:document.getElementById("departmentName").value.trim(),
+    trainer_name:document.getElementById("trainerName").value.trim(),
+    training_date:document.getElementById("trainingDate").value,
+    duration_hours:Number(document.getElementById("durationHours").value || 0),
+    attendance_status:document.getElementById("attendanceStatus").value,
+    exam_score:Number(document.getElementById("examScore").value || 0),
+    pass_score:Number(document.getElementById("passScore").value || 70),
+    certificate_status:document.getElementById("certificateStatus").value,
+    certificate_no:document.getElementById("certificateNo").value.trim(),
+    valid_until:document.getElementById("validUntil").value,
+    renewal_required:document.getElementById("renewalRequired").value,
+    status:document.getElementById("trainingStatus").value,
+    priority:document.getElementById("trainingPriority").value,
+    description:document.getElementById("trainingDescription").value.trim(),
+    module:"HR_TRAINING",
+    created_by:currentUserName()
+  };
+}
+
+function validatePayload(payload){
+  if(!payload.training_name) return "Eğitim adı zorunludur.";
+  if(!payload.participant_name) return "Katılımcı bilgisi zorunludur.";
+  if(!payload.department_name) return "Departman bilgisi zorunludur.";
+  if(!payload.trainer_name) return "Eğitmen bilgisi zorunludur.";
+  if(!payload.training_date) return "Eğitim tarihi zorunludur.";
+
+  return "";
+}
+
+async function uploadTrainingFile(recordId){
+  const fileInput = document.getElementById("hrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  if(!file) return null;
+
+  if(!api || typeof api.uploadToR2 !== "function"){
+    trToast("R2 yükleme fonksiyonu bulunamadı.");
+    return null;
+  }
+
+  try{
+    return await api.uploadToR2(file,{
+      module:"HR_TRAINING",
+      related_id:recordId,
+      category:document.getElementById("fileCategory").value,
+      description:document.getElementById("fileDescription").value.trim(),
+      uploaded_by:currentUserName()
+    });
+  }catch(error){
+    console.error(error);
+    trToast("Dosya R2 yükleme sırasında beklemeye alındı.");
+    return null;
+  }
+}
+
+async function saveTrainingRecord(){
+  const payload = formPayload();
+  const validation = validatePayload(payload);
+
+  if(validation){
+    trToast(validation);
+    return;
+  }
+
+  const recordId = cryptoSafeId();
+  payload.id = recordId;
+
+  const preview = normalizeTrainingRecord(payload);
+  payload.is_passed = isPassed(preview);
+  payload.certificate_expiry_status = certificateExpiryStatus(preview);
+  payload.is_late = isLate(preview);
+
+  try{
+    const file = await uploadTrainingFile(recordId);
+    payload.file = file;
+
+    let saved = null;
+
+    if(api && typeof api.post === "function"){
+      try{
+        saved = await api.post("/hr/training",payload,{fallbackOnNotFound:false});
+      }catch(firstError){
+        saved = await api.post("/training",payload,{fallbackOnNotFound:false});
+      }
+    }
+
+    const normalized = normalizeTrainingRecord(saved || payload);
+    trainingRecords.unshift(normalized);
+
+    renderTrainingRecords();
+    renderAuditPreview();
+    updateTrainingKpis();
+    clearTrainingForm(false);
+
+    trToast("İK eğitim kaydı oluşturuldu.");
+
+  }catch(error){
+    console.error(error);
+
+    trainingRecords.unshift(preview);
+
+    renderTrainingRecords();
+    renderAuditPreview();
+    updateTrainingKpis();
+
+    trToast("Backend endpoint hazır değil; kayıt ekranda güvenli önizlemeye alındı.");
+  }
+}
+
+async function loadTrainingRecords(){
+  const recordList = document.getElementById("recordList");
+  recordList.innerHTML = '<div class="tr-empty">Yükleniyor...</div>';
+
+  try{
+    let response = null;
+
+    if(api && typeof api.get === "function"){
+      try{
+        response = await api.get("/hr/training");
+      }catch(firstError){
+        response = await api.get("/training");
+      }
+    }
+
+    const rows = api && typeof api.asArray === "function"
+      ? api.asArray(response)
+      : Array.isArray(response)
+        ? response
+        : [];
+
+    trainingRecords = rows.map(normalizeTrainingRecord).sort((a,b) => {
+      const da = new Date(a.createdAt).getTime() || 0;
+      const db = new Date(b.createdAt).getTime() || 0;
+      return db - da;
+    });
+
+  }catch(error){
+    console.error(error);
+    trainingRecords = [];
+  }
+
+  renderTrainingRecords();
+  renderAuditPreview();
+  updateTrainingKpis();
+}
+
+function filteredTrainingRecords(){
+  const q = trNormalize(document.getElementById("suiteSearch").value);
+  const status = document.getElementById("statusFilter").value;
+  const priority = document.getElementById("priorityFilter").value;
+
+  return trainingRecords.filter(record => {
+    if(status && record.status !== status) return false;
+    if(priority && record.priority !== priority) return false;
+
+    if(q){
+      const merged = trNormalize([
+        record.trainingName,
+        record.trainingType,
+        record.participant,
+        record.department,
+        record.trainer,
+        record.attendanceStatus,
+        record.certificateStatus,
+        record.certificateNo,
+        record.renewalRequired,
+        record.status,
+        record.priority,
+        record.description,
+        certificateExpiryStatus(record)
+      ].join(" "));
+
+      if(!merged.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+function renderTrainingRecords(){
+  const recordList = document.getElementById("recordList");
+  const rows = filteredTrainingRecords();
+
+  if(!rows.length){
+    recordList.innerHTML = '<div class="tr-empty">İK eğitim kaydı bulunmuyor.</div>';
+    return;
+  }
+
+  recordList.innerHTML = rows.map(record => {
+    const passed = isPassed(record);
+    const expiry = certificateExpiryStatus(record);
+    const autoStatus = isLate(record) ? "Gecikti" : record.status;
+
+    return `
+      <article class="tr-record">
+        <div class="tr-record-head">
+          <div>
+            <div class="tr-record-title">${trEsc(record.trainingName || "Eğitim Kaydı")} · ${trEsc(record.participant || "-")}</div>
+            <div class="tr-record-meta">
+              Tür: ${trEsc(record.trainingType || "-")} · Departman: ${trEsc(record.department || "-")} · Eğitmen: ${trEsc(record.trainer || "-")}
+            </div>
+          </div>
+
+          <div>
+            <span class="tr-status ${passClass(record)}">${passed ? "Başarılı" : "Takip Gerekli"}</span>
+            <span class="tr-status ${certificateClass(record)}">${trEsc(expiry)}</span>
+            <span class="tr-status ${statusClass(autoStatus)}">${trEsc(autoStatus)}</span>
+            <span class="tr-status ${priorityClass(record.priority)}">${trEsc(record.priority)}</span>
+          </div>
+        </div>
+
+        <div class="tr-mini-grid">
+          <div class="tr-metric"><small>Eğitim Tarihi</small><strong>${formatDate(record.trainingDate)}</strong></div>
+          <div class="tr-metric"><small>Süre</small><strong>${record.durationHours} sa</strong></div>
+          <div class="tr-metric"><small>Katılım</small><strong>${trEsc(record.attendanceStatus || "-")}</strong></div>
+          <div class="tr-metric"><small>Sınav Puanı</small><strong>${record.examScore}/100</strong><div class="tr-bar"><div class="tr-bar-fill" style="width:${Math.max(0,Math.min(100,record.examScore))}%"></div></div></div>
+          <div class="tr-metric"><small>Başarı Eşiği</small><strong>${record.passScore}/100</strong></div>
+          <div class="tr-metric"><small>Sertifika</small><strong>${trEsc(record.certificateStatus || "-")}</strong></div>
+          <div class="tr-metric"><small>Sertifika No</small><strong>${trEsc(record.certificateNo || "-")}</strong></div>
+          <div class="tr-metric"><small>Geçerlilik</small><strong>${formatDate(record.validUntil)}</strong></div>
+        </div>
+
+        <div class="tr-record-meta">${trEsc(record.description || "Açıklama girilmedi.")}</div>
+
+        <div class="tr-record-actions">
+          <button class="tr-small-btn" type="button" onclick="markTrainingDone('${trEsc(record.id)}')">Tamamlandı</button>
+          <button class="tr-small-btn yellow" type="button" onclick="requestTrainingRenewal('${trEsc(record.id)}')">Yenileme</button>
+          <button class="tr-small-btn dark" type="button" onclick="copyTrainingSummary('${trEsc(record.id)}')">Özet Kopyala</button>
+          <button class="tr-small-btn red" type="button" onclick="archiveTraining('${trEsc(record.id)}')">Arşivle</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function updateTrainingKpis(){
+  const valid = trainingRecords.filter(record => certificateExpiryStatus(record) === "Geçerli" || certificateExpiryStatus(record) === "Gerekli Değil").length;
+  const expiring = trainingRecords.filter(record => certificateExpiryStatus(record) === "Yaklaşıyor").length;
+  const scored = trainingRecords.map(record => Number(record.examScore || 0)).filter(score => score > 0);
+  const avgScore = scored.length ? Math.round(scored.reduce((sum,score) => sum + score,0) / scored.length) : 0;
+
+  document.getElementById("kpiTotal").textContent = trainingRecords.length;
+  document.getElementById("kpiValid").textContent = valid;
+  document.getElementById("kpiExpiring").textContent = expiring;
+  document.getElementById("kpiAvgScore").textContent = avgScore;
+}
+
+function renderAuditPreview(){
+  const auditPreview = document.getElementById("auditPreview");
+
+  if(!trainingRecords.length){
+    auditPreview.className = "audit-preview empty";
+    auditPreview.textContent = "Henüz İK eğitim kaydı bulunmuyor.";
+    return;
+  }
+
+  auditPreview.className = "audit-preview";
+  auditPreview.innerHTML = trainingRecords.slice(0,8).map(record => `
+    <div class="tr-record-meta">
+      ${formatDate(record.createdAt)} · ${trEsc(record.createdBy || "Oturum Kullanıcısı")} · ${trEsc(record.participant || "-")} için ${trEsc(record.trainingName || "-")} eğitim kaydı oluşturuldu.
+    </div>
+  `).join("");
+}
+
+async function updateTraining(id,changes){
+  const record = trainingRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    trToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  Object.assign(record,changes);
+
+  try{
+    if(api && typeof api.put === "function"){
+      await api.put("/hr/training/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }else if(api && typeof api.patch === "function"){
+      await api.patch("/hr/training/" + encodeURIComponent(id),{...changes,updated_by:currentUserName()},{fallbackOnNotFound:false});
+    }
+  }catch(error){
+    console.warn("Eğitim güncelleme endpoint bekliyor",error);
+  }
+
+  renderTrainingRecords();
+  renderAuditPreview();
+  updateTrainingKpis();
+  trToast("İK eğitim kaydı güncellendi.");
+}
+
+function markTrainingDone(id){
+  updateTraining(id,{status:"Tamamlandı",attendanceStatus:"Katıldı"});
+}
+
+function requestTrainingRenewal(id){
+  updateTraining(id,{renewalRequired:"Evet",status:"Bekliyor"});
+}
+
+function archiveTraining(id){
+  updateTraining(id,{status:"Arşivlendi"});
+}
+
+function copyTrainingSummary(id){
+  const record = trainingRecords.find(item => String(item.id) === String(id));
+
+  if(!record){
+    trToast("Kayıt bulunamadı.");
+    return;
+  }
+
+  const summary = [
+    "GDNL EOS İK Eğitim Takibi Özeti",
+    "Eğitim Adı: " + (record.trainingName || "-"),
+    "Eğitim Türü: " + (record.trainingType || "-"),
+    "Katılımcı: " + (record.participant || "-"),
+    "Departman: " + (record.department || "-"),
+    "Eğitmen: " + (record.trainer || "-"),
+    "Eğitim Tarihi: " + formatDate(record.trainingDate),
+    "Süre: " + record.durationHours + " saat",
+    "Katılım: " + (record.attendanceStatus || "-"),
+    "Sınav Puanı: " + record.examScore + "/100",
+    "Başarı Eşiği: " + record.passScore + "/100",
+    "Sonuç: " + (isPassed(record) ? "Başarılı" : "Takip Gerekli"),
+    "Sertifika Durumu: " + (record.certificateStatus || "-"),
+    "Sertifika No: " + (record.certificateNo || "-"),
+    "Geçerlilik Tarihi: " + formatDate(record.validUntil),
+    "Geçerlilik Durumu: " + certificateExpiryStatus(record),
+    "Yenileme Gerekli: " + (record.renewalRequired || "-"),
+    "Durum: " + (isLate(record) ? "Gecikti" : record.status),
+    "Öncelik: " + (record.priority || "-"),
+    "Açıklama: " + (record.description || "-")
+  ].join("\n");
+
+  navigator.clipboard?.writeText(summary)
+    .then(() => trToast("Eğitim özeti kopyalandı."))
+    .catch(() => trToast("Kopyalama desteklenmiyor."));
+}
+
+function clearTrainingForm(showToast=true){
+  [
+    "trainingName",
+    "participantName",
+    "departmentName",
+    "trainerName",
+    "trainingDate",
+    "certificateNo",
+    "validUntil",
+    "trainingDescription",
+    "fileDescription"
+  ].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) element.value = "";
+  });
+
+  document.getElementById("trainingType").value = "Zorunlu Eğitim";
+  document.getElementById("durationHours").value = "1";
+  document.getElementById("attendanceStatus").value = "Katıldı";
+  document.getElementById("examScore").value = "0";
+  document.getElementById("passScore").value = "70";
+  document.getElementById("certificateStatus").value = "Verilmedi";
+  document.getElementById("renewalRequired").value = "Hayır";
+  document.getElementById("trainingStatus").value = "Açık";
+  document.getElementById("trainingPriority").value = "Normal";
+  document.getElementById("fileCategory").value = "Eğitim Formu";
+  document.getElementById("hrFile").value = "";
+
+  if(showToast) trToast("Form temizlendi.");
+}
+
+function focusTrainingForm(){
+  document.getElementById("trainingName")?.focus();
+}
+
+function trainingMessagePrep(){
+  const payload = formPayload();
+  const preview = normalizeTrainingRecord(payload);
+
+  const message = [
+    "Merhaba,",
+    "",
+    "Aşağıdaki İK eğitim kaydı için bilgilendirme yapılmıştır:",
+    "",
+    "Eğitim Adı: " + (payload.training_name || "-"),
+    "Eğitim Türü: " + (payload.training_type || "-"),
+    "Katılımcı: " + (payload.participant_name || "-"),
+    "Departman: " + (payload.department_name || "-"),
+    "Eğitmen: " + (payload.trainer_name || "-"),
+    "Eğitim Tarihi: " + (payload.training_date || "-"),
+    "Süre: " + payload.duration_hours + " saat",
+    "Katılım: " + (payload.attendance_status || "-"),
+    "Sınav Puanı: " + payload.exam_score + "/100",
+    "Sonuç: " + (isPassed(preview) ? "Başarılı" : "Takip Gerekli"),
+    "Sertifika Durumu: " + (payload.certificate_status || "-"),
+    "Geçerlilik: " + (payload.valid_until || "-"),
+    "Geçerlilik Durumu: " + certificateExpiryStatus(preview),
+    "Yenileme Gerekli: " + (payload.renewal_required || "-"),
+    "Durum: " + (payload.status || "-"),
+    "Öncelik: " + (payload.priority || "-"),
+    "",
+    "Bilgilerinize."
+  ].join("\n");
+
+  navigator.clipboard?.writeText(message)
+    .then(() => trToast("Mesaj metni kopyalandı."))
+    .catch(() => trToast("Mesaj hazırlandı ancak kopyalama desteklenmiyor."));
+}
+
+function bindTrainingEvents(){
+  const suiteSearch = document.getElementById("suiteSearch");
+  const statusFilter = document.getElementById("statusFilter");
+  const priorityFilter = document.getElementById("priorityFilter");
+
+  if(suiteSearch) suiteSearch.addEventListener("input",renderTrainingRecords);
+  if(statusFilter) statusFilter.addEventListener("change",renderTrainingRecords);
+  if(priorityFilter) priorityFilter.addEventListener("change",renderTrainingRecords);
+}
+
+function ensureHrFallbacks(){
+  window.hrFocusForm = window.hrFocusForm || focusTrainingForm;
+  window.hrMessagePrep = window.hrMessagePrep || trainingMessagePrep;
+  window.hrClearForm = window.hrClearForm || clearTrainingForm;
+  window.hrSaveDraft = window.hrSaveDraft || saveTrainingRecord;
+
+  window.hrRunSearch = window.hrRunSearch || function(){
+    renderTrainingRecords();
+  };
+
+  window.hrLogout = window.hrLogout || function(){
+    try{
+      if(window.navigateRoute){
+        window.navigateRoute("index.html?logout=1");
+        return;
+      }
+    }catch(e){}
+
+    window.location.href = "index.html?logout=1";
+  };
+}
+
+function bootTrainingPage(){
+  if(api && typeof api.applyCurrentUser === "function"){
+    api.applyCurrentUser(window.GDNL_CURRENT_USER || {});
+  }
+
+  setTrainingUser();
+  ensureHrFallbacks();
+  bindTrainingEvents();
+  loadTrainingRecords();
+}
+
+bootTrainingPage();
+</script>
+
 </body>
 </html>
