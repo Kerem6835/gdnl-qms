@@ -31,10 +31,10 @@
       items: [
         { label: "8D / CAPA", route: "capa.html" },
         { label: "Risk Yönetimi", route: "risk-register.html" },
-        { label: "İç Denetim", route: "audit.html" },
         { label: "Değişiklik Yönetimi", route: "change-management.html" },
         { label: "Süreç Yönetimi", route: "process-management.html" },
-        { label: "Sürekli İyileştirme", route: "continuous-improvement.html" }
+        { label: "Sürekli İyileştirme", route: "continuous-improvement.html" },
+        { label: "İç Denetim", route: "audit.html" }
       ]
     },
     {
@@ -114,10 +114,113 @@
     }));
   }
 
+  function escapeHtml(value) {
+    return String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+  }
+
+  function normalizeRoute(route) {
+    return String(route || "").split("?")[0].split("#")[0].split("/").pop();
+  }
+
+  function isQualityRoute(route) {
+    const name = normalizeRoute(route || getCurrentRoute());
+    if (!name || name === "index.html" || name === "department-gateway.html" || name === "mailbox.html") return false;
+    return !/^(management|hr|maintenance)-/.test(name);
+  }
+
+  function currentRouteInGroup(group, currentRoute) {
+    if (group.type === "single") return normalizeRoute(group.route) === currentRoute;
+    return (group.items || []).some((item) => normalizeRoute(item.route) === currentRoute);
+  }
+
+  function renderMenuHtml() {
+    const currentRoute = normalizeRoute(getCurrentRoute());
+    return menu.map((group) => {
+      if (group.type === "single") {
+        const active = normalizeRoute(group.route) === currentRoute ? ' class="active"' : "";
+        return `<a${active} href="${escapeHtml(group.route)}">${escapeHtml(group.icon)} ${escapeHtml(group.label)}</a>`;
+      }
+
+      const activeGroup = currentRouteInGroup(group, currentRoute);
+      const groupClass = activeGroup ? "menu-group active-group open" : "menu-group";
+      const submenuClass = activeGroup ? "submenu open" : "submenu";
+      const links = (group.items || []).map((item) => {
+        const active = normalizeRoute(item.route) === currentRoute ? ' class="active"' : "";
+        const label = group.id === "performance" && item.route === "mailbox.html" ? "📨 Mesaj Merkezi" : item.label;
+        return `<a${active} href="${escapeHtml(item.route)}">${escapeHtml(label)}</a>`;
+      }).join("\n");
+      return `<button class="${groupClass}" type="button" onclick="window.GDNL_SIDEBAR.toggleMenuGroup(this)">${escapeHtml(group.icon)} ${escapeHtml(group.label)} <span>⌄</span></button>\n<div class="${submenuClass}">\n${links}\n</div>`;
+    }).join("\n\n");
+  }
+
+  function installSidebarStyle() {
+    if (document.getElementById("gdnl-quality-sidebar-standard-style")) return;
+    const style = document.createElement("style");
+    style.id = "gdnl-quality-sidebar-standard-style";
+    style.textContent = `
+.sidebar nav .submenu,.mobile-drawer nav .submenu{display:none;flex-direction:column;gap:6px}
+.sidebar nav .submenu.open,.mobile-drawer nav .submenu.open{display:flex}
+.sidebar nav .menu-group.open span,.mobile-drawer nav .menu-group.open span{transform:rotate(180deg)}
+`;
+    document.head.appendChild(style);
+  }
+
+  function bindMenuEvents(root) {
+    root.querySelectorAll(".menu-group").forEach((button) => {
+      button.onclick = function () {
+        toggleMenuGroup(button);
+      };
+    });
+  }
+
+  function toggleMenuGroup(button) {
+    const nav = button && button.closest("nav");
+    const submenu = button && button.nextElementSibling;
+    if (!nav || !submenu) return;
+    nav.querySelectorAll(".menu-group").forEach((item) => {
+      if (item !== button) item.classList.remove("open", "active-group");
+    });
+    nav.querySelectorAll(".submenu").forEach((item) => {
+      if (item !== submenu) item.classList.remove("open");
+    });
+    button.classList.toggle("open");
+    button.classList.toggle("active-group", button.classList.contains("open"));
+    submenu.classList.toggle("open", button.classList.contains("open"));
+  }
+
+  function normalizeQualitySidebar() {
+    if (!isQualityRoute()) return;
+    installSidebarStyle();
+    const html = renderMenuHtml();
+    document.querySelectorAll(".sidebar nav, .mobile-drawer nav").forEach((nav) => {
+      nav.innerHTML = html;
+      nav.classList.add("gdnl-quality-sidebar-standard");
+      bindMenuEvents(nav);
+    });
+  }
+
+  function scheduleNormalizeQualitySidebar() {
+    normalizeQualitySidebar();
+    [0, 150, 600].forEach((delay) => global.setTimeout(normalizeQualitySidebar, delay));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", scheduleNormalizeQualitySidebar);
+  } else {
+    scheduleNormalizeQualitySidebar();
+  }
+
   global.GDNL_SIDEBAR = {
     menu,
     getMenu,
     getCurrentRoute,
-    resolveMenuRoute
+    resolveMenuRoute,
+    normalizeQualitySidebar,
+    scheduleNormalizeQualitySidebar,
+    toggleMenuGroup
   };
 })(window);
