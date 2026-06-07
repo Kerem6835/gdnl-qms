@@ -244,11 +244,16 @@ function applyUnreadBadge(count) {
   });
 }
 
-async function refreshUnreadCount() {
+async function refreshUnreadCount(options = {}) {
   try {
+    const previous = unreadCount;
     const payload = await api.get("/messages/unread-count", safeApi);
     const data = api.responseData(payload) || {};
-    unreadCount = Number(data.unread_count || data.count || 0);
+    const apiCount = Number(data.unread_count || data.count || 0);
+    unreadCount = apiCount;
+    if (options.readApplied && previous != null && apiCount >= previous) {
+      unreadCount = Math.max(0, previous - 1);
+    }
     applyUnreadBadge(unreadCount);
     countInbox.textContent = unreadCount;
     return unreadCount;
@@ -548,10 +553,11 @@ function replyTo(id) {
 async function markRead(id, silent = false) {
   const message = messages.find((item) => item.id === id);
   if (!message) return;
+  const wasUnread = !message.is_read;
   try {
     await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read: true, read_at: new Date().toISOString() });
     message.is_read = true;
-    await refreshUnreadCount();
+    await refreshUnreadCount({ readApplied: wasUnread });
     await writeActivity("Mesaj okundu", message);
     if (!silent) api.showToast("Mesaj okundu olarak işaretlendi");
   } catch (error) {
