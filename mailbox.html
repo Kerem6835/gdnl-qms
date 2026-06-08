@@ -5,94 +5,784 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GDNL EOS | Mesaj Merkezi</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{min-height:100vh;background:#f4f9ff;color:#172033;overflow-x:hidden}.main{max-width:1480px;margin:0 auto;padding:22px}.topbar,.panel{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:20px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:72px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;border-radius:22px;box-shadow:0 18px 46px rgba(7,27,52,.08)}.brand{font-size:22px;font-weight:950;color:#071b34;text-decoration:none;white-space:nowrap}.brand span{color:#35a852}.search{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 12px;font-weight:850;width:280px;max-width:100%;background:#fff}.topbar-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.topbar-actions a,.topbar-actions button,.btn{height:44px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:#fff;color:#0f1b2f;text-decoration:none;font-weight:950;font-size:13px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;white-space:nowrap}.topbar-actions .primary,.btn.primary{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;border-color:transparent}.gdnl-message-link,.gdnl-notification-link{width:44px;min-width:44px;padding:0!important;font-size:18px}.topbar-actions button:last-child{background:#fff5f5;color:#b42318;border-color:#ffd5d5}.btn.secondary{background:#dcfce7;color:#15803d}.btn.danger{background:#fee2e2;color:#991b1b}.user{height:44px;display:inline-flex;align-items:center;gap:8px;border:1px solid #d8e4ef;border-radius:14px;padding:0 14px;background:linear-gradient(135deg,#eff6ff,#f8fbff);font-weight:950;font-size:13px}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:6px 0 18px}.hero h1{font-size:34px;font-weight:950;color:#071b34}.hero p{margin-top:7px;color:#617086;font-weight:850;max-width:780px}.mail-shell{display:grid;grid-template-columns:230px minmax(320px,1fr) minmax(320px,.95fr);gap:14px;align-items:start}.panel{padding:16px;min-height:180px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.panel-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.panel-filters select{height:34px;border:1px solid #d8e4ef;border-radius:11px;background:#fff;padding:0 9px;font-weight:850;color:#334155}.panel h2{font-size:17px;font-weight:950;color:#071b34}.folder{width:100%;height:42px;border:none;border-radius:12px;background:#f8fbff;color:#536176;font-weight:950;text-align:left;padding:0 12px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}.folder.active{background:#e8f7ee;color:#1f7d3d}.folder.compose{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f);color:#fff;text-align:center;justify-content:center}.badge{display:inline-flex;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.badge.warn{background:#ffedd5;color:#c2410c}.badge.danger{background:#fee2e2;color:#991b1b}.notice{padding:10px 12px;border-radius:12px;background:#f8fbff;border:1px solid #e5edf6;color:#617086;font-size:12px;font-weight:850;margin-bottom:12px}.notice.error{background:#fff5f5;border-color:#ffd5d5;color:#b42318}.message-list{display:grid;gap:10px}.message{border:1px solid #edf2f7;border-radius:15px;padding:13px;background:#fff;cursor:pointer;transition:.16s ease}.message:hover,.message.active{border-color:#35a852;box-shadow:0 12px 30px rgba(53,168,82,.12)}.message b{display:block;color:#071b34}.message small{display:block;margin-top:5px;color:#617086;font-weight:800}.message p{margin-top:8px;color:#475569;font-size:13px;line-height:1.45}.message-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.mini-btn{height:30px;border:none;border-radius:10px;padding:0 9px;font-size:11px;font-weight:950;cursor:pointer;background:#f1f5f9;color:#334155}.mini-btn.danger{background:#fee2e2;color:#991b1b}.compose-panel{display:none}.compose-panel.active{display:block}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:950;color:#617086}.field input,.field textarea,.field select{width:100%;border:1px solid #d8e4ef;border-radius:12px;padding:10px 11px;font-weight:800;background:#fff}.field input,.field select{height:40px}.field textarea{min-height:112px;resize:vertical}.recipient-wrap{position:relative}.suggest{position:absolute;left:0;right:0;top:66px;background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);display:none;z-index:20;max-height:230px;overflow:auto}.suggest div{padding:10px 12px;border-bottom:1px solid #edf2f7;cursor:pointer;font-size:12px;font-weight:900}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chip{display:inline-flex;gap:6px;align-items:center;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}.detail{line-height:1.6;color:#334155}.detail-grid{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 12px;margin-bottom:12px}.detail-grid b{color:#071b34}.detail-box{border:1px solid #edf2f7;border-radius:15px;padding:14px;background:#fff;margin-top:10px;white-space:pre-wrap}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.api-status{margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px;border-radius:16px;background:#f8fbff;border:1px solid #e5edf6;color:#536176;font-size:11px;font-weight:850}.api-status b{display:block;color:#071b34;font-size:11px;margin-bottom:2px}.hidden{display:none!important}@media(max-width:1080px){.mail-shell{grid-template-columns:210px minmax(0,1fr)}.detail-panel{grid-column:1/-1}}@media(max-width:760px){.main{padding:14px}.topbar,.hero{align-items:flex-start;flex-direction:column}.search{width:100%;min-width:0}.topbar-actions{width:100%;justify-content:flex-start;gap:8px}.mail-shell{grid-template-columns:1fr}.panel{padding:14px}.hero h1{font-size:28px}.api-status{grid-template-columns:1fr}}
+:root{
+  --navy:#061b36;
+  --text:#10223d;
+  --muted:#61718a;
+  --line:#dfeaf6;
+  --soft:#f4f9ff;
+  --panel:#ffffff;
+  --green:#20b957;
+  --green2:#16a34a;
+  --blue:#2563eb;
+  --red:#dc2626;
+  --orange:#f59e0b;
+  --shadow:0 18px 46px rgba(7,27,52,.08);
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+body{
+  min-height:100vh;
+  background:linear-gradient(135deg,#f7fbff 0%,#eef7ff 48%,#f8fbff 100%);
+  color:var(--text);
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 5%,rgba(32,185,87,.08),transparent 28%),
+    radial-gradient(circle at 78% 8%,rgba(37,99,235,.08),transparent 31%),
+    linear-gradient(135deg,rgba(37,99,235,.025) 25%,transparent 25%) 0 0/28px 28px;
+  opacity:.9;
+}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.main{
+  width:min(1760px,96%);
+  margin:0 auto;
+  padding:18px 0 28px;
+  position:relative;
+}
+.topbar{
+  min-height:92px;
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  padding:16px 20px;
+  backdrop-filter:blur(16px);
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:250px;
+}
+.logo-mark{
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  background:transparent;
+  display:grid;
+  place-items:center;
+  box-shadow:none;
+  overflow:hidden;
+}
+.logo-mark img{width:64px;height:64px;object-fit:contain;display:block}
+.logo-text strong{
+  display:block;
+  color:#071b34;
+  font-size:29px;
+  line-height:1;
+  font-weight:950;
+  letter-spacing:-1.4px;
+}
+.logo-text strong span{color:var(--green)}
+.logo-text small{
+  display:block;
+  margin-top:7px;
+  color:#5a6a83;
+  font-weight:850;
+  font-size:13px;
+}
+.global-search{
+  flex:1;
+  max-width:640px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.search{
+  height:48px;
+  width:100%;
+  border:1px solid #d8e5f2;
+  border-radius:15px;
+  background:#fff;
+  padding:0 16px;
+  font-weight:850;
+  color:#0f1b2f;
+  outline:none;
+}
+.search:focus{border-color:#91d9a9;box-shadow:0 0 0 5px rgba(32,185,87,.12)}
+.search-btn{
+  height:48px;
+  min-width:76px;
+  border:1px solid #d8e5f2;
+  border-radius:15px;
+  background:#fff;
+  color:#071b34;
+  font-weight:950;
+}
+.search-btn:hover{border-color:#99deb0;color:var(--green2)}
+.topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+.nav-btn,.icon-btn,.user-btn,.logout-btn{
+  height:48px;
+  border:1px solid #d8e5f2;
+  border-radius:15px;
+  background:#fff;
+  color:#0f1b2f;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:0 15px;
+  font-weight:950;
+  font-size:13px;
+  white-space:nowrap;
+  position:relative;
+}
+.nav-btn{
+  min-width:178px;
+  background:linear-gradient(135deg,#0b7fe8 0%,#1396c8 46%,#21bd59 100%);
+  color:#fff;
+  border-color:transparent;
+  box-shadow:0 14px 28px rgba(19,150,200,.18);
+}
+.icon-btn{width:48px;padding:0;font-size:18px}
+.user-btn{background:linear-gradient(135deg,#eef6ff,#fbfdff);min-width:165px}
+.logout-btn{background:#fff6f6;color:#b42318;border-color:#ffd2d2;min-width:142px}
+.unread-badge,.notify-badge{
+  position:absolute;
+  top:-8px;
+  right:-7px;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:999px;
+  background:#ef4444;
+  color:#fff;
+  font-size:11px;
+  font-weight:950;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border:2px solid #fff;
+}
+.unread-badge.is-visible,.notify-badge.is-visible{display:flex}
+.hero{
+  margin:22px 0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.hero h1{
+  font-size:36px;
+  font-weight:950;
+  color:#071b34;
+  letter-spacing:-1.2px;
+}
+.hero .meta{
+  margin-top:7px;
+  color:#61718a;
+  font-weight:850;
+}
+.primary-btn{
+  height:48px;
+  border:none;
+  border-radius:15px;
+  padding:0 20px;
+  background:linear-gradient(135deg,#0b7fe8 0%,#1396c8 46%,#21bd59 100%);
+  color:#fff;
+  font-weight:950;
+  box-shadow:0 14px 28px rgba(19,150,200,.18);
+}
+.mail-shell{
+  display:grid;
+  grid-template-columns:260px minmax(430px,.95fr) minmax(520px,1.25fr);
+  gap:16px;
+  align-items:start;
+}
+.panel{
+  background:rgba(255,255,255,.94);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(16px);
+}
+.sidebar{
+  padding:15px;
+  min-height:680px;
+}
+.folder{
+  width:100%;
+  min-height:50px;
+  border:none;
+  border-radius:16px;
+  background:transparent;
+  color:#50627d;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:0 13px;
+  margin-bottom:8px;
+  font-weight:950;
+  text-align:left;
+}
+.folder:hover{background:#f3f8ff}
+.folder.active{
+  background:linear-gradient(135deg,#eaf5ff 0%,#e9fbf0 100%);
+  color:#0f7f4c;
+  box-shadow:inset 4px 0 0 #21bd59;
+}
+.folder-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.folder-ico{
+  width:34px;
+  height:34px;
+  border-radius:12px;
+  background:#f0f7ff;
+  display:grid;
+  place-items:center;
+}
+.folder.active .folder-ico{background:linear-gradient(135deg,#0b7fe8 0%,#1396c8 46%,#21bd59 100%);color:#fff}
+.folder .count{
+  min-width:24px;
+  height:24px;
+  padding:0 7px;
+  border-radius:999px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:#ef4444;
+  color:#fff;
+  font-size:12px;
+  font-weight:950;
+}
+.folder .count.is-visible{display:flex}
+.compose-left{
+  width:100%;
+  height:50px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(135deg,#0b7fe8 0%,#1396c8 46%,#21bd59 100%);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  font-weight:950;
+  margin:12px 0 18px;
+}
+.sidebar-note{
+  margin-top:18px;
+  padding:14px;
+  border:1px solid #e3eef9;
+  border-radius:18px;
+  background:linear-gradient(135deg,#f8fbff,#eef7ff);
+  color:#64748b;
+  font-size:12px;
+  font-weight:850;
+  line-height:1.45;
+}
+.mail-list-panel{
+  min-height:680px;
+  overflow:hidden;
+}
+.list-head{
+  padding:16px 16px 12px;
+  border-bottom:1px solid #edf3fa;
+}
+.list-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:13px;
+}
+.list-title-row h2{
+  color:#071b34;
+  font-size:20px;
+  font-weight:950;
+}
+.status-pill{
+  padding:7px 10px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#0b7fe8 0%,#1396c8 46%,#21bd59 100%);
+  color:#fff;
+  font-size:12px;
+  font-weight:950;
+}
+.filters{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.filters select,.filters input{
+  height:42px;
+  border:1px solid #d8e5f2;
+  border-radius:13px;
+  background:#fff;
+  color:#334155;
+  padding:0 11px;
+  font-weight:850;
+  outline:none;
+}
+.mail-list{
+  max-height:590px;
+  overflow:auto;
+  padding:12px;
+}
+.mail-card{
+  border:1px solid #edf3fa;
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:.16s ease;
+  position:relative;
+}
+.mail-card:hover,.mail-card.active{
+  border-color:#8edda8;
+  box-shadow:0 14px 28px rgba(32,185,87,.10);
+  transform:translateY(-1px);
+}
+.mail-card.unread{
+  border-color:#b7eec8;
+  background:linear-gradient(135deg,#ffffff,#f2fff7);
+}
+.mail-card.unread::before{
+  content:"";
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  background:#20b957;
+  position:absolute;
+  left:14px;
+  top:20px;
+}
+.mail-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  padding-left:16px;
+}
+.mail-card.read .mail-top{padding-left:0}
+.sender{
+  color:#071b34;
+  font-weight:950;
+  font-size:14px;
+}
+.mail-time{
+  color:#74839a;
+  font-size:11px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.mail-subject{
+  margin-top:8px;
+  color:#10223d;
+  font-size:15px;
+  font-weight:950;
+  line-height:1.25;
+}
+.mail-preview{
+  margin-top:7px;
+  color:#64748b;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.42;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.mail-tags{
+  margin-top:10px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:25px;
+  padding:0 9px;
+  border-radius:999px;
+  background:#e8f8ee;
+  color:#137a35;
+  font-size:11px;
+  font-weight:950;
+}
+.badge.blue{background:#eaf2ff;color:#1d4ed8}
+.badge.orange{background:#fff3df;color:#c46b00}
+.badge.red{background:#fee2e2;color:#b91c1c}
+.badge.gray{background:#f1f5f9;color:#475569}
+.detail-panel{
+  min-height:680px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.detail-head{
+  min-height:78px;
+  padding:17px 18px;
+  border-bottom:1px solid #edf3fa;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:13px;
+}
+.detail-head h2{
+  color:#071b34;
+  font-size:20px;
+  font-weight:950;
+}
+.detail-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.tool-btn{
+  height:38px;
+  border:1px solid #d8e5f2;
+  border-radius:12px;
+  background:#fff;
+  color:#334155;
+  padding:0 12px;
+  font-size:12px;
+  font-weight:950;
+}
+.tool-btn:hover{border-color:#a4e3b7;color:#15803d}
+.tool-btn.danger{background:#fff5f5;color:#b42318;border-color:#ffd2d2}
+.detail-body{
+  padding:18px;
+  overflow:auto;
+  max-height:602px;
+}
+.empty{
+  min-height:300px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  color:#64748b;
+  font-weight:950;
+}
+.mail-detail-title{
+  font-size:24px;
+  color:#071b34;
+  font-weight:950;
+  letter-spacing:-.4px;
+  line-height:1.2;
+}
+.detail-meta{
+  margin-top:14px;
+  border:1px solid #edf3fa;
+  border-radius:18px;
+  background:#fbfdff;
+  padding:13px;
+  display:grid;
+  gap:8px;
+}
+.meta-row{
+  display:grid;
+  grid-template-columns:96px minmax(0,1fr);
+  gap:12px;
+  color:#475569;
+  font-size:13px;
+  font-weight:850;
+}
+.meta-row b{color:#071b34}
+.message-content{
+  margin-top:16px;
+  padding:18px;
+  border:1px solid #edf3fa;
+  border-radius:20px;
+  background:#fff;
+  color:#23344f;
+  font-size:14px;
+  line-height:1.68;
+  white-space:pre-wrap;
+  min-height:180px;
+}
+.attachment-list{
+  margin-top:14px;
+  display:grid;
+  gap:8px;
+}
+.attachment{
+  border:1px solid #edf3fa;
+  border-radius:14px;
+  background:#f8fbff;
+  padding:11px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  color:#334155;
+  font-size:12px;
+  font-weight:900;
+}
+.compose-panel{
+  display:none;
+}
+.compose-panel.active{
+  display:block;
+}
+.form{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.field{display:flex;flex-direction:column;gap:7px;position:relative}
+.field.full{grid-column:1/-1}
+.field label{
+  color:#536176;
+  font-size:12px;
+  font-weight:950;
+}
+.field input,.field textarea,.field select{
+  width:100%;
+  border:1px solid #d8e5f2;
+  border-radius:14px;
+  background:#fff;
+  color:#10223d;
+  padding:11px 12px;
+  font-weight:850;
+  outline:none;
+}
+.field input,.field select{height:44px}
+.field textarea{min-height:180px;resize:vertical;line-height:1.5}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#91d9a9;box-shadow:0 0 0 5px rgba(32,185,87,.10)}
+.suggest{
+  position:absolute;
+  z-index:30;
+  left:0;
+  right:0;
+  top:72px;
+  background:#fff;
+  border:1px solid #dfeaf6;
+  border-radius:16px;
+  box-shadow:0 20px 44px rgba(7,27,52,.14);
+  max-height:260px;
+  overflow:auto;
+  display:none;
+}
+.suggest div{
+  padding:11px 13px;
+  border-bottom:1px solid #edf3fa;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:900;
+}
+.suggest div:hover{background:#f4fbf7}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:7px;
+}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border-radius:999px;
+  background:#e8f8ee;
+  color:#137a35;
+  padding:6px 10px;
+  font-size:11px;
+  font-weight:950;
+}
+.chip button{
+  border:none;
+  background:transparent;
+  color:#b42318;
+  font-weight:950;
+}
+.compose-actions{
+  margin-top:15px;
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+.secondary-btn,.danger-btn{
+  height:44px;
+  border-radius:14px;
+  border:1px solid #d8e5f2;
+  padding:0 14px;
+  background:#fff;
+  color:#334155;
+  font-weight:950;
+}
+.secondary-btn{background:#eefbf3;color:#15803d;border-color:#c7f3d5}
+.danger-btn{background:#fff5f5;color:#b42318;border-color:#ffd2d2}
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  max-width:360px;
+  background:#071b34;
+  color:#fff;
+  padding:13px 15px;
+  border-radius:16px;
+  box-shadow:0 20px 46px rgba(7,27,52,.22);
+  font-weight:900;
+  font-size:13px;
+  display:none;
+  z-index:999;
+}
+.toast.show{display:block}
+@media(max-width:1280px){
+  .mail-shell{grid-template-columns:240px minmax(380px,1fr)}
+  .detail-panel{grid-column:1/-1}
+  .detail-body{max-height:none}
+}
+@media(max-width:920px){
+  .topbar{align-items:flex-start;flex-direction:column}
+  .brand{min-width:0}
+  .global-search{width:100%;max-width:none}
+  .topbar-actions{width:100%;flex-wrap:wrap}
+  .mail-shell{grid-template-columns:1fr}
+  .sidebar,.mail-list-panel,.detail-panel{min-height:auto}
+  .mail-list{max-height:none}
+  .hero{align-items:flex-start;flex-direction:column}
+  .form{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .main{width:94%;padding-top:12px}
+  .topbar{border-radius:22px;padding:14px}
+  .logo-mark{width:52px;height:52px}
+  .logo-text strong{font-size:25px}
+  .global-search{flex-direction:column;align-items:stretch}
+  .search-btn{width:100%}
+  .nav-btn,.user-btn,.logout-btn{min-width:0;width:100%}
+  .icon-btn{width:48px}
+  .hero h1{font-size:30px}
+  .filters{grid-template-columns:1fr}
+  .detail-head{align-items:flex-start;flex-direction:column}
+}
+
+/* FINAL GDNL LOGO + UNREAD BADGE STANDARD */
+.brand{min-width:320px;gap:0}
+.logo-full{width:310px;height:auto;display:block;object-fit:contain}
+.icon-btn .unread-badge:not(.is-visible),
+.folder .count:not(.is-visible){display:none!important}
+.folder .count{min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:#ef4444;color:#fff;font-size:11px;font-weight:950;display:none;align-items:center;justify-content:center}
+.folder .count.is-visible{display:inline-flex}
+@media(max-width:760px){.brand{min-width:230px}.logo-full{width:230px}.topbar{gap:12px}}
 </style>
 </head>
 <body>
 <main class="main">
   <header class="topbar">
-    <a class="brand" href="department-gateway.html">GDNL <span>EOS</span></a>
-    <input id="searchBox" class="search" placeholder="Ara..." autocomplete="off">
-    <div class="topbar-actions">
-      <a class="primary gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
-      <a class="gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi" title="Mesaj Merkezi">📨</a>
-      <a class="gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi" title="Bildirim Merkezi">🔔</a>
-      <div class="user">👤 <span id="userName">Kullanıcı</span></div>
-      <button type="button" onclick="window.GDNL_API && window.GDNL_API.logout()">Oturumu Kapat</button>
+    <a class="brand" href="department-gateway.html" aria-label="GDNL EOS"><img class="logo-full" src="data:image/png;base64,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" alt="GDNL EOS Kurumsal İşletim Sistemi"></a>
+
+    <div class="global-search">
+      <input id="searchBox" class="search" placeholder="Ara..." autocomplete="off">
+      <button id="globalSearchBtn" class="search-btn" type="button">Ara</button>
     </div>
+
+    <nav class="topbar-actions" aria-label="Üst menü">
+      <a class="nav-btn" href="department-gateway.html">Departman Merkezi</a>
+      <a class="icon-btn gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi" title="Mesaj Merkezi">📨<span id="topUnreadBadge" class="unread-badge"></span></a>
+      <a class="icon-btn gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi" title="Bildirim Merkezi">🔔<span class="notify-badge"></span></a>
+      <span class="user-btn">👤 <span id="userName">Kullanıcı</span></span>
+      <button class="logout-btn" type="button" onclick="window.GDNL_API && window.GDNL_API.logout()">Oturumu Kapat</button>
+    </nav>
   </header>
 
   <section class="hero">
     <div>
       <h1>Mesaj Merkezi</h1>
-      <p>Kurumsal Haberleşme. GDNL EOS içinde çoklu alıcı, taslak, okundu bilgisi, R2 ek dosya ve işlem geçmişiyle iç mesajlaşma yönetilir.</p>
+      <div id="heroMeta" class="meta">Gelen Kutusu</div>
     </div>
-    <button class="btn primary" type="button" onclick="openCompose()">Yeni Mesaj Oluştur</button>
+    <button class="primary-btn" type="button" onclick="openCompose()">Yeni Mesaj Oluştur</button>
   </section>
 
   <section class="mail-shell">
-    <aside class="panel">
-      <button class="folder active" data-folder="inbox">Gelen Kutusu <span id="countInbox" class="badge">0</span></button>
-      <button class="folder" data-folder="sent">Giden Kutusu <span id="countSent" class="badge">0</span></button>
-      <button class="folder" data-folder="draft">Taslaklar <span id="countDraft" class="badge warn">0</span></button>
-      <button class="folder" data-folder="trash">Çöp Kutusu <span id="countTrash" class="badge danger">0</span></button>
-      <button class="folder compose" data-folder="compose">Yeni Mesaj Oluştur</button>
-      <div id="endpointNotice" class="notice hidden"></div>
-      <div class="api-status" aria-label="API Durumu">
-        <div><b>Son endpoint</b><span id="apiLastEndpoint">-</span></div>
-        <div><b>HTTP status</b><span id="apiLastStatus">-</span></div>
-        <div><b>Son başarılı işlem</b><span id="apiLastSuccess">-</span></div>
-        <div><b>Son hata</b><span id="apiLastError">-</span></div>
-      </div>
+    <aside class="panel sidebar">
+      <button class="folder active" data-folder="inbox">
+        <span class="folder-left"><span class="folder-ico">📥</span>Gelen Kutusu</span>
+        <span id="countInbox" class="count"></span>
+      </button>
+      <button class="folder" data-folder="sent">
+        <span class="folder-left"><span class="folder-ico">📤</span>Giden Kutusu</span>
+      </button>
+      <button class="folder" data-folder="draft">
+        <span class="folder-left"><span class="folder-ico">📝</span>Taslaklar</span>
+      </button>
+      <button class="folder" data-folder="trash">
+        <span class="folder-left"><span class="folder-ico">🗑️</span>Çöp Kutusu</span>
+      </button>
+      <button class="compose-left" type="button" onclick="openCompose()">＋ Yeni Mesaj</button>
     </aside>
 
-    <section class="panel">
-      <div class="panel-head">
-        <h2 id="folderTitle">Gelen Kutusu</h2>
-        <div class="panel-filters">
-          <select id="priorityFilter" aria-label="Öncelik filtresi"><option value="">Tüm öncelikler</option><option value="normal">Normal</option><option value="high">Yüksek</option><option value="critical">Kritik</option></select>
-          <select id="moduleFilter" aria-label="Modül filtresi"><option value="">Tüm modüller</option><option>General</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer Complaint</option><option>Calibration</option><option>Maintenance</option><option>Action</option></select>
-          <span id="folderState" class="badge">Hazır</span>
+    <section class="panel mail-list-panel">
+      <div class="list-head">
+        <div class="list-title-row">
+          <h2 id="folderTitle">Gelen Kutusu</h2>
+          <span id="folderState" class="status-pill">Canlı</span>
+        </div>
+        <div class="filters">
+          <input id="nameFilter" placeholder="İsim / konu ara">
+          <select id="dateSort" aria-label="Tarih sıralama">
+            <option value="newest">Tarihe göre: Yeniden eskiye</option>
+            <option value="oldest">Tarihe göre: Eskiden yeniye</option>
+          </select>
+          <select id="priorityFilter" aria-label="Öncelik filtresi">
+            <option value="">Tüm öncelikler</option>
+            <option value="normal">Normal</option>
+            <option value="high">Yüksek</option>
+            <option value="critical">Kritik</option>
+          </select>
+          <select id="moduleFilter" aria-label="Modül filtresi">
+            <option value="">Tüm modüller</option>
+            <option>General</option>
+            <option>Document</option>
+            <option>CAPA</option>
+            <option>Risk</option>
+            <option>Audit</option>
+            <option>Training</option>
+            <option>Supplier</option>
+            <option>Customer Complaint</option>
+            <option>Calibration</option>
+            <option>Maintenance</option>
+            <option>Action</option>
+          </select>
         </div>
       </div>
-      <div id="composePanel" class="compose-panel">
-        <div class="form">
-          <div class="field full recipient-wrap">
-            <label>Alıcılar</label>
-            <input id="recipientInput" autocomplete="off" placeholder="Kişi ara ve seç">
-            <div id="suggestions" class="suggest"></div>
-            <div id="recipientChips" class="chips"></div>
-          </div>
-          <div class="field full"><label>Konu</label><input id="subject" placeholder="Mesaj konusu"></div>
-          <div class="field full"><label>Mesaj İçeriği</label><textarea id="body" placeholder="Mesajınızı yazın"></textarea></div>
-          <div class="field"><label>Öncelik</label><select id="priority"><option value="normal">Normal</option><option value="high">Yüksek</option><option value="critical">Kritik</option></select></div>
-          <div class="field"><label>İlgili Modül</label><select id="relatedModule"><option>General</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer Complaint</option><option>Calibration</option><option>Maintenance</option><option>Action</option></select></div>
-          <div class="field"><label>İlgili Kayıt No</label><input id="relatedRecordId" placeholder="Kayıt no"></div>
-          <div class="field full"><label>R2 Ek Dosya</label><input id="attachment" type="file"></div>
-        </div>
-        <div class="actions">
-          <button class="btn primary" type="button" onclick="sendMessage()">Gönder</button>
-          <button class="btn secondary" type="button" onclick="saveDraft()">Taslak Kaydet</button>
-          <button class="btn danger" type="button" onclick="clearCompose()">Temizle</button>
-        </div>
-      </div>
-      <div id="messageList" class="message-list"></div>
+      <div id="messageList" class="mail-list"></div>
     </section>
 
     <section class="panel detail-panel">
-      <div class="panel-head">
-        <h2>Mesaj Detayı</h2>
-        <span id="readState" class="badge">Seçilmedi</span>
+      <div class="detail-head">
+        <h2 id="detailTitle">Mesaj Detayı</h2>
+        <div id="detailActions" class="detail-actions"></div>
       </div>
-      <div id="messageDetail" class="empty">Detay için bir mesaj seçin.</div>
+      <div id="messageDetail" class="detail-body">
+        <div class="empty">Detay için bir mesaj seçin.</div>
+      </div>
     </section>
   </section>
 </main>
 
+<div id="toast" class="toast"></div>
+
 <script src="assets/js/config/api-client.js"></script>
 <script>
-const api = window.GDNL_API;
-const safeApi = { redirectOnUnauthorized: false, fallbackOnNotFound: false };
+const api = window.GDNL_API || {};
+const safeApi = { redirectOnUnauthorized:false, fallbackOnNotFound:false };
+
 let users = [];
 let messages = [];
 let recipients = [];
@@ -101,61 +791,60 @@ let selectedMessageId = "";
 let attachmentFile = null;
 let userSearchTimer = null;
 let folderErrors = {};
-let unreadCount = null;
+let unreadCount = 0;
+let composeMode = false;
+let draftSourceId = "";
 
+const $ = (id) => document.getElementById(id);
 const esc = (value) => String(value ?? "")
-  .replaceAll("&", "&amp;")
-  .replaceAll("<", "&lt;")
-  .replaceAll(">", "&gt;")
-  .replaceAll('"', "&quot;")
-  .replaceAll("'", "&#039;");
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
 
 const currentUser = () => window.GDNL_CURRENT_USER || {};
-const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.email || "Kullanıcı";
+const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.recipient_name || user?.email || "Kullanıcı";
+const apiData = (payload) => api.responseData ? api.responseData(payload) : (payload?.data ?? payload);
+const apiArray = (payload) => api.asArray ? api.asArray(payload) : (Array.isArray(apiData(payload)) ? apiData(payload) : (apiData(payload)?.items || apiData(payload)?.messages || []));
 
-function apiErrorMessage(error) {
-  if (error?.status === 401) return "Oturum süresi doldu, tekrar giriş yapın.";
-  if (error?.status === 404) return "Mesaj endpointi bulunamadı.";
-  if (error?.status === 500) return "API hata verdi.";
-  if (error?.status === 0) return "Sunucuya ulaşılamıyor.";
+function showToast(message){
+  if(api.showToast){ api.showToast(message); return; }
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => $("toast").classList.remove("show"), 2600);
+}
+
+function apiErrorMessage(error){
+  if(error?.status === 401) return "Oturum süresi doldu, tekrar giriş yapın.";
+  if(error?.status === 404) return "Mesaj endpointi bulunamadı.";
+  if(error?.status === 500) return "API hata verdi.";
+  if(error?.status === 0) return "Sunucuya ulaşılamıyor.";
   return error?.message || "İşlem tamamlanamadı.";
 }
 
-function setApiStatus(endpoint, status, success, error) {
-  apiLastEndpoint.textContent = endpoint || "-";
-  apiLastStatus.textContent = status == null ? "-" : String(status);
-  if (success) apiLastSuccess.textContent = success;
-  if (error !== undefined) apiLastError.textContent = error || "-";
+async function callApi(method, endpoint, body){
+  if(!api[method]) throw new Error("API istemcisi bulunamadı.");
+  return await api[method](endpoint, body, safeApi);
 }
 
-async function callApi(method, endpoint, body) {
-  setApiStatus(endpoint, "...", "", "-");
-  try {
-    const result = await api[method](endpoint, body, safeApi);
-    setApiStatus(endpoint, 200, endpoint + " başarılı", "-");
-    return result;
-  } catch (error) {
-    const message = apiErrorMessage(error);
-    setApiStatus(endpoint, error?.status || "Network", "", message);
-    throw error;
-  }
-}
-
-function apiFolder(folder) {
+function apiFolder(folder){
   return folder === "draft" ? "drafts" : folder;
 }
 
-function asFolder(message, fallbackFolder) {
-  if (fallbackFolder === "drafts") return "draft";
-  if (fallbackFolder) return fallbackFolder;
-  if (message.folder === "drafts") return "draft";
-  if (message.folder) return message.folder;
-  if (message.status === "draft" || message.status === "trash") return message.status;
-  if (String(message.sender_id || "") && String(message.sender_id) === String(currentUser().id || "")) return "sent";
+function asFolder(message, fallbackFolder){
+  if(fallbackFolder === "drafts") return "draft";
+  if(fallbackFolder) return fallbackFolder;
+  if(message.folder === "drafts") return "draft";
+  if(message.folder) return message.folder;
+  if(message.status === "draft") return "draft";
+  if(message.status === "trash") return "trash";
+  if(String(message.sender_id || "") && String(message.sender_id) === String(currentUser().id || "")) return "sent";
   return "inbox";
 }
 
-function normalizeAttachment(file) {
+function normalizeAttachment(file){
   const source = file || {};
   return {
     file_id: source.file_id || source.id || "",
@@ -167,26 +856,27 @@ function normalizeAttachment(file) {
   };
 }
 
-function normalizeRecipient(recipient) {
-  const user = api.normalizeUser(recipient || {});
+function normalizeRecipient(recipient){
+  const raw = recipient || {};
+  const user = api.normalizeUser ? api.normalizeUser(raw) : raw;
   return {
-    id: user.id || recipient?.recipient_id || recipient?.user_id || "",
-    recipient_id: recipient?.recipient_id || user.id || recipient?.user_id || "",
-    recipient_name: recipient?.recipient_name || userNameOf(user),
-    recipient_email: recipient?.recipient_email || user.email || "",
-    fullname: recipient?.recipient_name || user.fullname || user.name || user.username || "",
+    id: user.id || raw.recipient_id || raw.user_id || "",
+    recipient_id: raw.recipient_id || user.id || raw.user_id || "",
+    recipient_name: raw.recipient_name || userNameOf(user),
+    recipient_email: raw.recipient_email || user.email || "",
+    fullname: raw.recipient_name || user.fullname || user.name || user.username || "",
     username: user.username || "",
-    email: recipient?.recipient_email || user.email || "",
+    email: raw.recipient_email || user.email || "",
     role: user.role || "",
     department: user.department || "",
-    status: recipient?.status || "",
-    is_read: recipient?.is_read === true || recipient?.is_read === 1 || recipient?.is_read === "1",
-    read_at: recipient?.read_at || ""
+    status: raw.status || "",
+    is_read: raw.is_read === true || raw.is_read === 1 || raw.is_read === "1",
+    read_at: raw.read_at || ""
   };
 }
 
-function normalizeMessage(message, fallbackFolder) {
-  const source = api.responseData(message) || {};
+function normalizeMessage(message, fallbackFolder){
+  const source = apiData(message) || {};
   const attachments = Array.isArray(source.attachments) ? source.attachments.map(normalizeAttachment) : [];
   const normalizedRecipients = Array.isArray(source.recipients) ? source.recipients.map(normalizeRecipient) : [];
   return {
@@ -198,7 +888,8 @@ function normalizeMessage(message, fallbackFolder) {
     body: source.body || source.message || "",
     recipients: normalizedRecipients,
     sender_id: source.sender_id || source.from_id || "",
-    from: source.from || source.sender_name || source.created_by || "",
+    from: source.from || source.sender_name || source.created_by || source.sender || "",
+    from_email: source.from_email || source.sender_email || "",
     is_read: source.is_read === true || source.is_read === 1 || source.is_read === "1",
     attachments,
     related_module: source.related_module || "General",
@@ -208,21 +899,26 @@ function normalizeMessage(message, fallbackFolder) {
   };
 }
 
-function folderLabel(folder) {
-  return { inbox: "Gelen Kutusu", sent: "Giden Kutusu", draft: "Taslaklar", trash: "Çöp Kutusu", compose: "Yeni Mesaj Oluştur" }[folder] || "Gelen Kutusu";
+function folderLabel(folder){
+  return { inbox:"Gelen Kutusu", sent:"Giden Kutusu", draft:"Taslaklar", trash:"Çöp Kutusu", compose:"Yeni Mesaj" }[folder] || "Gelen Kutusu";
 }
 
-function priorityLabel(priority) {
-  return { normal: "Normal", high: "Yüksek", critical: "Kritik" }[priority] || "Normal";
+function priorityLabel(priority){
+  return { normal:"Normal", high:"Yüksek", critical:"Kritik" }[priority] || "Normal";
 }
 
-function count(folder) {
-  return messages.filter((message) => message.folder === folder).length;
+function priorityClass(priority){
+  return priority === "critical" ? "red" : priority === "high" ? "orange" : "";
 }
 
-function messageCountsAsUnread(message) {
-  if (!message || message.folder !== "inbox") return false;
-  if (!message.is_read) return true;
+function formatDate(value){
+  const date = new Date(value || Date.now());
+  return Number.isNaN(date.getTime()) ? "-" : date.toLocaleString("tr-TR", { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" });
+}
+
+function messageCountsAsUnread(message){
+  if(!message || message.folder !== "inbox") return false;
+  if(!message.is_read) return true;
   const userId = String(currentUser().id || "");
   return (message.recipients || []).some((recipient) => (
     String(recipient.recipient_id || recipient.id || "") === userId &&
@@ -230,214 +926,316 @@ function messageCountsAsUnread(message) {
   ));
 }
 
-function localUnreadCount() {
+function localUnreadCount(){
   return messages.filter(messageCountsAsUnread).length;
 }
 
-function updateCounts() {
-  countInbox.textContent = unreadCount == null ? count("inbox") : unreadCount;
-  countSent.textContent = count("sent");
-  countDraft.textContent = count("draft");
-  countTrash.textContent = count("trash");
-}
-
-function applyUnreadBadge(count) {
+function applyUnreadBadge(count){
   const value = Number(count || 0);
-  document.querySelectorAll('.gdnl-message-link,a[href*="mailbox"]').forEach((link) => {
-    let badge = link.querySelector(".gdnl-mail-unread-badge");
-    if (!badge) {
-      badge = document.createElement("span");
-      badge.className = "gdnl-mail-unread-badge";
-      badge.setAttribute("aria-hidden", "true");
-      link.appendChild(badge);
-    }
-    if (value > 0) {
+  unreadCount = value;
+  const topBadge = $("topUnreadBadge");
+  const inboxBadge = $("countInbox");
+  [topBadge,inboxBadge].forEach((badge) => {
+    if(!badge) return;
+    if(value > 0){
       badge.textContent = value > 99 ? "99+" : String(value);
       badge.classList.add("is-visible");
-    } else {
+    }else{
+      badge.textContent = "";
+      badge.classList.remove("is-visible");
+    }
+  });
+  document.querySelectorAll(".gdnl-mail-unread-badge").forEach((badge) => {
+    if(value > 0){
+      badge.textContent = value > 99 ? "99+" : String(value);
+      badge.classList.add("is-visible");
+    }else{
       badge.textContent = "";
       badge.classList.remove("is-visible");
     }
   });
 }
 
-async function refreshUnreadCount(options = {}) {
-  try {
-    const previous = unreadCount;
+async function refreshUnreadCount(options = {}){
+  let value = localUnreadCount();
+  try{
     const payload = await api.get("/messages/unread-count", safeApi);
-    const data = api.responseData(payload) || {};
+    const data = apiData(payload) || {};
     const apiCount = Number(data.unread_count || data.count || 0);
-    unreadCount = messages.length ? localUnreadCount() : apiCount;
-    if (options.readApplied && previous != null && apiCount >= previous) {
-      unreadCount = Math.max(0, previous - 1);
-    }
-    if (options.readApplied) {
-      unreadCount = Math.min(unreadCount, localUnreadCount());
-    }
-    applyUnreadBadge(unreadCount);
-    countInbox.textContent = unreadCount;
-    return unreadCount;
-  } catch (error) {
-    return unreadCount;
+    value = messages.length ? Math.min(Math.max(value,0), Math.max(apiCount,value)) : apiCount;
+    if(options.readApplied) value = localUnreadCount();
+  }catch(error){
+    value = localUnreadCount();
   }
+  applyUnreadBadge(value);
+  return value;
 }
 
-function scheduleUnreadRefresh() {
+function scheduleUnreadRefresh(){
   refreshUnreadCount();
-  [300, 1000, 2500].forEach((delay) => setTimeout(refreshUnreadCount, delay));
-  if (!window.__gdnlMailboxLocalUnreadTimer) {
-    window.__gdnlMailboxLocalUnreadTimer = setInterval(refreshUnreadCount, 60000);
+  [300,1000,2500].forEach((delay) => setTimeout(refreshUnreadCount, delay));
+  if(!window.__gdnlMailboxUnreadTimer){
+    window.__gdnlMailboxUnreadTimer = setInterval(refreshUnreadCount, 60000);
   }
 }
 
-function setNotice(message, isError = false) {
-  endpointNotice.classList.toggle("hidden", !message);
-  endpointNotice.classList.toggle("error", isError);
-  endpointNotice.textContent = message || "";
-}
-
-async function loadUsers(query = "") {
+async function loadUsers(query = ""){
   const endpoint = "/users" + (query ? "?q=" + encodeURIComponent(query) : "");
   const payload = await callApi("get", endpoint);
-  users = api.asArray(payload).map(api.normalizeUser);
+  users = apiArray(payload).map((item) => api.normalizeUser ? api.normalizeUser(item) : item);
   return users;
 }
 
-async function initSessionUser() {
-  try {
+async function initSessionUser(){
+  try{
     const payload = await callApi("get", "/me");
-    const data = api.responseData(payload);
-    const user = api.normalizeUser(data?.user || data || {});
+    const data = apiData(payload);
+    const user = api.normalizeUser ? api.normalizeUser(data?.user || data || {}) : (data?.user || data || {});
     window.GDNL_CURRENT_USER = user;
-    userName.textContent = userNameOf(user);
+    $("userName").textContent = userNameOf(user);
     return user;
-  } catch (error) {
-    userName.textContent = "Kullanıcı";
+  }catch(error){
+    $("userName").textContent = "Kullanıcı";
     return {};
   }
 }
 
-async function loadFolder(folder) {
+async function loadFolder(folder){
   const endpoint = "/messages?folder=" + encodeURIComponent(apiFolder(folder));
   const payload = await callApi("get", endpoint);
-  return api.asArray(payload).map((message) => normalizeMessage(message, folder));
+  return apiArray(payload).map((message) => normalizeMessage(message, folder));
 }
 
-async function load() {
+async function load(){
   await initSessionUser();
-  try {
-    await loadUsers();
-  } catch (error) {
-    users = [];
-  }
+  try{ await loadUsers(); }catch(error){ users = []; }
 
-  const folders = ["inbox", "sent", "draft", "trash"];
   const loaded = [];
   folderErrors = {};
-  for (const folder of folders) {
-    try {
-      loaded.push(...await loadFolder(folder));
-    } catch (error) {
-      folderErrors[folder] = apiErrorMessage(error);
-    }
+  for(const folder of ["inbox","sent","draft","trash"]){
+    try{ loaded.push(...await loadFolder(folder)); }
+    catch(error){ folderErrors[folder] = apiErrorMessage(error); }
   }
   messages = loaded.filter((message) => message.id);
   await refreshUnreadCount();
-  const failedFolders = Object.keys(folderErrors);
-  setNotice(failedFolders.length ? failedFolders.map((folder) => folderLabel(folder) + ": " + folderErrors[folder]).join(" · ") : "", failedFolders.length > 0);
   render();
   scheduleUnreadRefresh();
 }
 
-function render() {
-  updateCounts();
-  document.querySelectorAll(".folder").forEach((button) => button.classList.toggle("active", button.dataset.folder === activeFolder));
-  folderTitle.textContent = folderLabel(activeFolder);
-  composePanel.classList.toggle("active", activeFolder === "compose");
-  messageList.classList.toggle("hidden", activeFolder === "compose");
-  folderState.textContent = activeFolder === "compose" ? "Hazır" : (folderErrors[activeFolder] ? "API Hatası" : "Canlı API");
+function setActiveFolder(folder){
+  activeFolder = folder;
+  composeMode = folder === "compose";
+  selectedMessageId = "";
+  render();
+}
 
-  if (activeFolder === "compose") {
-    messageList.innerHTML = "";
-    renderDetail();
-    return;
-  }
-  if (folderErrors[activeFolder]) {
-    messageList.innerHTML = `<div class="empty">${esc(folderErrors[activeFolder])}</div>`;
-    renderDetail();
-    return;
-  }
+function currentQuery(){
+  return `${$("searchBox").value || ""} ${$("nameFilter").value || ""}`.trim().toLocaleLowerCase("tr-TR");
+}
 
-  const query = (searchBox.value || "").toLocaleLowerCase("tr-TR");
-  const priorityValue = priorityFilter.value;
-  const moduleValue = moduleFilter.value;
+function filteredRows(){
+  const query = currentQuery();
+  const priorityValue = $("priorityFilter").value;
+  const moduleValue = $("moduleFilter").value;
   const rows = messages.filter((message) => (
     message.folder === activeFolder &&
     (!priorityValue || message.priority === priorityValue) &&
     (!moduleValue || message.related_module === moduleValue) &&
-    `${message.subject} ${message.body} ${message.from} ${message.related_module} ${(message.recipients || []).map(userNameOf).join(" ")}`.toLocaleLowerCase("tr-TR").includes(query)
+    `${message.subject} ${message.body} ${message.from} ${message.from_email} ${message.related_module} ${(message.recipients || []).map(userNameOf).join(" ")}`
+      .toLocaleLowerCase("tr-TR")
+      .includes(query)
   ));
+  rows.sort((a,b) => {
+    const da = new Date(a.created_at).getTime() || 0;
+    const db = new Date(b.created_at).getTime() || 0;
+    return $("dateSort").value === "oldest" ? da - db : db - da;
+  });
+  return rows;
+}
 
-  messageList.innerHTML = rows.length ? rows.map(renderMessage).join("") : `<div class="empty">${folderLabel(activeFolder)} içinde mesaj bulunmuyor.</div>`;
+function render(){
+  document.querySelectorAll(".folder").forEach((button) => button.classList.toggle("active", button.dataset.folder === activeFolder));
+  $("folderTitle").textContent = folderLabel(activeFolder);
+  $("heroMeta").textContent = folderLabel(activeFolder);
+  $("folderState").textContent = folderErrors[activeFolder] ? "API Hatası" : "Canlı";
+  applyUnreadBadge(unreadCount || localUnreadCount());
+
+  if(composeMode){
+    renderCompose();
+    $("messageList").innerHTML = `<div class="empty">Yeni mesaj hazırlanıyor.</div>`;
+    return;
+  }
+
+  if(folderErrors[activeFolder]){
+    $("messageList").innerHTML = `<div class="empty">${esc(folderErrors[activeFolder])}</div>`;
+    renderEmptyDetail();
+    return;
+  }
+
+  const rows = filteredRows();
+  $("messageList").innerHTML = rows.length ? rows.map(renderMessageCard).join("") : `<div class="empty">${folderLabel(activeFolder)} içinde mesaj bulunmuyor.</div>`;
   renderDetail();
 }
 
-function renderMessage(message) {
-  const unread = message.is_read ? "" : "● ";
-  return `<article class="message ${message.id === selectedMessageId ? "active" : ""}" onclick="openMessage('${esc(message.id)}')"><b>${unread}${esc(message.subject || "(Konu yok)")}</b><small>${esc(message.from || "Kullanıcı")} · ${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</small><p>${esc(message.body).slice(0, 180)}</p><span class="badge">${esc(priorityLabel(message.priority))}</span> <span class="badge">${esc(message.related_module)}</span> ${(message.attachments || []).length ? `<span class="badge warn">${message.attachments.length} ek</span>` : ""}<div class="message-actions"><button class="mini-btn" onclick="event.stopPropagation();openMessage('${esc(message.id)}')">Detay</button><button class="mini-btn" onclick="event.stopPropagation();replyTo('${esc(message.id)}')">Yanıtla</button><button class="mini-btn" onclick="event.stopPropagation();markRead('${esc(message.id)}')">Okundu</button>${message.folder === "trash" ? `<button class="mini-btn" onclick="event.stopPropagation();restoreMessage('${esc(message.id)}')">Geri Yükle</button><button class="mini-btn danger" onclick="event.stopPropagation();permanentDelete('${esc(message.id)}')">Kalıcı Sil</button>` : `<button class="mini-btn danger" onclick="event.stopPropagation();moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></article>`;
+function renderMessageCard(message){
+  const unread = messageCountsAsUnread(message);
+  return `
+    <article class="mail-card ${unread ? "unread" : "read"} ${message.id === selectedMessageId ? "active" : ""}" onclick="openMessage('${esc(message.id)}')">
+      <div class="mail-top">
+        <div class="sender">${esc(message.from || "Kullanıcı")}</div>
+        <div class="mail-time">${esc(formatDate(message.created_at))}</div>
+      </div>
+      <div class="mail-subject">${esc(message.subject || "(Konu yok)")}</div>
+      <div class="mail-preview">${esc(message.body || "")}</div>
+      <div class="mail-tags">
+        <span class="badge ${priorityClass(message.priority)}">${esc(priorityLabel(message.priority))}</span>
+        <span class="badge blue">${esc(message.related_module || "General")}</span>
+        ${(message.attachments || []).length ? `<span class="badge orange">📎 ${message.attachments.length} ek</span>` : ""}
+        ${unread ? `<span class="badge">Okunmadı</span>` : `<span class="badge gray">Okundu</span>`}
+      </div>
+    </article>`;
 }
 
-function renderDetail() {
+function renderEmptyDetail(){
+  $("detailTitle").textContent = "Mesaj Detayı";
+  $("detailActions").innerHTML = "";
+  $("messageDetail").innerHTML = `<div class="empty">Detay için bir mesaj seçin.</div>`;
+}
+
+function renderDetail(){
   const message = messages.find((item) => item.id === selectedMessageId);
-  if (!message) {
-    readState.textContent = "Seçilmedi";
-    messageDetail.innerHTML = '<div class="empty">Detay için bir mesaj seçin.</div>';
-    return;
-  }
-  readState.textContent = message.is_read ? "Okundu" : "Okunmadı";
-  messageDetail.innerHTML = `<div class="detail"><div class="detail-grid"><b>Konu</b><span>${esc(message.subject || "(Konu yok)")}</span><b>Gönderen</b><span>${esc(message.from || "Kullanıcı")}</span><b>Tarih</b><span>${esc(new Date(message.created_at).toLocaleString("tr-TR"))}</span><b>Öncelik</b><span>${esc(priorityLabel(message.priority))}</span><b>İlgili kayıt</b><span>${esc(message.related_module)} ${message.related_record_id ? "#" + esc(message.related_record_id) : ""}</span><b>Alıcılar</b><span>${(message.recipients || []).map((recipient) => `<span class="chip">${esc(userNameOf(recipient))}</span>`).join("") || "-"}</span></div><div class="detail-box">${esc(message.body || "")}</div>${(message.attachments || []).map((attachment) => `<div class="detail-box"><b>R2 Ek:</b> ${esc(attachment.filename)} ${attachment.size ? `(${esc(attachment.size)} byte)` : ""}</div>`).join("")}<div class="actions"><button class="btn secondary" onclick="replyTo('${esc(message.id)}')">Yanıtla</button>${message.folder === "trash" ? `<button class="btn secondary" onclick="restoreMessage('${esc(message.id)}')">Geri Yükle</button><button class="btn danger" onclick="permanentDelete('${esc(message.id)}')">Kalıcı Sil</button>` : `<button class="btn danger" onclick="moveTrash('${esc(message.id)}')">Çöpe Taşı</button>`}</div></div>`;
+  if(!message){ renderEmptyDetail(); return; }
+
+  $("detailTitle").textContent = "Mesaj Detayı";
+  $("detailActions").innerHTML = `
+    <button class="tool-btn" onclick="replyTo('${esc(message.id)}')">Yanıtla</button>
+    <button class="tool-btn" onclick="replyAllTo('${esc(message.id)}')">Tümünü Yanıtla</button>
+    <button class="tool-btn" onclick="forwardMessage('${esc(message.id)}')">İlet</button>
+    <button class="tool-btn" onclick="toggleRead('${esc(message.id)}')">${messageCountsAsUnread(message) ? "Okundu Yap" : "Okunmadı Yap"}</button>
+    ${message.folder === "trash"
+      ? `<button class="tool-btn" onclick="restoreMessage('${esc(message.id)}')">Geri Yükle</button><button class="tool-btn danger" onclick="permanentDelete('${esc(message.id)}')">Kalıcı Sil</button>`
+      : `<button class="tool-btn danger" onclick="moveTrash('${esc(message.id)}')">Sil</button>`}
+  `;
+
+  $("messageDetail").innerHTML = `
+    <div class="mail-detail-title">${esc(message.subject || "(Konu yok)")}</div>
+    <div class="detail-meta">
+      <div class="meta-row"><b>Gönderen</b><span>${esc(message.from || "Kullanıcı")} ${message.from_email ? "· " + esc(message.from_email) : ""}</span></div>
+      <div class="meta-row"><b>Tarih</b><span>${esc(formatDate(message.created_at))}</span></div>
+      <div class="meta-row"><b>Alıcılar</b><span>${(message.recipients || []).map((r) => `<span class="chip">${esc(userNameOf(r))}</span>`).join(" ") || "-"}</span></div>
+      <div class="meta-row"><b>Öncelik</b><span>${esc(priorityLabel(message.priority))}</span></div>
+      <div class="meta-row"><b>Modül</b><span>${esc(message.related_module || "General")}${message.related_record_id ? " · #" + esc(message.related_record_id) : ""}</span></div>
+      <div class="meta-row"><b>Durum</b><span>${messageCountsAsUnread(message) ? "Okunmadı" : "Okundu"}</span></div>
+    </div>
+    <div class="message-content">${esc(message.body || "")}</div>
+    ${(message.attachments || []).length ? `<div class="attachment-list">${message.attachments.map((attachment) => `
+      <div class="attachment">
+        <span>📎 ${esc(attachment.filename)} ${attachment.size ? "(" + esc(attachment.size) + " byte)" : ""}</span>
+        ${attachment.url ? `<a class="tool-btn" href="${esc(attachment.url)}" target="_blank" rel="noopener">Aç</a>` : `<span class="badge gray">R2</span>`}
+      </div>`).join("")}</div>` : ""}
+  `;
 }
 
-function renderRecipients() {
-  recipientChips.innerHTML = recipients.map((recipient, index) => `<span class="chip">${esc(userNameOf(recipient))}<button type="button" onclick="removeRecipient(${index})" style="border:none;background:transparent;color:#991b1b;font-weight:950">×</button></span>`).join("");
-}
-
-function removeRecipient(index) {
-  recipients.splice(index, 1);
+function renderCompose(){
+  $("detailTitle").textContent = draftSourceId ? "Mesajı Düzenle" : "Yeni Mesaj";
+  $("detailActions").innerHTML = `<button class="tool-btn" onclick="setActiveFolder('inbox')">Kapat</button>`;
+  $("messageDetail").innerHTML = `
+    <div class="compose-panel active">
+      <div class="form">
+        <div class="field full">
+          <label>Alıcılar</label>
+          <input id="recipientInput" autocomplete="off" placeholder="Kişi ara ve seç">
+          <div id="suggestions" class="suggest"></div>
+          <div id="recipientChips" class="chips"></div>
+        </div>
+        <div class="field full"><label>Konu</label><input id="subject" placeholder="Mesaj konusu"></div>
+        <div class="field full"><label>Mesaj İçeriği</label><textarea id="body" placeholder="Mesajınızı yazın"></textarea></div>
+        <div class="field"><label>Öncelik</label><select id="priority"><option value="normal">Normal</option><option value="high">Yüksek</option><option value="critical">Kritik</option></select></div>
+        <div class="field"><label>İlgili Modül</label><select id="relatedModule"><option>General</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer Complaint</option><option>Calibration</option><option>Maintenance</option><option>Action</option></select></div>
+        <div class="field"><label>İlgili Kayıt No</label><input id="relatedRecordId" placeholder="Kayıt no"></div>
+        <div class="field full"><label>Ek Dosya</label><input id="attachment" type="file"></div>
+      </div>
+      <div class="compose-actions">
+        <button class="primary-btn" type="button" onclick="sendMessage()">Gönder</button>
+        <button class="secondary-btn" type="button" onclick="saveDraft()">Taslak Kaydet</button>
+        <button class="danger-btn" type="button" onclick="clearCompose()">Temizle</button>
+      </div>
+    </div>
+  `;
+  $("recipientInput").addEventListener("input", () => {
+    clearTimeout(userSearchTimer);
+    userSearchTimer = setTimeout(searchUsers, 220);
+  });
+  $("attachment").addEventListener("change", (event) => {
+    attachmentFile = event.target.files[0] || null;
+  });
+  restoreComposeValues();
   renderRecipients();
 }
 
-async function searchUsers() {
-  const query = recipientInput.value.trim();
-  try {
+let composeValues = { subject:"", body:"", priority:"normal", relatedModule:"General", relatedRecordId:"" };
+
+function cacheComposeValues(){
+  if(!$("subject")) return;
+  composeValues = {
+    subject:$("subject").value,
+    body:$("body").value,
+    priority:$("priority").value,
+    relatedModule:$("relatedModule").value,
+    relatedRecordId:$("relatedRecordId").value
+  };
+}
+
+function restoreComposeValues(){
+  if(!$("subject")) return;
+  $("subject").value = composeValues.subject || "";
+  $("body").value = composeValues.body || "";
+  $("priority").value = composeValues.priority || "normal";
+  $("relatedModule").value = composeValues.relatedModule || "General";
+  $("relatedRecordId").value = composeValues.relatedRecordId || "";
+}
+
+function renderRecipients(){
+  if(!$("recipientChips")) return;
+  $("recipientChips").innerHTML = recipients.map((recipient,index) => `
+    <span class="chip">${esc(userNameOf(recipient))}
+      <button type="button" onclick="removeRecipient(${index})">×</button>
+    </span>`).join("");
+}
+
+function removeRecipient(index){
+  recipients.splice(index,1);
+  renderRecipients();
+}
+
+async function searchUsers(){
+  const input = $("recipientInput");
+  const suggestions = $("suggestions");
+  const query = input.value.trim();
+  try{
     const found = await loadUsers(query);
-    suggestions.innerHTML = found.slice(0, 10).map((user, index) => `<div data-i="${index}">${esc(userNameOf(user))}<br><small>${esc(user.email || "")} · ${esc(user.department || "")}</small></div>`).join("");
+    suggestions.innerHTML = found.slice(0,12).map((user,index) => `
+      <div data-i="${index}">
+        ${esc(userNameOf(user))}<br>
+        <small>${esc(user.email || "")} · ${esc(user.department || "")}</small>
+      </div>`).join("");
     suggestions.style.display = found.length ? "block" : "none";
     suggestions.querySelectorAll("[data-i]").forEach((item) => {
       item.onclick = () => {
         const user = found[Number(item.dataset.i)];
-        if (user && !recipients.some((recipient) => String(recipient.id || recipient.recipient_id) === String(user.id))) recipients.push(user);
-        recipientInput.value = "";
+        if(user && !recipients.some((r) => String(r.id || r.recipient_id) === String(user.id))) recipients.push(user);
+        input.value = "";
         suggestions.style.display = "none";
         renderRecipients();
       };
     });
-  } catch (error) {
+  }catch(error){
     suggestions.style.display = "none";
-    setNotice(apiErrorMessage(error), true);
+    showToast(apiErrorMessage(error));
   }
 }
 
-recipientInput.addEventListener("input", () => {
-  clearTimeout(userSearchTimer);
-  userSearchTimer = setTimeout(searchUsers, 220);
-});
-
-attachment.addEventListener("change", (event) => {
-  attachmentFile = event.target.files[0] || null;
-});
-
-function recipientPayload() {
+function recipientPayload(){
   return recipients.map(normalizeRecipient).map((recipient) => ({
     recipient_id: recipient.recipient_id || recipient.id,
     recipient_name: userNameOf(recipient),
@@ -445,229 +1243,305 @@ function recipientPayload() {
   })).filter((recipient) => recipient.recipient_id);
 }
 
-async function uploadAttachment(recordId) {
-  if (!attachmentFile) return null;
+async function uploadAttachment(recordId){
+  const fileInput = $("attachment");
+  const file = attachmentFile || fileInput?.files?.[0] || null;
+  if(!file) return null;
   const form = new FormData();
-  form.append("file", attachmentFile);
+  form.append("file", file);
   form.append("module", "mailbox");
   form.append("related_id", recordId);
   form.append("category", "Mesaj Eki");
   form.append("uploaded_by", userNameOf(currentUser()));
-  setApiStatus("/upload", "...", "", "-");
-  try {
-    const payload = await api.request("/upload", { method: "POST", body: form, redirectOnUnauthorized: false, fallbackOnNotFound: false });
-    setApiStatus("/upload", 200, "Ek dosya R2'ye yüklendi", "-");
-    const data = api.responseData(payload);
-    return normalizeAttachment(data?.file || data);
-  } catch (error) {
-    const message = apiErrorMessage(error);
-    setApiStatus("/upload", error?.status || "Network", "", message);
-    throw error;
-  }
+  const payload = await api.request("/upload", { method:"POST", body:form, redirectOnUnauthorized:false, fallbackOnNotFound:false });
+  const data = apiData(payload);
+  return normalizeAttachment(data?.file || data);
 }
 
-async function buildPayload(status) {
-  const id = "MSG-" + Date.now();
+async function buildPayload(status){
+  cacheComposeValues();
+  const id = draftSourceId || "MSG-" + Date.now();
   const attachments = [];
   const uploaded = await uploadAttachment(id);
-  if (uploaded) attachments.push(uploaded);
+  if(uploaded) attachments.push(uploaded);
   return {
     id,
-    subject: subject.value.trim(),
-    body: body.value.trim(),
+    subject: composeValues.subject.trim(),
+    body: composeValues.body.trim(),
     recipients: recipientPayload(),
-    priority: priority.value || "normal",
+    priority: composeValues.priority || "normal",
     status,
-    related_module: relatedModule.value || "General",
-    related_record_id: relatedRecordId.value.trim(),
+    related_module: composeValues.relatedModule || "General",
+    related_record_id: composeValues.relatedRecordId.trim(),
     attachments
   };
 }
 
-function validatePayload(payload) {
-  if (payload.status === "sent" && !payload.recipients.length) return "Alıcı seçilmeden mesaj gönderilemez.";
-  if (payload.status === "sent" && !payload.subject) return "Konu girilmeden mesaj gönderilemez.";
-  if (payload.status === "sent" && !payload.body) return "Mesaj içeriği girilmeden mesaj gönderilemez.";
-  if (payload.recipients.some((recipient) => !recipient.recipient_id)) return "Alıcı kimliği eksik.";
+function validatePayload(payload){
+  if(payload.status === "sent" && !payload.recipients.length) return "Alıcı seçilmeden mesaj gönderilemez.";
+  if(payload.status === "sent" && !payload.subject) return "Konu girilmeden mesaj gönderilemez.";
+  if(payload.status === "sent" && !payload.body) return "Mesaj içeriği girilmeden mesaj gönderilemez.";
+  if(payload.recipients.some((recipient) => !recipient.recipient_id)) return "Alıcı kimliği eksik.";
   return "";
 }
 
-async function writeActivity(action, message) {
-  const payload = { module: "mailbox", related_module: "mailbox", related_record_id: message?.id || "", action, description: message?.subject || "", user_id: currentUser().id || "", user_name: userNameOf(currentUser()), created_at: new Date().toISOString() };
-  api.post("/activity-feed", payload, safeApi).catch(() => {});
-  api.post("/audit-logs", payload, safeApi).catch(() => {});
+async function writeActivity(action, message){
+  const payload = {
+    module:"mailbox",
+    related_module:"mailbox",
+    related_record_id:message?.id || "",
+    action,
+    description:message?.subject || "",
+    user_id:currentUser().id || "",
+    user_name:userNameOf(currentUser()),
+    created_at:new Date().toISOString()
+  };
+  api.post?.("/activity-feed", payload, safeApi).catch(() => {});
+  api.post?.("/audit-logs", payload, safeApi).catch(() => {});
 }
 
-async function save(status) {
+async function save(status){
   const payload = await buildPayload(status);
   const validation = validatePayload(payload);
-  if (validation) {
-    api.showToast(validation);
-    setNotice(validation, true);
-    return;
-  }
+  if(validation){ showToast(validation); return; }
 
-  try {
+  try{
     const saved = await callApi("post", "/messages", payload);
-    const savedMessage = normalizeMessage(api.responseData(saved), status === "draft" ? "draft" : "sent");
+    const savedMessage = normalizeMessage(apiData(saved), status === "draft" ? "draft" : "sent");
     await writeActivity(status === "draft" ? "Taslak kaydedildi" : "Mesaj gönderildi", savedMessage);
-    if (savedMessage.attachments.length) await writeActivity("Dosya eki eklendi", savedMessage);
     clearCompose(false);
     activeFolder = status === "draft" ? "draft" : "sent";
+    composeMode = false;
     await load();
     selectedMessageId = savedMessage.id;
-    api.showToast(status === "draft" ? "Taslak kaydedildi" : "Mesaj gönderildi");
-    setNotice(status === "draft" ? "Taslak kaydedildi." : "Mesaj gönderildi.");
+    showToast(status === "draft" ? "Taslak kaydedildi" : "Mesaj gönderildi");
     window.GDNL_API?.updateMailboxUnreadBadge?.();
     render();
-  } catch (error) {
-    const message = apiErrorMessage(error);
-    api.showToast(message);
-    setNotice(message, true);
-    render();
+  }catch(error){
+    showToast(apiErrorMessage(error));
   }
 }
 
-function sendMessage() { save("sent"); }
-function saveDraft() { save("draft"); }
+function sendMessage(){ save("sent"); }
+function saveDraft(){ save("draft"); }
 
-function clearCompose(show = true) {
+function clearCompose(show = true){
   recipients = [];
-  subject.value = "";
-  body.value = "";
-  relatedModule.value = "General";
-  relatedRecordId.value = "";
-  priority.value = "normal";
-  attachment.value = "";
   attachmentFile = null;
+  draftSourceId = "";
+  composeValues = { subject:"", body:"", priority:"normal", relatedModule:"General", relatedRecordId:"" };
+  if($("attachment")) $("attachment").value = "";
+  restoreComposeValues();
   renderRecipients();
-  if (show) api.showToast("Mesaj formu temizlendi");
+  if(show) showToast("Mesaj formu temizlendi");
 }
 
-function openCompose() {
+function openCompose(){
+  composeMode = true;
   activeFolder = "compose";
   selectedMessageId = "";
+  draftSourceId = "";
+  clearCompose(false);
   render();
 }
 
-async function openMessage(id) {
-  try {
+async function openMessage(id){
+  try{
     const detail = normalizeMessage(await callApi("get", "/messages/" + encodeURIComponent(id)));
     const index = messages.findIndex((message) => message.id === detail.id);
-    if (index >= 0) messages[index] = { ...messages[index], ...detail };
+    if(index >= 0) messages[index] = { ...messages[index], ...detail };
     else messages.unshift(detail);
     selectedMessageId = detail.id;
-    if (activeFolder === "inbox" && messageCountsAsUnread(detail)) await markRead(id, true);
-  } catch (error) {
+    composeMode = false;
+    if(activeFolder === "inbox" && messageCountsAsUnread(detail)) await markRead(id, true);
+  }catch(error){
     selectedMessageId = id;
-    api.showToast(apiErrorMessage(error));
+    composeMode = false;
+    showToast(apiErrorMessage(error));
   }
   render();
 }
 
-function replyTo(id) {
+function replyTo(id){
   const message = messages.find((item) => item.id === id);
-  if (!message) return;
-  recipients = message.sender_id || message.from ? [normalizeRecipient({ id: message.sender_id, fullname: message.from, email: message.from_email || "" })] : [];
-  subject.value = /^Yanıt:/i.test(message.subject) ? message.subject : "Yanıt: " + (message.subject || "");
-  body.value = "\n\n--- Önceki Mesaj ---\n" + (message.body || "");
-  relatedModule.value = message.related_module || "General";
-  relatedRecordId.value = message.related_record_id || "";
-  priority.value = message.priority || "normal";
+  if(!message) return;
+  recipients = message.sender_id || message.from ? [normalizeRecipient({ id:message.sender_id, fullname:message.from, email:message.from_email || "" })] : [];
+  composeValues = {
+    subject:/^Yanıt:/i.test(message.subject) ? message.subject : "Yanıt: " + (message.subject || ""),
+    body:"\n\n--- Önceki Mesaj ---\n" + (message.body || ""),
+    priority:message.priority || "normal",
+    relatedModule:message.related_module || "General",
+    relatedRecordId:message.related_record_id || ""
+  };
   activeFolder = "compose";
-  renderRecipients();
+  composeMode = true;
   render();
 }
 
-async function markRead(id, silent = false) {
+function replyAllTo(id){
   const message = messages.find((item) => item.id === id);
-  if (!message) return;
+  if(!message) return;
+  const all = [];
+  if(message.sender_id || message.from) all.push(normalizeRecipient({ id:message.sender_id, fullname:message.from, email:message.from_email || "" }));
+  (message.recipients || []).forEach((recipient) => {
+    if(String(recipient.id || recipient.recipient_id) !== String(currentUser().id || "")) all.push(recipient);
+  });
+  const seen = new Set();
+  recipients = all.filter((recipient) => {
+    const key = String(recipient.id || recipient.recipient_id || recipient.email || userNameOf(recipient));
+    if(seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  composeValues = {
+    subject:/^Yanıt:/i.test(message.subject) ? message.subject : "Yanıt: " + (message.subject || ""),
+    body:"\n\n--- Önceki Mesaj ---\n" + (message.body || ""),
+    priority:message.priority || "normal",
+    relatedModule:message.related_module || "General",
+    relatedRecordId:message.related_record_id || ""
+  };
+  activeFolder = "compose";
+  composeMode = true;
+  render();
+}
+
+function forwardMessage(id){
+  const message = messages.find((item) => item.id === id);
+  if(!message) return;
+  recipients = [];
+  composeValues = {
+    subject:/^İlet:/i.test(message.subject) ? message.subject : "İlet: " + (message.subject || ""),
+    body:"\n\n--- İletilen Mesaj ---\nGönderen: " + (message.from || "Kullanıcı") + "\nTarih: " + formatDate(message.created_at) + "\n\n" + (message.body || ""),
+    priority:message.priority || "normal",
+    relatedModule:message.related_module || "General",
+    relatedRecordId:message.related_record_id || ""
+  };
+  activeFolder = "compose";
+  composeMode = true;
+  render();
+}
+
+async function markRead(id, silent = false){
+  const message = messages.find((item) => item.id === id);
+  if(!message) return;
   const wasUnread = messageCountsAsUnread(message);
-  try {
-    await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read: true, read_at: new Date().toISOString() });
+  try{
+    await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read:true, read_at:new Date().toISOString() });
     message.is_read = true;
     (message.recipients || []).forEach((recipient) => {
-      if (String(recipient.recipient_id || recipient.id || "") === String(currentUser().id || "")) {
+      if(String(recipient.recipient_id || recipient.id || "") === String(currentUser().id || "")){
         recipient.is_read = true;
         recipient.status = "READ";
         recipient.read_at = new Date().toISOString();
       }
     });
-    await refreshUnreadCount({ readApplied: wasUnread });
+    await refreshUnreadCount({ readApplied:wasUnread });
     await writeActivity("Mesaj okundu", message);
-    if (!silent) api.showToast("Mesaj okundu olarak işaretlendi");
-  } catch (error) {
-    api.showToast(apiErrorMessage(error));
+    if(!silent) showToast("Mesaj okundu olarak işaretlendi");
+  }catch(error){
+    showToast(apiErrorMessage(error));
   }
-  if (!silent) render();
+  if(!silent) render();
 }
 
-async function moveTrash(id) {
+async function markUnread(id){
   const message = messages.find((item) => item.id === id);
-  if (!message) return;
-  try {
-    await callApi("put", "/messages/" + encodeURIComponent(id) + "/trash", { status: "trash", deleted_at: new Date().toISOString() });
+  if(!message) return;
+  try{
+    await callApi("put", "/messages/" + encodeURIComponent(id) + "/read", { is_read:false, read_at:null });
+    message.is_read = false;
+    (message.recipients || []).forEach((recipient) => {
+      if(String(recipient.recipient_id || recipient.id || "") === String(currentUser().id || "")){
+        recipient.is_read = false;
+        recipient.status = "UNREAD";
+        recipient.read_at = "";
+      }
+    });
+    await refreshUnreadCount();
+    await writeActivity("Mesaj okunmadı yapıldı", message);
+    showToast("Mesaj okunmadı olarak işaretlendi");
+  }catch(error){
+    showToast(apiErrorMessage(error));
+  }
+  render();
+}
+
+function toggleRead(id){
+  const message = messages.find((item) => item.id === id);
+  if(!message) return;
+  if(messageCountsAsUnread(message)) markRead(id);
+  else markUnread(id);
+}
+
+async function moveTrash(id){
+  const message = messages.find((item) => item.id === id);
+  if(!message) return;
+  try{
+    await callApi("put", "/messages/" + encodeURIComponent(id) + "/trash", { status:"trash", deleted_at:new Date().toISOString() });
     await writeActivity("Mesaj çöpe taşındı", message);
     activeFolder = "trash";
+    composeMode = false;
     await load();
     selectedMessageId = id;
-    api.showToast("Mesaj çöp kutusuna taşındı");
+    showToast("Mesaj çöp kutusuna taşındı");
     window.GDNL_API?.updateMailboxUnreadBadge?.();
-  } catch (error) {
-    api.showToast(apiErrorMessage(error));
+  }catch(error){
+    showToast(apiErrorMessage(error));
   }
   render();
 }
 
-async function restoreMessage(id) {
+async function restoreMessage(id){
   const message = messages.find((item) => item.id === id);
-  if (!message) return;
-  try {
-    const restored = normalizeMessage(await callApi("put", "/messages/" + encodeURIComponent(id) + "/restore", { deleted_at: null }));
+  if(!message) return;
+  try{
+    const restored = normalizeMessage(await callApi("put", "/messages/" + encodeURIComponent(id) + "/restore", { deleted_at:null }));
     await writeActivity("Mesaj geri yüklendi", message);
     activeFolder = restored.folder === "sent" ? "sent" : "inbox";
+    composeMode = false;
     await load();
     selectedMessageId = id;
-    api.showToast("Mesaj geri yüklendi");
+    showToast("Mesaj geri yüklendi");
     window.GDNL_API?.updateMailboxUnreadBadge?.();
-  } catch (error) {
-    api.showToast(apiErrorMessage(error));
+  }catch(error){
+    showToast(apiErrorMessage(error));
   }
   render();
 }
 
-async function permanentDelete(id) {
+async function permanentDelete(id){
   const message = messages.find((item) => item.id === id);
-  if (!message) return;
-  const approved = await api.showConfirm("Bu mesaj ve varsa ek dosyaları kalıcı olarak silinecek. Devam edilsin mi?");
-  if (!approved) return;
-  try {
+  if(!message) return;
+  let approved = true;
+  if(api.showConfirm) approved = await api.showConfirm("Bu mesaj kalıcı olarak silinecek. Devam edilsin mi?");
+  else approved = confirm("Bu mesaj kalıcı olarak silinecek. Devam edilsin mi?");
+  if(!approved) return;
+  try{
     await callApi("delete", "/messages/" + encodeURIComponent(id) + "/permanent");
     await writeActivity("Mesaj kalıcı silindi", message);
     selectedMessageId = "";
     activeFolder = "trash";
+    composeMode = false;
     await load();
-    api.showToast("Mesaj kalıcı olarak silindi");
-    setNotice("Mesaj ve ek dosya ilişkileri kalıcı olarak silindi.");
+    showToast("Mesaj kalıcı olarak silindi");
     window.GDNL_API?.updateMailboxUnreadBadge?.();
-  } catch (error) {
-    const messageText = apiErrorMessage(error);
-    api.showToast(messageText);
-    setNotice(messageText, true);
+  }catch(error){
+    showToast(apiErrorMessage(error));
   }
   render();
 }
 
 document.querySelectorAll(".folder").forEach((button) => {
-  button.onclick = () => {
-    activeFolder = button.dataset.folder;
-    if (activeFolder !== "compose") selectedMessageId = "";
-    render();
-  };
+  button.addEventListener("click", () => setActiveFolder(button.dataset.folder));
 });
-searchBox.addEventListener("input", render);
-priorityFilter.addEventListener("change", render);
-moduleFilter.addEventListener("change", render);
+
+["searchBox","nameFilter"].forEach((id) => {
+  $(id).addEventListener("input", render);
+});
+["priorityFilter","moduleFilter","dateSort"].forEach((id) => {
+  $(id).addEventListener("change", render);
+});
+$("globalSearchBtn").addEventListener("click", render);
 
 load();
 </script>
