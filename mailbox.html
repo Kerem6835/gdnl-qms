@@ -1172,6 +1172,39 @@ const esc = (value) => String(value ?? "")
   .replaceAll('"',"&quot;")
   .replaceAll("'","&#039;");
 
+
+function gdnlIsQmsHost(){
+  return location.hostname === "qms.gdnldigital.com";
+}
+
+function gdnlApiPrefix(){
+  return gdnlIsQmsHost() ? "/api" : "";
+}
+
+function gdnlFileUrlFromKey(key){
+  const clean = String(key || "").trim();
+  return clean ? gdnlApiPrefix() + "/file/" + encodeURIComponent(clean) : "";
+}
+
+function gdnlFileUrlFromId(id){
+  const clean = String(id || "").trim();
+  return clean ? gdnlApiPrefix() + "/files/" + encodeURIComponent(clean) : "";
+}
+
+function gdnlNormalizeFileUrl(url){
+  let value = String(url || "").trim();
+  if(!value) return "";
+
+  if(gdnlIsQmsHost()){
+    if(value.startsWith("/file/")) value = "/api" + value;
+    if(value.startsWith("/files/")) value = "/api" + value;
+    if(value.startsWith(location.origin + "/file/")) value = location.origin + "/api" + value.slice(location.origin.length);
+    if(value.startsWith(location.origin + "/files/")) value = location.origin + "/api" + value.slice(location.origin.length);
+  }
+
+  return value;
+}
+
 const currentUser = () => window.GDNL_CURRENT_USER || {};
 const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.recipient_name || user?.email || "Kullanıcı";
 const apiData = (payload) => api.responseData ? api.responseData(payload) : (payload?.data ?? payload);
@@ -1218,7 +1251,7 @@ function normalizeAttachment(file){
   const fileId = source.file_id || source.fileId || source.id || source.attachment_id || source.attachmentId || "";
   const r2Key = source.r2_key || source.r2Key || source.key || source.object_key || source.objectKey || source.storage_key || source.storageKey || source.path || "";
   const filename = source.filename || source.fileName || source.file_name || source.original_name || source.originalName || source.name || "Dosya";
-  const url = source.url || source.download_url || source.downloadUrl || source.file_url || source.fileUrl || source.public_url || source.publicUrl || source.href || source.link || "";
+  const url = gdnlNormalizeFileUrl(source.url || source.download_url || source.downloadUrl || source.file_url || source.fileUrl || source.public_url || source.publicUrl || source.href || source.link || "");
   return {
     ...source,
     file_id:fileId,
@@ -1502,15 +1535,18 @@ function cachedAttachmentMeta(filename){
 
 function attachmentFileUrl(att){
   const file = normalizeAttachment(att);
-  if(file.url) return file.url;
-  if(file.r2_key) return "/file/" + encodeURIComponent(file.r2_key);
-  if(file.file_id) return "/files/" + encodeURIComponent(file.file_id);
+
+  if(file.url) return gdnlNormalizeFileUrl(file.url);
+  if(file.r2_key) return gdnlFileUrlFromKey(file.r2_key);
+  if(file.file_id) return gdnlFileUrlFromId(file.file_id);
+
   const cached = cachedAttachmentMeta(file.filename);
   if(cached){
-    if(cached.url) return cached.url;
-    if(cached.r2_key) return "/file/" + encodeURIComponent(cached.r2_key);
-    if(cached.file_id) return "/files/" + encodeURIComponent(cached.file_id);
+    if(cached.url) return gdnlNormalizeFileUrl(cached.url);
+    if(cached.r2_key) return gdnlFileUrlFromKey(cached.r2_key);
+    if(cached.file_id) return gdnlFileUrlFromId(cached.file_id);
   }
+
   return "";
 }
 
@@ -2192,14 +2228,14 @@ load();
   function keyUrl(att){
     if(!att) return "";
     const key = att.r2_key || att.r2Key || att.key || att.storage_key || att.storageKey || att.object_key || att.objectKey || att.path || "";
-    if(key) return apiBase() + "/file/" + encodeURIComponent(key);
+    if(key) return gdnlFileUrlFromKey(key);
     return "";
   }
 
   function idUrl(att){
     if(!att) return "";
     const id = att.file_id || att.fileId || att.id || att.attachment_id || att.attachmentId || "";
-    if(id) return apiBase() + "/files/" + encodeURIComponent(id);
+    if(id) return gdnlFileUrlFromId(id);
     return "";
   }
 
@@ -2239,7 +2275,10 @@ load();
 
     for(const ep of endpoints){
       try{
-        const data = await fetchJson(apiBase() + ep);
+        
+        let fetchEp = ep;
+        if(gdnlIsQmsHost() && fetchEp.startsWith("/")) fetchEp = "/api" + fetchEp;
+        const data = await fetchJson(apiBase() + fetchEp);
         const files = flattenFiles(data);
         const found = files.find(f => normalizeName(getName(f)) === wanted) ||
                       files.find(f => normalizeName(getName(f)).includes(wanted) || wanted.includes(normalizeName(getName(f))));
@@ -2454,6 +2493,32 @@ load();
     setTimeout(bindAttachmentEvents, 2500);
   });
 
+})();
+</script>
+
+
+<script>
+(function(){
+  "use strict";
+  function fixOldAttachmentCache(){
+    if(location.hostname !== "qms.gdnldigital.com") return;
+    try{
+      for(let i=0;i<localStorage.length;i++){
+        const key = localStorage.key(i);
+        if(!key || !key.startsWith("gdnl_mail_attachment_")) continue;
+        const raw = localStorage.getItem(key);
+        if(!raw) continue;
+        const obj = JSON.parse(raw);
+        if(obj && typeof obj.url === "string"){
+          if(obj.url.startsWith("/file/")) obj.url = "/api" + obj.url;
+          if(obj.url.startsWith("/files/")) obj.url = "/api" + obj.url;
+          localStorage.setItem(key, JSON.stringify(obj));
+        }
+      }
+    }catch(e){}
+  }
+  document.addEventListener("DOMContentLoaded", fixOldAttachmentCache);
+  window.addEventListener("load", fixOldAttachmentCache);
 })();
 </script>
 
