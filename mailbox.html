@@ -680,6 +680,76 @@ button{cursor:pointer}
 .folder .count{min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:#ef4444;color:#fff;font-size:11px;font-weight:950;display:none;align-items:center;justify-content:center}
 .folder .count.is-visible{display:inline-flex}
 @media(max-width:760px){.brand{min-width:230px}.logo-full{width:230px}.topbar{gap:12px}}
+
+
+/* === GDNL FIX: TOPBAR LOGO + GREEN DEPARTMENT + WORKING SEARCH === */
+.topbar{
+  display:grid!important;
+  grid-template-columns:320px minmax(320px,1fr) auto!important;
+  align-items:center!important;
+  column-gap:16px!important;
+  min-height:92px!important;
+}
+.topbar .brand{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:320px!important;
+  min-width:320px!important;
+  max-width:320px!important;
+  height:64px!important;
+  overflow:visible!important;
+  position:relative!important;
+  z-index:5!important;
+}
+.topbar .logo-full{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:300px!important;
+  max-width:300px!important;
+  height:auto!important;
+  object-fit:contain!important;
+}
+.topbar .global-search{
+  width:100%!important;
+  max-width:640px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  justify-self:start!important;
+}
+.topbar .search-btn,
+#globalSearchBtn{
+  min-width:76px!important;
+  font-size:13px!important;
+  font-weight:950!important;
+}
+.topbar .nav-btn{
+  background:linear-gradient(135deg,#168a3a 0%,#22b14c 52%,#63dc73 100%)!important;
+  color:#fff!important;
+  border-color:transparent!important;
+  box-shadow:0 14px 28px rgba(34,177,76,.20)!important;
+}
+@media(max-width:1280px){
+  .topbar{grid-template-columns:280px minmax(260px,1fr) auto!important;}
+  .topbar .brand{width:280px!important;min-width:280px!important;max-width:280px!important;}
+  .topbar .logo-full{width:260px!important;max-width:260px!important;}
+}
+@media(max-width:920px){
+  .topbar{display:flex!important;flex-direction:column!important;align-items:flex-start!important;}
+  .topbar .brand{width:300px!important;min-width:0!important;max-width:100%!important;}
+  .topbar .logo-full{width:280px!important;max-width:100%!important;}
+  .topbar .global-search{width:100%!important;max-width:none!important;}
+  .topbar .topbar-actions{width:100%!important;}
+}
+@media(max-width:560px){
+  .topbar .brand{width:250px!important;}
+  .topbar .logo-full{width:240px!important;}
+}
+
 </style>
 </head>
 <body>
