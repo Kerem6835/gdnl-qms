@@ -926,6 +926,72 @@ button{cursor:pointer}
   font-weight:950!important;
 }
 
+
+/* === GDNL EOS FINAL ATTACHMENT SYSTEM === */
+.attachment{
+  cursor:pointer!important;
+  transition:.16s ease!important;
+}
+.attachment:hover{
+  border-color:#8edda8!important;
+  box-shadow:0 12px 24px rgba(32,185,87,.10)!important;
+  transform:translateY(-1px)!important;
+}
+.attachment-actions{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin-left:auto!important;
+}
+.attachment-open-btn,
+.attachment-download-btn{
+  height:32px!important;
+  border:1px solid #d8e5f2!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:#0f1b2f!important;
+  padding:0 10px!important;
+  font-size:11px!important;
+  font-weight:950!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.attachment-open-btn:hover,
+.attachment-download-btn:hover{
+  border-color:#8edda8!important;
+  color:#15803d!important;
+}
+.attachment-r2-badge{
+  min-width:34px!important;
+  height:26px!important;
+  border-radius:999px!important;
+  background:#eef6ff!important;
+  color:#334155!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:11px!important;
+  font-weight:950!important;
+}
+.attachment-preview-box{
+  margin-top:14px!important;
+  border:1px solid #edf3fa!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  overflow:hidden!important;
+}
+.attachment-preview-box img{
+  max-width:100%!important;
+  display:block!important;
+}
+.attachment-preview-box iframe{
+  width:100%!important;
+  min-height:520px!important;
+  border:none!important;
+  display:block!important;
+}
+
 </style>
 </head>
 <body>
@@ -1880,120 +1946,23 @@ load();
 </script>
 
 
+
+
+
 <script>
 (function(){
   "use strict";
 
-  function getApiBase(){
+  const ATTACHMENT_CACHE = new Map();
+
+  function apiBase(){
     if(window.API_BASE) return String(window.API_BASE).replace(/\/$/,"");
     if(window.apiBase) return String(window.apiBase).replace(/\/$/,"");
     return "";
   }
 
-  function normalizeFileUrl(att){
-    if(!att) return "";
-
-    var direct =
-      att.url ||
-      att.download_url ||
-      att.downloadUrl ||
-      att.file_url ||
-      att.fileUrl ||
-      att.public_url ||
-      att.publicUrl ||
-      att.link ||
-      "";
-
-    if(direct) return direct;
-
-    var key =
-      att.r2_key ||
-      att.r2Key ||
-      att.key ||
-      att.storage_key ||
-      att.storageKey ||
-      att.path ||
-      "";
-
-    if(key){
-      return getApiBase() + "/file/" + encodeURIComponent(key);
-    }
-
-    var id =
-      att.file_id ||
-      att.fileId ||
-      att.id ||
-      att.attachment_id ||
-      att.attachmentId ||
-      "";
-
-    if(id){
-      return getApiBase() + "/files/" + encodeURIComponent(id);
-    }
-
-    return "";
-  }
-
-  function fileNameFromAttachment(att){
-    return (
-      att.filename ||
-      att.file_name ||
-      att.fileName ||
-      att.original_name ||
-      att.originalName ||
-      att.name ||
-      "ek-dosya"
-    );
-  }
-
-  window.gdnlOpenAttachment = function(att){
-    var url = normalizeFileUrl(att);
-    if(!url){
-      alert("Ek dosya bağlantısı bulunamadı. R2 key / file id API cevabında gelmeli.");
-      return;
-    }
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-
-  window.gdnlDownloadAttachment = function(att){
-    var url = normalizeFileUrl(att);
-    if(!url){
-      alert("Ek dosya indirme bağlantısı bulunamadı. R2 key / file id API cevabında gelmeli.");
-      return;
-    }
-
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = fileNameFromAttachment(att);
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  };
-
-  window.gdnlRenderAttachments = function(attachments){
-    if(!Array.isArray(attachments) || !attachments.length) return "";
-
-    return attachments.map(function(att, index){
-      var safe = encodeURIComponent(JSON.stringify(att));
-      var name = fileNameFromAttachment(att);
-      var size = att.size || att.size_bytes || att.bytes || "";
-      var sizeText = size ? " (" + size + " byte)" : "";
-      return ''
-        + '<div class="attachment" data-gdnl-attachment="' + safe + '">'
-        +   '<span>📎 ' + escapeHtml(name) + escapeHtml(sizeText) + '</span>'
-        +   '<div class="attachment-actions">'
-        +     '<button type="button" class="attachment-open-btn" data-gdnl-open="' + safe + '">Aç</button>'
-        +     '<button type="button" class="attachment-download-btn" data-gdnl-download="' + safe + '">İndir</button>'
-        +     '<span class="attachment-r2-badge">R2</span>'
-        +   '</div>'
-        + '</div>';
-    }).join("");
-  };
-
-  function escapeHtml(value){
-    return String(value ?? "")
+  function safeText(v){
+    return String(v ?? "")
       .replace(/&/g,"&amp;")
       .replace(/</g,"&lt;")
       .replace(/>/g,"&gt;")
@@ -2001,74 +1970,295 @@ load();
       .replace(/'/g,"&#039;");
   }
 
-  function decodeAtt(value){
-    try{
-      return JSON.parse(decodeURIComponent(value || ""));
-    }catch(e){
-      return null;
-    }
+  function normalizeName(v){
+    return String(v || "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g," ")
+      .replace(/^📎\s*/,"")
+      .replace(/\s*\(\d+\s*byte\)\s*/i,"")
+      .replace(/\s*r2\s*$/i,"")
+      .trim();
   }
 
-  function wireAttachmentClicks(){
-    document.querySelectorAll("[data-gdnl-open]").forEach(function(btn){
+  function getName(att){
+    return att?.filename || att?.file_name || att?.fileName || att?.original_name || att?.originalName || att?.name || "";
+  }
+
+  function getSize(att){
+    return att?.size || att?.size_bytes || att?.sizeBytes || att?.bytes || "";
+  }
+
+  function directUrl(att){
+    if(!att) return "";
+    return att.url || att.download_url || att.downloadUrl || att.file_url || att.fileUrl || att.public_url || att.publicUrl || att.href || att.link || "";
+  }
+
+  function keyUrl(att){
+    if(!att) return "";
+    const key = att.r2_key || att.r2Key || att.key || att.storage_key || att.storageKey || att.object_key || att.objectKey || att.path || "";
+    if(key) return apiBase() + "/file/" + encodeURIComponent(key);
+    return "";
+  }
+
+  function idUrl(att){
+    if(!att) return "";
+    const id = att.file_id || att.fileId || att.id || att.attachment_id || att.attachmentId || "";
+    if(id) return apiBase() + "/files/" + encodeURIComponent(id);
+    return "";
+  }
+
+  function basicUrl(att){
+    return directUrl(att) || keyUrl(att) || idUrl(att);
+  }
+
+  async function fetchJson(url){
+    const res = await fetch(url, {credentials:"include"});
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    return await res.json();
+  }
+
+  function flattenFiles(payload){
+    if(Array.isArray(payload)) return payload;
+    if(Array.isArray(payload?.files)) return payload.files;
+    if(Array.isArray(payload?.data)) return payload.data;
+    if(Array.isArray(payload?.items)) return payload.items;
+    if(Array.isArray(payload?.results)) return payload.results;
+    return [];
+  }
+
+  async function findFileByName(filename){
+    const wanted = normalizeName(filename);
+    if(!wanted) return null;
+    if(ATTACHMENT_CACHE.has(wanted)) return ATTACHMENT_CACHE.get(wanted);
+
+    const endpoints = [
+      "/files",
+      "/files?limit=500",
+      "/files?module=mailbox",
+      "/files?module=messages",
+      "/files?folder=mailbox",
+      "/mail/files",
+      "/attachments"
+    ];
+
+    for(const ep of endpoints){
+      try{
+        const data = await fetchJson(apiBase() + ep);
+        const files = flattenFiles(data);
+        const found = files.find(f => normalizeName(getName(f)) === wanted) ||
+                      files.find(f => normalizeName(getName(f)).includes(wanted) || wanted.includes(normalizeName(getName(f))));
+        if(found){
+          ATTACHMENT_CACHE.set(wanted, found);
+          return found;
+        }
+      }catch(e){}
+    }
+
+    ATTACHMENT_CACHE.set(wanted, null);
+    return null;
+  }
+
+  async function resolveAttachment(att){
+    if(!att) return "";
+
+    let url = basicUrl(att);
+    if(url) return url;
+
+    const filename = getName(att);
+    const found = await findFileByName(filename);
+    if(found){
+      url = basicUrl(found);
+      if(url) return url;
+    }
+
+    return "";
+  }
+
+  async function openAttachment(att){
+    const url = await resolveAttachment(att);
+    if(!url){
+      showToast("Ek dosya bulundu ancak API dosya linkini döndürmüyor. Backend /messages detayında r2_key, file_id veya url alanı dönmeli.");
+      return;
+    }
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  async function downloadAttachment(att){
+    const url = await resolveAttachment(att);
+    if(!url){
+      showToast("İndirme bağlantısı bulunamadı. Backend /messages detayında r2_key, file_id veya url alanı dönmeli.");
+      return;
+    }
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = getName(att) || "ek-dosya";
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  async function previewAttachment(att){
+    const url = await resolveAttachment(att);
+    if(!url) return;
+
+    const name = (getName(att) || "").toLowerCase();
+    const body = document.querySelector(".detail-body");
+    if(!body) return;
+
+    let old = body.querySelector(".attachment-preview-box");
+    if(old) old.remove();
+
+    const box = document.createElement("div");
+    box.className = "attachment-preview-box";
+
+    if(/\.(png|jpg|jpeg|webp|gif|bmp|svg)$/i.test(name)){
+      box.innerHTML = '<img src="' + safeText(url) + '" alt="' + safeText(name) + '">';
+    }else if(/\.pdf$/i.test(name)){
+      box.innerHTML = '<iframe src="' + safeText(url) + '"></iframe>';
+    }else{
+      return;
+    }
+
+    const list = body.querySelector(".attachment-list");
+    if(list) list.after(box);
+  }
+
+  function encode(att){
+    try{return encodeURIComponent(JSON.stringify(att || {}));}
+    catch(e){return "";}
+  }
+
+  function decode(v){
+    try{return JSON.parse(decodeURIComponent(v || ""));}
+    catch(e){return null;}
+  }
+
+  window.gdnlRenderAttachments = function(attachments){
+    if(!Array.isArray(attachments) || !attachments.length) return "";
+    return attachments.map(att => {
+      const payload = encode(att);
+      const name = getName(att) || "ek-dosya";
+      const size = getSize(att);
+      const sizeText = size ? " (" + size + " byte)" : "";
+      return ''
+      + '<div class="attachment" data-gdnl-attachment="' + payload + '">'
+      + '<span>📎 ' + safeText(name + sizeText) + '</span>'
+      + '<div class="attachment-actions">'
+      + '<button type="button" class="attachment-open-btn" data-gdnl-open="' + payload + '">Aç</button>'
+      + '<button type="button" class="attachment-download-btn" data-gdnl-download="' + payload + '">İndir</button>'
+      + '<span class="attachment-r2-badge">R2</span>'
+      + '</div>'
+      + '</div>';
+    }).join("");
+  };
+
+  function patchExistingAttachmentCards(){
+    document.querySelectorAll(".attachment").forEach(el => {
+      if(el.dataset.gdnlReady === "1") return;
+
+      let att = null;
+
+      if(el.dataset.gdnlAttachment){
+        att = decode(el.dataset.gdnlAttachment);
+      }
+
+      if(!att){
+        const raw = (el.textContent || "").trim();
+        const name = raw
+          .replace(/^📎\s*/,"")
+          .replace(/\s*R2\s*$/,"")
+          .replace(/\s*Aç\s*İndir\s*/,"")
+          .trim();
+
+        const sizeMatch = name.match(/\((\d+)\s*byte\)/i);
+        att = {
+          filename: name.replace(/\s*\(\d+\s*byte\)\s*/i,"").trim(),
+          size: sizeMatch ? sizeMatch[1] : ""
+        };
+        el.setAttribute("data-gdnl-attachment", encode(att));
+      }
+
+      if(!el.querySelector(".attachment-actions")){
+        const actions = document.createElement("div");
+        actions.className = "attachment-actions";
+
+        const payload = encode(att);
+        actions.innerHTML =
+          '<button type="button" class="attachment-open-btn" data-gdnl-open="' + payload + '">Aç</button>' +
+          '<button type="button" class="attachment-download-btn" data-gdnl-download="' + payload + '">İndir</button>' +
+          '<span class="attachment-r2-badge">R2</span>';
+
+        const oldBadge = Array.from(el.children).find(c => (c.textContent || "").trim() === "R2");
+        if(oldBadge) oldBadge.remove();
+
+        el.appendChild(actions);
+      }
+
+      el.dataset.gdnlReady = "1";
+    });
+  }
+
+  function bindAttachmentEvents(){
+    patchExistingAttachmentCards();
+
+    document.querySelectorAll("[data-gdnl-open]").forEach(btn => {
       if(btn.dataset.boundOpen === "1") return;
       btn.dataset.boundOpen = "1";
-      btn.addEventListener("click", function(e){
+      btn.addEventListener("click", e => {
         e.preventDefault();
         e.stopPropagation();
-        gdnlOpenAttachment(decodeAtt(btn.getAttribute("data-gdnl-open")));
+        openAttachment(decode(btn.getAttribute("data-gdnl-open")));
       });
     });
 
-    document.querySelectorAll("[data-gdnl-download]").forEach(function(btn){
+    document.querySelectorAll("[data-gdnl-download]").forEach(btn => {
       if(btn.dataset.boundDownload === "1") return;
       btn.dataset.boundDownload = "1";
-      btn.addEventListener("click", function(e){
+      btn.addEventListener("click", e => {
         e.preventDefault();
         e.stopPropagation();
-        gdnlDownloadAttachment(decodeAtt(btn.getAttribute("data-gdnl-download")));
+        downloadAttachment(decode(btn.getAttribute("data-gdnl-download")));
       });
     });
 
-    document.querySelectorAll(".attachment[data-gdnl-attachment]").forEach(function(card){
-      if(card.dataset.boundAttachment === "1") return;
-      card.dataset.boundAttachment = "1";
-      card.addEventListener("click", function(e){
+    document.querySelectorAll(".attachment[data-gdnl-attachment]").forEach(card => {
+      if(card.dataset.boundCard === "1") return;
+      card.dataset.boundCard = "1";
+      card.addEventListener("click", e => {
         if(e.target.closest("button")) return;
-        gdnlOpenAttachment(decodeAtt(card.getAttribute("data-gdnl-attachment")));
+        const att = decode(card.getAttribute("data-gdnl-attachment"));
+        previewAttachment(att);
+        openAttachment(att);
       });
     });
   }
 
-  // Mevcut kod sadece düz attachment basıyorsa, onu da minimum tıklanabilir hale getirir.
-  function patchPlainAttachments(){
-    document.querySelectorAll(".attachment").forEach(function(el){
-      if(el.hasAttribute("data-gdnl-attachment")) return;
-
-      var text = (el.textContent || "").trim();
-      if(!text) return;
-
-      // R2 key görünmüyorsa otomatik URL üretmek mümkün değil; kullanıcıya net hata ver.
-      if(el.dataset.boundPlainAttachment === "1") return;
-      el.dataset.boundPlainAttachment = "1";
-      el.title = "Bu ek dosyanın açılması için API cevabında r2_key, file_id veya url alanı gelmeli.";
-      el.addEventListener("click", function(){
-        alert("Bu ek dosya görünüyor ama API cevabında dosya bağlantısı yok. R2 key / file id / url alanını attachment objesine ekleyince açılır ve iner.");
-      });
-    });
+  function showToast(message){
+    let toast = document.querySelector(".toast");
+    if(!toast){
+      toast = document.createElement("div");
+      toast.className = "toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 4200);
   }
 
+  // Backend JSON içinde attachment varsa ama render düzse, render sonrası otomatik güçlendir.
   document.addEventListener("DOMContentLoaded", function(){
-    wireAttachmentClicks();
-    patchPlainAttachments();
-
-    var obs = new MutationObserver(function(){
-      wireAttachmentClicks();
-      patchPlainAttachments();
-    });
-
-    obs.observe(document.body, { childList:true, subtree:true });
+    bindAttachmentEvents();
+    const obs = new MutationObserver(bindAttachmentEvents);
+    obs.observe(document.body, {childList:true, subtree:true});
+    setTimeout(bindAttachmentEvents, 250);
+    setTimeout(bindAttachmentEvents, 1000);
+    setTimeout(bindAttachmentEvents, 2500);
   });
+
 })();
 </script>
 
