@@ -992,6 +992,63 @@ button{cursor:pointer}
   display:block!important;
 }
 
+
+/* === GDNL EOS FINAL ATTACHMENT BUTTONS === */
+.attachment{
+  cursor:pointer!important;
+  transition:.16s ease!important;
+  align-items:center!important;
+}
+.attachment:hover{
+  border-color:#8edda8!important;
+  box-shadow:0 12px 24px rgba(32,185,87,.10)!important;
+  transform:translateY(-1px)!important;
+}
+.attachment-info{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+.attachment-actions{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+  margin-left:auto!important;
+  flex-shrink:0!important;
+}
+.attachment-open-btn,
+.attachment-download-btn{
+  height:32px!important;
+  border:1px solid #d8e5f2!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  color:#0f1b2f!important;
+  padding:0 10px!important;
+  font-size:11px!important;
+  font-weight:950!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.attachment-open-btn:hover,
+.attachment-download-btn:hover{
+  border-color:#8edda8!important;
+  color:#15803d!important;
+}
+.attachment-r2-badge{
+  min-width:34px!important;
+  height:26px!important;
+  border-radius:999px!important;
+  background:#eef6ff!important;
+  color:#334155!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:11px!important;
+  font-weight:950!important;
+}
+
 </style>
 </head>
 <body>
@@ -1158,13 +1215,19 @@ function asFolder(message, fallbackFolder){
 
 function normalizeAttachment(file){
   const source = file || {};
+  const fileId = source.file_id || source.fileId || source.id || source.attachment_id || source.attachmentId || "";
+  const r2Key = source.r2_key || source.r2Key || source.key || source.object_key || source.objectKey || source.storage_key || source.storageKey || source.path || "";
+  const filename = source.filename || source.fileName || source.file_name || source.original_name || source.originalName || source.name || "Dosya";
+  const url = source.url || source.download_url || source.downloadUrl || source.file_url || source.fileUrl || source.public_url || source.publicUrl || source.href || source.link || "";
   return {
-    file_id: source.file_id || source.id || "",
-    r2_key: source.r2_key || source.key || source.object_key || "",
-    filename: source.filename || source.fileName || source.file_name || source.name || "Dosya",
-    mime_type: source.mime_type || source.file_type || source.type || "",
-    size: source.size || source.file_size || 0,
-    url: source.url || source.download_url || ""
+    ...source,
+    file_id:fileId,
+    id:fileId || source.id || "",
+    r2_key:r2Key,
+    filename,
+    mime_type: source.mime_type || source.mimeType || source.file_type || source.type || "",
+    size: source.size || source.file_size || source.size_bytes || source.sizeBytes || source.bytes || 0,
+    url
   };
 }
 
@@ -1414,6 +1477,138 @@ function renderEmptyDetail(){
   $("messageDetail").innerHTML = `<div class="empty">Detay için bir mesaj seçin.</div>`;
 }
 
+
+function attachmentCacheKey(filename){
+  return "gdnl_mail_attachment_" + String(filename || "").trim().toLocaleLowerCase("tr-TR");
+}
+
+function cacheAttachmentMeta(att){
+  const file = normalizeAttachment(att);
+  if(!file.filename) return file;
+  try{
+    localStorage.setItem(attachmentCacheKey(file.filename), JSON.stringify(file));
+  }catch(error){}
+  return file;
+}
+
+function cachedAttachmentMeta(filename){
+  try{
+    const raw = localStorage.getItem(attachmentCacheKey(filename));
+    return raw ? normalizeAttachment(JSON.parse(raw)) : null;
+  }catch(error){
+    return null;
+  }
+}
+
+function attachmentFileUrl(att){
+  const file = normalizeAttachment(att);
+  if(file.url) return file.url;
+  if(file.r2_key) return "/file/" + encodeURIComponent(file.r2_key);
+  if(file.file_id) return "/files/" + encodeURIComponent(file.file_id);
+  const cached = cachedAttachmentMeta(file.filename);
+  if(cached){
+    if(cached.url) return cached.url;
+    if(cached.r2_key) return "/file/" + encodeURIComponent(cached.r2_key);
+    if(cached.file_id) return "/files/" + encodeURIComponent(cached.file_id);
+  }
+  return "";
+}
+
+async function fetchMessageFiles(messageId){
+  const endpoints = [
+    "/files?related_id=" + encodeURIComponent(messageId),
+    "/files?related_record_id=" + encodeURIComponent(messageId),
+    "/files?module=mailbox&related_id=" + encodeURIComponent(messageId),
+    "/files?module=mailbox&related_record_id=" + encodeURIComponent(messageId),
+    "/files"
+  ];
+  for(const endpoint of endpoints){
+    try{
+      const payload = await callApi("get", endpoint);
+      const data = apiData(payload);
+      const rows = Array.isArray(data) ? data : (data?.files || data?.items || data?.results || data?.data || []);
+      if(Array.isArray(rows) && rows.length){
+        return rows.map(normalizeAttachment);
+      }
+    }catch(error){}
+  }
+  return [];
+}
+
+async function hydrateMessageAttachments(message){
+  if(!message) return message;
+  let list = Array.isArray(message.attachments) ? message.attachments.map(normalizeAttachment) : [];
+
+  list = list.map((item) => {
+    const cached = cachedAttachmentMeta(item.filename);
+    return normalizeAttachment({ ...(cached || {}), ...item });
+  });
+
+  const needsUrl = list.some((item) => !attachmentFileUrl(item));
+  if(needsUrl || !list.length){
+    const files = await fetchMessageFiles(message.id);
+    if(files.length){
+      files.forEach(cacheAttachmentMeta);
+      list = list.map((item) => {
+        const match = files.find((file) =>
+          String(file.filename || "").trim().toLocaleLowerCase("tr-TR") ===
+          String(item.filename || "").trim().toLocaleLowerCase("tr-TR")
+        );
+        return normalizeAttachment({ ...(match || {}), ...item });
+      });
+      if(!list.length) list = files;
+    }
+  }
+
+  message.attachments = list;
+  return message;
+}
+
+function openAttachment(index){
+  const message = messages.find((item) => item.id === selectedMessageId);
+  const att = message?.attachments?.[index];
+  const url = attachmentFileUrl(att);
+  if(!url){
+    showToast("Dosya linki eksik. Bu mesaj eski kayıt olabilir; dosyayı yeniden gönderin veya backend /messages detayında r2_key dönmeli.");
+    return;
+  }
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function downloadAttachment(index){
+  const message = messages.find((item) => item.id === selectedMessageId);
+  const att = message?.attachments?.[index];
+  const url = attachmentFileUrl(att);
+  if(!url){
+    showToast("İndirme linki eksik. Bu mesaj eski kayıt olabilir; dosyayı yeniden gönderin veya backend /messages detayında r2_key dönmeli.");
+    return;
+  }
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = att?.filename || "ek-dosya";
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function renderAttachmentHtml(attachment, index){
+  const file = normalizeAttachment(attachment);
+  const sizeText = file.size ? " (" + esc(file.size) + " byte)" : "";
+  const hasUrl = !!attachmentFileUrl(file);
+  return `
+    <div class="attachment" onclick="openAttachment(${index})">
+      <span class="attachment-info">📎 ${esc(file.filename)}${sizeText}</span>
+      <span class="attachment-actions">
+        <button type="button" class="attachment-open-btn" onclick="event.stopPropagation();openAttachment(${index})">Aç</button>
+        <button type="button" class="attachment-download-btn" onclick="event.stopPropagation();downloadAttachment(${index})">İndir</button>
+        <span class="attachment-r2-badge">${hasUrl ? "R2" : "Eksik"}</span>
+      </span>
+    </div>`;
+}
+
+
 function renderDetail(){
   const message = messages.find((item) => item.id === selectedMessageId);
   if(!message){ renderEmptyDetail(); return; }
@@ -1440,11 +1635,7 @@ function renderDetail(){
       <div class="meta-row"><b>Durum</b><span>${messageCountsAsUnread(message) ? "Okunmadı" : "Okundu"}</span></div>
     </div>
     <div class="message-content">${esc(message.body || "")}</div>
-    ${(message.attachments || []).length ? `<div class="attachment-list">${message.attachments.map((attachment) => `
-      <div class="attachment">
-        <span>📎 ${esc(attachment.filename)} ${attachment.size ? "(" + esc(attachment.size) + " byte)" : ""}</span>
-        ${attachment.url ? `<a class="tool-btn" href="${esc(attachment.url)}" target="_blank" rel="noopener">Aç</a>` : `<span class="badge gray">R2</span>`}
-      </div>`).join("")}</div>` : ""}
+    ${(message.attachments || []).length ? `<div class="attachment-list">${message.attachments.map((attachment, index) => renderAttachmentHtml(attachment, index)).join("")}</div>` : ""}
   `;
 }
 
@@ -1567,7 +1758,11 @@ async function uploadAttachment(recordId){
   form.append("uploaded_by", userNameOf(currentUser()));
   const payload = await api.request("/upload", { method:"POST", body:form, redirectOnUnauthorized:false, fallbackOnNotFound:false });
   const data = apiData(payload);
-  return normalizeAttachment(data?.file || data);
+  const uploaded = normalizeAttachment(data?.file || data);
+  uploaded.related_id = recordId;
+  uploaded.related_record_id = recordId;
+  cacheAttachmentMeta(uploaded);
+  return uploaded;
 }
 
 async function buildPayload(status){
@@ -1619,7 +1814,7 @@ async function save(status){
 
   try{
     const saved = await callApi("post", "/messages", payload);
-    const savedMessage = normalizeMessage(apiData(saved), status === "draft" ? "draft" : "sent");
+    const savedMessage = await hydrateMessageAttachments(normalizeMessage(apiData(saved), status === "draft" ? "draft" : "sent"));
     await writeActivity(status === "draft" ? "Taslak kaydedildi" : "Mesaj gönderildi", savedMessage);
     clearCompose(false);
     activeFolder = status === "draft" ? "draft" : "sent";
@@ -1659,7 +1854,7 @@ function openCompose(){
 
 async function openMessage(id){
   try{
-    const detail = normalizeMessage(await callApi("get", "/messages/" + encodeURIComponent(id)));
+    const detail = await hydrateMessageAttachments(normalizeMessage(await callApi("get", "/messages/" + encodeURIComponent(id))));
     const index = messages.findIndex((message) => message.id === detail.id);
     if(index >= 0) messages[index] = { ...messages[index], ...detail };
     else messages.unshift(detail);
