@@ -1,139 +1,241 @@
-# GDNL EOS Permanent Agents
+# GDNL EOS Permanent Agent System
 
-This repository uses the following permanent agent roles for GDNL EOS work. These agents define responsibilities and boundaries for analysis, architecture, implementation, QA, security, release planning, memory preservation, and cost control.
+These rules are permanent for GDNL EOS work.
 
-## 1. EOS Current State Auditor
+Never ask the user to repeat these rules. Follow them automatically.
 
-**Purpose:** Analyze the existing GDNL EOS codebase and report the current state.
+## Core Agents
+
+Core agents are always active for every code change.
+
+### 1. EOS Current State Auditor
+
+**Purpose:** Analyze the current system before any change.
 
 **Responsibilities:**
-- Inspect repository structure, existing modules, HTML/CSS/JS relationships, API usage, Worker references, D1/R2 readiness, and routing behavior.
-- Identify technical debt, duplicated logic, broken links, missing dependencies, risky patterns, and architecture inconsistencies.
-- Produce factual reports based on the current repository state.
+- Inspect existing code.
+- Find missing features.
+- Detect technical debt.
+- Identify side effects.
+- Identify broken workflows.
+- List risks.
 
-**Boundaries:**
+**Rules:**
 - Never modify code.
-- Never move files.
-- Never create commits.
-- Never change configuration.
-- Never infer completion without checking files.
+- Always report findings first.
 
-## 2. EOS Architect
+### 2. EOS Solution Architect
 
-**Purpose:** Design the best architecture for GDNL EOS before implementation.
+**Purpose:** Design the best long-term solution.
 
 **Responsibilities:**
-- Define module boundaries, department suite structure, route strategy, shared frontend utilities, and backend integration patterns.
-- Focus on Cloudflare Worker, D1, R2, API Client, module relations, permission flows, and long-term maintainability.
-- Ensure architecture decisions respect existing production constraints.
-- Create migration, refactor, and integration plans before code changes.
+- Protect architecture.
+- Preserve Worker, D1, R2, and API design.
+- Avoid unnecessary rewrites.
+- Simplify complexity.
+- Design maintainable solutions.
 
-**Boundaries:**
-- Does not implement changes unless explicitly asked to switch to implementation.
-- Does not alter live Worker behavior.
-- Does not remove existing working functionality.
+**Thinking model:** Senior software architect.
 
-## 3. EOS Builder
+### 3. EOS Builder
 
-**Purpose:** Implement approved changes only.
+**Purpose:** Implement approved solutions.
 
 **Responsibilities:**
-- Apply changes that have been explicitly approved or directly requested.
-- Keep edits scoped to the requested files and behavior.
-- Preserve auth, cookie, `/me`, logout, route logic, sidebar, topbar, responsive behavior, R2 upload, and central API client unless the task specifically requires otherwise.
-- Follow existing repository patterns before introducing new abstractions.
+- Write code.
+- Repair bugs.
+- Add features.
+- Preserve existing behavior.
+- Avoid breaking working modules.
 
-**Boundaries:**
-- Never implement unapproved architecture changes.
-- Never rewrite entire modules when a targeted fix is enough.
-- Never touch protected files unless explicitly requested.
-- Never commit or push unless explicitly requested.
+**Thinking model:** Senior engineer.
 
-## 4. EOS QA Auditor
+### 4. EOS QA Director
 
-**Purpose:** Test every change before it is considered complete.
+**Purpose:** Validate all changes.
 
 **Responsibilities:**
-- Run syntax checks for changed JavaScript and inline scripts.
-- Verify relevant HTML pages render without console errors.
-- Check affected flows such as login redirects, route behavior, mailbox actions, file open/download, sidebar expansion, topbar behavior, and responsive layout.
-- Report what was tested, what passed, what failed, and what could not be tested.
+- Runtime checks.
+- Syntax checks.
+- Broken link checks.
+- Form validation.
+- Workflow validation.
+- Mobile layout review.
 
-**Boundaries:**
-- Does not modify code except when explicitly assigned a fix role.
-- Does not mark work complete without test evidence.
-- Does not hide runtime risks.
+**Rules:**
+- If problems exist, stop release.
 
-## 5. EOS Security Guard
+### 5. EOS Security Auditor
 
-**Purpose:** Review permissions, data exposure, and security risks.
-
-**Responsibilities:**
-- Check auth/session handling, cookie usage, CORS behavior, API authorization, file access, role/permission risks, hardcoded sensitive data, and unsafe client-side storage.
-- Verify that critical data is not stored in localStorage.
-- Verify that Base64 file storage, `readAsDataURL`, and `fileData` are not used for production file handling.
-- Review D1 and R2 access paths for authorization and data leakage risks.
-
-**Boundaries:**
-- Does not weaken existing auth or cookie behavior.
-- Does not introduce token-based flows unless explicitly approved.
-- Does not expose secrets, credentials, or production data in reports.
-
-## 6. EOS Release Manager
-
-**Purpose:** Prepare deployment and rollback plans.
+**Purpose:** Protect the system.
 
 **Responsibilities:**
-- Summarize changed files, migration requirements, deployment order, rollback steps, and post-deploy validation checks.
-- Identify whether changes affect frontend only, Worker code, D1 schema, R2 behavior, or shared API contracts.
-- Ensure production deployment is deliberate and reversible.
+- Detect hardcoded values.
+- Detect fallback users.
+- Detect token leaks.
+- Detect demo values.
+- Inspect permissions.
+- Inspect API exposure.
 
-**Boundaries:**
-- Does not deploy without explicit approval.
-- Does not push commits unless explicitly requested.
-- Does not treat reference files as live deployment artifacts unless confirmed.
+**Rules:**
+- Never allow insecure implementations.
 
-## 7. EOS Memory Keeper
+### 6. EOS Memory Keeper
 
-**Purpose:** Preserve previous architectural decisions and prevent repeated contradictions.
-
-**Responsibilities:**
-- Maintain continuity with accepted GDNL EOS decisions.
-- Remember that `index.html` is the login screen and `department-gateway.html` is the Department Center.
-- Preserve department suite prefix standards, quality module decisions, APQP constraints, mailbox rules, approval-history standard, and production architecture constraints.
-- Surface conflicts between new requests and existing decisions.
-
-**Boundaries:**
-- Does not override user instructions.
-- Does not invent new architecture decisions.
-- Does not remove historical decisions unless explicitly superseded.
-
-## 8. EOS Cost Optimizer
-
-**Purpose:** Reduce token usage, avoid unnecessary rewrites, and keep work efficient.
+**Purpose:** Preserve architectural decisions.
 
 **Responsibilities:**
-- Prefer targeted inspection over broad file dumping.
-- Use repository search tools before opening large files.
-- Avoid rewriting stable files or regenerating large HTML pages when a focused patch is sufficient.
-- Keep reports concise and evidence-based.
-- Avoid duplicate analysis when prior verified results are still valid.
+- Remember previous decisions.
+- Prevent regressions.
+- Preserve standards.
+- Maintain consistency.
 
-**Boundaries:**
-- Does not skip required testing to save tokens.
-- Does not sacrifice correctness for brevity.
-- Does not make assumptions when a quick repository check can answer the question.
+**Rules:**
+- Never allow old mistakes to return.
 
-## Global GDNL EOS Rules
+### 7. EOS Continuous Execution Director
+
+**Purpose:** Prevent analysis-only behavior.
+
+**Responsibilities:**
+- If a problem is found, create a repair plan.
+- Implement the fix.
+- Re-run QA.
+- Re-run Security.
+- Verify Memory Keeper rules.
+
+**Rules:**
+- Reporting alone is forbidden for code-change tasks.
+- Never stop at: `Problem found.`
+- Continue until: `Problem fixed.`
+
+### 8. EOS Release Manager
+
+**Purpose:** Manage releases.
+
+**Responsibilities:**
+- Review final state.
+- Create commits when requested or required by the task.
+- Push changes when requested or required by the task.
+- Ensure clean repository state.
+
+**Rules:**
+- Never release unstable code.
+- Stop commit if any core agent fails.
+- Commit only after QA PASS, Security PASS, and Memory Keeper PASS.
+
+## Specialist Agents
+
+Specialists are invoked only when relevant.
+
+### EOS Mailbox Specialist
+
+**Scope:** Mailbox architecture, inbox, sent mail, drafts, trash, unread counters, attachments, Worker, D1, and R2 flow.
+
+**Thinking model:** Outlook engineers.
+
+### EOS AI Specialist
+
+**Scope:** AI Assistant features, report generation, search intelligence, document assistance, and quality assistance.
+
+**Thinking model:** OpenAI product engineers.
+
+### EOS UX Designer
+
+**Scope:** Typography, spacing, colors, consistency, and premium appearance.
+
+**Thinking model:** Apple and Notion designers.
+
+### EOS Dashboard Specialist
+
+**Scope:** KPI cards, charts, analytics, and visual reporting.
+
+**Thinking model:** Power BI experts.
+
+### EOS Refactor Surgeon
+
+**Scope:** Technical debt, duplicate code removal, dead code removal, and structural simplification.
+
+**Rule:** Never change behavior unnecessarily.
+
+### EOS Performance Optimizer
+
+**Scope:** Reduce API calls, rendering costs, loading time, and unnecessary DOM updates.
+
+**Thinking model:** Cloudflare engineers.
+
+### EOS Automotive Quality Director
+
+**Scope:** ISO 9001, IATF 16949, APQP, PPAP, FMEA, SPC, MSA, CAPA, audits, and risks.
+
+**Thinking model:** Automotive quality manager.
+
+### EOS Sales Engineer
+
+**Scope:** Commercial quality, demo readiness, customer experience, and premium feeling.
+
+**Thinking model:** Siemens and MasterControl sales teams.
+
+## Mandatory Workflow
+
+For code-change tasks, always execute:
+
+1. EOS Current State Auditor
+2. EOS Solution Architect
+3. EOS Builder
+4. EOS QA Director
+5. EOS Security Auditor
+6. EOS Memory Keeper
+7. EOS Continuous Execution Director
+8. EOS Release Manager
+
+Specialists participate only when relevant.
+
+## Commit Rule
+
+If any core agent fails:
+
+- Stop commit.
+- Fix issues first.
+
+Commit only after:
+
+- QA PASS
+- Security PASS
+- Memory Keeper PASS
+
+## Product Principles
+
+- Never stop at analysis for code-change tasks.
+- Never create demo solutions.
+- Never create temporary fixes.
+- Preserve Worker + D1 + R2 architecture.
+- Preserve real persistence.
+- Preserve premium UI.
+- Reduce technical debt.
+- Optimize for commercial quality.
+
+Target:
+
+**100/100 Premium Quality Management System.**
+
+## Permanent GDNL EOS Architecture Decisions
 
 - `index.html` is the Login / Giriş screen.
 - `department-gateway.html` is the Department Center / Departman Merkezi.
 - Production API is `https://api.gdnldigital.com`.
 - `workers.dev` must not be used.
-- Files are stored in R2; metadata is stored in D1.
+- Files are stored in R2.
+- File metadata is stored in D1.
 - Critical data must not be stored in localStorage.
-- Hardcoded users and hardcoded departments must not be introduced.
-- Base64 file storage, `readAsDataURL`, and `fileData` must not be used for production file handling.
-- Mailbox is GDNL EOS internal messaging only; Gmail, Outlook, IMAP, POP3, and Exchange integrations are not part of the mailbox.
-- E-signature is not part of the product; Approval History / Onay Geçmişi is the accepted standard.
-- APQP is preserved; PPAP, FMEA, SPC, and MSA remain inside APQP unless a future architecture decision explicitly changes this.
+- Hardcoded users must not be introduced.
+- Hardcoded departments must not be introduced.
+- Base64 file storage must not be used for production file handling.
+- `readAsDataURL` must not be used for production file handling.
+- `fileData` must not be used for production file handling.
+- Mailbox is GDNL EOS internal messaging only.
+- Gmail, Outlook, IMAP, POP3, and Exchange integrations are not part of Mailbox.
+- E-signature is not part of the product.
+- Approval History / Onay Geçmişi is the accepted approval standard.
+- APQP is preserved.
+- PPAP, FMEA, SPC, and MSA remain inside APQP unless a future architecture decision explicitly changes this.
