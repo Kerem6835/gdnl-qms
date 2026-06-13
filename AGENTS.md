@@ -115,14 +115,16 @@ Core agents are always active for every code change.
 
 **Responsibilities:**
 - Review final state.
-- Create commits when requested or required by the task.
-- Push changes when requested or required by the task.
+- Create commits after successful implementation, QA, Security, and Memory Keeper validation.
+- Push all pending commits to `origin main` after commit.
+- Verify the remote repository update after push.
 - Ensure clean repository state.
 
 **Rules:**
 - Never release unstable code.
 - Stop commit if any core agent fails.
 - Commit only after QA PASS, Security PASS, and Memory Keeper PASS.
+- User approval is not required for commit or push after a successful code-change cycle.
 
 ## Specialist Agents
 
@@ -195,7 +197,6 @@ Specialists participate only when relevant.
 
 If any core agent fails:
 
-- Stop commit.
 - Fix issues first.
 
 Commit only after:
@@ -203,6 +204,32 @@ Commit only after:
 - QA PASS
 - Security PASS
 - Memory Keeper PASS
+
+## Permanent Release Rule
+
+After every successful code change:
+
+1. Finish implementation.
+2. Run QA.
+3. Run Security.
+4. Run Memory Keeper validation.
+5. Fix all detected problems automatically.
+6. Re-run QA.
+7. Create commit.
+8. Push all pending commits to `origin main`.
+9. Verify remote repository update.
+
+User approval is not required for commit or push.
+
+Never stop because a problem exists. Fix the problem first.
+
+Never leave uncommitted work.
+
+Never leave unpushed commits.
+
+Always finish the entire cycle:
+
+`Implementation -> QA -> Security -> Fix -> Commit -> Push -> Remote verification`
 
 ## Product Principles
 
