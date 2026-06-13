@@ -174,8 +174,9 @@
     }
   }
 
-  function run() {
+  function run(options) {
     if (!isQualityPage()) return;
+    const config = options || {};
     markQualityPage();
     fixBrokenQualityLinks();
     normalizeSearchButtons();
@@ -185,7 +186,7 @@
     ensureProfessionalEmptyStates();
     addApqpAnchors();
     addQualityAnchors();
-    if (global.GDNL_SIDEBAR && typeof global.GDNL_SIDEBAR.normalizeQualitySidebar === "function") {
+    if (!config.skipSidebar && global.GDNL_SIDEBAR && typeof global.GDNL_SIDEBAR.normalizeQualitySidebar === "function") {
       global.GDNL_SIDEBAR.normalizeQualitySidebar();
     }
   }
@@ -203,7 +204,7 @@
     if (!isQualityPage()) return;
     if (!mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length)) return;
     global.clearTimeout(global.__gdnlQualityNormalizeTimer);
-    global.__gdnlQualityNormalizeTimer = global.setTimeout(run, 80);
+    global.__gdnlQualityNormalizeTimer = global.setTimeout(() => run({ skipSidebar: true }), 80);
   });
   if (document.body) observer.observe(document.body, { childList: true, subtree: true });
 

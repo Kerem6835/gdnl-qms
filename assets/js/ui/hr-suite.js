@@ -35,7 +35,7 @@
       "Personel Listesi"
     ],
     [
-      "hr-recruitment.html",
+      "hr-dashboard.html",
       "İşe Alım"
     ],
     [
@@ -51,7 +51,7 @@
       "Puantaj & Devam"
     ],
     [
-      "hr-shift-planning.html",
+      "hr-dashboard.html",
       "Vardiya Planlama"
     ],
     [
@@ -67,7 +67,7 @@
       "İzin Yönetimi"
     ],
     [
-      "hr-performance.html",
+      "hr-dashboard.html",
       "Performans"
     ],
     [
@@ -75,7 +75,7 @@
       "Yetkinlik"
     ],
     [
-      "hr-training.html",
+      "hr-dashboard.html",
       "Eğitim"
     ],
     [
@@ -87,11 +87,11 @@
       "İşten Ayrılış"
     ],
     [
-      "hr-reports.html",
+      "hr-dashboard.html",
       "İK Raporları"
     ],
     [
-      "hr-policies.html",
+      "hr-dashboard.html",
       "İK Politikaları"
     ],
     [

@@ -105,8 +105,10 @@
     }
   ]);
 
-  function getCurrentRoute() {
-    return window.location.pathname.split("/").pop() || "index.html";
+  function getCurrentRoute(options) {
+    const name = window.location.pathname.split("/").pop() || "index.html";
+    const includeHash = options && options.includeHash;
+    return includeHash && window.location.hash ? `${name}${window.location.hash}` : name;
   }
 
   function resolveMenuRoute(route) {
@@ -131,8 +133,13 @@
       .replaceAll('"', "&quot;");
   }
 
-  function normalizeRoute(route) {
-    return String(route || "").split("?")[0].split("#")[0].split("/").pop();
+  function normalizeRoute(route, options) {
+    const source = String(route || "");
+    const path = source.split("?")[0].split("#")[0].split("/").pop();
+    const includeHash = options && options.includeHash;
+    if (!includeHash) return path;
+    const hashIndex = source.indexOf("#");
+    return hashIndex >= 0 ? `${path}${source.slice(hashIndex).split("?")[0]}` : path;
   }
 
   function isQualityRoute(route) {
@@ -147,8 +154,16 @@
     return (group.items || []).some((item) => normalizeRoute(item.route) === currentRoute);
   }
 
+  function isActiveItem(route, currentRoute, currentRouteWithHash) {
+    const itemRoute = normalizeRoute(route);
+    const itemRouteWithHash = normalizeRoute(route, { includeHash: true });
+    if (itemRouteWithHash.includes("#")) return itemRouteWithHash === currentRouteWithHash;
+    return itemRoute === currentRoute && !currentRouteWithHash.includes("#");
+  }
+
   function renderMenuHtml() {
     const currentRoute = normalizeRoute(getCurrentRoute());
+    const currentRouteWithHash = normalizeRoute(getCurrentRoute({ includeHash: true }), { includeHash: true });
     return menu.map((group) => {
       if (group.type === "single") {
         const active = normalizeRoute(group.route) === currentRoute ? ' class="active"' : "";
@@ -159,7 +174,7 @@
       const groupClass = activeGroup ? "menu-group active-group open" : "menu-group";
       const submenuClass = activeGroup ? "submenu open" : "submenu";
       const links = (group.items || []).map((item) => {
-        const active = normalizeRoute(item.route) === currentRoute ? ' class="active"' : "";
+        const active = isActiveItem(item.route, currentRoute, currentRouteWithHash) ? ' class="active"' : "";
         const label = group.id === "performance" && item.route === "mailbox.html" ? "📨 Mesaj Merkezi" : item.label;
         return `<a${active} href="${escapeHtml(item.route)}">${escapeHtml(label)}</a>`;
       }).join("\n");
@@ -207,7 +222,12 @@
     installSidebarStyle();
     const html = renderMenuHtml();
     document.querySelectorAll(".sidebar nav, .mobile-drawer nav").forEach((nav) => {
+      if (nav.dataset.gdnlQualitySidebarHtml === html && nav.classList.contains("gdnl-quality-sidebar-standard")) {
+        bindMenuEvents(nav);
+        return;
+      }
       nav.innerHTML = html;
+      nav.dataset.gdnlQualitySidebarHtml = html;
       nav.classList.add("gdnl-quality-sidebar-standard");
       bindMenuEvents(nav);
     });
@@ -223,6 +243,8 @@
   } else {
     scheduleNormalizeQualitySidebar();
   }
+
+  global.addEventListener("hashchange", scheduleNormalizeQualitySidebar);
 
   global.GDNL_SIDEBAR = {
     menu,
