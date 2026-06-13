@@ -314,6 +314,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 <body>
 <div class="app">
@@ -397,10 +398,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group-title" type="button" onclick="toggleMenuGroup(this)"><span>🚗 IATF 16949</span><span class="chevron">⌄</span></button>
 <div class="menu-items">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 </div>
   </nav>
@@ -484,10 +485,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group-title" type="button" onclick="toggleMenuGroup(this)"><span>🚗 IATF 16949</span><span class="chevron">⌄</span></button>
 <div class="menu-items">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 </div>
 </nav>
@@ -540,7 +541,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="card"><small>Başarı Oranı</small><h2 id="successRate">0%</h2><p>Sınav/etkinlik sonucu</p></div>
 <div class="card"><small>Sertifikalı</small><h2 id="certifiedCount">0</h2><p>Belge yüklü kayıt</p></div>
 <div class="card"><small>Etkinlik Onayı</small><h2 id="effectiveCount">0</h2><p>Etkin bulundu</p></div>
-<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mail/SMS oluşturuldu</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mesajlaşma oluşturuldu</p></div>
 </section>
 
 <section class="panel">
@@ -630,7 +631,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div id="drawerContent"></div>
 <div class="actions">
 <button class="btn green" onclick="closeTrainingCurrent()">Eğitimi Kapat</button>
-<button class="btn orange" onclick="notifyTrainingCurrent()">Mail/SMS Bildirim Kuyruğu</button>
+<button class="btn orange" onclick="notifyTrainingCurrent()">Mesajlaşma Bildirim Kuyruğu</button>
 <button class="btn primary" onclick="createRiskActionFromTrainingCurrent()">Etkin Değilse Risk Aksiyonu Aç</button>
 <button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
 </div>
@@ -827,5 +828,7 @@ boot();
 
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

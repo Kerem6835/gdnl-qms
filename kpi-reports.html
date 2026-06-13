@@ -257,6 +257,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 <body>
 <div class="app">
@@ -368,5 +369,6 @@ function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout
 async function boot(){renderMenus();initAccordionMenu();await loadCurrentUser();setText("userName",state.currentUser?.fullname||"");await loadCloudData();setupUserAutocomplete("customOwner");await clearCustomKpi();await renderAll();const input=document.getElementById("globalSearch");if(input){input.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});input.addEventListener("input",()=>renderAll())}setInterval(async()=>{await loadCloudData();await renderAll()},30000)}
 boot();
 </script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

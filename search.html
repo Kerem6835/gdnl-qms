@@ -1,18 +1,123 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>GDNL EQMS | Global Arama</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GDNL EQMS | Global Arama</title>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}body{background:#f4f9ff;color:#172033;min-height:100vh;overflow-x:hidden}.main{max-width:1440px;margin:0 auto;padding:24px}.topbar,.panel{background:rgba(255,255,255,.94);border:1px solid #dfe9f5;border-radius:22px;box-shadow:0 16px 42px rgba(7,27,52,.07)}.topbar{min-height:64px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}.brand{font-size:24px;font-weight:950;color:#071b34;text-decoration:none}.brand span{color:#35a852}.search{height:44px;border:1px solid #d8e4ef;border-radius:12px;padding:0 12px;font-weight:800;flex:1;min-width:220px}.user{font-weight:900}.hero h1{font-size:34px;font-weight:950}.hero p{margin:8px 0 18px;color:#617086;font-weight:800}.panel{padding:18px}.result{border:1px solid #edf2f7;border-radius:16px;padding:14px;margin-bottom:10px;background:#fff}.result b{color:#071b34}.result small{display:block;margin-top:5px;color:#617086;font-weight:800}.tag{display:inline-flex;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:5px 9px;font-size:11px;font-weight:950;margin-bottom:8px}.empty{padding:24px;text-align:center;color:#64748b;font-weight:900}@media(max-width:720px){.topbar{flex-wrap:wrap}.search{width:100%;flex:auto}.main{padding:16px}}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+body{min-height:100vh}
+.app{display:grid;grid-template-columns:294px minmax(0,1fr);min-height:100vh}
+.sidebar{background:rgba(255,255,255,.94);padding:26px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh;position:sticky;top:0}
+.logo{font-size:30px;font-weight:950;text-decoration:none;color:#071b34;margin-bottom:30px;display:block}.logo span{color:#22c55e}
+.main{padding:24px 24px 42px;max-width:1760px;margin:0 auto;width:100%}
+.topbar{margin-bottom:24px}.profile{display:flex;align-items:center;gap:10px}
+.hero{padding:34px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:22px}
+.hero p{max-width:980px;margin-top:10px}
+.hero-badge{padding:16px 18px;border-radius:18px;white-space:nowrap}
+.search-console{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(0,1.4fr);gap:20px}
+.panel{padding:24px}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+.panel h2{font-size:22px;color:#071b34}
+.panel p{color:#5f7087;font-weight:750;line-height:1.55;margin-top:6px}
+.search-large{display:grid;grid-template-columns:minmax(0,1fr) 86px;gap:12px;margin-top:18px}
+.search-large input{height:52px;border:1px solid #d8e4ef;border-radius:16px;padding:0 16px;font-weight:850}
+.search-large button{height:52px;border-radius:16px;cursor:pointer}
+.filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.filters label{display:flex;align-items:center;gap:9px;border:1px solid #e4edf6;border-radius:15px;padding:12px;font-weight:850;color:#334155;background:#fff}
+.filters input{accent-color:#22c55e}
+.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.mini-card{border:1px solid #e4edf6;border-radius:18px;padding:16px;background:#fff}
+.mini-card b{display:block;font-size:28px;color:#157d3b}.mini-card span{font-size:12px;font-weight:900;color:#607086}
+.result{border:1px solid #e4edf6;border-radius:18px;padding:16px;margin-bottom:12px;background:#fff;box-shadow:0 10px 24px rgba(7,27,52,.04)}
+.result-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.tag{display:inline-flex;border-radius:999px;background:#e8f7ee;color:#1f7d3d;padding:6px 10px;font-size:11px;font-weight:950}.result b{display:block;margin:9px 0 6px;color:#071b34}.result small{display:block;color:#607086;font-weight:750;line-height:1.55}.empty{padding:30px;text-align:center;font-weight:900}
+.mobile-menu-btn{display:none}
+@media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:16px}.mobile-menu-btn{display:inline-flex}.search-console{grid-template-columns:1fr}.hero{flex-direction:column;align-items:flex-start}.hero-badge{width:100%;text-align:center}.filters,.metric-grid{grid-template-columns:1fr}}
 </style>
 </head>
-<body><main class="main"><div class="topbar"><a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a><div class="user" style="gap:10px;flex-wrap:wrap"><a href="mailbox.html" style="text-decoration:none;background:#dcfce7;color:#15803d;border-radius:12px;padding:9px 12px;font-weight:950">📨 Mesaj Merkezi</a>👤 <span id="userName">Kullanıcı</span></div></div><section class="hero"><h1>Global Arama</h1><p>Kullanıcı, doküman, risk, CAPA, aksiyon, eğitim ve denetim kayıtlarında arama yap.</p><input id="q" class="search" placeholder="Ara..."></section><section class="panel"><div id="results" class="empty">Arama için metin yaz.</div></section></main><script src="assets/js/config/api-client.js"></script>
-<script src="assets/js/ui/user-autocomplete.js?v=quality-users-5"></script><script>
-const api=window.GDNL_API;const endpoints=[["Kullanıcı","/users"],["Doküman","/documents"],["Risk","/risks"],["CAPA","/capas"],["Aksiyon","/actions"],["Eğitim","/trainings"],["Denetim","/audits"]];let cache=[];
-function text(x){return JSON.stringify(x||{}).toLowerCase()}function title(x){return x.fullname||x.username||x.document_name||x.documentName||x.title||x.name||x.riskNo||x.risk_no||x.capaNo||x.capa_no||x.auditNo||x.audit_no||x.trainingNo||x.training_no||x.id||"Kayıt"}
-async function load(){const chunks=await Promise.all(endpoints.map(async e=>{try{return api.asArray(await api.get(e[1])).map(x=>({module:e[0],item:x}))}catch(err){return[]}}));cache=chunks.flat()}
-function render(){const s=q.value.trim().toLowerCase();if(!s){results.innerHTML='<div class="empty">Arama için metin yaz.</div>';return}const rows=cache.filter(r=>text(r.item).includes(s)).slice(0,80);results.innerHTML=rows.length?rows.map(r=>`<div class="result"><span class="tag">${r.module}</span><b>${title(r.item)}</b><small>${JSON.stringify(r.item).slice(0,240)}</small></div>`).join(""):'<div class="empty">Sonuç bulunamadı.</div>'}
-q.addEventListener("input",render);load().then(render);
-</script><script src="assets/js/ui/maturity-widgets.js"></script>
-<script src="assets/js/ui/enterprise-tools.js"></script>
-</body></html>
+<body class="quality-suite">
+<div class="app">
+  <aside class="sidebar">
+    <div>
+      <a class="logo" href="dashboard.html">GDNL <span>EQMS</span></a>
+      <nav class="menu"></nav>
+    </div>
+    <div class="sidebar-footer">GDNL EQMS<br>Global Arama<br>Kalite kayıt erişimi</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu-btn" type="button" onclick="document.body.classList.toggle('mobile-open')">☰</button>
+      <div class="search-wrap">
+        <input class="search" id="globalSearch" placeholder="Ara...">
+        <button class="search-btn" id="searchBtn" type="button">Ara</button>
+      </div>
+      <div class="profile">
+        <a class="department-switch gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
+        <div class="topbar-actions"><a class="gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi">📨</a><a class="gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi">🔔</a></div>
+        <div class="avatar" id="userChip">👤 <span id="userName">Kullanıcı</span></div>
+        <button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Global Kalite Arama</h1>
+        <p>Doküman, CAPA, risk, aksiyon, denetim, eğitim, tedarikçi, müşteri ve kullanıcı kayıtlarını tek ekranda arayın; kalite kanıtlarına hızlı erişin.</p>
+      </div>
+      <div class="hero-badge">Arama Kapsamı: <span id="scopeCount">8 modül</span></div>
+    </section>
+
+    <section class="search-console">
+      <div class="panel">
+        <div class="panel-head"><div><h2>Arama Kriterleri</h2><p>Endüstriyel kalite kayıtları için modül bazlı arama filtresi.</p></div></div>
+        <div class="search-large">
+          <input id="q" placeholder="Doküman no, CAPA, risk, tedarikçi veya kişi adı yazın">
+          <button class="btn primary" id="runSearch" type="button">Ara</button>
+        </div>
+        <div class="filters" id="moduleFilters"></div>
+        <div class="metric-grid">
+          <div class="mini-card"><b id="loadedCount">0</b><span>Yüklenen kayıt</span></div>
+          <div class="mini-card"><b id="resultCount">0</b><span>Eşleşen sonuç</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Arama Sonuçları</h2><p>Sonuçlar canlı kayıt alanlarından okunur; kayıt yoksa güvenli boş durum gösterilir.</p></div><span class="status green" id="searchStatus">Hazır</span></div>
+        <div id="results" class="empty">Arama için metin yazın.</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="assets/js/config/api-client.js"></script>
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/sidebar.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/user-autocomplete.js?v=quality-users-5"></script>
+<script>
+const api=window.GDNL_API;
+const modules=[
+  ["Kullanıcı","/users",true],
+  ["Doküman","/documents",true],
+  ["CAPA / 8D","/capas",true],
+  ["Risk","/risks",true],
+  ["Aksiyon","/actions",true],
+  ["Eğitim","/trainings",true],
+  ["Denetim","/audits",true],
+  ["Tedarikçi","/suppliers",true]
+];
+let cache=[];
+function $(id){return document.getElementById(id)}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function text(x){return JSON.stringify(x||{}).toLocaleLowerCase("tr-TR")}
+function title(x){return x.fullname||x.username||x.document_name||x.documentName||x.title||x.name||x.riskNo||x.risk_no||x.capaNo||x.capa_no||x.auditNo||x.audit_no||x.trainingNo||x.training_no||x.supplier_name||x.supplierName||x.id||"Kayıt"}
+function renderFilters(){moduleFilters.innerHTML=modules.map((m,i)=>`<label><input type="checkbox" data-index="${i}" ${m[2]?"checked":""}> ${m[0]}</label>`).join("");moduleFilters.querySelectorAll("input").forEach(input=>input.addEventListener("change",()=>{modules[input.dataset.index][2]=input.checked;render()}))}
+async function load(){searchStatus.textContent="Yükleniyor";const chunks=await Promise.all(modules.map(async m=>{try{return api.asArray(await api.get(m[1],{redirectOnUnauthorized:false})).map(x=>({module:m[0],endpoint:m[1],item:x}))}catch(err){return[]}}));cache=chunks.flat();loadedCount.textContent=cache.length;searchStatus.textContent="Hazır";render()}
+function render(){const q=$("q").value.trim().toLocaleLowerCase("tr-TR");globalSearch.value=$("q").value;if(!q){resultCount.textContent="0";results.innerHTML='<div class="empty">Arama için metin yazın.</div>';return}const active=new Set(modules.filter(m=>m[2]).map(m=>m[0]));const rows=cache.filter(r=>active.has(r.module)&&text(r.item).includes(q)).slice(0,120);resultCount.textContent=rows.length;results.innerHTML=rows.length?rows.map(r=>`<div class="result"><div class="result-head"><span class="tag">${esc(r.module)}</span><small>${esc(r.endpoint)}</small></div><b>${esc(title(r.item))}</b><small>${esc(JSON.stringify(r.item).slice(0,260))}</small></div>`).join(""):'<div class="empty">Arama kriterlerine uygun kalite kaydı bulunamadı.</div>'}
+function logout(){api.logout()}
+runSearch.onclick=render;searchBtn.onclick=()=>{$("q").value=globalSearch.value;render()};q.addEventListener("input",render);globalSearch.addEventListener("input",()=>{$("q").value=globalSearch.value;render()});
+renderFilters();load();
+</script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
+</body>
+</html>

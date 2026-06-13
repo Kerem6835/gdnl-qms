@@ -29,6 +29,7 @@
       label: "Kalite Yönetimi",
       icon: "⚙️",
       items: [
+        { label: "Uygunsuzluk Yönetimi", route: "capa.html#ncr" },
         { label: "8D / CAPA", route: "capa.html" },
         { label: "Risk Yönetimi", route: "risk-register.html" },
         { label: "Değişiklik Yönetimi", route: "change-management.html" },
@@ -64,7 +65,10 @@
         { label: "KPI ve Raporlar", route: "kpi-reports.html" },
         { label: "YGG Yönetimi", route: "management-review.html" },
         { label: "Aksiyon Merkezi", route: "action-center.html" },
+        { label: "Aktivite Merkezi", route: "activity-center.html" },
         { label: "Bildirim Merkezi", route: "notification-center.html" },
+        { label: "Dosya Merkezi", route: "file-center.html" },
+        { label: "Global Arama", route: "search.html" },
         { label: "Mesaj Merkezi", route: "mailbox.html" }
       ]
     },
@@ -91,7 +95,12 @@
       label: "IATF 16949",
       icon: "🚗",
       items: [
-        { label: "APQP", route: "apqp.html" }
+        { label: "APQP", route: "apqp.html" },
+        { label: "PPAP", route: "apqp.html#ppap" },
+        { label: "FMEA", route: "apqp.html#fmea" },
+        { label: "MSA", route: "apqp.html#msa" },
+        { label: "SPC", route: "apqp.html#spc" },
+        { label: "Kontrol Planı", route: "apqp.html#control-plan" }
       ]
     }
   ]);
@@ -129,6 +138,7 @@
   function isQualityRoute(route) {
     const name = normalizeRoute(route || getCurrentRoute());
     if (!name || name === "index.html" || name === "department-gateway.html" || name === "mailbox.html") return false;
+    if (name === "management-review.html") return true;
     return !/^(management|hr|maintenance)-/.test(name);
   }
 

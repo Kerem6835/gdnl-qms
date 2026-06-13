@@ -543,7 +543,7 @@ tr:hover td{
 }
 
 
-/* Cloud Ready kullanıcı seçimi ve yorum katmanı */
+/* Kurumsal Hazır kullanıcı seçimi ve yorum katmanı */
 .autocomplete-box{position:relative}
 .autocomplete-list{position:absolute;z-index:150;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.16);max-height:240px;overflow:auto;display:none}
 .autocomplete-list.active{display:block}
@@ -770,6 +770,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 
 <body>
@@ -792,7 +793,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <a class="active" href="company-assets-documents.html">Firma Belgeleri</a>
 <a href="documents.html">Doküman Yönetimi</a>
 <a href="new-document.html">Yeni Doküman</a>
-<a href="revision-management.html">Revizyon Yönetimi</a>
+<a href="revision.html">Revizyon Yönetimi</a>
 <a href="approval.html">Onay Yönetimi</a>
 <a href="distribution.html">Dağıtım Yönetimi</a>
 <a href="archive.html">Arşiv Yönetimi</a>
@@ -839,17 +840,17 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
 <div class="submenu">
 <a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
-<a href="standard-compliance.html">Standart Uygunluk</a>
+<a href="standards-compliance.html">Standart Uygunluk</a>
 <a href="legal-compliance.html">Yasal Uyum</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 
 
@@ -872,7 +873,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <a class="active" href="company-assets-documents.html">Firma Belgeleri</a>
 <a href="documents.html">Doküman Yönetimi</a>
 <a href="new-document.html">Yeni Doküman</a>
-<a href="revision-management.html">Revizyon Yönetimi</a>
+<a href="revision.html">Revizyon Yönetimi</a>
 <a href="approval.html">Onay Yönetimi</a>
 <a href="distribution.html">Dağıtım Yönetimi</a>
 <a href="archive.html">Arşiv Yönetimi</a>
@@ -919,17 +920,17 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
 <div class="submenu">
 <a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
-<a href="standard-compliance.html">Standart Uygunluk</a>
+<a href="standards-compliance.html">Standart Uygunluk</a>
 <a href="legal-compliance.html">Yasal Uyum</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 
 
@@ -985,7 +986,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="card"><small>Yenileme Gereken</small><h2 id="renewalAssets">0</h2><p>Takip ve bildirim ihtiyacı</p></div>
 <div class="card"><small>Kritik Belge</small><h2 id="criticalAssets">0</h2><p>İş sürekliliği etkili</p></div>
 <div class="card"><small>Dosya Yüklenen</small><h2 id="fileAssets">0</h2><p>Ek dosyası olan kayıtlar</p></div>
-<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mail/SMS kayıtları</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="notificationCount">0</h2><p>Mesajlaşma kayıtları</p></div>
 </section>
 
 <section class="panel">
@@ -1605,8 +1606,10 @@ globalSearch.addEventListener("keydown",function(e){
 });
 
 initUsers();resetForm();renderAssets();setInterval(renderAssets,8000);
-console.log("GDNL EQMS Firma Belge ve Varlık Yönetimi Cloud Ready");
+console.log("GDNL EQMS Firma Belge ve Varlık Yönetimi Kurumsal Hazır");
 
 </script>
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

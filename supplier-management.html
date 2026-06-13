@@ -320,6 +320,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 
 <body>
@@ -404,10 +405,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
   <button class="menu-title" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949</button>
   <div class="menu-items">
     <a href="apqp.html">APQP</a>
-    <a href="fmea.html">FMEA</a>
-    <a href="control-plan.html">Kontrol Planı</a>
-    <a href="spc.html">SPC</a>
-    <a href="msa.html">MSA</a>
+    <a href="apqp.html#fmea">FMEA</a>
+    <a href="apqp.html#control-plan">Kontrol Planı</a>
+    <a href="apqp.html#spc">SPC</a>
+    <a href="apqp.html#msa">MSA</a>
   </div>
 </div>
 </nav>
@@ -491,10 +492,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
   <button class="menu-title" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949</button>
   <div class="menu-items">
     <a href="apqp.html">APQP</a>
-    <a href="fmea.html">FMEA</a>
-    <a href="control-plan.html">Kontrol Planı</a>
-    <a href="spc.html">SPC</a>
-    <a href="msa.html">MSA</a>
+    <a href="apqp.html#fmea">FMEA</a>
+    <a href="apqp.html#control-plan">Kontrol Planı</a>
+    <a href="apqp.html#spc">SPC</a>
+    <a href="apqp.html#msa">MSA</a>
   </div>
 </div>
 </nav>
@@ -547,7 +548,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="card"><small>Belge Süresi Dolacak</small><h2 id="expiringDocs">0</h2><p>30 gün altı</p></div>
 <div class="card"><small>Audit Bekleyen</small><h2 id="auditDue">0</h2><p>Sonraki audit tarihi geçmiş</p></div>
 <div class="card"><small>Ortalama Performans</small><h2 id="avgPerformance">0</h2><p>Skor ortalaması</p></div>
-<div class="card"><small>Bildirim Kuyruğu</small><h2 id="supplierHayırtifications">0</h2><p>Mail/SMS kayıtları</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="supplierHayırtifications">0</h2><p>Mesajlaşma kayıtları</p></div>
 </section>
 
 <section class="panel">
@@ -685,7 +686,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="actions">
 <button class="btn green" onclick="approveSupplierCurrent()">Onayla</button>
 <button class="btn red" onclick="blockSupplierCurrent()">Bloke Et</button>
-<button class="btn orange" onclick="notifySupplierCurrent()">Mail/SMS Bildirim</button>
+<button class="btn orange" onclick="notifySupplierCurrent()">Mesajlaşma Bildirim</button>
 <button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
 </div>
 </div>
@@ -902,5 +903,7 @@ boot();
 </script>
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

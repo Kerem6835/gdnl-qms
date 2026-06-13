@@ -1001,6 +1001,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 
 <body>
@@ -1178,8 +1179,8 @@ style="width:auto;padding:0 22px;">
 
 <section class="hero">
 <div>
-<h1>Kurumsal Kalite Komuta Merkezi</h1>
-<p>Doküman, CAPA, risk, denetim, eğitim, tedarikçi, dağıtım ve yönetim sistemi performansını tek premium kontrol merkezinden izleyin.</p>
+<h1>Kalite Yönetim Dashboard</h1>
+<p>ISO 9001 ve IATF 16949 kalite süreçlerini; doküman, CAPA, risk, denetim, eğitim, tedarikçi ve müşteri performansıyla tek yönetim ekranında izleyin.</p>
 </div>
 <div class="hero-badge">Sistem Sağlığı: <span id="health">0%</span><small>Çalışma Alanı: <span id="heroDepartmentName">-</span></small></div>
 </section>
@@ -1197,10 +1198,10 @@ style="width:auto;padding:0 22px;">
 </section>
 
 <section class="cards">
-<div class="card"><small>Toplam Doküman</small><h2 id="documentCount">0</h2><p>Master liste kayıtları</p></div>
-<div class="card"><small>Bekleyen Revizyon</small><h2 id="pendingRevizyonCount">0</h2><p>İnceleme / workflow bekleyen</p></div>
+<div class="card"><small>Toplam Doküman</small><h2 id="documentCount">0</h2><p>Kontrollü doküman kayıtları</p></div>
+<div class="card"><small>Bekleyen Revizyon</small><h2 id="pendingRevizyonCount">0</h2><p>Revizyon incelemesi bekleyen</p></div>
 <div class="card"><small>Bekleyen Onay</small><h2 id="pendingOnayCount">0</h2><p>Onay bekleyen işler</p></div>
-<div class="card"><small>Uygunluk Skoru</small><h2 id="complianceScore">0%</h2><p>Sistem uygunluk skoru</p></div>
+<div class="card"><small>Uygunluk Skoru</small><h2 id="complianceScore">0%</h2><p>ISO/IATF uygunluk görünümü</p></div>
 </section>
 
 <section class="cards">
@@ -1211,24 +1212,24 @@ style="width:auto;padding:0 22px;">
 </section>
 
 <section class="cards">
-<div class="card"><small>Toplam 8D / CAPA</small><h2 id="capaCount">0</h2><p>Problem çözme kayıtları</p></div>
+<div class="card"><small>Toplam 8D / CAPA</small><h2 id="capaCount">0</h2><p>8D ve düzeltici faaliyetler</p></div>
 <div class="card"><small>Açık 8D</small><h2 id="openCapaCount">0</h2><p>Devam eden 8D/CAPA</p></div>
 <div class="card"><small>Geciken 8D</small><h2 id="lateCapaCount">0</h2><p>Termin aşımı</p></div>
-<div class="card"><small>Geciken Aksiyon</small><h2 id="lateCapaActionCount">0</h2><p>D adımı aksiyonları</p></div>
+<div class="card"><small>Geciken Aksiyon</small><h2 id="lateCapaActionCount">0</h2><p>Geciken düzeltici faaliyetler</p></div>
 </section>
 
 <section class="cards">
-<div class="card"><small>Açık Risk</small><h2 id="openRiskCount">0</h2><p>Risk register açık kayıt</p></div>
-<div class="card"><small>Kritik Risk</small><h2 id="criticalRiskCount">0</h2><p>500+ risk skoru</p></div>
-<div class="card"><small>Açık Denetim</small><h2 id="openDenetimCount">0</h2><p>Kapanmamış denetim</p></div>
+<div class="card"><small>Açık Risk</small><h2 id="openRiskCount">0</h2><p>Açık risk kayıtları</p></div>
+<div class="card"><small>Kritik Risk</small><h2 id="criticalRiskCount">0</h2><p>Yüksek öncelikli riskler</p></div>
+<div class="card"><small>Açık Denetim</small><h2 id="openDenetimCount">0</h2><p>Açık denetim planları</p></div>
 <div class="card"><small>Denetim Bulgusu</small><h2 id="auditFindingCount">0</h2><p>Toplam bulgu</p></div>
 </section>
 
 <section class="cards">
 <div class="card"><small>Açık Eğitim</small><h2 id="openTrainingCount">0</h2><p>Planlı/devam eden eğitim</p></div>
 <div class="card"><small>Geciken Eğitim</small><h2 id="lateTrainingCount">0</h2><p>Termin aşımı</p></div>
-<div class="card"><small>Tedarikçi</small><h2 id="supplierCount">0</h2><p>Aktif tedarikçi kartları</p></div>
-<div class="card"><small>Açık SCAR</small><h2 id="supplierScarCount">0</h2><p>Tedarikçi aksiyonları</p></div>
+<div class="card"><small>Tedarikçi</small><h2 id="supplierCount">0</h2><p>Onaylı ve izlenen tedarikçiler</p></div>
+<div class="card"><small>Açık SCAR</small><h2 id="supplierScarCount">0</h2><p>Tedarikçi düzeltici faaliyetleri</p></div>
 </section>
 
 <section class="grid">
@@ -1277,7 +1278,7 @@ style="width:auto;padding:0 22px;">
 <a class="module" href="revision.html"><h4>🔄 Revizyon Yönetimi</h4><p>Kontrollü değişiklik, etki analizi ve yeni workflow.</p></a>
 <a class="module" href="approval.html"><h4>✅ Onay Yönetimi</h4><p>Sıralı elektronik onay ve final yayın akışı.</p></a>
 <a class="module" href="archive.html"><h4>🗄️ Arşiv Yönetimi</h4><p>Obsolete ve denetime hazır arşiv izi.</p></a>
-<a class="module" href="distribution.html"><h4>📤 Dağıtım Yönetimi</h4><p>Mail/SMS kuyruğu ve okundu takibi.</p></a>
+<a class="module" href="distribution.html"><h4>📤 Dağıtım Yönetimi</h4><p>Mesajlaşma kuyruğu ve okundu takibi.</p></a>
 <a class="module" href="capa.html"><h4>🛠️ 8D / CAPA</h4><p>D0-D8 aksiyon, kök neden, kapanış ve etkinlik kontrolü.</p></a>
 <a class="module" href="risk-register.html"><h4>⚠️ Risk Yönetimi</h4><p>10×10×10 risk, artık risk, aksiyon ve CAPA bağlantısı.</p></a>
 <a class="module" href="training-management.html"><h4>🎓 Eğitim Yönetimi</h4><p>Yetkinlik matrisi, sınav, sertifika ve etkinlik kontrolü.</p></a>
@@ -2068,5 +2069,7 @@ gdnlCloudBootstrap();
 
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/ui/sidebar.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

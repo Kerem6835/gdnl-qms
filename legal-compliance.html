@@ -256,6 +256,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 <body>
 <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
@@ -505,5 +506,6 @@ function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout
 async function boot(){renderMenus();await loadCurrentUser();await loadAllCloudData();setupUserAutocomplete("owner",{departmentTargetId:"department"});setupUserAutocomplete("actionOwner");await resetForm();renderLegal();globalSearch.addEventListener("input",renderLegal);setInterval(async()=>{await loadAllCloudData();renderLegal()},30000)}
 boot();
 </script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

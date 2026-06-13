@@ -292,6 +292,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 <body>
 <div class="app">
@@ -357,10 +358,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button type="button" class="menu-group" data-menu-group="iatf">🚗 IATF 16949<span>›</span></button>
 <div class="submenu">
 <a href="apqp.html">🚗 APQP</a>
-<a href="fmea.html">🧩 FMEA</a>
-<a href="control-plan.html">📋 Kontrol Planı</a>
-<a href="spc.html">📊 SPC</a>
-<a href="msa.html">📐 MSA</a>
+<a href="apqp.html#fmea">🧩 FMEA</a>
+<a href="apqp.html#control-plan">📋 Kontrol Planı</a>
+<a href="apqp.html#spc">📊 SPC</a>
+<a href="apqp.html#msa">📐 MSA</a>
 </div>
 
   </nav>
@@ -426,15 +427,15 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button type="button" class="menu-group" data-menu-group="iatf">🚗 IATF 16949<span>›</span></button>
 <div class="submenu">
 <a href="apqp.html">🚗 APQP</a>
-<a href="fmea.html">🧩 FMEA</a>
-<a href="control-plan.html">📋 Kontrol Planı</a>
-<a href="spc.html">📊 SPC</a>
-<a href="msa.html">📐 MSA</a>
+<a href="apqp.html#fmea">🧩 FMEA</a>
+<a href="apqp.html#control-plan">📋 Kontrol Planı</a>
+<a href="apqp.html#spc">📊 SPC</a>
+<a href="apqp.html#msa">📐 MSA</a>
 </div>
 
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS<br>YGG Yönetimi<br>Cloud Ready</div>
+<div class="sidebar-footer">GDNL EQMS<br>YGG Yönetimi<br>Kurumsal Hazır</div>
 </aside>
 
 <main class="main">
@@ -482,7 +483,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <section class="cards">
 <div class="card"><small>Toplam Gündem</small><h2 id="totalAgendas">0</h2><p>Standart bazlı gündemler</p></div>
 <div class="card"><small>Alınan Karar</small><h2 id="totalDecisions">0</h2><p>Yönetim kararları</p></div>
-<div class="card"><small>Bildirim Kuyruğu</small><h2 id="totalNotifications">0</h2><p>Mail/SMS kayıtları</p></div>
+<div class="card"><small>Bildirim Kuyruğu</small><h2 id="totalNotifications">0</h2><p>Mesajlaşma kayıtları</p></div>
 <div class="card"><small>Kapanışa Hazır</small><h2 id="readyReviews">0</h2><p>Kontrol şartları tamam</p></div>
 </section>
 
@@ -509,7 +510,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <div class="actions">
 <button class="btn primary" onclick="createReview()">YGG Kaydı Oluştur</button>
-<button class="btn orange" onclick="createReview(true)">Oluştur + Kişilere Mail/SMS Kuyruğu</button>
+<button class="btn orange" onclick="createReview(true)">Oluştur + Kişilere Mesajlaşma Kuyruğu</button>
 <button class="btn green" onclick="generateAutoAgenda()">Seçilen Standartlara Göre Gündem Üret</button>
 <button class="btn dark" onclick="resetForm()">Temizle</button>
 </div>
@@ -603,7 +604,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div id="drawerContent"></div>
 <div class="actions">
 <button class="btn green" onclick="closeReviewCurrent()">YGG Kapat</button>
-<button class="btn orange" onclick="notifyReviewCurrent()">Mail/SMS Bildirimi Oluştur</button>
+<button class="btn orange" onclick="notifyReviewCurrent()">Mesajlaşma Bildirimi Oluştur</button>
 <button class="btn primary" onclick="createOutputsCurrent()">YGG Çıktılarını Oluştur</button>
 <button class="btn dark" onclick="closeDrawer()">Geri Dön</button>
 </div>
@@ -617,7 +618,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <script src="assets/js/ui/sidebar.js?v=dashboard-master-sidebar"></script>
 <script src="assets/js/ui/mobile-menu.js"></script>
 <script>
-/* GDNL EQMS / GDNL EOS Cloud Ready YGG Yönetimi
+/* GDNL EQMS / GDNL EOS Kurumsal Hazır YGG Yönetimi
    Ana kaynak: Cloudflare Worker gdnl-eos-api
    D1 Binding: DB
    R2 Binding: EQMS_FILES
@@ -1589,7 +1590,7 @@ async function boot(){
   resetForm();
   renderReviews();
   if(qs("globalSearch")) qs("globalSearch").addEventListener("input",()=>renderReviews());
-  await writeActivity("Sayfa Açılışı","YGG","YGG Yönetimi sayfası Cloud Ready açıldı.");
+  await writeActivity("Sayfa Açılışı","YGG","YGG Yönetimi sayfası Kurumsal Hazır açıldı.");
   setInterval(async()=>{ await loadCloud(); renderReviews(); },30000);
 }
 boot();
@@ -1597,5 +1598,6 @@ boot();
 
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

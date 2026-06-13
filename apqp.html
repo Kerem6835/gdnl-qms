@@ -903,6 +903,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 <body>
  
@@ -1119,6 +1120,20 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
       <div class="stat-card"><small>PPAP Doküman</small><h2 id="stOutputs">0%</h2><p>Tamamlanma oranı</p></div>
       <div class="stat-card"><small>Açık Aksiyon</small><h2 id="stActions">0</h2><p>Takip bekleyen</p></div>
       <div class="stat-card"><small>Açık Revizyon</small><h2 id="stRevs">0</h2><p>Bekleyen talep</p></div>
+    </section>
+
+    <section class="panel" aria-label="IATF çekirdek araçları">
+      <div class="panel-head">
+        <h3>IATF 16949 Çekirdek Araçları</h3>
+        <span class="pill pill-green">APQP içinde yönetilir</span>
+      </div>
+      <div class="stat-cards" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:0">
+        <a class="stat-card" id="ppap" href="#panelTitle4" style="text-decoration:none;color:inherit"><small>PPAP</small><h2>📦</h2><p>Seviye, zorunlu dosya ve onay paketi</p></a>
+        <a class="stat-card" id="fmea" href="#panelTitle3" style="text-decoration:none;color:inherit"><small>FMEA</small><h2>🧩</h2><p>Tasarım/proses riskleri ve aksiyon bağlantısı</p></a>
+        <a class="stat-card" id="msa" href="#panelTitle3" style="text-decoration:none;color:inherit"><small>MSA</small><h2>📐</h2><p>Ölçüm sistemi doğrulama görevleri</p></a>
+        <a class="stat-card" id="spc" href="#panelTitle3" style="text-decoration:none;color:inherit"><small>SPC</small><h2>📊</h2><p>Proses yeterlilik ve kontrol çalışmaları</p></a>
+        <a class="stat-card" id="control-plan" href="#panelTitle3" style="text-decoration:none;color:inherit"><small>Kontrol Planı</small><h2>📋</h2><p>Özel karakteristik ve proses kontrol planı</p></a>
+      </div>
     </section>
  
     <!-- 1. APQP Proje Kartı -->
@@ -1355,7 +1370,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <script src="assets/js/ui/user-autocomplete.js?v=quality-users-5"></script>
 <script src="assets/js/ui/sidebar.js?v=dashboard-master-sidebar"></script>
 <script>
-/* GDNL EOS / GDNL EQMS Enterprise Cloud Ready Standardı aktif */
+/* GDNL EOS / GDNL EQMS Enterprise Kurumsal Hazır Standardı aktif */
 /* ── API & yardımcılar ── */
 const API_BASE = window.GDNL_API_BASE;
 const $=id=>document.getElementById(id);
@@ -1411,16 +1426,16 @@ const MENU_HTML=`
 
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">🔧 Teknik Yönetim</span><span class="mg-arrow">⌄</span></button>
 <div class="submenu">
-  <a href="calibration.html">Kalibrasyon</a>
+  <a href="calibration-management.html">Kalibrasyon</a>
   <a href="maintenance.html">Bakım Yönetimi</a>
-  <a href="equipment.html">Ekipman Yönetimi</a>
+  <a href="calibration-management.html">Ekipman Yönetimi</a>
 </div>
 
 <button class="menu-group" type="button" aria-expanded="false"><span class="mg-left">🔒 Uyum ve Güvenlik</span><span class="mg-arrow">⌄</span></button>
 <div class="submenu">
   <a href="legal-compliance.html">Yasal Uyum</a>
-  <a href="information-security.html">Bilgi Güvenliği</a>
-  <a href="audit-management.html">Denetim Yönetimi</a>
+  <a href="security-continuity-center.html">Bilgi Güvenliği</a>
+  <a href="audit.html">Denetim Yönetimi</a>
 </div>
 
 <button class="menu-group open" type="button" aria-expanded="true"><span class="mg-left">🚗 IATF 16949</span><span class="mg-arrow">⌄</span></button>
@@ -2717,5 +2732,7 @@ renderTeam();renderPhases();renderPpapReqs();renderApprovals();renderActions();
 renderRevisions();renderApprovedWorkflowList();renderProjects();renderApqpComments();nextNo();updateStats();
 loadApiUsers().then(loadCloudModuleData).catch(()=>loadCloudModuleData());
 </script>
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

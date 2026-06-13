@@ -259,6 +259,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 
 <body>
@@ -330,10 +331,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 </nav>
   <div class="mobile-drawer-footer"><button class="mobile-logout" onclick="logout()">Oturumu Kapat</button></div>
@@ -402,10 +403,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 </nav>
 </div>
@@ -433,7 +434,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h1>Yetkinlik Matrisi Merkezi</h1>
 <p>Pozisyon bazlı yetkinlik gereklilikleri, kişi seviyesi, eğitim bağlantısı, sertifika kanıtı, gap analizi, kritik görev uygunluğu, vekil kişi kontrolü ve YGG/KPI çıktıları tek merkezde.</p>
 </div>
-<div class="hero-badge">Yetkinlik Motoru: <span>Cloud Ready</span></div>
+<div class="hero-badge">Yetkinlik Motoru: <span>Kurumsal Hazır</span></div>
 </section>
 
 <section class="cards">
@@ -844,8 +845,10 @@ function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout
 globalSearch.addEventListener("input",renderAll);
 
 initKullanıcıs();initTrainingSelect();clearYetkinlik();clearRequirement();clearAssignment();clearEvidence();renderAll();setInterval(renderAll,6000);
-console.log("GDNL EQMS Yetkinlik Matrisi Cloud Ready yüklendi");
+console.log("GDNL EQMS Yetkinlik Matrisi Kurumsal Hazır yüklendi");
 </script>
 <script src="assets/js/ui/maturity-widgets.js"></script>
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

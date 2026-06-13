@@ -325,6 +325,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 }
 
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 
 <body>
@@ -388,7 +389,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="submenu open">
 <a class="active" href="calibration-management.html">Kalibrasyon Yönetimi</a>
 <a href="maintenance.html">Bakım Yönetimi</a>
-<a href="equipment.html">Ekipman Yönetimi</a>
+<a href="calibration-management.html">Ekipman Yönetimi</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
@@ -401,10 +402,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 </nav>
   <div class="mobile-drawer-footer">
@@ -466,7 +467,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="submenu open">
 <a class="active" href="calibration-management.html">Kalibrasyon Yönetimi</a>
 <a href="maintenance.html">Bakım Yönetimi</a>
-<a href="equipment.html">Ekipman Yönetimi</a>
+<a href="calibration-management.html">Ekipman Yönetimi</a>
 </div>
 
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🔒 Uyum ve Güvenlik <span class="chev">›</span></button>
@@ -479,10 +480,10 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group" type="button" onclick="toggleMenuGroup(this)">🚗 IATF 16949 <span class="chev">›</span></button>
 <div class="submenu">
 <a href="apqp.html">APQP</a>
-<a href="fmea.html">FMEA</a>
-<a href="control-plan.html">Kontrol Planı</a>
-<a href="spc.html">SPC</a>
-<a href="msa.html">MSA</a>
+<a href="apqp.html#fmea">FMEA</a>
+<a href="apqp.html#control-plan">Kontrol Planı</a>
+<a href="apqp.html#spc">SPC</a>
+<a href="apqp.html#msa">MSA</a>
 </div>
 </nav>
 </div>
@@ -1072,7 +1073,7 @@ globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch();});
 
 
 
-/* Enterprise Cloud Ready genişletme katmanı */
+/* Enterprise Kurumsal Hazır genişletme katmanı */
 let cloudRoles=[],cloudPermissions=[],cloudRolePermissions=[],cloudComments=[];
 async function loadEnterpriseCloudData(){
   const [roles,permissions,rolePermissions,comments]=await Promise.all([apiGet("/roles"),apiGet("/permissions"),apiGet("/role-permissions"),apiGet("/comments")]);
@@ -1162,5 +1163,7 @@ loadCloudBaseData().then(()=>loadEnterpriseCloudData()).finally(()=>{initUsers()
 console.log("GDNL EQMS Kalibrasyon Yönetimi yüklendi");
 </script>
 <script src="assets/js/ui/maturity-widgets.js"></script>
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

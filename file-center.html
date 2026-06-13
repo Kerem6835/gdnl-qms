@@ -453,6 +453,7 @@ td{
   }
 }
 </style>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
 
 <body>
@@ -466,7 +467,7 @@ td{
       <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
       <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
       <button class="btn btn-red" onclick="logout()">Çıkış</button>
-      <div class="userbox">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      <div class="userbox">👤 <span id="userName">Kullanıcı</span></div>
     </div>
   </div>
 
@@ -590,11 +591,11 @@ function getCurrentUser(){
       null;
 
     if(user){
-      return val(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+      return val(user,"fullname","full_name","name","username","email") || "Kullanıcı";
     }
   }catch(e){}
 
-  return "Oturum Kullanıcısı";
+  return "Kullanıcı";
 }
 
 function setUserName(){
@@ -933,6 +934,9 @@ boot();
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
 
+<script src="assets/js/config/routes.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/sidebar.js?v=quality-premium-1"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>
 ```
