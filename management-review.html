@@ -458,7 +458,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h1>YGG Yönetim Merkezi</h1>
 <p>YGG planlama, kişi daveti, standart bazlı otomatik gündem, karar, aksiyon, doküman/rapor yükleme, mail/SMS bildirim kuyruğu ve kapanış kontrolü tek merkezde.</p>
 </div>
-<div class="hero-badge">YGG Motoru: <span>Canlı Gündem Aktif</span></div>
+<div class="hero-badge">YGG Durumu: <span>Canlı Gündem Aktif</span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -618,14 +618,6 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <script src="assets/js/ui/sidebar.js?v=dashboard-master-sidebar"></script>
 <script src="assets/js/ui/mobile-menu.js"></script>
 <script>
-/* GDNL EQMS / GDNL EOS Kurumsal Hazır YGG Yönetimi
-   Ana kaynak: Cloudflare Worker gdnl-eos-api
-   D1 Binding: DB
-   R2 Binding: EQMS_FILES
-   R2 Bucket: gdnl-eqms-files
-   Kritik kayıtlar tarayıcı deposuna yazılmaz.
-*/
-
 const API_BASE = window.GDNL_API_BASE;
 const MODULE_NAME = "YGG Yönetimi";
 const MODULE_CODE = "MANAGEMENT_REVIEW";
@@ -1281,7 +1273,7 @@ async function createReview(notify=false){
   }
   resetForm();
   renderReviews();
-  showToast("YGG kaydı D1 üzerine oluşturuldu");
+  showToast("YGG kaydı sisteme oluşturuldu");
 }
 async function closeReview(i){
   if(!requirePermission("Onaylama")) return;

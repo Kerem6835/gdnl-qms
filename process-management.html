@@ -530,7 +530,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h1>Süreç Yönetimi</h1>
 <p>Tek proses kaydıyla süreç sahibi, girdi/çıktı, KPI, risk, CAPA, audit, doküman, standart, yasal şart, eğitim, müşteri/tedarikçi etkisi ve YGG bağlantılarını yönet.</p>
 </div>
-<div class="hero-badge">Süreç Motoru: <span>Tek Kayıt</span></div>
+<div class="hero-badge">Süreç Durumu: <span>Tek Kayıt</span></div>
 
 </section>
 
@@ -963,7 +963,7 @@ async function saveProcess(notify=false){
   await loadBaseData();
   await resetForm();
   renderProcesses();
-  showToast(saved?"Süreç D1 üzerine kaydedildi":"Süreç API kaydı kontrol edilmeli");
+  showToast(saved?"Süreç sisteme kaydedildi":"Süreç kaydı için sistem bağlantısı kontrol edilmelidir");
 }
 async function updateRecord(id,changes,txt){
   if(!can("Düzenleme"))return showToast("Düzenleme yetkiniz yok");

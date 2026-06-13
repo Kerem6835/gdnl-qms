@@ -857,7 +857,7 @@ async function loadFiles(){
     updateCards();
 
     fileTable.className = "error";
-    fileTable.innerHTML = "Dosya kayıtları alınamadı. API bağlantısı, /files endpoint’i, R2 metadata kayıtları veya oturum doğrulaması kontrol edilmelidir.";
+    fileTable.innerHTML = "Dosya kayıtları alınamadı. Sistem bağlantısı, dosya metadata kayıtları veya oturum doğrulaması kontrol edilmelidir.";
   }
 }
 
@@ -895,7 +895,7 @@ async function uploadSelectedFile(){
 
   }catch(error){
     console.error(error);
-    toastMsg("Dosya yüklenemedi. R2 bağlantısı ve /upload endpoint’i kontrol edilmelidir.");
+    toastMsg("Dosya yüklenemedi. Dosya depolama bağlantısı ve oturum doğrulaması kontrol edilmelidir.");
   }finally{
     uploadBtn.disabled = false;
   }

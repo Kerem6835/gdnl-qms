@@ -171,7 +171,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 }
 
 
-/* === GDNL EOS CLOUD READY AUTOCOMPLETE / COMMENT / ARCHIVE === */
+/* === GDNL EOS KURUMSAL HAZIR AUTOCOMPLETE / COMMENT / ARCHIVE === */
 .autocomplete-wrap{position:relative;width:100%}
 .autocomplete-list{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #d8e4ef;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.14);z-index:120;max-height:230px;overflow:auto;display:none}
 .autocomplete-list.active{display:block}
@@ -579,7 +579,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h1>Sürekli İyileştirme Merkezi</h1>
 <p>Kaizen, Öğrenilen Dersler ve Cost of Quality aynı kaydın içinde tek yaşam döngüsü olarak yönetilir. Fikir oluşur, uygulanır, öğrenilen ders standartlaşır ve finansal kalite etkisi ölçülür.</p>
 </div>
-<div class="hero-badge">İyileştirme Motoru: <span>Aktif</span></div>
+<div class="hero-badge">İyileştirme Durumu: <span>Aktif</span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -923,7 +923,7 @@ createAutoIntegrations(p);
 showToast(editId?"Sürekli iyileştirme kaydı güncellendi":"Sürekli iyileştirme kaydı kaydedildi");
 
 
-/* === GDNL EOS / GDNL EQMS ENTERPRISE CLOUD READY KATMANI === */
+/* === GDNL EOS / GDNL EQMS ENTERPRISE KURUMSAL HAZIR KATMANI === */
 const GDNL_API_BASE = window.GDNL_API_BASE;
 const GDNL_MODULE = "CONTINUOUS_IMPROVEMENT";
 const GDNL_MODULE_TR = "Sürekli İyileştirme";
@@ -1185,14 +1185,14 @@ let items=getRecords().map(normalizeRecord);
 setRecords(items);
 items=getRecords().map(normalizeRecord);
 
-const q=document.getElementById("globalSearch").value.toDüşükerCase();
+const q=document.getElementById("globalSearch").value.toLowerCase();
 const df=document.getElementById("departmentFilter").value;
 const sf=document.getElementById("statusFilter").value;
 const pf=document.getElementById("priorityFilter").value;
 const cf=document.getElementById("categoryFilter").value;
 
 const filtered=items.filter(x=>{
-const text=JSON.stringify(x).toDüşükerCase();
+const text=JSON.stringify(x).toLowerCase();
 return text.includes(q)&&(!df||x.department===df)&&(!sf||x.status===sf)&&(!pf||x.priority===pf)&&(!cf||x.category===cf);
 });
 
@@ -1412,16 +1412,16 @@ const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectU
 
 function runSearch(){
 const input=document.getElementById("globalSearch");
-const text=input.value.trim().toDüşükerCase();
+const text=input.value.trim().toLowerCase();
 if(!text){clearSearchResults();input.focus();renderRecords();return}
 let results=[];
 getRecords().map(normalizeRecord).forEach(item=>{
-if(JSON.stringify(item).toDüşükerCase().includes(text)){
+if(JSON.stringify(item).toLowerCase().includes(text)){
 results.push({type:"record",module:"Sürekli İyileştirme",selected:item.id,title:item.improvementNo+" / "+item.title,detail:`${item.department||""} ${item.category||""} ${item.priority||""} ${item.status||""} ${item.lessonLearned||""} ${item.netSaving||""}`});
 }
 });
 getNotifications().forEach(n=>{
-if(JSON.stringify(n).toDüşükerCase().includes(text)){
+if(JSON.stringify(n).toLowerCase().includes(text)){
 results.push({type:"page",module:"Bildirim Merkezi",go:"notification-center.html",store:"gdnl_selected_notification",selected:n.notificationId||"",title:n.documentName||n.notificationId||"Bildirim",detail:`${n.module||""} ${n.type||""} ${n.status||""} ${n.message||""}`});
 }
 });
@@ -1433,16 +1433,16 @@ function collectPageSearchResults(keyword){
 const results=[];const seen=new Set();
 document.querySelectorAll(".menu a").forEach(el=>{
 const label=el.textContent.trim(),href=el.getAttribute("href")||"";
-if((label+" "+href).toDüşükerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"})}}
+if((label+" "+href).toLowerCase().includes(keyword)){const key=href+"-"+label;if(!seen.has(key)){seen.add(key);results.push({type:"page",module:"Sol Menü",title:label,detail:href,go:href||"#"})}}
 });
 document.querySelectorAll(".card").forEach((el,index)=>{
 const title=(el.querySelector("small")?.textContent||"Kart").trim(),value=(el.querySelector("h2")?.textContent||"").trim(),detail=(el.querySelector("p")?.textContent||"").trim();
-if((title+" "+value+" "+detail).toDüşükerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}
+if((title+" "+value+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-card",index);results.push({type:"scroll",module:"Özet Kartı",title:title+" / "+value,detail:detail,selector:`.card[data-search-card="${index}"]`})}
 });
 document.querySelectorAll(".panel").forEach((el,index)=>{
 if(el.id==="searchResultsPanel")return;
 const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim(),detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-if((title+" "+detail).toDüşükerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`})}
+if((title+" "+detail).toLowerCase().includes(keyword)){el.setAttribute("data-search-panel",index);results.push({type:"scroll",module:"Sayfa Paneli",title:title,detail:detail,selector:`.panel[data-search-panel="${index}"]`})}
 });
 return results;
 }

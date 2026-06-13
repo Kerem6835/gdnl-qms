@@ -545,7 +545,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h1>Kurumsal Risk Yönetimi</h1>
 <p>ISO 9001, 14001, 45001, 50001, 10002, 17025, 27001, IATF 16949, CoP ve EV sektörü için 10×10×10 risk skoru, aksiyon sonrası artık risk, sorumlu kişi, risk sahibi, CAPA, Denetim ve bildirim entegrasyonu.</p>
 </div>
-<div class="hero-badge">Risk Motoru: <span>10×10×10 Aktif</span></div>
+<div class="hero-badge">Risk Durumu: <span>10×10×10 Aktif</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -851,11 +851,11 @@ if(!payload.responsiblePerson)return showToast("Sorumlu kişi zorunlu");
 if(!payload.standards.length)return showToast("En az 1 standart seç");
 const oldValue=state.editRiskId?state.risks.find(x=>String(x.id)===String(state.editRiskId)):null;
 const saved=state.editRiskId?await safePatch("/risks/"+encodeURIComponent(state.editRiskId),payload):await safePost("/risks",payload);
-if(!saved)return showToast("D1 kayıt işlemi başarısız. Worker /risks endpointini kontrol et.");
+if(!saved)return showToast("Risk kaydı tamamlanamadı. Sistem bağlantısı kontrol edilmelidir.");
 await afterKritikIslem({module:"Risk",action:state.editRiskId?"Risk güncellendi":"Risk oluşturuldu",record_no:payload.riskNo,description:payload.riskTitle,old_value:oldValue,new_value:payload,changed_field:state.editRiskId?"risk":"new_risk"});
 if(notify)await createRiskNotification(payload,"Risk kaydı açıldı/güncellendi: "+payload.riskNo);
 await createAssignments(payload);
-await loadCloudData();resetForm();renderRisks();showToast("Risk D1 üzerine kaydedildi");
+await loadCloudData();resetForm();renderRisks();showToast("Risk sisteme kaydedildi");
 }
 async function afterKritikIslem({module,action,record_no,description,old_value,new_value,changed_field}){
 const base={module,action,record_no,description,user_id:state.currentUser.id,user_name:state.currentUser.fullname,created_at:nowISO()};
@@ -928,7 +928,7 @@ async function createCapaFromRiskCurrent(){
 const r=state.risks.find(x=>String(x.id)===String(state.selectedRiskId));if(!r)return;
 const payload={module:"CAPA",source:"Risk",risk_id:r.id,risk_no:r.riskNo,title:"Risk kaynaklı CAPA - "+r.riskTitle,description:r.riskDescription,department:r.department,owner:r.responsiblePerson,status:"Açık",created_by:state.currentUser.fullname,created_at:nowISO()};
 const ok=await safePost("/actions",payload)||await safePost("/capas",payload);
-if(ok){await afterKritikIslem({module:"Risk",action:"Riskten CAPA açıldı",record_no:r.riskNo,description:payload.title,old_value:null,new_value:payload,changed_field:"capaRef"});showToast("CAPA / aksiyon kaydı oluşturuldu")}else showToast("CAPA oluşturulamadı. Worker endpointini kontrol et.")
+if(ok){await afterKritikIslem({module:"Risk",action:"Riskten CAPA açıldı",record_no:r.riskNo,description:payload.title,old_value:null,new_value:payload,changed_field:"capaRef"});showToast("CAPA / aksiyon kaydı oluşturuldu")}else showToast("CAPA oluşturulamadı. Sistem bağlantısı kontrol edilmelidir.")
 }
 function createTemplate(type){resetForm();if(type==="EV"){qs("riskCategory").value="EV Sektörü";qs("riskSource").value="EV Projesi";qs("riskTitle").value="EV batarya / yüksek voltaj / EMC uyumsuzluk riski";qs("riskDescription").value="EV ürün veya prosesinde batarya güvenliği, yüksek voltaj, EMC, siber güvenlik, şarj uyumluluğu veya saha arızası kaynaklı müşteri, güvenlik, yasal ve marka riski.";qs("legalCustomerRequirement").value="EV sektörü özel şartları, yüksek voltaj güvenliği, EMC, batarya güvenliği, şarj uyumluluğu, fonksiyonel güvenlik, siber güvenlik.";qs("currentControls").value="Tasarım doğrulama, test planı, CoP kontrolü, EMC testi, FMEA, kontrol planı, tedarikçi kalite kontrolleri."}
 if(type==="CoP"){qs("riskCategory").value="CoP";qs("riskSource").value="CoP Testi";qs("riskTitle").value="CoP ürün uygunluk ve test sürekliliği riski";qs("riskDescription").value="Üretim uygunluğu, akredite test raporu, teknik dosya, ürün doğrulama ve regülasyon şartlarının sürdürülememesi riski.";qs("legalCustomerRequirement").value="CoP planı, teknik dosya, akredite test raporu, CE/UL/EMC, müşteri ve regülasyon şartları.";qs("currentControls").value="CoP planı, test raporları, ürün doğrulama kayıtları, teknik dosya kontrolü, değişiklik yönetimi."}

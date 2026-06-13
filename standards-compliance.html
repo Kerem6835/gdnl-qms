@@ -562,7 +562,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h1>Standart Madde Uygunluk</h1>
 <p>ISO, IATF, CoP, EV, APQP, PPAP, FMEA, MSA, SPC ve ürün uygunluk standartlarını madde bazında izleyen; kanıt, doküman, risk, CAPA, denetim ve YGG bağlantılarını tek ekranda gösteren denetim haritası.</p>
 </div>
-<div class="hero-badge">Madde Motoru: <span>Denetime Hazır</span></div>
+<div class="hero-badge">Madde Durumu: <span>Denetime Hazır</span></div>
 </section>
 
 <section class="cards">
@@ -915,7 +915,7 @@ async function loadTemplateClauses(){
     }
   }
   renderClauses();
-  showToast("Hazır madde şablonu D1 üzerine yüklendi");
+  showToast("Hazır madde şablonu sisteme yüklendi");
 }
 function collectClause(){
   const ownerUser=getSelectedUser("owner");
@@ -986,7 +986,7 @@ async function saveClause(notify=false){
   if(notify)await createNotification(c,"Standart madde kaydı oluşturuldu: "+c.standardName+" "+c.clauseNo);
   resetForm();
   renderClauses();
-  showToast(saved?"Madde D1 üzerine kaydedildi":"Madde geçici ekranda oluşturuldu, API kaydı kontrol edilmeli");
+  showToast(saved?"Madde sisteme kaydedildi":"Madde ekranda oluşturuldu, sistem bağlantısı kontrol edilmelidir");
 }
 async function uploadFileToR2(file,metadata){
   const fd=new FormData();

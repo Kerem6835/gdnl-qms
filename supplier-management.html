@@ -524,7 +524,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <h1>Tedarikçi Yönetimi Merkezi</h1>
 <p>Tedarikçi kartı, onay durumu, doküman merkezi, sertifika, teknik doküman, denetim, risk, SCAR/CAPA, performans, geliştirme planı, CoP, EV ve bildirim yönetimi tek merkezde.</p>
 </div>
-<div class="hero-badge">Tedarikçi Motoru: <span>Tam Kapsam</span></div>
+<div class="hero-badge">Tedarikçi Durumu: <span>Tam Kapsam</span></div>
 </section>
 <section class="panel search-results-panel" id="searchResultsPanel">
 <div class="panel-head">
@@ -589,7 +589,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 
 <div class="box">
-<h4>Performans Skor Motoru</h4>
+<h4>Performans Skor Takibi</h4>
 <div class="subgrid">
 <div class="field"><label>Kalite Skoru %40</label><input id="qualityScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
 <div class="field"><label>Teslimat Skoru %30</label><input id="deliveryScore" type="number" min="0" max="100" value="100" oninput="updatePerformance()"></div>
@@ -787,7 +787,7 @@ const saved=state.editId?await safePut("/suppliers/"+encodeURIComponent(state.ed
 const idx=state.suppliers.findIndex(x=>x.id===p.id);if(idx>=0)state.suppliers[idx]=p;else state.suppliers.unshift(p);
 if(notify)await notifySupplierPayload(p,"Tedarikçi kaydı oluşturuldu/güncellendi: "+p.supplierName);
 await auditLog(state.editId?"Düzenleme":"Oluşturma",p.supplierNo,old,p,"supplier");
-if(!saved)showToast("API yanıtı alınamadı; kayıt ekranda güncellendi, Worker endpoint kontrol edilmeli");else showToast(state.editId?"Tedarikçi güncellendi":"Tedarikçi kaydedildi");
+if(!saved)showToast("Sistem yanıtı alınamadı; kayıt ekranda güncellendi, bağlantı kontrol edilmelidir.");else showToast(state.editId?"Tedarikçi güncellendi":"Tedarikçi kaydedildi");
 resetForm();renderSuppliers();
 }
 function currentSupplierByNo(no){return state.suppliers.find(s=>s.supplierNo===no)}
@@ -815,7 +815,7 @@ await safePut("/suppliers/"+encodeURIComponent(s.id),s);
 await safePost("/assignments",{module:"Tedarikçi Yönetimi",record_no:s.supplierNo,title:ev.eventType+" / "+ev.eventNo,assigned_to:ev.eventOwner_id,assigned_to_name:ev.eventOwner,due_date:ev.dueDate,status:ev.status,created_at:new Date().toISOString()});
 if(notify)await notifySupplierPayload(s,ev.eventType+" kaydı oluşturuldu: "+ev.eventNo);
 await auditLog("Aksiyon/Kayıt Oluşturma",s.supplierNo,null,ev,"events");
-clearEventInputs();renderSuppliers();showToast("Kayıt D1 üzerine eklendi");
+clearEventInputs();renderSuppliers();showToast("Kayıt sisteme eklendi");
 }
 function renderSuppliers(){
 autoUpdate(state.suppliers);const q=(globalSearch.value||"").toLowerCase(),sf=statusFilter.value,tf=typeFilter.value,cf=criticalityFilter.value;

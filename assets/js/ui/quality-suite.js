@@ -6,6 +6,11 @@
     [/Canlı API hazır/i, "Canlı kayıt akışı hazır"],
     [/Canlı API/i, "Canlı kayıt"],
     [/API Durumu/i, "Sistem Durumu"],
+    [/API bağlantısı/i, "Sistem bağlantısı"],
+    [/endpoint’i/i, "servisi"],
+    [/endpointi/i, "servisi"],
+    [/endpoint/i, "servis"],
+    [/Worker/i, "Sistem"],
     [/Müşteri Yönetimi Center/i, "Müşteri Şikayetleri Merkezi"],
     [/Center/i, "Merkezi"],
     [/Mail\/SMS/i, "Mesajlaşma"],
@@ -13,7 +18,9 @@
     [/Kısa Mesaj Grupları/i, "Bildirim Grupları"],
     [/Motoru:/i, "Durumu:"],
     [/Motoru/i, "Takibi"],
-    [/Komuta Merkezi/i, "Yönetim Merkezi"]
+    [/Komuta Merkezi/i, "Yönetim Merkezi"],
+    [/JSON hatası/i, "Kayıt işleme hatası"],
+    [/Stack trace/i, "Hata detayı"]
   ];
 
   const BROKEN_ROUTE_MAP = Object.freeze({
@@ -101,6 +108,16 @@
     });
   }
 
+  function removeActiveDepartmentBadges() {
+    document.querySelectorAll(".department-chip,.status-pill,.hero-badge,.gdnl-primary-cta").forEach((el) => {
+      const text = (el.textContent || "").toLocaleLowerCase("tr-TR").replace(/\s+/g, " ");
+      if (text.includes("aktif departman")) {
+        el.setAttribute("data-gdnl-hidden-active-department", "true");
+        el.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+
   function fixBrokenQualityLinks() {
     document.querySelectorAll("a[href]").forEach((link) => {
       const raw = link.getAttribute("href") || "";
@@ -120,6 +137,7 @@
       const text = (el.textContent || "").trim();
       if (/yükleniyor/i.test(text)) return;
       if (/bulunamadı|henüz|sonuç yok|kayıt yok/i.test(text)) {
+        el.classList.add("gdnl-empty-state");
         el.textContent = text
           .replace(/Kayıt bulunamadı\./i, "Bu süreç için henüz kayıt oluşturulmadı.")
           .replace(/Sonuç bulunamadı\./i, "Arama kriterlerine uygun kayıt bulunamadı.");
@@ -162,6 +180,7 @@
     fixBrokenQualityLinks();
     normalizeSearchButtons();
     normalizeCtas();
+    removeActiveDepartmentBadges();
     normalizeVisibleTerminology(document.body);
     ensureProfessionalEmptyStates();
     addApqpAnchors();
@@ -180,10 +199,19 @@
   global.setTimeout(run, 150);
   global.setTimeout(run, 600);
 
+  const observer = new MutationObserver((mutations) => {
+    if (!isQualityPage()) return;
+    if (!mutations.some((mutation) => mutation.addedNodes && mutation.addedNodes.length)) return;
+    global.clearTimeout(global.__gdnlQualityNormalizeTimer);
+    global.__gdnlQualityNormalizeTimer = global.setTimeout(run, 80);
+  });
+  if (document.body) observer.observe(document.body, { childList: true, subtree: true });
+
   global.GDNL_QUALITY_SUITE = {
     run,
     fixBrokenQualityLinks,
     normalizeSearchButtons,
-    normalizeVisibleTerminology
+    normalizeVisibleTerminology,
+    removeActiveDepartmentBadges
   };
 })(window);
