@@ -1525,11 +1525,11 @@ function statusClass(status){
 }
 
 function getUserDisplayName(user){
-  return user?.fullname||user?.fullName||user?.name||user?.username||"Kullanıcı";
+  return user?.fullname||user?.fullName||user?.name||user?.username||"Oturum doğrulanıyor";
 }
 
 function getUserRole(user){
-  return user?.role||user?.role_name||user?.title||"Kullanıcı";
+  return user?.role||user?.role_name||user?.title||"Yetki doğrulanıyor";
 }
 
 function getUserDepartment(user){
@@ -2060,7 +2060,7 @@ async function gdnlCloudBootstrap(){
   renderRecentTables();
   renderCompliance();
   await gdnlCreateAudit("Görüntüleme","Dashboard açıldı");
-  await gdnlCreateActivity("Görüntüleme","Dashboard D1/R2 cloud-ready modda yüklendi");
+  await gdnlCreateActivity("Görüntüleme","Dashboard kurumsal kayıt mimarisiyle yüklendi");
 }
 
 gdnlCloudBootstrap();

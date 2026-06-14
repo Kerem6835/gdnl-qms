@@ -674,121 +674,7 @@ button{cursor:pointer}
 
 
 
-/* === GDNL EOS ATTACHMENT OPEN / DOWNLOAD FIX === */
-.attachment{
-  cursor:pointer!important;
-  transition:.16s ease!important;
-}
-.attachment:hover{
-  border-color:#8edda8!important;
-  box-shadow:0 12px 24px rgba(32,185,87,.10)!important;
-  transform:translateY(-1px)!important;
-}
-.attachment-actions{
-  display:flex!important;
-  align-items:center!important;
-  gap:8px!important;
-}
-.attachment-open-btn,
-.attachment-download-btn{
-  height:32px!important;
-  border:1px solid #d8e5f2!important;
-  border-radius:10px!important;
-  background:#fff!important;
-  color:#0f1b2f!important;
-  padding:0 10px!important;
-  font-size:11px!important;
-  font-weight:950!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-.attachment-open-btn:hover,
-.attachment-download-btn:hover{
-  border-color:#8edda8!important;
-  color:#15803d!important;
-}
-.attachment-r2-badge{
-  min-width:34px!important;
-  height:26px!important;
-  border-radius:999px!important;
-  background:#eef6ff!important;
-  color:#334155!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  font-size:11px!important;
-  font-weight:950!important;
-}
-
-
-/* === GDNL EOS FINAL ATTACHMENT SYSTEM === */
-.attachment{
-  cursor:pointer!important;
-  transition:.16s ease!important;
-}
-.attachment:hover{
-  border-color:#8edda8!important;
-  box-shadow:0 12px 24px rgba(32,185,87,.10)!important;
-  transform:translateY(-1px)!important;
-}
-.attachment-actions{
-  display:flex!important;
-  align-items:center!important;
-  gap:8px!important;
-  margin-left:auto!important;
-}
-.attachment-open-btn,
-.attachment-download-btn{
-  height:32px!important;
-  border:1px solid #d8e5f2!important;
-  border-radius:10px!important;
-  background:#fff!important;
-  color:#0f1b2f!important;
-  padding:0 10px!important;
-  font-size:11px!important;
-  font-weight:950!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-.attachment-open-btn:hover,
-.attachment-download-btn:hover{
-  border-color:#8edda8!important;
-  color:#15803d!important;
-}
-.attachment-r2-badge{
-  min-width:34px!important;
-  height:26px!important;
-  border-radius:999px!important;
-  background:#eef6ff!important;
-  color:#334155!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  font-size:11px!important;
-  font-weight:950!important;
-}
-.attachment-preview-box{
-  margin-top:14px!important;
-  border:1px solid #edf3fa!important;
-  border-radius:18px!important;
-  background:#fff!important;
-  overflow:hidden!important;
-}
-.attachment-preview-box img{
-  max-width:100%!important;
-  display:block!important;
-}
-.attachment-preview-box iframe{
-  width:100%!important;
-  min-height:520px!important;
-  border:none!important;
-  display:block!important;
-}
-
-
-/* === GDNL EOS FINAL ATTACHMENT BUTTONS === */
+/* === GDNL EOS ATTACHMENT OPEN / DOWNLOAD SYSTEM === */
 .attachment{
   cursor:pointer!important;
   transition:.16s ease!important;
@@ -832,11 +718,11 @@ button{cursor:pointer}
   color:#15803d!important;
 }
 .attachment-r2-badge{
-  min-width:34px!important;
+  min-width:42px!important;
   height:26px!important;
   border-radius:999px!important;
-  background:#eef6ff!important;
-  color:#334155!important;
+  background:#eefbf3!important;
+  color:#15803d!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -1050,12 +936,15 @@ button{cursor:pointer}
       </button>
       <button class="folder" data-folder="sent">
         <span class="folder-left"><span class="folder-ico">📤</span>Giden Kutusu</span>
+        <span id="countSent" class="count"></span>
       </button>
       <button class="folder" data-folder="draft">
         <span class="folder-left"><span class="folder-ico">📝</span>Taslaklar</span>
+        <span id="countDraft" class="count"></span>
       </button>
       <button class="folder" data-folder="trash">
-        <span class="folder-left"><span class="folder-ico">🗑️</span>Çöp Kutusu</span>
+        <span class="folder-left"><span class="folder-ico">🗑️</span>Silinenler</span>
+        <span id="countTrash" class="count"></span>
       </button>
       <button class="compose-left" type="button" onclick="openCompose()">＋ Yeni Mesaj</button>
     </aside>
@@ -1080,17 +969,17 @@ button{cursor:pointer}
           </select>
           <select id="moduleFilter" aria-label="Modül filtresi">
             <option value="">Tüm modüller</option>
-            <option>General</option>
-            <option>Document</option>
+            <option value="General">Genel</option>
+            <option value="Document">Doküman</option>
             <option>CAPA</option>
             <option>Risk</option>
-            <option>Audit</option>
-            <option>Training</option>
-            <option>Supplier</option>
-            <option>Customer Complaint</option>
-            <option>Calibration</option>
-            <option>Maintenance</option>
-            <option>Action</option>
+            <option value="Audit">Denetim</option>
+            <option value="Training">Eğitim</option>
+            <option value="Supplier">Tedarikçi</option>
+            <option value="Customer Complaint">Müşteri Şikayeti</option>
+            <option value="Calibration">Kalibrasyon</option>
+            <option value="Maintenance">Bakım</option>
+            <option value="Action">Aksiyon</option>
           </select>
         </div>
       </div>
@@ -1186,7 +1075,7 @@ function apiErrorMessage(error){
 }
 
 async function callApi(method, endpoint, body){
-  if(!api[method]) throw new Error("API istemcisi bulunamadı.");
+  if(!api[method]) throw new Error("Mesaj bağlantısı hazırlanamadı.");
   if(method === "get" || method === "delete" || method === "del") return await api[method](endpoint, safeApi);
   return await api[method](endpoint, body, safeApi);
 }
@@ -1268,11 +1157,29 @@ function normalizeMessage(message, fallbackFolder){
 }
 
 function folderLabel(folder){
-  return { inbox:"Gelen Kutusu", sent:"Giden Kutusu", draft:"Taslaklar", trash:"Çöp Kutusu", compose:"Yeni Mesaj" }[folder] || "Gelen Kutusu";
+  return { inbox:"Gelen Kutusu", sent:"Giden Kutusu", draft:"Taslaklar", trash:"Silinenler", compose:"Yeni Mesaj" }[folder] || "Gelen Kutusu";
 }
 
 function priorityLabel(priority){
   return { normal:"Normal", high:"Yüksek", critical:"Kritik" }[priority] || "Normal";
+}
+
+function moduleLabel(module){
+  const map = {
+    General:"Genel",
+    Document:"Doküman",
+    CAPA:"CAPA",
+    Risk:"Risk",
+    Audit:"Denetim",
+    Training:"Eğitim",
+    Supplier:"Tedarikçi",
+    "Customer Complaint":"Müşteri Şikayeti",
+    Calibration:"Kalibrasyon",
+    Maintenance:"Bakım",
+    Action:"Aksiyon",
+    mailbox:"Mesaj Merkezi"
+  };
+  return map[module] || module || "Genel";
 }
 
 function priorityClass(priority){
@@ -1330,13 +1237,28 @@ async function refreshUnreadCount(options = {}){
     const payload = await api.get("/messages/unread-count", safeApi);
     const data = apiData(payload) || {};
     const apiCount = Number(data.unread_count || data.count || 0);
-    value = messages.length ? Math.min(Math.max(value,0), Math.max(apiCount,value)) : apiCount;
-    if(options.readApplied) value = localUnreadCount();
+    value = Number.isFinite(apiCount) ? apiCount : value;
   }catch(error){
     value = localUnreadCount();
   }
   applyUnreadBadge(value);
+  renderFolderCounts();
   return value;
+}
+
+function applyFolderCount(id, count, options = {}){
+  const badge = $(id);
+  if(!badge) return;
+  const value = Number(count || 0);
+  badge.textContent = String(value);
+  badge.classList.toggle("is-visible", options.alwaysVisible || value > 0);
+}
+
+function renderFolderCounts(){
+  applyFolderCount("countInbox", unreadCount, { alwaysVisible:true });
+  applyFolderCount("countSent", messages.filter((message) => message.folder === "sent").length);
+  applyFolderCount("countDraft", messages.filter((message) => message.folder === "draft").length);
+  applyFolderCount("countTrash", messages.filter((message) => message.folder === "trash").length);
 }
 
 function scheduleUnreadRefresh(){
@@ -1425,8 +1347,9 @@ function render(){
   document.querySelectorAll(".folder").forEach((button) => button.classList.toggle("active", button.dataset.folder === activeFolder));
   $("folderTitle").textContent = folderLabel(activeFolder);
   $("heroMeta").textContent = folderLabel(activeFolder);
-  $("folderState").textContent = folderErrors[activeFolder] ? "API Hatası" : "Canlı";
+  $("folderState").textContent = folderErrors[activeFolder] ? "Bağlantı sorunu" : "Güncel";
   applyUnreadBadge(unreadCount || localUnreadCount());
+  renderFolderCounts();
 
   if(composeMode){
     renderCompose();
@@ -1457,7 +1380,7 @@ function renderMessageCard(message){
       <div class="mail-preview">${esc(message.body || "")}</div>
       <div class="mail-tags">
         <span class="badge ${priorityClass(message.priority)}">${esc(priorityLabel(message.priority))}</span>
-        <span class="badge blue">${esc(message.related_module || "General")}</span>
+        <span class="badge blue">${esc(moduleLabel(message.related_module))}</span>
         ${(message.attachments || []).length ? `<span class="badge orange">📎 ${message.attachments.length} ek</span>` : ""}
         ${unread ? `<span class="badge">Okunmadı</span>` : `<span class="badge gray">Okundu</span>`}
       </div>
@@ -1525,33 +1448,73 @@ async function hydrateMessageAttachments(message){
   return message;
 }
 
-function openAttachment(index){
-  const message = messages.find((item) => item.id === selectedMessageId);
-  const att = message?.attachments?.[index];
-  const url = attachmentFileUrl(att);
-  if(!url){
-    showToast("Dosya bağlantısı bulunamadı. Ek dosya kaydında R2 anahtarı eksik görünüyor.");
-    return;
-  }
-  window.open(url, "_blank", "noopener,noreferrer");
+function attachmentRequestHeaders(){
+  const headers = {};
+  const token = api.getToken?.();
+  if(token) headers.Authorization = "Bearer " + token;
+  return headers;
 }
 
-function downloadAttachment(index){
+async function fetchAttachmentBlob(attachment){
+  const url = attachmentFileUrl(attachment);
+  if(!url) throw new Error("Dosya bağlantısı bulunamadı.");
+  const response = await fetch(url, {
+    credentials:"include",
+    cache:"no-store",
+    headers:attachmentRequestHeaders()
+  });
+  if(!response.ok) throw new Error(response.status === 404 ? "Dosya bulunamadı." : "Dosya alınamadı.");
+  return {
+    blob: await response.blob(),
+    url
+  };
+}
+
+function revokeObjectUrl(url){
+  if(url && url.startsWith("blob:")) setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+async function openAttachment(index){
   const message = messages.find((item) => item.id === selectedMessageId);
   const att = message?.attachments?.[index];
   const url = attachmentFileUrl(att);
   if(!url){
-    showToast("İndirme bağlantısı bulunamadı. Ek dosya kaydında R2 anahtarı eksik görünüyor.");
+    showToast("Dosya bağlantısı bulunamadı. Ek dosya kaydı eksik görünüyor.");
     return;
   }
+  try{
+    const result = await fetchAttachmentBlob(att);
+    const objectUrl = URL.createObjectURL(result.blob);
+    const opened = window.open(objectUrl, "_blank", "noopener,noreferrer");
+    revokeObjectUrl(objectUrl);
+    if(!opened) window.open(url, "_blank", "noopener,noreferrer");
+  }catch(error){
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+}
+
+async function downloadAttachment(index){
+  const message = messages.find((item) => item.id === selectedMessageId);
+  const att = message?.attachments?.[index];
+  const url = attachmentFileUrl(att);
+  if(!url){
+    showToast("İndirme bağlantısı bulunamadı. Ek dosya kaydı eksik görünüyor.");
+    return;
+  }
+  let href = url;
+  try{
+    const result = await fetchAttachmentBlob(att);
+    href = URL.createObjectURL(result.blob);
+  }catch(error){}
   const a = document.createElement("a");
-  a.href = url;
+  a.href = href;
   a.download = att?.filename || "ek-dosya";
   a.target = "_blank";
   a.rel = "noopener noreferrer";
   document.body.appendChild(a);
   a.click();
   a.remove();
+  revokeObjectUrl(href);
 }
 
 function renderAttachmentHtml(attachment, index){
@@ -1564,7 +1527,7 @@ function renderAttachmentHtml(attachment, index){
       <span class="attachment-actions">
         <button type="button" class="attachment-open-btn" onclick="event.stopPropagation();openAttachment(${index})">Aç</button>
         <button type="button" class="attachment-download-btn" onclick="event.stopPropagation();downloadAttachment(${index})">İndir</button>
-        <span class="attachment-r2-badge">${hasUrl ? "R2" : "Eksik"}</span>
+        <span class="attachment-r2-badge">${hasUrl ? "Hazır" : "Eksik"}</span>
       </span>
     </div>`;
 }
@@ -1592,7 +1555,7 @@ function renderDetail(){
       <div class="meta-row"><b>Tarih</b><span>${esc(formatDate(message.created_at))}</span></div>
       <div class="meta-row"><b>Alıcılar</b><span>${(message.recipients || []).map((r) => `<span class="chip">${esc(userNameOf(r))}</span>`).join(" ") || "-"}</span></div>
       <div class="meta-row"><b>Öncelik</b><span>${esc(priorityLabel(message.priority))}</span></div>
-      <div class="meta-row"><b>Modül</b><span>${esc(message.related_module || "General")}${message.related_record_id ? " · #" + esc(message.related_record_id) : ""}</span></div>
+      <div class="meta-row"><b>Modül</b><span>${esc(moduleLabel(message.related_module))}${message.related_record_id ? " · #" + esc(message.related_record_id) : ""}</span></div>
       <div class="meta-row"><b>Durum</b><span>${messageCountsAsUnread(message) ? "Okunmadı" : "Okundu"}</span></div>
     </div>
     <div class="message-content">${esc(message.body || "")}</div>
@@ -1615,7 +1578,7 @@ function renderCompose(){
         <div class="field full"><label>Konu</label><input id="subject" placeholder="Mesaj konusu"></div>
         <div class="field full"><label>Mesaj İçeriği</label><textarea id="body" placeholder="Mesajınızı yazın"></textarea></div>
         <div class="field"><label>Öncelik</label><select id="priority"><option value="normal">Normal</option><option value="high">Yüksek</option><option value="critical">Kritik</option></select></div>
-        <div class="field"><label>İlgili Modül</label><select id="relatedModule"><option>General</option><option>Document</option><option>CAPA</option><option>Risk</option><option>Audit</option><option>Training</option><option>Supplier</option><option>Customer Complaint</option><option>Calibration</option><option>Maintenance</option><option>Action</option></select></div>
+        <div class="field"><label>İlgili Modül</label><select id="relatedModule"><option value="General">Genel</option><option value="Document">Doküman</option><option value="CAPA">CAPA</option><option value="Risk">Risk</option><option value="Audit">Denetim</option><option value="Training">Eğitim</option><option value="Supplier">Tedarikçi</option><option value="Customer Complaint">Müşteri Şikayeti</option><option value="Calibration">Kalibrasyon</option><option value="Maintenance">Bakım</option><option value="Action">Aksiyon</option></select></div>
         <div class="field"><label>İlgili Kayıt No</label><input id="relatedRecordId" placeholder="Kayıt no"></div>
         <div class="field full"><label>Ek Dosya</label><input id="attachment" type="file"></div>
       </div>
@@ -1951,12 +1914,12 @@ async function moveTrash(id){
   if(!message) return;
   try{
     await callApi("put", "/messages/" + encodeURIComponent(id) + "/trash", { status:"trash", deleted_at:new Date().toISOString() });
-    await writeActivity("Mesaj çöpe taşındı", message);
+    await writeActivity("Mesaj silinenlere taşındı", message);
     activeFolder = "trash";
     composeMode = false;
     await load();
     selectedMessageId = id;
-    showToast("Mesaj çöp kutusuna taşındı");
+    showToast("Mesaj Silinenler alanına taşındı");
     window.GDNL_API?.updateMailboxUnreadBadge?.();
   }catch(error){
     showToast(apiErrorMessage(error));
@@ -2015,6 +1978,25 @@ document.querySelectorAll(".folder").forEach((button) => {
   $(id).addEventListener("change", render);
 });
 $("globalSearchBtn").addEventListener("click", render);
+
+Object.assign(window, {
+  setActiveFolder,
+  openCompose,
+  openMessage,
+  openAttachment,
+  downloadAttachment,
+  sendMessage,
+  saveDraft,
+  clearCompose,
+  removeRecipient,
+  replyTo,
+  replyAllTo,
+  forwardMessage,
+  toggleRead,
+  restoreMessage,
+  moveTrash,
+  permanentDelete
+});
 
 load();
 </script>

@@ -3,17 +3,23 @@
 
   const QUALITY_TEXT_REPLACEMENTS = [
     [/Cloud Ready/i, "Kurumsal Hazır"],
-    [/Canlı API hazır/i, "Canlı kayıt akışı hazır"],
-    [/Canlı API/i, "Canlı kayıt"],
-    [/API Durumu/i, "Sistem Durumu"],
-    [/API bağlantısı/i, "Sistem bağlantısı"],
-    [/API Hatası/i, "Sistem Uyarısı"],
+    [/Kalite Yönetim Dashboard/i, "Kalite Yönetim Paneli"],
+    [/Dashboard/i, "Panel"],
+    [/Canlı Skor/i, "Güncel Skor"],
+    [/Canlı A[P]I hazır/i, "Canlı kayıt akışı hazır"],
+    [/Canlı A[P]I/i, "Canlı kayıt"],
+    [/A[P]I Durumu/i, "Sistem Durumu"],
+    [/A[P]I bağlantısı/i, "Sistem bağlantısı"],
+    [/A[P]I Hatası/i, "Sistem Uyarısı"],
     [/A[P]I hata verdi/i, "Sistem işlemi tamamlanamadı"],
     [/\bAPI\b/i, "Sistem"],
     [/endpoint’i/i, "servisi"],
     [/endpointi/i, "servisi"],
     [/endpoint/i, "servis"],
     [/Worker/i, "Sistem"],
+    [/JWT \+ HttpOnly Cookie Uyumlu/i, "Güvenli Oturum Uyumlu"],
+    [/D1\/R2 bulut uyumlu/i, "kurumsal kayıt mimarisine uyumlu"],
+    [/GET\s+\/[a-z0-9/_?=:-]+/i, "Canlı kayıt servisi"],
     [/Müşteri Yönetimi Center/i, "Müşteri Şikayetleri Merkezi"],
     [/Center/i, "Merkezi"],
     [/Mail\/SMS/i, "Mesajlaşma"],
@@ -88,6 +94,15 @@
     const nodes = [];
     while (walker.nextNode()) nodes.push(walker.currentNode);
     nodes.forEach(replaceTextNode);
+  }
+
+  function normalizeDocumentTitle() {
+    let next = document.title || "";
+    QUALITY_TEXT_REPLACEMENTS.forEach(([pattern, replacement]) => {
+      const flags = pattern.ignoreCase ? "gi" : "g";
+      next = next.replace(new RegExp(pattern.source, flags), replacement);
+    });
+    if (next && next !== document.title) document.title = next;
   }
 
   function normalizeSearchButtons() {
@@ -228,6 +243,7 @@
     normalizeSearchButtons();
     normalizeCtas();
     removeActiveDepartmentBadges();
+    normalizeDocumentTitle();
     normalizeVisibleTerminology(document.body);
     ensureProfessionalEmptyStates();
     addApqpAnchors();
@@ -260,6 +276,7 @@
     fixBrokenQualityLinks,
     normalizeSearchButtons,
     normalizeQualityBrand,
+    normalizeDocumentTitle,
     normalizeVisibleTerminology,
     removeActiveDepartmentBadges
   };

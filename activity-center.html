@@ -347,7 +347,7 @@ td{
       <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
       <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
       <button class="btn btn-red" onclick="logout()">Oturumu Kapat</button>
-      <div class="userbox">👤 <span id="userName">Kullanıcı</span></div>
+      <div class="userbox">👤 <span id="userName">Oturum doğrulanıyor</span></div>
     </div>
   </div>
 
@@ -459,11 +459,11 @@ function getCurrentUser(){
       null;
 
     if(sessionUser){
-      return val(sessionUser,"full_name","fullname","name","username","email") || "Kullanıcı";
+      return val(sessionUser,"full_name","fullname","name","username","email") || "Oturum doğrulanıyor";
     }
   }catch(e){}
 
-  return "Kullanıcı";
+  return "Oturum doğrulanıyor";
 }
 
 function setUserName(){
@@ -554,7 +554,7 @@ function renderRows(){
       </thead>
       <tbody>
         ${rows.slice(0,200).map(r => {
-          const user = val(r,"user_name","user","created_by_name","created_by","fullname") || "Kullanıcı";
+          const user = val(r,"user_name","user","created_by_name","created_by","fullname") || "Sistem kaydı";
           const action = val(r,"action","title","activity_type","event_type") || "-";
           const module = val(r,"module","module_name","source_module") || "-";
           const record = val(r,"record_no","record_id","related_id","entity_id") || "-";
@@ -584,7 +584,7 @@ async function loadActivities(){
 
   try{
     if(!api || typeof api.get !== "function"){
-      throw new Error("GDNL API istemcisi bulunamadı.");
+      throw new Error("Sistem bağlantısı hazırlanamadı.");
     }
 
     const response = await api.get("/activity-feed");

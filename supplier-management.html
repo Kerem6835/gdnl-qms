@@ -719,7 +719,7 @@ function daysLeft(v){if(!v)return 9999;return Math.ceil((new Date(v)-new Date(to
 function formatDateTR(v){if(!v)return"-";const d=new Date(v);if(isNaN(d))return v;return d.toLocaleDateString("tr-TR")}
 function formatFileSize(b){if(!b)return"0 KB";if(b<1024)return b+" B";if(b<1048576)return(b/1024).toFixed(1)+" KB";return(b/1048576).toFixed(2)+" MB"}
 function showToast(message){const t=document.getElementById("toast");t.textContent=message;t.style.display="block";setTimeout(()=>t.style.display="none",2600)}
-function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Kullanıcı",department:u?.department||u?.department_name||""}}
+function normalizeUser(u){return{id:u?.id||u?.user_id||u?.uid||"",fullname:u?.fullname||u?.fullName||u?.name||u?.username||"",email:u?.email||"",role:u?.role||u?.role_name||"Rol tanımsız",department:u?.department||u?.department_name||""}}
 function normalizeSupplier(s){s=s||{};s.documents=asArray(s.documents);s.events=asArray(s.events);s.timeline=asArray(s.timeline);return s}
 function statusClass(s){if(["Onaylı","Geçerli","Tamamlandı","Kapalı","Aktif"].includes(s))return"green";if(["Blokeli","Diskalifiye","Süresi Doldu","Reddedildi","Gecikti"].includes(s))return"red";if(["Şartlı Onaylı","Geliştirme Tedarikçisi","Süresi Yaklaşıyor","İncelemede","Devam Ediyor","Açık"].includes(s))return"orange";return"blue"}
 
@@ -731,8 +731,8 @@ state.users=activeOnly(u).map(normalizeUser);
 state.departments=activeOnly(d).map(x=>({id:x.id,department_name:x.department_name||x.name||x.department||""}));
 state.suppliers=activeOnly(s).map(normalizeSupplier);
 state.notifications=activeOnly(n);state.auditLogs=activeOnly(a);state.activityFeed=activeOnly(af);state.comments=activeOnly(c);state.assignments=activeOnly(as);state.approvals=activeOnly(ap);state.approvalHistory=activeOnly(aph);state.workflowHistory=activeOnly(wfh);state.files=activeOnly(files);state.archive=asArray(arch);
-state.currentUser=state.users[0]||{id:"",fullname:"",role:"Kullanıcı",department:""};
-document.getElementById("userName").textContent=state.currentUser.fullname||"";
+state.currentUser=window.GDNL_CURRENT_USER?normalizeUser(window.GDNL_CURRENT_USER):(window.currentUser?normalizeUser(window.currentUser):{id:"",fullname:"",role:"Oturum doğrulanıyor",department:""});
+document.getElementById("userName").textContent=state.currentUser.fullname||"Oturum doğrulanıyor";
 }
 
 function searchUsers(term){const q=String(term||"").toLowerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,12)}
@@ -795,12 +795,12 @@ async function addDocument(){
 if(!docSupplier.value)return showToast("Tedarikçi seç");if(!docName.value.trim())return showToast("Doküman adı zorunlu");
 const file=docFile.files[0];if(!file)return showToast("Dosya seç");
 const s=currentSupplierByNo(docSupplier.value);if(!s)return showToast("Tedarikçi bulunamadı");
-let uploaded;try{uploaded=await uploadToR2(file,{module:"SUPPLIER",record_no:s.supplierNo,document_name:docName.value.trim(),document_type:docType.value})}catch(e){return showToast("R2 yükleme başarısız")}
+let uploaded;try{uploaded=await uploadToR2(file,{module:"SUPPLIER",record_no:s.supplierNo,document_name:docName.value.trim(),document_type:docType.value})}catch(e){return showToast("Dosya yükleme başarısız")}
 const doc={id:"DOC-"+Date.now(),documentNo:await generateDocNo(s),docType:docType.value,docName:docName.value.trim(),revision:docRevision.value.trim()||"V1",owner:docOwner.value.trim(),owner_id:docOwner.dataset.userId||"",owner_department:docOwner.dataset.department||"",uploadDate:docUploadDate.value,expiryDate:docExpiryDate.value,status:calculateDocStatus(docExpiryDate.value,docStatus.value),description:docDescription.value.trim(),file:{fileName:file.name,fileType:file.type,fileSize:file.size,fileSizeText:formatFileSize(file.size),r2_key:uploaded.r2_key||uploaded.key||uploaded.path||"",file_id:uploaded.file_id||uploaded.id||""},createdAt:new Date().toISOString()};
 s.documents.unshift(doc);s.timeline.unshift({date:new Date().toISOString(),user:state.currentUser?.fullname||"",action:"Doküman yüklendi: "+doc.documentNo+" / "+doc.docName});
 await safePost("/files",{module:"SUPPLIER",record_no:s.supplierNo,r2_key:doc.file.r2_key,file_name:file.name,file_type:file.type,file_size:file.size,metadata:doc,created_at:new Date().toISOString()});
 await safePut("/suppliers/"+encodeURIComponent(s.id),s);await notifySupplierPayload(s,"Tedarikçi dokümanı yüklendi: "+doc.docName);await auditLog("Dosya Yükleme",s.supplierNo,null,doc,"files");
-clearDocumentInputs();renderSuppliers();showToast("Doküman R2 üzerine yüklendi");
+clearDocumentInputs();renderSuppliers();showToast("Doküman güvenli dosya alanına yüklendi");
 }
 async function addEvent(notify=false){
 if(!eventSupplier.value)return showToast("Tedarikçi seç");
@@ -830,7 +830,7 @@ function updateCards(items){let docs=[],events=[];items.forEach(s=>{docs=docs.co
 function initSupplierSelects(){["docSupplier","eventSupplier"].forEach(id=>{const el=document.getElementById(id);el.innerHTML='<option value="">Tedarikçi Seçiniz</option>';state.suppliers.forEach(s=>el.innerHTML+=`<option value="${escapeHTML(s.supplierNo)}">${escapeHTML(s.supplierNo)} / ${escapeHTML(s.supplierName)}</option>`)})}
 function renderDocuments(){let docs=[];state.suppliers.forEach(s=>(s.documents||[]).forEach(d=>docs.push({...d,supplierNo:s.supplierNo,supplierName:s.supplierName})));if(!docs.length){documentPreview.innerHTML='<div class="empty" style="margin-top:14px">Doküman yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Tedarikçi</th><th>Tip</th><th>Doküman</th><th>Rev</th><th>Geçerlilik</th><th>Durum</th><th>Aksiyon</th></tr></thead><tbody>';docs.slice(0,30).forEach(d=>h+=`<tr><td>${escapeHTML(d.documentNo)}</td><td>${escapeHTML(d.supplierName)}</td><td>${escapeHTML(d.docType)}</td><td>${escapeHTML(d.docName)}<br><small>${escapeHTML(d.file?.fileName||"")}</small></td><td>${escapeHTML(d.revision)}</td><td>${formatDateTR(d.expiryDate)}<br><small>${daysLeft(d.expiryDate)} gün</small></td><td><span class="status ${statusClass(d.status)}">${escapeHTML(d.status)}</span></td><td><button class="small-btn down" onclick="downloadDoc('${escapeHTML(d.supplierNo)}','${escapeHTML(d.id)}')">İndir</button></td></tr>`);documentPreview.innerHTML=h+"</tbody></table>"}
 function renderEvents(){let evs=[];state.suppliers.forEach(s=>(s.events||[]).forEach(e=>evs.push({...e,supplierNo:s.supplierNo,supplierName:s.supplierName})));if(!evs.length){eventPreview.innerHTML='<div class="empty" style="margin-top:14px">Kayıt yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Tedarikçi</th><th>Tip</th><th>Sorumlu</th><th>Termin</th><th>Durum</th><th>Skor/Bulgu</th></tr></thead><tbody>';evs.slice(0,30).forEach(e=>h+=`<tr><td>${escapeHTML(e.eventNo)}</td><td>${escapeHTML(e.supplierName)}</td><td>${escapeHTML(e.eventType)}</td><td>${escapeHTML(e.eventOwner||"-")}</td><td>${formatDateTR(e.dueDate)}</td><td><span class="status ${statusClass(e.status)}">${escapeHTML(e.status)}</span></td><td>${escapeHTML(e.auditScore)} / M:${escapeHTML(e.major)} m:${escapeHTML(e.minor)} F:${escapeHTML(e.ofi)}</td></tr>`);eventPreview.innerHTML=h+"</tbody></table>"}
-function downloadDoc(supNo,docId){const s=state.suppliers.find(x=>x.supplierNo===supNo);const d=s?.documents?.find(x=>x.id===docId);if(!d)return;if(d.file?.r2_key)return openSignedFile(d.file.r2_key);showToast("R2 anahtarı bulunamadı")}
+function downloadDoc(supNo,docId){const s=state.suppliers.find(x=>x.supplierNo===supNo);const d=s?.documents?.find(x=>x.id===docId);if(!d)return;if(d.file?.r2_key)return openSignedFile(d.file.r2_key);showToast("Dosya bağlantısı bulunamadı")}
 function openDrawer(i){state.selectedId=state.suppliers[i]?.id;const s=state.suppliers[i];if(!s)return;drawerTitle.textContent=s.supplierNo+" / "+s.supplierName;drawerStatus.textContent=s.approvalStatus;drawerStatus.className="status "+statusClass(s.approvalStatus);drawerContent.innerHTML=`<div class="info-box"><b>Tedarikçi:</b> ${escapeHTML(s.supplierName)}
 <b>Tip:</b> ${escapeHTML(s.supplierType)}
 <b>Kritiklik:</b> ${escapeHTML(s.criticality)}
