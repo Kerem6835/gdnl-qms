@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | 8D ve CAPA Yönetimi</title>
+<title>GDNL EOS | 8D ve CAPA Yönetimi</title>
 
 <style>
 
@@ -611,7 +611,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="field"><label>Sorumlu</label><input id="taskOwner" placeholder="Sorumlu kişi"><input id="taskOwner_id" type="hidden"><input id="taskOwner_department" type="hidden"><input id="taskOwner_email" type="hidden"></div>
 <div class="field"><label>Planlanan Tarih</label><input id="taskPlanDate" type="date"></div>
 <div class="field"><label>Gerçekleşen Tarih</label><input id="taskActualDate" type="date"></div>
-<div class="field"><label>Eskalasyon</label><select id="taskEscalation"><option>Normal</option><option>Lider</option><option>Müdür</option><option>Kalite Admin</option></select></div>
+<div class="field"><label>Eskalasyon</label><select id="taskEscalation"><option>Normal</option><option>Lider</option><option>Müdür</option><option>Kalite Yayın Sorumlusu</option></select></div>
 <div class="field full"><label>Görev / Aksiyon Açıklaması</label><textarea id="taskDescription" placeholder="Görev maddesini net yaz"></textarea></div>
 </div>
 <div class="actions">
@@ -1730,7 +1730,7 @@ async function cloudBoot(){
   await loadCloudCapas(); await loadSequence();
   populateDepartments(); makeAutocomplete('openedBy','openedBy_id','department'); makeAutocomplete('leader','leader_id','department'); makeAutocomplete('taskOwner','taskOwner_id',null); makeAutocomplete('teamMembers',null,null,{multiTarget:'teamMembers'});
   initStepSelects(); resetForm(); renderCapa();
-  console.log('GDNL EQMS 8D ve CAPA Cloud katmanı yüklendi');
+  console.log('GDNL EOS 8D ve CAPA Cloud katmanı yüklendi');
 }
 
 document.getElementById("globalSearch").addEventListener("input",function(){

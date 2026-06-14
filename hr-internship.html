@@ -254,7 +254,7 @@
       <div class="topbar-left">
         <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
         <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+        <div class="user">👤 <span id="userName">Oturum doğrulanıyor</span></div>
       </div>
 
       <div class="search-wrap">
@@ -565,11 +565,11 @@ function currentUserName(){
   try{
     const user = window.GDNL_CURRENT_USER || window.currentUser || null;
     if(user){
-      return intVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+      return intVal(user,"fullname","full_name","name","username","email") || "Oturum doğrulanıyor";
     }
   }catch(e){}
 
-  return "Oturum Kullanıcısı";
+  return "Oturum doğrulanıyor";
 }
 
 function setInternshipUser(){
@@ -957,7 +957,7 @@ function renderAuditPreview(){
   auditPreview.className = "audit-preview";
   auditPreview.innerHTML = internshipRecords.slice(0,8).map(record => `
     <div class="int-record-meta">
-      ${formatDate(record.createdAt)} · ${intEsc(record.createdBy || "Oturum Kullanıcısı")} · ${intEsc(record.internName || "-")} için stajyer kaydı oluşturuldu.
+      ${formatDate(record.createdAt)} · ${intEsc(record.createdBy || "Oturum doğrulanıyor")} · ${intEsc(record.internName || "-")} için stajyer kaydı oluşturuldu.
     </div>
   `).join("");
 }

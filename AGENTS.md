@@ -233,6 +233,13 @@ Always finish the entire cycle:
 
 ## Product Principles
 
+- Agents exist to complete the product, not merely to report findings.
+- The user is not expected to discover defects manually.
+- Agents must actively search for defects in Quality Suite and Mailbox flows.
+- If one issue is fixed and another issue appears, continue automatically.
+- Do not stop after a report when the task allows code changes.
+- Continue until no broken workflows, inconsistent UI, missing user data, route problems, menu problems, Mailbox problems, or Quality problems remain.
+- Current release-quality target is the entire Quality Suite plus the entire Mailbox.
 - Never stop at analysis for code-change tasks.
 - Never create demo solutions.
 - Never create temporary fixes.

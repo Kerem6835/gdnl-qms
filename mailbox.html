@@ -1029,7 +1029,7 @@ button{cursor:pointer}
       <a class="nav-btn" href="department-gateway.html">Departman Merkezi</a>
       <a class="icon-btn gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi" title="Mesaj Merkezi">📨<span id="topUnreadBadge" class="unread-badge"></span></a>
       <a class="icon-btn gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi" title="Bildirim Merkezi">🔔<span class="notify-badge"></span></a>
-      <span class="user-btn">👤 <span id="userName">Kullanıcı</span></span>
+      <span class="user-btn">👤 <span id="userName">Oturum doğrulanıyor</span></span>
       <button class="logout-btn" type="button" onclick="window.GDNL_API && window.GDNL_API.logout()">Oturumu Kapat</button>
     </nav>
   </header>
@@ -1137,40 +1137,35 @@ const esc = (value) => String(value ?? "")
   .replaceAll("'","&#039;");
 
 
-function gdnlIsQmsHost(){
-  return location.hostname === "qms.gdnldigital.com";
-}
-
-function gdnlApiPrefix(){
-  return gdnlIsQmsHost() ? "/api" : "";
+function gdnlApiBase(){
+  return String(window.GDNL_API_BASE || window.API_BASE_URL || "https://api.gdnldigital.com").replace(/\/+$/,"");
 }
 
 function gdnlFileUrlFromKey(key){
   const clean = String(key || "").trim();
-  return clean ? gdnlApiPrefix() + "/file/" + encodeURIComponent(clean) : "";
+  return clean ? gdnlApiBase() + "/file/" + encodeURIComponent(clean) : "";
 }
 
 function gdnlFileUrlFromId(id){
   const clean = String(id || "").trim();
-  return clean ? gdnlApiPrefix() + "/files/" + encodeURIComponent(clean) : "";
+  return clean ? gdnlApiBase() + "/files/" + encodeURIComponent(clean) + "/download" : "";
 }
 
 function gdnlNormalizeFileUrl(url){
   let value = String(url || "").trim();
   if(!value) return "";
 
-  if(gdnlIsQmsHost()){
-    if(value.startsWith("/file/")) value = "/api" + value;
-    if(value.startsWith("/files/")) value = "/api" + value;
-    if(value.startsWith(location.origin + "/file/")) value = location.origin + "/api" + value.slice(location.origin.length);
-    if(value.startsWith(location.origin + "/files/")) value = location.origin + "/api" + value.slice(location.origin.length);
-  }
+  if(value.startsWith("/file/") || value.startsWith("/files/")) value = gdnlApiBase() + value;
+  if(value.startsWith(location.origin + "/file/")) value = gdnlApiBase() + value.slice(location.origin.length);
+  if(value.startsWith(location.origin + "/files/")) value = gdnlApiBase() + value.slice(location.origin.length);
+  if(value.startsWith(location.origin + "/api/file/")) value = gdnlApiBase() + value.slice((location.origin + "/api").length);
+  if(value.startsWith(location.origin + "/api/files/")) value = gdnlApiBase() + value.slice((location.origin + "/api").length);
 
   return value;
 }
 
 const currentUser = () => window.GDNL_CURRENT_USER || {};
-const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.recipient_name || user?.email || "Kullanıcı";
+const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.recipient_name || user?.email || "Oturum doğrulanıyor";
 const apiData = (payload) => api.responseData ? api.responseData(payload) : (payload?.data ?? payload);
 const apiArray = (payload) => api.asArray ? api.asArray(payload) : (Array.isArray(apiData(payload)) ? apiData(payload) : (apiData(payload)?.items || apiData(payload)?.messages || []));
 
@@ -1184,14 +1179,15 @@ function showToast(message){
 
 function apiErrorMessage(error){
   if(error?.status === 401) return "Oturum süresi doldu, tekrar giriş yapın.";
-  if(error?.status === 404) return "Mesaj endpointi bulunamadı.";
-  if(error?.status === 500) return "API hata verdi.";
+  if(error?.status === 404) return "Mesaj servisi bulunamadı.";
+  if(error?.status === 500) return "Mesaj işlemi tamamlanamadı.";
   if(error?.status === 0) return "Sunucuya ulaşılamıyor.";
   return error?.message || "İşlem tamamlanamadı.";
 }
 
 async function callApi(method, endpoint, body){
   if(!api[method]) throw new Error("API istemcisi bulunamadı.");
+  if(method === "get" || method === "delete" || method === "del") return await api[method](endpoint, safeApi);
   return await api[method](endpoint, body, safeApi);
 }
 
@@ -1215,7 +1211,7 @@ function normalizeAttachment(file){
   const fileId = source.file_id || source.fileId || source.id || source.attachment_id || source.attachmentId || "";
   const r2Key = source.r2_key || source.r2Key || source.key || source.object_key || source.objectKey || source.storage_key || source.storageKey || source.path || "";
   const filename = source.filename || source.fileName || source.file_name || source.original_name || source.originalName || source.name || "Dosya";
-  const url = gdnlNormalizeFileUrl(source.url || source.download_url || source.downloadUrl || source.file_url || source.fileUrl || source.public_url || source.publicUrl || source.href || source.link || "");
+  const url = gdnlNormalizeFileUrl(source.signed_url || source.signedUrl || source.url || source.download_url || source.downloadUrl || source.file_url || source.fileUrl || source.public_url || source.publicUrl || source.href || source.link || "");
   return {
     ...source,
     file_id:fileId,
@@ -1367,7 +1363,7 @@ async function initSessionUser(){
     $("userName").textContent = userNameOf(user);
     return user;
   }catch(error){
-    $("userName").textContent = "Kullanıcı";
+    $("userName").textContent = "Oturum doğrulanıyor";
     return {};
   }
 }
@@ -1454,7 +1450,7 @@ function renderMessageCard(message){
   return `
     <article class="mail-card ${unread ? "unread" : "read"} ${message.id === selectedMessageId ? "active" : ""}" onclick="openMessage('${esc(message.id)}')">
       <div class="mail-top">
-        <div class="sender">${esc(message.from || "Kullanıcı")}</div>
+      <div class="sender">${esc(message.from || "Sistem kaydı")}</div>
         <div class="mail-time">${esc(formatDate(message.created_at))}</div>
       </div>
       <div class="mail-subject">${esc(message.subject || "(Konu yok)")}</div>
@@ -1475,41 +1471,12 @@ function renderEmptyDetail(){
 }
 
 
-function attachmentCacheKey(filename){
-  return "gdnl_mail_attachment_" + String(filename || "").trim().toLocaleLowerCase("tr-TR");
-}
-
-function cacheAttachmentMeta(att){
-  const file = normalizeAttachment(att);
-  if(!file.filename) return file;
-  try{
-    localStorage.setItem(attachmentCacheKey(file.filename), JSON.stringify(file));
-  }catch(error){}
-  return file;
-}
-
-function cachedAttachmentMeta(filename){
-  try{
-    const raw = localStorage.getItem(attachmentCacheKey(filename));
-    return raw ? normalizeAttachment(JSON.parse(raw)) : null;
-  }catch(error){
-    return null;
-  }
-}
-
 function attachmentFileUrl(att){
   const file = normalizeAttachment(att);
 
   if(file.url) return gdnlNormalizeFileUrl(file.url);
   if(file.r2_key) return gdnlFileUrlFromKey(file.r2_key);
   if(file.file_id) return gdnlFileUrlFromId(file.file_id);
-
-  const cached = cachedAttachmentMeta(file.filename);
-  if(cached){
-    if(cached.url) return gdnlNormalizeFileUrl(cached.url);
-    if(cached.r2_key) return gdnlFileUrlFromKey(cached.r2_key);
-    if(cached.file_id) return gdnlFileUrlFromId(cached.file_id);
-  }
 
   return "";
 }
@@ -1539,16 +1506,10 @@ async function hydrateMessageAttachments(message){
   if(!message) return message;
   let list = Array.isArray(message.attachments) ? message.attachments.map(normalizeAttachment) : [];
 
-  list = list.map((item) => {
-    const cached = cachedAttachmentMeta(item.filename);
-    return normalizeAttachment({ ...(cached || {}), ...item });
-  });
-
   const needsUrl = list.some((item) => !attachmentFileUrl(item));
   if(needsUrl || !list.length){
     const files = await fetchMessageFiles(message.id);
     if(files.length){
-      files.forEach(cacheAttachmentMeta);
       list = list.map((item) => {
         const match = files.find((file) =>
           String(file.filename || "").trim().toLocaleLowerCase("tr-TR") ===
@@ -1569,7 +1530,7 @@ function openAttachment(index){
   const att = message?.attachments?.[index];
   const url = attachmentFileUrl(att);
   if(!url){
-    showToast("Dosya linki eksik. Bu mesaj eski kayıt olabilir; dosyayı yeniden gönderin veya backend /messages detayında r2_key dönmeli.");
+    showToast("Dosya bağlantısı bulunamadı. Ek dosya kaydında R2 anahtarı eksik görünüyor.");
     return;
   }
   window.open(url, "_blank", "noopener,noreferrer");
@@ -1580,7 +1541,7 @@ function downloadAttachment(index){
   const att = message?.attachments?.[index];
   const url = attachmentFileUrl(att);
   if(!url){
-    showToast("İndirme linki eksik. Bu mesaj eski kayıt olabilir; dosyayı yeniden gönderin veya backend /messages detayında r2_key dönmeli.");
+    showToast("İndirme bağlantısı bulunamadı. Ek dosya kaydında R2 anahtarı eksik görünüyor.");
     return;
   }
   const a = document.createElement("a");
@@ -1627,7 +1588,7 @@ function renderDetail(){
   $("messageDetail").innerHTML = `
     <div class="mail-detail-title">${esc(message.subject || "(Konu yok)")}</div>
     <div class="detail-meta">
-      <div class="meta-row"><b>Gönderen</b><span>${esc(message.from || "Kullanıcı")} ${message.from_email ? "· " + esc(message.from_email) : ""}</span></div>
+      <div class="meta-row"><b>Gönderen</b><span>${esc(message.from || "Sistem kaydı")} ${message.from_email ? "· " + esc(message.from_email) : ""}</span></div>
       <div class="meta-row"><b>Tarih</b><span>${esc(formatDate(message.created_at))}</span></div>
       <div class="meta-row"><b>Alıcılar</b><span>${(message.recipients || []).map((r) => `<span class="chip">${esc(userNameOf(r))}</span>`).join(" ") || "-"}</span></div>
       <div class="meta-row"><b>Öncelik</b><span>${esc(priorityLabel(message.priority))}</span></div>
@@ -1756,12 +1717,17 @@ async function uploadAttachment(recordId){
   form.append("related_id", recordId);
   form.append("category", "Mesaj Eki");
   form.append("uploaded_by", userNameOf(currentUser()));
-  const payload = await api.request("/upload", { method:"POST", body:form, redirectOnUnauthorized:false, fallbackOnNotFound:false });
+  let payload;
+  try{
+    payload = await api.request("/upload", { method:"POST", body:form, redirectOnUnauthorized:false, fallbackOnNotFound:false });
+  }catch(error){
+    if(error?.status !== 404) throw error;
+    payload = await api.request("/files/upload", { method:"POST", body:form, redirectOnUnauthorized:false, fallbackOnNotFound:false });
+  }
   const data = apiData(payload);
   const uploaded = normalizeAttachment(data?.file || data);
   uploaded.related_id = recordId;
   uploaded.related_record_id = recordId;
-  cacheAttachmentMeta(uploaded);
   return uploaded;
 }
 
@@ -1918,7 +1884,7 @@ function forwardMessage(id){
   recipients = [];
   composeValues = {
     subject:/^İlet:/i.test(message.subject) ? message.subject : "İlet: " + (message.subject || ""),
-    body:"\n\n--- İletilen Mesaj ---\nGönderen: " + (message.from || "Kullanıcı") + "\nTarih: " + formatDate(message.created_at) + "\n\n" + (message.body || ""),
+    body:"\n\n--- İletilen Mesaj ---\nGönderen: " + (message.from || "Sistem kaydı") + "\nTarih: " + formatDate(message.created_at) + "\n\n" + (message.body || ""),
     priority:message.priority || "normal",
     relatedModule:message.related_module || "General",
     relatedRecordId:message.related_record_id || ""
@@ -2052,442 +2018,6 @@ $("globalSearchBtn").addEventListener("click", render);
 
 load();
 </script>
-
-<script>
-(function(){
-  "use strict";
-
-  function buildFallbackBrand(){
-    var a = document.createElement("a");
-    a.className = "brand logo-fallback";
-    a.href = "department-gateway.html";
-    a.setAttribute("aria-label","GDNL EOS");
-    return a;
-  }
-
-  function stabilizeGdnlHeader(){
-    var topbar = document.querySelector(".topbar");
-    if(!topbar) return;
-
-    var brand = topbar.querySelector(".brand");
-
-    /* Brand hiç yoksa en sola ekle */
-    if(!brand){
-      brand = buildFallbackBrand();
-      topbar.insertBefore(brand, topbar.firstChild);
-    }
-
-    /* Brand var ama görünmezse görünür yap */
-    brand.style.display = "flex";
-    brand.style.visibility = "visible";
-    brand.style.opacity = "1";
-    brand.style.position = "relative";
-    brand.style.zIndex = "50";
-
-    /* İçinde gerçek logo img yoksa yazılı fallback aktif olsun */
-    var img = brand.querySelector("img.logo-full-removed");
-    if(!img){
-      brand.classList.add("logo-fallback");
-    }else{
-      brand.classList.remove("logo-fallback");
-      img.style.display = "block";
-      img.style.visibility = "visible";
-      img.style.opacity = "1";
-    }
-
-    /* Departman Merkezi: Yeni Mesaj Oluştur ile aynı zemin */
-    var primary = document.querySelector(".primary-btn");
-    var primaryBg = "linear-gradient(135deg,#0b7fe8 0%,#1396c8 46%,#21bd59 100%)";
-    var primaryShadow = "0 14px 28px rgba(19,150,200,.18)";
-
-    if(primary){
-      var computed = window.getComputedStyle(primary);
-      if(computed.backgroundImage && computed.backgroundImage !== "none"){
-        primaryBg = computed.backgroundImage;
-      }
-      if(computed.boxShadow && computed.boxShadow !== "none"){
-        primaryShadow = computed.boxShadow;
-      }
-    }
-
-    document.querySelectorAll(".nav-btn").forEach(function(btn){
-      btn.style.background = primaryBg;
-      btn.style.color = "#fff";
-      btn.style.borderColor = "transparent";
-      btn.style.boxShadow = primaryShadow;
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", stabilizeGdnlHeader);
-  window.addEventListener("load", stabilizeGdnlHeader);
-
-  /* Sayfa API/render sonrası eski topbar'a dönerse tekrar sabitle */
-  setTimeout(stabilizeGdnlHeader, 50);
-  setTimeout(stabilizeGdnlHeader, 250);
-  setTimeout(stabilizeGdnlHeader, 750);
-  setTimeout(stabilizeGdnlHeader, 1500);
-  setTimeout(stabilizeGdnlHeader, 3000);
-
-  var observer = new MutationObserver(function(){
-    stabilizeGdnlHeader();
-  });
-
-  document.addEventListener("DOMContentLoaded", function(){
-    if(document.body){
-      observer.observe(document.body, {childList:true, subtree:true});
-    }
-  });
-})();
-</script>
-
-
-
-
-
-<script>
-(function(){
-  "use strict";
-
-  const ATTACHMENT_CACHE = new Map();
-
-  function apiBase(){
-    if(window.API_BASE) return String(window.API_BASE).replace(/\/$/,"");
-    if(window.apiBase) return String(window.apiBase).replace(/\/$/,"");
-    return "";
-  }
-
-  function safeText(v){
-    return String(v ?? "")
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
-  function normalizeName(v){
-    return String(v || "")
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g," ")
-      .replace(/^📎\s*/,"")
-      .replace(/\s*\(\d+\s*byte\)\s*/i,"")
-      .replace(/\s*r2\s*$/i,"")
-      .trim();
-  }
-
-  function getName(att){
-    return att?.filename || att?.file_name || att?.fileName || att?.original_name || att?.originalName || att?.name || "";
-  }
-
-  function getSize(att){
-    return att?.size || att?.size_bytes || att?.sizeBytes || att?.bytes || "";
-  }
-
-  function directUrl(att){
-    if(!att) return "";
-    return att.url || att.download_url || att.downloadUrl || att.file_url || att.fileUrl || att.public_url || att.publicUrl || att.href || att.link || "";
-  }
-
-  function keyUrl(att){
-    if(!att) return "";
-    const key = att.r2_key || att.r2Key || att.key || att.storage_key || att.storageKey || att.object_key || att.objectKey || att.path || "";
-    if(key) return gdnlFileUrlFromKey(key);
-    return "";
-  }
-
-  function idUrl(att){
-    if(!att) return "";
-    const id = att.file_id || att.fileId || att.id || att.attachment_id || att.attachmentId || "";
-    if(id) return gdnlFileUrlFromId(id);
-    return "";
-  }
-
-  function basicUrl(att){
-    return directUrl(att) || keyUrl(att) || idUrl(att);
-  }
-
-  async function fetchJson(url){
-    const res = await fetch(url, {credentials:"include"});
-    if(!res.ok) throw new Error("HTTP " + res.status);
-    return await res.json();
-  }
-
-  function flattenFiles(payload){
-    if(Array.isArray(payload)) return payload;
-    if(Array.isArray(payload?.files)) return payload.files;
-    if(Array.isArray(payload?.data)) return payload.data;
-    if(Array.isArray(payload?.items)) return payload.items;
-    if(Array.isArray(payload?.results)) return payload.results;
-    return [];
-  }
-
-  async function findFileByName(filename){
-    const wanted = normalizeName(filename);
-    if(!wanted) return null;
-    if(ATTACHMENT_CACHE.has(wanted)) return ATTACHMENT_CACHE.get(wanted);
-
-    const endpoints = [
-      "/files",
-      "/files?limit=500",
-      "/files?module=mailbox",
-      "/files?module=messages",
-      "/files?folder=mailbox",
-      "/mail/files",
-      "/attachments"
-    ];
-
-    for(const ep of endpoints){
-      try{
-        
-        let fetchEp = ep;
-        if(gdnlIsQmsHost() && fetchEp.startsWith("/")) fetchEp = "/api" + fetchEp;
-        const data = await fetchJson(apiBase() + fetchEp);
-        const files = flattenFiles(data);
-        const found = files.find(f => normalizeName(getName(f)) === wanted) ||
-                      files.find(f => normalizeName(getName(f)).includes(wanted) || wanted.includes(normalizeName(getName(f))));
-        if(found){
-          ATTACHMENT_CACHE.set(wanted, found);
-          return found;
-        }
-      }catch(e){}
-    }
-
-    ATTACHMENT_CACHE.set(wanted, null);
-    return null;
-  }
-
-  async function resolveAttachment(att){
-    if(!att) return "";
-
-    let url = basicUrl(att);
-    if(url) return url;
-
-    const filename = getName(att);
-    const found = await findFileByName(filename);
-    if(found){
-      url = basicUrl(found);
-      if(url) return url;
-    }
-
-    return "";
-  }
-
-  async function openAttachment(att){
-    const url = await resolveAttachment(att);
-    if(!url){
-      showToast("Ek dosya bulundu ancak API dosya linkini döndürmüyor. Backend /messages detayında r2_key, file_id veya url alanı dönmeli.");
-      return;
-    }
-    window.open(url, "_blank", "noopener,noreferrer");
-  }
-
-  async function downloadAttachment(att){
-    const url = await resolveAttachment(att);
-    if(!url){
-      showToast("İndirme bağlantısı bulunamadı. Backend /messages detayında r2_key, file_id veya url alanı dönmeli.");
-      return;
-    }
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = getName(att) || "ek-dosya";
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-
-  async function previewAttachment(att){
-    const url = await resolveAttachment(att);
-    if(!url) return;
-
-    const name = (getName(att) || "").toLowerCase();
-    const body = document.querySelector(".detail-body");
-    if(!body) return;
-
-    let old = body.querySelector(".attachment-preview-box");
-    if(old) old.remove();
-
-    const box = document.createElement("div");
-    box.className = "attachment-preview-box";
-
-    if(/\.(png|jpg|jpeg|webp|gif|bmp|svg)$/i.test(name)){
-      box.innerHTML = '<img src="' + safeText(url) + '" alt="' + safeText(name) + '">';
-    }else if(/\.pdf$/i.test(name)){
-      box.innerHTML = '<iframe src="' + safeText(url) + '"></iframe>';
-    }else{
-      return;
-    }
-
-    const list = body.querySelector(".attachment-list");
-    if(list) list.after(box);
-  }
-
-  function encode(att){
-    try{return encodeURIComponent(JSON.stringify(att || {}));}
-    catch(e){return "";}
-  }
-
-  function decode(v){
-    try{return JSON.parse(decodeURIComponent(v || ""));}
-    catch(e){return null;}
-  }
-
-  window.gdnlRenderAttachments = function(attachments){
-    if(!Array.isArray(attachments) || !attachments.length) return "";
-    return attachments.map(att => {
-      const payload = encode(att);
-      const name = getName(att) || "ek-dosya";
-      const size = getSize(att);
-      const sizeText = size ? " (" + size + " byte)" : "";
-      return ''
-      + '<div class="attachment" data-gdnl-attachment="' + payload + '">'
-      + '<span>📎 ' + safeText(name + sizeText) + '</span>'
-      + '<div class="attachment-actions">'
-      + '<button type="button" class="attachment-open-btn" data-gdnl-open="' + payload + '">Aç</button>'
-      + '<button type="button" class="attachment-download-btn" data-gdnl-download="' + payload + '">İndir</button>'
-      + '<span class="attachment-r2-badge">R2</span>'
-      + '</div>'
-      + '</div>';
-    }).join("");
-  };
-
-  function patchExistingAttachmentCards(){
-    document.querySelectorAll(".attachment").forEach(el => {
-      if(el.dataset.gdnlReady === "1") return;
-
-      let att = null;
-
-      if(el.dataset.gdnlAttachment){
-        att = decode(el.dataset.gdnlAttachment);
-      }
-
-      if(!att){
-        const raw = (el.textContent || "").trim();
-        const name = raw
-          .replace(/^📎\s*/,"")
-          .replace(/\s*R2\s*$/,"")
-          .replace(/\s*Aç\s*İndir\s*/,"")
-          .trim();
-
-        const sizeMatch = name.match(/\((\d+)\s*byte\)/i);
-        att = {
-          filename: name.replace(/\s*\(\d+\s*byte\)\s*/i,"").trim(),
-          size: sizeMatch ? sizeMatch[1] : ""
-        };
-        el.setAttribute("data-gdnl-attachment", encode(att));
-      }
-
-      if(!el.querySelector(".attachment-actions")){
-        const actions = document.createElement("div");
-        actions.className = "attachment-actions";
-
-        const payload = encode(att);
-        actions.innerHTML =
-          '<button type="button" class="attachment-open-btn" data-gdnl-open="' + payload + '">Aç</button>' +
-          '<button type="button" class="attachment-download-btn" data-gdnl-download="' + payload + '">İndir</button>' +
-          '<span class="attachment-r2-badge">R2</span>';
-
-        const oldBadge = Array.from(el.children).find(c => (c.textContent || "").trim() === "R2");
-        if(oldBadge) oldBadge.remove();
-
-        el.appendChild(actions);
-      }
-
-      el.dataset.gdnlReady = "1";
-    });
-  }
-
-  function bindAttachmentEvents(){
-    patchExistingAttachmentCards();
-
-    document.querySelectorAll("[data-gdnl-open]").forEach(btn => {
-      if(btn.dataset.boundOpen === "1") return;
-      btn.dataset.boundOpen = "1";
-      btn.addEventListener("click", e => {
-        e.preventDefault();
-        e.stopPropagation();
-        openAttachment(decode(btn.getAttribute("data-gdnl-open")));
-      });
-    });
-
-    document.querySelectorAll("[data-gdnl-download]").forEach(btn => {
-      if(btn.dataset.boundDownload === "1") return;
-      btn.dataset.boundDownload = "1";
-      btn.addEventListener("click", e => {
-        e.preventDefault();
-        e.stopPropagation();
-        downloadAttachment(decode(btn.getAttribute("data-gdnl-download")));
-      });
-    });
-
-    document.querySelectorAll(".attachment[data-gdnl-attachment]").forEach(card => {
-      if(card.dataset.boundCard === "1") return;
-      card.dataset.boundCard = "1";
-      card.addEventListener("click", e => {
-        if(e.target.closest("button")) return;
-        const att = decode(card.getAttribute("data-gdnl-attachment"));
-        previewAttachment(att);
-        openAttachment(att);
-      });
-    });
-  }
-
-  function showToast(message){
-    let toast = document.querySelector(".toast");
-    if(!toast){
-      toast = document.createElement("div");
-      toast.className = "toast";
-      document.body.appendChild(toast);
-    }
-    toast.textContent = message;
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 4200);
-  }
-
-  // Backend JSON içinde attachment varsa ama render düzse, render sonrası otomatik güçlendir.
-  document.addEventListener("DOMContentLoaded", function(){
-    bindAttachmentEvents();
-    const obs = new MutationObserver(bindAttachmentEvents);
-    obs.observe(document.body, {childList:true, subtree:true});
-    setTimeout(bindAttachmentEvents, 250);
-    setTimeout(bindAttachmentEvents, 1000);
-    setTimeout(bindAttachmentEvents, 2500);
-  });
-
-})();
-</script>
-
-
-<script>
-(function(){
-  "use strict";
-  function fixOldAttachmentCache(){
-    if(location.hostname !== "qms.gdnldigital.com") return;
-    try{
-      for(let i=0;i<localStorage.length;i++){
-        const key = localStorage.key(i);
-        if(!key || !key.startsWith("gdnl_mail_attachment_")) continue;
-        const raw = localStorage.getItem(key);
-        if(!raw) continue;
-        const obj = JSON.parse(raw);
-        if(obj && typeof obj.url === "string"){
-          if(obj.url.startsWith("/file/")) obj.url = "/api" + obj.url;
-          if(obj.url.startsWith("/files/")) obj.url = "/api" + obj.url;
-          localStorage.setItem(key, JSON.stringify(obj));
-        }
-      }
-    }catch(e){}
-  }
-  document.addEventListener("DOMContentLoaded", fixOldAttachmentCache);
-  window.addEventListener("load", fixOldAttachmentCache);
-})();
-</script>
-
-
-
 
 </body>
 </html>

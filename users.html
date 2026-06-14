@@ -501,7 +501,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
       <span class="warning-pill">Denetim Kaydı silinemez</span>
     </div>
   </div>
-  <div class="hero-badge">SUPER_ADMIN<br><span id="superAdminName"></span></div>
+  <div class="hero-badge">Sistem Yöneticisi<br><span id="superAdminName"></span></div>
 </section>
 
 <section class="panel search-results-panel" id="searchResultsPanel">
@@ -552,7 +552,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
   <div class="form-grid">
     <div class="field"><label>Kullanıcı Adı</label><input id="username" placeholder="ornek.kullanici"></div>
-    <div class="field"><label>Geçici Şifre</label><input id="password" placeholder="123456" value="123456"></div>
+    <div class="field"><label>Geçici Parola</label><input id="password" placeholder="Boş bırakılırsa güvenli parola oluşturulur" autocomplete="new-password"></div>
     <div class="field"><label>Ad Soyad</label><input id="fullname" placeholder="Ad Soyad"></div>
     <div class="field"><label>E-Posta</label><input id="email" type="email" placeholder="kullanici@firma.com"></div>
     <div class="field"><label>Departman</label><select id="department"><option value="">API’den yükleniyor...</option></select></div>
@@ -585,7 +585,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
     <h3>Roller</h3>
     <span class="status blue">GET /roles</span>
   </div>
-  <div class="panel-subtitle">Roller API’den yüklenir. SUPER_ADMIN tek kullanıcıdır ve  ile sınırlandırılır.</div>
+  <div class="panel-subtitle">Roller sistemden yüklenir. Sistem yöneticisi rolü tek yetkili kullanıcıyla sınırlandırılır.</div>
   <div id="rolesTable"></div>
   <div class="actions">
     <button class="btn primary" onclick="openRolCreate()">Rol Oluştur</button>
@@ -733,7 +733,7 @@ async function bootstrap(){
     const name = currentKullanıcı?.fullname || currentKullanıcı?.fullName || currentKullanıcı?.name || currentKullanıcı?.username ||"";
 
     if(role !== "SUPER_ADMIN"){
-      document.body.innerHTML = "<div style='padding:40px;font-family:Inter,Arial,sans-serif'><h2>Yetkisiz erişim</h2><p>Bu modül sadece SUPER_ADMIN için açılır.</p></div>";
+      document.body.innerHTML = "<div style='padding:40px;font-family:Inter,Arial,sans-serif'><h2>Yetkisiz erişim</h2><p>Bu modül sadece sistem yöneticisi rolü için açılır.</p></div>";
       return;
     }
 
@@ -892,22 +892,33 @@ function updateCards(){
   document.getElementById("activeKullanıcıs").textContent = rows.filter(u => u.status === "active").length;
 }
 
+function generateSecurePassword(length = 16){
+  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
+  const bytes = new Uint32Array(length);
+  if(window.crypto?.getRandomValues) window.crypto.getRandomValues(bytes);
+  else for(let i=0;i<length;i++) bytes[i] = Math.floor(Math.random() * alphabet.length);
+  return Array.from(bytes, value => alphabet[value % alphabet.length]).join("");
+}
+
 function getFormPayload(){
-  return {
+  const passwordValue = document.getElementById("password").value.trim();
+  const payload = {
     username: document.getElementById("username").value.trim(),
-    password: document.getElementById("password").value.trim() || "123456",
     fullname: document.getElementById("fullname").value.trim(),
     email: document.getElementById("email").value.trim(),
     department: document.getElementById("department").value,
     role: document.getElementById("role").value,
     status: document.getElementById("status").value
   };
+  if(passwordValue) payload.password = passwordValue;
+  else if(!editKullanıcıId) payload.password = generateSecurePassword();
+  return payload;
 }
 
 async function saveKullanıcı(){
   const payload = getFormPayload();
 
-  if(!payload.username || !payload.password || !payload.fullname || !payload.email || !payload.department || !payload.role){
+  if(!payload.username || (!editKullanıcıId && !payload.password) || !payload.fullname || !payload.email || !payload.department || !payload.role){
     showToast("Kullanıcı adı, şifre, ad soyad, e-posta, departman ve rol zorunlu");
     return;
   }
@@ -931,7 +942,7 @@ function editKullanıcı(id){
   editKullanıcıId = u.id;
   document.getElementById("modeBadge").textContent = "DÜZENLEME MODU";
   document.getElementById("username").value = u.username;
-  document.getElementById("password").value = u.password || "123456";
+  document.getElementById("password").value = "";
   document.getElementById("fullname").value = u.fullname;
   document.getElementById("email").value = u.email;
   document.getElementById("department").value = u.department ||"";
@@ -968,7 +979,6 @@ function resetForm(){
   editKullanıcıId = null;
   document.getElementById("modeBadge").textContent = "KAYIT MODU";
   ["username","password","fullname","email"].forEach(id => document.getElementById(id).value = "");
-  document.getElementById("password").value = "123456";
   document.getElementById("department").value = "";
   document.getElementById("role").value = "";
   document.getElementById("status").value = "active";

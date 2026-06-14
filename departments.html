@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Departmanlar</title>
+<title>GDNL EOS | Departmanlar</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -459,7 +459,7 @@ td{
       <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
       <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
       <button class="btn btn-red" onclick="logout()">Çıkış</button>
-      <div class="userbox">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+      <div class="userbox">👤 <span id="userName">Oturum doğrulanıyor</span></div>
     </div>
   </div>
 
@@ -582,11 +582,11 @@ function getCurrentUser(){
       null;
 
     if(user){
-      return val(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+      return val(user,"fullname","full_name","name","username","email") || "Oturum doğrulanıyor";
     }
   }catch(e){}
 
-  return "Oturum Kullanıcısı";
+  return "Oturum doğrulanıyor";
 }
 
 function setUserName(){

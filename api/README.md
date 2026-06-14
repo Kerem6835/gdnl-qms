@@ -1,4 +1,4 @@
-# GDNL EQMS Cloudflare API
+# GDNL EOS Cloudflare API
 
 Frontend tek API base üzerinden konuşur:
 

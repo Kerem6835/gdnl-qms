@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Departman Merkezi</title>
+<title>GDNL EOS | Departman Merkezi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -188,6 +188,10 @@ body:before{
 .dept-card:hover{transform:translateY(-5px) scale(1.018);box-shadow:0 30px 70px rgba(7,27,52,.10),0 14px 36px rgba(34,177,76,.13);border-color:#78d989}.dept-card:hover:before{width:6px}
 .dept-card.locked{cursor:not-allowed;border-color:#dfe6ee;background:linear-gradient(135deg,rgba(255,255,255,.84),rgba(246,248,251,.95));box-shadow:0 12px 34px rgba(7,27,52,.035)}
 .dept-card.locked:hover{transform:none;box-shadow:0 12px 34px rgba(7,27,52,.035);border-color:#dfe6ee}.dept-card.locked:hover:before{width:0}
+.dept-card.development{cursor:not-allowed;border-color:#dceaf6;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(245,249,255,.96));box-shadow:0 12px 34px rgba(7,27,52,.04)}
+.dept-card.development .state{background:#eff6ff;color:#0ea5e9;box-shadow:none;font-size:18px}
+.dept-card.development .badge{background:#eff6ff;color:#0369a1}
+.dept-card.development .open-dot{background:#f8fbff;border-color:#dbeafe;color:#0ea5e9}
 .dept-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:clamp(8px,1.45vh,18px)}
 .dept-icon{
   width:clamp(44px,6.7vh,70px);height:clamp(44px,6.7vh,70px);border-radius:clamp(15px,2vh,20px);
@@ -755,12 +759,12 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
     <div class="search-wrap">
       <input class="search" type="text" placeholder="Ara..." aria-label="Ara">
-      <button class="search-btn" type="button" aria-label="Ara">⌕</button>
+      <button class="search-btn" type="button" aria-label="Ara">Ara</button>
     </div>
 
     <div class="user-panel">
 <div class="topbar-actions" aria-label="Mesaj ve bildirim kısayolları"><button class="topbar-icon-btn" type="button" aria-label="Mesaj Merkezi" onclick="window.location.href='mailbox.html'">📨</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
-      <div class="avatar" id="avatar" aria-label="Kullanıcı"></div>
+      <div class="avatar" id="avatar" aria-label="Oturum kullanıcısı"></div>
       <div class="user-meta">
         <b id="userName"></b>
         <span>Rol: <span id="userRole"></span></span>
@@ -806,7 +810,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 "use strict";
 
 /* =========================================================
-   GDNL EOS / GDNL EQMS CLOUD READY DEPARTMAN MERKEZİ
+   GDNL EOS / GDNL EOS CLOUD READY DEPARTMAN MERKEZİ
    Ana veri kaynağı: Cloudflare D1
    Worker: gdnl-eos-api
    D1 Binding: DB
@@ -817,6 +821,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 const GDNL_API_BASE = window.GDNL_API_BASE;
 const SYSTEM_MODULE = "Departman Merkezi";
+const ACTIVE_PRODUCT_NAMES = ["kalite", "kalite yönetimi", "quality"];
 const ARCHIVE_STATUSES = ["Deleted", "Silindi", "Arşivlendi", "İptal Edildi"];
 
 
@@ -986,7 +991,7 @@ function normalizeRole(role){
 
 function normalizeUser(row){
   const user = row || {};
-  const fullname = user.fullname || user.fullName || user.name || user.username || "Kullanıcı";
+  const fullname = user.fullname || user.fullName || user.name || user.username || user.email || "Oturum doğrulanıyor";
   return {
     ...user,
     id:user.id || user.user_id || user.username || fullname,
@@ -1001,6 +1006,11 @@ function normalizeUser(row){
     permissions:Array.isArray(user.permissions) ? user.permissions : parseModules(user.permissions) || [],
     departments:Array.isArray(user.departments) ? user.departments : parseModules(user.departments) || []
   };
+}
+
+function isQualityDepartmentName(name){
+  const value = String(name || "").trim().toLocaleLowerCase("tr-TR");
+  return ACTIVE_PRODUCT_NAMES.some((item) => value === item || value.includes(item));
 }
 
 function isManagementDepartmentName(name){
@@ -1029,7 +1039,7 @@ function normalizeDepartment(row){
     department_name:cleanName,
     status:row.status || "Aktif",
     icon:row.icon || ICON_MAP[cleanName] || "▦",
-    modules:isManagementDepartmentName(cleanName) ? MODULE_MAP["Yönetim"] : (isHrDepartmentName(cleanName) ? MODULE_MAP["İnsan Kaynakları"] : (isMaintenanceDepartmentName(cleanName) ? MODULE_MAP["Bakım"] : (parseModules(row.modules) || MODULE_MAP[cleanName] || ["dashboard.html"])))
+    modules:isQualityDepartmentName(cleanName) ? (parseModules(row.modules) || MODULE_MAP[cleanName] || MODULE_MAP["Kalite"]) : []
   };
 }
 
@@ -1099,6 +1109,7 @@ function hasPermission(permission){
 }
 
 function canAccessDepartment(department){
+  if(!isQualityDepartmentName(department?.department_name || department?.name || department?.key)) return false;
   if(isSuperAdmin()) return true;
   const depName = String(department?.department_name || department?.name || department?.key ||"").trim();
   const userDep = String(state.currentUser?.department ||"").trim();
@@ -1173,23 +1184,24 @@ function render(){
 
   const departments = state.departments;
   const active = departments.filter(d => canAccessDepartment(d));
-  const locked = departments.filter(d => !canAccessDepartment(d));
-  const ordered = [...active.map(d => ({d, ok:true})), ...locked.map(d => ({d, ok:false}))];
+  const development = departments.filter(d => !isQualityDepartmentName(d.department_name));
+  const locked = departments.filter(d => isQualityDepartmentName(d.department_name) && !canAccessDepartment(d));
+  const ordered = [...active.map(d => ({d, ok:true, development:false})), ...locked.map(d => ({d, ok:false, development:false})), ...development.map(d => ({d, ok:false, development:true}))];
   const area = document.getElementById("departmentGrid");
 
   if(!ordered.length){
-    area.innerHTML = '<div class="dept-card locked" style="grid-column:1/-1"><div class="dept-top"><div class="dept-icon">!</div><div class="state">🔒</div></div><h3>Departman bulunamadı</h3><span class="badge">D1 bağlantısı kontrol edilmeli</span><div class="open-dot">!</div></div>';
+    area.innerHTML = '<div class="dept-card locked" style="grid-column:1/-1"><div class="dept-top"><div class="dept-icon">!</div><div class="state">🔒</div></div><h3>Departman bulunamadı</h3><span class="badge">Kayıt servisi kontrol edilmeli</span><div class="open-dot">!</div></div>';
     return;
   }
 
-  area.innerHTML = ordered.map(x => cardHTML(x.d, x.ok)).join("");
+  area.innerHTML = ordered.map(x => cardHTML(x.d, x.ok, x.development)).join("");
 }
 
-function cardHTML(d, ok){
-  return `<article class="dept-card ${ok ? "" : "locked"}" onclick="openDepartment('${escapeJS(d.id)}')">
-    <div class="dept-top"><div class="dept-icon">${escapeHTML(d.icon)}</div><div class="state">${ok ? "✓" : "🔒"}</div></div>
+function cardHTML(d, ok, development){
+  return `<article class="dept-card ${ok ? "" : (development ? "development" : "locked")}" onclick="openDepartment('${escapeJS(d.id)}')">
+    <div class="dept-top"><div class="dept-icon">${escapeHTML(d.icon)}</div><div class="state">${ok ? "✓" : (development ? "…" : "🔒")}</div></div>
     <h3>${escapeHTML(d.department_name)}</h3>
-    <span class="badge">${ok ? "Erişilebilir" : "Yetkiniz Yok"}</span>
+    <span class="badge">${ok ? "Erişilebilir" : (development ? "Geliştirme aşamasında" : "Yetkiniz yok")}</span>
     <div class="open-dot">→</div>
   </article>`;
 }
@@ -1198,6 +1210,11 @@ async function openDepartment(departmentId){
   const dept = state.departments.find(d => String(d.id) === String(departmentId));
   if(!dept){
     showToast("Departman kaydı bulunamadı.");
+    return;
+  }
+
+  if(!isQualityDepartmentName(dept.department_name)){
+    showToast(dept.department_name + " departmanı geliştirme aşamasındadır. Aktif ürün Kalite Suite’tir.");
     return;
   }
 
@@ -1214,7 +1231,7 @@ async function openDepartment(departmentId){
     createNotificationIfNeeded(dept)
   ]);
 
-  const targetPage = isManagementDepartmentName(dept.department_name) ? "management-dashboard.html" : (isHrDepartmentName(dept.department_name) ? "hr-dashboard.html" : (isMaintenanceDepartmentName(dept.department_name) ? "maintenance-dashboard.html" : "dashboard.html"));
+  const targetPage = "dashboard.html";
   const target = new URL(targetPage, window.location.href);
   target.searchParams.set("department", dept.department_name);
   target.searchParams.set("department_id", dept.id);
@@ -1228,7 +1245,7 @@ async function createNotificationIfNeeded(dept){
   const payload = {
     module:SYSTEM_MODULE,
     title:"Departman çalışma alanı seçildi",
-    message:(state.currentUser?.fullname || "Kullanıcı") + " kullanıcısı " + dept.department_name + " çalışma alanına geçti.",
+    message:(state.currentUser?.fullname || state.currentUser?.username || "Oturum kullanıcısı") + " kullanıcısı " + dept.department_name + " çalışma alanına geçti.",
     user_id:state.currentUser?.id ||"",
     user_name:state.currentUser?.fullname ||"",
     department:dept.department_name,
@@ -1350,7 +1367,7 @@ function escapeJS(value){
 }
 
 async function boot(){
-  showToast("D1 departman ve kullanıcı verileri yükleniyor...");
+  showToast("Departman ve kullanıcı kayıtları yükleniyor...");
   await loadCloudData();
 
   if(!state.currentUser || !state.currentUser.username){
@@ -1359,11 +1376,11 @@ async function boot(){
   }
 
   if(!state.users.length){
-    showToast("D1 /users boş döndü. Kullanıcı kayıtları kontrol edilmeli.");
+    showToast("Kullanıcı kayıtları alınamadı. Lütfen sistem yöneticisiyle iletişime geçin.");
   }
 
   if(!state.departments.length){
-    showToast("D1 /departments boş döndü. Worker CORS ve endpoint çıktısı kontrol edilmeli.");
+    showToast("Departman kayıtları alınamadı. Lütfen sistem yöneticisiyle iletişime geçin.");
   }
 
   render();

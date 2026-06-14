@@ -1,4 +1,4 @@
-# GDNL EQMS / GDNL EOS Enterprise V3 Backend Roadmap
+# GDNL EOS / GDNL EOS Enterprise V3 Backend Roadmap
 
 Bu dokuman, canli Worker ve D1 yapisina uygulanacak V3 backend kapsamidir. Repo icindeki `api/worker.js`, `api/schema.sql`, `api/seed.sql` ve `api/README.md` referans dosyalarina dokunulmadan hazirlanmistir.
 

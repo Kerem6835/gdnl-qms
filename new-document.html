@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Yeni Doküman Merkezi</title>
+<title>GDNL EOS | Yeni Doküman Merkezi</title>
 
 <style>
 
@@ -83,7 +83,7 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 @media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.form-grid,.type-section.active{grid-template-columns:1fr}.field.full,.field.double{grid-column:span 1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.result-card{grid-template-columns:1fr;gap:10px}.result-open{width:100%}}
 
 
-/* === GDNL EQMS NEW DOCUMENT OVERFLOW FIX === */
+/* === GDNL EOS NEW DOCUMENT OVERFLOW FIX === */
 .main,
 .layout,
 .layout > div,
@@ -210,7 +210,7 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 }
 
 
-/* === GDNL EQMS UNIFIED DOCUMENT FLOW === */
+/* === GDNL EOS UNIFIED DOCUMENT FLOW === */
 .unified-flow{
   padding:0!important;
   overflow:hidden!important;
@@ -340,7 +340,7 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 }
 
 
-/* === GDNL EQMS UNIFIED FLOW FULL WIDTH FIX === */
+/* === GDNL EOS UNIFIED FLOW FULL WIDTH FIX === */
 .layout{
   display:grid!important;
   grid-template-columns:1fr!important;
@@ -457,7 +457,7 @@ body{background:radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparen
 }
 
 
-/* === GDNL EQMS LOCKED ACCORDION MENU === */
+/* === GDNL EOS LOCKED ACCORDION MENU === */
 .eqms-accordion-menu{
   display:flex!important;
   flex-direction:column!important;
@@ -904,7 +904,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS<br>Yeni Doküman İş Akışı<br>Kurumsal Hazır</div>
+<div class="sidebar-footer">GDNL EOS<br>Yeni Doküman İş Akışı<br>Kurumsal Hazır</div>
 </aside>
 
 <main class="main">
@@ -1163,7 +1163,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="field"><label>Departman Onayı</label><input id="departmentApprover" placeholder="Departman sorumlusu"></div>
 <div class="field"><label>Müdür Onayı</label><input id="managerApprover" placeholder="Bölüm müdürü"></div>
 <div class="field"><label>Kalite Onayı</label><input id="qualityApprover" placeholder="Kalite sorumlusu"></div>
-<div class="field"><label>Kalite Admin</label><input id="qualityAdmin" placeholder="Kalite admin"></div>
+<div class="field"><label>Kalite Yayın Sorumlusu</label><input id="qualityAdmin" placeholder="kalite yayın sorumlusu"></div>
 <div class="field"><label>Bildirim Tipi</label><select id="notificationType"><option>Mail</option><option>SMS</option><option>Mail + SMS</option></select></div>
 </div>
 
@@ -1204,7 +1204,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="step" id="stepDepartment">2. Departman Onayı</div>
 <div class="step" id="stepManager">3. Müdür Onayı</div>
 <div class="step" id="stepQuality">4. Kalite Onayı</div>
-<div class="step" id="stepAdmin">5. Kalite Admin / Yayın</div>
+<div class="step" id="stepAdmin">5. Kalite Yayın Sorumlusu / Yayın</div>
 </section>
 </div>
 
@@ -1413,7 +1413,7 @@ function buildApprovalSteps(doc){
     ["Departman Onayı","departmentApprover","Onay"],
     ["Müdür Onayı","managerApprover","Onay"],
     ["Kalite Onayı","qualityApprover","Onay"],
-    ["Kalite Admin / Yayın","qualityAdmin","Onay"]
+    ["Kalite Yayın Sorumlusu / Yayın","qualityAdmin","Onay"]
   ];
   return steps.map((s,i)=>{
     const u=getUserPayload(s[1])||{};
@@ -1421,7 +1421,7 @@ function buildApprovalSteps(doc){
   });
 }
 function buildIsAkisiSteps(){
-  const names=["Taslak","Departman Onayı","Müdür Onayı","Kalite Onayı","Kalite Admin / Yayın","Yayın"];
+  const names=["Taslak","Departman Onayı","Müdür Onayı","Kalite Onayı","Kalite Yayın Sorumlusu / Yayın","Yayın"];
   return names.map((n,i)=>({step_no:i+1,step_name:n,previous_step:names[i-1]||null,next_step:names[i+1]||null,required:true,status:i===0?"Tamamlandı":(i===1?"Bekliyor":"Sırada"),created_at:new Date().toISOString(),completed_at:i===0?new Date().toISOString():null}));
 }
 function buildPayload(status,workflowStatus){

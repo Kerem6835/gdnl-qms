@@ -249,7 +249,7 @@
       <div class="topbar-left">
         <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
         <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+        <div class="user">👤 <span id="userName">Oturum doğrulanıyor</span></div>
       </div>
 
       <div class="search-wrap">
@@ -574,11 +574,11 @@ function currentUserName(){
   try{
     const user = window.GDNL_CURRENT_USER || window.currentUser || null;
     if(user){
-      return payVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+      return payVal(user,"fullname","full_name","name","username","email") || "Oturum doğrulanıyor";
     }
   }catch(e){}
 
-  return "Oturum Kullanıcısı";
+  return "Oturum doğrulanıyor";
 }
 
 function setPayrollUser(){
@@ -981,7 +981,7 @@ function renderAuditPreview(){
   auditPreview.className = "audit-preview";
   auditPreview.innerHTML = payrollRecords.slice(0,8).map(record => `
     <div class="pay-record-meta">
-      ${formatDate(record.createdAt)} · ${payEsc(record.createdBy || "Oturum Kullanıcısı")} · ${payEsc(record.employee || "-")} için ${formatMonth(record.payrollMonth)} bordro hazırlık kaydı oluşturuldu.
+      ${formatDate(record.createdAt)} · ${payEsc(record.createdBy || "Oturum doğrulanıyor")} · ${payEsc(record.employee || "-")} için ${formatMonth(record.payrollMonth)} bordro hazırlık kaydı oluşturuldu.
     </div>
   `).join("");
 }

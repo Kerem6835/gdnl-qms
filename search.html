@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GDNL EQMS | Global Arama</title>
+<title>GDNL EOS | Global Arama</title>
 <link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
@@ -40,10 +40,10 @@ body{min-height:100vh}
 <div class="app">
   <aside class="sidebar">
     <div>
-      <a class="logo" href="dashboard.html">GDNL <span>EQMS</span></a>
+      <a class="logo" href="dashboard.html">GDNL <span>EOS</span></a>
       <nav class="menu"></nav>
     </div>
-    <div class="sidebar-footer">GDNL EQMS<br>Global Arama<br>Kalite kayıt erişimi</div>
+    <div class="sidebar-footer">GDNL EOS<br>Global Arama<br>Kalite kayıt erişimi</div>
   </aside>
 
   <main class="main">
@@ -56,7 +56,7 @@ body{min-height:100vh}
       <div class="profile">
         <a class="department-switch gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>
         <div class="topbar-actions"><a class="gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi">📨</a><a class="gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi">🔔</a></div>
-        <div class="avatar" id="userChip">👤 <span id="userName">Kullanıcı</span></div>
+        <div class="avatar" id="userChip">👤 <span id="userName">Oturum doğrulanıyor</span></div>
         <button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
       </div>
     </header>
@@ -66,7 +66,7 @@ body{min-height:100vh}
         <h1>Global Kalite Arama</h1>
         <p>Doküman, CAPA, risk, aksiyon, denetim, eğitim, tedarikçi, müşteri ve kullanıcı kayıtlarını tek ekranda arayın; kalite kanıtlarına hızlı erişin.</p>
       </div>
-      <div class="hero-badge">Arama Kapsamı: <span id="scopeCount">8 modül</span></div>
+      <div class="hero-badge">Arama Kapsamı: <span id="scopeCount">11 kayıt alanı</span></div>
     </section>
 
     <section class="search-console">
@@ -104,16 +104,46 @@ const modules=[
   ["Aksiyon","/actions",true],
   ["Eğitim","/trainings",true],
   ["Denetim","/audits",true],
-  ["Tedarikçi","/suppliers",true]
+  ["Tedarikçi","/suppliers",true],
+  ["Müşteri Şikayeti","/customers",true],
+  ["Mesaj","/messages",true],
+  ["Dosya","/files",true]
 ];
 let cache=[];
 function $(id){return document.getElementById(id)}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function text(x){return JSON.stringify(x||{}).toLocaleLowerCase("tr-TR")}
-function title(x){return x.fullname||x.username||x.document_name||x.documentName||x.title||x.name||x.riskNo||x.risk_no||x.capaNo||x.capa_no||x.auditNo||x.audit_no||x.trainingNo||x.training_no||x.supplier_name||x.supplierName||x.id||"Kayıt"}
+function title(x){return x.fullname||x.username||x.document_name||x.documentName||x.document_no||x.documentNo||x.subject||x.filename||x.file_name||x.title||x.name||x.customer_name||x.customerName||x.complaint_no||x.complaintNo||x.riskNo||x.risk_no||x.capaNo||x.capa_no||x.auditNo||x.audit_no||x.trainingNo||x.training_no||x.supplier_name||x.supplierName||x.id||"Kayıt"}
+function recordId(item){return item.id||item.record_id||item.document_id||item.documentId||item.capa_id||item.risk_id||item.audit_id||item.training_id||item.supplier_id||item.customer_id||item.message_id||item.file_id||""}
+function recordRoute(row){
+  const id=encodeURIComponent(recordId(row.item));
+  const map={
+    "/users":"users.html",
+    "/documents":"document-viewer.html",
+    "/capas":"capa.html",
+    "/risks":"risk-register.html",
+    "/actions":"action-center.html",
+    "/trainings":"training-management.html",
+    "/audits":"audit.html",
+    "/suppliers":"supplier-management.html",
+    "/customers":"customer-management.html",
+    "/messages":"mailbox.html",
+    "/files":"file-center.html"
+  };
+  const page=map[row.source]||"dashboard.html";
+  return id ? `${page}?id=${id}` : page;
+}
 function renderFilters(){moduleFilters.innerHTML=modules.map((m,i)=>`<label><input type="checkbox" data-index="${i}" ${m[2]?"checked":""}> ${m[0]}</label>`).join("");moduleFilters.querySelectorAll("input").forEach(input=>input.addEventListener("change",()=>{modules[input.dataset.index][2]=input.checked;render()}))}
 async function load(){searchStatus.textContent="Yükleniyor";const chunks=await Promise.all(modules.map(async m=>{try{return api.asArray(await api.get(m[1],{redirectOnUnauthorized:false})).map(x=>({module:m[0],source:m[1],item:x}))}catch(err){return[]}}));cache=chunks.flat();loadedCount.textContent=cache.length;searchStatus.textContent="Hazır";render()}
-function render(){const q=$("q").value.trim().toLocaleLowerCase("tr-TR");globalSearch.value=$("q").value;if(!q){resultCount.textContent="0";results.innerHTML='<div class="empty">Arama için metin yazın.</div>';return}const active=new Set(modules.filter(m=>m[2]).map(m=>m[0]));const rows=cache.filter(r=>active.has(r.module)&&text(r.item).includes(q)).slice(0,120);resultCount.textContent=rows.length;results.innerHTML=rows.length?rows.map(r=>`<div class="result"><div class="result-head"><span class="tag">${esc(r.module)}</span><small>Kalite kaydı</small></div><b>${esc(title(r.item))}</b><small>${esc(JSON.stringify(r.item).slice(0,260))}</small></div>`).join(""):'<div class="empty">Arama kriterlerine uygun kalite kaydı bulunamadı.</div>'}
+function summary(item){
+  const fields=[
+    item.status,item.priority,item.department,item.department_name,item.owner_name,item.responsible_name,item.assigned_to,
+    item.document_no,item.capa_no,item.risk_no,item.audit_no,item.training_no,item.supplier_code,item.customer_name,
+    item.due_date,item.deadline,item.updated_at,item.created_at
+  ].filter(Boolean).map(v=>String(v).trim()).filter(Boolean);
+  return fields.length ? [...new Set(fields)].slice(0,5).join(" · ") : "Kayıt detayını görüntülemek için kaydı açın.";
+}
+function render(){const q=$("q").value.trim().toLocaleLowerCase("tr-TR");globalSearch.value=$("q").value;if(!q){resultCount.textContent="0";results.innerHTML='<div class="empty">Arama için metin yazın.</div>';return}const active=new Set(modules.filter(m=>m[2]).map(m=>m[0]));const rows=cache.filter(r=>active.has(r.module)&&text(r.item).includes(q)).slice(0,120);resultCount.textContent=rows.length;results.innerHTML=rows.length?rows.map(r=>`<div class="result"><div class="result-head"><span class="tag">${esc(r.module)}</span><a class="result-open" href="${esc(recordRoute(r))}">Kaydı Aç</a></div><b>${esc(title(r.item))}</b><small>${esc(summary(r.item))}</small></div>`).join(""):'<div class="empty">Arama kriterlerine uygun kalite kaydı bulunamadı.</div>'}
 function logout(){api.logout()}
 runSearch.onclick=render;searchBtn.onclick=()=>{$("q").value=globalSearch.value;render()};q.addEventListener("input",render);globalSearch.addEventListener("input",()=>{$("q").value=globalSearch.value;render()});
 renderFilters();load();

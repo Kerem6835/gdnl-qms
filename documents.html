@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EQMS | Doküman Master Listesi</title>
+<title>GDNL EOS | Doküman Master Listesi</title>
 
 <style>
 
@@ -135,7 +135,7 @@ tr:hover td{background:#f7fbf8}
 }
 
 
-/* === GDNL EQMS LOCKED ACCORDION MENU === */
+/* === GDNL EOS LOCKED ACCORDION MENU === */
 .menu-group{
 width:100%;
 border:1px solid transparent;
@@ -197,7 +197,7 @@ padding:12px 14px!important;
 }
 
 
-/* === GDNL EQMS CLOUD READY KATMANI === */
+/* === GDNL EOS CLOUD READY KATMANI === */
 .autocomplete-wrap{position:relative}.autocomplete-list{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 45px rgba(7,27,52,.12);z-index:50;display:none;max-height:240px;overflow:auto}.autocomplete-list.active{display:block}.autocomplete-item{padding:10px 12px;font-size:12px;font-weight:900;color:#536176;cursor:pointer;border-bottom:1px solid #eef2f7}.autocomplete-item:hover{background:#f7fbf8;color:#1f7d3d}.cloud-note{font-size:11px;font-weight:900;color:#1f7d3d;background:#e8f7ee;border:1px solid #bfe7ca;border-radius:999px;padding:6px 10px;display:inline-flex}.soft-hidden{display:none!important}
 
 
@@ -576,7 +576,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EQMS<br>Doküman Master Listesi<br>Kurumsal Hazır Görünüm</div>
+<div class="sidebar-footer">GDNL EOS<br>Doküman Master Listesi<br>Kurumsal Hazır Görünüm</div>
 </aside>
 
 <main class="main">
@@ -664,7 +664,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 "use strict";
 
 /* =========================================================
-   GDNL EQMS / GDNL EOS CLOUD READY STANDARD
+   GDNL EOS / GDNL EOS CLOUD READY STANDARD
    - Ana veri kaynağı: Cloudflare D1
    - Dosya kaynağı: Cloudflare R2
    - Kritik kayıtlar sadece D1 üzerinde tutulur
@@ -1689,7 +1689,7 @@ document.getElementById("globalSearch").addEventListener("keydown", function(e){
 
 async function initCloudReady(){
   try{
-    document.getElementById("liveStatus").textContent = "D1 Bağlanıyor";
+    document.getElementById("liveStatus").textContent = "Kayıtlar yükleniyor";
     await loadCloudCore();
     renderDokümans();
 
@@ -1703,8 +1703,8 @@ async function initCloudReady(){
   }catch(error){
     console.error(error);
     document.getElementById("liveStatus").textContent = "Bağlantı Hatası";
-    document.getElementById("tableArea").innerHTML = `<div class="empty">D1 bağlantısı kurulamadı. Worker CORS, endpoint veya D1 binding kontrol edilmeli.</div>`;
-    showToast("D1 bağlantısı kurulamadı");
+    document.getElementById("tableArea").innerHTML = `<div class="empty">Doküman kayıtları şu anda alınamadı. Lütfen bağlantınızı kontrol edip tekrar deneyin.</div>`;
+    showToast("Doküman kayıtları alınamadı");
   }
 }
 

@@ -230,7 +230,7 @@
       <div class="topbar-left">
         <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
         <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+        <div class="user">👤 <span id="userName">Oturum doğrulanıyor</span></div>
       </div>
 
       <div class="search-wrap">
@@ -521,11 +521,11 @@ function currentUserName(){
   try{
     const user = window.GDNL_CURRENT_USER || window.currentUser || null;
     if(user){
-      return attVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+      return attVal(user,"fullname","full_name","name","username","email") || "Oturum doğrulanıyor";
     }
   }catch(e){}
 
-  return "Oturum Kullanıcısı";
+  return "Oturum doğrulanıyor";
 }
 
 function setAttendanceUser(){
@@ -921,7 +921,7 @@ function renderAuditPreview(){
   auditPreview.className = "audit-preview";
   auditPreview.innerHTML = attendanceRecords.slice(0,8).map(record => `
     <div class="att-record-meta">
-      ${formatDate(record.createdAt)} · ${attEsc(record.createdBy || "Oturum Kullanıcısı")} · ${attEsc(record.employee || "-")} için ${formatDate(record.date)} tarihli puantaj kaydı oluşturuldu.
+      ${formatDate(record.createdAt)} · ${attEsc(record.createdBy || "Oturum doğrulanıyor")} · ${attEsc(record.employee || "-")} için ${formatDate(record.date)} tarihli puantaj kaydı oluşturuldu.
     </div>
   `).join("");
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GDNL EQMS | KPI ve Raporlar</title>
+<title>GDNL EOS | KPI ve Raporlar</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 html,body{min-height:100%;overflow-x:hidden}
@@ -269,7 +269,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </aside>
 <aside class="sidebar">
 <div><a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a><nav class="menu" id="sideMenu"></nav></div>
-<div class="sidebar-footer">GDNL EQMS<br>KPI ve Raporlar Merkezi<br>Sadece Canlı Veri</div>
+<div class="sidebar-footer">GDNL EOS<br>KPI ve Raporlar Merkezi<br>Sadece Canlı Veri</div>
 </aside>
 <main class="main">
 <header class="topbar">
@@ -364,7 +364,7 @@ async function saveCustomKpi(){if(!hasPermission("Oluşturma"))return showToast(
 async function clearCustomKpi(){await generateCustomNo();customModule.value="Doküman";customName.value="";customTarget.value=100;customActual.value=0;customPeriod.value="2026 Q1";customOwner.value=state.currentUser?.fullname||"";customOwner.dataset.userId=state.currentUser?.id||"";customOwner.dataset.department=state.currentUser?.department||"";customStatus.value="Veri Yok";customNote.value=""}
 function renderCustomKpis(){const rows=state.customKpis;if(!rows.length){customKpiTable.innerHTML='<div class="empty" style="margin-top:14px">Özel KPI yok.</div>';return}let h='<table style="margin-top:14px"><thead><tr><th>No</th><th>Modül</th><th>KPI</th><th>Hedef</th><th>Gerçek</th><th>Durum</th></tr></thead><tbody>';rows.forEach(r=>h+=`<tr><td>${escapeHTML(r.no||r.kpi_no||"")}</td><td>${escapeHTML(r.module||"")}</td><td>${escapeHTML(r.name||r.kpi_name||"")}</td><td>${escapeHTML(r.target||"")}</td><td>${escapeHTML(r.actual||"")}</td><td><span class="status ${statusClass(r.status)}">${escapeHTML(r.status||"")}</span></td></tr>`);customKpiTable.innerHTML=h+"</tbody></table>"}
 function exportCSV(){const rows=buildKpis();let csv="Modül,KPI,Gerçekleşen,Hedef,Birim,Durum,Detay\n";rows.forEach(r=>csv+=`"${r.module}","${r.name}","${r.actual===null?'Veri Yok':r.actual}","${r.status==='Veri Yok'?'-':r.target}","${r.unit}","${r.status}","${r.detail}"\n`);const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="gdnl_eqms_kpi_raporu.csv";a.click();URL.revokeObjectURL(url)}
-async function createReportNotification(){const user=state.currentUser||{},payload={type:"Mail + SMS",module:"KPI ve Raporlar",documentCode:"KPI-RAPOR",documentName:"GDNL EQMS Yönetim KPI Raporu",mailGroups:"Yönetim; Kalite; Süreç Sahipleri",smsGroups:"Yönetim",distributionPoints:"Dashboard / YGG",message:"KPI ve Raporlar merkezi yönetim raporu yayınlandı.",status:"Kuyrukta",is_read:false,read_by:null,read_at:null,created_by:user.fullname,created_at:new Date().toISOString()};const ok=await safePost("/notifications",payload);await safePost("/activity-feed",{module:"KPI",action:"Rapor bildirimi oluşturuldu",description:payload.message,user_id:user.id,user_name:user.fullname,old_value:null,new_value:payload,changed_field:"notifications"});showToast(ok?"Rapor bildirimi D1 kuyruğuna alındı":"Bildirim API kaydı kontrol edilmeli")}
+async function createReportNotification(){const user=state.currentUser||{},payload={type:"Mail + SMS",module:"KPI ve Raporlar",documentCode:"KPI-RAPOR",documentName:"GDNL EOS Yönetim KPI Raporu",mailGroups:"Yönetim; Kalite; Süreç Sahipleri",smsGroups:"Yönetim",distributionPoints:"Dashboard / YGG",message:"KPI ve Raporlar merkezi yönetim raporu yayınlandı.",status:"Kuyrukta",is_read:false,read_by:null,read_at:null,created_by:user.fullname,created_at:new Date().toISOString()};const ok=await safePost("/notifications",payload);await safePost("/activity-feed",{module:"KPI",action:"Rapor bildirimi oluşturuldu",description:payload.message,user_id:user.id,user_name:user.fullname,old_value:null,new_value:payload,changed_field:"notifications"});showToast(ok?"Rapor bildirimi D1 kuyruğuna alındı":"Bildirim API kaydı kontrol edilmeli")}
 function showToast(m){toast.textContent=m;toast.style.display="block";setTimeout(()=>toast.style.display="none",2600)}
 async function boot(){renderMenus();initAccordionMenu();await loadCurrentUser();setText("userName",state.currentUser?.fullname||"");await loadCloudData();setupUserAutocomplete("customOwner");await clearCustomKpi();await renderAll();const input=document.getElementById("globalSearch");if(input){input.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});input.addEventListener("input",()=>renderAll())}setInterval(async()=>{await loadCloudData();await renderAll()},30000)}
 boot();

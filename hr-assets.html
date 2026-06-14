@@ -202,7 +202,7 @@
       <div class="topbar-left">
         <button class="mobile-menu-btn" type="button" aria-label="Menü" onclick="document.body.classList.toggle('nav-open')">☰</button>
         <div class="suite-eyebrow">İnsan Kaynakları Suite</div>
-        <div class="user">👤 <span id="userName">Oturum Kullanıcısı</span></div>
+        <div class="user">👤 <span id="userName">Oturum doğrulanıyor</span></div>
       </div>
 
       <div class="search-wrap">
@@ -483,11 +483,11 @@ function currentUserName(){
   try{
     const user = window.GDNL_CURRENT_USER || window.currentUser || null;
     if(user){
-      return assetVal(user,"fullname","full_name","name","username","email") || "Oturum Kullanıcısı";
+      return assetVal(user,"fullname","full_name","name","username","email") || "Oturum doğrulanıyor";
     }
   }catch(e){}
 
-  return "Oturum Kullanıcısı";
+  return "Oturum doğrulanıyor";
 }
 
 function setAssetUser(){
@@ -812,7 +812,7 @@ function renderAuditPreview(){
   auditPreview.className = "audit-preview";
   auditPreview.innerHTML = assetRecords.slice(0,8).map(record => `
     <div class="asset-record-meta">
-      ${formatDate(record.createdAt)} · ${assetEsc(record.createdBy || "Oturum Kullanıcısı")} · ${assetEsc(record.employee || "-")} için ${assetEsc(record.assetName || "-")} zimmet kaydı oluşturuldu.
+      ${formatDate(record.createdAt)} · ${assetEsc(record.createdBy || "Oturum doğrulanıyor")} · ${assetEsc(record.employee || "-")} için ${assetEsc(record.assetName || "-")} zimmet kaydı oluşturuldu.
     </div>
   `).join("");
 }

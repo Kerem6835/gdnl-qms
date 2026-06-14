@@ -3,6 +3,7 @@
 
   const DEFAULT_API_BASE = "https://api.gdnldigital.com";
   const TOKEN_KEY = "gdnl_api_token";
+  const USER_NAME_PENDING = "Oturum doğrulanıyor";
 
   const API_BASE_URL = String(global.GDNL_API_BASE || DEFAULT_API_BASE).replace(/\/+$/, "");
   global.GDNL_API_BASE = API_BASE_URL;
@@ -36,6 +37,7 @@
     ["/audits", "/api/audits"],
     ["/trainings", "/api/trainings"],
     ["/suppliers", "/api/suppliers"],
+    ["/customers", "/api/customers"],
     ["/management-reviews", "/api/management-reviews"],
     ["/management-review", "/api/management-reviews"],
     ["/search", "/api/search"]
@@ -198,10 +200,21 @@
     return [];
   }
 
+  function cleanErrorMessage(message, fallback) {
+    const safeFallback = fallback || "Sistem işlemi tamamlanamadı. Lütfen tekrar deneyin.";
+    const value = String(message || "").trim();
+    if (!value) return safeFallback;
+    if (/sql|stack|trace|json|syntaxerror|typeerror|referenceerror|api|endpoint|worker|d1|r2|http\s*\d|cloudflare/i.test(value)) {
+      return safeFallback;
+    }
+    return value;
+  }
+
   function standardError(status, payload, fallback) {
     const source = payload && typeof payload === "object" ? payload : {};
     const error = source.error && typeof source.error === "object" ? source.error : {};
-    const message = error.message || source.message || source.error || fallback || "API hatası";
+    const rawMessage = error.message || source.message || source.error || fallback || "Sistem işlemi tamamlanamadı";
+    const message = cleanErrorMessage(rawMessage, fallback);
     const err = new Error(message);
     err.status = status;
     err.code = error.code || source.code || ("HTTP_" + status);
@@ -258,7 +271,7 @@
     }
 
     if (!res.ok || payload?.success === false) {
-      throw standardError(res.status, payload, "API yanıtı başarısız");
+      throw standardError(res.status, payload, "Sistem yanıtı tamamlanamadı");
     }
 
     return payload;
@@ -293,7 +306,7 @@
     const departmentTargets = ["activeDepartment", "currentDepartment", "userDepartment"];
     nameTargets.forEach((id) => {
       const el = document.getElementById(id);
-      if (el) el.textContent = current.fullname || current.name || current.username || current.email || "Kullanıcı";
+      if (el) el.textContent = current.fullname || current.name || current.username || current.email || USER_NAME_PENDING;
     });
     roleTargets.forEach((id) => {
       const el = document.getElementById(id);
@@ -328,7 +341,7 @@
 .topbar button.search-btn,.topbar #searchBtn{height:44px!important;border-radius:14px!important;font-size:13px!important}
 .gdnl-global-action{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;height:44px!important;min-height:44px!important;padding:0 14px!important;border:1px solid rgba(216,228,239,.95)!important;border-radius:14px!important;background:rgba(255,255,255,.94)!important;color:#0f1b2f!important;text-decoration:none!important;font-weight:900!important;font-size:13px!important;line-height:1!important;box-shadow:0 12px 28px rgba(7,27,52,.07)!important;cursor:pointer!important;white-space:nowrap!important;transition:.18s ease!important}
 .gdnl-global-action:hover{transform:translateY(-1px)!important;border-color:#b9d8c5!important;box-shadow:0 16px 32px rgba(7,27,52,.11)!important}
-.gdnl-global-action.primary{background:linear-gradient(135deg,#1f8f43,#35a852,#62d46f)!important;color:#fff!important;border-color:transparent!important}
+.gdnl-global-action.primary{background:linear-gradient(135deg,#0ea5e9 0%,#22c55e 100%)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 14px 30px rgba(34,197,94,.22)!important}
 .gdnl-global-icon{width:44px!important;min-width:44px!important;height:44px!important;padding:0!important;font-size:18px!important}
 .gdnl-message-link{position:relative!important}
 .gdnl-mail-unread-badge{position:absolute!important;right:-5px!important;top:-6px!important;min-width:18px!important;height:18px!important;padding:0 5px!important;border-radius:999px!important;background:#ef4444!important;color:#fff!important;border:2px solid #fff!important;display:none!important;align-items:center!important;justify-content:center!important;font-size:10px!important;font-weight:950!important;line-height:1!important;box-shadow:0 8px 18px rgba(239,68,68,.32)!important;pointer-events:none!important}
@@ -465,7 +478,7 @@
       } else {
         userHost = document.createElement("div");
         userHost.className = "gdnl-global-user";
-        userHost.innerHTML = '👤 <span id="userName">Kullanıcı</span>';
+        userHost.innerHTML = '👤 <span id="userName">' + USER_NAME_PENDING + '</span>';
         actionHost.appendChild(userHost);
         user = userHost.querySelector("#userName");
       }
@@ -579,7 +592,7 @@
     users.forEach((user) => {
       const option = document.createElement("option");
       option.value = user.id || user.username || user.fullname;
-      option.textContent = user.fullname || user.username || "Kullanıcı";
+      option.textContent = user.fullname || user.username || "Kayıtlı kişi";
       option.dataset.userId = user.id;
       option.dataset.fullname = user.fullname;
       option.dataset.username = user.username;
@@ -648,7 +661,7 @@
 
   function renderSelectedUserChips(users) {
     return (users || []).map(normalizeUser).map((user) => (
-      `<span class="user-chip" data-user-id="${String(user.id).replaceAll('"', "&quot;")}" data-fullname="${String(user.fullname).replaceAll('"', "&quot;")}" data-username="${String(user.username).replaceAll('"', "&quot;")}" data-email="${String(user.email).replaceAll('"', "&quot;")}" data-phone="${String(user.phone).replaceAll('"', "&quot;")}" data-role="${String(user.role).replaceAll('"', "&quot;")}" data-department="${String(user.department).replaceAll('"', "&quot;")}">${user.fullname || user.username || "Kullanıcı"}</span>`
+      `<span class="user-chip" data-user-id="${String(user.id).replaceAll('"', "&quot;")}" data-fullname="${String(user.fullname).replaceAll('"', "&quot;")}" data-username="${String(user.username).replaceAll('"', "&quot;")}" data-email="${String(user.email).replaceAll('"', "&quot;")}" data-phone="${String(user.phone).replaceAll('"', "&quot;")}" data-role="${String(user.role).replaceAll('"', "&quot;")}" data-department="${String(user.department).replaceAll('"', "&quot;")}">${user.fullname || user.username || "Kayıtlı kişi"}</span>`
     )).join("");
   }
 
@@ -677,7 +690,7 @@
   }
 
   function showConfirm(message) {
-    return Promise.resolve(global.confirm(message || "Onaylıyor musunuz?"));
+    return Promise.resolve(global.confirm(message || "Bu işlem kayıt durumu, bağlantılı dosyalar ve denetim izini etkileyebilir. Devam edilsin mi?"));
   }
 
   function setLoading(target, isLoading, text) {
@@ -689,12 +702,53 @@
 
   function setEmpty(target, text) {
     const el = typeof target === "string" ? document.getElementById(target) : target;
-    if (el) el.textContent = text || "Kayıt bulunamadı";
+    if (el) el.textContent = text || "Bu alan için henüz kayıt oluşturulmadı";
   }
 
   function setError(target, error) {
     const el = typeof target === "string" ? document.getElementById(target) : target;
-    if (el) el.textContent = error?.message || "Hata oluştu";
+    if (el) el.textContent = friendlyErrorMessage(error);
+  }
+
+  function friendlyErrorMessage(error) {
+    if (error?.status === 401) return "Oturum süresi doldu. Lütfen tekrar giriş yapın.";
+    if (error?.status === 403) return "Bu işlem için yetkiniz bulunmuyor.";
+    if (error?.status === 404) return "İstenen kayıt bulunamadı.";
+    if (error?.status === 0) return "Sunucuya ulaşılamıyor. Bağlantınızı kontrol edin.";
+    return "İşlem tamamlanamadı. Lütfen tekrar deneyin.";
+  }
+
+  function isDeleteAction(action) {
+    if (!action || action.closest("[data-gdnl-confirm-scope='off']")) return false;
+    const text = (action.textContent || "").toLocaleLowerCase("tr-TR");
+    const aria = (action.getAttribute("aria-label") || "").toLocaleLowerCase("tr-TR");
+    const cls = String(action.className || "").toLocaleLowerCase("tr-TR");
+    const dataAction = (action.dataset.action || action.dataset.operation || "").toLocaleLowerCase("tr-TR");
+    const onclick = (action.getAttribute("onclick") || "").toLocaleLowerCase("tr-TR");
+    const haystack = [text, aria, cls, dataAction, onclick].join(" ");
+    return /\b(delete|remove|trash|sil|kaldır|arşivle|arsivle)\b/.test(haystack);
+  }
+
+  function installDeleteConfirmations() {
+    if (global.__gdnlDeleteConfirmInstalled) return;
+    global.__gdnlDeleteConfirmInstalled = true;
+    document.addEventListener("click", (event) => {
+      const action = event.target?.closest?.("button,a,[role='button']");
+      if (!action || action.dataset.gdnlConfirmSkip === "true" || action.dataset.gdnlConfirmed === "true") {
+        if (action) action.dataset.gdnlConfirmed = "";
+        return;
+      }
+      if (!isDeleteAction(action)) return;
+      const inline = action.getAttribute("onclick") || "";
+      if (/confirm\s*\(|permanentDelete\s*\(/i.test(inline)) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      showConfirm().then((approved) => {
+        if (!approved) return;
+        action.dataset.gdnlConfirmed = "true";
+        action.click();
+      });
+    }, true);
   }
 
   global.GDNL_API = {
@@ -720,6 +774,7 @@
     renderDepartmentChips,
     showToast,
     showConfirm,
+    friendlyErrorMessage,
     enhanceTopbarLinks,
     updateMailboxUnreadBadge,
     asArray,
@@ -733,6 +788,7 @@
     isUiStorageKey,
     canonicalApiPath,
     legacyStorage,
+    installDeleteConfirmations,
     ui: { setLoading, setEmpty, setError }
   };
 
@@ -741,6 +797,7 @@
   if (!isLoginPage()) {
     const applyFallback = () => {
       applyCurrentUser(global.GDNL_CURRENT_USER || {});
+      installDeleteConfirmations();
       enhanceTopbarLinks();
     };
     if (document.readyState === "loading") {

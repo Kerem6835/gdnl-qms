@@ -92,7 +92,7 @@
 
   function exportPdf(name, records) {
     const rows = toRows(records);
-    const html = `<!doctype html><html><head><meta charset="utf-8"><title>${esc(name)} PDF</title><style>body{font-family:Arial;padding:24px;color:#172033}h1{color:#071b34}table{width:100%;border-collapse:collapse}th,td{border:1px solid #dfe9f5;padding:8px;font-size:12px}th{background:#f4f9ff}</style></head><body><h1>GDNL EQMS ${esc(name)} Raporu</h1><table><thead><tr><th>ID</th><th>Başlık</th><th>Durum</th><th>Sorumlu</th><th>Departman</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${esc(r.id)}</td><td>${esc(r.title)}</td><td>${esc(r.status)}</td><td>${esc(r.owner)}</td><td>${esc(r.department)}</td></tr>`).join("")}</tbody></table></body></html>`;
+    const html = `<!doctype html><html><head><meta charset="utf-8"><title>${esc(name)} PDF</title><style>body{font-family:Arial;padding:24px;color:#172033}h1{color:#071b34}table{width:100%;border-collapse:collapse}th,td{border:1px solid #dfe9f5;padding:8px;font-size:12px}th{background:#f4f9ff}</style></head><body><h1>GDNL EOS ${esc(name)} Raporu</h1><table><thead><tr><th>ID</th><th>Başlık</th><th>Durum</th><th>Sorumlu</th><th>Departman</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${esc(r.id)}</td><td>${esc(r.title)}</td><td>${esc(r.status)}</td><td>${esc(r.owner)}</td><td>${esc(r.department)}</td></tr>`).join("")}</tbody></table></body></html>`;
     const win = window.open("", "_blank");
     if (!win) return;
     win.document.write(html);

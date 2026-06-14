@@ -7,6 +7,9 @@
     [/Canlı API/i, "Canlı kayıt"],
     [/API Durumu/i, "Sistem Durumu"],
     [/API bağlantısı/i, "Sistem bağlantısı"],
+    [/API Hatası/i, "Sistem Uyarısı"],
+    [/A[P]I hata verdi/i, "Sistem işlemi tamamlanamadı"],
+    [/\bAPI\b/i, "Sistem"],
     [/endpoint’i/i, "servisi"],
     [/endpointi/i, "servisi"],
     [/endpoint/i, "servis"],
@@ -20,7 +23,13 @@
     [/Motoru/i, "Takibi"],
     [/Komuta Merkezi/i, "Yönetim Merkezi"],
     [/JSON hatası/i, "Kayıt işleme hatası"],
-    [/Stack trace/i, "Hata detayı"]
+    [/Stack trace/i, "Hata detayı"],
+    [/D1 bağlantısı kurulamadı[^.]*\./i, "Kayıtlar şu anda alınamadı."],
+    [/D1 bağlantısı kontrol edilmeli/i, "Kayıt servisi kontrol edilmeli"],
+    [/D1 Bağlanıyor/i, "Kayıtlar yükleniyor"],
+    [/D1/i, "Kayıt"],
+    [/CORS/i, "bağlantı"],
+    [/binding/i, "servis"]
   ];
 
   const BROKEN_ROUTE_MAP = Object.freeze({
@@ -132,6 +141,37 @@
     document.body.classList.add("quality-suite");
   }
 
+  function brandMarkup() {
+    return '<span class="gdnl-logo-mark" aria-hidden="true">G</span><span class="gdnl-logo-text"><strong>GDNL <em>EOS</em></strong><small>Kalite Yönetim Sistemi</small></span>';
+  }
+
+  function normalizeQualityBrand() {
+    document.querySelectorAll(".sidebar .logo,.mobile-drawer-logo").forEach((el) => {
+      if (el.dataset.gdnlBrandReady === "true") return;
+      el.classList.add("gdnl-eos-brand");
+      if (el.tagName === "A" && !el.getAttribute("href")) el.setAttribute("href", "dashboard.html");
+      el.innerHTML = brandMarkup();
+      el.dataset.gdnlBrandReady = "true";
+    });
+    document.querySelectorAll(".sidebar-footer").forEach((el) => {
+      el.innerHTML = el.innerHTML.replace(/GDNL\s+EQMS/gi, "GDNL EOS");
+    });
+  }
+
+  function targetFormForEmptyState(el) {
+    return el.closest(".panel,.card,.section,.main")?.querySelector("form,.form-grid,.form,.table-wrap,.panel,.card") || document.querySelector("form,.form-grid,.form");
+  }
+
+  function enhanceEmptyStateAction(el) {
+    if (el.dataset.gdnlEmptyReady === "true") return;
+    const message = (el.textContent || "Bu süreç için henüz kayıt oluşturulmadı.").trim();
+    el.innerHTML = '<div class="gdnl-empty-illustration" aria-hidden="true">▦</div><div><b>' + message + '</b><span>İlgili kayıt alanını kullanarak ilk kaydı oluşturabilirsiniz.</span></div><button class="gdnl-empty-action" type="button">Kayıt Oluştur</button>';
+    el.querySelector(".gdnl-empty-action")?.addEventListener("click", () => {
+      targetFormForEmptyState(el)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    el.dataset.gdnlEmptyReady = "true";
+  }
+
   function ensureProfessionalEmptyStates() {
     document.querySelectorAll(".empty").forEach((el) => {
       const text = (el.textContent || "").trim();
@@ -141,8 +181,13 @@
         el.textContent = text
           .replace(/Kayıt bulunamadı\./i, "Bu süreç için henüz kayıt oluşturulmadı.")
           .replace(/Sonuç bulunamadı\./i, "Arama kriterlerine uygun kayıt bulunamadı.");
+        enhanceEmptyStateAction(el);
       }
     });
+  }
+
+  function installQualityDeleteConfirmations() {
+    if (global.GDNL_API?.installDeleteConfirmations) global.GDNL_API.installDeleteConfirmations();
   }
 
   function addApqpAnchors() {
@@ -178,6 +223,7 @@
     if (!isQualityPage()) return;
     const config = options || {};
     markQualityPage();
+    normalizeQualityBrand();
     fixBrokenQualityLinks();
     normalizeSearchButtons();
     normalizeCtas();
@@ -186,6 +232,7 @@
     ensureProfessionalEmptyStates();
     addApqpAnchors();
     addQualityAnchors();
+    installQualityDeleteConfirmations();
     if (!config.skipSidebar && global.GDNL_SIDEBAR && typeof global.GDNL_SIDEBAR.normalizeQualitySidebar === "function") {
       global.GDNL_SIDEBAR.normalizeQualitySidebar();
     }
@@ -212,6 +259,7 @@
     run,
     fixBrokenQualityLinks,
     normalizeSearchButtons,
+    normalizeQualityBrand,
     normalizeVisibleTerminology,
     removeActiveDepartmentBadges
   };
