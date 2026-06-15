@@ -1,6 +1,6 @@
 # Egitim Sunumu Taslagi
 
-## 1. GDNL EOS Genel Bakis
+## 1. GDNL QMS Genel Bakis
 
 Kalite surecleri tek platformda: dokuman, CAPA, risk, denetim, egitim, tedarikci, aksiyon ve YGG.
 

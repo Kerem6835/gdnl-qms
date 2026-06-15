@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Kalibrasyon Yönetimi</title>
+<title>GDNL QMS | Kalibrasyon Yönetimi</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -335,7 +335,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
@@ -388,7 +388,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
 <div class="submenu open">
 <a class="active" href="calibration-management.html">Kalibrasyon Yönetimi</a>
-<a href="maintenance.html">Bakım Yönetimi</a>
+<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
 <a href="calibration-management.html">Ekipman Yönetimi</a>
 </div>
 
@@ -415,7 +415,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="sidebar">
 <div>
-<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<a href="dashboard.html" class="logo">GDNL <span>QMS</span></a>
 <nav class="menu">
 <a href="dashboard.html">🏠 Dashboard</a>
 
@@ -466,7 +466,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <button class="menu-group active-group open" type="button" onclick="toggleMenuGroup(this)">🔬 Teknik Yönetim <span class="chev">›</span></button>
 <div class="submenu open">
 <a class="active" href="calibration-management.html">Kalibrasyon Yönetimi</a>
-<a href="maintenance.html">Bakım Yönetimi</a>
+<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
 <a href="calibration-management.html">Ekipman Yönetimi</a>
 </div>
 
@@ -666,7 +666,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <script src="assets/js/ui/sidebar.js?v=dashboard-master-sidebar"></script>
 <script>
 
-/* GDNL EOS Cloud Migration & D1/R2 Enterprise Integration */
+/* GDNL QMS Cloud Migration & D1/R2 Enterprise Integration */
 const API_BASE = window.GDNL_API_BASE;
 let cloudUsers=[],cloudDepartments=[],cloudDevices=[],cloudNotifications=[],cloudReady=false;
 
@@ -1160,7 +1160,7 @@ async function createActionFromCalibration(){
 }
 
 loadCloudBaseData().then(()=>loadEnterpriseCloudData()).finally(()=>{initUsers();resetForm();clearSertifikaInputs();renderDevices();syncDashboardKpis();});
-console.log("GDNL EOS Kalibrasyon Yönetimi yüklendi");
+console.log("GDNL QMS Kalibrasyon Yönetimi yüklendi");
 </script>
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/config/routes.js?v=quality-premium-1"></script>

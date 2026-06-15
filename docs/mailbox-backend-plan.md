@@ -1,4 +1,4 @@
-# GDNL EOS Mesaj Merkezi Backend Hazirlik Plani
+# GDNL QMS Mesaj Merkezi Backend Hazirlik Plani
 
 Bu dokuman canli Worker yerine gecmez. `api/worker.js`, `api/schema.sql`, `api/seed.sql` ve `api/README.md` dosyalari degistirilmeden, canli `gdnl-eos-api` uzerinde uygulanacak D1/R2 sozlesmesini tarif eder.
 

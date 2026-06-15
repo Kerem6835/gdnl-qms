@@ -4,7 +4,7 @@
   const menu = Object.freeze([
     {
       id: "home",
-      label: "Dashboard",
+      label: "Panel",
       icon: "🏠",
       route: "dashboard.html",
       type: "single"
@@ -29,8 +29,7 @@
       label: "Kalite Yönetimi",
       icon: "⚙️",
       items: [
-        { label: "Uygunsuzluk Yönetimi", route: "capa.html#ncr" },
-        { label: "8D / CAPA", route: "capa.html" },
+        { label: "Uygunsuzluk & 8D / CAPA", route: "capa.html" },
         { label: "Risk Yönetimi", route: "risk-register.html" },
         { label: "Değişiklik Yönetimi", route: "change-management.html" },
         { label: "Süreç Yönetimi", route: "process-management.html" },
@@ -45,7 +44,7 @@
       items: [
         { label: "Eğitim Yönetimi", route: "training-management.html" },
         { label: "Yetkinlik Matrisi", route: "competency-matrix.html" },
-        { label: "Kullanıcılar", route: "users.html" }
+        { label: "Kullanıcı Yetkileri", route: "users.html" }
       ]
     },
     {
@@ -54,7 +53,7 @@
       icon: "🏭",
       items: [
         { label: "Tedarikçi Yönetimi", route: "supplier-management.html" },
-        { label: "Müşteri Yönetimi", route: "customer-management.html" }
+        { label: "Müşteri Şikayetleri", route: "customer-management.html" }
       ]
     },
     {
@@ -68,7 +67,7 @@
         { label: "Aktivite Merkezi", route: "activity-center.html" },
         { label: "Bildirim Merkezi", route: "notification-center.html" },
         { label: "Dosya Merkezi", route: "file-center.html" },
-        { label: "Global Arama", route: "search.html" },
+        { label: "Genel Arama", route: "search.html" },
         { label: "Mesaj Merkezi", route: "mailbox.html" }
       ]
     },

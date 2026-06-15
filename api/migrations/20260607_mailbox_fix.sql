@@ -1,4 +1,4 @@
--- GDNL EOS Mailbox live fix
+-- GDNL QMS Mailbox live fix
 -- Safe baseline for internal messaging. This migration only creates missing
 -- mailbox tables and does not drop, truncate, or rewrite existing data.
 

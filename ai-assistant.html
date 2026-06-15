@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | AI Asistan</title>
+<title>GDNL QMS | AI Asistan</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -499,7 +499,7 @@ body{
 <main class="main">
 
   <div class="topbar">
-    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
+    <a class="brand" href="dashboard.html">GDNL <span>QMS</span></a>
 
     <div class="top-actions">
       <a class="btn blue" href="dashboard.html">← Dashboard</a>
@@ -575,7 +575,7 @@ body{
         </div>
 
         <div class="status-note">
-          Bu ekran tarayıcıda API anahtarı tutmaz. AI istekleri GDNL EOS backend üzerinden yönetilir. Kritik kayıtlar LocalStorage’a yazılmaz.
+          Bu ekran tarayıcıda API anahtarı tutmaz. AI istekleri GDNL QMS backend üzerinden yönetilir. Kritik kayıtlar LocalStorage’a yazılmaz.
         </div>
       </div>
 
@@ -942,7 +942,7 @@ async function uploadContextFile(){
       uploaded_by:currentUserName()
     });
   }catch(error){
-    console.error(error);
+    console.warn(error);
     toastMsg("Bağlam dosyası R2 yükleme sırasında beklemeye alındı.");
     return null;
   }
@@ -1007,11 +1007,11 @@ async function sendPrompt(){
     addMessage("assistant",answer,activeMode.name);
 
   }catch(error){
-    console.error(error);
+    console.warn(error);
 
     addMessage(
       "assistant",
-      "AI backend endpointi hazır olduğunda bu mod canlı öneri döndürecek. Tarayıcıda API anahtarı tutulmaz; istek GDNL EOS backend üzerinden OpenAI API uyumlu mimariye gönderilmelidir.",
+      "AI backend endpointi hazır olduğunda bu mod canlı öneri döndürecek. Tarayıcıda API anahtarı tutulmaz; istek GDNL QMS backend üzerinden OpenAI API uyumlu mimariye gönderilmelidir.",
       activeMode.name
     );
   }finally{
@@ -1055,7 +1055,7 @@ async function runSemanticSearch(){
     addMessage("assistant",answer,"Semantik arama");
 
   }catch(error){
-    console.error(error);
+    console.warn(error);
 
     try{
       if(!api || typeof api.get !== "function"){
@@ -1072,7 +1072,7 @@ async function runSemanticSearch(){
       );
 
     }catch(innerError){
-      console.error(innerError);
+      console.warn(innerError);
 
       addMessage(
         "assistant",

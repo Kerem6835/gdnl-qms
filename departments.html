@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Departmanlar</title>
+<title>GDNL QMS | Departmanlar</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -453,13 +452,13 @@ td{
 <main class="main">
 
   <div class="topbar">
-    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
+    <a class="brand" href="dashboard.html">GDNL <span>QMS</span></a>
 
     <div class="top-actions">
       <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
       <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
       <button class="btn btn-red" onclick="logout()">Çıkış</button>
-      <div class="userbox">👤 <span id="userName">Oturum doğrulanıyor</span></div>
+      <div class="userbox">👤 <span id="userName">Kullanıcı</span></div>
     </div>
   </div>
 
@@ -582,11 +581,11 @@ function getCurrentUser(){
       null;
 
     if(user){
-      return val(user,"fullname","full_name","name","username","email") || "Oturum doğrulanıyor";
+      return val(user,"fullname","full_name","name","username","email") || "Kullanıcı";
     }
   }catch(e){}
 
-  return "Oturum doğrulanıyor";
+  return "Kullanıcı";
 }
 
 function setUserName(){
@@ -837,7 +836,7 @@ async function loadDepartments(){
     toastMsg("Departman verileri güncellendi.");
 
   }catch(error){
-    console.error(error);
+    console.warn(error);
     table.className = "error";
     table.innerHTML = "Departman verileri alınamadı. API bağlantısı, /departments endpoint’i veya oturum doğrulaması kontrol edilmelidir.";
     updateStats([]);
@@ -880,7 +879,8 @@ boot();
 
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/config/routes.js?v=quality-qms"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-qms"></script>
 
 </body>
 </html>
-```

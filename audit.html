@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Denetim Yönetimi</title>
+<title>GDNL QMS | Denetim Yönetimi</title>
 <style>
 
 
@@ -131,7 +131,7 @@ tr:hover td{background:#f7fbf8}
 @media(max-width:850px){.form-grid,.subgrid,.calendar{grid-template-columns:1fr}.field.full,.field.double{grid-column:1/-1}.mobile-drawer-menu{padding-bottom:100px}table{min-width:760px}.audit-box{overflow:auto}}
 
 
-/* GDNL EOS Cloud Migration Ek Katmanı */
+/* GDNL QMS Cloud Migration Ek Katmanı */
 .cloud-autocomplete{position:relative}
 .cloud-suggest{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:75;background:#fff;border:1px solid #dfe9f5;border-radius:16px;box-shadow:0 20px 46px rgba(7,27,52,.13);padding:8px;max-height:240px;overflow:auto}
 .cloud-suggest.active{display:block}
@@ -374,7 +374,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
@@ -448,7 +448,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="sidebar">
 <div>
-<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<a href="dashboard.html" class="logo">GDNL <span>QMS</span></a>
 <nav class="menu">
 <a href="dashboard.html">🏠 Dashboard</a>
 
@@ -1107,7 +1107,7 @@ if(document.getElementById("globalSearch")){
 }
 
 
-/* GDNL EOS / GDNL EOS Enterprise Kurumsal Hazır katmanı */
+/* GDNL QMS / GDNL QMS Enterprise Kurumsal Hazır katmanı */
 const GDNL_CLOUD_MODULE="Denetim Yönetimi";
 const GDNL_SEQUENCE_MODULE="AUDIT";
 let gdnlSelectedTeamUsers=[];
@@ -1141,7 +1141,7 @@ async function renderAuditComments(related_id="GENEL"){const box=document.getEle
 async function initializeEnterpriseCloudLayer(){await loadRBAC();await initEnterpriseSequence();await refreshDashboardKpiSync();setupAllPersonAutocompletes();renderAuditComments()}
 initializeEnterpriseCloudLayer();
 
-console.log("GDNL EOS Denetim Yönetimi Yüklendi");
+console.log("GDNL QMS Denetim Yönetimi Yüklendi");
 </script>
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>

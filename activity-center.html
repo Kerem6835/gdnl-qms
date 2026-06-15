@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Aktivite Merkezi</title>
+<title>GDNL QMS | Aktivite Merkezi</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -338,16 +338,38 @@ td{
 </head>
 
 <body>
+<div class="mobile-overlay" id="mobileOverlay" onclick="window.GDNL_MOBILE_MENU?.close()"></div>
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-head">
+    <a class="mobile-drawer-logo" href="dashboard.html">GDNL <span>QMS</span></a>
+    <button class="mobile-close" type="button" onclick="window.GDNL_MOBILE_MENU?.close()">×</button>
+  </div>
+  <nav class="mobile-drawer-menu"></nav>
+  <div class="mobile-drawer-footer">
+    <button class="mobile-logout" type="button" onclick="logout()">Oturumu Kapat</button>
+  </div>
+</aside>
+
+<div class="app">
+<aside class="sidebar">
+  <div>
+    <a class="logo" href="dashboard.html">GDNL <span>QMS</span></a>
+    <nav class="menu"></nav>
+  </div>
+  <div class="sidebar-footer">GDNL QMS<br>Aktivite Merkezi<br>İzlenebilirlik</div>
+</aside>
+
 <main class="main">
 
   <div class="topbar">
-    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
+    <button class="mobile-menu-btn" type="button" onclick="window.GDNL_MOBILE_MENU?.open()">☰</button>
+    <a class="brand" href="dashboard.html">GDNL <span>QMS</span></a>
 
     <div class="top-actions">
       <a href="dashboard.html" class="btn btn-blue">← Dashboard</a>
       <a href="mailbox.html" class="btn btn-green">📨 Mesaj Merkezi</a>
       <button class="btn btn-red" onclick="logout()">Oturumu Kapat</button>
-      <div class="userbox">👤 <span id="userName">Oturum doğrulanıyor</span></div>
+      <div class="userbox">👤 <span id="userName">Kullanıcı</span></div>
     </div>
   </div>
 
@@ -396,6 +418,7 @@ td{
   </section>
 
 </main>
+</div>
 
 <script src="assets/js/config/api-client.js"></script>
 <script src="assets/js/ui/user-autocomplete.js?v=quality-users-5"></script>
@@ -459,11 +482,11 @@ function getCurrentUser(){
       null;
 
     if(sessionUser){
-      return val(sessionUser,"full_name","fullname","name","username","email") || "Oturum doğrulanıyor";
+      return val(sessionUser,"full_name","fullname","name","username","email") || "Kullanıcı";
     }
   }catch(e){}
 
-  return "Oturum doğrulanıyor";
+  return "Kullanıcı";
 }
 
 function setUserName(){
@@ -608,7 +631,7 @@ async function loadActivities(){
     renderRows();
 
   }catch(error){
-    console.error(error);
+    console.warn(error);
     table.className = "error";
     table.innerHTML = "Aktivite kayıtları alınamadı. Sistem bağlantısı veya oturum doğrulaması kontrol edilmelidir.";
     updateStats([]);
@@ -635,6 +658,7 @@ loadActivities();
 
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 
 <script src="assets/js/config/routes.js?v=quality-premium-1"></script>
 <script src="assets/js/ui/sidebar.js?v=quality-premium-1"></script>

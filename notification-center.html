@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Bildirim Merkezi</title>
+<title>GDNL QMS | Bildirim Merkezi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 html,body{min-height:100%;overflow-x:hidden}
@@ -34,7 +34,7 @@ table{width:100%;border-collapse:collapse;border-radius:18px;overflow:hidden}th{
 @media(max-width:1200px){.search{width:320px}.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{display:none}.main{padding:18px}.mobile-menu-btn{display:flex;align-items:center;justify-content:center}.topbar{height:auto;min-height:78px;padding:14px;gap:10px;position:sticky;top:0;z-index:40;border-radius:22px}.search-wrap{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:9px}.search{width:100%;height:48px;font-size:12px;padding:0 13px}.search-btn{height:48px;padding:0 12px}.avatar{display:none!important}.logout-btn{display:none}.cards,.form-grid{grid-template-columns:1fr}.field.full{grid-column:1/-1}.hero{flex-direction:column;align-items:flex-start;padding:26px 24px;border-radius:26px}.hero h1{font-size:30px}.hero p{font-size:16px}.hero-badge{width:100%;text-align:center}.panel{overflow:auto;border-radius:22px}.drawer{right:12px;top:12px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);border-radius:22px}.actions .btn{width:100%}}
 
 
-/* === GDNL EOS LOCKED ACCORDION MENU === */
+/* === GDNL QMS LOCKED ACCORDION MENU === */
 .menu,.mobile-drawer-menu{gap:9px!important}
 .menu-group{width:100%;border:1px solid transparent;background:transparent;color:#334155;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:950;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.2s;text-align:left}
 .menu-group:hover,.menu-group.open{background:linear-gradient(135deg,#eefaf2,#f4fbff);color:#1f7d3d;border-color:#bfe7ca;box-shadow:0 10px 25px rgba(53,168,82,.10)}
@@ -273,7 +273,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
@@ -349,7 +349,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="sidebar">
 <div>
-<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<a href="dashboard.html" class="logo">GDNL <span>QMS</span></a>
 <nav class="menu">
 <a href="dashboard.html">🏠 Dashboard</a>
 
@@ -417,7 +417,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EOS<br>Bildirim Merkezi<br>Bulut Hazır</div>
+<div class="sidebar-footer">GDNL QMS<br>Bildirim Merkezi<br>Bulut Hazır</div>
 </aside>
 
 <main class="main">
@@ -437,7 +437,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <section class="hero">
 <div>
 <h1>Bildirim Merkezi</h1>
-<p>Tüm GDNL EOS modüllerinden gelen e-posta, SMS ve sistem bildirimlerini tek merkezden yönet. Kuyruk, tekrar gönderim, hata, kapatma, toplu işlem, CSV ve e-posta entegrasyonu dahil.</p>
+<p>Tüm GDNL QMS modüllerinden gelen e-posta, SMS ve sistem bildirimlerini tek merkezden yönet. Kuyruk, tekrar gönderim, hata, kapatma, toplu işlem, CSV ve e-posta entegrasyonu dahil.</p>
 </div>
 <div class="hero-badge">Kuyruk Durumu: <span>Canlı</span></div>
 </section>
@@ -633,7 +633,7 @@ function logout(){if(window.GDNL_API?.logout){window.GDNL_API.logout();return}wi
 function openMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.open({lockBody:false});return}document.getElementById("mobileDrawer")?.classList.add("active");document.getElementById("mobileOverlay")?.classList.add("active")}
 function closeMobileMenu(){if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.close({lockBody:false});return}document.getElementById("mobileDrawer")?.classList.remove("active");document.getElementById("mobileOverlay")?.classList.remove("active")}
 function initAccordionMenu(){document.querySelectorAll('.menu-group').forEach(btn=>{btn.addEventListener('click',()=>{const parent=btn.closest('nav');const submenu=btn.nextElementSibling;if(!submenu)return;parent.querySelectorAll('.menu-group').forEach(b=>{if(b!==btn)b.classList.remove('open')});parent.querySelectorAll('.submenu').forEach(s=>{if(s!==submenu)s.classList.remove('open')});btn.classList.toggle('open');submenu.classList.toggle('open')})})}
-async function boot(){initAccordionMenu();await loadCloudData();manualModule.querySelectorAll('option').forEach(o=>o.value=moduleValue(o.value),o.textContent=moduleValue(o.textContent));moduleFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=moduleValue(o.value);o.textContent=moduleValue(o.textContent)});manualType.querySelectorAll('option').forEach(o=>{o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});typeFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});manualPriority.querySelectorAll('option').forEach(o=>{o.value=priorityValue(o.value);o.textContent=priorityValue(o.textContent)});sendMode.querySelectorAll('option').forEach(o=>{if(o.textContent.includes('Email'))o.textContent='E-posta Hazır';if(o.textContent.includes('E-posta'))o.textContent='E-posta Manuel'});setupUserAutocomplete("manualE-postaGroups","mailRecipients");loadIntegration();await clearManual();renderNotifications();globalSearch.addEventListener("input",renderNotifications);globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});setInterval(async()=>{await loadCloudData();renderNotifications()},30000);console.log("GDNL EOS Bildirim Merkezi Bulut Hazır")}
+async function boot(){initAccordionMenu();await loadCloudData();manualModule.querySelectorAll('option').forEach(o=>o.value=moduleValue(o.value),o.textContent=moduleValue(o.textContent));moduleFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=moduleValue(o.value);o.textContent=moduleValue(o.textContent)});manualType.querySelectorAll('option').forEach(o=>{o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});typeFilter.querySelectorAll('option').forEach(o=>{if(o.value)o.value=typeValue(o.value);o.textContent=typeValue(o.textContent)});manualPriority.querySelectorAll('option').forEach(o=>{o.value=priorityValue(o.value);o.textContent=priorityValue(o.textContent)});sendMode.querySelectorAll('option').forEach(o=>{if(o.textContent.includes('Email'))o.textContent='E-posta Hazır';if(o.textContent.includes('E-posta'))o.textContent='E-posta Manuel'});setupUserAutocomplete("manualE-postaGroups","mailRecipients");loadIntegration();await clearManual();renderNotifications();globalSearch.addEventListener("input",renderNotifications);globalSearch.addEventListener("keydown",e=>{if(e.key==="Enter")runSearch()});setInterval(async()=>{await loadCloudData();renderNotifications()},30000);console.log("GDNL QMS Bildirim Merkezi Bulut Hazır")}
 boot();
 </script>
 <script src="assets/js/ui/maturity-widgets.js"></script>

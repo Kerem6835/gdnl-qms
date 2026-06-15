@@ -22,4 +22,4 @@ Risk kayitlari S/O/D/RPN, risk seviyesi, heat map ve aksiyon sonrasi RPN uzerind
 
 ## Mailbox
 
-Mesaj Merkezi sadece GDNL EOS ic mesajlasma icindir. Harici e-posta hesabi okumaz.
+Mesaj Merkezi sadece GDNL QMS ic mesajlasma icindir. Harici e-posta hesabi okumaz.

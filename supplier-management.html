@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Tedarikçi Yönetimi</title>
+<title>GDNL QMS | Tedarikçi Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -329,7 +329,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
@@ -418,7 +418,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </aside>
 <aside class="sidebar">
 <div>
-<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<a href="dashboard.html" class="logo">GDNL <span>QMS</span></a>
 <nav class="menu">
 <div class="menu-section">
   <button class="menu-title" type="button" onclick="toggleMenuGroup(this)">🏠 Dashboard</button>
@@ -500,7 +500,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EOS<br>Tedarikçi Yönetimi<br>IATF / CoP / EV Hazır</div>
+<div class="sidebar-footer">GDNL QMS<br>Tedarikçi Yönetimi<br>IATF / CoP / EV Hazır</div>
 </aside>
 
 <main class="main">
@@ -731,8 +731,8 @@ state.users=activeOnly(u).map(normalizeUser);
 state.departments=activeOnly(d).map(x=>({id:x.id,department_name:x.department_name||x.name||x.department||""}));
 state.suppliers=activeOnly(s).map(normalizeSupplier);
 state.notifications=activeOnly(n);state.auditLogs=activeOnly(a);state.activityFeed=activeOnly(af);state.comments=activeOnly(c);state.assignments=activeOnly(as);state.approvals=activeOnly(ap);state.approvalHistory=activeOnly(aph);state.workflowHistory=activeOnly(wfh);state.files=activeOnly(files);state.archive=asArray(arch);
-state.currentUser=window.GDNL_CURRENT_USER?normalizeUser(window.GDNL_CURRENT_USER):(window.currentUser?normalizeUser(window.currentUser):{id:"",fullname:"",role:"Oturum doğrulanıyor",department:""});
-document.getElementById("userName").textContent=state.currentUser.fullname||"Oturum doğrulanıyor";
+state.currentUser=window.GDNL_CURRENT_USER?normalizeUser(window.GDNL_CURRENT_USER):(window.currentUser?normalizeUser(window.currentUser):{id:"",fullname:"",role:"Kullanıcı",department:""});
+document.getElementById("userName").textContent=state.currentUser.fullname||"Kullanıcı";
 }
 
 function searchUsers(term){const q=String(term||"").toLowerCase();return state.users.filter(u=>`${u.fullname} ${u.email} ${u.role} ${u.department}`.toLowerCase().includes(q)).slice(0,12)}

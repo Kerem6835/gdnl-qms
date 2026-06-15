@@ -1,4 +1,4 @@
-# GDNL EOS Cloudflare API
+# GDNL QMS Cloudflare API
 
 Frontend tek API base üzerinden konuşur:
 
@@ -38,7 +38,7 @@ Hatalı:
 
 ## Mesaj Merkezi Canlı Endpointleri
 
-GDNL EOS iç mesajlaşma sistemi dış e-posta istemcisi değildir; Gmail, Outlook, IMAP, POP3 veya Exchange bağlantısı içermez.
+GDNL QMS iç mesajlaşma sistemi dış e-posta istemcisi değildir; Gmail, Outlook, IMAP, POP3 veya Exchange bağlantısı içermez.
 
 Yeni D1 tabloları:
 

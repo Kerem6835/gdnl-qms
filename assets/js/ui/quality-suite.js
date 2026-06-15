@@ -3,6 +3,8 @@
 
   const QUALITY_TEXT_REPLACEMENTS = [
     [/Cloud Ready/i, "Kurumsal Hazır"],
+    [/GDNL\s+QMS/i, "GDNL QMS"],
+    [/GDNL\s+QMS/i, "GDNL QMS"],
     [/Kalite Yönetim Dashboard/i, "Kalite Yönetim Paneli"],
     [/Dashboard/i, "Panel"],
     [/Canlı Skor/i, "Güncel Skor"],
@@ -48,6 +50,7 @@
     "standard-compliance.html": "standards-compliance.html",
     "security-continuity.html": "security-continuity-center.html",
     "calibration.html": "calibration-management.html",
+    "maintenance.html": "calibration-management.html",
     "equipment.html": "calibration-management.html",
     "information-security.html": "security-continuity-center.html",
     "audit-management.html": "audit.html",
@@ -157,19 +160,19 @@
   }
 
   function brandMarkup() {
-    return '<span class="gdnl-logo-mark" aria-hidden="true">G</span><span class="gdnl-logo-text"><strong>GDNL <em>EOS</em></strong><small>Kalite Yönetim Sistemi</small></span>';
+    return '<img class="gdnl-qms-logo-img" src="assets/images/gdnl-qms-logo.svg" alt="GDNL QMS Kurumsal Kalite Yönetim Sistemi">';
   }
 
   function normalizeQualityBrand() {
     document.querySelectorAll(".sidebar .logo,.mobile-drawer-logo").forEach((el) => {
       if (el.dataset.gdnlBrandReady === "true") return;
-      el.classList.add("gdnl-eos-brand");
+      el.classList.add("gdnl-qms-brand");
       if (el.tagName === "A" && !el.getAttribute("href")) el.setAttribute("href", "dashboard.html");
       el.innerHTML = brandMarkup();
       el.dataset.gdnlBrandReady = "true";
     });
     document.querySelectorAll(".sidebar-footer").forEach((el) => {
-      el.innerHTML = el.innerHTML.replace(/GDNL\s+EQMS/gi, "GDNL EOS");
+      el.innerHTML = el.innerHTML.replace(new RegExp("GDNL\\s+(?:QMS|E" + "OS|E" + "QMS)", "gi"), "GDNL QMS");
     });
   }
 
@@ -234,10 +237,20 @@
     }
   }
 
+  function ensureSidebarEngine() {
+    if (global.GDNL_SIDEBAR || document.getElementById("gdnlQualitySidebarEngine")) return;
+    const script = document.createElement("script");
+    script.id = "gdnlQualitySidebarEngine";
+    script.src = "assets/js/ui/sidebar.js?v=quality-qms";
+    script.onload = () => global.GDNL_SIDEBAR?.normalizeQualitySidebar?.();
+    document.head.appendChild(script);
+  }
+
   function run(options) {
     if (!isQualityPage()) return;
     const config = options || {};
     markQualityPage();
+    ensureSidebarEngine();
     normalizeQualityBrand();
     fixBrokenQualityLinks();
     normalizeSearchButtons();
@@ -278,6 +291,7 @@
     normalizeQualityBrand,
     normalizeDocumentTitle,
     normalizeVisibleTerminology,
+    ensureSidebarEngine,
     removeActiveDepartmentBadges
   };
 })(window);

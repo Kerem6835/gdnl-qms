@@ -3,7 +3,7 @@
 
   const DEFAULT_API_BASE = "https://api.gdnldigital.com";
   const TOKEN_KEY = "gdnl_api_token";
-  const USER_NAME_PENDING = "Oturum doğrulanıyor";
+  const USER_NAME_PENDING = "Kullanıcı";
 
   const API_BASE_URL = String(global.GDNL_API_BASE || DEFAULT_API_BASE).replace(/\/+$/, "");
   global.GDNL_API_BASE = API_BASE_URL;
@@ -244,8 +244,9 @@
 
     delete init.token;
     delete init.raw;
+    delete init.skipCanonical;
 
-    const canonicalPath = canonicalApiPath(path);
+    const canonicalPath = config.skipCanonical ? String(path || "/") : canonicalApiPath(path);
     const legacyPath = String(path || "/");
     let res;
     try {
@@ -283,10 +284,13 @@
   const del = (path, options) => request(path, Object.assign({}, options, { method: "DELETE" }));
 
   async function me(options) {
+    const config = Object.assign({}, options, { redirectOnUnauthorized: false });
     try {
-      return responseData(await get("/api/auth/me", options));
+      return responseData(await get("/api/auth/me", config));
     } catch (error) {
-      if (error.status === 404) return responseData(await get("/me", options));
+      if ([0, 401, 403, 404].includes(Number(error.status || 0))) {
+        return responseData(await request("/me", Object.assign({}, config, { method: "GET", skipCanonical: true })));
+      }
       throw error;
     }
   }
@@ -348,7 +352,7 @@
 .gdnl-mail-unread-badge.is-visible{display:inline-flex!important}
 .gdnl-global-user{display:inline-flex!important;align-items:center!important;gap:8px!important;height:44px!important;min-height:44px!important;border:1px solid #d8e4ef!important;border-radius:14px!important;background:linear-gradient(135deg,rgba(239,246,255,.96),rgba(248,251,255,.96))!important;padding:0 14px!important;font-weight:900!important;font-size:13px!important;color:#0f1b2f!important;white-space:nowrap!important;order:40!important}
 .gdnl-global-logout{background:#fff5f5!important;color:#b42318!important;border-color:#ffd5d5!important;order:50!important}
-.gdnl-global-search{min-width:56px!important;order:5!important}.gdnl-department-home{order:10!important}.gdnl-message-link{order:20!important}.gdnl-notification-link{order:30!important}
+.gdnl-global-search{min-width:56px!important;order:5!important}.gdnl-department-home{display:none!important}.gdnl-message-link{order:20!important}.gdnl-notification-link{order:30!important}
 @media(max-width:850px){.topbar{align-items:flex-start!important;flex-wrap:wrap!important}.topbar-actions,.gdnl-global-actions-host{width:100%!important;justify-content:flex-start!important;gap:8px!important}.topbar input[type="search"],.topbar input.search,.topbar .search,.topbar #globalSearch,.topbar #suiteSearch{width:100%!important}.gdnl-global-action{height:40px!important;min-height:40px!important;padding:0 10px!important;font-size:12px!important}.gdnl-global-icon{width:40px!important;min-width:40px!important;height:40px!important}.gdnl-global-user{height:40px!important;min-height:40px!important;max-width:100%;white-space:normal!important}}`;
     document.head.appendChild(style);
   }
@@ -497,21 +501,8 @@
         el.setAttribute("aria-label", "Bildirim Merkezi");
         el.textContent = "🔔";
       });
-      if (!bar.querySelector('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]') && currentPageName() !== "department-gateway.html") {
-        ensureAction(actionHost, ".gdnl-department-home", '<a class="gdnl-department-home" href="department-gateway.html">Departman Merkezi</a>', (el) => {
-          el.href = routeHref("department-gateway.html");
-          el.classList.add("gdnl-global-action", "primary");
-          el.textContent = "Departman Merkezi";
-        });
-      } else {
-        bar.querySelectorAll('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => {
-          if (el.tagName === "A") el.href = routeHref("department-gateway.html");
-          else el.onclick = () => { global.location.href = routeHref("department-gateway.html"); };
-          el.classList.add("gdnl-department-home", "gdnl-global-action", "primary");
-          el.textContent = el.textContent.includes("Dön") ? "Departman Merkezi" : "Departman Merkezi";
-        });
-      }
-      const department = firstAction(actionHost, "department-gateway.html", ".gdnl-department-home");
+      bar.querySelectorAll('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => el.remove());
+      const department = null;
       removeDuplicateActions(bar, "department-gateway.html", department);
       removeDuplicateActions(bar, "mailbox.html", mailbox);
       removeDuplicateActions(bar, "notification-center.html", notify);

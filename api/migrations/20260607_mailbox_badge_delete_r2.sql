@@ -1,4 +1,4 @@
--- GDNL EOS Mailbox unread badge + permanent delete/R2 cleanup support.
+-- GDNL QMS Mailbox unread badge + permanent delete/R2 cleanup support.
 -- No DROP TABLE, no data deletion. Existing data is preserved.
 
 CREATE TABLE IF NOT EXISTS message_attachments (

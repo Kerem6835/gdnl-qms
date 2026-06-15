@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Kurumsal Kullanıcı Yönetimi</title>
+<title>GDNL QMS | Kurumsal Kullanıcı Yönetimi</title>
 <style>
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -200,7 +200,7 @@ tr:hover td{background:#f7fbf8}
 }
 
 
-/* === GDNL EOS ENTERPRISE USERS MANAGEMENT CLOUD READY PATCH === */
+/* === GDNL QMS ENTERPRISE USERS MANAGEMENT CLOUD READY PATCH === */
 .cloud-note{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
 .cloud-pill{display:inline-flex;align-items:center;justify-content:center;border:1px solid #bfe7ca;background:#eefaf2;color:#1f7d3d;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:950}
 .warning-pill{display:inline-flex;align-items:center;justify-content:center;border:1px solid #fed7aa;background:#ffedd5;color:#c2410c;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:950}
@@ -446,7 +446,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EOS</span></div>
+    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
@@ -463,7 +463,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="sidebar">
   <div>
-    <a href="users.html" class="logo">GDNL <span>EOS</span></a>
+    <a href="users.html" class="logo">GDNL <span>QMS</span></a>
     <nav class="menu">
       <a class="single-link active" href="javascript:void(0)" data-module-link="users" onclick="showModule('users')">👥 Kullanıcılar</a>
       <a class="single-link" href="javascript:void(0)" data-module-link="roles" onclick="showModule('roles')">🛡️ Roller</a>
@@ -472,7 +472,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
       <a class="single-link" href="javascript:void(0)" data-module-link="system" onclick="showModule('system')">📡 Sistem İzleme</a>
     </nav>
   </div>
-  <div class="sidebar-footer">GDNL EOS Enterprise<br>Kullanıcı Yönetimi<br>JWT + HttpOnly Cookie Uyumlu</div>
+  <div class="sidebar-footer">GDNL QMS Enterprise<br>Kullanıcı Yönetimi<br>JWT + HttpOnly Cookie Uyumlu</div>
 </aside>
 
 <main class="main">
@@ -493,7 +493,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <section class="hero">
   <div>
     <h1>Kurumsal Kullanıcı Yönetimi</h1>
-    <p>Mevcut panel, arama bölümü, kart yapısı ve mobil akış korunarak GDNL EOS Kullanıcı Yönetimi modülü bulut uyumlu mimariye geçirildi. tarayıcı depolaması kullanılmaz; oturum GET /me ile doğrulanır.</p>
+    <p>Mevcut panel, arama bölümü, kart yapısı ve mobil akış korunarak GDNL QMS Kullanıcı Yönetimi modülü bulut uyumlu mimariye geçirildi. tarayıcı depolaması kullanılmaz; oturum GET /me ile doğrulanır.</p>
     <div class="cloud-note">
       <span class="cloud-pill">JWT + HttpOnly Cookie</span>
       <span class="cloud-pill">Bulutflare D1: DB</span>
@@ -744,7 +744,7 @@ async function bootstrap(){
     await Promise.all([loadKullanıcıs(), loadDashboardKpi(), loadSystemStreams()]);
     bindAutocomplete();
   }catch(err){
-    console.error(err);
+    console.warn(err);
     showToast("Oturum doğrulanamadı. Lütfen tekrar giriş yapın.");
   }
 }
@@ -1240,12 +1240,14 @@ document.addEventListener("keydown", e => {
 
 bootstrap();
 
-console.log("GDNL EOS Kurumsal Kullanıcı Yönetimi | D1/R2 bulut uyumlu");
+console.log("GDNL QMS Kurumsal Kullanıcı Yönetimi | D1/R2 bulut uyumlu");
 
 </script>
  
 
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/config/routes.js?v=quality-qms"></script>
+<script src="assets/js/ui/quality-suite.js?v=quality-qms"></script>
 </body>
 </html>

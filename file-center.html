@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Dosya Merkezi</title>
+<title>GDNL QMS | Dosya Merkezi</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -457,10 +456,32 @@ td{
 </head>
 
 <body>
+<div class="mobile-overlay" id="mobileOverlay" onclick="window.GDNL_MOBILE_MENU?.close()"></div>
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-head">
+    <a class="mobile-drawer-logo" href="dashboard.html">GDNL <span>QMS</span></a>
+    <button class="mobile-close" type="button" onclick="window.GDNL_MOBILE_MENU?.close()">×</button>
+  </div>
+  <nav class="mobile-drawer-menu"></nav>
+  <div class="mobile-drawer-footer">
+    <button class="mobile-logout" type="button" onclick="logout()">Oturumu Kapat</button>
+  </div>
+</aside>
+
+<div class="app">
+<aside class="sidebar">
+  <div>
+    <a class="logo" href="dashboard.html">GDNL <span>QMS</span></a>
+    <nav class="menu"></nav>
+  </div>
+  <div class="sidebar-footer">GDNL QMS<br>Dosya Merkezi<br>Kalite kayıtları</div>
+</aside>
+
 <main class="main">
 
   <div class="topbar">
-    <a class="brand" href="dashboard.html">GDNL <span>EQMS</span></a>
+    <button class="mobile-menu-btn" type="button" onclick="window.GDNL_MOBILE_MENU?.open()">☰</button>
+    <a class="brand" href="dashboard.html">GDNL <span>QMS</span></a>
 
     <div class="top-actions">
       <input id="globalSearch" class="search" placeholder="Dosya, modül, kayıt veya tip ara...">
@@ -550,6 +571,7 @@ td{
   </section>
 
 </main>
+</div>
 
 <div class="toast" id="toast">İşlem tamamlandı</div>
 
@@ -852,7 +874,7 @@ async function loadFiles(){
     renderFiles();
 
   }catch(error){
-    console.error(error);
+    console.warn(error);
     files = [];
     updateCards();
 
@@ -894,7 +916,7 @@ async function uploadSelectedFile(){
     await loadFiles();
 
   }catch(error){
-    console.error(error);
+    console.warn(error);
     toastMsg("Dosya yüklenemedi. Dosya depolama bağlantısı ve oturum doğrulaması kontrol edilmelidir.");
   }finally{
     uploadBtn.disabled = false;
@@ -933,10 +955,10 @@ boot();
 
 <script src="assets/js/ui/maturity-widgets.js"></script>
 <script src="assets/js/ui/enterprise-tools.js"></script>
+<script src="assets/js/ui/mobile-menu.js"></script>
 
 <script src="assets/js/config/routes.js?v=quality-premium-1"></script>
 <script src="assets/js/ui/sidebar.js?v=quality-premium-1"></script>
 <script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>
-```

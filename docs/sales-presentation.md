@@ -1,6 +1,6 @@
 # Satis Sunumu Taslagi
 
-## GDNL EOS Enterprise
+## GDNL QMS Enterprise
 
 Bulut tabanli kalite yonetim sistemi.
 

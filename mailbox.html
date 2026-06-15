@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | Mesaj Merkezi</title>
+<title>GDNL QMS | Mesaj Merkezi</title>
 <style>
 :root{
   --navy:#061b36;
@@ -67,8 +67,8 @@ button{cursor:pointer}
   min-width:250px;
 }
 .logo-mark{
-  width:64px;
-  height:64px;
+  width:230px;
+  height:72px;
   border-radius:18px;
   background:transparent;
   display:grid;
@@ -76,7 +76,7 @@ button{cursor:pointer}
   box-shadow:none;
   overflow:hidden;
 }
-.logo-mark img{width:64px;height:64px;object-fit:contain;display:block}
+.logo-mark img{width:100%;height:100%;object-fit:contain;display:block}
 .logo-text strong{
   display:block;
   color:#071b34;
@@ -674,7 +674,7 @@ button{cursor:pointer}
 
 
 
-/* === GDNL EOS ATTACHMENT OPEN / DOWNLOAD SYSTEM === */
+/* === GDNL QMS ATTACHMENT OPEN / DOWNLOAD SYSTEM === */
 .attachment{
   cursor:pointer!important;
   transition:.16s ease!important;
@@ -731,7 +731,7 @@ button{cursor:pointer}
 }
 
 
-/* === GDNL EOS ABSOLUTE FINAL LOGO FIX - NO IMAGE DEPENDENCY === */
+/* === GDNL QMS LOGO STANDARD === */
 .topbar{
   display:grid!important;
   grid-template-columns:330px minmax(320px,1fr) auto!important;
@@ -757,67 +757,22 @@ button{cursor:pointer}
 }
 
 .topbar .logo-mark{
-  width:58px!important;
-  height:58px!important;
-  min-width:58px!important;
-  border-radius:18px!important;
+  width:268px!important;
+  height:78px!important;
+  min-width:268px!important;
+  border-radius:0!important;
   display:grid!important;
   place-items:center!important;
   overflow:visible!important;
-  background:linear-gradient(135deg,#0b7fe8 0%,#1396c8 46%,#21bd59 100%)!important;
-  box-shadow:0 14px 28px rgba(19,150,200,.18)!important;
+  background:transparent!important;
+  box-shadow:none!important;
 }
 
-.topbar .gdnl-icon{
-  width:40px!important;
-  height:40px!important;
-  border-radius:12px!important;
-  display:grid!important;
-  place-items:center!important;
-  color:#fff!important;
-  font-size:27px!important;
-  font-weight:950!important;
-  line-height:1!important;
-  font-family:Inter,Arial,sans-serif!important;
-  letter-spacing:-1px!important;
-}
-
-.topbar .logo-text{
-  display:flex!important;
-  flex-direction:column!important;
-  justify-content:center!important;
-  min-width:0!important;
-}
-
-.topbar .logo-text strong{
-  display:flex!important;
-  align-items:baseline!important;
-  gap:7px!important;
-  color:#071b34!important;
-  font-size:25px!important;
-  line-height:.96!important;
-  font-weight:950!important;
-  letter-spacing:-1px!important;
-  white-space:nowrap!important;
-}
-
-.topbar .logo-text strong span{
-  background:linear-gradient(135deg,#0b7fe8 0%,#1396c8 45%,#21bd59 100%)!important;
-  -webkit-background-clip:text!important;
-  background-clip:text!important;
-  -webkit-text-fill-color:transparent!important;
-  color:transparent!important;
-}
-
-.topbar .logo-text small{
+.topbar .logo-mark img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
   display:block!important;
-  margin-top:6px!important;
-  color:#6b7b92!important;
-  font-size:12px!important;
-  line-height:1!important;
-  font-weight:900!important;
-  letter-spacing:.1px!important;
-  white-space:nowrap!important;
 }
 
 .topbar .global-search{
@@ -896,13 +851,9 @@ button{cursor:pointer}
 <body>
 <main class="main">
   <header class="topbar">
-    <a class="brand" href="department-gateway.html" aria-label="GDNL EOS">
+    <a class="brand" href="dashboard.html" aria-label="GDNL QMS">
       <span class="logo-mark" aria-hidden="true">
-        <span class="gdnl-icon">G</span>
-      </span>
-      <span class="logo-text">
-        <strong>GDNL <span>EOS</span></strong>
-        <small>Kurumsal İşletim Sistemi</small>
+        <img src="assets/images/gdnl-qms-logo.svg" alt="">
       </span>
     </a>
 
@@ -912,10 +863,9 @@ button{cursor:pointer}
     </div>
 
     <nav class="topbar-actions" aria-label="Üst menü">
-      <a class="nav-btn" href="department-gateway.html">Departman Merkezi</a>
       <a class="icon-btn gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi" title="Mesaj Merkezi">📨<span id="topUnreadBadge" class="unread-badge"></span></a>
       <a class="icon-btn gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi" title="Bildirim Merkezi">🔔<span class="notify-badge"></span></a>
-      <span class="user-btn">👤 <span id="userName">Oturum doğrulanıyor</span></span>
+      <span class="user-btn">👤 <span id="userName">Kullanıcı</span></span>
       <button class="logout-btn" type="button" onclick="window.GDNL_API && window.GDNL_API.logout()">Oturumu Kapat</button>
     </nav>
   </header>
@@ -1054,7 +1004,7 @@ function gdnlNormalizeFileUrl(url){
 }
 
 const currentUser = () => window.GDNL_CURRENT_USER || {};
-const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.recipient_name || user?.email || "Oturum doğrulanıyor";
+const userNameOf = (user) => user?.fullname || user?.name || user?.username || user?.recipient_name || user?.email || "Kullanıcı";
 const apiData = (payload) => api.responseData ? api.responseData(payload) : (payload?.data ?? payload);
 const apiArray = (payload) => api.asArray ? api.asArray(payload) : (Array.isArray(apiData(payload)) ? apiData(payload) : (apiData(payload)?.items || apiData(payload)?.messages || []));
 
@@ -1097,7 +1047,7 @@ function asFolder(message, fallbackFolder){
 
 function normalizeAttachment(file){
   const source = file || {};
-  const fileId = source.file_id || source.fileId || source.id || source.attachment_id || source.attachmentId || "";
+  const fileId = source.file_id || source.fileId || source.file?.id || "";
   const r2Key = source.r2_key || source.r2Key || source.key || source.object_key || source.objectKey || source.storage_key || source.storageKey || source.path || "";
   const filename = source.filename || source.fileName || source.file_name || source.original_name || source.originalName || source.name || "Dosya";
   const url = gdnlNormalizeFileUrl(source.signed_url || source.signedUrl || source.url || source.download_url || source.downloadUrl || source.file_url || source.fileUrl || source.public_url || source.publicUrl || source.href || source.link || "");
@@ -1232,14 +1182,14 @@ function applyUnreadBadge(count){
 }
 
 async function refreshUnreadCount(options = {}){
-  let value = localUnreadCount();
+  let value = 0;
   try{
     const payload = await api.get("/messages/unread-count", safeApi);
     const data = apiData(payload) || {};
     const apiCount = Number(data.unread_count || data.count || 0);
-    value = Number.isFinite(apiCount) ? apiCount : value;
+    value = Number.isFinite(apiCount) ? apiCount : 0;
   }catch(error){
-    value = localUnreadCount();
+    value = 0;
   }
   applyUnreadBadge(value);
   renderFolderCounts();
@@ -1278,14 +1228,13 @@ async function loadUsers(query = ""){
 
 async function initSessionUser(){
   try{
-    const payload = await callApi("get", "/me");
-    const data = apiData(payload);
+    const data = api.me ? await api.me(safeApi) : apiData(await callApi("get", "/me"));
     const user = api.normalizeUser ? api.normalizeUser(data?.user || data || {}) : (data?.user || data || {});
     window.GDNL_CURRENT_USER = user;
     $("userName").textContent = userNameOf(user);
     return user;
   }catch(error){
-    $("userName").textContent = "Oturum doğrulanıyor";
+    $("userName").textContent = "Kullanıcı";
     return {};
   }
 }
@@ -1348,7 +1297,7 @@ function render(){
   $("folderTitle").textContent = folderLabel(activeFolder);
   $("heroMeta").textContent = folderLabel(activeFolder);
   $("folderState").textContent = folderErrors[activeFolder] ? "Bağlantı sorunu" : "Güncel";
-  applyUnreadBadge(unreadCount || localUnreadCount());
+  applyUnreadBadge(unreadCount);
   renderFolderCounts();
 
   if(composeMode){
@@ -1404,6 +1353,15 @@ function attachmentFileUrl(att){
   return "";
 }
 
+function isPreviewableAttachment(attachment){
+  const file = normalizeAttachment(attachment);
+  const name = String(file.filename || "").toLocaleLowerCase("tr-TR");
+  const type = String(file.mime_type || "").toLocaleLowerCase("tr-TR");
+  return type.startsWith("image/") ||
+    type === "application/pdf" ||
+    /\.(png|jpe?g|gif|webp|pdf)$/i.test(name);
+}
+
 async function fetchMessageFiles(messageId){
   const endpoints = [
     "/files?related_id=" + encodeURIComponent(messageId),
@@ -1438,7 +1396,7 @@ async function hydrateMessageAttachments(message){
           String(file.filename || "").trim().toLocaleLowerCase("tr-TR") ===
           String(item.filename || "").trim().toLocaleLowerCase("tr-TR")
         );
-        return normalizeAttachment({ ...(match || {}), ...item });
+        return normalizeAttachment({ ...item, ...(match || {}) });
       });
       if(!list.length) list = files;
     }
@@ -1464,8 +1422,12 @@ async function fetchAttachmentBlob(attachment){
     headers:attachmentRequestHeaders()
   });
   if(!response.ok) throw new Error(response.status === 404 ? "Dosya bulunamadı." : "Dosya alınamadı.");
+  const blob = await response.blob();
+  const type = String(response.headers.get("content-type") || "").toLocaleLowerCase("tr-TR");
+  if(!blob.size) throw new Error("Dosya boş döndü.");
+  if(type.includes("application/json")) throw new Error("Dosya yerine sistem yanıtı alındı.");
   return {
-    blob: await response.blob(),
+    blob,
     url
   };
 }
@@ -1480,6 +1442,11 @@ async function openAttachment(index){
   const url = attachmentFileUrl(att);
   if(!url){
     showToast("Dosya bağlantısı bulunamadı. Ek dosya kaydı eksik görünüyor.");
+    return;
+  }
+  if(!isPreviewableAttachment(att)){
+    showToast("Bu dosya türü indirme olarak açılır.");
+    await downloadAttachment(index);
     return;
   }
   try{
@@ -1522,11 +1489,11 @@ function renderAttachmentHtml(attachment, index){
   const sizeText = file.size ? " (" + esc(file.size) + " byte)" : "";
   const hasUrl = !!attachmentFileUrl(file);
   return `
-    <div class="attachment" onclick="openAttachment(${index})">
+    <div class="attachment" data-attachment-action="open" data-attachment-index="${index}">
       <span class="attachment-info">📎 ${esc(file.filename)}${sizeText}</span>
       <span class="attachment-actions">
-        <button type="button" class="attachment-open-btn" onclick="event.stopPropagation();openAttachment(${index})">Aç</button>
-        <button type="button" class="attachment-download-btn" onclick="event.stopPropagation();downloadAttachment(${index})">İndir</button>
+        <button type="button" class="attachment-open-btn" data-attachment-action="open" data-attachment-index="${index}">Aç</button>
+        <button type="button" class="attachment-download-btn" data-attachment-action="download" data-attachment-index="${index}">İndir</button>
         <span class="attachment-r2-badge">${hasUrl ? "Hazır" : "Eksik"}</span>
       </span>
     </div>`;
@@ -1978,13 +1945,26 @@ document.querySelectorAll(".folder").forEach((button) => {
   $(id).addEventListener("change", render);
 });
 $("globalSearchBtn").addEventListener("click", render);
+$("messageDetail").addEventListener("click", (event) => {
+  const target = event.target.closest("[data-attachment-action]");
+  if(!target || !$("messageDetail").contains(target)) return;
+  event.preventDefault();
+  event.stopPropagation();
+  const index = Number(target.dataset.attachmentIndex);
+  if(!Number.isInteger(index)) return;
+  if(target.dataset.attachmentAction === "download") downloadAttachment(index);
+  else openAttachment(index);
+});
 
 Object.assign(window, {
   setActiveFolder,
   openCompose,
   openMessage,
+  attachmentFileUrl,
+  fetchAttachmentBlob,
   openAttachment,
   downloadAttachment,
+  isPreviewableAttachment,
   sendMessage,
   saveDraft,
   clearCompose,
@@ -1997,6 +1977,16 @@ Object.assign(window, {
   moveTrash,
   permanentDelete
 });
+
+window.GDNL_MAILBOX = {
+  attachmentFileUrl,
+  fetchAttachmentBlob,
+  openAttachment,
+  downloadAttachment,
+  refreshUnreadCount,
+  renderFolderCounts
+};
+document.documentElement.dataset.mailboxRuntime = "ready";
 
 load();
 </script>

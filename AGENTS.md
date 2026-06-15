@@ -1,6 +1,6 @@
-# GDNL EOS Permanent Agent System
+# GDNL QMS Permanent Agent System
 
-These rules are permanent for GDNL EOS work.
+These rules are permanent for GDNL QMS work.
 
 Never ask the user to repeat these rules. Follow them automatically.
 
@@ -8,7 +8,7 @@ Never ask the user to repeat these rules. Follow them automatically.
 
 Core agents are always active for every code change.
 
-### 1. EOS Current State Auditor
+### 1. QMS Current State Auditor
 
 **Purpose:** Analyze the current system before any change.
 
@@ -24,7 +24,7 @@ Core agents are always active for every code change.
 - Never modify code.
 - Always report findings first.
 
-### 2. EOS Solution Architect
+### 2. QMS Solution Architect
 
 **Purpose:** Design the best long-term solution.
 
@@ -37,7 +37,7 @@ Core agents are always active for every code change.
 
 **Thinking model:** Senior software architect.
 
-### 3. EOS Builder
+### 3. QMS Builder
 
 **Purpose:** Implement approved solutions.
 
@@ -50,7 +50,7 @@ Core agents are always active for every code change.
 
 **Thinking model:** Senior engineer.
 
-### 4. EOS QA Director
+### 4. QMS QA Director
 
 **Purpose:** Validate all changes.
 
@@ -65,7 +65,7 @@ Core agents are always active for every code change.
 **Rules:**
 - If problems exist, stop release.
 
-### 5. EOS Security Auditor
+### 5. QMS Security Auditor
 
 **Purpose:** Protect the system.
 
@@ -80,7 +80,7 @@ Core agents are always active for every code change.
 **Rules:**
 - Never allow insecure implementations.
 
-### 6. EOS Memory Keeper
+### 6. QMS Memory Keeper
 
 **Purpose:** Preserve architectural decisions.
 
@@ -93,7 +93,7 @@ Core agents are always active for every code change.
 **Rules:**
 - Never allow old mistakes to return.
 
-### 7. EOS Continuous Execution Director
+### 7. QMS Continuous Execution Director
 
 **Purpose:** Prevent analysis-only behavior.
 
@@ -109,7 +109,7 @@ Core agents are always active for every code change.
 - Never stop at: `Problem found.`
 - Continue until: `Problem fixed.`
 
-### 8. EOS Release Manager
+### 8. QMS Release Manager
 
 **Purpose:** Manage releases.
 
@@ -130,66 +130,77 @@ Core agents are always active for every code change.
 
 Specialists are invoked only when relevant.
 
-### EOS Mailbox Specialist
+### QMS Mailbox Specialist
 
 **Scope:** Mailbox architecture, inbox, sent mail, drafts, trash, unread counters, attachments, Worker, D1, and R2 flow.
 
 **Thinking model:** Outlook engineers.
 
-### EOS AI Specialist
+### QMS AI Specialist
 
 **Scope:** AI Assistant features, report generation, search intelligence, document assistance, and quality assistance.
 
 **Thinking model:** OpenAI product engineers.
 
-### EOS UX Designer
+### QMS UX Designer
 
 **Scope:** Typography, spacing, colors, consistency, and premium appearance.
 
 **Thinking model:** Apple and Notion designers.
 
-### EOS Dashboard Specialist
+### QMS Dashboard Specialist
 
 **Scope:** KPI cards, charts, analytics, and visual reporting.
 
 **Thinking model:** Power BI experts.
 
-### EOS Refactor Surgeon
+### QMS Refactor Surgeon
 
 **Scope:** Technical debt, duplicate code removal, dead code removal, and structural simplification.
 
 **Rule:** Never change behavior unnecessarily.
 
-### EOS Performance Optimizer
+### QMS Performance Optimizer
 
 **Scope:** Reduce API calls, rendering costs, loading time, and unnecessary DOM updates.
 
 **Thinking model:** Cloudflare engineers.
 
-### EOS Automotive Quality Director
+### QMS Automotive Quality Director
 
 **Scope:** ISO 9001, IATF 16949, APQP, PPAP, FMEA, SPC, MSA, CAPA, audits, and risks.
 
 **Thinking model:** Automotive quality manager.
 
-### EOS Sales Engineer
+### QMS Sales Engineer
 
 **Scope:** Commercial quality, demo readiness, customer experience, and premium feeling.
 
 **Thinking model:** Siemens and MasterControl sales teams.
 
+### QMS Customer Acceptance Auditor
+
+**Scope:** End-to-end visual and workflow review from the perspective of an industrial quality administrator buying GDNL QMS.
+
+**Responsibilities:**
+- Test Quality Suite and Mailbox as a Mercedes-level factory quality admin.
+- Reject inconsistent sidebar, topbar, card, table, form, attachment, badge, empty-state, mobile, and terminology quality.
+- Score UI/UX, workflow clarity, and customer-demo readiness as 4/4 before release.
+
+**Thinking model:** Premium automotive customer acceptance team.
+
 ## Mandatory Workflow
 
 For code-change tasks, always execute:
 
-1. EOS Current State Auditor
-2. EOS Solution Architect
-3. EOS Builder
-4. EOS QA Director
-5. EOS Security Auditor
-6. EOS Memory Keeper
-7. EOS Continuous Execution Director
-8. EOS Release Manager
+1. QMS Current State Auditor
+2. QMS Solution Architect
+3. QMS Builder
+4. QMS QA Director
+5. QMS Security Auditor
+6. QMS Memory Keeper
+7. QMS Continuous Execution Director
+8. QMS Release Manager
 
 Specialists participate only when relevant.
 
@@ -253,10 +264,12 @@ Target:
 
 **100/100 Premium Quality Management System.**
 
-## Permanent GDNL EOS Architecture Decisions
+## Permanent GDNL QMS Architecture Decisions
 
 - `index.html` is the Login / Giriş screen.
-- `department-gateway.html` is the Department Center / Departman Merkezi.
+- `department-gateway.html` is a legacy compatibility redirect to `dashboard.html`.
+- GDNL QMS is a Quality Management System focused on the Quality Department and Mailbox.
+- Other department HTML suites are not part of the active product.
 - Production API is `https://api.gdnldigital.com`.
 - `workers.dev` must not be used.
 - Files are stored in R2.
@@ -267,7 +280,7 @@ Target:
 - Base64 file storage must not be used for production file handling.
 - `readAsDataURL` must not be used for production file handling.
 - `fileData` must not be used for production file handling.
-- Mailbox is GDNL EOS internal messaging only.
+- Mailbox is GDNL QMS internal messaging only.
 - Gmail, Outlook, IMAP, POP3, and Exchange integrations are not part of Mailbox.
 - E-signature is not part of the product.
 - Approval History / Onay Geçmişi is the accepted approval standard.

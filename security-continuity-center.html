@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | BGYS ve İş Sürekliliği Merkezi</title>
+<title>GDNL QMS | BGYS ve İş Sürekliliği Merkezi</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
@@ -97,7 +97,7 @@ td{font-size:13px;padding:13px 12px;border-bottom:1px solid #edf2f7;font-weight:
 
 
 
-/* === GDNL EOS LOCKED ACCORDION MENU === */
+/* === GDNL QMS LOCKED ACCORDION MENU === */
 .menu,.mobile-drawer-menu{gap:10px!important}
 .menu-group{border:1px solid #e0e8f0;border-radius:16px;background:rgba(255,255,255,.72);overflow:hidden;box-shadow:0 8px 22px rgba(7,27,52,.035)}
 .menu-group-btn{width:100%;border:none;background:linear-gradient(135deg,#ffffff,#f7fbff);color:#334155;padding:13px 14px;font-size:14px;font-weight:950;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -336,7 +336,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
@@ -427,7 +427,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="sidebar">
 <div>
-<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<a href="dashboard.html" class="logo">GDNL <span>QMS</span></a>
 <nav class="menu">
 <a href="dashboard.html">🏠 Dashboard</a>
 
@@ -512,7 +512,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 </nav>
 </div>
-<div class="sidebar-footer">GDNL EOS Enterprise<br>ISO 27001 • ISO 22301<br>BGYS ve İş Sürekliliği Merkezi</div>
+<div class="sidebar-footer">GDNL QMS Enterprise<br>ISO 27001 • ISO 22301<br>BGYS ve İş Sürekliliği Merkezi</div>
 </aside>
 
 <main class="main">
@@ -586,7 +586,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="field"><label>Departman</label><select id="department"></select></div>
 <div class="field"><label>Sorumlu</label><input id="owner" placeholder="Risk / olay sahibi"></div>
 
-<div class="field"><label>Varlık Seç</label><select id="assetRegister" onchange="syncAssetRegister()"><option>ERP</option><option>EQMS</option><option>Mail Server</option><option>Firewall</option><option>NAS</option><option>Sunucu</option><option>Laptop</option><option>Veritabanı</option><option>Bulut Servisi</option><option>Tedarikçi Portalı</option><option>PLC / OT Sistemleri</option><option>Yedekleme Sistemi</option><option>VPN</option><option>Aktif Directory</option><option>Diğer</option></select></div>
+<div class="field"><label>Varlık Seç</label><select id="assetRegister" onchange="syncAssetRegister()"><option>ERP</option><option>QMS</option><option>Mail Server</option><option>Firewall</option><option>NAS</option><option>Sunucu</option><option>Laptop</option><option>Veritabanı</option><option>Bulut Servisi</option><option>Tedarikçi Portalı</option><option>PLC / OT Sistemleri</option><option>Yedekleme Sistemi</option><option>VPN</option><option>Aktif Directory</option><option>Diğer</option></select></div>
 <div class="field"><label>Öncelik</label><select id="priority"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Kritiklik</label><select id="criticality"><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
 <div class="field"><label>Termin</label><input id="dueDate" type="date"></div>
@@ -598,7 +598,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 <div class="form-grid">
 <div class="field"><label>Olay No</label><input id="incidentNo" readonly></div>
 <div class="field"><label>Olay Türü</label><select id="incidentType"><option>Yetkisiz Erişim</option><option>Veri İhlali</option><option>Malware / Zararlı Yazılım</option><option>Phishing</option><option>Sistem Kesintisi</option><option>Yanlış Yetkilendirme</option><option>Kayıp / Çalıntı Cihaz</option><option>Fiziksel Güvenlik</option><option>Tedarikçi Kaynaklı Olay</option><option>Diğer</option></select></div>
-<div class="field"><label>Etkilenen Sistem</label><input id="affectedSystem" placeholder="ERP, EQMS, mail, sunucu..."></div>
+<div class="field"><label>Etkilenen Sistem</label><input id="affectedSystem" placeholder="ERP, QMS, mail, sunucu..."></div>
 <div class="field"><label>Etkilenen Varlık</label><input id="affectedAsset" placeholder="Varlık adı / kodu"></div>
 
 <div class="field"><label>Gizlilik Etkisi</label><select id="confidentiality"><option>Yok</option><option>Düşük</option><option>Orta</option><option>Yüksek</option><option>Kritik</option></select></div>
@@ -674,7 +674,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 </div>
 
 <div class="subsection">
-<h4>4. EQMS Entegrasyonları</h4>
+<h4>4. QMS Entegrasyonları</h4>
 <div class="form-grid">
 <div class="field"><label>CAPA Aç</label><select id="createCapa"><option>Evet</option><option>Hayır</option></select></div>
 <div class="field"><label>Risk Register Aç</label><select id="createRisk"><option>Evet</option><option>Hayır</option></select></div>

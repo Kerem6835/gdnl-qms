@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL EOS | 8D ve CAPA Yönetimi</title>
+<title>GDNL QMS | 8D ve CAPA Yönetimi</title>
 
 <style>
 
@@ -350,7 +350,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="mobile-drawer" id="mobileDrawer">
   <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>EQMS</span></div>
+    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
     <button class="mobile-close" onclick="closeMobileMenu()">×</button>
   </div>
   <nav class="mobile-drawer-menu">
@@ -424,7 +424,7 @@ html,body{max-width:100%!important;overflow-x:hidden!important}
 
 <aside class="sidebar">
 <div>
-<a href="dashboard.html" class="logo">GDNL <span>EQMS</span></a>
+<a href="dashboard.html" class="logo">GDNL <span>QMS</span></a>
 <nav class="menu">
 <a href="dashboard.html">🏠 Dashboard</a>
 
@@ -1564,7 +1564,7 @@ setTimeout(()=>t.style.display="none",2500);
 
 
 
-/* GDNL EOS Cloud Migration D1/R2 Entegrasyon Katmanı */
+/* GDNL QMS Cloud Migration D1/R2 Entegrasyon Katmanı */
 async function apiFetch(path, options={}){
   const response=await fetch(API_BASE+path,{headers:{"Content-Type":"application/json",...(options.headers||{})},...options});
   const text=await response.text();
@@ -1730,7 +1730,7 @@ async function cloudBoot(){
   await loadCloudCapas(); await loadSequence();
   populateDepartments(); makeAutocomplete('openedBy','openedBy_id','department'); makeAutocomplete('leader','leader_id','department'); makeAutocomplete('taskOwner','taskOwner_id',null); makeAutocomplete('teamMembers',null,null,{multiTarget:'teamMembers'});
   initStepSelects(); resetForm(); renderCapa();
-  console.log('GDNL EOS 8D ve CAPA Cloud katmanı yüklendi');
+  console.log('GDNL QMS 8D ve CAPA Cloud katmanı yüklendi');
 }
 
 document.getElementById("globalSearch").addEventListener("input",function(){
