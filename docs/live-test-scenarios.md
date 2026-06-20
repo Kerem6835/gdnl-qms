@@ -19,12 +19,6 @@ API: `https://api.gdnldigital.com`
 - Training: `/api/trainings` egitim ve katilimci kayitlarini getirir.
 - Supplier: `/api/suppliers` tedarikci skor kartlarini getirir.
 
-## Mailbox
-
-- `/api/messages` gelen/giden/taslak mesajlari getirir.
-- Coklu alici secimi `message_recipients` icine yazilir.
-- R2 ekleri `message_attachments` metadata ile baglanir.
-
 ## Search
 
 - `/api/search?q=test` kullanici, departman, dokuman, CAPA, risk, aksiyon, denetim ve egitim alanlarinda sonuc doner.
@@ -39,4 +33,3 @@ API: `https://api.gdnldigital.com`
 - `/api/files/upload` multipart dosya kabul eder.
 - R2 key ve D1 metadata doner.
 - File Center PDF, Word, Excel, Resim filtrelerini kullanir.
-

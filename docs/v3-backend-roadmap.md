@@ -47,31 +47,7 @@ Backend tarafinda XLSX uretilecek moduller:
 - Suppliers
 - Actions
 
-## 4. Mailbox Backend
-
-D1 tablolar:
-
-- messages
-- message_recipients
-- message_attachments
-
-Endpointler:
-
-- GET /api/messages
-- POST /api/messages
-- GET /api/messages/:id
-- PUT /api/messages/:id
-- DELETE /api/messages/:id
-
-Ozellikler:
-
-- Coklu alici
-- Taslak
-- Okundu bilgisi
-- R2 ek dosyalari
-- Harici e-posta hesabi okuma yok; sadece GDNL QMS ic mesajlasma vardir.
-
-## 5. Activity Log Backend
+## 4. Activity Log Backend
 
 Canli kaynaklar:
 
@@ -80,7 +56,7 @@ Canli kaynaklar:
 
 Activity Center bu iki kaynagi birlikte okuyacak.
 
-## 6. Dashboard Analytics
+## 5. Dashboard Analytics
 
 Grafikler:
 
@@ -90,7 +66,7 @@ Grafikler:
 - Modul dagilimi
 - KPI analizleri
 
-## 7. Notification Scheduler
+## 6. Notification Scheduler
 
 Otomatik kurallar:
 
@@ -100,7 +76,7 @@ Otomatik kurallar:
 - Denetim tarihi geldi
 - Aksiyon gecikti
 
-## 8. Global Search Backend
+## 7. Global Search Backend
 
 Tek endpoint:
 
@@ -117,7 +93,7 @@ Arama kapsam:
 - Denetim
 - Egitim
 
-## 9. File Center Backend
+## 8. File Center Backend
 
 Filtreler:
 
@@ -128,6 +104,6 @@ Filtreler:
 
 Kategori sistemi D1 metadata uzerinden calisir. Gercek dosya R2 icinde kalir.
 
-## 10. OpenAPI / Swagger
+## 9. OpenAPI / Swagger
 
 OpenAPI taslagi `docs/openapi.yaml` icinde hazirlandi.

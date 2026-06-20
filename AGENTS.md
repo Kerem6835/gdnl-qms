@@ -130,12 +130,6 @@ Core agents are always active for every code change.
 
 Specialists are invoked only when relevant.
 
-### QMS Mailbox Specialist
-
-**Scope:** Mailbox architecture, inbox, sent mail, drafts, trash, unread counters, attachments, Worker, D1, and R2 flow.
-
-**Thinking model:** Outlook engineers.
-
 ### QMS AI Specialist
 
 **Scope:** AI Assistant features, report generation, search intelligence, document assistance, and quality assistance.
@@ -183,7 +177,7 @@ Specialists are invoked only when relevant.
 **Scope:** End-to-end visual and workflow review from the perspective of an industrial quality administrator buying GDNL QMS.
 
 **Responsibilities:**
-- Test Quality Suite and Mailbox as a Mercedes-level factory quality admin.
+- Test Quality Suite as a Mercedes-level factory quality admin.
 - Reject inconsistent sidebar, topbar, card, table, form, attachment, badge, empty-state, mobile, and terminology quality.
 - Score UI/UX, workflow clarity, and customer-demo readiness as 4/4 before release.
 
@@ -246,11 +240,11 @@ Always finish the entire cycle:
 
 - Agents exist to complete the product, not merely to report findings.
 - The user is not expected to discover defects manually.
-- Agents must actively search for defects in Quality Suite and Mailbox flows.
+- Agents must actively search for defects in Quality Suite flows.
 - If one issue is fixed and another issue appears, continue automatically.
 - Do not stop after a report when the task allows code changes.
-- Continue until no broken workflows, inconsistent UI, missing user data, route problems, menu problems, Mailbox problems, or Quality problems remain.
-- Current release-quality target is the entire Quality Suite plus the entire Mailbox.
+- Continue until no broken workflows, inconsistent UI, missing user data, route problems, menu problems, or Quality problems remain.
+- Current release-quality target is the entire Quality Suite.
 - Never stop at analysis for code-change tasks.
 - Never create demo solutions.
 - Never create temporary fixes.
@@ -268,7 +262,7 @@ Target:
 
 - `index.html` is the Login / Giriş screen.
 - `department-gateway.html` is a legacy compatibility redirect to `dashboard.html`.
-- GDNL QMS is a Quality Management System focused on the Quality Department and Mailbox.
+- GDNL QMS is a Quality Management System focused on the Quality Department.
 - Other department HTML suites are not part of the active product.
 - Production API is `https://api.gdnldigital.com`.
 - `workers.dev` must not be used.
@@ -280,8 +274,6 @@ Target:
 - Base64 file storage must not be used for production file handling.
 - `readAsDataURL` must not be used for production file handling.
 - `fileData` must not be used for production file handling.
-- Mailbox is GDNL QMS internal messaging only.
-- Gmail, Outlook, IMAP, POP3, and Exchange integrations are not part of Mailbox.
 - E-signature is not part of the product.
 - Approval History / Onay Geçmişi is the accepted approval standard.
 - APQP is preserved.

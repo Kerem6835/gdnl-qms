@@ -54,7 +54,7 @@ body{min-height:100vh}
         <button class="search-btn" id="searchBtn" type="button">Ara</button>
       </div>
       <div class="profile">
-        <div class="topbar-actions"><a class="gdnl-message-link" href="mailbox.html" aria-label="Mesaj Merkezi">📨</a><a class="gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi">🔔</a></div>
+        <div class="topbar-actions"><a class="gdnl-notification-link" href="notification-center.html" aria-label="Bildirim Merkezi">🔔</a></div>
         <div class="avatar" id="userChip">👤 <span id="userName">Kullanıcı</span></div>
         <button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
       </div>
@@ -105,7 +105,6 @@ const modules=[
   ["Denetim","/audits",true],
   ["Tedarikçi","/suppliers",true],
   ["Müşteri Şikayeti","/customers",true],
-  ["Mesaj","/messages",true],
   ["Dosya","/files",true]
 ];
 let cache=[];
@@ -126,7 +125,6 @@ function recordRoute(row){
     "/audits":"audit.html",
     "/suppliers":"supplier-management.html",
     "/customers":"customer-management.html",
-    "/messages":"mailbox.html",
     "/files":"file-center.html"
   };
   const page=map[row.source]||"dashboard.html";

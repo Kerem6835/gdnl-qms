@@ -5,7 +5,6 @@
     "index.html": "/index.html",
     "dashboard.html": "/dashboard.html",
     "department-gateway.html": "/dashboard.html",
-    "mailbox.html": "/mailbox.html",
     "notification-center.html": "/notification-center.html",
     "search.html": "/search.html",
     "activity-center.html": "/activity-center.html",

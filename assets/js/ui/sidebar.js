@@ -67,8 +67,7 @@
         { label: "Aktivite Merkezi", route: "activity-center.html" },
         { label: "Bildirim Merkezi", route: "notification-center.html" },
         { label: "Dosya Merkezi", route: "file-center.html" },
-        { label: "Genel Arama", route: "search.html" },
-        { label: "Mesaj Merkezi", route: "mailbox.html" }
+        { label: "Genel Arama", route: "search.html" }
       ]
     },
     {
@@ -143,7 +142,7 @@
 
   function isQualityRoute(route) {
     const name = normalizeRoute(route || getCurrentRoute());
-    if (!name || name === "index.html" || name === "department-gateway.html" || name === "mailbox.html") return false;
+    if (!name || name === "index.html" || name === "department-gateway.html") return false;
     if (name === "management-review.html") return true;
     return !/^(management|hr|maintenance)-/.test(name);
   }
@@ -174,8 +173,7 @@
       const submenuClass = activeGroup ? "submenu open" : "submenu";
       const links = (group.items || []).map((item) => {
         const active = isActiveItem(item.route, currentRoute, currentRouteWithHash) ? ' class="active"' : "";
-        const label = group.id === "performance" && item.route === "mailbox.html" ? "📨 Mesaj Merkezi" : item.label;
-        return `<a${active} href="${escapeHtml(item.route)}">${escapeHtml(label)}</a>`;
+        return `<a${active} href="${escapeHtml(item.route)}">${escapeHtml(item.label)}</a>`;
       }).join("\n");
       return `<button class="${groupClass}" type="button" onclick="window.GDNL_SIDEBAR.toggleMenuGroup(this)">${escapeHtml(group.icon)} ${escapeHtml(group.label)} <span>⌄</span></button>\n<div class="${submenuClass}">\n${links}\n</div>`;
     }).join("\n\n");

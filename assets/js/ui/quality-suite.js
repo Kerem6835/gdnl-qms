@@ -69,7 +69,7 @@
 
   function isQualityPage() {
     const name = normalizeRoute(global.location && global.location.pathname);
-    if (!name || name === "index.html" || name === "department-gateway.html" || name === "mailbox.html") return false;
+    if (!name || name === "index.html" || name === "department-gateway.html") return false;
     if (name === "management-review.html") return true;
     return !/^(management|hr|maintenance)-/.test(name);
   }

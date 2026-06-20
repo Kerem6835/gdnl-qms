@@ -30,9 +30,6 @@
     ["/risks", "/api/risks"],
     ["/actions", "/api/actions"],
     ["/notifications", "/api/notifications"],
-    ["/messages", "/api/messages"],
-    ["/message-recipients", "/api/message-recipients"],
-    ["/message-attachments", "/api/message-attachments"],
     ["/standards", "/api/standards"],
     ["/audits", "/api/audits"],
     ["/trainings", "/api/trainings"],
@@ -347,12 +344,9 @@
 .gdnl-global-action:hover{transform:translateY(-1px)!important;border-color:#b9d8c5!important;box-shadow:0 16px 32px rgba(7,27,52,.11)!important}
 .gdnl-global-action.primary{background:linear-gradient(135deg,#0ea5e9 0%,#22c55e 100%)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 14px 30px rgba(34,197,94,.22)!important}
 .gdnl-global-icon{width:44px!important;min-width:44px!important;height:44px!important;padding:0!important;font-size:18px!important}
-.gdnl-message-link{position:relative!important}
-.gdnl-mail-unread-badge{position:absolute!important;right:-5px!important;top:-6px!important;min-width:18px!important;height:18px!important;padding:0 5px!important;border-radius:999px!important;background:#ef4444!important;color:#fff!important;border:2px solid #fff!important;display:none!important;align-items:center!important;justify-content:center!important;font-size:10px!important;font-weight:950!important;line-height:1!important;box-shadow:0 8px 18px rgba(239,68,68,.32)!important;pointer-events:none!important}
-.gdnl-mail-unread-badge.is-visible{display:inline-flex!important}
 .gdnl-global-user{display:inline-flex!important;align-items:center!important;gap:8px!important;height:44px!important;min-height:44px!important;border:1px solid #d8e4ef!important;border-radius:14px!important;background:linear-gradient(135deg,rgba(239,246,255,.96),rgba(248,251,255,.96))!important;padding:0 14px!important;font-weight:900!important;font-size:13px!important;color:#0f1b2f!important;white-space:nowrap!important;order:40!important}
 .gdnl-global-logout{background:#fff5f5!important;color:#b42318!important;border-color:#ffd5d5!important;order:50!important}
-.gdnl-global-search{min-width:56px!important;order:5!important}.gdnl-department-home{display:none!important}.gdnl-message-link{order:20!important}.gdnl-notification-link{order:30!important}
+.gdnl-global-search{min-width:56px!important;order:5!important}.gdnl-department-home{display:none!important}.gdnl-notification-link{order:30!important}
 @media(max-width:850px){.topbar{align-items:flex-start!important;flex-wrap:wrap!important}.topbar-actions,.gdnl-global-actions-host{width:100%!important;justify-content:flex-start!important;gap:8px!important}.topbar input[type="search"],.topbar input.search,.topbar .search,.topbar #globalSearch,.topbar #suiteSearch{width:100%!important}.gdnl-global-action{height:40px!important;min-height:40px!important;padding:0 10px!important;font-size:12px!important}.gdnl-global-icon{width:40px!important;min-width:40px!important;height:40px!important}.gdnl-global-user{height:40px!important;min-height:40px!important;max-width:100%;white-space:normal!important}}`;
     document.head.appendChild(style);
   }
@@ -369,55 +363,6 @@
     container.appendChild(node);
     configure(node);
     return node;
-  }
-
-  function ensureMailUnreadBadge(link) {
-    if (!link) return null;
-    let badge = link.querySelector(".gdnl-mail-unread-badge");
-    if (!badge) {
-      badge = document.createElement("span");
-      badge.className = "gdnl-mail-unread-badge";
-      badge.setAttribute("aria-hidden", "true");
-      link.appendChild(badge);
-    }
-    return badge;
-  }
-
-  function applyMailUnreadCount(count) {
-    const value = Number(count || 0);
-    const links = Array.from(document.querySelectorAll('.gdnl-message-link,a[href="mailbox.html"],a[href$="/mailbox.html"]'));
-    links.forEach((link) => {
-      link.classList.add("gdnl-message-link");
-      const badge = ensureMailUnreadBadge(link);
-      if (!badge) return;
-      if (value > 0) {
-        badge.textContent = value > 99 ? "99+" : String(value);
-        badge.classList.add("is-visible");
-      } else {
-        badge.textContent = "";
-        badge.classList.remove("is-visible");
-      }
-    });
-  }
-
-  async function updateMailboxUnreadBadge() {
-    if (isLoginPage()) return 0;
-    try {
-      const payload = await get("/messages/unread-count", { redirectOnUnauthorized: false, fallbackOnNotFound: false });
-      const data = responseData(payload) || {};
-      const count = Number(data.unread_count || data.count || 0);
-      applyMailUnreadCount(count);
-      return count;
-    } catch (error) {
-      applyMailUnreadCount(0);
-      return 0;
-    }
-  }
-
-  function startMailboxUnreadPolling() {
-    if (isLoginPage() || global.__gdnlMailboxUnreadTimer) return;
-    updateMailboxUnreadBadge();
-    global.__gdnlMailboxUnreadTimer = global.setInterval(updateMailboxUnreadBadge, 60000);
   }
 
   function isRouteElement(el, filename) {
@@ -486,14 +431,6 @@
         actionHost.appendChild(userHost);
         user = userHost.querySelector("#userName");
       }
-      const mailbox = ensureAction(actionHost, '.gdnl-message-link,a[href="mailbox.html"],a[href$="/mailbox.html"],button[aria-label*="Mesaj"],button[onclick*="mailbox.html"]', '<a class="gdnl-message-link" href="mailbox.html">📨</a>', (el) => {
-        if (el.tagName === "A") el.href = routeHref("mailbox.html");
-        else el.onclick = () => { global.location.href = routeHref("mailbox.html"); };
-        el.classList.add("gdnl-message-link", "gdnl-global-action", "gdnl-global-icon");
-        el.setAttribute("aria-label", "Mesaj Merkezi");
-        el.textContent = "📨";
-        ensureMailUnreadBadge(el);
-      });
       const notify = ensureAction(actionHost, '.gdnl-notification-link,a[href="notification-center.html"],a[href$="/notification-center.html"],button[aria-label*="Bildirim"],button[onclick*="notification-center.html"]', '<a class="gdnl-notification-link" href="notification-center.html">🔔</a>', (el) => {
         if (el.tagName === "A") el.href = routeHref("notification-center.html");
         else el.onclick = () => { global.location.href = routeHref("notification-center.html"); };
@@ -504,7 +441,6 @@
       bar.querySelectorAll('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => el.remove());
       const department = null;
       removeDuplicateActions(bar, "department-gateway.html", department);
-      removeDuplicateActions(bar, "mailbox.html", mailbox);
       removeDuplicateActions(bar, "notification-center.html", notify);
       let logoutEl = actionHost.querySelector(".logout,.logout-btn,.mobile-logout,.mobile-fixed-logout,button[onclick*='logout'],button[onclick*='Logout']");
       if (!logoutEl) {
@@ -524,12 +460,9 @@
           el.classList.add("gdnl-global-action");
         });
       }
-      orderActionHost(actionHost, [department, mailbox, notify, userHost, logoutEl]);
-      mailbox.title = "Mesaj Merkezi";
+      orderActionHost(actionHost, [department, notify, userHost, logoutEl]);
       notify.title = "Bildirim Merkezi";
     });
-    updateMailboxUnreadBadge();
-    startMailboxUnreadPolling();
   }
 
   async function logout() {
@@ -767,7 +700,6 @@
     showConfirm,
     friendlyErrorMessage,
     enhanceTopbarLinks,
-    updateMailboxUnreadBadge,
     asArray,
     responseData,
     getToken,

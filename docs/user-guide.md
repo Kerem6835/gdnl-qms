@@ -19,7 +19,3 @@ CAPA kayitlari D1-D8 adimlari, 5 Why, Ishikawa, aksiyon ve etkinlik kontrolu ile
 ## Risk
 
 Risk kayitlari S/O/D/RPN, risk seviyesi, heat map ve aksiyon sonrasi RPN uzerinden izlenir.
-
-## Mailbox
-
-Mesaj Merkezi sadece GDNL QMS ic mesajlasma icindir. Harici e-posta hesabi okumaz.
