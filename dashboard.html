@@ -3,2067 +3,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDNL QMS | Kurumsal Dashboard</title>
-
+<title>GDNL QMS | Kalite Yönetim Paneli</title>
+<link rel="stylesheet" href="assets/css/quality-suite.css?v=qms-dashboard-control-room-1">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:linear-gradient(135deg,#f8fbff,#eef4fb 45%,#edf7ff);color:#0f172a}
-.app{display:grid;grid-template-columns:282px 1fr;min-height:100vh}
-.sidebar{background:rgba(255,255,255,.86);backdrop-filter:blur(18px);color:#0f172a;padding:25px 18px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid #e2e8f0;box-shadow:18px 0 60px rgba(15,23,42,.06)}
-.logo{font-size:30px;font-weight:900;margin-bottom:35px;text-decoration:none;color:#0f172a;display:block;letter-spacing:-.6px}.logo span{color:#1597ff}
-.menu{display:flex;flex-direction:column;gap:8px}
-.menu a{text-decoration:none;color:#475569;padding:13px 14px;border-radius:14px;font-size:14px;font-weight:800;transition:.2s;border:1px solid transparent}
-.menu a:hover,.menu a.active{background:linear-gradient(135deg,#e0f2fe,#f0f9ff);color:#0369a1;border-color:#bae6fd;box-shadow:0 10px 25px rgba(14,165,233,.10)}
-.sidebar-footer{font-size:12px;color:#64748b;line-height:1.6;border-top:1px solid #e2e8f0;padding-top:18px}
-.main{padding:24px;max-width:1780px;margin:auto;width:100%}
-.topbar{height:72px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border:1px solid #e2e8f0;border-radius:24px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 18px 45px rgba(15,23,42,.07);margin-bottom:24px}
-.search{width:550px;height:46px;border:1px solid #dbe3ef;border-radius:14px;padding:0 16px;background:#f8fafc;outline:none;font-weight:800}
-.search-wrap{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.search-btn{
-height:46px;
-padding:0 18px;
-border:none;
-border-radius:14px;
-background:linear-gradient(135deg,#0757e8,#0ea5ff);
-color:#fff;
-font-weight:900;
-cursor:pointer;
-}
-
-.search-btn:hover{
-opacity:.92;
-}
-
-.search-results-panel{
-display:none;
-border:1px solid #bae6fd;
-background:rgba(255,255,255,.94);
-}
-
-.search-results-panel.active{
-display:block;
-}
-
-.search-summary{
-display:flex;
-align-items:center;
-gap:10px;
-flex-wrap:wrap;
-font-size:13px;
-font-weight:900;
-color:#475569;
-}
-
-.search-keyword{
-background:#e0f2fe;
-color:#0369a1;
-border-radius:999px;
-padding:7px 12px;
-font-weight:950;
-}
-
-.result-card{
-background:linear-gradient(135deg,#f8fafc,#ffffff);
-border:1px solid #e2e8f0;
-border-radius:18px;
-padding:15px;
-margin-bottom:12px;
-display:grid;
-grid-template-columns:160px minmax(0,1fr) 130px;
-gap:14px;
-align-items:center;
-}
-
-.result-card b{
-display:block;
-font-size:14px;
-margin-bottom:6px;
-color:#0f172a;
-}
-
-.result-card small{
-display:block;
-font-size:12px;
-color:#64748b;
-line-height:1.55;
-font-weight:800;
-}
-
-.result-card mark{
-background:#fef3c7;
-color:#92400e;
-padding:1px 3px;
-border-radius:4px;
-}
-
-.result-open{
-height:38px;
-border:none;
-border-radius:12px;
-background:linear-gradient(135deg,#0757e8,#0ea5ff);
-color:white;
-font-weight:900;
-cursor:pointer;
-}
-
-.avatar{
-width:auto!important;
-padding:0 22px!important;
-}
-.profile{display:flex;align-items:center;gap:14px}.profile-info{text-align:right}.profile-info strong{display:block;font-size:14px}.profile-info span{font-size:12px;color:#64748b}
-.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#0757e8,#0ea5ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:900;cursor:pointer;box-shadow:0 12px 28px rgba(14,165,255,.22)}
-.logout-btn{border:none;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
-.hero{background:linear-gradient(135deg,#ffffff,#eff6ff 58%,#dbeafe);color:#0f172a;border:1px solid #dbeafe;border-radius:30px;padding:32px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 20px 55px rgba(15,23,42,.08)}
-.hero h1{font-size:38px;margin-bottom:10px;color:#082f49}.hero p{max-width:900px;color:#475569;line-height:1.7}
-.hero-badge{background:linear-gradient(135deg,#0757e8,#0ea5ff);color:white;padding:16px 18px;border-radius:18px;font-weight:900;white-space:nowrap;box-shadow:0 14px 35px rgba(14,165,255,.22)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:24px}
-.card{background:rgba(255,255,255,.92);border:1px solid #e2e8f0;border-radius:24px;padding:22px;box-shadow:0 14px 38px rgba(15,23,42,.06)}
-.card small{color:#64748b;font-weight:900}.card h2{font-size:34px;color:#0757e8;margin-top:10px}.card p{margin-top:6px;font-size:13px;color:#64748b}
-.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,.85fr);gap:24px}
-.panel{background:rgba(255,255,255,.92);border:1px solid #e2e8f0;border-radius:26px;padding:24px;box-shadow:0 14px 38px rgba(15,23,42,.06);margin-bottom:24px}
-.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
-.panel h3{font-size:19px;font-weight:900;color:#0f172a}.link{font-size:13px;font-weight:900;color:#0757e8;cursor:pointer;text-decoration:none}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:12px;color:#64748b;padding:12px;border-bottom:1px solid #e2e8f0}
-td{font-size:13px;padding:13px 12px;border-bottom:1px solid #eef2f7;font-weight:800;color:#334155;vertical-align:middle}
-.status{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:900}
-.status.blue{background:#dbeafe;color:#1d4ed8}.status.green{background:#dcfce7;color:#15803d}.status.orange{background:#ffedd5;color:#c2410c}.status.red{background:#fee2e2;color:#b91c1c}.status.gray{background:#e2e8f0;color:#334155}
-.modules{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.module{background:linear-gradient(135deg,#f8fafc,#ffffff);border:1px solid #e2e8f0;border-radius:20px;padding:18px;transition:.2s;text-decoration:none;color:#0f172a}
-.module:hover{transform:translateY(-2px);box-shadow:0 12px 25px rgba(15,23,42,.08)}
-.module h4{font-size:14px;font-weight:900;margin-bottom:8px}.module p{font-size:12px;color:#64748b;line-height:1.6}
-.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.quick div{background:linear-gradient(135deg,#f8fafc,#ffffff);border:1px solid #e2e8f0;border-radius:20px;padding:18px}
-.quick b{display:block;font-size:28px;color:#0757e8;margin-bottom:6px}.quick span{font-size:12px;font-weight:800;color:#64748b}
-.activity{display:flex;flex-direction:column;gap:16px}
-.activity-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:18px;padding:16px}
-.activity-item strong{display:block;font-size:14px;font-weight:900;margin-bottom:8px}.activity-item span{font-size:12px;color:#64748b;line-height:1.6}
-.progress{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:12px}
-.bar{height:100%;background:linear-gradient(90deg,#0757e8,#0ea5ff);border-radius:999px}
-.empty{padding:24px;border:1px dashed #cbd5e1;border-radius:20px;text-align:center;color:#64748b;font-weight:900;background:#f8fafc}
-
-.compliance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.compliance-item{background:linear-gradient(135deg,#f8fafc,#ffffff);border:1px solid #e2e8f0;border-radius:18px;padding:14px}
-.compliance-item b{display:block;font-size:13px;margin-bottom:8px}.compliance-item span{font-size:11px;font-weight:900}
-.mobile-menu-btn{
-display:none;
-width:46px;
-height:46px;
-border:none;
-border-radius:14px;
-background:linear-gradient(135deg,#0757e8,#0ea5ff);
-color:white;
-font-size:22px;
-font-weight:950;
-cursor:pointer;
-box-shadow:0 12px 28px rgba(14,165,255,.22);
-flex:0 0 auto;
-}
-
-.mobile-overlay{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(15,23,42,.42);
-backdrop-filter:blur(6px);
-z-index:90;
-}
-
-.mobile-drawer{
-position:fixed;
-top:0;
-left:-88%;
-width:86%;
-max-width:360px;
-height:100dvh;
-min-height:100vh;
-background:rgba(255,255,255,.98);
-z-index:100;
-box-shadow:28px 0 70px rgba(15,23,42,.22);
-transition:.25s ease;
-display:flex;
-flex-direction:column;
-border-right:1px solid #e2e8f0;
-}
-
-.mobile-drawer.active{left:0}
-.mobile-overlay.active{display:block}
-
-.mobile-drawer-head{
-height:86px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 20px;
-border-bottom:1px solid #e2e8f0;
-background:linear-gradient(135deg,#ffffff,#f0f9ff);
-}
-
-.mobile-drawer-logo{
-font-size:25px;
-font-weight:950;
-letter-spacing:-.5px;
-color:#0f172a;
-}
-
-.mobile-drawer-logo span{color:#1597ff}
-
-.mobile-close{
-width:42px;
-height:42px;
-border:none;
-border-radius:13px;
-background:#fee2e2;
-color:#991b1b;
-font-size:22px;
-font-weight:950;
-cursor:pointer;
-}
-
-.mobile-drawer-menu{
-padding:16px 16px 10px;
-overflow:auto;
-display:flex;
-flex-direction:column;
-gap:8px;
-flex:1;
--webkit-overflow-scrolling:touch;
-}
-
-.mobile-drawer-menu a{
-text-decoration:none;
-color:#475569;
-padding:14px 15px;
-border-radius:15px;
-font-size:15px;
-font-weight:900;
-border:1px solid transparent;
-}
-
-.mobile-drawer-menu a:hover,
-.mobile-drawer-menu a.active{
-background:linear-gradient(135deg,#e0f2fe,#f0f9ff);
-color:#0369a1;
-border-color:#bae6fd;
-}
-
-.mobile-drawer-footer{
-padding:14px 16px calc(18px + env(safe-area-inset-bottom));
-border-top:1px solid #e2e8f0;
-background:#fff;
-position:sticky;
-bottom:0;
-box-shadow:0 -12px 28px rgba(15,23,42,.08);
-z-index:2;
-}
-
-.mobile-logout{
-width:100%;
-height:52px;
-border:none;
-border-radius:15px;
-background:#fee2e2;
-color:#991b1b;
-font-weight:950;
-font-size:15px;
-cursor:pointer;
-}
-
-@media(max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.search{width:320px}}
-@media(max-width:850px){
-.app{grid-template-columns:1fr}
-.sidebar{display:none}
-.main{padding:18px}
-.mobile-menu-btn{display:flex;align-items:center;justify-content:center}
-.topbar{
-height:auto;
-min-height:78px;
-padding:14px;
-gap:10px;
-position:sticky;
-top:0;
-z-index:40;
-border-radius:22px;
-}
-.search-wrap{
-flex:1;
-display:grid;
-grid-template-columns:minmax(0,1fr) 72px;
-gap:9px;
-}
-.search{width:100%;height:48px;font-size:12px;padding:0 13px}
-.search-btn{height:48px;padding:0 12px}
-.profile{gap:8px}
-.avatar{display:none!important}
-.logout-btn{display:none}
-.cards,.modules,.quick{grid-template-columns:1fr}
-.hero{flex-direction:column;align-items:flex-start;padding:26px 24px}
-.hero h1{font-size:28px}
-.hero p{font-size:16px}
-.hero-badge{width:100%;text-align:center}
-.panel{overflow:auto}
-.result-card{grid-template-columns:1fr;gap:10px}
-.result-open{width:100%}
-}
-
-/* === GDNL QMS HYBRID 10/10 THEME === */
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --eqms-navy:#071b34;
-  --eqms-navy-2:#0d2747;
-  --eqms-blue:#0757e8;
-  --eqms-sky:#1597ff;
-  --eqms-green:#35a852;
-  --eqms-green-2:#48c463;
-  --eqms-green-soft:#eefaf2;
-  --eqms-bg:#f6faff;
-  --eqms-line:#dfe9f5;
-  --eqms-text:#0f1b2f;
-  --eqms-muted:#5f6f86;
+  --navy:#06182f;
+  --navy-2:#0a2442;
+  --ink:#101d33;
+  --muted:#607086;
+  --line:#dce8f4;
+  --soft:#f5f9fd;
+  --blue:#0ea5e9;
+  --green:#22c55e;
+  --amber:#f59e0b;
+  --red:#ef4444;
+  --grad:linear-gradient(135deg,#0ea5e9 0%,#22c55e 100%);
+  --shadow:0 20px 55px rgba(7,27,52,.09);
 }
-
+html,body{width:100%;max-width:100%;overflow-x:hidden}
 body{
+  min-height:100vh;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--ink);
   background:
-    radial-gradient(circle at 86% 8%,rgba(21,151,255,.10),transparent 30%),
-    radial-gradient(circle at 18% 12%,rgba(53,168,82,.075),transparent 26%),
-    linear-gradient(135deg,#fbfdff 0%,#eef5fc 46%,#f8fbff 100%)!important;
-  color:var(--eqms-text)!important;
+    radial-gradient(circle at 88% 8%,rgba(14,165,233,.12),transparent 31%),
+    radial-gradient(circle at 15% 6%,rgba(34,197,94,.10),transparent 24%),
+    linear-gradient(135deg,#f7fbff 0%,#eef5fb 45%,#fbfdff 100%);
 }
-
-.sidebar{
-  background:rgba(255,255,255,.92)!important;
-  backdrop-filter:blur(18px)!important;
-  border-right:1px solid var(--eqms-line)!important;
-  box-shadow:18px 0 58px rgba(7,27,52,.06)!important;
-}
-
-.logo{
-  color:var(--eqms-navy)!important;
-  letter-spacing:-.8px!important;
-}
-
-.logo span,
-.mobile-drawer-logo span{
-  color:var(--eqms-green)!important;
-}
-
-.menu a,
-.mobile-drawer-menu a{
-  color:#516177!important;
-  border:1px solid transparent!important;
-}
-
-.menu a:hover,
-.menu a.active,
-.mobile-drawer-menu a:hover,
-.mobile-drawer-menu a.active{
-  background:linear-gradient(135deg,#eefaf2,#f4fbff)!important;
-  color:#1f7d3d!important;
-  border-color:#bfe7ca!important;
-  box-shadow:0 10px 25px rgba(53,168,82,.10)!important;
-}
-
-.sidebar-footer{
-  color:#66758a!important;
-  border-top:1px solid var(--eqms-line)!important;
-}
-
-.topbar{
-  background:rgba(255,255,255,.93)!important;
-  border:1px solid var(--eqms-line)!important;
-  box-shadow:0 18px 45px rgba(7,27,52,.065)!important;
-}
-
-.search{
-  background:linear-gradient(135deg,#ffffff,#f8fbff)!important;
-  border:1px solid #d8e4ef!important;
-  color:var(--eqms-text)!important;
-}
-
-.search:focus{
-  border-color:var(--eqms-green)!important;
-  box-shadow:0 0 0 4px rgba(53,168,82,.12)!important;
-  background:#ffffff!important;
-}
-
-.search-btn,
-.avatar,
-.result-open,
-.mobile-menu-btn,
-.hero-badge{
-  background:linear-gradient(135deg,#1f8f43 0%,#35a852 52%,#62d46f 100%)!important;
-  color:#fff!important;
-  box-shadow:0 14px 32px rgba(53,168,82,.22)!important;
-}
-
-.search-btn:hover,
-.avatar:hover,
-.result-open:hover{
-  opacity:1!important;
-  filter:brightness(.99);
-  transform:translateY(-1px);
-}
-
-.logout-btn,
-.mobile-logout,
-.mobile-close{
-  background:#fee2e2!important;
-  color:#991b1b!important;
-  border:1px solid #fecaca!important;
-}
-
-.hero{
-  background:
-    radial-gradient(circle at 88% 20%,rgba(53,168,82,.15),transparent 30%),
-    linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eaf3ff 100%)!important;
-  color:var(--eqms-text)!important;
-  border:1px solid #dbe8f7!important;
-  box-shadow:0 20px 55px rgba(7,27,52,.065)!important;
-}
-
-.hero h1{
-  font-size:42px!important;
-  font-weight:950!important;
-  letter-spacing:-1.5px!important;
-  line-height:1.1!important;
-  color:#081d35!important;
-}
-
-.hero p{
-  color:#4e6078!important;
-  font-weight:650!important;
-}
-
-.card{
-  background:rgba(255,255,255,.84)!important;
-  backdrop-filter:blur(20px)!important;
-  border:1px solid rgba(53,168,82,.12)!important;
-  box-shadow:
-    0 10px 30px rgba(7,27,52,.05),
-    0 2px 8px rgba(53,168,82,.05)!important;
-  position:relative!important;
-  overflow:hidden!important;
-}
-
-.card:before{
-  content:"";
-  position:absolute;
-  left:0;
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+.qms-shell{display:grid;grid-template-columns:310px minmax(0,1fr);min-height:100vh}
+.qms-sidebar{
+  position:sticky;
   top:0;
-  right:0;
-  height:4px;
-  background:linear-gradient(90deg,var(--eqms-green),var(--eqms-sky));
-  opacity:.88;
+  height:100vh;
+  overflow:auto;
+  padding:24px 18px;
+  background:
+    radial-gradient(circle at 20% 0%,rgba(14,165,233,.22),transparent 28%),
+    linear-gradient(180deg,#071b34 0%,#061426 100%);
+  color:#dceafe;
+  box-shadow:22px 0 60px rgba(7,27,52,.2);
 }
-
-.card small,
-th,
-.result-card small,
-.activity-item span,
-.module p,
-.quick span,
-.compliance-item span{
-  color:#617086!important;
-}
-
-.card h2,
-.quick b{
-  font-size:40px!important;
-  font-weight:950!important;
-  color:#1f7d3d!important;
-  letter-spacing:-1px!important;
-}
-
-.card p,
-td{
-  color:#536176!important;
-}
-
-.panel{
-  background:rgba(255,255,255,.93)!important;
-  border:1px solid #e0e8f0!important;
-  box-shadow:0 14px 38px rgba(7,27,52,.055)!important;
-  backdrop-filter:blur(14px)!important;
-}
-
-.panel h3{
-  color:var(--eqms-navy)!important;
-  letter-spacing:-.3px!important;
-}
-
-.link{
-  color:#1f8f43!important;
-}
-
-.status.blue,
-.result-open{
-  background:#e8f7ee!important;
-  color:#1f7d3d!important;
-}
-
-.status.green{
-  background:#dcfce7!important;
-  color:#15803d!important;
-}
-
-.status.orange{
-  background:#ffedd5!important;
-  color:#c2410c!important;
-}
-
-.status.red{
-  background:#fee2e2!important;
-  color:#b91c1c!important;
-}
-
-.status.gray{
-  background:#e9eef5!important;
-  color:#405166!important;
-}
-
-table{
-  border-radius:18px!important;
-  overflow:hidden!important;
-}
-
-th{
-  background:linear-gradient(135deg,#f8fbff,#f1f8f4)!important;
-  border-bottom:1px solid #e1eaf3!important;
-}
-
-td{
-  border-bottom:1px solid #edf2f7!important;
-}
-
-tr:hover td{
-  background:#f7fbf8!important;
-}
-
-.empty,
-.result-card,
-.module,
-.quick div,
-.activity-item,
-.compliance-item{
-  background:linear-gradient(135deg,#f8fbff,#ffffff)!important;
-  border:1px solid #e0e8f0!important;
-}
-
-.module:hover{
-  box-shadow:0 14px 28px rgba(53,168,82,.10)!important;
-  border-color:#c7ebd2!important;
-}
-
-.result-card mark{
-  background:#dcfce7!important;
-  color:#166534!important;
-}
-
-.search-results-panel.active{
-  border-color:#c7ebd2!important;
-}
-
-.search-keyword{
-  background:#e8f7ee!important;
-  color:#1f7d3d!important;
-}
-
-.progress{
-  background:#e8eef5!important;
-}
-
-.bar{
-  background:linear-gradient(90deg,#1f8f43,#46b85f)!important;
-}
-
-.mobile-drawer{
-  background:rgba(255,255,255,.98)!important;
-}
-
-.mobile-drawer-head{
-  background:linear-gradient(135deg,#ffffff,#f0fbf4)!important;
-}
-
-@media(max-width:850px){
-  .app,.main{min-width:0!important;max-width:100vw!important;overflow-x:hidden!important}
-  .topbar{
-    background:rgba(255,255,255,.96)!important;
-  }
-
-  .hero{
-    border-radius:26px!important;
-  }
-
-  .hero h1{
-    font-size:30px!important;
-  }
-
-  .card,
-  .panel{
-    border-radius:22px!important;
-  }
-
-  .card h2,
-  .quick b{
-    font-size:36px!important;
-  }
-}
-
-
-
-/* === GDNL QMS LOCKED ACCORDION MENU === */
-.menu-group{
+.qms-sidebar::-webkit-scrollbar{width:0}
+.qms-brand{display:flex;align-items:center;gap:12px;margin-bottom:24px;padding:8px 8px 20px;border-bottom:1px solid rgba(255,255,255,.10)}
+.brand-mark{width:48px;height:48px;border-radius:16px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:950;font-size:25px;box-shadow:0 18px 38px rgba(34,197,94,.25)}
+.brand-text strong{display:block;font-size:23px;line-height:1;font-weight:950;letter-spacing:-.8px}.brand-text strong span{color:#22c55e}.brand-text small{display:block;margin-top:5px;color:#9eb3cc;font-size:11px;font-weight:800}
+.side-nav{display:flex;flex-direction:column;gap:10px}
+.side-single,.side-group-toggle{
   width:100%;
-  border:1px solid transparent;
-  background:transparent;
-  color:#26364b;
-  padding:13px 14px;
-  border-radius:14px;
-  font-size:14px;
-  font-weight:950;
-  cursor:pointer;
+  min-height:48px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  background:rgba(255,255,255,.04);
+  color:#dbeafe;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  text-align:left;
-  transition:.2s;
-}
-.menu-group:hover,.menu-group.open{
-  background:linear-gradient(135deg,#eefaf2,#f4fbff);
-  color:#1f7d3d;
-  border-color:#bfe7ca;
-  box-shadow:0 10px 25px rgba(53,168,82,.10);
-}
-.menu-group span{font-size:13px;transition:.2s}.menu-group.open span{transform:rotate(180deg)}
-.submenu{display:none;flex-direction:column;gap:6px;margin:2px 0 8px 12px;padding-left:10px;border-left:2px solid #dfe9f5}
-.submenu.open{display:flex}
-.submenu a{font-size:13px!important;padding:11px 12px!important;border-radius:12px!important}
-.mobile-drawer-menu .menu-group{font-size:15px;padding:14px 15px;border-radius:15px;color:#26364b}
-.mobile-drawer-menu .submenu{margin-left:10px;padding-left:10px;gap:7px}
-.mobile-drawer-menu .submenu a{font-size:14px!important;padding:12px 13px!important}
-
-
-/* === GDNL QMS MOBILE DRAWER FOOTER / SCROLL FIX === */
-@media(max-width:850px){
-  .mobile-drawer{
-    height:100dvh!important;
-    min-height:100dvh!important;
-    overflow:hidden!important;
-    display:flex!important;
-    flex-direction:column!important;
-  }
-
-  .mobile-drawer-head{
-    flex:0 0 86px!important;
-  }
-
-  .mobile-drawer-menu{
-    flex:1 1 auto!important;
-    min-height:0!important;
-    overflow-y:auto!important;
-    overflow-x:hidden!important;
-    -webkit-overflow-scrolling:touch!important;
-    padding:16px 16px calc(118px + env(safe-area-inset-bottom))!important;
-    max-height:none!important;
-  }
-
-  .mobile-drawer-footer{
-    position:absolute!important;
-    left:0!important;
-    right:0!important;
-    bottom:0!important;
-    z-index:5!important;
-    padding:12px 16px calc(14px + env(safe-area-inset-bottom))!important;
-    background:rgba(255,255,255,.98)!important;
-    border-top:1px solid #e2e8f0!important;
-    box-shadow:0 -14px 30px rgba(15,23,42,.12)!important;
-  }
-
-  .mobile-drawer-menu .submenu.open{
-    display:flex!important;
-  }
-
-  .mobile-drawer-menu .submenu{
-    padding-bottom:8px!important;
-  }
-}
-
-
-/* === GDNL QMS DEPARTMENT GATEWAY FLOW BRIDGE === */
-.department-chip{
-  height:44px;
-  border:none;
-  border-radius:14px;
-  padding:0 18px;
-  background:linear-gradient(135deg,#eefaf2,#f4fbff);
-  color:#1f7d3d;
-  border:1px solid #bfe7ca;
-  font-weight:950;
-  box-shadow:0 10px 25px rgba(53,168,82,.10);
-  white-space:nowrap;
-}
-.department-switch{
-  height:44px;
-  border:none;
-  border-radius:14px;
-  padding:0 16px;
-  background:linear-gradient(135deg,#eefaf2,#f4fbff);
-  color:#1f7d3d;
-  border:1px solid #bfe7ca;
+  gap:10px;
+  padding:13px 14px;
+  font-size:13px;
   font-weight:950;
   cursor:pointer;
-  white-space:nowrap;
-  box-shadow:0 10px 25px rgba(53,168,82,.10);
-}
-.department-switch:hover{filter:brightness(1.04);transform:translateY(-1px)}
-.module.department-locked{
-  filter:grayscale(.45);
-  opacity:.58;
-  cursor:not-allowed!important;
-  background:linear-gradient(135deg,#f8fafc,#eef2f7)!important;
-  border-color:#dfe6ee!important;
-  box-shadow:none!important;
-}
-.module.department-locked:hover{
-  transform:none!important;
-  box-shadow:none!important;
-}
-@media(max-width:850px){
-  .department-chip,.department-switch{display:none!important}
-}
-
-
-
-/* === GDNL QMS DASHBOARD FINAL LAYOUT FIX - DESKTOP + MOBILE === */
-html,body{width:100%;max-width:100%;overflow-x:hidden!important}
-.app{width:100%;min-width:0;grid-template-columns:282px minmax(0,1fr)!important}
-.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;overflow-x:hidden;z-index:20}
-.sidebar::-webkit-scrollbar{width:0;height:0}
-.main{max-width:none!important;width:100%!important;margin:0!important;padding:24px!important;min-width:0!important;overflow:hidden!important}
-.topbar{width:100%;min-width:0;display:grid!important;grid-template-columns:minmax(360px,1fr) auto auto auto;gap:10px!important;justify-content:stretch!important;align-items:center!important;overflow:hidden!important}
-.search-wrap{min-width:0!important;width:100%!important;display:grid!important;grid-template-columns:minmax(0,1fr) 62px!important}
-.search{width:100%!important;min-width:0!important}
-.search-btn{width:62px!important;padding:0!important}
-.department-switch{height:46px!important;display:inline-flex;align-items:center;justify-content:center;min-width:154px!important}
-.department-chip{height:46px!important;display:inline-flex;align-items:center;justify-content:center;min-width:192px!important}
-.profile{min-width:0!important;display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:8px!important}.profile .avatar{height:46px!important;max-width:150px!important;min-width:120px!important;line-height:1.05!important;text-align:center!important;white-space:normal!important;overflow:hidden!important;padding:0 14px!important}.profile .avatar span{display:block;max-width:100%;overflow:hidden;text-overflow:clip}
-.logout-btn{height:46px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0 14px!important;white-space:nowrap!important}
-.hero{width:100%;min-width:0;overflow:hidden!important;padding:30px 32px!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important}.hero h1{font-size:40px!important;max-width:100%;word-break:normal}.hero p{max-width:100%!important}.hero-badge{min-width:160px!important;text-align:left!important;display:flex!important;flex-direction:column!important;gap:5px!important}.hero-badge small{display:block;font-size:11px;font-weight:900;opacity:.92;white-space:nowrap}
-.cards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important;width:100%;min-width:0}.card{min-width:0!important;padding:21px 22px!important}.card small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card h2{font-size:38px!important;line-height:1.04!important}.card p{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.grid{grid-template-columns:minmax(0,1.25fr) minmax(330px,.75fr)!important;width:100%;min-width:0}.panel{min-width:0!important;overflow:hidden}.panel table{min-width:680px}.panel>div:not(.panel-head){overflow-x:auto}.modules{grid-template-columns:repeat(2,minmax(0,1fr))!important}.quick{grid-template-columns:repeat(2,minmax(0,1fr))!important}.result-card{grid-template-columns:140px minmax(0,1fr) 100px!important}
-@media(max-width:1360px){.topbar{grid-template-columns:minmax(280px,1fr) auto auto auto!important}.department-chip{min-width:170px!important;font-size:12px}.department-switch{min-width:138px!important;font-size:12px}.hero h1{font-size:34px!important}.cards{gap:14px!important}.card{padding:19px!important}.card h2{font-size:34px!important}.grid{grid-template-columns:1fr!important}}
-@media(max-width:1180px){.app{grid-template-columns:250px minmax(0,1fr)!important}.logo{font-size:26px!important}.sidebar{padding:22px 14px!important}.menu a,.menu-group{font-size:13px!important;padding:12px!important}.topbar{grid-template-columns:minmax(220px,1fr) auto auto!important}.department-chip{display:none!important}.cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.hero{grid-template-columns:1fr!important}.hero-badge{width:100%;max-width:260px}}
-@media(max-width:850px){.app{display:block!important}.main{padding:14px!important;overflow:visible!important}.topbar{position:sticky!important;top:10px!important;z-index:40!important;border-radius:22px!important;display:grid!important;grid-template-columns:52px minmax(0,1fr)!important;gap:10px!important;padding:12px!important;margin-bottom:16px!important;min-height:auto!important}.mobile-menu-btn{width:52px!important;height:52px!important;display:flex!important}.search-wrap{grid-template-columns:minmax(0,1fr) 58px!important}.search,.search-btn{height:52px!important}.search{font-size:12px!important}.search-btn{width:58px!important}.profile,.department-switch,.department-chip{display:none!important}.hero{padding:22px!important;border-radius:24px!important;margin-bottom:16px!important;display:block!important}.hero h1{font-size:27px!important;line-height:1.08!important;letter-spacing:-.7px!important}.hero p{font-size:14px!important;line-height:1.55!important;margin-top:10px}.hero-badge{margin-top:16px;width:100%!important;max-width:none!important;text-align:center!important;align-items:center!important}.cards{grid-template-columns:1fr!important;gap:12px!important;margin-bottom:12px!important}.card{border-radius:20px!important;padding:18px!important}.card h2{font-size:34px!important}.grid{display:block!important}.panel{padding:18px!important;border-radius:22px!important;margin-bottom:14px!important}.modules,.quick{grid-template-columns:1fr!important}.result-card{grid-template-columns:1fr!important}.panel table{min-width:620px}.mobile-drawer{max-width:350px!important;width:88%!important}.mobile-drawer-logo{font-size:23px!important}}
-@media(max-width:420px){.main{padding:10px!important}.topbar{grid-template-columns:48px minmax(0,1fr)!important;padding:10px!important}.mobile-menu-btn{width:48px!important;height:48px!important}.search,.search-btn{height:48px!important}.search-wrap{grid-template-columns:minmax(0,1fr) 54px!important}.search-btn{width:54px!important}.hero h1{font-size:24px!important}.card h2{font-size:32px!important}}
-
-/* === GDNL QMS TOPBAR CLEAN FIX === */
-.topbar .department-switch{
-  background:linear-gradient(135deg,#eefaf2,#f4fbff)!important;
-  color:#1f7d3d!important;
-  border:1px solid #bfe7ca!important;
-  box-shadow:0 10px 25px rgba(53,168,82,.10)!important;
-}
-.topbar .department-switch:hover{
-  filter:none!important;
-  transform:translateY(-1px)!important;
-  background:linear-gradient(135deg,#e8f7ee,#ffffff)!important;
-}
-.topbar .profile .logout-btn{
-  display:inline-flex!important;
-}
-@media(max-width:850px){
-  .topbar .profile .logout-btn{display:none!important}
-}
-
-
-
-/* === GDNL QMS / GDNL QMS ENTERPRISE KURUMSAL HAZIR EK KATMAN === */
-.user-suggest-box{position:absolute;z-index:9999;background:#fff;border:1px solid #dfe9f5;border-radius:14px;box-shadow:0 18px 55px rgba(7,27,52,.14);max-height:260px;overflow:auto;display:none;min-width:260px}
-.user-suggest-item{padding:11px 13px;cursor:pointer;border-bottom:1px solid #eef2f7;font-weight:850;color:#334155}
-.user-suggest-item:hover{background:#eefaf2;color:#1f7d3d}
-.user-chip{display:inline-flex;align-items:center;gap:8px;margin:6px 6px 0 0;padding:8px 11px;border-radius:999px;background:#e8f7ee;color:#1f7d3d;font-size:12px;font-weight:950}
-.user-chip button{border:none;background:transparent;color:#991b1b;font-weight:950;cursor:pointer}
-.cloud-ready-badge{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:6px 10px;background:#e8f7ee;color:#1f7d3d;font-size:11px;font-weight:950}
-
-
-
-/* === GDNL PREMIUM TOPBAR STANDARD === */
-html,body{max-width:100%!important;overflow-x:hidden!important}
-.topbar{
-  box-sizing:border-box!important;
-  width:100%!important;
-  max-width:100%!important;
-  min-height:64px!important;
-  height:auto!important;
-  padding:10px 12px!important;
-  gap:10px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  flex-wrap:nowrap!important;
-  background:rgba(255,255,255,.78)!important;
-  border:1px solid rgba(223,233,245,.92)!important;
-  border-radius:20px!important;
-  box-shadow:0 16px 42px rgba(7,27,52,.07)!important;
-  backdrop-filter:blur(18px)!important;
-  -webkit-backdrop-filter:blur(18px)!important;
-  overflow:visible!important;
-}
-.topbar .mobile-menu-btn{flex:0 0 auto!important}
-.topbar .search-wrap{
-  flex:1 1 360px!important;
-  max-width:min(440px,42vw)!important;
-  min-width:190px!important;
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr) auto!important;
-  align-items:center!important;
-  gap:8px!important;
-}
-.topbar .search{
-  width:100%!important;
-  height:40px!important;
-  border-radius:12px!important;
-  padding:0 12px!important;
-  font-size:13px!important;
-  font-weight:750!important;
-  background:rgba(248,251,255,.88)!important;
-  border:1px solid #dbe6f2!important;
-  box-shadow:none!important;
-}
-.topbar .search-btn,
-.topbar #searchBtn,
-.topbar .btn#searchBtn{
-  height:40px!important;
-  min-width:44px!important;
-  padding:0 13px!important;
-  border-radius:12px!important;
-  font-size:13px!important;
-  font-weight:900!important;
-  box-shadow:0 10px 22px rgba(34,177,76,.16)!important;
-  white-space:nowrap!important;
-}
-.topbar .profile,
-.topbar .profile-bar,
-.topbar .user-panel{
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-end!important;
-  gap:8px!important;
-  margin-left:auto!important;
-  min-width:0!important;
-  flex:0 1 auto!important;
-  white-space:nowrap!important;
-}
-.topbar-actions{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  flex:0 0 auto;
-}
-.topbar-icon-btn{
-  width:38px;
-  height:38px;
-  border:1px solid #dfe9f5;
-  border-radius:12px;
-  background:rgba(255,255,255,.72);
-  color:#35506b;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:15px;
-  cursor:pointer;
-  box-shadow:0 8px 18px rgba(7,27,52,.055);
   transition:.18s ease;
 }
-.topbar-icon-btn:hover{transform:translateY(-1px);background:#fff;border-color:#bfe7ca;color:#1f8f43}
-.topbar .avatar,
-.topbar .user-chip,
-.topbar #userChip{
-  width:auto!important;
-  min-width:0!important;
-  max-width:220px!important;
-  height:40px!important;
-  min-height:40px!important;
-  padding:0 12px!important;
-  border-radius:999px!important;
-  border:1px solid #dfe9f5!important;
-  background:rgba(255,255,255,.78)!important;
-  color:#071b34!important;
-  box-shadow:0 10px 24px rgba(7,27,52,.06)!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  gap:7px!important;
-  font-size:13px!important;
-  font-weight:900!important;
-  line-height:1!important;
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
+.side-single:hover,.side-single.active,.side-group-toggle:hover,.side-group.open .side-group-toggle{
+  background:linear-gradient(135deg,rgba(14,165,233,.22),rgba(34,197,94,.18));
+  border-color:rgba(125,211,252,.28);
+  transform:translateY(-1px);
 }
-.topbar .avatar::before,
-.topbar .user-chip::before,
-.topbar #userChip::before{
-  content:"👤";
-  font-size:14px;
-  line-height:1;
-  flex:0 0 auto;
+.side-group-toggle span:last-child{color:#93a9c2;transition:.18s ease}.side-group.open .side-group-toggle span:last-child{transform:rotate(180deg)}
+.side-submenu{display:none;flex-direction:column;gap:7px;margin:8px 0 4px 18px;padding-left:12px;border-left:1px solid rgba(148,163,184,.30)}
+.side-group.open .side-submenu{display:flex}
+.side-submenu a{min-height:37px;border-radius:12px;padding:10px 12px;color:#b6c7dc;font-size:12px;font-weight:850;border:1px solid transparent}
+.side-submenu a:hover,.side-submenu a.active{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.10);color:#fff}
+.side-footer{margin-top:22px;padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);color:#9eb3cc;font-size:12px;line-height:1.55;font-weight:800}
+.qms-main{min-width:0;padding:24px;max-width:1880px;width:100%;margin:0 auto}
+.topbar{
+  min-height:76px;
+  display:grid;
+  grid-template-columns:auto minmax(240px,460px) auto;
+  gap:14px;
+  align-items:center;
+  margin-bottom:22px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:26px;
+  background:rgba(255,255,255,.90);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
 }
-.topbar .avatar span,
-.topbar .user-chip span,
-.topbar #userChip span{
-  min-width:0;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+.mobile-menu-btn{display:none;width:46px;height:46px;border:none;border-radius:15px;background:var(--grad);color:#fff;font-weight:950;font-size:20px;box-shadow:0 14px 30px rgba(34,197,94,.22)}
+.search-wrap{display:grid;grid-template-columns:minmax(0,1fr) 70px;gap:10px;min-width:0}
+.search-wrap input{height:46px;border:1px solid #d8e4ef;border-radius:16px;padding:0 15px;background:#f8fbff;color:#172033;font-weight:820;outline:none}
+.search-wrap input:focus{border-color:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.13)}
+.search-wrap button,.gradient-btn{height:46px;border:none;border-radius:16px;background:var(--grad);color:#fff;font-weight:950;cursor:pointer;box-shadow:0 14px 30px rgba(34,197,94,.22)}
+.top-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;min-width:0}
+.icon-btn{position:relative;width:46px;height:46px;border:1px solid #dce8f4;border-radius:15px;background:#fff;color:#1e3857;display:grid;place-items:center;font-size:18px;box-shadow:0 12px 28px rgba(7,27,52,.06);cursor:pointer}
+.badge{position:absolute;right:-4px;top:-6px;min-width:19px;height:19px;border-radius:999px;background:#ef4444;color:#fff;border:2px solid #fff;font-size:10px;font-weight:950;display:none;place-items:center;padding:0 5px}
+.badge.visible{display:grid}
+.user-pill{height:46px;display:flex;align-items:center;gap:8px;min-width:0;max-width:230px;border:1px solid #dce8f4;border-radius:16px;background:linear-gradient(135deg,#fff,#f8fbff);padding:0 14px;font-weight:950;color:#071b34;box-shadow:0 12px 28px rgba(7,27,52,.06)}
+.user-pill span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.logout-btn{height:46px;border:1px solid #fecaca;border-radius:16px;background:#fff5f5;color:#a41515;padding:0 15px;font-weight:950;cursor:pointer}
+.hero{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:22px;
+  padding:28px;
+  border-radius:32px;
+  background:
+    radial-gradient(circle at 92% 20%,rgba(34,197,94,.16),transparent 32%),
+    radial-gradient(circle at 16% 10%,rgba(14,165,233,.13),transparent 26%),
+    linear-gradient(135deg,#ffffff 0%,#f7fbff 52%,#eef8ff 100%);
+  border:1px solid #dce8f4;
+  box-shadow:var(--shadow);
+  margin-bottom:20px;
 }
-.topbar #userAvatar:not(:has(span)),
-.topbar #avatar{
-  font-size:0!important;
-  width:40px!important;
-  max-width:40px!important;
-  padding:0!important;
-}
-.topbar #userAvatar:not(:has(span))::before,
-.topbar #avatar::before{margin:0!important}
-.topbar .user-meta{display:flex!important;align-items:center!important;min-width:0!important;max-width:220px!important}
-.topbar .user-meta b{display:inline-flex!important;align-items:center!important;gap:7px!important;font-size:13px!important;color:#071b34!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-.topbar .user-meta b::before{content:"👤";font-size:14px;line-height:1;flex:0 0 auto}
-.topbar .user-meta span{display:none!important}
-.topbar .logout-btn,
-.topbar .logout{
-  height:40px!important;
-  min-height:40px!important;
-  padding:0 13px!important;
-  border-radius:12px!important;
-  font-size:13px!important;
-  font-weight:900!important;
-  box-shadow:none!important;
-  white-space:nowrap!important;
-}
-.topbar .department-switch,
-.topbar .department-chip{
-  height:40px!important;
-  min-height:40px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  padding:0 12px!important;
-  border-radius:12px!important;
-  font-size:13px!important;
-  font-weight:900!important;
-  white-space:nowrap!important;
-  box-shadow:0 10px 24px rgba(7,27,52,.055)!important;
-}
-.topbar .department-chip{max-width:210px!important;overflow:hidden!important;text-overflow:ellipsis!important}
-@media(max-width:1280px){
-  .topbar{padding:9px 10px!important;gap:8px!important}
-  .topbar .search-wrap{max-width:330px!important;flex-basis:280px!important;min-width:160px!important}
-  .topbar .department-switch,.topbar .department-chip,.topbar .logout-btn,.topbar .logout{padding:0 10px!important;font-size:12px!important}
-  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:180px!important;padding:0 10px!important;font-size:12px!important}
-}
-@media(max-width:850px){
-  .topbar{
-    position:sticky!important;
-    top:0!important;
-    z-index:40!important;
-    min-height:64px!important;
-    padding:10px!important;
-    border-radius:18px!important;
-    flex-wrap:wrap!important;
-    align-items:center!important;
-  }
-  .topbar .search-wrap{
-    order:2!important;
-    flex:1 1 100%!important;
-    max-width:none!important;
-    width:100%!important;
-    min-width:0!important;
-    grid-template-columns:minmax(0,1fr) auto!important;
-  }
-  .topbar .search{height:40px!important;font-size:13px!important}
-  .topbar .search-btn,.topbar #searchBtn,.topbar .btn#searchBtn{height:40px!important;min-width:50px!important;padding:0 12px!important}
-  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{display:flex!important;gap:6px!important;margin-left:auto!important;flex:1 1 auto!important;justify-content:flex-end!important;min-width:0!important}
-  .topbar-actions{gap:5px}
-  .topbar-icon-btn{width:36px;height:36px;border-radius:11px}
-  .topbar .avatar,.topbar .user-chip,.topbar #userChip{display:inline-flex!important;height:36px!important;min-height:36px!important;max-width:170px!important;font-size:12px!important}
-  .topbar #userAvatar:not(:has(span)),.topbar #avatar{width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important}
-  .topbar .logout-btn,.topbar .logout{display:inline-flex!important;height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important}
-  .topbar .department-switch,.topbar .department-chip{height:36px!important;min-height:36px!important;font-size:12px!important;padding:0 10px!important;max-width:100%!important}
-}
-@media(max-width:520px){
-  .topbar .profile,.topbar .profile-bar,.topbar .user-panel{flex-wrap:wrap!important;justify-content:flex-start!important;width:100%!important;order:3!important;margin-left:0!important}
-  .topbar .avatar,.topbar .user-chip,.topbar #userChip{max-width:calc(100vw - 126px)!important}
-  .topbar .department-switch,.topbar .department-chip{flex:1 1 auto!important}
-}
-
+.hero-kicker{display:inline-flex;margin-bottom:14px;border-radius:999px;background:#e9f9ef;color:#15803d;padding:8px 12px;font-size:12px;font-weight:950}
+.hero h1{font-size:clamp(34px,3vw,58px);line-height:1.02;letter-spacing:-1.7px;color:#071b34;margin-bottom:13px;font-weight:950}
+.hero p{max-width:860px;color:#536176;line-height:1.7;font-size:15px;font-weight:720}
+.health-card{border-radius:26px;background:linear-gradient(135deg,#071b34,#0a2c4c);color:#fff;padding:24px;display:flex;flex-direction:column;justify-content:space-between;min-height:210px;overflow:hidden;position:relative}
+.health-card:after{content:"";position:absolute;right:-60px;top:-60px;width:160px;height:160px;border-radius:50%;background:rgba(34,197,94,.25)}
+.health-score{font-size:64px;font-weight:950;letter-spacing:-3px}.health-card small{color:#b7c6d8;font-weight:850}.health-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.health-grid div{border-radius:14px;background:rgba(255,255,255,.08);padding:10px}.health-grid b{display:block;font-size:17px}.health-grid span{font-size:10px;color:#b7c6d8;font-weight:850}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.metric-card{position:relative;overflow:hidden;border:1px solid #e2edf7;border-radius:24px;background:rgba(255,255,255,.94);box-shadow:0 14px 38px rgba(7,27,52,.055);padding:18px;min-height:142px}
+.metric-card:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--grad)}
+.metric-icon{width:42px;height:42px;border-radius:15px;background:#eff8ff;display:grid;place-items:center;font-size:21px;margin-bottom:13px}
+.metric-card small{display:block;color:#65758b;font-size:12px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.metric-card strong{display:block;color:#0f7a3a;font-size:36px;line-height:1;font-weight:950;margin:8px 0}.metric-card p{color:#6b7a8f;font-size:12px;font-weight:780;line-height:1.35}
+.control-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(330px,.8fr);gap:20px}
+.panel{border:1px solid #e2edf7;border-radius:28px;background:rgba(255,255,255,.94);box-shadow:0 14px 38px rgba(7,27,52,.055);padding:22px;min-width:0;overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.panel h2,.panel h3{color:#071b34;font-weight:950;letter-spacing:-.4px}.panel h2{font-size:21px}.panel h3{font-size:18px}.panel-sub{color:#65758b;font-size:12px;font-weight:850}
+.charts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:20px}
+.chart-bars{display:flex;align-items:end;gap:9px;height:168px;padding:14px;border-radius:20px;background:linear-gradient(135deg,#f8fbff,#fff);border:1px solid #e9f0f8}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}.bar-fill{width:100%;min-height:5px;border-radius:999px 999px 8px 8px;background:var(--grad);box-shadow:0 10px 22px rgba(34,197,94,.17)}.bar-col span{font-size:10px;color:#66758a;font-weight:900}
+.donut-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.donut{min-height:168px;display:grid;place-items:center;border-radius:20px;background:#f8fbff;border:1px solid #e9f0f8}.donut-ring{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#22c55e var(--pct),#e8f0f8 0)}.donut-ring div{width:78px;height:78px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:950;color:#071b34}
+.heatmap{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.heat-cell{aspect-ratio:1;border-radius:14px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:950}.heat-1{background:#16a34a}.heat-2{background:#65a30d}.heat-3{background:#f59e0b}.heat-4{background:#f97316}.heat-5{background:#dc2626}
+.mini-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}.mini-card{border:1px solid #e2edf7;border-radius:22px;background:#fff;padding:17px}.mini-card strong{display:block;font-size:15px;margin-bottom:10px}.mini-line{height:42px;display:flex;align-items:end;gap:5px}.mini-line i{flex:1;border-radius:999px;background:linear-gradient(180deg,#0ea5e9,#22c55e)}
+.readiness{display:grid;gap:11px}.readiness-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.progress{height:10px;border-radius:999px;background:#e8f0f8;overflow:hidden;margin-top:7px}.progress span{display:block;height:100%;border-radius:999px;background:var(--grad)}
+.timeline,.task-list{display:grid;gap:12px}.timeline-item,.task-item{border:1px solid #e8f0f8;border-radius:18px;background:linear-gradient(135deg,#fbfdff,#fff);padding:14px}.timeline-item strong,.task-item strong{display:block;color:#071b34;font-size:13px;margin-bottom:5px}.timeline-item span,.task-item span{display:block;color:#65758b;font-size:12px;line-height:1.45;font-weight:780}
+.status-pill{display:inline-flex;align-items:center;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:950}.ok{background:#dcfce7;color:#15803d}.warn{background:#ffedd5;color:#c2410c}.risk{background:#fee2e2;color:#b91c1c}.info{background:#e0f2fe;color:#0369a1}
+.kpi-summary{display:grid;gap:13px}.kpi-row{display:grid;grid-template-columns:140px 1fr 42px;gap:12px;align-items:center;font-size:12px;font-weight:900;color:#526176}
+.quick-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.quick-action{min-height:82px;border:1px solid #dce8f4;border-radius:22px;background:#fff;padding:16px;display:flex;align-items:center;gap:12px;color:#071b34;font-weight:950;box-shadow:0 12px 30px rgba(7,27,52,.045);transition:.18s ease}.quick-action:hover{transform:translateY(-2px);border-color:#bcebd0;box-shadow:0 18px 36px rgba(34,197,94,.10)}.quick-action i{width:42px;height:42px;border-radius:15px;background:var(--grad);color:#fff;display:grid;place-items:center;font-style:normal}
+.empty-state{border:1px dashed #c9dfd1;border-radius:18px;background:linear-gradient(135deg,#f8fbff,#f0fcf5);padding:16px;color:#5f7087;font-weight:850;font-size:13px}
+.loading{position:relative;color:transparent!important}.loading:after{content:"";position:absolute;inset:10px;border-radius:16px;background:linear-gradient(90deg,#edf5ff,#fff,#edf5ff);animation:pulse 1.2s ease-in-out infinite}@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+.mobile-overlay{display:none;position:fixed;inset:0;background:rgba(6,24,47,.44);z-index:90}.mobile-overlay.active{display:block}.mobile-drawer{position:fixed;z-index:100;top:0;left:-92%;width:88%;max-width:380px;height:100dvh;background:#071b34;color:#dceafe;transition:.24s ease;overflow:auto;padding:20px}.mobile-drawer.active{left:0}.mobile-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.mobile-close{width:42px;height:42px;border:none;border-radius:13px;background:#fee2e2;color:#991b1b;font-size:22px;font-weight:950}
+@media(max-width:1500px){.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.quick-actions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:1180px){.qms-shell{grid-template-columns:1fr}.qms-sidebar{display:none}.mobile-menu-btn{display:grid;place-items:center}.topbar{grid-template-columns:auto minmax(0,1fr) auto}.hero{grid-template-columns:1fr}.control-grid,.charts-grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.qms-main{padding:14px}.topbar{grid-template-columns:auto 1fr;align-items:start}.top-actions{grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap}.search-wrap{grid-template-columns:minmax(0,1fr) 60px}.user-pill{max-width:calc(100vw - 150px)}.logout-btn{height:40px}.hero{padding:22px;border-radius:26px}.health-grid,.metrics,.mini-grid,.donut-row,.quick-actions{grid-template-columns:1fr}.kpi-row{grid-template-columns:1fr}.panel{padding:18px;border-radius:24px}}
 </style>
-<link rel="stylesheet" href="assets/css/quality-suite.css?v=quality-premium-1">
 </head>
-
 <body>
-<div class="app">
-
 <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
-
 <aside class="mobile-drawer" id="mobileDrawer">
-  <div class="mobile-drawer-head">
-    <div class="mobile-drawer-logo">GDNL <span>QMS</span></div>
-    <button class="mobile-close" onclick="closeMobileMenu()">×</button>
+  <div class="mobile-head">
+    <div class="qms-brand" style="margin:0;padding:0;border:0">
+      <div class="brand-mark">G</div>
+      <div class="brand-text"><strong>GDNL <span>QMS</span></strong><small>Kalite Yönetim Sistemi</small></div>
+    </div>
+    <button class="mobile-close" type="button" onclick="closeMobileMenu()">×</button>
   </div>
-
-  <nav class="mobile-drawer-menu">
-<a class="active" href="dashboard.html">🏠 Dashboard</a>
-
-<button class="menu-group" type="button">📚 Doküman Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="company-assets-documents.html">Firma Belgeleri</a>
-<a href="documents.html">Doküman Yönetimi</a>
-<a href="new-document.html">Yeni Doküman</a>
-<a href="revision.html">Revizyon Yönetimi</a>
-<a href="approval.html">Onay Yönetimi</a>
-<a href="distribution.html">Dağıtım Yönetimi</a>
-<a href="archive.html">Arşiv Yönetimi</a>
-<a href="document-viewer.html">Doküman Görüntüleyici</a>
-</div>
-
-<button class="menu-group" type="button">⚙️ Kalite Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="capa.html">8D / CAPA</a>
-<a href="risk-register.html">Risk Yönetimi</a>
-<a href="change-management.html">Değişiklik Yönetimi</a>
-<a href="process-management.html">Süreç Yönetimi</a>
-<a href="continuous-improvement.html">Sürekli İyileştirme</a>
-<a href="audit.html">İç Denetim</a>
-</div>
-
-<button class="menu-group" type="button">👥 Organizasyon Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="training-management.html">Eğitim Yönetimi</a>
-<a href="competency-matrix.html">Yetkinlik Matrisi</a>
-<a href="users.html">Kullanıcılar</a>
-</div>
-
-<button class="menu-group" type="button">🏭 Paydaş Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="supplier-management.html">Tedarikçi Yönetimi</a>
-<a href="customer-management.html">Müşteri Yönetimi</a>
-</div>
-
-<button class="menu-group" type="button">📊 Performans Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
-<a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Aksiyon Merkezi</a>
-<a href="notification-center.html">Bildirim Merkezi</a></div>
-
-<button class="menu-group" type="button">🔬 Teknik Yönetim <span>⌄</span></button>
-<div class="submenu">
-<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
-</div>
-
-<button class="menu-group" type="button">🔒 Uyum ve Güvenlik <span>⌄</span></button>
-<div class="submenu">
-<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
-<a href="standards-compliance.html">Standart Uygunluk</a>
-<a href="legal-compliance.html">Yasal Uyum</a>
-</div>
-
-<button class="menu-group" type="button">🚗 IATF 16949 <span>⌄</span></button>
-<div class="submenu">
-<a href="apqp.html">APQP</a>
-</div>
-</nav>
-
-  <div class="mobile-drawer-footer">
-    <button class="mobile-logout" onclick="logout()">Oturumu Kapat</button>
-  </div>
+  <nav class="side-nav" id="mobileMenu"></nav>
 </aside>
 
-<aside class="sidebar">
-<div>
-<a href="dashboard.html" class="logo">GDNL <span>QMS</span></a>
-<nav class="menu">
-<a class="active" href="dashboard.html">🏠 Dashboard</a>
+<div class="qms-shell">
+  <aside class="qms-sidebar">
+    <a class="qms-brand" href="dashboard.html">
+      <div class="brand-mark">G</div>
+      <div class="brand-text"><strong>GDNL <span>QMS</span></strong><small>Kalite Yönetim Sistemi</small></div>
+    </a>
+    <nav class="side-nav" id="sideMenu"></nav>
+    <div class="side-footer">ISO 9001 ve IATF 16949 odaklı kalite kontrol odası.</div>
+  </aside>
 
-<button class="menu-group" type="button">📚 Doküman Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="company-assets-documents.html">Firma Belgeleri</a>
-<a href="documents.html">Doküman Yönetimi</a>
-<a href="new-document.html">Yeni Doküman</a>
-<a href="revision.html">Revizyon Yönetimi</a>
-<a href="approval.html">Onay Yönetimi</a>
-<a href="distribution.html">Dağıtım Yönetimi</a>
-<a href="archive.html">Arşiv Yönetimi</a>
-<a href="document-viewer.html">Doküman Görüntüleyici</a>
-</div>
+  <main class="qms-main">
+    <header class="topbar">
+      <button class="mobile-menu-btn" type="button" onclick="openMobileMenu()">☰</button>
+      <div class="search-wrap">
+        <input id="globalSearch" type="search" placeholder="Kalite kaydı, doküman, CAPA veya risk ara...">
+        <button class="search-btn" type="button" onclick="runSearch()">Ara</button>
+      </div>
+      <div class="topbar-actions top-actions">
+        <a class="icon-btn" href="notification-center.html" aria-label="Bildirimler" title="Bildirimler">🔔<span id="notificationBadge" class="badge"></span></a>
+        <div class="user-pill">👤 <span id="userName">Kullanıcı</span></div>
+        <button class="logout-btn" type="button" onclick="logout()">Oturumu Kapat</button>
+      </div>
+    </header>
 
-<button class="menu-group" type="button">⚙️ Kalite Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="capa.html">8D / CAPA</a>
-<a href="risk-register.html">Risk Yönetimi</a>
-<a href="change-management.html">Değişiklik Yönetimi</a>
-<a href="process-management.html">Süreç Yönetimi</a>
-<a href="continuous-improvement.html">Sürekli İyileştirme</a>
-<a href="audit.html">İç Denetim</a>
-</div>
+    <section class="hero">
+      <div>
+        <span class="hero-kicker">Kalite Kontrol Odası</span>
+        <h1 id="welcomeTitle">Kalite Yönetim Paneli</h1>
+        <p>Doküman kontrolü, uygunsuzluk, CAPA, risk, denetim, eğitim, tedarikçi ve müşteri kalitesini tek ekranda yönetin. Bu ekran canlı kayıtları okur; veri yoksa profesyonel boş durum gösterir.</p>
+      </div>
+      <div class="health-card">
+        <div>
+          <small>QMS Sağlık Skoru</small>
+          <div class="health-score"><span id="healthScore">0</span>%</div>
+        </div>
+        <div class="health-grid">
+          <div><b id="heroOpenActions">0</b><span>Açık İş</span></div>
+          <div><b id="heroHighRisk">0</b><span>Yüksek Risk</span></div>
+          <div><b id="heroLate">0</b><span>Geciken</span></div>
+        </div>
+      </div>
+    </section>
 
-<button class="menu-group" type="button">👥 Organizasyon Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="training-management.html">Eğitim Yönetimi</a>
-<a href="competency-matrix.html">Yetkinlik Matrisi</a>
-<a href="users.html">Kullanıcılar</a>
-</div>
+    <section class="metrics" id="metricCards">
+      <article class="metric-card loading"><div class="metric-icon">📄</div><small>Doküman KPI</small><strong id="metricDocuments">0</strong><p>Kontrollü doküman kayıtları</p></article>
+      <article class="metric-card loading"><div class="metric-icon">⚠️</div><small>Uygunsuzluk KPI</small><strong id="metricNcr">0</strong><p>Açık uygunsuzluk ve aksiyonlar</p></article>
+      <article class="metric-card loading"><div class="metric-icon">🛠️</div><small>Açık CAPA</small><strong id="metricCapa">0</strong><p>Devam eden 8D / CAPA</p></article>
+      <article class="metric-card loading"><div class="metric-icon">🧾</div><small>İç Denetim</small><strong id="metricAudit">0</strong><p>Açık plan ve bulgular</p></article>
+      <article class="metric-card loading"><div class="metric-icon">🎓</div><small>Eğitim Uygunluğu</small><strong id="metricTraining">0%</strong><p>Tamamlanan eğitim oranı</p></article>
+      <article class="metric-card loading"><div class="metric-icon">🔥</div><small>Yüksek Risk</small><strong id="metricRisk">0</strong><p>Kritik S/O/D/RPN kayıtları</p></article>
+    </section>
 
-<button class="menu-group" type="button">🏭 Paydaş Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="supplier-management.html">Tedarikçi Yönetimi</a>
-<a href="customer-management.html">Müşteri Yönetimi</a>
-</div>
+    <section class="control-grid">
+      <div>
+        <div class="charts-grid">
+          <section class="panel">
+            <div class="panel-head"><div><h2>CAPA Trend</h2><div class="panel-sub">Aylık açılan ve kapanan kayıt görünümü</div></div><span class="status-pill info">Canlı</span></div>
+            <div class="chart-bars" id="capaTrend"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><h2>Risk Heatmap</h2><div class="panel-sub">S/O/D etkisine göre risk yoğunluğu</div></div><span class="status-pill warn">Öncelik</span></div>
+            <div class="heatmap" id="riskHeatmap"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><h2>Doküman Onay Durumu</h2><div class="panel-sub">Yayın, revizyon ve onay bekleyen oranı</div></div></div>
+            <div class="donut-row">
+              <div class="donut"><div class="donut-ring" id="documentDonut" style="--pct:0%"><div id="documentDonutValue">0%</div></div></div>
+              <div class="donut"><div class="donut-ring" id="capaDonut" style="--pct:0%"><div id="capaDonutValue">0%</div></div></div>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><h2>Operasyon Mini Göstergeleri</h2><div class="panel-sub">Tedarikçi, müşteri ve eğitim nabzı</div></div></div>
+            <div class="mini-grid">
+              <div class="mini-card"><strong>Tedarikçi Performansı</strong><div class="mini-line" id="supplierMini"></div></div>
+              <div class="mini-card"><strong>Müşteri Şikayetleri</strong><div class="mini-line" id="customerMini"></div></div>
+              <div class="mini-card"><strong>Eğitim Uygunluğu</strong><div class="mini-line" id="trainingMini"></div></div>
+            </div>
+          </section>
+        </div>
 
-<button class="menu-group" type="button">📊 Performans Yönetimi <span>⌄</span></button>
-<div class="submenu">
-<a href="kpi-reports.html">KPI & Raporlar</a>
-<a href="management-review.html">YGG Yönetimi</a>
-<a href="action-center.html">Aksiyon Merkezi</a>
-<a href="notification-center.html">Bildirim Merkezi</a></div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>Hızlı Aksiyonlar</h2><div class="panel-sub">Kalite ekibinin en sık kullandığı işlem kapıları</div></div></div>
+          <div class="quick-actions">
+            <a class="quick-action" href="new-document.html"><i>＋</i>Yeni Doküman</a>
+            <a class="quick-action" href="capa.html?type=ncr"><i>!</i>Uygunsuzluk Kaydı</a>
+            <a class="quick-action" href="capa.html?action=new"><i>8D</i>Yeni CAPA</a>
+            <a class="quick-action" href="audit.html?action=plan"><i>✓</i>İç Denetim Planla</a>
+            <a class="quick-action" href="training-management.html?action=assign"><i>🎓</i>Eğitim Ata</a>
+            <a class="quick-action" href="calibration-management.html?action=plan"><i>⌁</i>Kalibrasyon Planla</a>
+            <a class="quick-action" href="kpi-reports.html?action=report"><i>↗</i>Rapor Oluştur</a>
+            <a class="quick-action" href="ai-assistant.html"><i>AI</i>AI Asistan</a>
+          </div>
+        </section>
+      </div>
 
-<button class="menu-group" type="button">🔬 Teknik Yönetim <span>⌄</span></button>
-<div class="submenu">
-<a href="calibration-management.html">Kalibrasyon Yönetimi</a>
-</div>
-
-<button class="menu-group" type="button">🔒 Uyum ve Güvenlik <span>⌄</span></button>
-<div class="submenu">
-<a href="security-continuity-center.html">BGYS & İş Sürekliliği</a>
-<a href="standards-compliance.html">Standart Uygunluk</a>
-<a href="legal-compliance.html">Yasal Uyum</a>
-</div>
-
-<button class="menu-group" type="button">🚗 IATF 16949 <span>⌄</span></button>
-<div class="submenu">
-<a href="apqp.html">APQP</a>
-</div>
-</nav>
-</div>
-<div class="sidebar-footer">Canlı Dashboard</div>
-</aside>
-
-<main class="main">
-
-<header class="topbar">
-<button class="mobile-menu-btn" onclick="openMobileMenu()">☰</button>
-<div class="search-wrap">
-<input class="search" id="globalSearch" placeholder="Ara...">
-<button class="search-btn" onclick="runSearch()">Ara</button>
-</div>
-<div class="profile">
-<div class="topbar-actions" aria-label="Bildirim kısayolu"><button class="topbar-icon-btn" type="button" aria-label="Mesajlar">✉</button><button class="topbar-icon-btn" type="button" aria-label="Bildirimler">🔔</button></div>
-<div class="avatar"
-onclick="navigateRoute('dashboard.html')"
-style="width:auto;padding:0 22px;">
-<span id="userName"></span>
-</div>
-<button class="logout-btn" onclick="logout()">Oturumu Kapat</button>
-</div>
-</header>
-
-<section class="hero">
-<div>
-<h1>Kalite Yönetim Dashboard</h1>
-<p>ISO 9001 ve IATF 16949 kalite süreçlerini; doküman, CAPA, risk, denetim, eğitim, tedarikçi ve müşteri performansıyla tek yönetim ekranında izleyin.</p>
-</div>
-<div class="hero-badge">Sistem Sağlığı: <span id="health">0%</span><small>Çalışma Alanı: <span id="heroDepartmentName">-</span></small></div>
-</section>
-
-<section class="panel search-results-panel" id="searchResultsPanel">
-<div class="panel-head">
-<h3>Arama Sonuçları</h3>
-<div class="search-summary">
-<span class="search-keyword" id="searchKeyword">-</span>
-<span id="searchResultCount">0 sonuç</span>
-<a class="link" onclick="clearSearchResults()">Temizle</a>
-</div>
-</div>
-<div id="searchResultsArea"></div>
-</section>
-
-<section class="cards">
-<div class="card"><small>Toplam Doküman</small><h2 id="documentCount">0</h2><p>Kontrollü doküman kayıtları</p></div>
-<div class="card"><small>Bekleyen Revizyon</small><h2 id="pendingRevizyonCount">0</h2><p>Revizyon incelemesi bekleyen</p></div>
-<div class="card"><small>Bekleyen Onay</small><h2 id="pendingOnayCount">0</h2><p>Onay bekleyen işler</p></div>
-<div class="card"><small>Uygunluk Skoru</small><h2 id="complianceScore">0%</h2><p>ISO/IATF uygunluk görünümü</p></div>
-</section>
-
-<section class="cards">
-<div class="card"><small>Yayındaki Doküman</small><h2 id="publishedDocCount">0</h2><p>Aktif kullanımda</p></div>
-<div class="card"><small>Arşiv Kayıtları</small><h2 id="archiveCount">0</h2><p>Pasif / arşiv izi</p></div>
-<div class="card"><small>Dağıtım Kayıtları</small><h2 id="distributionCount">0</h2><p>Okuma takip kayıtları</p></div>
-<div class="card"><small>Okunmayan / Geciken</small><h2 id="unreadCount">0</h2><p>Dağıtım aksiyonları</p></div>
-</section>
-
-<section class="cards">
-<div class="card"><small>Toplam 8D / CAPA</small><h2 id="capaCount">0</h2><p>8D ve düzeltici faaliyetler</p></div>
-<div class="card"><small>Açık 8D</small><h2 id="openCapaCount">0</h2><p>Devam eden 8D/CAPA</p></div>
-<div class="card"><small>Geciken 8D</small><h2 id="lateCapaCount">0</h2><p>Termin aşımı</p></div>
-<div class="card"><small>Geciken Aksiyon</small><h2 id="lateCapaActionCount">0</h2><p>Geciken düzeltici faaliyetler</p></div>
-</section>
-
-<section class="cards">
-<div class="card"><small>Açık Risk</small><h2 id="openRiskCount">0</h2><p>Açık risk kayıtları</p></div>
-<div class="card"><small>Kritik Risk</small><h2 id="criticalRiskCount">0</h2><p>Yüksek öncelikli riskler</p></div>
-<div class="card"><small>Açık Denetim</small><h2 id="openDenetimCount">0</h2><p>Açık denetim planları</p></div>
-<div class="card"><small>Denetim Bulgusu</small><h2 id="auditFindingCount">0</h2><p>Toplam bulgu</p></div>
-</section>
-
-<section class="cards">
-<div class="card"><small>Açık Eğitim</small><h2 id="openTrainingCount">0</h2><p>Planlı/devam eden eğitim</p></div>
-<div class="card"><small>Geciken Eğitim</small><h2 id="lateTrainingCount">0</h2><p>Termin aşımı</p></div>
-<div class="card"><small>Tedarikçi</small><h2 id="supplierCount">0</h2><p>Onaylı ve izlenen tedarikçiler</p></div>
-<div class="card"><small>Açık SCAR</small><h2 id="supplierScarCount">0</h2><p>Tedarikçi düzeltici faaliyetleri</p></div>
-</section>
-
-<section class="grid">
-<div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Son Revizyonlar</h3>
-<a class="link" href="revision.html">Tümünü Gör</a>
-</div>
-<div id="revisionTable"></div>
-</div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Son Onaylar</h3>
-<a class="link" href="approval.html">Tümünü Gör</a>
-</div>
-<div id="approvalTable"></div>
-</div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Son 8D / CAPA Kayıtları</h3>
-<a class="link" href="capa.html">Tümünü Gör</a>
-</div>
-<div id="capaTable"></div>
-</div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Kurumsal Uygunluk Merkezi</h3>
-<span class="status blue">ÇOKLU STANDART</span>
-</div>
-<div class="compliance-grid" id="complianceGrid"></div>
-</div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Modül Merkezi</h3>
-<span class="status green">V2.1 ÇEKİRDEK AKTİF</span>
-</div>
-<div class="modules">
-<a class="module" href="documents.html"><h4>📄 Doküman Yönetimi</h4><p>Master liste, arama, workflow ve yaşam döngüsü.</p></a>
-<a class="module" href="new-document.html"><h4>➕ Yeni Doküman</h4><p>Otomatik kod, dosya yükleme ve workflow başlatma.</p></a>
-<a class="module" href="revision.html"><h4>🔄 Revizyon Yönetimi</h4><p>Kontrollü değişiklik, etki analizi ve yeni workflow.</p></a>
-<a class="module" href="approval.html"><h4>✅ Onay Yönetimi</h4><p>Sıralı elektronik onay ve final yayın akışı.</p></a>
-<a class="module" href="archive.html"><h4>🗄️ Arşiv Yönetimi</h4><p>Obsolete ve denetime hazır arşiv izi.</p></a>
-<a class="module" href="distribution.html"><h4>📤 Dağıtım Yönetimi</h4><p>Mesajlaşma kuyruğu ve okundu takibi.</p></a>
-<a class="module" href="capa.html"><h4>🛠️ 8D / CAPA</h4><p>D0-D8 aksiyon, kök neden, kapanış ve etkinlik kontrolü.</p></a>
-<a class="module" href="risk-register.html"><h4>⚠️ Risk Yönetimi</h4><p>10×10×10 risk, artık risk, aksiyon ve CAPA bağlantısı.</p></a>
-<a class="module" href="training-management.html"><h4>🎓 Eğitim Yönetimi</h4><p>Yetkinlik matrisi, sınav, sertifika ve etkinlik kontrolü.</p></a>
-<a class="module" href="audit.html"><h4>🧾 İç Denetim</h4><p>Denetim planı, bulgu, kanıt, CAPA ve kapanış izleri.</p></a>
-<a class="module" href="supplier-management.html"><h4>🏭 Tedarikçi Yönetimi</h4><p>Onaylı liste, performans, SCAR, sertifika ve doküman merkezi.</p></a>
-<a class="module" href="management-review.html"><h4>📊 Yönetimin Gözden Geçirmesi</h4><p>YGG gündemi, aksiyonlar, riskler ve üst yönetim çıktıları.</p></a>
-<a class="module" href="#"><h4>📈 KPI & Raporlar</h4><p>Tüm modüllerden canlı performans takibi.</p></a>
-</div>
-</div>
-
-</div>
-
-<div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Yönetici Uyarıları</h3>
-<span class="status blue">CANLI</span>
-</div>
-<div class="quick">
-<div><b id="qRevizyon">0</b><span>Bekleyen Revizyon</span></div>
-<div><b id="qOnay">0</b><span>Bekleyen Onay</span></div>
-<div><b id="qUnread">0</b><span>Okunmayan Dağıtım</span></div>
-<div><b id="qCapaLate">0</b><span>Geciken 8D/CAPA</span></div>
-<div><b id="qRiskKritik">0</b><span>Kritik Risk</span></div>
-<div><b id="qDenetimAçık">0</b><span>Açık Denetim</span></div>
-<div><b id="qTrainingLate">0</b><span>Geciken Eğitim</span></div>
-<div><b id="qTedarikçiAlert">0</b><span>Tedarikçi Uyarısı</span></div>
-</div>
-</div>
-
-<div class="panel">
-<h3>Sistem Uygunluğu</h3>
-<br>
-<div class="activity">
-<div class="activity-item">
-<strong>Doküman Kontrolü</strong>
-<span>Doküman ana liste ve yayın durumu</span>
-<div class="progress"><div class="bar" id="docBar" style="width:0%"></div></div>
-</div>
-<div class="activity-item">
-<strong>Revizyon ve Onay</strong>
-<span>Revizyon ve onay yaşam döngüsü</span>
-<div class="progress"><div class="bar" id="revBar" style="width:0%"></div></div>
-</div>
-<div class="activity-item">
-<strong>Dağıtım Takibi</strong>
-<span>Okuma ve dağıtım izlenebilirliği</span>
-<div class="progress"><div class="bar" id="distBar" style="width:0%"></div></div>
-</div>
-<div class="activity-item">
-<strong>8D / CAPA Etkinliği</strong>
-<span>Problem çözme, aksiyon kapanış ve etkinlik kontrolü</span>
-<div class="progress"><div class="bar" id="capaBar" style="width:0%"></div></div>
-</div>
-</div>
-</div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Kritik Bildirimler</h3>
-<span class="status red" id="criticalCount">0 Bildirim</span>
-</div>
-<div class="activity" id="criticalAlerts"></div>
-</div>
-
-<div class="panel">
-<div class="panel-head">
-<h3>Son Dağıtımlar</h3>
-<a class="link" href="distribution.html">Tümünü Gör</a>
-</div>
-<div id="distributionTable"></div>
-</div>
-
-</div>
-</section>
-
-</main>
+      <div>
+        <section class="panel">
+          <div class="panel-head"><div><h2>İç Denetim Hazırlığı</h2><div class="panel-sub">Denetim öncesi kritik hazırlık seviyesi</div></div></div>
+          <div class="readiness" id="auditReadiness"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><div><h2>Yaklaşan Kalite Görevleri</h2><div class="panel-sub">Termin odaklı takip listesi</div></div><span class="status-pill warn" id="taskCount">0 Görev</span></div>
+          <div class="task-list" id="qualityTasks"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><div><h2>KPI İlerleme Özeti</h2><div class="panel-sub">Yönetici takip göstergeleri</div></div></div>
+          <div class="kpi-summary" id="kpiSummary"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><div><h2>Son Aktivite</h2><div class="panel-sub">Kayıt ve bildirim hareketleri</div></div><a class="panel-sub" href="activity-center.html">Tümünü Gör</a></div>
+          <div class="timeline" id="recentActivity"></div>
+        </section>
+      </div>
+    </section>
+  </main>
 </div>
 
 <script src="assets/js/config/routes.js"></script>
 <script src="assets/js/config/api-client.js"></script>
-<script src="assets/js/ui/user-autocomplete.js?v=quality-users-5"></script>
 <script src="assets/js/ui/mobile-menu.js"></script>
 <script>
-const API_BASE = window.GDNL_API_BASE;
-const GDNL_MODULE_NAME="Dashboard";
+const api = window.GDNL_API;
+const data = {
+  documents: [], capas: [], risks: [], actions: [], audits: [], trainings: [],
+  suppliers: [], customers: [], notifications: [], activities: []
+};
 
-function routeTo(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true})||path}
-function navigateRoute(path){window.location.href=routeTo(path)}
+const menuGroups = [
+  { title:"YÖNETİM PANELİ", icon:"📊", items:[
+    ["Panel","dashboard.html"],["KPI ve Raporlar","kpi-reports.html"],["Aktivite Merkezi","activity-center.html"],["Bildirim Merkezi","notification-center.html"]
+  ]},
+  { title:"DOKÜMAN KONTROLÜ", icon:"📚", items:[
+    ["Doküman Yönetimi","documents.html"],["Yeni Doküman","new-document.html"],["Revizyon Yönetimi","revision.html"],["Onay Yönetimi","approval.html"],["Dağıtım Yönetimi","distribution.html"],["Arşiv Yönetimi","archive.html"],["Doküman Görüntüleyici","document-viewer.html"]
+  ]},
+  { title:"KALİTE OPERASYONLARI", icon:"⚙️", items:[
+    ["Uygunsuzluk ve CAPA","capa.html"],["Risk Yönetimi","risk-register.html"],["İç Denetim","audit.html"],["Aksiyon Merkezi","action-center.html"],["Sürekli İyileştirme","continuous-improvement.html"]
+  ]},
+  { title:"PAYDAŞ KALİTESİ", icon:"🏭", items:[
+    ["Tedarikçi Kalite","supplier-management.html"],["Müşteri Şikayetleri","customer-management.html"]
+  ]},
+  { title:"YETKİNLİK VE ÖLÇÜM", icon:"🎓", items:[
+    ["Eğitim Yönetimi","training-management.html"],["Yetkinlik Matrisi","competency-matrix.html"],["Kalibrasyon Yönetimi","calibration-management.html"]
+  ]},
+  { title:"SİSTEM VE UYGUNLUK", icon:"🔒", items:[
+    ["Süreç Yönetimi","process-management.html"],["Standart Uygunluk","standards-compliance.html"],["Yasal Uyum","legal-compliance.html"],["BGYS ve Süreklilik","security-continuity-center.html"],["YGG Yönetimi","management-review.html"],["Değişiklik Yönetimi","change-management.html"]
+  ]},
+  { title:"APQP / CORE TOOLS", icon:"🚗", items:[
+    ["APQP","apqp.html"],["PPAP","apqp.html#ppap"],["FMEA","apqp.html#fmea"],["MSA","apqp.html#msa"],["SPC","apqp.html#spc"],["Kontrol Planı","apqp.html#control-plan"]
+  ]},
+  { title:"MERKEZLER", icon:"⌘", items:[
+    ["Global Arama","search.html"],["Dosya Merkezi","file-center.html"],["AI Asistan","ai-assistant.html"],["Kullanıcılar","users.html"],["Departmanlar","departments.html"]
+  ]}
+];
 
-let gdnlUsers=[];
-let gdnlDepartments=[];
-let gdnlDocuments=[];
-let gdnlRevisions=[];
-let gdnlApprovals=[];
-let gdnlApprovalHistory=[];
-let gdnlWorkflowHistory=[];
-let gdnlArchive=[];
-let gdnlDistribution=[];
-let gdnlCapa=[];
-let gdnlRisks=[];
-let gdnlActions=[];
-let gdnlAudits=[];
-let gdnlTrainings=[];
-let gdnlSuppliers=[];
-let gdnlCustomers=[];
-let gdnlNotifications=[];
-let gdnlAssignments=[];
-let gdnlActivity=[];
-let gdnlComments=[];
-let gdnlFiles=[];
-let gdnlCurrentUser=null;
-let gdnlCurrentDepartment="-";
-let gdnlSearchResults=[];
+function currentPage(){return (location.pathname.split("/").pop() || "dashboard.html") + location.hash}
+function route(path){return window.GDNL_ROUTES?.resolveRoute?.(path,{includeMissing:true}) || path}
+function esc(value){return String(value ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[ch]))}
+function asArray(payload){return api?.asArray ? api.asArray(payload) : (Array.isArray(payload) ? payload : (payload?.data || payload?.items || []))}
+function text(value){return String(value ?? "").trim()}
+function lower(value){return text(value).toLocaleLowerCase("tr-TR")}
+function openStatus(value){return !["kapalı","kapandi","kapandı","closed","done","tamamlandı","tamamlandi","yayınlandı","yayinlandi","onaylandı","onaylandi"].includes(lower(value))}
+function highRisk(item){const rpn=Number(item.rpn || item.risk_score || item.score || item.residual_rpn || 0); return rpn >= 150 || /kritik|yüksek|high|critical/.test(lower(item.level || item.risk_level || item.priority || item.status))}
+function dueDate(item){return item.due_date || item.dueDate || item.target_date || item.targetDate || item.deadline || item.planned_date || item.date || item.audit_date || item.training_date}
+function isLate(item){const raw=dueDate(item); if(!raw || !openStatus(item.status || item.workflow_status || item.auditStatus)) return false; const d=new Date(raw); return !Number.isNaN(d.getTime()) && d < new Date()}
+function setText(id,value){const el=document.getElementById(id); if(el) el.textContent=value}
+function percent(part,total){return total ? Math.max(0,Math.min(100,Math.round(part*100/total))) : 0}
 
-function gdnlArrayFromPayload(payload,path=""){
-  if(Array.isArray(payload))return payload;
-  if(!payload||typeof payload!=="object")return [];
-  const pathKey=String(path||"").replace("/","").replaceAll("-","_");
-  const candidates=[
-    pathKey,
-    pathKey.replaceAll("_",""),
-    "items","data","results","rows","records","list",
-    "users","departments","documents","revisions","approvals","approval_history",
-    "workflow_history","archive","files","comments","actions","assignments",
-    "notifications","audit_logs","activity_feed","capas","capa_actions","risks",
-    "risk_actions","trainings","suppliers","customers","audits","distribution",
-    "distributions","kpi_results","kpi_definitions"
-  ];
-  for(const key of candidates){
-    if(Array.isArray(payload[key]))return payload[key];
-  }
-  for(const value of Object.values(payload)){
-    if(Array.isArray(value))return value;
-  }
-  return [];
-}
-
-async function gdnlApiGet(path){
-  try{
-    const response=await fetch(API_BASE+path,{
-      method:"GET",
-      mode:"cors",
-      cache:"no-store",
-      headers:{"Accept":"application/json"}
-    });
-    if(!response.ok)throw new Error(path+" yanıt vermedi: "+response.status);
-    const payload=await response.json();
-    return gdnlArrayFromPayload(payload,path);
-  }catch(error){
-    console.warn("D1 bağlantı uyarısı:",path,error);
-    return [];
-  }
-}
-
-async function gdnlApiPost(path,payload){
-  try{
-    const response=await fetch(API_BASE+path,{
-      method:"POST",
-      mode:"cors",
-      cache:"no-store",
-      headers:{
-        "Accept":"application/json",
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(payload||{})
-    });
-    if(!response.ok)throw new Error(path+" kayıt oluşturamadı: "+response.status);
-    return await response.json().catch(()=>({success:true}));
-  }catch(error){
-    console.warn("D1 kayıt uyarısı:",path,error);
-    return null;
-  }
-}
-
-function gdnlActiveOnly(list){
-  const passive=["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","cancelled","archived"];
-  return (Array.isArray(list)?list:[]).filter(item=>{
-    const status=String(item.status||item.document_status||item.workflow_status||item.riskStatus||item.auditStatus||item.trainingStatus||item.approvalStatus||"").trim().toLowerCase();
-    return !passive.includes(status);
-  });
-}
-
-function gdnlText(value){
-  return String(value??"").trim();
-}
-
-function gdnlLower(value){
-  return gdnlText(value).toLocaleLowerCase("tr-TR");
-}
-
-function escapeHTML(value){
-  return String(value??"")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-function highlightText(value,keyword){
-  const safe=escapeHTML(value);
-  if(!keyword)return safe;
-  const escaped=keyword.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-  return safe.replace(new RegExp(escaped,"gi"),match=>`<mark>${match}</mark>`);
-}
-
-function formatDateTR(value){
-  if(!value)return "-";
-  const date=new Date(value);
-  if(Number.isNaN(date.getTime()))return escapeHTML(value);
-  return date.toLocaleDateString("tr-TR");
-}
-
-function isOpenStatus(value){
-  const s=gdnlLower(value);
-  return !["kapalı","kapandi","kapandı","tamamlandı","tamamlandi","closed","done","yayınlandı","yayinlandi","onaylandı","onaylandi"].includes(s);
-}
-
-function isLate(item){
-  const raw=item.due_date||item.dueDate||item.target_date||item.targetDate||item.planned_date||item.trainingDate||item.deadline;
-  if(!raw)return false;
-  const date=new Date(raw);
-  if(Number.isNaN(date.getTime()))return false;
-  return date.getTime()<Date.now() && isOpenStatus(item.status||item.capaStatus||item.trainingStatus||item.actionStatus);
-}
-
-function setText(id,value){
-  const el=document.getElementById(id);
-  if(el)el.textContent=value;
-}
-
-function setBar(id,value){
-  const el=document.getElementById(id);
-  if(el)el.style.width=Math.max(0,Math.min(100,Number(value)||0))+"%";
-}
-
-function statusClass(status){
-  const s=gdnlLower(status);
-  if(["yayında","yayinlandi","yayınlandı","aktif","onaylandı","onaylandi","tamamlandı","tamamlandi"].includes(s))return"green";
-  if(["bekliyor","onayda","revizyon","devam ediyor","açık","acik","gönderildi"].includes(s))return"orange";
-  if(["gecikti","reddedildi","kritik","kapalı değil"].includes(s))return"red";
-  return"blue";
-}
-
-function getUserDisplayName(user){
-  return user?.fullname||user?.fullName||user?.name||user?.username||"Kullanıcı";
-}
-
-function getUserRole(user){
-  return user?.role||user?.role_name||user?.title||"Yetki doğrulanıyor";
-}
-
-function getUserDepartment(user){
-  return user?.department||user?.department_name||user?.departmentName||"Yönetim";
-}
-
-function selectCurrentUser(){
-  const activeUsers=gdnlActiveOnly(gdnlUsers);
-  const root=activeUsers.find(u=>gdnlLower(u.role).includes("root")||gdnlLower(u.role).includes("super administrator")||gdnlLower(u.username).includes("keremgudenli"));
-  gdnlCurrentUser=root||activeUsers[0]||null;
-  gdnlCurrentDepartment=getUserDepartment(gdnlCurrentUser);
-  if((!gdnlCurrentDepartment||gdnlCurrentDepartment==="-")&&gdnlDepartments.length){
-    gdnlCurrentDepartment=gdnlDepartments[0].department_name||gdnlDepartments[0].name||"Yönetim";
-  }
-  setText("userName",getUserDisplayName(gdnlCurrentUser));
-  setText("activeDepartmentName",gdnlCurrentDepartment||"-");
-  setText("heroDepartmentName",gdnlCurrentDepartment||"-");
-}
-
-async function gdnlCreateAudit(action,detail,oldValue="",newValue="",field="Dashboard"){
-  await gdnlApiPost("/audit-logs",{
-    module:GDNL_MODULE_NAME,
-    action,
-    detail,
-    old_value:oldValue,
-    new_value:newValue,
-    changed_field:field,
-    user_id:gdnlCurrentUser?.id||"",
-    user_name:getUserDisplayName(gdnlCurrentUser),
-    department:gdnlCurrentDepartment,
-    ip_address:"istemci",
-    user_agent:navigator.userAgent,
-    session_id:"tarayıcı-oturumu",
-    created_at:new Date().toISOString()
-  });
-}
-
-async function gdnlCreateActivity(action,detail){
-  await gdnlApiPost("/activity-feed",{
-    module:GDNL_MODULE_NAME,
-    action,
-    description:detail,
-    user_id:gdnlCurrentUser?.id||"",
-    user_name:getUserDisplayName(gdnlCurrentUser),
-    department:gdnlCurrentDepartment,
-    created_at:new Date().toISOString()
-  });
-}
-
-async function gdnlCreateNotification(message,type="Bilgi"){
-  await gdnlApiPost("/notifications",{
-    module:GDNL_MODULE_NAME,
-    type,
-    message,
-    status:"Okunmadı",
-    is_read:false,
-    read_by:"",
-    read_at:"",
-    user_id:gdnlCurrentUser?.id||"",
-    user_name:getUserDisplayName(gdnlCurrentUser),
-    created_at:new Date().toISOString()
-  });
-}
-
-async function gdnlLoadCloudData(){
-  const [
-    users,departments,documents,revisions,approvals,approvalHistory,workflowHistory,
-    archive,distributionA,distributionB,capa,risks,actions,audits,trainings,suppliers,
-    customers,notifications,assignments,activity,comments,files
-  ]=await Promise.all([
-    gdnlApiGet("/users"),
-    gdnlApiGet("/departments"),
-    gdnlApiGet("/documents"),
-    gdnlApiGet("/revisions"),
-    gdnlApiGet("/approvals"),
-    gdnlApiGet("/approval-history"),
-    gdnlApiGet("/workflow-history"),
-    gdnlApiGet("/archive"),
-    gdnlApiGet("/distribution"),
-    gdnlApiGet("/documents/distribution"),
-    gdnlApiGet("/capas"),
-    gdnlApiGet("/risks"),
-    gdnlApiGet("/actions"),
-    gdnlApiGet("/audit-logs"),
-    gdnlApiGet("/trainings"),
-    gdnlApiGet("/suppliers"),
-    gdnlApiGet("/customers"),
-    gdnlApiGet("/notifications"),
-    gdnlApiGet("/assignments"),
-    gdnlApiGet("/activity-feed"),
-    gdnlApiGet("/comments"),
-    gdnlApiGet("/files")
-  ]);
-
-  gdnlUsers=users;
-  gdnlDepartments=departments;
-  gdnlDocuments=gdnlActiveOnly(documents);
-  gdnlRevisions=gdnlActiveOnly(revisions);
-  gdnlApprovals=gdnlActiveOnly(approvals);
-  gdnlApprovalHistory=approvalHistory;
-  gdnlWorkflowHistory=workflowHistory;
-  gdnlArchive=archive;
-  gdnlDistribution=gdnlActiveOnly(distributionB.length?distributionB:distributionA);
-  gdnlCapa=gdnlActiveOnly(capa);
-  gdnlRisks=gdnlActiveOnly(risks);
-  gdnlActions=gdnlActiveOnly(actions);
-  gdnlAudits=gdnlActiveOnly(audits);
-  gdnlTrainings=gdnlActiveOnly(trainings);
-  gdnlSuppliers=gdnlActiveOnly(suppliers);
-  gdnlCustomers=gdnlActiveOnly(customers);
-  gdnlNotifications=gdnlActiveOnly(notifications);
-  gdnlAssignments=gdnlActiveOnly(assignments);
-  gdnlActivity=activity;
-  gdnlComments=comments;
-  gdnlFiles=files;
-  selectCurrentUser();
-}
-
-function renderDashboardMetrics(){
-  const docs=gdnlDocuments;
-  const revisions=gdnlRevisions;
-  const approvals=gdnlApprovals;
-  const distribution=gdnlDistribution;
-  const capa=gdnlCapa;
-  const risks=gdnlRisks;
-  const actions=gdnlActions;
-  const audits=gdnlAudits;
-  const trainings=gdnlTrainings;
-  const suppliers=gdnlSuppliers;
-
-  const publishedDocs=docs.filter(d=>["yayında","yayinlandi","yayınlandı","aktif"].includes(gdnlLower(d.status||d.document_status))).length;
-  const pendingRevisions=revisions.filter(r=>isOpenStatus(r.status||r.revisionStatus)).length;
-  const pendingApprovals=approvals.filter(a=>isOpenStatus(a.status||a.approvalStatus)).length;
-  const unreadDistribution=distribution.filter(d=>gdnlLower(d.status).includes("okunmadı")||gdnlLower(d.status).includes("gecikti")||d.is_read===false).length;
-  const openCapa=capa.filter(c=>isOpenStatus(c.status||c.capaStatus)).length;
-  const lateCapa=capa.filter(isLate).length;
-  const lateCapaActions=(actions.length?actions:gdnlAssignments).filter(isLate).length;
-  const openRisks=risks.filter(r=>isOpenStatus(r.status||r.riskStatus)).length;
-  const criticalRisks=risks.filter(r=>Number(r.initialScore||r.residualScore||r.score||0)>=500||gdnlLower(r.criticality).includes("kritik")).length;
-  const openAudits=audits.filter(a=>isOpenStatus(a.status||a.auditStatus)).length;
-  const auditFindingCount=audits.reduce((sum,a)=>sum+Number(a.finding_count||a.findingCount||a.findings||0),0);
-  const openTrainings=trainings.filter(t=>isOpenStatus(t.status||t.trainingStatus)).length;
-  const lateTrainings=trainings.filter(isLate).length;
-  const supplierAlert=suppliers.filter(s=>gdnlLower(s.status||s.approvalStatus).includes("askı")||gdnlLower(s.criticality).includes("kritik")).length;
-
-  const docScore=docs.length?Math.round((publishedDocs/docs.length)*100):0;
-  const revScore=revisions.length?Math.max(0,100-Math.round((pendingRevisions/revisions.length)*100)):100;
-  const distScore=distribution.length?Math.max(0,100-Math.round((unreadDistribution/distribution.length)*100)):100;
-  const capaScore=capa.length?Math.max(0,100-Math.round((lateCapa/capa.length)*100)):100;
-  const compliance=Math.round((docScore+revScore+distScore+capaScore)/4);
-
-  setText("documentCount",docs.length);
-  setText("pendingRevizyonCount",pendingRevisions);
-  setText("pendingOnayCount",pendingApprovals);
-  setText("complianceScore",compliance+"%");
-  setText("publishedDocCount",publishedDocs);
-  setText("archiveCount",gdnlArchive.length);
-  setText("distributionCount",distribution.length);
-  setText("unreadCount",unreadDistribution);
-  setText("capaCount",capa.length);
-  setText("openCapaCount",openCapa);
-  setText("lateCapaCount",lateCapa);
-  setText("lateCapaActionCount",lateCapaActions);
-  setText("openRiskCount",openRisks);
-  setText("criticalRiskCount",criticalRisks);
-  setText("openDenetimCount",openAudits);
-  setText("auditFindingCount",auditFindingCount);
-  setText("openTrainingCount",openTrainings);
-  setText("lateTrainingCount",lateTrainings);
-  setText("supplierCount",suppliers.length);
-  setText("supplierScarCount",supplierAlert);
-
-  setText("qRevizyon",pendingRevisions);
-  setText("qOnay",pendingApprovals);
-  setText("qUnread",unreadDistribution);
-  setText("qCapaLate",lateCapa);
-  setText("qRiskKritik",criticalRisks);
-  setText("qDenetimAçık",openAudits);
-  setText("qTrainingLate",lateTrainings);
-  setText("qTedarikçiAlert",supplierAlert);
-  setText("health",compliance+"%");
-
-  setBar("docBar",docScore);
-  setBar("revBar",revScore);
-  setBar("distBar",distScore);
-  setBar("capaBar",capaScore);
-
-  renderCriticalAlerts({pendingRevisions,pendingApprovals,unreadDistribution,lateCapa,criticalRisks,openAudits,lateTrainings,supplierAlert});
-}
-
-function renderTable(targetId,items,columns,emptyText){
-  const target=document.getElementById(targetId);
-  if(!target)return;
-  if(!items.length){
-    target.innerHTML=`<div class="empty">${escapeHTML(emptyText||"Kayıt bulunamadı.")}</div>`;
-    return;
-  }
-  const head=columns.map(c=>`<th>${escapeHTML(c.label)}</th>`).join("");
-  const body=items.slice(0,8).map(item=>{
-    return "<tr>"+columns.map(c=>{
-      const value=typeof c.value==="function"?c.value(item):item[c.value];
-      return `<td>${value??"-"}</td>`;
-    }).join("")+"</tr>";
+function renderMenu(){
+  const current = currentPage().split("?")[0];
+  const html = menuGroups.map((group, index) => {
+    const isOpen = index < 2 || group.items.some(item => current.startsWith(item[1]));
+    const links = group.items.map(([label, href]) => {
+      const active = current === href || current.split("#")[0] === href.split("#")[0] && !href.includes("#") ? " active" : "";
+      return `<a class="${active.trim()}" href="${esc(route(href))}">${esc(label)}</a>`;
+    }).join("");
+    return `<div class="side-group ${isOpen ? "open" : ""}">
+      <button class="side-group-toggle" type="button"><span>${group.icon} ${group.title}</span><span>⌄</span></button>
+      <div class="side-submenu">${links}</div>
+    </div>`;
   }).join("");
-  target.innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+  document.getElementById("sideMenu").innerHTML = `<a class="side-single active" href="dashboard.html">🏠 Kalite Yönetim Paneli</a>${html}`;
+  document.getElementById("mobileMenu").innerHTML = `<a class="side-single active" href="dashboard.html">🏠 Kalite Yönetim Paneli</a>${html}`;
+  document.querySelectorAll(".side-group-toggle").forEach(button => {
+    button.addEventListener("click", () => button.closest(".side-group")?.classList.toggle("open"));
+  });
 }
 
-function renderRecentTables(){
-  renderTable("revisionTable",gdnlRevisions,[{
-    label:"No",value:x=>escapeHTML(x.revisionNo||x.revision_no||x.id||"-")
-  },{
-    label:"Doküman",value:x=>escapeHTML(x.documentName||x.document_name||x.title||"-")
-  },{
-    label:"Durum",value:x=>`<span class="status ${statusClass(x.status)}">${escapeHTML(x.status||"-")}</span>`
-  },{
-    label:"Tarih",value:x=>formatDateTR(x.created_at||x.requestDate||x.date)
-  }],"Revizyon kaydı bulunamadı.");
-
-  renderTable("approvalTable",gdnlApprovals,[{
-    label:"No",value:x=>escapeHTML(x.workflowId||x.approvalNo||x.id||"-")
-  },{
-    label:"Doküman",value:x=>escapeHTML(x.documentName||x.document_name||x.title||"-")
-  },{
-    label:"Durum",value:x=>`<span class="status ${statusClass(x.status)}">${escapeHTML(x.status||"-")}</span>`
-  },{
-    label:"Onaycı",value:x=>escapeHTML(x.approver_name||x.approverName||x.currentApprover||"-")
-  }],"Onay kaydı bulunamadı.");
-
-  renderTable("capaTable",gdnlCapa,[{
-    label:"No",value:x=>escapeHTML(x.eightDNo||x.capaNo||x.id||"-")
-  },{
-    label:"Konu",value:x=>escapeHTML(x.problemTitle||x.title||x.description||"-")
-  },{
-    label:"Durum",value:x=>`<span class="status ${statusClass(x.status||x.capaStatus)}">${escapeHTML(x.status||x.capaStatus||"-")}</span>`
-  },{
-    label:"Sorumlu",value:x=>escapeHTML(x.owner||x.responsible||x.assigned_to||"-")
-  }],"8D / CAPA kaydı bulunamadı.");
-
-  renderTable("distributionTable",gdnlDistribution,[{
-    label:"No",value:x=>escapeHTML(x.distributionId||x.distributionNo||x.id||"-")
-  },{
-    label:"Doküman",value:x=>escapeHTML(x.documentName||x.document_name||x.title||"-")
-  },{
-    label:"Durum",value:x=>`<span class="status ${statusClass(x.status)}">${escapeHTML(x.status||"-")}</span>`
-  },{
-    label:"Tarih",value:x=>formatDateTR(x.created_at||x.sent_at||x.date)
-  }],"Dağıtım kaydı bulunamadı.");
-}
-
-function renderCompliance(){
-  const standards=[
-    ["ISO 9001","Kalite Yönetimi"],
-    ["ISO 14001","Çevre Yönetimi"],
-    ["ISO 45001","İSG Yönetimi"],
-    ["ISO 27001","Bilgi Güvenliği"],
-    ["IATF 16949","Otomotiv Kalite"],
-    ["CoP","Üretim Uygunluğu"],
-    ["APQP","İleri Kalite Planlama"],
-    ["PPAP","Parça Onay Süreci"]
-  ];
-  const area=document.getElementById("complianceGrid");
-  if(!area)return;
-  area.innerHTML=standards.map(([code,name])=>`
-    <div class="compliance-item">
-      <b>${escapeHTML(code)}</b>
-      <span class="status green">${escapeHTML(name)}</span>
-    </div>
-  `).join("");
-}
-
-function renderCriticalAlerts(values){
-  const alerts=[];
-  if(values.pendingApprovals>0)alerts.push(["Bekleyen Onay",values.pendingApprovals+" kayıt onay bekliyor.","orange"]);
-  if(values.lateCapa>0)alerts.push(["Geciken 8D / CAPA",values.lateCapa+" kayıt termin aşımında.","red"]);
-  if(values.criticalRisks>0)alerts.push(["Kritik Risk",values.criticalRisks+" kritik risk izleniyor.","red"]);
-  if(values.unreadDistribution>0)alerts.push(["Okunmayan Dağıtım",values.unreadDistribution+" dağıtım okunmamış/gecikmiş.","orange"]);
-  if(values.lateTrainings>0)alerts.push(["Geciken Eğitim",values.lateTrainings+" eğitim termin aşımında.","red"]);
-  const area=document.getElementById("criticalAlerts");
-  const count=document.getElementById("criticalCount");
-  if(count)count.textContent=alerts.length+" Bildirim";
-  if(!area)return;
-  if(!alerts.length){
-    area.innerHTML='<div class="empty">Kritik bildirim bulunmuyor.</div>';
-    return;
+async function loadEndpoint(key,path){
+  try{
+    const payload = await api.get(path,{redirectOnUnauthorized:false});
+    data[key] = asArray(payload);
+  }catch(error){
+    data[key] = [];
   }
-  area.innerHTML=alerts.map(([title,desc,color])=>`
-    <div class="activity-item">
-      <strong>${escapeHTML(title)} <span class="status ${color}">${color==="red"?"Kritik":"Takip"}</span></strong>
-      <span>${escapeHTML(desc)}</span>
-    </div>
+}
+
+async function loadAll(){
+  document.querySelectorAll(".metric-card").forEach(card => card.classList.add("loading"));
+  await Promise.all([
+    loadEndpoint("documents","/documents"),
+    loadEndpoint("capas","/capa"),
+    loadEndpoint("risks","/risks"),
+    loadEndpoint("actions","/actions"),
+    loadEndpoint("audits","/audits"),
+    loadEndpoint("trainings","/trainings"),
+    loadEndpoint("suppliers","/suppliers"),
+    loadEndpoint("customers","/customers"),
+    loadEndpoint("notifications","/notifications"),
+    loadEndpoint("activities","/dashboard/recent-activity")
+  ]);
+}
+
+async function loadUser(){
+  try{
+    const user = api.normalizeUser(await api.me({redirectOnUnauthorized:false}));
+    const name = user.fullname || user.username || user.email || "Kullanıcı";
+    setText("userName", name);
+    setText("welcomeTitle", `${name.split(" ")[0] || "Kalite"} için kalite kontrol odası`);
+  }catch(error){
+    setText("userName","Kullanıcı");
+  }
+}
+
+function computeMetrics(){
+  const documents = data.documents.length;
+  const openCapa = data.capas.filter(item => openStatus(item.status || item.capa_status)).length;
+  const openActions = data.actions.filter(item => openStatus(item.status)).length;
+  const openAudits = data.audits.filter(item => openStatus(item.status || item.audit_status)).length;
+  const completedTraining = data.trainings.filter(item => !openStatus(item.status || item.training_status)).length;
+  const trainingRate = percent(completedTraining, data.trainings.length);
+  const highRisks = data.risks.filter(highRisk).length;
+  const late = [...data.capas,...data.actions,...data.audits,...data.trainings].filter(isLate).length;
+  const health = Math.max(0, Math.min(100, 92 - highRisks*6 - late*4 - openCapa*2 + trainingRate/10));
+  return { documents, openCapa, openActions, openAudits, trainingRate, highRisks, late, health: Math.round(health) };
+}
+
+function renderMetrics(){
+  const m = computeMetrics();
+  setText("healthScore", m.health);
+  setText("heroOpenActions", m.openActions + m.openCapa);
+  setText("heroHighRisk", m.highRisks);
+  setText("heroLate", m.late);
+  setText("metricDocuments", m.documents);
+  setText("metricNcr", m.openActions);
+  setText("metricCapa", m.openCapa);
+  setText("metricAudit", m.openAudits);
+  setText("metricTraining", `${m.trainingRate}%`);
+  setText("metricRisk", m.highRisks);
+  document.querySelectorAll(".metric-card").forEach(card => card.classList.remove("loading"));
+}
+
+function monthLabel(index){return ["Oca","Şub","Mar","Nis","May","Haz"][index] || `Ay ${index+1}`}
+function renderCapaTrend(){
+  const counts = [0,0,0,0,0,0];
+  data.capas.forEach(item => {
+    const raw = item.created_at || item.createdAt || item.date;
+    const d = raw ? new Date(raw) : null;
+    const idx = d && !Number.isNaN(d.getTime()) ? Math.max(0,Math.min(5,d.getMonth())) : Math.min(5, counts.findIndex(v => v === Math.min(...counts)));
+    counts[idx < 0 ? 0 : idx] += 1;
+  });
+  const max = Math.max(1,...counts);
+  document.getElementById("capaTrend").innerHTML = counts.map((count,index)=>`
+    <div class="bar-col"><div class="bar-fill" style="height:${Math.max(7, count*100/max)}%"></div><span>${monthLabel(index)}</span></div>
   `).join("");
+}
+
+function renderHeatmap(){
+  const levels = Array.from({length:25},(_,i)=> i%5 + 1);
+  const hot = data.risks.filter(highRisk).length;
+  document.getElementById("riskHeatmap").innerHTML = levels.map((level,index)=>{
+    const adjusted = index < hot ? 5 : level;
+    return `<div class="heat-cell heat-${adjusted}">${adjusted}</div>`;
+  }).join("");
+}
+
+function renderDonuts(){
+  const published = data.documents.filter(item => /yayın|aktif|approved|published/i.test(text(item.status || item.document_status))).length;
+  const documentPct = percent(published, data.documents.length);
+  const closedCapa = data.capas.filter(item => !openStatus(item.status || item.capa_status)).length;
+  const capaPct = percent(closedCapa, data.capas.length);
+  document.getElementById("documentDonut").style.setProperty("--pct", `${documentPct}%`);
+  document.getElementById("documentDonutValue").textContent = `${documentPct}%`;
+  document.getElementById("capaDonut").style.setProperty("--pct", `${capaPct}%`);
+  document.getElementById("capaDonutValue").textContent = `${capaPct}%`;
+}
+
+function renderMiniChart(id, values){
+  const max = Math.max(1,...values);
+  document.getElementById(id).innerHTML = values.map(v=>`<i style="height:${Math.max(10, v*100/max)}%"></i>`).join("");
+}
+
+function renderOperationalVisuals(){
+  renderCapaTrend();
+  renderHeatmap();
+  renderDonuts();
+  renderMiniChart("supplierMini", [data.suppliers.length, data.suppliers.filter(x=>/onay|approved/i.test(text(x.status))).length, data.suppliers.filter(highRisk).length + 1]);
+  renderMiniChart("customerMini", [data.customers.length, data.customers.filter(x=>openStatus(x.status)).length, data.customers.filter(isLate).length + 1]);
+  renderMiniChart("trainingMini", [data.trainings.length, data.trainings.filter(x=>!openStatus(x.status)).length, data.trainings.filter(isLate).length + 1]);
+}
+
+function renderReadiness(){
+  const rows = [
+    ["Dokümanlar güncel", percent(data.documents.filter(x=>!isLate(x)).length, data.documents.length)],
+    ["CAPA kapanış disiplini", 100 - percent(data.capas.filter(isLate).length, Math.max(1,data.capas.length))],
+    ["Risk izleme olgunluğu", 100 - percent(data.risks.filter(highRisk).length, Math.max(1,data.risks.length))],
+    ["Eğitim uygunluğu", computeMetrics().trainingRate]
+  ];
+  document.getElementById("auditReadiness").innerHTML = rows.map(([label,value])=>`
+    <div class="readiness-row"><div><strong>${esc(label)}</strong><div class="progress"><span style="width:${value}%"></span></div></div><span class="status-pill ${value >= 80 ? "ok" : value >= 55 ? "warn" : "risk"}">${value}%</span></div>
+  `).join("");
+}
+
+function taskTitle(item, fallback){
+  return item.title || item.name || item.document_name || item.documentName || item.problemTitle || item.riskTitle || item.auditTitle || item.trainingTitle || item.subject || fallback;
+}
+
+function renderTasks(){
+  const tasks = [
+    ...data.capas.filter(isLate).map(x=>["Geciken CAPA",x,"capa.html","risk"]),
+    ...data.risks.filter(highRisk).map(x=>["Yüksek Risk",x,"risk-register.html","risk"]),
+    ...data.audits.filter(isLate).map(x=>["Denetim Hazırlığı",x,"audit.html","warn"]),
+    ...data.trainings.filter(isLate).map(x=>["Eğitim Termin",x,"training-management.html","warn"]),
+    ...data.actions.filter(isLate).map(x=>["Aksiyon Termin",x,"action-center.html","warn"])
+  ].slice(0,6);
+  setText("taskCount", `${tasks.length} Görev`);
+  document.getElementById("qualityTasks").innerHTML = tasks.length ? tasks.map(([type,item,href,style])=>`
+    <a class="task-item" href="${href}"><strong>${esc(type)} <span class="status-pill ${style}">${esc(text(item.status || "Açık"))}</span></strong><span>${esc(taskTitle(item,"Kalite görevi"))} · Termin: ${esc(dueDate(item) || "-")}</span></a>
+  `).join("") : `<div class="empty-state">Yaklaşan kritik kalite görevi bulunmuyor. Sistem canlı veri geldikçe bu alanı otomatik doldurur.</div>`;
+}
+
+function renderKpiSummary(){
+  const rows = [
+    ["QMS Sağlığı", computeMetrics().health],
+    ["Doküman Uygunluğu", percent(data.documents.filter(x=>!isLate(x)).length,data.documents.length)],
+    ["CAPA Etkinliği", 100 - percent(data.capas.filter(isLate).length,Math.max(1,data.capas.length))],
+    ["Eğitim Tamamlama", computeMetrics().trainingRate],
+    ["Risk Kontrolü", 100 - percent(data.risks.filter(highRisk).length,Math.max(1,data.risks.length))]
+  ];
+  document.getElementById("kpiSummary").innerHTML = rows.map(([label,value])=>`
+    <div class="kpi-row"><span>${esc(label)}</span><div class="progress"><span style="width:${value}%"></span></div><b>${value}%</b></div>
+  `).join("");
+}
+
+function renderActivity(){
+  const items = data.activities.concat(data.notifications).slice(0,6);
+  document.getElementById("recentActivity").innerHTML = items.length ? items.map(item=>`
+    <div class="timeline-item"><strong>${esc(taskTitle(item,"Kalite aktivitesi"))}</strong><span>${esc(item.message || item.description || item.type || "Kalite kaydı güncellendi.")}</span></div>
+  `).join("") : `<div class="empty-state">Henüz aktivite kaydı bulunmuyor. Doküman, CAPA, risk veya denetim işlemleri oluştuğunda burada görünür.</div>`;
+  const unread = data.notifications.filter(x => !x.is_read && x.is_read !== 1 && x.read_at == null).length;
+  const badge = document.getElementById("notificationBadge");
+  if(unread > 0){ badge.textContent = unread > 99 ? "99+" : unread; badge.classList.add("visible"); }
+  else { badge.textContent = ""; badge.classList.remove("visible"); }
 }
 
 async function runSearch(){
-  const input=document.getElementById("globalSearch");
-  const keyword=gdnlLower(input.value);
-  if(!keyword){
-    clearSearchResults();
-    input.focus();
-    return;
-  }
-
-  let results=[];
+  const q = lower(document.getElementById("globalSearch").value);
+  if(!q){ document.getElementById("globalSearch").focus(); return; }
   try{
-    const response=await fetch(API_BASE+"/search?q="+encodeURIComponent(keyword),{
-      method:"GET",
-      mode:"cors",
-      cache:"no-store",
-      headers:{"Accept":"application/json"}
-    });
-    if(response.ok){
-      const payload=await response.json();
-      results=gdnlArrayFromPayload(payload,"/search").map(x=>({
-        type:"page",
-        module:x.module||x.module_name||"Arama",
-        title:x.title||x.name||x.documentName||x.record_no||"Kayıt",
-        detail:x.description||x.detail||x.status||"",
-        go:x.url||x.href||moduleToUrl(x.module||""),
-        selected:x.record_no||x.id||""
-      }));
-    }
-  }catch(error){
-    console.warn("Global arama servisi geçici olarak kullanılamadı:",error);
-  }
-
-  if(!results.length){
-    results=collectCloudSearchResults(keyword).concat(collectPageSearchResults(keyword));
-  }
-
-  results=results.filter(r=>!["deleted","silindi","arşivlendi","arsivlendi","iptal edildi","archived"].includes(gdnlLower(r.status)));
-  renderSearchResults(keyword,results);
-  await gdnlCreateActivity("Arama","Dashboard araması yapıldı: "+keyword);
+    const payload = await api.get("/search?q=" + encodeURIComponent(q), { redirectOnUnauthorized:false });
+    const results = asArray(payload);
+    if(results[0]?.url || results[0]?.href){ location.href = results[0].url || results[0].href; return; }
+  }catch(error){}
+  location.href = "search.html?q=" + encodeURIComponent(q);
 }
 
-function moduleToUrl(moduleName){
-  const key=gdnlLower(moduleName);
-  if(key.includes("capa"))return"capa.html";
-  if(key.includes("risk"))return"risk-register.html";
-  if(key.includes("denetim"))return"audit.html";
-  if(key.includes("ygg"))return"management-review.html";
-  if(key.includes("doküman")||key.includes("dokuman"))return"documents.html";
-  if(key.includes("eğitim")||key.includes("egitim"))return"training-management.html";
-  if(key.includes("tedarikçi")||key.includes("tedarikci"))return"supplier-management.html";
-  if(key.includes("müşteri")||key.includes("musteri"))return"customer-management.html";
-  if(key.includes("onay"))return"approval.html";
-  if(key.includes("arşiv")||key.includes("arsiv"))return"archive.html";
-  return"dashboard.html";
+function openMobileMenu(){document.getElementById("mobileDrawer").classList.add("active");document.getElementById("mobileOverlay").classList.add("active");document.body.style.overflow="hidden"}
+function closeMobileMenu(){document.getElementById("mobileDrawer").classList.remove("active");document.getElementById("mobileOverlay").classList.remove("active");document.body.style.overflow=""}
+function logout(){api?.logout ? api.logout() : location.href="index.html?logout=1"}
+
+document.addEventListener("keydown", event => { if(event.key === "Escape") closeMobileMenu(); if(event.key === "Enter" && event.target?.id === "globalSearch") runSearch(); });
+
+async function bootstrap(){
+  renderMenu();
+  await loadUser();
+  await loadAll();
+  renderMetrics();
+  renderOperationalVisuals();
+  renderReadiness();
+  renderTasks();
+  renderKpiSummary();
+  renderActivity();
 }
 
-function collectCloudSearchResults(keyword){
-  const pools=[
-    ["Doküman Yönetimi",gdnlDocuments,"documents.html",x=>x.code||x.documentCode||x.id,x=>x.documentName||x.name||x.title||x.code||"Doküman"],
-    ["Revizyon Yönetimi",gdnlRevisions,"revision.html",x=>x.revisionNo||x.id,x=>x.documentName||x.revisionNo||"Revizyon"],
-    ["Onay Yönetimi",gdnlApprovals,"approval.html",x=>x.workflowId||x.approvalNo||x.id,x=>x.documentName||x.workflowId||"Onay"],
-    ["Dağıtım Yönetimi",gdnlDistribution,"distribution.html",x=>x.distributionId||x.distributionNo||x.id,x=>x.documentName||x.workflowId||"Dağıtım"],
-    ["8D / CAPA",gdnlCapa,"capa.html",x=>x.eightDNo||x.capaNo||x.id,x=>x.problemTitle||x.title||x.eightDNo||"CAPA"],
-    ["Risk Yönetimi",gdnlRisks,"risk-register.html",x=>x.riskNo||x.id,x=>x.riskTitle||x.riskNo||"Risk"],
-    ["İç Denetim",gdnlAudits,"audit.html",x=>x.auditNo||x.id,x=>x.auditTitle||x.auditNo||"Denetim"],
-    ["Eğitim Yönetimi",gdnlTrainings,"training-management.html",x=>x.trainingNo||x.id,x=>x.trainingTitle||x.trainingNo||"Eğitim"],
-    ["Tedarikçi Yönetimi",gdnlSuppliers,"supplier-management.html",x=>x.supplierNo||x.id,x=>x.supplierName||x.supplierNo||"Tedarikçi"],
-    ["Müşteri Yönetimi",gdnlCustomers,"customer-management.html",x=>x.customerNo||x.id,x=>x.customerName||x.customerNo||"Müşteri"],
-    ["Bildirim Merkezi",gdnlNotifications,"notification-center.html",x=>x.notificationId||x.id,x=>x.message||x.title||"Bildirim"]
-  ];
-  const out=[];
-  pools.forEach(([module,list,go,pick,title])=>{
-    list.forEach(item=>{
-      const full=gdnlLower(JSON.stringify(item));
-      if(full.includes(keyword)){
-        out.push({
-          type:"page",
-          module,
-          go,
-          selected:pick(item)||"",
-          title:title(item),
-          detail:[item.code,item.documentCode,item.department,item.status,item.description,item.owner,item.assigned_to].filter(Boolean).join(" "),
-          status:item.status||item.riskStatus||item.auditStatus||item.trainingStatus||"",
-          raw:item
-        });
-      }
-    });
-  });
-  return out;
-}
-
-function collectPageSearchResults(keyword){
-  const results=[];
-  const seen=new Set();
-
-  document.querySelectorAll(".menu a,.mobile-drawer-menu a").forEach(el=>{
-    const label=el.textContent.trim();
-    const href=el.getAttribute("href")||"";
-    const text=gdnlLower(label+" "+href);
-    if(text.includes(keyword)){
-      const key="menu-"+href+"-"+label;
-      if(!seen.has(key)){
-        seen.add(key);
-        results.push({type:"page",module:"Menü",title:label,detail:href||"Menü bağlantısı",go:href||"#"});
-      }
-    }
-  });
-
-  document.querySelectorAll(".module").forEach(el=>{
-    const title=(el.querySelector("h4")?.textContent||el.textContent||"Modül").trim();
-    const detail=(el.querySelector("p")?.textContent||"").trim();
-    const href=el.getAttribute("href")||"";
-    if(gdnlLower(title+" "+detail+" "+href).includes(keyword)){
-      results.push({type:"page",module:"Modül Merkezi",title,detail:detail||href,go:href||"#"});
-    }
-  });
-
-  document.querySelectorAll(".card").forEach((el,index)=>{
-    const title=(el.querySelector("small")?.textContent||"Dashboard Kartı").trim();
-    const value=(el.querySelector("h2")?.textContent||"").trim();
-    const detail=(el.querySelector("p")?.textContent||"").trim();
-    if(gdnlLower(title+" "+value+" "+detail).includes(keyword)){
-      el.setAttribute("data-search-card",index);
-      results.push({type:"scroll",module:"Dashboard Kartı",title:title+" / "+value,detail,selector:`.card[data-search-card="${index}"]`});
-    }
-  });
-
-  document.querySelectorAll(".panel").forEach((el,index)=>{
-    if(el.id==="searchResultsPanel")return;
-    const title=(el.querySelector(".panel-head h3, h3")?.textContent||"Panel").trim();
-    const detail=el.textContent.trim().replace(/\s+/g," ").slice(0,260);
-    if(gdnlLower(title+" "+detail).includes(keyword)){
-      el.setAttribute("data-search-panel",index);
-      results.push({type:"scroll",module:"Sayfa Paneli",title,detail,selector:`.panel[data-search-panel="${index}"]`});
-    }
-  });
-
-  return results;
-}
-
-function renderSearchResults(keyword,results){
-  const panel=document.getElementById("searchResultsPanel");
-  const area=document.getElementById("searchResultsArea");
-  const count=document.getElementById("searchResultCount");
-  const key=document.getElementById("searchKeyword");
-
-  gdnlSearchResults=results.slice(0,80);
-  panel.classList.add("active");
-  key.textContent=keyword;
-  count.textContent=gdnlSearchResults.length+" sonuç";
-
-  if(!gdnlSearchResults.length){
-    area.innerHTML=`<div class="empty">"${escapeHTML(keyword)}" için sonuç bulunamadı.</div>`;
-    panel.scrollIntoView({behavior:"smooth",block:"start"});
-    return;
-  }
-
-  area.innerHTML=gdnlSearchResults.map((r,index)=>`
-    <div class="result-card">
-      <div><span class="status blue">${escapeHTML(r.module)}</span></div>
-      <div><b>${highlightText(r.title,keyword)}</b><small>${highlightText(r.detail,keyword)}</small></div>
-      <button class="result-open" onclick="openSearchResult(${index})">${r.type==="scroll"?"Göster":"Aç"}</button>
-    </div>
-  `).join("");
-  panel.scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-function openSearchResult(index){
-  const result=gdnlSearchResults[index];
-  if(!result)return;
-  if(result.type==="scroll"&&result.selector){
-    const target=document.querySelector(result.selector);
-    if(target){
-      target.scrollIntoView({behavior:"smooth",block:"center"});
-      target.style.outline="3px solid #35a852";
-      target.style.outlineOffset="4px";
-      setTimeout(()=>{target.style.outline="";target.style.outlineOffset="";},2200);
-    }
-    return;
-  }
-  if(result.go&&result.go!=="#"){
-    const glue=result.go.includes("?")?"&":"?";
-    window.location.href=result.selected?result.go+glue+"selected="+encodeURIComponent(result.selected):result.go;
-  }
-}
-
-function clearSearchResults(){
-  document.getElementById("globalSearch").value="";
-  document.getElementById("searchResultsPanel").classList.remove("active");
-  document.getElementById("searchResultsArea").innerHTML="";
-}
-
-function openMobileMenu(){
-  if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.open();return}
-  document.getElementById("mobileDrawer").classList.add("active");
-  document.getElementById("mobileOverlay").classList.add("active");
-  document.body.style.overflow="hidden";
-}
-
-function closeMobileMenu(){
-  if(window.GDNL_MOBILE_MENU){window.GDNL_MOBILE_MENU.close();return}
-  document.getElementById("mobileDrawer").classList.remove("active");
-  document.getElementById("mobileOverlay").classList.remove("active");
-  document.body.style.overflow="";
-}
-
-function logout(){if(window.GDNL_API?.logout){window.GDNL_API.logout();return}window.location.href="index.html"}
-
-document.addEventListener("keydown",function(event){
-  if(event.key==="Escape")closeMobileMenu();
-});
-
-document.getElementById("globalSearch").addEventListener("keydown",function(event){
-  if(event.key==="Enter"){
-    event.preventDefault();
-    runSearch();
-  }
-});
-
-document.getElementById("globalSearch").addEventListener("input",function(){
-  if(!this.value.trim())clearSearchResults();
-});
-
-document.querySelectorAll(".menu-group").forEach(btn=>{
-  btn.addEventListener("click",function(){
-    const submenu=this.nextElementSibling;
-    this.classList.toggle("open");
-    if(submenu)submenu.classList.toggle("open");
-  });
-});
-
-async function gdnlCloudBootstrap(){
-  await gdnlLoadCloudData();
-  renderDashboardMetrics();
-  renderRecentTables();
-  renderCompliance();
-  await gdnlCreateAudit("Görüntüleme","Dashboard açıldı");
-  await gdnlCreateActivity("Görüntüleme","Dashboard kurumsal kayıt mimarisiyle yüklendi");
-}
-
-gdnlCloudBootstrap();
+bootstrap();
 </script>
-
-<script src="assets/js/ui/maturity-widgets.js"></script>
-<script src="assets/js/ui/enterprise-tools.js"></script>
-<script src="assets/js/ui/sidebar.js?v=quality-premium-1"></script>
-<script src="assets/js/ui/quality-suite.js?v=quality-premium-1"></script>
 </body>
 </html>

@@ -4,17 +4,21 @@
   const menu = Object.freeze([
     {
       id: "home",
-      label: "Panel",
-      icon: "🏠",
+      label: "YÖNETİM PANELİ",
+      icon: "📊",
       route: "dashboard.html",
-      type: "single"
+      items: [
+        { label: "Kalite Yönetim Paneli", route: "dashboard.html" },
+        { label: "KPI ve Raporlar", route: "kpi-reports.html" },
+        { label: "Aktivite Merkezi", route: "activity-center.html" },
+        { label: "Bildirim Merkezi", route: "notification-center.html" }
+      ]
     },
     {
       id: "documents",
-      label: "Doküman Yönetimi",
+      label: "DOKÜMAN KONTROLÜ",
       icon: "📚",
       items: [
-        { label: "Firma Belgeleri", route: "company-assets-documents.html" },
         { label: "Doküman Yönetimi", route: "documents.html" },
         { label: "Yeni Doküman", route: "new-document.html" },
         { label: "Revizyon Yönetimi", route: "revision.html" },
@@ -26,71 +30,51 @@
     },
     {
       id: "quality",
-      label: "Kalite Yönetimi",
+      label: "KALİTE OPERASYONLARI",
       icon: "⚙️",
       items: [
-        { label: "Uygunsuzluk & 8D / CAPA", route: "capa.html" },
+        { label: "Uygunsuzluk ve CAPA", route: "capa.html" },
         { label: "Risk Yönetimi", route: "risk-register.html" },
-        { label: "Değişiklik Yönetimi", route: "change-management.html" },
-        { label: "Süreç Yönetimi", route: "process-management.html" },
-        { label: "Sürekli İyileştirme", route: "continuous-improvement.html" },
-        { label: "İç Denetim", route: "audit.html" }
-      ]
-    },
-    {
-      id: "organization",
-      label: "Organizasyon Yönetimi",
-      icon: "👥",
-      items: [
-        { label: "Eğitim Yönetimi", route: "training-management.html" },
-        { label: "Yetkinlik Matrisi", route: "competency-matrix.html" },
-        { label: "Kullanıcı Yetkileri", route: "users.html" }
+        { label: "İç Denetim", route: "audit.html" },
+        { label: "Aksiyon Merkezi", route: "action-center.html" },
+        { label: "Sürekli İyileştirme", route: "continuous-improvement.html" }
       ]
     },
     {
       id: "stakeholders",
-      label: "Paydaş Yönetimi",
+      label: "PAYDAŞ KALİTESİ",
       icon: "🏭",
       items: [
-        { label: "Tedarikçi Yönetimi", route: "supplier-management.html" },
+        { label: "Tedarikçi Kalite", route: "supplier-management.html" },
         { label: "Müşteri Şikayetleri", route: "customer-management.html" }
       ]
     },
     {
-      id: "performance",
-      label: "Performans Yönetimi",
-      icon: "📊",
+      id: "competence",
+      label: "YETKİNLİK VE ÖLÇÜM",
+      icon: "🎓",
       items: [
-        { label: "KPI ve Raporlar", route: "kpi-reports.html" },
-        { label: "YGG Yönetimi", route: "management-review.html" },
-        { label: "Aksiyon Merkezi", route: "action-center.html" },
-        { label: "Aktivite Merkezi", route: "activity-center.html" },
-        { label: "Bildirim Merkezi", route: "notification-center.html" },
-        { label: "Dosya Merkezi", route: "file-center.html" },
-        { label: "Genel Arama", route: "search.html" }
-      ]
-    },
-    {
-      id: "technical",
-      label: "Teknik Yönetim",
-      icon: "🔬",
-      items: [
+        { label: "Eğitim Yönetimi", route: "training-management.html" },
+        { label: "Yetkinlik Matrisi", route: "competency-matrix.html" },
         { label: "Kalibrasyon Yönetimi", route: "calibration-management.html" }
       ]
     },
     {
-      id: "compliance",
-      label: "Uyum ve Güvenlik",
+      id: "system",
+      label: "SİSTEM VE UYGUNLUK",
       icon: "🔒",
       items: [
-        { label: "BGYS & İş Sürekliliği", route: "security-continuity-center.html" },
+        { label: "Süreç Yönetimi", route: "process-management.html" },
         { label: "Standart Uygunluk", route: "standards-compliance.html" },
-        { label: "Yasal Uyum", route: "legal-compliance.html" }
+        { label: "Yasal Uyum", route: "legal-compliance.html" },
+        { label: "BGYS ve Süreklilik", route: "security-continuity-center.html" },
+        { label: "YGG Yönetimi", route: "management-review.html" },
+        { label: "Değişiklik Yönetimi", route: "change-management.html" }
       ]
     },
     {
       id: "iatf",
-      label: "IATF 16949",
+      label: "APQP / CORE TOOLS",
       icon: "🚗",
       items: [
         { label: "APQP", route: "apqp.html" },
@@ -99,6 +83,18 @@
         { label: "MSA", route: "apqp.html#msa" },
         { label: "SPC", route: "apqp.html#spc" },
         { label: "Kontrol Planı", route: "apqp.html#control-plan" }
+      ]
+    },
+    {
+      id: "centers",
+      label: "MERKEZLER",
+      icon: "⌘",
+      items: [
+        { label: "Global Arama", route: "search.html" },
+        { label: "Dosya Merkezi", route: "file-center.html" },
+        { label: "AI Asistan", route: "ai-assistant.html" },
+        { label: "Kullanıcılar", route: "users.html" },
+        { label: "Departmanlar", route: "departments.html" }
       ]
     }
   ]);

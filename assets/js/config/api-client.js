@@ -436,7 +436,14 @@
         else el.onclick = () => { global.location.href = routeHref("notification-center.html"); };
         el.classList.add("gdnl-notification-link", "gdnl-global-action", "gdnl-global-icon");
         el.setAttribute("aria-label", "Bildirim Merkezi");
-        el.textContent = "🔔";
+        const badge = el.querySelector(".badge,#notificationBadge");
+        if (badge) {
+          badge.remove();
+          el.textContent = "🔔";
+          el.appendChild(badge);
+        } else {
+          el.textContent = "🔔";
+        }
       });
       bar.querySelectorAll('.gdnl-department-home,a[href="department-gateway.html"],a[href$="/department-gateway.html"],button[onclick*="department-gateway.html"]').forEach((el) => el.remove());
       const department = null;
