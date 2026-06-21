@@ -158,7 +158,9 @@
   function renderMenuHtml() {
     const currentRoute = normalizeRoute(getCurrentRoute());
     const currentRouteWithHash = normalizeRoute(getCurrentRoute({ includeHash: true }), { includeHash: true });
-    return menu.map((group) => {
+    const dashboardActive = currentRoute === "dashboard.html" && !currentRouteWithHash.includes("#") ? ' class="active"' : "";
+    const dashboardLink = `<a${dashboardActive} href="dashboard.html">🏠 Kalite Yönetim Paneli</a>`;
+    const groupsHtml = menu.map((group) => {
       if (group.type === "single") {
         const active = normalizeRoute(group.route) === currentRoute ? ' class="active"' : "";
         return `<a${active} href="${escapeHtml(group.route)}">${escapeHtml(group.icon)} ${escapeHtml(group.label)}</a>`;
@@ -173,6 +175,7 @@
       }).join("\n");
       return `<button class="${groupClass}" type="button" onclick="window.GDNL_SIDEBAR.toggleMenuGroup(this)">${escapeHtml(group.icon)} ${escapeHtml(group.label)} <span>⌄</span></button>\n<div class="${submenuClass}">\n${links}\n</div>`;
     }).join("\n\n");
+    return `${dashboardLink}\n\n${groupsHtml}`;
   }
 
   function installSidebarStyle() {
@@ -180,11 +183,55 @@
     const style = document.createElement("style");
     style.id = "gdnl-quality-sidebar-standard-style";
     style.textContent = `
-.sidebar nav .submenu,.mobile-drawer nav .submenu{display:none;flex-direction:column;gap:6px}
-.sidebar nav .submenu.open,.mobile-drawer nav .submenu.open{display:flex}
-.sidebar nav .menu-group.open span,.mobile-drawer nav .menu-group.open span{transform:rotate(180deg)}
+body.quality-suite .app{grid-template-columns:310px minmax(0,1fr)!important}
+body.quality-suite .sidebar{width:310px!important;background:radial-gradient(circle at 20% 0%,rgba(14,165,233,.22),transparent 28%),linear-gradient(180deg,#071b34 0%,#061426 100%)!important;color:#dceafe!important;border-right:1px solid rgba(255,255,255,.10)!important;box-shadow:22px 0 60px rgba(7,27,52,.20)!important;padding:24px 18px!important;max-height:100dvh!important;overflow-x:hidden!important;overflow-y:auto!important}
+body.quality-suite .sidebar::-webkit-scrollbar,body.quality-suite .mobile-drawer::-webkit-scrollbar,body.quality-suite aside.drawer::-webkit-scrollbar{width:0!important}
+body.quality-suite .sidebar .logo,body.quality-suite .mobile-drawer-logo,body.quality-suite .drawer-logo{display:flex!important;align-items:center!important;gap:12px!important;margin-bottom:24px!important;padding:8px 8px 20px!important;border-bottom:1px solid rgba(255,255,255,.10)!important;color:#f8fbff!important;text-decoration:none!important;letter-spacing:0!important}
+body.quality-suite .gdnl-brand-mark{width:48px!important;height:48px!important;min-width:48px!important;border-radius:16px!important;background:linear-gradient(135deg,#0ea5e9 0%,#22c55e 100%)!important;color:#fff!important;display:grid!important;place-items:center!important;font-size:25px!important;font-weight:950!important;box-shadow:0 18px 38px rgba(34,197,94,.25)!important}
+body.quality-suite .gdnl-logo-text{display:flex!important;flex-direction:column!important;gap:3px!important;min-width:0!important}
+body.quality-suite .gdnl-logo-text strong{color:#f8fbff!important;font-size:25px!important;line-height:1!important;font-weight:950!important;letter-spacing:-.8px!important}
+body.quality-suite .gdnl-logo-text em{color:#22c55e!important;font-style:normal!important}
+body.quality-suite .gdnl-logo-text small{color:#9eb3cc!important;font-size:11px!important;line-height:1.2!important;font-weight:850!important}
+body.quality-suite .sidebar nav,body.quality-suite .mobile-drawer nav,body.quality-suite aside.drawer nav{display:flex!important;flex-direction:column!important;gap:10px!important;padding-bottom:24px!important}
+body.quality-suite .sidebar nav>a,body.quality-suite .sidebar nav .menu-group,body.quality-suite .mobile-drawer nav>a,body.quality-suite .mobile-drawer nav .menu-group,body.quality-suite aside.drawer nav>a,body.quality-suite aside.drawer nav .menu-group{min-height:48px!important;width:100%!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:16px!important;padding:13px 14px!important;background:rgba(255,255,255,.04)!important;color:#dbeafe!important;font-size:13px!important;font-weight:950!important;line-height:1.15!important;text-decoration:none!important;box-shadow:none!important;cursor:pointer!important;transition:.18s ease!important}
+body.quality-suite .sidebar nav>a:hover,body.quality-suite .sidebar nav>a.active,body.quality-suite .sidebar nav .menu-group:hover,body.quality-suite .sidebar nav .menu-group.open,body.quality-suite .sidebar nav .menu-group.active-group,body.quality-suite .mobile-drawer nav>a:hover,body.quality-suite .mobile-drawer nav>a.active,body.quality-suite .mobile-drawer nav .menu-group:hover,body.quality-suite .mobile-drawer nav .menu-group.open,body.quality-suite aside.drawer nav>a:hover,body.quality-suite aside.drawer nav>a.active,body.quality-suite aside.drawer nav .menu-group:hover,body.quality-suite aside.drawer nav .menu-group.open{background:linear-gradient(135deg,rgba(14,165,233,.22),rgba(34,197,94,.18))!important;border-color:rgba(125,211,252,.28)!important;color:#f8fbff!important;box-shadow:0 14px 30px rgba(14,165,233,.10)!important}
+body.quality-suite .sidebar nav>a.active,body.quality-suite .mobile-drawer nav>a.active,body.quality-suite aside.drawer nav>a.active{background:linear-gradient(135deg,#0ea5e9 0%,#22c55e 100%)!important;color:#fff!important;border-color:transparent!important;box-shadow:0 14px 30px rgba(34,197,94,.22)!important}
+.sidebar nav .submenu,.mobile-drawer nav .submenu,aside.drawer nav .submenu{display:none;flex-direction:column;gap:7px;margin:8px 0 4px 18px!important;padding:8px 0 8px 12px!important;border-left:1px solid rgba(148,163,184,.30)!important}
+.sidebar nav .submenu.open,.mobile-drawer nav .submenu.open,aside.drawer nav .submenu.open{display:flex!important}
+body.quality-suite .sidebar nav .submenu a,body.quality-suite .mobile-drawer nav .submenu a,body.quality-suite aside.drawer nav .submenu a{min-height:37px!important;padding:10px 12px!important;border-radius:12px!important;font-size:12px!important;font-weight:850!important;color:#b6c7dc!important;background:transparent!important;border:1px solid transparent!important;text-decoration:none!important}
+body.quality-suite .sidebar nav .submenu a:hover,body.quality-suite .sidebar nav .submenu a.active,body.quality-suite .mobile-drawer nav .submenu a:hover,body.quality-suite .mobile-drawer nav .submenu a.active,body.quality-suite aside.drawer nav .submenu a:hover,body.quality-suite aside.drawer nav .submenu a.active{background:rgba(255,255,255,.08)!important;color:#fff!important;border-color:rgba(255,255,255,.10)!important}
+.sidebar nav .menu-group.open span,.mobile-drawer nav .menu-group.open span,aside.drawer nav .menu-group.open span{transform:rotate(180deg)}
+body.quality-suite .sidebar-footer{margin-top:22px!important;padding:16px!important;border-radius:18px!important;background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.10)!important;color:#9eb3cc!important;font-size:12px!important;line-height:1.55!important;font-weight:800!important}
+body.quality-suite .mobile-drawer{background:radial-gradient(circle at 20% 0%,rgba(14,165,233,.22),transparent 28%),linear-gradient(180deg,#071b34 0%,#061426 100%)!important;color:#dceafe!important;border-right:1px solid rgba(255,255,255,.10)!important}
+body.quality-suite .mobile-drawer-head{background:transparent!important;border-bottom:1px solid rgba(255,255,255,.10)!important}
+body.quality-suite aside.drawer{background:radial-gradient(circle at 20% 0%,rgba(14,165,233,.22),transparent 28%),linear-gradient(180deg,#071b34 0%,#061426 100%)!important;color:#dceafe!important;border-right:1px solid rgba(255,255,255,.10)!important}
+body.quality-suite aside.drawer .drawer-head{background:transparent!important;border-bottom:1px solid rgba(255,255,255,.10)!important}
+@media(max-width:1050px){body.quality-suite .app{grid-template-columns:1fr!important}body.quality-suite .sidebar{display:none!important}}
 `;
     document.head.appendChild(style);
+  }
+
+  function ensureQualityShell() {
+    if (document.body) document.body.classList.add("quality-suite");
+  }
+
+  function brandMarkup() {
+    return '<span class="gdnl-brand-mark">G</span><span class="gdnl-logo-text"><strong>GDNL <em>QMS</em></strong><small>Kalite Yönetim Sistemi</small></span>';
+  }
+
+  function normalizeBrandAndFooter() {
+    document.querySelectorAll(".sidebar .logo,.mobile-drawer-logo,.drawer-logo").forEach((brand) => {
+      if (brand.dataset.gdnlBrandReady === "true") return;
+      brand.classList.add("gdnl-qms-brand");
+      if (brand.tagName === "A" && !brand.getAttribute("href")) brand.setAttribute("href", "dashboard.html");
+      brand.innerHTML = brandMarkup();
+      brand.dataset.gdnlBrandReady = "true";
+    });
+
+    document.querySelectorAll(".sidebar-footer").forEach((footer) => {
+      footer.innerHTML = "GDNL QMS<br>Kalite Yönetim Sistemi<br>Premium kontrol paneli";
+      footer.removeAttribute("style");
+    });
   }
 
   function bindMenuEvents(root) {
@@ -212,9 +259,11 @@
 
   function normalizeQualitySidebar() {
     if (!isQualityRoute()) return;
+    ensureQualityShell();
     installSidebarStyle();
+    normalizeBrandAndFooter();
     const html = renderMenuHtml();
-    document.querySelectorAll(".sidebar nav, .mobile-drawer nav").forEach((nav) => {
+    document.querySelectorAll(".sidebar nav, .mobile-drawer nav, aside.drawer nav").forEach((nav) => {
       if (nav.dataset.gdnlQualitySidebarHtml === html && nav.classList.contains("gdnl-quality-sidebar-standard")) {
         bindMenuEvents(nav);
         return;

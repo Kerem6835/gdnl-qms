@@ -160,11 +160,19 @@
   }
 
   function brandMarkup() {
-    return '<img class="gdnl-qms-logo-img" src="assets/images/gdnl-qms-logo.svg" alt="GDNL QMS Kurumsal Kalite Yönetim Sistemi">';
+    return '<span class="gdnl-brand-mark">G</span><span class="gdnl-logo-text"><strong>GDNL <em>QMS</em></strong><small>Kalite Yönetim Sistemi</small></span>';
+  }
+
+  function ensureQualityStylesheet() {
+    if (document.querySelector('link[href*="assets/css/quality-suite.css"]')) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "assets/css/quality-suite.css?v=quality-qms-global-sidebar";
+    document.head.appendChild(link);
   }
 
   function normalizeQualityBrand() {
-    document.querySelectorAll(".sidebar .logo,.mobile-drawer-logo").forEach((el) => {
+    document.querySelectorAll(".sidebar .logo,.mobile-drawer-logo,.drawer-logo").forEach((el) => {
       if (el.dataset.gdnlBrandReady === "true") return;
       el.classList.add("gdnl-qms-brand");
       if (el.tagName === "A" && !el.getAttribute("href")) el.setAttribute("href", "dashboard.html");
@@ -172,7 +180,8 @@
       el.dataset.gdnlBrandReady = "true";
     });
     document.querySelectorAll(".sidebar-footer").forEach((el) => {
-      el.innerHTML = el.innerHTML.replace(new RegExp("GDNL\\s+(?:QMS|E" + "OS|E" + "QMS)", "gi"), "GDNL QMS");
+      el.innerHTML = "GDNL QMS<br>Kalite Yönetim Sistemi<br>Premium kontrol paneli";
+      el.removeAttribute("style");
     });
   }
 
@@ -250,6 +259,7 @@
     if (!isQualityPage()) return;
     const config = options || {};
     markQualityPage();
+    ensureQualityStylesheet();
     ensureSidebarEngine();
     normalizeQualityBrand();
     fixBrokenQualityLinks();
